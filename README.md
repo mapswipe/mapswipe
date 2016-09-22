@@ -12,9 +12,6 @@ Welcome to the Mapswipe app. This is the app that is distributed through mapswip
 - Android sdk 21 or higher
 - Xcode 10
 
-# Notes:
-- We have our node_modules dir available on github because we were forced to make some changes to certain libraries. [This one in particular](https://github.com/leecade/react-native-swiper/issues/111#issuecomment-227443561), but also some older react packages were not compatible with newer react versions, so we made them compatible.
-
 # State of the project
 The project has been released. Keep in mind that this entire project was developed by 1 person, and in order to make it to the deadline - some code compromises had to be taken. For example, the app does currently not include redux or global styles. We are currently fundraising for a V2 to make it easier to run your own instance of Mapswipe, and to add further functionality.
 
@@ -25,9 +22,6 @@ In a nutshell, here is how Mapswipe works:
 - The app fetches the projects from the /projects reference in firebase through the javascript SDK and displays them to the user.
 - The user searches those tiles and classifies them. The results are then synced back to Firebase.
 - When a user chooses to map an area, he or she is distributed groups of the project. On completion, the user then gets badges for the distance they've mapped.
-
-# Project Diagram
-![Main overview](http://i.imgur.com/PYT62JF.png)
 
 # Setup Instructions
 
@@ -46,5 +40,10 @@ In a nutshell, here is how Mapswipe works:
 # Other instructions
 - You can access the xcode project in the ios directory. Make sure to open the xcworkspace file and not the xcodeproj file.
 - Don't ever load the root of the firebase object or API. Right now it will lag all our end users
+- 
+# Notes:
+- We have our node_modules dir available on github because we were forced to make some changes to certain libraries. [This one in particular](https://github.com/leecade/react-native-swiper/issues/111#issuecomment-227443561), but also some older react packages were not compatible with newer react versions, so we made them compatible.
 
+# Project Diagram
+![Main overview](http://i.imgur.com/PYT62JF.png)
 
