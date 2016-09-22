@@ -42,7 +42,7 @@ In a nutshell, here is how Mapswipe works:
 # Other instructions
 - You can access the xcode project in the ios directory. Make sure to open the xcworkspace file and not the xcodeproj file.
 - Don't ever load the root of the firebase object or API. Right now it will lag all our end users
-- 
+
 # Notes:
 - We have our node_modules dir available on github because we were forced to make some changes to certain libraries. [This one in particular](https://github.com/leecade/react-native-swiper/issues/111#issuecomment-227443561), but also some older react packages were not compatible with newer react versions, so we made them compatible.
 
