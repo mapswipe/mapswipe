@@ -3,7 +3,7 @@
 Welcome to the Mapswipe app. This is the app that is distributed through mapswipe.org. It was initially developed by Doctors without Borders as part of the Missing Maps project. 
 
 # Technology Used:
-- Our entire backend runs on Firebase. 
+- Our entire backend runs on Firebase and workers
 - The app is written entirely in react native
 - The workers on the backend are running on Google Cloud
 
