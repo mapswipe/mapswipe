@@ -17,8 +17,10 @@ The project has been released. Keep in mind that this entire project was develop
 
 # Main Overview
 In a nutshell, here is how Mapswipe works:
-- Humanitarian organisations import projects through the importer on mapswipe.org
+- Backend:
+- Humanitarian organisations import projects through the importer (Part of the backend)
 - Our backend workers process those imports and place them on firebase in the [/projects reference](https://msf-mapswipe.firebaseio.com/projects.json). It imports them into groups that are safe for the user to cache locally on their phone (ideally 200 tiles). You can see an example of how that grouping works here: ![Image of grouping](http://i.imgur.com/giQq43i.jpg)
+- Front-end (this repo): 
 - The app fetches the projects from the /projects reference in firebase through the javascript SDK and displays them to the user.
 - The user searches those tiles and classifies them. The results are then synced back to Firebase.
 - When a user chooses to map an area, he or she is distributed groups of the project. On completion, the user then gets badges for the distance they've mapped.
