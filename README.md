@@ -8,7 +8,7 @@ Welcome to the Mapswipe app. This is the app that is distributed through mapswip
 - The workers on the backend are running on Google Cloud
 
 # Requirements:
-- React native 0.29 (Higher versions will likely not work, so please install 0.29)
+- React native 0.29 (Higher versions will likely not work, so please install 0.29. We are accepting contributions to make it compatible with higher versions.)
 - Android sdk 21 or higher
 - Xcode 10
 
@@ -16,7 +16,7 @@ Welcome to the Mapswipe app. This is the app that is distributed through mapswip
 - We have our node_modules dir available on github because we were forced to make some changes to certain libraries. [This one in particular](https://github.com/leecade/react-native-swiper/issues/111#issuecomment-227443561), but also some older react packages were not compatible with newer react versions, so we made them compatible.
 
 # State of the project
-The project has been released. Keep in mind that this entire project was developed by 1 person, and in order to make it to the deadline - some code compromises had to be taken. For example, the app does currently not include redux or global styles. Currently, the main developer of the project is [Pim de Witte](http://github.com/pimdewitte). Please feel more than welcome to reach out to him.
+The project has been released. Keep in mind that this entire project was developed by 1 person, and in order to make it to the deadline - some code compromises had to be taken. For example, the app does currently not include redux or global styles. We are currently fundraising for a V2 to make it easier to run your own instance of Mapswipe, and to add further functionality.
 
 # Main Overview
 In a nutshell, here is how Mapswipe works:
