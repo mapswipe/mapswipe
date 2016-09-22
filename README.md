@@ -36,8 +36,8 @@ In a nutshell, here is how Mapswipe works:
 - Import the security rules to your firebase project from https://gist.github.com/PimDeWitte/b863a8ba38598f40cfa0770114cb775e
 - Once you have your firebase files inside of the project, you should be able to compile and install. It will however not work until you add projects and set up your backend.
 - Replace all Mapswipe-branded material in shared/views/assets/ - Specifically the loading animation, tut1.png, tut2.png, tut3.png, mm.png, mmwhite.png.
-- Replace the splash screen in /Users/wwadewitte/Development/mapswipe/react/YourMapswipe/node_modules/@remobile/react-native-splashscreen/android/src/main/res/drawable
-- Replace the splash screen in /Users/wwadewitte/Development/mapswipe/react/YourMapswipe/node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource
+- Replace the splash screen in YourMapswipe/node_modules/@remobile/react-native-splashscreen/android/src/main/res/drawable
+- Replace the splash screen in YourMapswipe/node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource
 - Run a full string replace on the ENTIRE directory on org.yourdomain.yourapp to your own package name.
 - Change the directory names in android/app/src/main/java/org/yourdomain/yourapp to match the package name
 - You can change the name of the app in xcode, and in android in android/settings.gradle and in android/app/src/main/res/values/strings.xml, and inandroid/app/src/main/java/org/yourdomain/yourapp
