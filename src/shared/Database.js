@@ -1514,7 +1514,7 @@ module.exports = {
                     const myGroups = groupsRef.child(projectId + "");
 
 
-                    fetch('https://msf-mapswipe.firebaseio.com/groups/' + projectId + '.json?orderBy="completedCount"&limitToFirst=' + groupCount + '')
+                    fetch('https://YOUR-DOMAIN.firebaseio.com/groups/' + projectId + '.json?orderBy="completedCount"&limitToFirst=' + groupCount + '')
                         .then((response) => response.json())
                         .then(data => {
                             var returnGroups = [];
