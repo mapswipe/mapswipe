@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html><head></head>
+    <body>
+        <script>
+            function stringQs(str) {
+                return str.split('&').filter(function (pair) {
+                    return pair !== '';
+                }).reduce(function(obj, pair){
+                    var parts = pair.split('=');
+                    obj[decodeURIComponent(parts[0])] = (null === parts[1]) ?
+                        '' : decodeURIComponent(parts[1]);
+                    return obj;
+                }, {});
+            }
+            var oauth_token = stringQs(window.location.href.split('?')[1]).oauth_token;
+            location.href = '/?oauth_token=' + oauth_token;
+        </script>
+    </body>
+</html>
+
