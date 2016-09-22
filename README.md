@@ -36,7 +36,7 @@ In a nutshell, here is how Mapswipe works:
 - Replace the splash screen in YourMapswipe/node_modules/@remobile/react-native-splashscreen/ios/RCTSplashScreen/SplashScreenResource
 - Run a full string replace on the ENTIRE directory on org.yourdomain.yourapp to your own package name.
 - Change the directory names in android/app/src/main/java/org/yourdomain/yourapp to match the package name
-- You can change the name of the app in xcode, and in android in android/settings.gradle and in android/app/src/main/res/values/strings.xml, and inandroid/app/src/main/java/org/yourdomain/yourapp
+- You can change the name of the app in xcode, and in android in android/settings.gradle and in android/app/src/main/res/values/strings.xml, and in android/app/src/main/java/org/yourdomain/yourapp
 - You can now run your own version of Mapswipe! Again, make sure to re-brand it properly.
 
 # Other instructions
