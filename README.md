@@ -47,4 +47,5 @@ In a nutshell, here is how Mapswipe works:
 - You can access the xcode project in the ios directory. Make sure to open the xcworkspace file and not the xcodeproj file.
 - Don't ever load the root of the firebase object or API. Right now it will lag all our end users
 
-
+#Contributing
+Contributions are welcome. Please fork the repository, test incredibly well on your end (both on Android & iOS if possible), and make a pull request once finished.
