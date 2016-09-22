@@ -38,6 +38,7 @@ In a nutshell, here is how Mapswipe works:
 - Run a full string replace on the ENTIRE directory on org.yourdomain.yourapp to your own package name.
 - Change the directory names in android/app/src/main/java/org/yourdomain/yourapp to match the package name
 - You can change the name of the app in xcode, and in android in android/settings.gradle and in android/app/src/main/res/values/strings.xml, and in android/app/src/main/java/org/yourdomain/yourapp
+- Get your new push notification files and replace the GCM id in YourMapswipe/src/Database.js with your GCM id (you can find this in firebase)
 - You can now run your own version of Mapswipe! Again, make sure to re-brand it properly.
 
 # Other instructions
