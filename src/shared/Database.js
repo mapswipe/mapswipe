@@ -869,6 +869,7 @@ module.exports = {
         /**
          * Add the distance of this map to your current level
          */
+        
         var projKey = 'project-' + project + "-group-" + group;
         // this.addToIgnoreList(projKey);
         store.get(projKey).then(result => {
