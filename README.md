@@ -1,3 +1,4 @@
+# State: Early Open Sourced Version (Please report bugs)
 ![Mapswipe headers](http://i.imgur.com/MWhmHpW.jpg)
 # Welcome Digital Humanitarians!
 Welcome to the Mapswipe app. This is the app that is distributed through mapswipe.org. It was initially developed by Doctors without Borders as part of the Missing Maps project. Remember: We are raising funds in order to create a next version of Mapswipe where self set-up is a lot easier. If you wish to contribute to this, please contact pete.masters@london.msf.org.
