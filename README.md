@@ -3,7 +3,7 @@
 Welcome to the Mapswipe app. This is the app that is distributed through mapswipe.org. It was initially developed by Doctors without Borders as part of the Missing Maps project. 
 
 # Technology Used:
-- Our entire backend runs on Firebase. It is protected with security rules so that users and contributors to this open source project can not cause damage. In the near future, we might set up a dev environemnt and open source the project.
+- Our entire backend runs on Firebase. 
 - The app is written entirely in react native
 - The workers on the backend are running on Google Cloud
 
@@ -41,7 +41,7 @@ In a nutshell, here is how Mapswipe works:
 - Run a full string replace on the ENTIRE directory on org.yourdomain.yourapp to your own package name.
 - Change the directory names in android/app/src/main/java/org/yourdomain/yourapp to match the package name
 - You can change the name of the app in xcode, and in android in android/settings.gradle and in android/app/src/main/res/values/strings.xml, and inandroid/app/src/main/java/org/yourdomain/yourapp
-- You can now run your own version of Mapswipe! Again, make sure to re-brand it properly. 
+- You can now run your own version of Mapswipe! Again, make sure to re-brand it properly.
 
 # Other instructions
 - You can access the xcode project in the ios directory. Make sure to open the xcworkspace file and not the xcodeproj file.
