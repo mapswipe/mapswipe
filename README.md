@@ -29,6 +29,7 @@ In a nutshell, here is how Mapswipe works:
 
 - Clone the repository to any directory. It already comes shipped with the Android and Xcode project
 - Create a project on firebase.google.com and place the GoogleService-Info.plist you get from the iOS setup in ios/cfg/. The android version JSON version goes in android/app/google-services.json. You can skip the other firebase set up steps as long as the apps are created.
+- In YourMapswipe/src/Database.js set your credentials in the firebase object
 - Import the security rules to your firebase project from https://gist.github.com/PimDeWitte/b863a8ba38598f40cfa0770114cb775e
 - Once you have your firebase files inside of the project, you should be able to compile and install. It will however not work until you add projects and set up your backend.
 - Replace all Mapswipe-branded material in shared/views/assets/ - Specifically the loading animation, tut1.png, tut2.png, tut3.png, mm.png, mmwhite.png.
