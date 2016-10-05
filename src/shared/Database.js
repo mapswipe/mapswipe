@@ -38,7 +38,7 @@ PushNotification.configure({
     },
 
     // ANDROID ONLY: (optional) GCM Sender ID.
-    senderID: "122222367696",
+    senderID: "YOUR-SENDER-ID",
 
     // IOS ONLY (optional): default: all - Permissions to register.
     permissions: {
