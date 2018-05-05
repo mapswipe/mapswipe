@@ -1,6 +1,10 @@
 # OSX
-#
 .DS_Store
+
+# Configs
+./config.json
+./android/app/google-services.json
+./ios/cfg/GoogleService-Info.plist
 
 # Xcode
 #
