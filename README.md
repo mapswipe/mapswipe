@@ -47,7 +47,7 @@ In a nutshell, here is how Mapswipe works:
 - Don't ever load the root of the firebase object or API. Right now it will lag all our end users
 
 
-#Contributing
+# Contributing
 Contributions are welcome. Please fork the repository, test incredibly well on your end (both on Android & iOS if possible), and make a pull request once finished.
 
 # Notes:
