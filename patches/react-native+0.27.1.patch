@@ -1,0 +1,1289 @@
+patch-package
+new file mode 100644
+Binary files /dev/null and b/node_modules/react-native/Libraries/.DS_Store differ
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTActionSheet.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++               BuildableName = "libRCTActionSheet.a"
++               BlueprintName = "RCTActionSheet"
++               ReferencedContainer = "container:RCTActionSheet.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTActionSheet.a"
++            BlueprintName = "RCTActionSheet"
++            ReferencedContainer = "container:RCTActionSheet.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTActionSheet.a"
++            BlueprintName = "RCTActionSheet"
++            ReferencedContainer = "container:RCTActionSheet.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTActionSheet.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>12</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B511DA1A9E6C8500147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTGeolocation.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++               BuildableName = "libRCTGeolocation.a"
++               BlueprintName = "RCTGeolocation"
++               ReferencedContainer = "container:RCTGeolocation.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTGeolocation.a"
++            BlueprintName = "RCTGeolocation"
++            ReferencedContainer = "container:RCTGeolocation.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTGeolocation.a"
++            BlueprintName = "RCTGeolocation"
++            ReferencedContainer = "container:RCTGeolocation.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTGeolocation.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>13</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B511DA1A9E6C8500147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Image/RCTImage.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTImage.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B5115C1A9E6B3D00147676"
++               BuildableName = "libRCTImage.a"
++               BlueprintName = "RCTImage"
++               ReferencedContainer = "container:RCTImage.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B5115C1A9E6B3D00147676"
++            BuildableName = "libRCTImage.a"
++            BlueprintName = "RCTImage"
++            ReferencedContainer = "container:RCTImage.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B5115C1A9E6B3D00147676"
++            BuildableName = "libRCTImage.a"
++            BlueprintName = "RCTImage"
++            ReferencedContainer = "container:RCTImage.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Image/RCTImage.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTImage.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>14</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B5115C1A9E6B3D00147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTLinking.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++               BuildableName = "libRCTLinking.a"
++               BlueprintName = "RCTLinking"
++               ReferencedContainer = "container:RCTLinking.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTLinking.a"
++            BlueprintName = "RCTLinking"
++            ReferencedContainer = "container:RCTLinking.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTLinking.a"
++            BlueprintName = "RCTLinking"
++            ReferencedContainer = "container:RCTLinking.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTLinking.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>15</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B511DA1A9E6C8500147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTNetwork.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++               BuildableName = "libRCTNetwork.a"
++               BlueprintName = "RCTNetwork"
++               ReferencedContainer = "container:RCTNetwork.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTNetwork.a"
++            BlueprintName = "RCTNetwork"
++            ReferencedContainer = "container:RCTNetwork.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTNetwork.a"
++            BlueprintName = "RCTNetwork"
++            ReferencedContainer = "container:RCTNetwork.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTNetwork.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>16</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B511DA1A9E6C8500147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTPushNotification.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++               BuildableName = "libRCTPushNotification.a"
++               BlueprintName = "RCTPushNotification"
++               ReferencedContainer = "container:RCTPushNotification.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTPushNotification.a"
++            BlueprintName = "RCTPushNotification"
++            ReferencedContainer = "container:RCTPushNotification.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTPushNotification.a"
++            BlueprintName = "RCTPushNotification"
++            ReferencedContainer = "container:RCTPushNotification.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTPushNotification.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>17</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B511DA1A9E6C8500147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTSettings.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++               BuildableName = "libRCTSettings.a"
++               BlueprintName = "RCTSettings"
++               ReferencedContainer = "container:RCTSettings.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTSettings.a"
++            BlueprintName = "RCTSettings"
++            ReferencedContainer = "container:RCTSettings.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B511DA1A9E6C8500147676"
++            BuildableName = "libRCTSettings.a"
++            BlueprintName = "RCTSettings"
++            ReferencedContainer = "container:RCTSettings.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTSettings.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>18</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B511DA1A9E6C8500147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Text/RCTText.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTText.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "58B5119A1A9E6C1200147676"
++               BuildableName = "libRCTText.a"
++               BlueprintName = "RCTText"
++               ReferencedContainer = "container:RCTText.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B5119A1A9E6C1200147676"
++            BuildableName = "libRCTText.a"
++            BlueprintName = "RCTText"
++            ReferencedContainer = "container:RCTText.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "58B5119A1A9E6C1200147676"
++            BuildableName = "libRCTText.a"
++            BlueprintName = "RCTText"
++            ReferencedContainer = "container:RCTText.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Text/RCTText.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTText.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>19</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>58B5119A1A9E6C1200147676</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTVibration.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "832C817F1AAF6DEF007FA2F7"
++               BuildableName = "libRCTVibration.a"
++               BlueprintName = "RCTVibration"
++               ReferencedContainer = "container:RCTVibration.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "832C817F1AAF6DEF007FA2F7"
++            BuildableName = "libRCTVibration.a"
++            BlueprintName = "RCTVibration"
++            ReferencedContainer = "container:RCTVibration.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "832C817F1AAF6DEF007FA2F7"
++            BuildableName = "libRCTVibration.a"
++            BlueprintName = "RCTVibration"
++            ReferencedContainer = "container:RCTVibration.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTVibration.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>20</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>832C817F1AAF6DEF007FA2F7</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+Binary files /dev/null and b/node_modules/react-native/Libraries/WebSocket/.DS_Store differ
+--- a/node_modules/react-native/Libraries/WebSocket/RCTSRWebSocket.m
++++ b/node_modules/react-native/Libraries/WebSocket/RCTSRWebSocket.m
+@@ -491,7 +491,8 @@ - (void)didConnect
+   CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Host"), (__bridge CFStringRef)(_url.port ? [NSString stringWithFormat:@"%@:%@", _url.host, _url.port] : _url.host));
+ 
+   NSMutableData *keyBytes = [[NSMutableData alloc] initWithLength:16];
+-  SecRandomCopyBytes(kSecRandomDefault, keyBytes.length, keyBytes.mutableBytes);
++  int result = SecRandomCopyBytes(kSecRandomDefault, keyBytes.length, keyBytes.mutableBytes);
++  assert (result == 0);
+   _secKey = [keyBytes base64EncodedStringWithOptions:0];
+   assert([_secKey length] == 24);
+ 
+@@ -1331,7 +1332,8 @@ - (void)_sendFrameWithOpcode:(RCTSROpCode)opcode data:(id)data;
+     }
+   } else {
+     uint8_t *mask_key = frame_buffer + frame_buffer_size;
+-    SecRandomCopyBytes(kSecRandomDefault, sizeof(uint32_t), (uint8_t *)mask_key);
++    int result = SecRandomCopyBytes(kSecRandomDefault, sizeof(uint32_t), (uint8_t *)mask_key);
++    assert (result == 0);
+     frame_buffer_size += sizeof(uint32_t);
+ 
+     // TODO: could probably optimize this with SIMD
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/RCTWebSocket.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "3C86DF451ADF2C930047B81A"
++               BuildableName = "libRCTWebSocket.a"
++               BlueprintName = "RCTWebSocket"
++               ReferencedContainer = "container:RCTWebSocket.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "3C86DF451ADF2C930047B81A"
++            BuildableName = "libRCTWebSocket.a"
++            BlueprintName = "RCTWebSocket"
++            ReferencedContainer = "container:RCTWebSocket.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "3C86DF451ADF2C930047B81A"
++            BuildableName = "libRCTWebSocket.a"
++            BlueprintName = "RCTWebSocket"
++            ReferencedContainer = "container:RCTWebSocket.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTWebSocket.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>21</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>3C86DF451ADF2C930047B81A</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+new file mode 100644
+Binary files /dev/null and b/node_modules/react-native/React/.DS_Store differ
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/React/React.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/React.xcscheme
+@@ -0,0 +1,80 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "0820"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
++               BuildableName = "libReact.a"
++               BlueprintName = "React"
++               ReferencedContainer = "container:React.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
++            BuildableName = "libReact.a"
++            BlueprintName = "React"
++            ReferencedContainer = "container:React.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Release"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
++            BuildableName = "libReact.a"
++            BlueprintName = "React"
++            ReferencedContainer = "container:React.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native/React/React.xcodeproj/xcuserdata/ericboucher.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>React.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>22</integer>
++		</dict>
++	</dict>
++	<key>SuppressBuildableAutocreation</key>
++	<dict>
++		<key>83CBBA2D1A601D0E00E9B192</key>
++		<dict>
++			<key>primary</key>
++			<true/>
++		</dict>
++	</dict>
++</dict>
++</plist>
+--- a/node_modules/react-native/React/Views/RCTScrollView.m
++++ b/node_modules/react-native/React/Views/RCTScrollView.m
+@@ -360,13 +360,14 @@ - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+ 
+ - (void)setRefreshControl:(RCTRefreshControl *)refreshControl
+ {
+-  if (_refreshControl) {
+-    [_refreshControl removeFromSuperview];
++  if (refreshControl) {
++    [refreshControl removeFromSuperview];
+   }
+-  _refreshControl = refreshControl;
+-  [self addSubview:_refreshControl];
++  refreshControl = refreshControl;
++  [self addSubview:refreshControl];
+ }
+ 
++
+ @end
+ 
+ @implementation RCTScrollView
+deleted file mode 100644
+--- a/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/common/build/ReactBuildConfig.java
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/**
+- * Copyright (c) 2015-present, Facebook, Inc.
+- * All rights reserved.
+- *
+- * This source code is licensed under the BSD-style license found in the
+- * LICENSE file in the root directory of this source tree. An additional grant
+- * of patent rights can be found in the PATENTS file in the same directory.
+- */
+-
+-package com.facebook.react.common.build;
+-
+-import com.facebook.react.BuildConfig;
+-
+-/**
+- * Convenience class for accessing auto-generated BuildConfig so that a) other modules can just
+- * depend on this module instead of having to manually depend on generating their own build config
+- * and b) we don't have to deal with IntelliJ getting confused about the autogenerated BuildConfig
+- * class all over the place.
+- */
+-public class ReactBuildConfig {
+-
+-  public static final boolean DEBUG = BuildConfig.DEBUG;
+-  public static final boolean IS_INTERNAL_BUILD = BuildConfig.IS_INTERNAL_BUILD;
+-  public static final int EXOPACKAGE_FLAGS = BuildConfig.EXOPACKAGE_FLAGS;
+-}
