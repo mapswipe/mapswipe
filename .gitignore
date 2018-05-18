@@ -1,10 +1,12 @@
-# OSX
-.DS_Store
 
 # Configs
-./config.json
-./android/app/google-services.json
-./ios/cfg/GoogleService-Info.plist
+config.json
+android/app/google-services.json
+ios/cfg/GoogleService-Info.plist
+
+# OSX
+#
+.DS_Store
 
 # Xcode
 #
@@ -31,10 +33,11 @@ project.xcworkspace
 .idea
 .gradle
 local.properties
+*.iml
 
 # node.js
 #
-#node_modules/
+node_modules/
 npm-debug.log
 *.keystore
 
