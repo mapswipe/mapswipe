@@ -27,7 +27,7 @@ If you'd like to modify and improve Mapswipe, read through the following to get 
 ## Technology Used
 
 1. The app is written entirely in [React Native](https://facebook.github.io/react-native/docs/getting-started.html)
-1. Firebase provides the backend database. It is protected with security rules so that users and contributors to this open source project can not cause damage. In the near future, we might set up a dev environemnt and open source the project. 
+1. Firebase provides the backend database. It is protected with security rules so that users and contributors to this open source project can not cause damage. In the near future, we might set up a dev environment and open source the project. 
 1. The workers on the backend are running on Google Cloud and handle pre-processing and post-processing the data
 
 ## Libraries
