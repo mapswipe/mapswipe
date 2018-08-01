@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-# Patch installed node_modules
-patch-package
+# Patch installed within node_modules
+./node_modules/.bin/patch-package
 
 
 # `patch-package` has issues with diffing binary files so we'll fallback to just
