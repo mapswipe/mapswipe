@@ -1,6 +1,6 @@
 import React from "react";
-import {Text, View, Platform, ScrollView, StyleSheet, Linking} from "react-native";
-import ScrollableTabView, {DefaultTabBar} from "react-native-scrollable-tab-view";
+import { Text, View, Platform, ScrollView, StyleSheet, Linking } from "react-native";
+import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
 import Button from "apsl-react-native-button";
 
 var store = require('react-native-simple-store');
@@ -163,10 +163,10 @@ var ProjectNav = React.createClass({
             tabBarInactiveTextColor="#e8e8e8"
             tabBarInactiveUnderlineColor="#212121"
             tabBarUnderlineColor="#ee0000"
-            renderTabBar={() => <MapswipeTabBar backgroundColor='#0d1949'/>}
+            renderTabBar={() => <MapswipeTabBar backgroundColor='#0d1949' />}
         >
-            <View style={{flex: 1}} tabLabel='Missions'><RecommendedCards navigator={this.props.navigator}/></View>
-            <View style={{flex: 1}} tabLabel='More'><MoreOptions navigator={this.props.navigator}/></View>
+            <View style={{ flex: 1 }} tabLabel='Missions'><RecommendedCards navigator={this.props.navigator} /></View>
+            <View style={{ flex: 1 }} tabLabel='More'><MoreOptions navigator={this.props.navigator} /></View>
         </ScrollableTabView>;
     },
 });
@@ -212,7 +212,7 @@ var RecommendedCards = React.createClass({
      * @param updateDb
      */
     updateProjects: function (newCards) {
-        this.setState({projects: newCards, announcement: this.state.announcement});
+        this.setState({ projects: newCards, announcement: this.state.announcement });
     },
     /**
      * Get the initial project state, load from database if necessary.
@@ -245,46 +245,46 @@ var RecommendedCards = React.createClass({
 
         if (this.state.announcement !== null) {
             rows.push(<Button onPress={() => {
-                this.props.navigator.push({id: 5, data: this.state.announcement.url, paging: true})
+                this.props.navigator.push({ id: 5, data: this.state.announcement.url, paging: true })
             }} style={style.otherButton}
-                              textStyle={{
-                                  fontSize: 13,
-                                  color: '#0d1949',
-                                  fontWeight: '700'
-                              }}>{this.state.announcement.text}</Button>);
+                textStyle={{
+                    fontSize: 13,
+                    color: '#0d1949',
+                    fontWeight: '700'
+                }}>{this.state.announcement.text}</Button>);
         }
 
         if (this.state.projects.featuredCard !== null) {
             rows.push(<FeaturedCard key={rows.length} navigator={this.props.navigator}
-                                    card={this.state.projects.featuredCard}/>);
+                card={this.state.projects.featuredCard} />);
         } else {
-            rows.push(<LoadingIcon/>);
+            rows.push(<LoadingIcon />);
         }
 
         var parent = this;
         this.state.projects.otherCards.forEach(function (cardRow) {
-            rows.push(<CardRow key={rows.length} navigator={parent.props.navigator} cardRow={cardRow}/>)
+            rows.push(<CardRow key={rows.length} navigator={parent.props.navigator} cardRow={cardRow} />)
         });
 
         rows.push(<Modal style={[style.modal, style.modal3]} backdropType="blur" position={"top"} ref={"modal3"}
-                         isDisabled={this.state.isDisabled}>
+            isDisabled={this.state.isDisabled}>
             <Text style={style.header}>Tutorial</Text>
             <Text style={style.tutPar}>Learn more about how to use Mapswipe!</Text>
             <Button style={style.inModalButton2} onPress={() => {
                 this.closeModal3();
-                this.props.navigator.push({id: 5, data: GLOBAL.TUT_LINK, paging: true})
-            }} textStyle={{fontSize: 13, color: '#ffffff', fontWeight: '700'}}>
+                this.props.navigator.push({ id: 5, data: GLOBAL.TUT_LINK, paging: true })
+            }} textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                 Go To Tutorial
             </Button>
             <Button style={style.inModalButton} onPress={this.closeModal3}
-                    textStyle={{fontSize: 13, color: '#ffffff', fontWeight: '700'}}>
+                textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                 No thanks
             </Button>
         </Modal>);
 
         return <ScrollView contentContainerStyle={style.listView}
-                           removeClippedSubviews={true}
-                           navigator={this.props.navigator}
+            removeClippedSubviews={true}
+            navigator={this.props.navigator}
         >
             {rows}
         </ScrollView>
@@ -297,7 +297,7 @@ var FeaturedCard = React.createClass({
 
     render() {
         return <View navigator={this.props.navigator} style={style.cardRow}>
-            <ProjectCard navigator={this.props.navigator} card={this.props.card} featured={true}/>
+            <ProjectCard navigator={this.props.navigator} card={this.props.card} featured={true} />
         </View>
     },
 });
@@ -311,7 +311,7 @@ var CardRow = React.createClass({
         for (var i = 0; i < this.props.cardRow.cards.length; i++) {
             console.log(i);
             rows.push(<ProjectCard navigator={this.props.navigator} card={this.props.cardRow.cards[i]} cardIndex={i}
-                                   featured={false}/>);
+                featured={false} />);
         }
         return <View navigator={this.props.navigator} style={style.cardRow}>
             {rows}

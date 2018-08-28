@@ -12,7 +12,7 @@ import {
     NetInfo,
     TextInput
 } from "react-native";
-import {DefaultTabBar} from "react-native-scrollable-tab-view";
+import { DefaultTabBar } from "react-native-scrollable-tab-view";
 import Button from "apsl-react-native-button";
 var GLOBAL = require('../Globals');
 var ProgressBar = require('react-native-progress-bar');
@@ -144,8 +144,7 @@ var Tutorial = React.createClass({
         NetInfo.fetch().done((reach) => {
             GLOBAL.DB.handleSessionStart(reach).then(function () {
                 SplashScreen.hide();
-                GLOBAL.ANALYTICS.logEvent('starting_tutorial');
-                parent.props.navigator.push({id: 1});
+                parent.props.navigator.push({ id: 1 });
             }).catch(function (error) {
                 console.log(error);
                 SplashScreen.hide();
@@ -161,8 +160,8 @@ var Tutorial = React.createClass({
 
 
     render() {
-        return this.state.status === 'tutorial' ? <TutCardView navigator={this.props.navigator}/> :
-            <View style={{flex: 1}}>
+        return this.state.status === 'tutorial' ? <TutCardView navigator={this.props.navigator} /> :
+            <View style={{ flex: 1 }}>
                 <Text></Text>
             </View>;
     },
@@ -181,39 +180,40 @@ var TutCardView = React.createClass({
         var parent = this;
 
         GLOBAL.DB.setTutorialComplete().then(function () {
-            parent.props.navigator.push({id: 4});
-            GLOBAL.ANALYTICS.logEvent('starting_tutorial');
+            parent.props.navigator.push({ id: 4 });
+            GLOBAL.ANALYTICS.logEvent('completed_tutorial');
         });
 
     },
     render() {
+        GLOBAL.ANALYTICS.logEvent('starting_tutorial');
         return <Swiper style={styles.wrapper} showsButtons={false} loop={false} yourNewPageIndex={this.state.newIndex}>
             <View style={styles.slide1}>
 
-                <Image style={styles.tutIcon} source={require('./assets/tut1.png')}/>
+                <Image style={styles.tutIcon} source={require('./assets/tut1.png')} />
                 <Text style={styles.text}>You receive groups of satellite images from vulnerable areas. </Text>
-                <Button style={styles.nextButton} onPress={() => this.setState({newIndex: 1})}
-                        textStyle={{fontSize: 13, color: '#ffffff', fontWeight: '700'}}>
+                <Button style={styles.nextButton} onPress={() => this.setState({ newIndex: 1 })}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     Next
                 </Button>
             </View>
             <View style={styles.slide2}>
 
-                <Image style={styles.tutIcon} source={require('./assets/tut2.png')}/>
+                <Image style={styles.tutIcon} source={require('./assets/tut2.png')} />
                 <Text style={styles.text}>The data helps organisations coordinate humanitarian efforts in the places you
                     map</Text>
-                <Button style={styles.nextButton} onPress={() => this.setState({newIndex: 1})}
-                        textStyle={{fontSize: 13, color: '#ffffff', fontWeight: '700'}}>
+                <Button style={styles.nextButton} onPress={() => this.setState({ newIndex: 1 })}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     Next
                 </Button>
             </View>
             <View style={styles.slide3}>
 
-                <Image style={styles.tutIcon} source={require('./assets/tut3.png')}/>
+                <Image style={styles.tutIcon} source={require('./assets/tut3.png')} />
                 <Text style={styles.text}>Mapping has already helped save lives. Are you ready to become a mobile
                     volunteer?</Text>
                 <Button style={styles.startButton} onPress={this._handlePress}
-                        textStyle={{fontSize: 13, color: '#ffffff', fontWeight: '700'}}>
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     Sign Up
                 </Button>
             </View>

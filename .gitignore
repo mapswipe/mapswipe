@@ -1,6 +1,6 @@
 
 # Configs
-config.json
+config.json*
 android/app/google-services.json
 ios/cfg/GoogleService-Info.plist
 

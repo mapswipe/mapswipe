@@ -515,6 +515,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				9841E8538D9EE9ECA169A457 /* Pods */,
 				AAF9C5BAF04E3FC0DD9DC662 /* Frameworks */,
+				DDD4BE72213EFB1200D92264 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -544,6 +545,22 @@
 				42CF0C5D72724207AD9B05E1 /* libz.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DDD4BE72213EFB1200D92264 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				37C3DAD5CC5B4C5B9A501146 /* libRCTVideo.a */,
+				F8EBB9BB488A4600AA8A4DC0 /* libRNFS.a */,
+				4324DE01861D44C3A05288FA /* libBVLinearGradient.a */,
+				2BC78C42F90C46EEA4844670 /* libRCTSplashScreen.a */,
+				EF1DB848B1AF406A8899CAF9 /* libRNFIRAnalytics.a */,
+				E82EF1E2698145A2A3A02F8B /* libRNFIRMessaging.a */,
+				80033BDA849949048C6E2412 /* libCodePush.a */,
+				DDD2928EB09D418D9A7166CA /* libRNRandomBytes.a */,
+				F59872E6EAC642CDA2F992E6 /* libRNShare.a */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

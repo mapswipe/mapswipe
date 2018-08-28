@@ -106,7 +106,6 @@ var styles = StyleSheet.create({
     }
 })
 var Login = React.createClass({
-
     getInitialState() {
         return {
             username: "",
@@ -121,9 +120,10 @@ var Login = React.createClass({
     },
 
     _handleSignUp() {
-
+        GLOBAL.ANALYTICS.logEvent('account_screen_seen');
         var parent = this;
         if (this.state.username !== null && this.state.username.length < 3) {
+            GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             parent.props.messageBar.showAlert({
                 title: "Error on sign up",
                 message: "Your username must be 4 characters or more",
@@ -135,6 +135,7 @@ var Login = React.createClass({
         }
 
         if (this.state.username !== null && this.state.username.indexOf("@") !== -1) {
+            GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             parent.props.messageBar.showAlert({
                 title: "Error on sign up",
                 message: "Your username can not be an email",
@@ -162,6 +163,7 @@ var Login = React.createClass({
             GLOBAL.ANALYTICS.logEvent('account_created');
             parent.props.navigator.push({ id: 1 });
         }).catch(error => {
+            GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
             parent.props.messageBar.showAlert({
                 title: "Error on sign up",
                 message: error,
