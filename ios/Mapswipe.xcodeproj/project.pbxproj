@@ -21,9 +21,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		2352F48721463DFA006FB120 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2352F48621463DF9006FB120 /* GoogleService-Info.plist */; };
 		26E66F2F3A6142608A37F0F1 /* libRNFIRAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF1DB848B1AF406A8899CAF9 /* libRNFIRAnalytics.a */; };
 		3029A1851D1C859800643E21 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3029A1841D1C858100643E21 /* libRNDeviceInfo.a */; };
-		3029A1871D1E574100643E21 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3029A1861D1E574100643E21 /* GoogleService-Info.plist */; };
 		303ACF881D324A83004BA37C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 303ACF871D324A6D004BA37C /* libRCTPushNotification.a */; };
 		3061E9641D3623230045DB0C /* Default-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 3061E9621D3623230045DB0C /* Default-568h.png */; };
 		3061E9661D36235D0045DB0C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3061E9651D36235D0045DB0C /* Default-568h@2x.png */; };
@@ -208,11 +208,11 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Mapswipe/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Mapswipe/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		2352F48621463DF9006FB120 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Mapswipe/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		28FF5D189CC546ADAC534767 /* RNShare.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		2BC78C42F90C46EEA4844670 /* libRCTSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTSplashScreen.a; sourceTree = "<group>"; };
 		2F77957BDD12424DAC0F7049 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		3029A17F1D1C858100643E21 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
-		3029A1861D1E574100643E21 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "cfg/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		303ACF821D324A6C004BA37C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		3061E9621D3623230045DB0C /* Default-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h.png"; sourceTree = "<group>"; };
 		3061E9651D36235D0045DB0C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -351,7 +351,9 @@
 		13B07FAE1A68108700A75B9A /* Mapswipe */ = {
 			isa = PBXGroup;
 			children = (
+				2352F48621463DF9006FB120 /* GoogleService-Info.plist */,
 				3061E9651D36235D0045DB0C /* Default-568h@2x.png */,
+				13B07FB71A68108700A75B9A /* main.m */,
 				3061E9621D3623230045DB0C /* Default-568h.png */,
 				30DF13AB1D31428000F9FF70 /* LaunchScreen.xib */,
 				30DF13AC1D31428000F9FF70 /* splash.png */,
@@ -360,8 +362,6 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				3029A1861D1E574100643E21 /* GoogleService-Info.plist */,
-				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = Mapswipe;
 			sourceTree = "<group>";
@@ -868,10 +868,10 @@
 			files = (
 				30DF13AD1D31428000F9FF70 /* LaunchScreen.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				3029A1871D1E574100643E21 /* GoogleService-Info.plist in Resources */,
 				3061E9641D3623230045DB0C /* Default-568h.png in Resources */,
 				30DF13AE1D31428000F9FF70 /* splash.png in Resources */,
 				3061E9661D36235D0045DB0C /* Default-568h@2x.png in Resources */,
+				2352F48721463DFA006FB120 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,6 +962,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = ZEK3TUVC49;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1001,6 +1002,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZEK3TUVC49;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

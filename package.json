@@ -50,6 +50,7 @@
     "react-timer-mixin": "^0.13.3",
     "redux": "^3.5.2",
     "rsvp": "^3.2.1",
+    "simple-markdown": "^0.4.2",
     "stream": "0.0.2",
     "underscore": "^1.8.3"
   },
