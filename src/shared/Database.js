@@ -311,6 +311,11 @@ module.exports = {
     groupCompletes: [],
 
     /**
+     * Extra security precaution to prevent duplicate imagery - its a map not an array!
+     */
+    groupBlackList: {},
+
+    /**
      * Returns the connection manager
      * @returns {ConnectionManager|exports|module.exports}
      */
@@ -861,12 +866,20 @@ module.exports = {
     addGroupComplete: function (project, group) {
 
 
+
         var parent = this;
 
         /**
          * Add the distance of this map to your current level
          */
         var projKey = 'project-' + project + "-group-" + group;
+        parent.groupBlackList[projKey] = true;
+
+        try {
+            parent.removeOfflineGroup(projKey); // offline group removal is super important to prevent duplicates
+        } catch(err) {
+
+        }
         // this.addToIgnoreList(projKey);
         store.get(projKey).then(result => {
             if (result !== null && result !== undefined && result.group !== undefined) {
@@ -904,8 +917,8 @@ module.exports = {
                         console.log(obj);
                         parent.removeGroup(project, group).then(data => {
                             resolve();
-                            var key = 'project-' + project + "-group-" + group;
-                            parent.removeOfflineGroup(key);
+                        }).catch(err => {
+
                         });
                     })
 
@@ -1657,6 +1670,11 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             // this will throw, x does not exist
             var projectKey = 'project-' + projectId;
+
+            var removalKey = 'project-' + projectId + "-group-" + groupId;
+            parent.removeOfflineGroup(removalKey);
+
+
             store.get(projectKey).then(result => {
                 if (result !== null && result !== undefined && result.groups !== undefined) {
                     console.log("Pre-removal-length" + result.groups.length);
@@ -1848,6 +1866,11 @@ module.exports = {
         return found;
 
     },
+
+    completedGroup: function(projectId, groupId) {
+        var projKey = 'project-' + projectId + "-group-" + groupId;
+        return this.groupBlackList[projKey] !== undefined;
+    },
     /**
      * Removes a project compltely
      */
@@ -1881,7 +1904,7 @@ module.exports = {
                     for (var key in groups) {
                         var group = groups[key];
 
-                        if(parent.completedGroup(group, projectId)) {
+                        if(parent.completedGroup(projectId, group.groupId)) {
                             continue;
                         }
                         console.log("Checking to see if " + group.groupId + " is an offline group");

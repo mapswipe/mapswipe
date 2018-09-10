@@ -462,6 +462,7 @@ var ProjectHeader = React.createClass({
     _handleProjectRemoval(projectId) {
         return function () {
             GLOBAL.DB.removeProject(projectId);
+            GLOBAL.DB.removeOfflineProject(projectId);
             Alert.alert(
                 'Project Reset Complete',
                 'Your progress will still be synced! Try Now!',
@@ -523,7 +524,7 @@ var ProjectHeader = React.createClass({
                     Map Now ({this.state.hasOfflineGroups === false ? "requires network" : "available offline"})
                 </Button>
                 <Button
-                    style={this.state.progress === 0 || this.state.progress == 100 ? style.startButton : style.inProgressButton}
+                    style={this.state.progress === 0 || this.state.progress === 100 ? style.startButton : style.inProgressButton}
                     onPress={this.state.progress === 0 ? this._handleLater : this._handleInProgress}
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     {this.state.progress === 0 || this.state.progress === 100 || !this.state.progress ? "Download For Later" : "Downloading (" + this.state.progress + "%)"}
