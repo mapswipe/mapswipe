@@ -355,7 +355,7 @@ module.exports = {
                     store
                         .save('groupCompletes', {
                             // initialize the
-                            groups: results.group.error
+                            groups: results.group.error // all the errored groups will stay
                         }).then(status => {
                         if (errorCount > successCount) {
                             // more errors than successes... nope
@@ -1130,6 +1130,8 @@ module.exports = {
                         if (auth.isLoggedIn() && result !== null && result !== undefined) {
                             myUserRef = database.ref("/users/" + auth.getUser().uid);
                             parent.compareAndUpdate();
+                            parent.refreshDistance();
+                            parent.refreshContributions();
                             resolve();
                             clearInterval(parent.interval);
                         } else {
@@ -1878,6 +1880,10 @@ module.exports = {
                     var toReturn = null;
                     for (var key in groups) {
                         var group = groups[key];
+
+                        if(parent.completedGroup(group, projectId)) {
+                            continue;
+                        }
                         console.log("Checking to see if " + group.groupId + " is an offline group");
                         if (parent.isOfflineGroup(group.groupId)) {
                             console.log("" + group.groupId + " is an offline group");
