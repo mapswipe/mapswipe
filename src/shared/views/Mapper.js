@@ -22,7 +22,7 @@ var GLOBAL = require('../Globals');
 var store = require('react-native-simple-store');
 
 import * as Progress from 'react-native-progress';
-var DeviceInfo = require('react-native-device-info');
+import DeviceInfo from 'react-native-device-info';
 var RNFS = require('react-native-fs');
 var LoadingIcon = require('./LoadingIcon');
 var _mapper = null;

@@ -14,7 +14,7 @@ import { Navigator } from 'react-native-deprecated-custom-components';
 var Tutorial = require('./views/Tutorial');
 var ProjectNav = require('./views/ProjectNav');
 var ProjectView = require('./views/ProjectView');
-//var WebviewWindow = require('./views/WebviewWindow');
+var WebviewWindow = require('./views/WebviewWindow');
 var Login = require('./views/Login');
 var Mapper = require('./views/Mapper');
 var GLOBAL = require('./Globals');

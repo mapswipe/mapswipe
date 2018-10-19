@@ -11,7 +11,6 @@ class AuthManager {
     constructor(firebase) {
         this.firebase = firebase;
         this.hasReceivedLoginStatus = false;
-        console.warn("Auth manager initialized", firebase);
 
         // get current auth object from the store
         // if no auth object found, or the current auth object is invalid, we will request a new one
@@ -47,7 +46,7 @@ class AuthManager {
                     reject(errorMessage);
                 });
             }
-        })
+        });
     }
 
     /**

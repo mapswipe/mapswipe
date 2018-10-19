@@ -243,23 +243,28 @@ var RecommendedCards = createReactClass({
     render() {
         var rows = [];
 
-
         if (this.state.announcement !== null) {
-            rows.push(<Button onPress={() => {
-                this.props.navigator.push({ id: 5, data: this.state.announcement.url, paging: true })
-            }} style={style.otherButton}
+            rows.push(<Button
+                onPress={() => {
+                    this.props.navigator.push({ id: 5, data: this.state.announcement.url, paging: true })
+                }}
+                key={'announce'}
+                style={style.otherButton}
                 textStyle={{
                     fontSize: 13,
-                    color: '#0d1949',
-                    fontWeight: '700'
+                        color: '#0d1949',
+                        fontWeight: '700'
                 }}>{this.state.announcement.text}</Button>);
         }
 
         if (this.state.projects.featuredCard !== null) {
-            rows.push(<FeaturedCard key={rows.length} navigator={this.props.navigator}
-                card={this.state.projects.featuredCard} />);
+            rows.push(<FeaturedCard
+                key={rows.length}
+                navigator={this.props.navigator}
+                card={this.state.projects.featuredCard}
+                />);
         } else {
-            rows.push(<LoadingIcon />);
+            rows.push(<LoadingIcon key={'icon'} />);
         }
 
         var parent = this;
@@ -267,7 +272,9 @@ var RecommendedCards = createReactClass({
             rows.push(<CardRow key={rows.length} navigator={parent.props.navigator} cardRow={cardRow} />)
         });
 
-        rows.push(<Modal style={[style.modal, style.modal3]} backdropType="blur" position={"top"} ref={"modal3"}
+        rows.push(<Modal
+            key='modal'
+            style={[style.modal, style.modal3]} backdropType="blur" position={"top"} ref={"modal3"}
             isDisabled={this.state.isDisabled}>
             <Text style={style.header}>Tutorial</Text>
             <Text style={style.tutPar}>Learn more about how to use Mapswipe!</Text>
@@ -305,15 +312,18 @@ var FeaturedCard = createReactClass({
 
 var CardRow = createReactClass({
 
-
     render() {
-
-        var rows = [];
-        for (var i = 0; i < this.props.cardRow.cards.length; i++) {
-            console.log(i);
-            rows.push(<ProjectCard navigator={this.props.navigator} card={this.props.cardRow.cards[i]} cardIndex={i}
-                featured={false} />);
-        }
+        //var rows = [];
+        //for (var i = 0; i < this.props.cardRow.cards.length; i++) {
+        const rows = this.props.cardRow.cards.map((card, index) => (
+            <ProjectCard
+            navigator={this.props.navigator}
+            card={card}
+            cardIndex={index}
+            key={card.id}
+            featured={false}
+            />
+        ));
         return <View navigator={this.props.navigator} style={style.cardRow}>
             {rows}
         </View>;
@@ -322,4 +332,3 @@ var CardRow = createReactClass({
 
 
 module.exports = ProjectNav;
-
