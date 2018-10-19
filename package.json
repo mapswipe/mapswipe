@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "lint": "node_modules/eslint/bin/eslint.js src",
     "postinstall": "node scripts/postinstall.js",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
