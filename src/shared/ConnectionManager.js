@@ -1,4 +1,3 @@
-import React from "react";
 import {Platform, Dimensions, NetInfo} from "react-native";
 
 class ConnectionManager {
@@ -9,7 +8,9 @@ class ConnectionManager {
      * @returns {boolean}
      */
     isOnline() {
-        return this.networkState.indexOf('none') === -1 && this.networkState.indexOf('NONE') === -1;
+        // FIXME: force it for now
+        return true;
+      //return this.networkState.indexOf('none') === -1 && this.networkState.indexOf('NONE') === -1;
     }
 
     /**
@@ -17,7 +18,9 @@ class ConnectionManager {
      * @returns {boolean}
      */
     isOnWifi() {
-        return this.networkState.toLowerCase().indexOf('wifi') !== -1;
+      // FIXME: use real data here
+        return true;
+      //return this.networkState.toLowerCase().indexOf('wifi') !== -1;
     }
 
     /**
@@ -40,7 +43,7 @@ class ConnectionManager {
         };
 
         NetInfo.addEventListener(
-            'change',
+            'connectionChange',
             handler
         );
     }

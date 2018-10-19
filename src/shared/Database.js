@@ -1070,8 +1070,7 @@ module.exports = {
     refreshOfflineGroups() {
         var parent = this;
         store.get("offlineGroups").then(data => {
-            console.log("setting offline groups");
-            console.log(data);
+            console.log("setting offline groups", data);
             if (data !== null && data !== undefined && data.offlineGroups !== undefined) {
                 parent.offlineGroups = data.offlineGroups;
             }
@@ -1280,11 +1279,10 @@ module.exports = {
                         var projectCount = 0;
                         for (var p in projects) {
                             projectCount++;
+
                             var project = projects[p];
                             if (project !== undefined && project !== null && project.groupAverage !== undefined && project.state !== 3) {
-
                                 currentRow.push(project);
-
                                 if (newCards.featuredCard === null && currentRow[0].isFeatured) {
                                     newCards.featuredCard = currentRow[0];
                                     currentRow = [];

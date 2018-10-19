@@ -7,16 +7,16 @@
 
 import React from 'react';
 import createReactClass from 'create-react-class';
-import { Text, View, StyleSheet, Platform, Image, BackAndroid} from "react-native";
+import { Text, View, StyleSheet, Platform, Image, BackHandler} from "react-native";
 import { Navigator } from 'react-native-deprecated-custom-components';
 //import Button from "apsl-react-native-button";
 
-//var Tutorial = require('./views/Tutorial');
-//var ProjectNav = require('./views/ProjectNav');
-//var ProjectView = require('./views/ProjectView');
+var Tutorial = require('./views/Tutorial');
+var ProjectNav = require('./views/ProjectNav');
+var ProjectView = require('./views/ProjectView');
 //var WebviewWindow = require('./views/WebviewWindow');
 var Login = require('./views/Login');
-//var Mapper = require('./views/Mapper');
+var Mapper = require('./views/Mapper');
 var GLOBAL = require('./Globals');
 // FIXME: message-bar not maintained since 2016
 //var MessageBarAlert = require('react-native-message-bar').MessageBar;
@@ -156,7 +156,7 @@ var Main = createReactClass({
     },
     componentWillMount() {
         if (Platform.OS === 'android') {
-            BackAndroid.addEventListener('hardwareBackPress', () => {
+            BackHandler.addEventListener('hardwareBackPress', () => {
                 if (_route.id === 1) {
                     return; // cant go back from here
                 }
@@ -214,6 +214,10 @@ var Main = createReactClass({
 
     },
 
+    componentWillUnmount() {
+        clearInterval(this.checkInterval);
+    },
+
     levelUp() {
         this.openModal3();
     },
@@ -259,7 +263,7 @@ var Main = createReactClass({
         return (
             <View style={style.mainContainer}>
               <Navigator
-                initialRoute={{id: 4, data: null}}
+                initialRoute={{id: 0, data: null}}
                 renderScene={this._renderScene}
                 configureScene={this._configureScene}
                 style={style.container}
