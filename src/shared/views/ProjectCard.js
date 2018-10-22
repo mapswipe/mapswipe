@@ -86,7 +86,7 @@ var style = StyleSheet.create({
     bottomTextAreaSmallCard: {
         position: 'absolute',
         flex: 1,
-        height: 90,
+        height: 100,
         bottom: 0,
         right: 0,
         left: 0,
@@ -120,42 +120,27 @@ var style = StyleSheet.create({
     },
     teamMateText: {
         color: '#ffffff',
-        shadowColor: "#000000",
+        shadowColor: '#000000',
         shadowOpacity: 0.8,
         shadowRadius: 2,
         shadowOffset: {
             height: 1,
-            width: 0
+            width: 0,
         },
         fontSize: 13,
         marginLeft: 10,
-        marginTop: 5
-
+        marginTop: 5,
     },
     heart: {
         width: 13,
         height: 13,
         resizeMode: 'contain',
-        marginTop: 5
-
-    }
-
-});
-
-// Later on in your styles..
-var styles = StyleSheet.create({
+        marginTop: 5,
+    },
     linearGradient: {
         flex: 1,
         paddingLeft: 15,
         paddingRight: 15,
-    },
-    buttonText: {
-        fontSize: 18,
-        fontFamily: 'Gill Sans',
-        textAlign: 'center',
-        margin: 10,
-        color: '#ffffff',
-        backgroundColor: 'transparent',
     },
 });
 
@@ -219,37 +204,51 @@ var ProjectCard = createReactClass({
         return gradientCountArray;
     },
     render() {
-        return <TouchableOpacity onPress={this._handlePress}>
-            <View
-                style={[(this.props.featured === true ? style.largeCard : style.smallCard), {marginLeft: this.props.cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0}]}>
-                <ImageBackground
-                    style={style.cardBackground}
-                    source={{uri: this.props.card.image}}
-                >
-                    <LinearGradient
-                        colors={this.getGradientArray()}
-                        style={styles.linearGradient}>
-                    </LinearGradient>
-                    <Image style={[style.offlineIndicator, {opacity: this.state.hasOfflineGroups ? 1 : 0.30}]}
-                           source={require('./assets/offline_icon.png')}/>
+        const { card } = this.props;
+        return (
+            <TouchableOpacity onPress={this._handlePress}>
+                <View
+                    style={[(this.props.featured === true ? style.largeCard : style.smallCard), {marginLeft: this.props.cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0}]}>
+                    <ImageBackground
+                        style={style.cardBackground}
+                        source={{uri: card.image}}
+                    >
+                        <LinearGradient
+                            colors={this.getGradientArray()}
+                            style={style.linearGradient}
+                        />
+                        <Image
+                            style={[style.offlineIndicator, {opacity: this.state.hasOfflineGroups ? 1 : 0.30}]}
+                            source={require('./assets/offline_icon.png')}
+                        />
 
-                    <Button style={style.nowButton} textStyle={{
-                        fontSize: 10,
-                        color: this._getColorForState(this.props.card.state),
-                        fontWeight: '600'
-                    }}>
-                        {this._getTextForState(this.props.card.state)}
-                    </Button>
-                    <View style={this.props.featured === true ? style.bottomTextArea : style.bottomTextAreaSmallCard}>
-                        <Text style={style.projectName}>{this.props.card.name}</Text>
-                        <View style={style.teamMates}><Image style={style.heart}
-                                                             source={require('./assets/heart_icon.png')}/><Text
-                            style={style.teamMateText}>{this.props.card.progress}% by {this.props.card.contributors}
-                            mappers </Text></View>
-                    </View>
-                </ImageBackground>
-            </View>
-        </TouchableOpacity>;
+                        <Button
+                            style={style.nowButton}
+                            textStyle={{
+                                fontSize: 10,
+                                color: this._getColorForState(card.state),
+                                fontWeight: '600',
+                            }}
+                        >
+                            {this._getTextForState(card.state)}
+                        </Button>
+
+                        <View style={this.props.featured === true ? style.bottomTextArea : style.bottomTextAreaSmallCard}>
+                            <Text style={style.projectName}>{card.name}</Text>
+                            <View style={style.teamMates}>
+                                <Image
+                                    style={style.heart}
+                                    source={require('./assets/heart_icon.png')}
+                                />
+                                <Text style={style.teamMateText}>
+                                    {card.progress}% by {card.contributors} mappers
+                                </Text>
+                            </View>
+                        </View>
+                    </ImageBackground>
+                </View>
+            </TouchableOpacity>
+        );
     },
 });
 

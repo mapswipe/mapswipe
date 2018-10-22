@@ -1,7 +1,7 @@
 import React from "react";
 import createReactClass from 'create-react-class';
 import { Text, View, Platform, ScrollView, StyleSheet, Linking } from "react-native";
-import ScrollableTabView from "react-native-scrollable-tab-view";
+import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
 import Button from "apsl-react-native-button";
 
 var store = require('react-native-simple-store');
@@ -98,7 +98,6 @@ var style = StyleSheet.create({
         lineHeight: 20,
     },
 
-
     modal: {
         padding: 20,
     },
@@ -115,7 +114,6 @@ var style = StyleSheet.create({
         backgroundColor: "#ffffff",
         borderRadius: 2
     },
-
 
     cardRow: {
         flex: 1,
@@ -159,17 +157,21 @@ var ProjectNav = createReactClass({
     },
 
     render() {
-        return <ScrollableTabView
-            tabBarActiveTextColor="#ffffff"
-            tabBarInactiveTextColor="#e8e8e8"
-            tabBarInactiveUnderlineColor="#212121"
-            tabBarUnderlineColor="#ee0000"
-            renderTabBar={() => <MapswipeTabBar backgroundColor='#0d1949' />}
-        >
-            <View style={{ flex: 1 }} tabLabel='Missions'><RecommendedCards navigator={this.props.navigator} /></View>
-            <View style={{ flex: 1 }} tabLabel='More'><MoreOptions navigator={this.props.navigator} /></View>
-        </ScrollableTabView>;
-    },
+        return (
+            <ScrollableTabView
+                tabBarActiveTextColor="#ffffff"
+                tabBarInactiveTextColor="#e8e8e8"
+                tabBarUnderlineStyle={{backgroundColor: '#ee0000'}}
+                renderTabBar={() => <DefaultTabBar backgroundColor='#0d1949' style={{ borderBottomWidth: 0 }} />}
+            >
+                <View style={{ flex: 1 }} tabLabel='Missions'>
+                    <RecommendedCards navigator={this.props.navigator} />
+                </View>
+                <View style={{ flex: 1 }} tabLabel='More'>
+                    <MoreOptions navigator={this.props.navigator} />
+                </View>
+            </ScrollableTabView>
+        )},
 });
 
 

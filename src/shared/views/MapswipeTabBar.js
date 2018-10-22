@@ -67,15 +67,22 @@ const MapswipeTabBar = createReactClass({
             bottom: 0,
         };
 
-        const left = this.props.scrollValue.interpolate({
-            inputRange: [0, 1,], outputRange: [0, containerWidth / numberOfTabs,],
+        const translateX = this.props.scrollValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, containerWidth / numberOfTabs],
         });
 
         return (
             <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor,}, this.props.style,]}>
                 {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
-                {/* FIXME: readd "left" style here */}
-                <Animated.View style={[tabUnderlineStyle,]}/>
+                <Animated.View
+                    style={[
+                        tabUnderlineStyle,
+                        { transform: [
+                            { translateX }
+                        ]}
+                    ]}
+                />
             </View>
         );
     },
