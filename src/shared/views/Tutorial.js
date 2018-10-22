@@ -18,7 +18,7 @@ import Button from "apsl-react-native-button";
 var GLOBAL = require('../Globals');
 
 var Swiper = require('react-native-swiper');
-//var SplashScreen = require('@remobile/react-native-splashscreen');
+import SplashScreen from 'react-native-splash-screen';
 
 
 /**
@@ -140,11 +140,11 @@ var Tutorial = createReactClass({
         var parent = this;
         NetInfo.getConnectionInfo().done((reach) => {
             GLOBAL.DB.handleSessionStart(reach).then(function () {
-              //SplashScreen.hide();
+                SplashScreen.hide();
                 parent.props.navigator.push({ id: 1 });
             }).catch(function (error) {
                 console.log(error);
-              //SplashScreen.hide();
+                SplashScreen.hide();
                 parent.setState({
                     status: 'tutorial'
                 });
