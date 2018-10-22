@@ -1260,15 +1260,7 @@ module.exports = {
                 if (con.isOnline()) {
                     projectsRef.on('value', function (snapshot) {
 
-                        /* await snapshot.forEach(async (child) => {
-                         console.log(child);
-                         // add each project to the local store
-                         });*/
-
                         var projects = snapshot.val();
-                        // FIXME: sort projects without using underscore
-                        //var projects = _.sortBy(projects, "isFeatured").reverse();
-
 
                         var newCards = {
                             featuredCard: null,
