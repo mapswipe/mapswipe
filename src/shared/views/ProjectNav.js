@@ -224,12 +224,10 @@ var RecommendedCards = createReactClass({
 
         // get the projects
         GLOBAL.DB.getProjects().then((data) => {
-            console.log("koolio");
-            console.log(data);
+            console.log('Received project list from DB', data);
             this.updateProjects(data);
         }).catch(function (error) {
-            console.log("Show error here");
-            console.log(error);
+            console.log('Error fetching projects', error);
         });
 
         return {
