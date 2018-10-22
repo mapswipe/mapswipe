@@ -311,7 +311,7 @@ var Login = createReactClass({
                 <Button style={styles.switchToLogin} onPress={() => {
                     this._switchScreens(1)
                 }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700', textAlign: 'left' }}>
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     Log in to an existing account
                 </Button>
 
@@ -351,13 +351,13 @@ var Login = createReactClass({
                 <Button style={styles.switchToLogin} onPress={() => {
                     this._switchScreens(2)
                 }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700', textAlign: 'left' }}>
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     Forgot your password?
                 </Button>
                 <Button style={styles.switchToLogin} onPress={() => {
                     this._switchScreens(0)
                 }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700', textAlign: 'left' }}>
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     Create New Account
                 </Button>
 
@@ -388,7 +388,7 @@ var Login = createReactClass({
                     <Button style={styles.switchToLogin} onPress={() => {
                         this._switchScreens(1)
                     }}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700', textAlign: 'left' }}>
+                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                         Back to login
                     </Button>
 
