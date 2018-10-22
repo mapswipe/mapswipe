@@ -213,7 +213,7 @@ var RecommendedCards = createReactClass({
      * @param updateDb
      */
     updateProjects: function (newCards) {
-        this.setState({ projects: newCards, announcement: this.state.announcement });
+        this.setState({ loadingProjects: false, projects: newCards, announcement: this.state.announcement });
     },
     /**
      * Get the initial project state, load from database if necessary.
@@ -231,6 +231,7 @@ var RecommendedCards = createReactClass({
         });
 
         return {
+            loadingProjects: true,
             projects: {
                 featuredCard: null,
                 otherCards: []
@@ -238,6 +239,7 @@ var RecommendedCards = createReactClass({
             announcement: null
         };
     },
+
     render() {
         var rows = [];
 
@@ -255,20 +257,21 @@ var RecommendedCards = createReactClass({
                 }}>{this.state.announcement.text}</Button>);
         }
 
-        if (this.state.projects.featuredCard !== null) {
-            rows.push(<FeaturedCard
-                key={rows.length}
-                navigator={this.props.navigator}
-                card={this.state.projects.featuredCard}
-                />);
-        } else {
+        if (this.state.loadingProjects) {
             rows.push(<LoadingIcon key={'icon'} />);
+        } else {
+            if (this.state.projects.featuredCard !== null) {
+                rows.push(<FeaturedCard
+                    key={rows.length}
+                    navigator={this.props.navigator}
+                    card={this.state.projects.featuredCard}
+                    />);
+            }
+            var parent = this;
+            this.state.projects.otherCards.forEach(function (cardRow) {
+                rows.push(<CardRow key={rows.length} navigator={parent.props.navigator} cardRow={cardRow} />)
+            });
         }
-
-        var parent = this;
-        this.state.projects.otherCards.forEach(function (cardRow) {
-            rows.push(<CardRow key={rows.length} navigator={parent.props.navigator} cardRow={cardRow} />)
-        });
 
         rows.push(<Modal
             key='modal'
