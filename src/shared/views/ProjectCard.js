@@ -241,7 +241,7 @@ var ProjectCard = createReactClass({
                                     source={require('./assets/heart_icon.png')}
                                 />
                                 <Text style={style.teamMateText}>
-                                    {card.progress}% by {card.contributors} mappers
+                                    {`${card.progress}% by ${card.contributors} mappers`}
                                 </Text>
                             </View>
                         </View>
