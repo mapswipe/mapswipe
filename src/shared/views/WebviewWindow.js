@@ -4,7 +4,6 @@
  */
 
 import React from "react";
-import createReactClass from 'create-react-class';
 import {Text, View, Platform, StyleSheet, Image, Dimensions, WebView, TouchableHighlight} from "react-native";
 import {DefaultTabBar} from "react-native-scrollable-tab-view";
 var GLOBAL = require('../Globals');
@@ -51,10 +50,12 @@ var styles = {
     },
 };
 
-var LoadingComponent = createReactClass({
-    returnToView: function () {
+class LoadingComponent extends React.Component {
+
+    returnToView = () => {
         this.props.navigator.pop();
-    },
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
@@ -72,6 +73,6 @@ var LoadingComponent = createReactClass({
             </View>
         );
     }
-});
+}
 
 module.exports = LoadingComponent;

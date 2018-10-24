@@ -3,7 +3,6 @@
  */
 
 import React from "react";
-import createReactClass from 'create-react-class';
 
 import {
     Text,
@@ -106,19 +105,20 @@ var styles = StyleSheet.create({
         paddingLeft: 10
     }
 })
-var Login = createReactClass({
-    getInitialState() {
-        return {
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             username: '',
             password: '',
             email: '',
             loading: false,
             screen: 0
         }
-    },
+    }
 
     componentDidMount() {
-    },
+    }
 
     _handleSignUp() {
       //GLOBAL.ANALYTICS.logEvent('account_screen_seen');
@@ -177,12 +177,13 @@ var Login = createReactClass({
             })
         })
 
-    },
+    }
+
     _switchScreens(screen) {
         this.setState({
             screen: screen
         });
-    },
+    }
 
     _handleLogin() {
 
@@ -219,7 +220,7 @@ var Login = createReactClass({
             })
         })
 
-    },
+    }
 
     _handlePassReset() {
 
@@ -256,9 +257,7 @@ var Login = createReactClass({
                 loading: false
             })
         })
-
-    },
-
+    }
 
     /**
      * Render function. W want to keep state throughout the entire component, so it's all one big horrible convention for now.
@@ -409,6 +408,6 @@ var Login = createReactClass({
         </View>
         )
     }
-})
+}
 
 module.exports = Login;

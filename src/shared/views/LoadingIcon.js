@@ -1,7 +1,5 @@
 import React from 'react'
-import createReactClass from 'create-react-class';
 import {Text, View, Platform, StyleSheet, Image, Dimensions, TimerMixin} from "react-native";
-//import {DefaultTabBar} from "react-native-scrollable-tab-view";
 var GLOBAL = require('../Globals');
 
 var styles = {
@@ -13,28 +11,30 @@ var styles = {
     },
 };
 
-var SetIntervalMixin = {
-    componentWillMount: function () {
+class LoadingComponent extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            offset: 0,
+        };
+    }
+
+    componentWillMount() {
         this.intervals = [];
-    },
-    setInterval: function () {
+    }
+
+    setInterval() {
         this.intervals.push(setInterval.apply(null, arguments));
-    },
-    componentWillUnmount: function () {
+    }
+
+    componentWillUnmount() {
         this.intervals.forEach(clearInterval);
     }
-};
 
-var LoadingComponent = createReactClass({
+    nextOffset: 2;
 
-    mixins: [SetIntervalMixin], // Use the mixin
-    getInitialState: function () {
-        return {offset: 0};
-    },
-
-    nextOffset: 2,
-
-    loadingImage: function () {
+    loadingImage = () => {
         if (this.state.offset >= 0.8) {
             this.nextOffset = -0.04;
         } else if (this.state.offset <= 0.3) {
@@ -53,22 +53,22 @@ var LoadingComponent = createReactClass({
                 <Text style={styles.loadingText}>Loading...</Text>
             </View>
         );
-    },
+    }
 
-    tick: function () {
+    tick = () => {
         this.setState({offset: this.state.offset + this.nextOffset});
-    },
+    }
 
-    componentDidMount: function () {
+    componentDidMount() {
         var self = this;
-        this.setInterval(self.tick, 1000 / 50); // Call a method on the mixin
-    },
+        this.setInterval(self.tick, 1000 / 50);
+    }
 
-    render: function () {
+    render() {
         return (
             this.loadingImage()
         );
     }
-});
+}
 
 module.exports = LoadingComponent;

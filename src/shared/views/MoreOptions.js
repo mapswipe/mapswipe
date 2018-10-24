@@ -1,5 +1,4 @@
 import React from "react";
-import createReactClass from 'create-react-class';
 import {
     Text,
     View,
@@ -141,7 +140,7 @@ var styles = StyleSheet.create({
 
 });
 
-var MoreOptions = createReactClass({
+class MoreOptions extends React.Component {
 
     refreshStats() {
         var parent = this;
@@ -158,14 +157,15 @@ var MoreOptions = createReactClass({
 
             }
         }, 500);
-    },
+    }
 
     componentDidMount() {
         this.refreshStats()
-    },
+    }
 
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             name: "",
             distance: GLOBAL.DB.getDistance(),
             contributions: GLOBAL.DB.getContributions(),
@@ -173,12 +173,9 @@ var MoreOptions = createReactClass({
             level: GLOBAL.DB.getLevel(),
             levelObject: GLOBAL.DB.getLevelObject()
         };
-    },
-
+    }
 
     render() {
-
-        console.log()
 
         return <ScrollView contentContainerStyle={styles.container}>
             <ScrollingBackground />
@@ -249,32 +246,31 @@ var MoreOptions = createReactClass({
 
 
         </ScrollView>;
-    },
-});
+    }
+}
 
-var SetIntervalMixin = {
-    componentWillMount: function () {
+class ScrollingBackground extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { offset: 0 };
+    }
+
+    nextOffset: 2;
+
+    componentWillMount() {
         this.intervals = [];
-    },
-    setInterval: function () {
+    }
+
+    setInterval() {
         this.intervals.push(setInterval.apply(null, arguments));
-    },
-    componentWillUnmount: function () {
+    }
+
+    componentWillUnmount() {
         this.intervals.forEach(clearInterval);
     }
-};
 
-var ScrollingBackground = createReactClass({
-
-
-    mixins: [SetIntervalMixin], // Use the mixin
-    getInitialState: function () {
-        return { offset: 0 };
-    },
-
-    nextOffset: 2,
-
-    backgroundImage: function () {
+    backgroundImage = () => {
         if (this.state.offset > 1500) {
             this.nextOffset = -1;
         } else if (this.state.offset < -1500) {
@@ -288,35 +284,34 @@ var ScrollingBackground = createReactClass({
                 backgroundColor: '#e8e8e8',
             }} />
         );
-    },
+    }
 
-    tick: function () {
+    tick = () => {
         this.setState({ offset: this.state.offset + this.nextOffset });
-    },
+    }
 
-    componentDidMount: function () {
+    componentDidMount() {
         var self = this;
-        this.setInterval(self.tick, 1000 / 50); // Call a method on the mixin
-    },
+        this.setInterval(self.tick, 1000 / 50);
+    }
 
-    render: function () {
+    render() {
         return (
             this.backgroundImage()
         );
     }
-});
+}
 
 
-var LevelProgress = createReactClass({
+class LevelProgress extends React.Component {
 
     getBarStyle(progress) {
         return {
             height: 30,
             width: GLOBAL.SCREEN_WIDTH,
             borderRadius: 0,
-
         }
-    },
+    }
 
     getBarTextStyle(progress) {
         return {
@@ -328,11 +323,11 @@ var LevelProgress = createReactClass({
             left: 0,
             textAlign: 'center',
             paddingTop: 5,
-
-
         }
-    },
-    getInitialState: function () {
+    }
+
+    constructor(props) {
+        super(props);
         var parent = this;
         setInterval(function () {
             var newVal = GLOBAL.DB.getKmTilNextLevel();
@@ -340,18 +335,12 @@ var LevelProgress = createReactClass({
                 text: newVal + " square km (" + Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6) + " swipes) until the next level"
             })
         }, 500);
-        return {
+        this.state = {
             barStyle: this.getBarStyle(0),
             textStyle: this.getBarTextStyle(0),
             text: GLOBAL.DB.getKmTilNextLevel() + " square km until the next level"
-
         };
-    },
-
-    updateProgress(event, cardsLength) {
-
-    },
-
+    }
 
     render() {
         return <View style={styles.barRow}>
@@ -365,7 +354,7 @@ var LevelProgress = createReactClass({
             <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
         </View>
     }
-});
+}
 
 
 module.exports = MoreOptions;

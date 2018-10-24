@@ -1,5 +1,4 @@
 import React from "react";
-import createReactClass from 'create-react-class';
 import { ImageBackground, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity} from "react-native";
 import Button from "apsl-react-native-button";
 import LinearGradient from "react-native-linear-gradient";
@@ -144,13 +143,14 @@ var style = StyleSheet.create({
     },
 });
 
-var ProjectCard = createReactClass({
+class ProjectCard extends React.Component {
 
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             hasOfflineGroups: GLOBAL.DB.hasOfflineGroups('project-' + this.props.card.id)
         }
-    },
+    }
 
     _getColorForState(state) {
         if (state === 0) {
@@ -160,7 +160,8 @@ var ProjectCard = createReactClass({
         } else if (state === 2) { //complete
             return 'green';
         }
-    },
+    }
+
     _getTextForState(state) {
 
         if (state === 2) {
@@ -175,11 +176,12 @@ var ProjectCard = createReactClass({
         if (state === 0) {
             return 'NEEDS MAPPING';
         }
-    },
-    _handlePress() {
+    }
+
+    _handlePress = () => {
         this.props.navigator.push({id: 2, data: this.props.card});
         //console.log(event);
-    },
+    }
 
     getGradientArray() {
 
@@ -202,7 +204,8 @@ var ProjectCard = createReactClass({
 
 
         return gradientCountArray;
-    },
+    }
+
     render() {
         const { card } = this.props;
         return (
@@ -249,8 +252,8 @@ var ProjectCard = createReactClass({
                 </View>
             </TouchableOpacity>
         );
-    },
-});
+    }
+}
 
 
 module.exports = ProjectCard;

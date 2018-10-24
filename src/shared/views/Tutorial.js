@@ -1,5 +1,4 @@
 import React from "react";
-import createReactClass from 'create-react-class';
 import {
     Text,
     View,
@@ -127,16 +126,16 @@ var styles = StyleSheet.create({
     }
 })
 
-var Tutorial = createReactClass({
+class Tutorial extends React.Component {
 
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             status: 'loading'
         }
-    },
+    }
 
     componentDidMount() {
-        console.log("wat");
         var parent = this;
         NetInfo.getConnectionInfo().done((reach) => {
             GLOBAL.DB.handleSessionStart(reach).then(function () {
@@ -151,9 +150,7 @@ var Tutorial = createReactClass({
 
             });
         })
-
-
-    },
+    }
 
 
     render() {
@@ -161,27 +158,28 @@ var Tutorial = createReactClass({
             <View style={{ flex: 1 }}>
                 <Text></Text>
             </View>;
-    },
-});
+    }
+}
 
-var TutCardView = createReactClass({
+class TutCardView extends React.Component {
 
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             newIndex: 0,
-        }
-    },
+        };
+    }
 
 
     _handlePress() {
-        var parent = this;
+        const parent = this;
 
         GLOBAL.DB.setTutorialComplete().then(function () {
             parent.props.navigator.push({ id: 4 });
           //GLOBAL.ANALYTICS.logEvent('completed_tutorial');
         });
+    }
 
-    },
     render() {
       //GLOBAL.ANALYTICS.logEvent('starting_tutorial');
         return <Swiper style={styles.wrapper} showsButtons={false} loop={false} yourNewPageIndex={this.state.newIndex}>
@@ -216,7 +214,7 @@ var TutCardView = createReactClass({
             </View>
         </Swiper>;
     }
-});
+};
 
 
 module.exports = Tutorial;

@@ -1,5 +1,4 @@
 import React from "react";
-import createReactClass from 'create-react-class';
 import {
     Text,
     View,
@@ -270,33 +269,32 @@ var style = StyleSheet.create({
  * This is the base view for the project navigation, the individual tabs are rendered within here.
  */
 
-var ProjectView = createReactClass({
-    render() {
-        ;
+ProjectView = (props) => (
+    <ProjectHeader
+        style={style.headerContainer}
+        navigator={props.navigator}
+        data={props.data}>
+    </ProjectHeader>
+)
 
-        return <ProjectHeader style={style.headerContainer} navigator={this.props.navigator}
-            data={this.props.data}></ProjectHeader>;
-    },
-});
+class ProjectHeader extends React.Component {
 
-var ProjectHeader = createReactClass({
-
-
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             progress: 0,
             language: null,
             availableOffline: 0,
             hasOfflineGroups: false
         };
-    },
+    }
 
-    returnToView: function () {
-
+    returnToView = () => {
         this.props.navigator.pop();
-    },
+    }
 
-    mounted: false,
+    mounted: false;
+
     componentDidMount() {
         GLOBAL.GRADIENT_COUNT = 0;
         this.mounted = true;
@@ -320,16 +318,13 @@ var ProjectHeader = createReactClass({
                 hasOfflineGroups: GLOBAL.DB.hasOfflineGroups('project-' + parent.props.data.id)
             })
         }, 300);
-
-
-    },
+    }
 
     componentWillUnmount() {
         this.mounted = false;
-    },
+    }
 
-
-    _handlePress() {
+    _handlePress = () => {
         var parent = this;
         if (GLOBAL.DB.hasOpenDownloads('project-' + this.props.data.id) === false) {
             this.checkWifiMapping();
@@ -348,22 +343,23 @@ var ProjectHeader = createReactClass({
         }
 
 
-    },
+    }
 
     _handleLater() {
         this.openModal3();
-    },
+    }
 
-    openModal3: function (id) {
+    openModal3 = (id) => {
         this.refs.modal3.open();
-    },
+    }
 
-    returnToView: function () {
+    returnToView = () => {
         this.props.navigator.pop();
-    },
-    closeModal3: function (id) {
+    }
+
+    closeModal3 = (id) => {
         this.refs.modal3.close();
-    },
+    }
 
     checkWifiMapping() {
         var parent = this;
@@ -383,7 +379,7 @@ var ProjectHeader = createReactClass({
                 ]
             )
         }
-    },
+    }
 
     checkWifiDownload(originalTaskAmount) {
 
@@ -441,11 +437,11 @@ var ProjectHeader = createReactClass({
                 )
             }
         }
-    },
+    }
 
     _handleInProgress() {
 
-    },
+    }
 
     _handleRemoval(projectId) {
         return function () {
@@ -459,7 +455,7 @@ var ProjectHeader = createReactClass({
                 ]
             )
         }
-    },
+    }
 
     _handleProjectRemoval(projectId) {
         return function () {
@@ -472,7 +468,8 @@ var ProjectHeader = createReactClass({
                 ]
             )
         }
-    },
+    }
+
     render() {
 
 
@@ -569,10 +566,8 @@ var ProjectHeader = createReactClass({
             </Modal>
         </ScrollView>
             ;
-    },
-});
-//
+    }
+};
 
 
 module.exports = ProjectView;
-

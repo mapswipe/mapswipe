@@ -1,5 +1,4 @@
 import React from "react";
-import createReactClass from 'create-react-class';
 import {
     Text,
     View,
@@ -335,10 +334,10 @@ var styles = StyleSheet.create({
 // store the task in memory
 
 
-var Mapper = createReactClass({
-    getInitialState: function () {
-
-        return {
+class Mapper extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             isOpen: false,
             isDisabled: false,
             swipeToClose: false,
@@ -346,49 +345,52 @@ var Mapper = createReactClass({
             sliderValue: 0.3,
             poppedUpTile: null
         };
-    },
+    }
 
     componentDidMount() {
         this.openModal3();
       //GLOBAL.ANALYTICS.logEvent('mapping_started');
         _mapper = this;
-    },
+    }
+
     componentWillUnmount() {
         this.refs.cardbody.resetState();
-    },
+    }
 
-    toggleDisable: function () {
+    toggleDisable = () => {
         this.setState({isDisabled: !this.state.isDisabled});
-    },
+    }
 
-    toggleSwipeToClose: function () {
+    toggleSwipeToClose = () => {
         this.setState({swipeToClose: !this.state.swipeToClose});
-    },
+    }
 
-    onClose: function () {
+    onClose() {
         console.log('Modal just closed');
-    },
+    }
 
-    onOpen: function () {
+    onOpen() {
         console.log('Modal just openned');
-    },
+    }
 
-    onClosingState: function (state) {
+    onClosingState(state) {
         console.log('the open/close of the swipeToClose just changed');
-    },
-    openModal3: function (id) {
-        this.refs.modal3.open();
-    },
+    }
 
-    returnToView: function () {
+    openModal3 = (id) => {
+        this.refs.modal3.open();
+    }
+
+    returnToView = () => {
         this.refs.cardbody.resetState();
         this.props.navigator.pop();
-    },
-    closeModal3: function (id) {
-        this.refs.modal3.close();
-    },
+    }
 
-    openTilePopup: function (tile) {
+    closeModal3 = (id) => {
+        this.refs.modal3.close();
+    }
+
+    openTilePopup = (tile) => {
         this.setState({
             isOpen: false,
             isDisabled: false,
@@ -398,9 +400,9 @@ var Mapper = createReactClass({
             poppedUpTile: tile
         });
         this.refs.tilePopup.open();
-    },
-    closeTilePopup: function (id) {
+    }
 
+    closeTilePopup = (id) => {
         this.setState({
             isOpen: false,
             isDisabled: false,
@@ -410,15 +412,11 @@ var Mapper = createReactClass({
             poppedUpTile: <View></View>
         });
         this.refs.tilePopup.close();
-    },
+    }
 
-    getProgress() {
-        return this.refs.progress;
-    },
-
+    getProgress = () => (this.refs.progress);
 
     render() {
-
 
         return <View style={styles.mappingContainer}>
             <View style={styles.swipeNavTop}>
@@ -481,10 +479,10 @@ var Mapper = createReactClass({
          case 3: {
          return ';
          */
-    },
-});
+    }
+}
 
-var BottomProgress = createReactClass({
+class BottomProgress extends React.Component {
 
     getBarStyle(progress) {
         return {
@@ -492,9 +490,8 @@ var BottomProgress = createReactClass({
             width: GLOBAL.SCREEN_WIDTH * 0.98,
             borderRadius: 0,
             marginBottom: 2,
-
         }
-    },
+    }
 
     getBarTextStyle(progress) {
         return {
@@ -503,25 +500,22 @@ var BottomProgress = createReactClass({
             fontWeight: '500',
             position: 'absolute',
             top: 1,
-
             left: GLOBAL.SCREEN_WIDTH - 160,
             backgroundColor: 'transparent',
-
-
         }
-    },
-    getInitialState: function () {
+    }
 
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             progress: 0,
             barStyle: this.getBarStyle(0),
             textStyle: this.getBarTextStyle(0),
             text: "START MAPPING"
-
         };
-    },
+    }
 
-    updateProgress(event, cardsLength) {
+    updateProgress = (event, cardsLength) => {
         var newProgress = event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsLength);
         this.setState({
             progress: newProgress,
@@ -529,8 +523,7 @@ var BottomProgress = createReactClass({
             textStyle: this.getBarTextStyle(newProgress),
             text: "YOU'VE MAPPED " + Math.ceil(newProgress * 100) + "%"
         });
-    },
-
+    }
 
     render() {
         return <View style={styles.swipeNavBottom}>
@@ -545,13 +538,12 @@ var BottomProgress = createReactClass({
             <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
         </View>
     }
-});
+}
 
-var IndividualCard = createReactClass({
+class IndividualCard extends React.Component {
 
     render() {
         var rows = [];
-        var parent = this;
         this.props.card.tileRows.forEach(function (row) {
             rows.unshift(<TileRow key={row.cardXStart + ":" + row.rowYStart} row={row.tiles}/>);
         });
@@ -560,10 +552,11 @@ var IndividualCard = createReactClass({
             {rows}
         </View>;
     }
-});
-var LoadMoreCard = createReactClass({
+}
 
-    _onMore() {
+class LoadMoreCard extends React.Component {
+
+    _onMore = () => {
       //GLOBAL.ANALYTICS.logEvent('complete_group');
         var parent = this;
         console.log("made it to more");
@@ -608,9 +601,9 @@ var LoadMoreCard = createReactClass({
                 });
             });
         });
+    }
 
-    },
-    _onComplete() {
+    _onComplete = () => {
       //GLOBAL.ANALYTICS.logEvent('complete_group');
         var parent = this;
         GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then(data => {
@@ -645,13 +638,15 @@ var LoadMoreCard = createReactClass({
             });
         });
 
-    },
+    }
+
     _onBack() {
         _mapper.refs.cardbody.resetState();
         _mapper.props.navigator.pop();
         // save the current tasks but don't add a completeCount
         //_mapper.props.navigator.push({id:1, data: _mapper.props.data});
-    },
+    }
+
     render() {
         var rows = [];
         this.props.card.tileRows.forEach(function (row) {
@@ -669,10 +664,10 @@ var LoadMoreCard = createReactClass({
                 Session</Button>
         </View>;
     }
-});
+}
 
 //  <Button style={styles.moreButton} onPress={this._onMore} textStyle={{fontSize: 18, color: '#ffffff'}}>Contribute More</Button>
-var TileRow = createReactClass({
+class TileRow extends React.Component {
 
     render() {
         var rows = [];
@@ -703,19 +698,13 @@ var TileRow = createReactClass({
             {rows}
         </View>;
     }
-});
+}
 
-var Tile;
-Tile = createReactClass({
-
-    tileStatus: 0,
-    lastReportedStatus: -1,
-    reportActive: null,
+class Tile extends React.Component {
 
 
-    checkToReport() {
+    checkToReport = () => {
         var parent = this;
-
 
         if (this.tileStatus != this.lastReportedStatus) {
 
@@ -734,9 +723,9 @@ Tile = createReactClass({
             // adds the task result, if fail, try again every second until it is added.
             GLOBAL.DB.taskReadyForProcessing(task);
         }
-    },
+    }
 
-    getEdgeColor() {
+    getEdgeColor = () => {
         switch (this.tileStatus) {
             case 0: {
                 return 'rgba(255,255,255,0.0)';
@@ -754,10 +743,15 @@ Tile = createReactClass({
             }
         }
         return '#212121';
-    },
+    }
 
-    getInitialState: function () {
-        return {
+    constructor(props) {
+        super(props);
+        this.tileStatus = 0;
+        this.lastReportedStatus = -1;
+        this.reportActive = null;
+
+        this.state = {
             tilePopupDisabled: true,
             tile: {
                 height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
@@ -772,10 +766,9 @@ Tile = createReactClass({
                 width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
             },
         }
-    },
+    }
 
-
-    _onPressButton() {
+    _onPressButton = () => {
 
         _mapper.closeTilePopup();
         this.tileStatus = this.tileStatus + 1;
@@ -799,13 +792,15 @@ Tile = createReactClass({
         });
 
         this.checkToReport();
-    },
-    _onLongPress() {
+    }
+
+    _onLongPress = () => {
         _mapper.openTilePopup(this.zoomRender());
-    },
+    }
+
     _onLongPressOut() {
         _mapper.closeTilePopup();
-    },
+    }
 
 
     /**
@@ -820,12 +815,11 @@ Tile = createReactClass({
             ["bounceIn", "Keep up the good work!", "1000"],
         ];
 
-
         var random = Math.floor(Math.random() * texts.length);
         return texts[random];
-    },
+    }
 
-    zoomRender() {
+    zoomRender = () => {
 
         var animatedRows = [];
 
@@ -851,7 +845,7 @@ Tile = createReactClass({
 
             source={imageSource}>
         </Image>;
-    },
+    }
 
     render() {
 
@@ -886,47 +880,35 @@ Tile = createReactClass({
         </ImageBackground></TouchableHighlight>;
     }
 //           <Text style={styles.debugOverlay}>{tile.taskX}, {tile.taskY}</Text>
-});
-var EmptyTile = createReactClass({
+}
 
-    render() {
-        return <View style={styles.emptyTile}/>;
-    }
-
-});
+const EmptyTile = () => (<View style={styles.emptyTile} />);
 
 //noinspection JSAnnotator
-var CardBody = createReactClass({
+class CardBody extends React.Component {
 
-    allCards: {},
-    groupXStart: -1,
-    groupXEnd: -1,
-    totalRenderedCount: -1,
-    currentGroup: null,
-    isOfflineGroup: false,
-    resetState() {
+
+    resetState = () => {
         console.log("RESETTING STATE!");
         this.allCards = {};
         this.totalRenderedCount = -1;
         this.isOfflineGroup = false;
-        this.currentGroup = null,
-            this.setState({
-                cardsInView: [],
-                cardOutOfView: [],
-                progress: 0,
-                pagingEnabled: this.props.paging
-            });
+        this.currentGroup = null;
+        this.setState({
+            cardsInView: [],
+            cardOutOfView: [],
+            progress: 0,
+            pagingEnabled: this.props.paging
+        });
 
         this.refs.scrollView.scrollTo({x: 0, animated: false});
-    },
+    }
 
-
-    componentDidMount() {
+    componentDidMount = () => {
         this.getTasks();
-    },
+    }
 
-    lastMode: "", // 0 is online mapping, 1 is offline mapping
-    generateCards(data) {
+    generateCards = (data) => {
         var tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
         var tilesPerCol = GLOBAL.TILES_PER_VIEW_Y;
         this.currentGroup = data.id;
@@ -1008,32 +990,42 @@ var CardBody = createReactClass({
         })
         // when done loading, always go to the beginning
         //this.hanldeCardRender(0);
-    },
+    }
 
-    getTasks() {
+    getTasks = () => {
         GLOBAL.DB.getSingleGroup(this.props.data.id).then((data) => {
             console.log("waaaaaa");
             this.generateCards(data.group);
 
         }).catch(function (error) {
             console.log("Show error here");
-            console.log(error);
+            console.error(error);
         });
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.allCards = {};
+        this.groupXStart = -1;
+        this.groupXEnd = -1;
+        this.totalRenderedCount = -1;
+        this.currentGroup = null;
+        this.isOfflineGroup = false;
+        this.lastMode = ""; // 0 is online mapping, 1 is offline mapping
+        this.currentXRenderOffset = 0; // aka the last state
+        this.lastState = -1;
 
 
-    },
-    getInitialState() {
-
-        return {
+        this.state = {
             progress: 0,
             cardsInView: [],
             cardsOutOfView: [],
             pagingEnabled: this.props.paging,
             marginXOffset: 0,
         };
-    },
-    currentXRenderOffset: 0, // aka the last state
-    lastState: -1,
+    }
+
     handleProgress(scrollThroughComplete) {
         if (true === true || scrollThroughComplete === this.lastState || scrollThroughComplete % 20 !== 0) {
             return;
@@ -1048,9 +1040,9 @@ var CardBody = createReactClass({
 
         // we increase scroll position regardless
         this.currentXRenderOffset += cardDiff; // negative if the diff is negative, so good like this also for backwards
+    }
 
-    },
-    handleScroll: function (event: Object) {
+    handleScroll = (event: Object) => {
         _mapper.refs.progress.updateProgress(event, this.totalRenderedCount);
 
         var progressToReport = 0;
@@ -1059,7 +1051,7 @@ var CardBody = createReactClass({
             progressToReport = Math.ceil(event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * this.state.cardsInView.length) * 100);
         }
         this.handleProgress(progressToReport);
-    },
+    }
 
     render() {
         var rows = [];
@@ -1077,7 +1069,7 @@ var CardBody = createReactClass({
                                     groupInfo={{group: this.currentGroup, project: this.props.data.id}}/>); // lastCard.id/2 is random so that it never is the same number
         } else {
             this.showingLoader = true;
-            rows.push(<LoadingIcon/>);
+            rows.push(<LoadingIcon key={'loadingicon'}/>);
         }
         //
         return <ScrollView onScroll={this.handleScroll}
@@ -1091,7 +1083,7 @@ var CardBody = createReactClass({
             {rows}
         </ScrollView>;
     }
-});
+}
 
 
 module.exports = Mapper;

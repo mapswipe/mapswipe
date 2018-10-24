@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import createReactClass from 'create-react-class';
 import { Text, View, StyleSheet, Platform, Image, BackHandler} from "react-native";
 import { Navigator } from 'react-native-deprecated-custom-components';
 //import Button from "apsl-react-native-button";
@@ -144,16 +143,18 @@ var style = StyleSheet.create({
  * Main rendering class
  */
 
-var Main = createReactClass({
+class Main extends React.Component {
 
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             isDisabled: false,
             name: "",
             level: GLOBAL.DB.getLevel(),
             levelObject: GLOBAL.DB.getLevelObject()
         };
-    },
+    }
+
     componentWillMount() {
         if (Platform.OS === 'android') {
             BackHandler.addEventListener('hardwareBackPress', () => {
@@ -164,19 +165,19 @@ var Main = createReactClass({
                 return true;
             });
         }
-    },
+    }
 
     showAlert(alertObj) {
       //MessageBarManager.showAlert(alertObj);
       console.log(alertObj);
-    },
+    }
 
     showLevelUp() {
         console.log("level up!!");
-    },
+    }
 
 
-    openModal3: function (level) {
+    openModal3(level) {
         var parent = this;
         this.setState({
             levelObject: GLOBAL.DB.getCustomLevelObject(level),
@@ -185,14 +186,14 @@ var Main = createReactClass({
 
         this.refs.modal3.open();
 
-    },
+    }
 
-    closeModal3: function (id) {
+    closeModal3(id) {
         this.refs.modal3.close();
         GLOBAL.DB.stopPopup();
-    },
+    }
 
-    checkInterval: null,
+    checkInterval: null;
 
     /**
      * Starts the level up timer and register the notification bar
@@ -212,15 +213,15 @@ var Main = createReactClass({
         }, 500);
 
 
-    },
+    }
 
     componentWillUnmount() {
         clearInterval(this.checkInterval);
-    },
+    }
 
     levelUp() {
         this.openModal3();
-    },
+    }
 
     /**
      * Routes the component based on the route id
@@ -228,9 +229,9 @@ var Main = createReactClass({
      * @param navigator
      * @returns {XML}
      */
-    getInnerComponent(route, navigator) {
+    getInnerComponent = (route, navigator) => {
         if (route.id === 0) {
-            return <Tutorial navigator={navigator} style={style.container} messageBar={this}/>
+            return <Tutorial navigator={navigator} style={style.container} messageBar={this} />
         } else if (route.id === 1) {
             return <ProjectNav navigator={navigator} style={style.container} messageBar={this}/>
         } else if (route.id === 2) {
@@ -244,18 +245,18 @@ var Main = createReactClass({
             return <WebviewWindow navigator={navigator} style={style.darkContainer} data={route.data}
                                   messageBar={this}/>
         }
-    },
+    }
 
-    _renderScene(route, navigator) {
-        _navigator = navigator
-        _route = route
+    _renderScene = (route, navigator) => {
+        _navigator = navigator;
+        _route = route;
         console.log('renderScene, route:', route);
-        return this.getInnerComponent(route, navigator)
-    },
+        return this.getInnerComponent(route, navigator);
+    }
 
     _configureScene(route) {
         return CustomSceneConfig;
-    },
+    }
 
 
     render() {
@@ -269,8 +270,6 @@ var Main = createReactClass({
                 style={style.container}
               />
             </View>
-        )
-        /*
             <Modal style={[style.modal, style.modal3]} backdropType="blur" position={"center"} ref={"modal3"}
                    isDisabled={this.state.isDisabled}>
                 <Text style={style.header}>You are now level {this.state.level}</Text>
@@ -281,11 +280,10 @@ var Main = createReactClass({
                 </Button>
             </Modal>
           </View>
-      )*/
+      )
       //<MessageBarAlert ref="alert"/></View>
       //);
-    },
-})
+    }
+}
 
 module.exports = Main;
-

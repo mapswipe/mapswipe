@@ -1,5 +1,4 @@
 import React from "react";
-import createReactClass from 'create-react-class';
 import { Text, View, Platform, ScrollView, StyleSheet, Linking } from "react-native";
 import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
 import Button from "apsl-react-native-button";
@@ -129,7 +128,7 @@ var style = StyleSheet.create({
  * This is the base view for the project navigation, the individual tabs are rendered within here.
  */
 
-var ProjectNav = createReactClass({
+class ProjectNav extends React.Component {
 
     componentDidMount() {
 
@@ -153,7 +152,7 @@ var ProjectNav = createReactClass({
                 alertType: 'error',
             });
         });
-    },
+    }
 
     render() {
         return (
@@ -170,13 +169,14 @@ var ProjectNav = createReactClass({
                     <MoreOptions navigator={this.props.navigator} />
                 </View>
             </ScrollableTabView>
-        )},
-});
+        );
+    }
+}
 
 
-var RecommendedCards = createReactClass({
+class RecommendedCards extends React.Component {
 
-    openModal3: function (id) {
+    openModal3 = (id) => {
         var parent = this;
 
         GLOBAL.DB.openPopup().then(data => {
@@ -184,12 +184,12 @@ var RecommendedCards = createReactClass({
         }).catch(err => {
             parent.refs.modal3.open();
         })
-    },
+    }
 
-    closeModal3: function (id) {
+    closeModal3 = (id) => {
         this.refs.modal3.close();
         GLOBAL.DB.stopPopup();
-    },
+    }
 
     componentDidMount() {
         // get nounouncement, then pop up modal
@@ -203,9 +203,9 @@ var RecommendedCards = createReactClass({
             });
             parent.openModal3();
         });
-    },
+    }
 
-    testingImages: [],
+    testingImages: [];
 
 
     /**
@@ -213,16 +213,15 @@ var RecommendedCards = createReactClass({
      * @param newCards
      * @param updateDb
      */
-    updateProjects: function (newCards) {
+    updateProjects = (newCards) => {
         this.setState({ loadingProjects: false, projects: newCards, announcement: this.state.announcement });
-    },
+    }
     /**
      * Get the initial project state, load from database if necessary.
      * @returns {{dataSource}}
      */
-    getInitialState: function () {
-
-
+    constructor(props) {
+        super(props);
         // get the projects
         GLOBAL.DB.getProjects().then((data) => {
             console.log('Received project list from DB', data);
@@ -231,7 +230,7 @@ var RecommendedCards = createReactClass({
             console.log('Error fetching projects', error);
         });
 
-        return {
+        this.state = {
             loadingProjects: true,
             projects: {
                 featuredCard: null,
@@ -239,7 +238,7 @@ var RecommendedCards = createReactClass({
             },
             announcement: null
         };
-    },
+    }
 
     render() {
         var rows = [];
@@ -299,20 +298,19 @@ var RecommendedCards = createReactClass({
             {rows}
         </ScrollView>
             ;
-    },
-});
+    }
+}
 
-var FeaturedCard = createReactClass({
-
+class FeaturedCard extends React.Component {
 
     render() {
         return <View navigator={this.props.navigator} style={style.cardRow}>
             <ProjectCard navigator={this.props.navigator} card={this.props.card} featured={true} />
         </View>
-    },
-});
+    }
+}
 
-var CardRow = createReactClass({
+class CardRow extends React.Component {
 
     render() {
         //var rows = [];
@@ -329,8 +327,8 @@ var CardRow = createReactClass({
         return <View navigator={this.props.navigator} style={style.cardRow}>
             {rows}
         </View>;
-    },
-});
+    }
+}
 
 
 module.exports = ProjectNav;
