@@ -16,7 +16,6 @@ var ProjectCard = require('./ProjectCard');
 var MoreOptions = require('./MoreOptions');
 var Modal = require('react-native-modalbox');
 var LoadingIcon = require('./LoadingIcon');
-var MapswipeTabBar = require('./MapswipeTabBar');
 
 
 /**
