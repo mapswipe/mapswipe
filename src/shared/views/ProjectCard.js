@@ -179,7 +179,7 @@ class ProjectCard extends React.Component {
     }
 
     _handlePress = () => {
-        this.props.navigator.push({id: 2, data: this.props.card});
+        this.props.navigation.push('ProjectView', { data: this.props.card });
         //console.log(event);
     }
 

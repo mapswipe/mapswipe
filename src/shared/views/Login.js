@@ -163,7 +163,7 @@ class Login extends React.Component {
                 loading: false
             });
           //GLOBAL.ANALYTICS.logEvent('account_created');
-            parent.props.navigator.push({ id: 1 });
+            parent.props.navigation.push('ProjectNav');
         }).catch(error => {
           //GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
             MessageBarManager.showAlert({
@@ -186,7 +186,7 @@ class Login extends React.Component {
         });
     }
 
-    _handleLogin() {
+    _handleLogin = () => {
 
         this.setState({
             loading: true
@@ -204,7 +204,7 @@ class Login extends React.Component {
                 loading: false
             })
           //GLOBAL.ANALYTICS.logEvent('account_login');
-            parent.props.navigator.push({ id: 1 });
+            parent.props.navigation.push('ProjectNav');
         }).catch(error => {
             if (error.indexOf("deleted") !== -1) {
                 error = "Invalid username or password";

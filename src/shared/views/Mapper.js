@@ -337,6 +337,7 @@ var styles = StyleSheet.create({
 class Mapper extends React.Component {
     constructor(props) {
         super(props);
+        this.data = this.props.navigation.getParam('data', null);
         this.state = {
             isOpen: false,
             isDisabled: false,
@@ -383,7 +384,7 @@ class Mapper extends React.Component {
 
     returnToView = () => {
         this.refs.cardbody.resetState();
-        this.props.navigator.pop();
+        this.props.navigation.pop();
     }
 
     closeModal3 = (id) => {
@@ -417,14 +418,13 @@ class Mapper extends React.Component {
     getProgress = () => (this.refs.progress);
 
     render() {
-
         return <View style={styles.mappingContainer}>
             <View style={styles.swipeNavTop}>
                 <Text style={styles.topText}>
                     You are looking for:
                 </Text>
                 <Text style={styles.elementText}>
-                    {this.props.data.lookFor}
+                    {this.data.lookFor}
                 </Text>
                 <TouchableHighlight style={styles.backButtonContainer} onPress={this.returnToView}><Image
                     style={styles.backButton} source={require('./assets/backarrow_icon.png')}/></TouchableHighlight>
@@ -434,7 +434,7 @@ class Mapper extends React.Component {
             </View>
 
 
-            <CardBody data={this.props.data} paging={this.props.paging} navigator={this.props.navigator}
+            <CardBody data={this.data} paging={true} navigation={this.props.navigation}
                       ref={"cardbody"}/>
             <BottomProgress ref={"progress"}/>
             <Modal style={[styles.modal, styles.modal3]} backdropType="blur" position={"center"} ref={"modal3"}
@@ -625,7 +625,7 @@ class LoadMoreCard extends React.Component {
                     // See Properties section for full customization
                     // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
-                _mapper.props.navigator.pop();
+                _mapper.props.navigation.pop();
             }).catch(error => {
                 MessageBarManager.showAlert({
                     title: data.successCount + " tasks synced",
@@ -634,7 +634,7 @@ class LoadMoreCard extends React.Component {
                     // See Properties section for full customization
                     // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
-                _mapper.props.navigator.pop();
+                _mapper.props.navigation.pop();
             });
         });
 
@@ -642,9 +642,9 @@ class LoadMoreCard extends React.Component {
 
     _onBack() {
         _mapper.refs.cardbody.resetState();
-        _mapper.props.navigator.pop();
+        _mapper.props.navigation.pop();
         // save the current tasks but don't add a completeCount
-        //_mapper.props.navigator.push({id:1, data: _mapper.props.data});
+        //_mapper.props.navigation.push({id:1, data: _mapper.props.data});
     }
 
     render() {
@@ -680,7 +680,6 @@ class TileRow extends React.Component {
         var parent = this;
         this.props.row.forEach(function (tile) {
 
-
             // inserts empty tiles so that they are always rendered at the same X coordinate on the grid.
             if (tile !== undefined) {
 
@@ -715,7 +714,7 @@ class Tile extends React.Component {
                 result: this.tileStatus,
                 projectId: tile.projectId,
                 wkt: tile.wkt,
-                item: _mapper.props.data.lookFor,
+                item: _mapper.data.lookFor,
                 device: DeviceInfo.getUniqueID(),
                 user: GLOBAL.DB.getAuth().getUser().uid,
                 timestamp: GLOBAL.DB.getTimestamp()
@@ -825,7 +824,7 @@ class Tile extends React.Component {
 
         var tile = this.props.data;
         //var filePath = dirs.DocumentDir + '/' + tile.id + ".jpeg";
-        let projectDir = RNFS.DocumentDirectoryPath + "/" + _mapper.props.data.id;
+        let projectDir = RNFS.DocumentDirectoryPath + "/" + _mapper.data.id;
         let dir = projectDir + "/" + _mapper.refs.cardbody.currentGroup // e.g. /1/45
 
         var fileName = dir + '/' + tile.id + ".jpeg";
@@ -859,7 +858,7 @@ class Tile extends React.Component {
             animatedRows.push(<Animatable.Text key={"anim-" + tile.id} animation={this.getFunText()[0]}
                                                style={styles.animatedText}>{this.getFunText()[1]}</Animatable.Text>);
         }
-        let projectDir = RNFS.DocumentDirectoryPath + "/" + _mapper.props.data.id;
+        let projectDir = RNFS.DocumentDirectoryPath + "/" + _mapper.data.id;
         let dir = projectDir + "/" + _mapper.refs.cardbody.currentGroup // e.g. /1/45
 
         var fileName = dir + '/' + tile.id + ".jpeg";

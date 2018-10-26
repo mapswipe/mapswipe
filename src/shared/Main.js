@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { Text, View, StyleSheet, Platform, Image, BackHandler} from "react-native";
-import { Navigator } from 'react-native-deprecated-custom-components';
 import Button from "apsl-react-native-button";
+import { createStackNavigator } from 'react-navigation';
 
 var Tutorial = require('./views/Tutorial');
 var ProjectNav = require('./views/ProjectNav');
@@ -17,21 +17,11 @@ var WebviewWindow = require('./views/WebviewWindow');
 var Login = require('./views/Login');
 var Mapper = require('./views/Mapper');
 var GLOBAL = require('./Globals');
-// FIXME: message-bar not maintained since 2016
 var MessageBarAlert = require('react-native-message-bar').MessageBar;
 var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 var Modal = require('react-native-modalbox');
 var ultimateParent = this;
 
-
-var BaseConfig = Navigator.SceneConfigs.FloatFromBottom;
-
-var _navigator;
-var _route;
-
-var CustomSceneConfig = Object.assign({}, BaseConfig, {
-    gestures: false
-});
 
 var style = StyleSheet.create({
     tutContainer: {
@@ -156,18 +146,6 @@ class Main extends React.Component {
         };
     }
 
-    componentWillMount() {
-        if (Platform.OS === 'android') {
-            BackHandler.addEventListener('hardwareBackPress', () => {
-                if (_route.id === 1) {
-                    return; // cant go back from here
-                }
-                _navigator.pop();
-                return true;
-            });
-        }
-    }
-
     showAlert(alertObj) {
       MessageBarManager.showAlert(alertObj);
     }
@@ -223,52 +201,11 @@ class Main extends React.Component {
         this.openModal3();
     }
 
-    /**
-     * Routes the component based on the route id
-     * @param route
-     * @param navigator
-     * @returns {XML}
-     */
-    getInnerComponent = (route, navigator) => {
-        if (route.id === 0) {
-            return <Tutorial navigator={navigator} style={style.container} messageBar={this} />
-        } else if (route.id === 1) {
-            return <ProjectNav navigator={navigator} style={style.container} messageBar={this}/>
-        } else if (route.id === 2) {
-            return <ProjectView navigator={navigator} style={style.container} data={route.data} messageBar={this}/>
-        } else if (route.id === 3) {
-            return <Mapper navigator={navigator} style={style.darkContainer} data={route.data} paging={route.paging}
-                           messageBar={this}/>
-        } else if (route.id === 4) {
-            return <Login navigator={navigator} style={style.darkContainer} messageBar={this}/>
-        } else if (route.id === 5) {
-            return <WebviewWindow navigator={navigator} style={style.darkContainer} data={route.data}
-                                  messageBar={this}/>
-        }
-    }
-
-    _renderScene = (route, navigator) => {
-        _navigator = navigator;
-        _route = route;
-        console.log('renderScene, route:', route);
-        return this.getInnerComponent(route, navigator);
-    }
-
-    _configureScene(route) {
-        return CustomSceneConfig;
-    }
-
-
     render() {
         console.log('rendering main');
         return (
             <View style={style.mainContainer}>
-              <Navigator
-                initialRoute={{id: 0, data: null}}
-                renderScene={this._renderScene}
-                configureScene={this._configureScene}
-                style={style.container}
-              />
+            <RootStack />
             <Modal style={[style.modal, style.modal3]} backdropType="blur" position={"center"} ref={"modal3"}
                    isDisabled={this.state.isDisabled}>
                 <Text style={style.header}>You are now level {this.state.level}</Text>
@@ -278,10 +215,28 @@ class Main extends React.Component {
                     Close
                 </Button>
             </Modal>
-          <MessageBarAlert ref="alert"/>
+            <MessageBarAlert ref="alert"/>
           </View>
       )
     }
 }
+
+const RootStack = createStackNavigator(
+    {
+        Tutorial: Tutorial,
+        ProjectNav: ProjectNav,
+        ProjectView: ProjectView,
+        Mapper: Mapper,
+        Login: Login,
+        WebviewWindow: WebviewWindow,
+    },
+    {
+        initialRouteName: 'Tutorial',
+        headerMode: 'none',
+        navigationOptions: {
+            gesturesEnabled: false,
+        },
+    },
+);
 
 module.exports = Main;

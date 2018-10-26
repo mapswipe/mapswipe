@@ -269,11 +269,11 @@ var style = StyleSheet.create({
  * This is the base view for the project navigation, the individual tabs are rendered within here.
  */
 
-ProjectView = (props) => (
+const ProjectView = (props) => (
     <ProjectHeader
         style={style.headerContainer}
-        navigator={props.navigator}
-        data={props.data}>
+        navigation={props.navigation}
+        data={props.navigation.getParam('data', null)}>
     </ProjectHeader>
 )
 
@@ -290,7 +290,7 @@ class ProjectHeader extends React.Component {
     }
 
     returnToView = () => {
-        this.props.navigator.pop();
+        this.props.navigation.pop();
     }
 
     mounted: false;
@@ -335,7 +335,9 @@ class ProjectHeader extends React.Component {
                 [
                     {
                         text: 'Okay',
-                        onPress: () => this.props.navigator.push({ id: 1, data: this.props.data, paging: true })
+                        onPress: () => this.props.navigation.push('ProjectNav', {
+                            uri: this.props.data,
+                        })
                     },
                     { text: 'Close', onPress: () => console.log("closed") },
                 ]
@@ -354,7 +356,7 @@ class ProjectHeader extends React.Component {
     }
 
     returnToView = () => {
-        this.props.navigator.pop();
+        this.props.navigation.pop();
     }
 
     closeModal3 = (id) => {
@@ -365,7 +367,9 @@ class ProjectHeader extends React.Component {
         var parent = this;
 
         if (GLOBAL.DB.getConnectionManager().isOnWifi() || !GLOBAL.DB.getConnectionManager().isOnline()) {
-            this.props.navigator.push({ id: 3, data: this.props.data, paging: true })
+            this.props.navigation.push('Mapper', {
+                data: this.props.data,
+            })
         } else {
             Alert.alert(
                 'Warning: You are not on wifi',
@@ -374,7 +378,9 @@ class ProjectHeader extends React.Component {
                     { text: 'Cancel', onPress: () => console.log("canceled wifi mapping") },
                     {
                         text: 'Continue',
-                        onPress: () => parent.props.navigator.push({ id: 3, data: this.props.data, paging: true })
+                        onPress: () => parent.props.navigation.push('Mapper', {
+                            data: this.props.data,
+                        })
                     },
                 ]
             )
@@ -508,10 +514,8 @@ class ProjectHeader extends React.Component {
                 <Markdown style={style.projectDetails}>{renderQueue}
                 </Markdown>
                 <Button style={style.startButtonTutorial} onPress={() => {
-                    this.props.navigator.push({
-                        id: 5,
-                        data: GLOBAL.TUT_LINK,
-                        paging: true
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: GLOBAL.TUT_LINK,
                     })
                 }} textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                     Tutorial

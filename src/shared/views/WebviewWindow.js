@@ -1,6 +1,6 @@
 /**
  * The WebviewWindow is the component that opens when you call anything with a webview in it.
- * You do it like this: {this.props.navigator.push({id:5, data: this.state.announcement.url, paging: true})
+ * You do it like this: {this.props.navigation.push('WebViewWindow', { uri: this.state.announcement.url })
  */
 
 import React from "react";
@@ -50,13 +50,14 @@ var styles = {
     },
 };
 
-class LoadingComponent extends React.Component {
+class WebviewWindow extends React.Component {
 
     returnToView = () => {
-        this.props.navigator.pop();
+        this.props.navigation.pop();
     }
 
     render() {
+        const uri = this.props.navigation.getParam('uri', 'https://www.mapswipe.org/');
         return (
             <View style={{flex: 1}}>
                 <View style={styles.swipeNavTop}>
@@ -68,11 +69,11 @@ class LoadingComponent extends React.Component {
                 <WebView
                     style={{flex: 1}}
                     javaScriptEnabled={true}
-                    source={{uri: this.props.data}}
+                    source={{uri: uri}}
                 />
             </View>
         );
     }
 }
 
-module.exports = LoadingComponent;
+module.exports = WebviewWindow;

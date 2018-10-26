@@ -140,7 +140,7 @@ class Tutorial extends React.Component {
         NetInfo.getConnectionInfo().done((reach) => {
             GLOBAL.DB.handleSessionStart(reach).then(function () {
                 SplashScreen.hide();
-                parent.props.navigator.push({ id: 1 });
+                parent.props.navigation.push('ProjectNav');
             }).catch(function (error) {
                 console.log(error);
                 SplashScreen.hide();
@@ -154,7 +154,7 @@ class Tutorial extends React.Component {
 
 
     render() {
-        return this.state.status === 'tutorial' ? <TutCardView navigator={this.props.navigator} /> :
+        return this.state.status === 'tutorial' ? <TutCardView navigation={this.props.navigation} /> :
             <View style={{ flex: 1 }}>
                 <Text></Text>
             </View>;
@@ -170,12 +170,11 @@ class TutCardView extends React.Component {
         };
     }
 
-
-    _handlePress() {
+    _handlePress = () => {
         const parent = this;
 
         GLOBAL.DB.setTutorialComplete().then(function () {
-            parent.props.navigator.push({ id: 4 });
+            parent.props.navigation.push('Login');
           //GLOBAL.ANALYTICS.logEvent('completed_tutorial');
         });
     }

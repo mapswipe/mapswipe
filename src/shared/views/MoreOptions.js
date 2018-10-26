@@ -198,48 +198,52 @@ class MoreOptions extends React.Component {
             <LevelProgress progress={this.state.progress} />
             <View style={styles.row}>
                 <Button onPress={() => {
-                    this.props.navigator.push({ id: 5, data: 'http://mapswipe.org/faq', paging: true })
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: 'http://mapswipe.org/faq',
+                    })
                 }} style={styles.otherButton}
                     textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Frequently Asked
                     Questions</Button>
             </View>
             <View style={styles.row}>
                 <Button onPress={() => {
-                    this.props.navigator.push({
-                        id: 5,
-                        data: GLOBAL.TUT_LINK,
-                        paging: true
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: GLOBAL.TUT_LINK,
                     })
                 }} style={styles.otherButton}
                     textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Tutorial</Button>
             </View>
             <View style={styles.row}>
                 <Button onPress={() => {
-                    this.props.navigator.push({
-                        id: 5,
-                        data: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
-                        paging: true
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
                     })
                 }} style={styles.otherButton}
                     textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Contact Us</Button>
             </View>
             <View style={styles.row}>
                 <Button onPress={() => {
-                    this.props.navigator.push({ id: 5, data: 'http://missingmaps.org/events', paging: true })
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: 'http://missingmaps.org/events',
+                    })
                 }} style={styles.otherButton}
                     textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Events</Button>
             </View>
 
             <View style={styles.row}>
                 <Button onPress={() => {
-                    this.props.navigator.push({ id: 5, data: 'http://missingmaps.org/blog', paging: true })
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: 'http://missingmaps.org/blog',
+                    })
                 }} style={styles.otherButton}
                     textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Blog</Button>
             </View>
             <View style={styles.row}>
                 <Button onPress={() => {
                     GLOBAL.DB.getAuth().logOut();
-                    this.props.navigator.push({ id: 4, data: 'http://missingmaps.org/events', paging: true });
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: 'http://missingmaps.org/events',
+                    });
                 }} style={styles.otherButton}
                     textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Sign Out</Button>
             </View>
@@ -329,7 +333,7 @@ class LevelProgress extends React.Component {
     constructor(props) {
         super(props);
         var parent = this;
-        setInterval(function () {
+        this.progressInterval = setInterval(function () {
             var newVal = GLOBAL.DB.getKmTilNextLevel();
             parent.setState({
                 text: newVal + " square km (" + Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6) + " swipes) until the next level"
@@ -340,6 +344,10 @@ class LevelProgress extends React.Component {
             textStyle: this.getBarTextStyle(0),
             text: GLOBAL.DB.getKmTilNextLevel() + " square km until the next level"
         };
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.progressInterval);
     }
 
     render() {

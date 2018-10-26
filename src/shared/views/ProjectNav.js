@@ -164,10 +164,10 @@ class ProjectNav extends React.Component {
                 renderTabBar={() => <DefaultTabBar backgroundColor='#0d1949' style={{ borderBottomWidth: 0 }} />}
             >
                 <View style={{ flex: 1 }} tabLabel='Missions'>
-                    <RecommendedCards navigator={this.props.navigator} />
+                    <RecommendedCards navigation={this.props.navigation} />
                 </View>
                 <View style={{ flex: 1 }} tabLabel='More'>
-                    <MoreOptions navigator={this.props.navigator} />
+                    <MoreOptions navigation={this.props.navigation} />
                 </View>
             </ScrollableTabView>
         );
@@ -247,7 +247,9 @@ class RecommendedCards extends React.Component {
         if (this.state.announcement !== null) {
             rows.push(<Button
                 onPress={() => {
-                    this.props.navigator.push({ id: 5, data: this.state.announcement.url, paging: true })
+                    this.props.navigation.push('WebviewWindow', {
+                        url: this.state.announcement.url,
+                    })
                 }}
                 key={'announce'}
                 style={style.otherButton}
@@ -264,13 +266,13 @@ class RecommendedCards extends React.Component {
             if (this.state.projects.featuredCard !== null) {
                 rows.push(<FeaturedCard
                     key={rows.length}
-                    navigator={this.props.navigator}
+                    navigation={this.props.navigation}
                     card={this.state.projects.featuredCard}
                     />);
             }
             var parent = this;
             this.state.projects.otherCards.forEach(function (cardRow) {
-                rows.push(<CardRow key={rows.length} navigator={parent.props.navigator} cardRow={cardRow} />)
+                rows.push(<CardRow key={rows.length} navigation={parent.props.navigation} cardRow={cardRow} />)
             });
         }
 
@@ -282,7 +284,9 @@ class RecommendedCards extends React.Component {
             <Text style={style.tutPar}>Learn more about how to use Mapswipe!</Text>
             <Button style={style.inModalButton2} onPress={() => {
                 this.closeModal3();
-                this.props.navigator.push({ id: 5, data: GLOBAL.TUT_LINK, paging: true })
+                this.props.navigation.push('WebviewWindow', {
+                    uri: GLOBAL.TUT_LINK,
+                })
             }} textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
                 Go To Tutorial
             </Button>
@@ -294,7 +298,7 @@ class RecommendedCards extends React.Component {
 
         return <ScrollView contentContainerStyle={style.listView}
             removeClippedSubviews={true}
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
         >
             {rows}
         </ScrollView>
@@ -305,8 +309,8 @@ class RecommendedCards extends React.Component {
 class FeaturedCard extends React.Component {
 
     render() {
-        return <View navigator={this.props.navigator} style={style.cardRow}>
-            <ProjectCard navigator={this.props.navigator} card={this.props.card} featured={true} />
+        return <View navigation={this.props.navigation} style={style.cardRow}>
+            <ProjectCard navigation={this.props.navigation} card={this.props.card} featured={true} />
         </View>
     }
 }
@@ -318,14 +322,14 @@ class CardRow extends React.Component {
         //for (var i = 0; i < this.props.cardRow.cards.length; i++) {
         const rows = this.props.cardRow.cards.map((card, index) => (
             <ProjectCard
-            navigator={this.props.navigator}
+            navigation={this.props.navigation}
             card={card}
             cardIndex={index}
             key={card.id}
             featured={false}
             />
         ));
-        return <View navigator={this.props.navigator} style={style.cardRow}>
+        return <View navigation={this.props.navigation} style={style.cardRow}>
             {rows}
         </View>;
     }
