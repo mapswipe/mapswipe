@@ -1,8 +1,7 @@
-import React from "react";
-import {Platform, Dimensions} from "react-native";
+import React from 'react';
+import { Platform, Dimensions } from 'react-native';
 
 class AuthManager {
-
     /**
      * Constructor is called every time the object is initialized
      * @param firebase  the firebase connection
@@ -25,28 +24,27 @@ class AuthManager {
      */
 
     createAccount(email, username, password) {
-        var that = this;
-        return new Promise(function (resolve, reject) {
+        const that = this;
+        return new Promise(((resolve, reject) => {
             {
-
-                that.firebase.auth().onAuthStateChanged(function (user) {
+                that.firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
                         that.setUsername(username);
                         resolve();
                     } else {
-                        console.log("not signed in..");
+                        console.log('not signed in..');
                     }
                 });
 
-                console.log("authing with:" + email + " - " + " - " + username + " - " + " " + password);
-                that.firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+                console.log(`authing with:${email} - ` + ` - ${username} - ` + ` ${password}`);
+                that.firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
                     // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
                     reject(errorMessage);
                 });
             }
-        });
+        }));
     }
 
     /**
@@ -57,26 +55,25 @@ class AuthManager {
      */
 
     signIn(email, password) {
-        var that = this;
-        return new Promise(function (resolve, reject) {
+        const that = this;
+        return new Promise(((resolve, reject) => {
             {
-
-                that.firebase.auth().onAuthStateChanged(function (user) {
+                that.firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
                         resolve();
                     } else {
-                        console.log("not signed in..");
+                        console.log('not signed in..');
                     }
                 });
 
-                that.firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+                that.firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
                     // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
                     reject(errorMessage);
                 });
             }
-        })
+        }));
     }
 
     /**
@@ -85,20 +82,19 @@ class AuthManager {
      * @returns {Promise}
      */
     resetPass(email) {
-        var that = this;
-        return new Promise(function (resolve, reject) {
+        const that = this;
+        return new Promise(((resolve, reject) => {
             {
-
-                that.firebase.auth().sendPasswordResetEmail(email).then(function () {
-                    console.log("reset pass resolving");
+                that.firebase.auth().sendPasswordResetEmail(email).then(() => {
+                    console.log('reset pass resolving');
                     resolve();
-                }, function (error) {
-                    console.log("reset pass threw error");
+                }, (error) => {
+                    console.log('reset pass threw error');
                     console.log(error);
-                    reject(error.message)
+                    reject(error.message);
                 });
             }
-        })
+        }));
     }
 
     /**
@@ -115,8 +111,8 @@ class AuthManager {
      * @returns {boolean}
      */
     isLoggedIn() {
-        var user = this.firebase.auth().currentUser;
-        console.log("user logged in said: " + (user != null));
+        const user = this.firebase.auth().currentUser;
+        console.log(`user logged in said: ${user != null}`);
         return user != null;
     }
 
@@ -125,11 +121,11 @@ class AuthManager {
      */
 
     logOut() {
-        console.log("logging out");
+        console.log('logging out');
 
-        this.firebase.auth().signOut().then(function () {
-            console.log("Logged out");
-        }, function (error) {
+        this.firebase.auth().signOut().then(() => {
+            console.log('Logged out');
+        }, (error) => {
             // An error happened.
         });
     }
@@ -139,12 +135,12 @@ class AuthManager {
      * @param username
      */
     setUsername(username) {
-        var user = this.firebase.auth().currentUser;
+        const user = this.firebase.auth().currentUser;
         user.updateProfile({
-            displayName: username
-        }).then(function () {
+            displayName: username,
+        }).then(() => {
             console.log(user.displayName);
-        }, function (error) {
+        }, (error) => {
             // An error happened.
         });
     }
@@ -163,19 +159,18 @@ class AuthManager {
      */
 
     addListeners() {
-        console.log("adde listeners");
-        var that = this;
-        this.firebase.auth().onAuthStateChanged(function (user) {
+        console.log('adde listeners');
+        const that = this;
+        this.firebase.auth().onAuthStateChanged((user) => {
             that.hasReceivedLoginStatus = true;
             if (user) {
                 console.log("we're signed in");
-                console.log((that.isLoggedIn()) + " login status");
+                console.log(`${that.isLoggedIn()} login status`);
             } else {
-                console.log("not signed in..");
+                console.log('not signed in..');
             }
         });
     }
-
 }
 
 module.exports = AuthManager;

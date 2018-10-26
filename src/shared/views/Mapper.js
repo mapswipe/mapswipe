@@ -1,33 +1,28 @@
-import React from "react";
+import React from 'react';
 import {
     Text,
     View,
-    Platform,
     ScrollView,
-    ListView,
     StyleSheet,
     Image,
     ImageBackground,
     TouchableHighlight,
-    Dimensions,
-    Alert,
-    TimerMixin,
-    AsyncStorage
-} from "react-native";
-import * as Animatable from "react-native-animatable";
-import Button from "apsl-react-native-button";
-var Modal = require('react-native-modalbox');
-var GLOBAL = require('../Globals');
-var store = require('react-native-simple-store');
-var MessageBarManager = require('react-native-message-bar').MessageBarManager;
+} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
 import DeviceInfo from 'react-native-device-info';
-var RNFS = require('react-native-fs');
-var LoadingIcon = require('./LoadingIcon');
-var _mapper = null;
+
+const Modal = require('react-native-modalbox');
+const MessageBarManager = require('react-native-message-bar').MessageBarManager;
+const RNFS = require('react-native-fs');
+const GLOBAL = require('../Globals');
+const LoadingIcon = require('./LoadingIcon');
+
+let _mapper = null;
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     startButton: {
         backgroundColor: '#0d1949',
         alignItems: 'stretch',
@@ -39,7 +34,7 @@ var styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         left: 20,
-        width: 260
+        width: 260,
     },
     header: {
         fontWeight: '700',
@@ -77,11 +72,11 @@ var styles = StyleSheet.create({
 
     tutImage: {
         height: 30,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
     tutImage2: {
         height: 30,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
 
 
@@ -91,14 +86,14 @@ var styles = StyleSheet.create({
 
     modal2: {
         height: 230,
-        backgroundColor: "#3B5998"
+        backgroundColor: '#3B5998',
     },
 
     modal3: {
-        height: 500 > GLOBAL.SCREEN_HEIGHT ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
+        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
-        backgroundColor: "#ffffff",
-        borderRadius: 2
+        backgroundColor: '#ffffff',
+        borderRadius: 2,
     },
 
 
@@ -108,37 +103,37 @@ var styles = StyleSheet.create({
         left: 0,
         height: 300,
         width: 300,
-        backgroundColor: "transparent"
+        backgroundColor: 'transparent',
     },
 
     modal4: {
-        height: 300
+        height: 300,
     },
 
     btn: {
         margin: 10,
-        backgroundColor: "#3B5998",
-        color: "white",
-        padding: 10
+        backgroundColor: '#3B5998',
+        color: 'white',
+        padding: 10,
     },
 
     btnModal: {
-        position: "absolute",
+        position: 'absolute',
         top: 0,
         right: 0,
         width: 50,
         height: 50,
-        backgroundColor: "transparent"
+        backgroundColor: 'transparent',
     },
 
     text: {
-        color: "#212121",
-        fontSize: 22
+        color: '#212121',
+        fontSize: 22,
     },
     tile: {
         height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_X)),
         width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
-        backgroundColor: '#e8e8e8'
+        backgroundColor: '#e8e8e8',
     },
 
     emptyTile: {
@@ -146,7 +141,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#e8e8e8',
         borderWidth: 1,
         borderTopWidth: 1,
-        borderColor: '#212121'
+        borderColor: '#212121',
     },
 
 
@@ -160,7 +155,7 @@ var styles = StyleSheet.create({
         color: '#BBF1FF',
         textAlign: 'center',
         marginTop: 50,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     moreButton: {
         backgroundColor: '#0d1949',
@@ -229,18 +224,18 @@ var styles = StyleSheet.create({
 
 
     debugOverlay: {
-        //backgroundColor:'yellow',
+        // backgroundColor:'yellow',
         color: '#ffffff',
         fontSize: 6,
         textAlign: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     debugOverlay2: {
-        //backgroundColor:'yellow',
+        // backgroundColor:'yellow',
         color: '#ffffff',
         fontSize: 10,
         textAlign: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
 
     resetRow: {
@@ -261,7 +256,7 @@ var styles = StyleSheet.create({
         top: 0,
         padding: 10,
         left: 0,
-        position: 'absolute'
+        position: 'absolute',
     },
     infoButton: {
         width: 20,
@@ -274,7 +269,7 @@ var styles = StyleSheet.create({
         height: 20,
         top: 10,
         right: 20,
-        position: 'absolute'
+        position: 'absolute',
     },
     swipeNavTop: {
         width: (GLOBAL.SCREEN_WIDTH),
@@ -298,7 +293,7 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
         marginTop: 1,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
 
     elementText: {
@@ -309,25 +304,25 @@ var styles = StyleSheet.create({
         marginTop: 2,
         fontSize: 11,
         fontWeight: '700',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
 
     oneOfThree: {
         flex: 1 / 3,
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
 
     underText: {
         color: '#ffffff',
-        marginLeft: 10
+        marginLeft: 10,
     },
     inlineIcon: {
         width: 20,
-        height: 20
-    }
-})
+        height: 20,
+    },
+});
 
 // see if we have a group in memory
 // if not, download download a task
@@ -344,13 +339,13 @@ class Mapper extends React.Component {
             swipeToClose: false,
             tilePopupDisabled: true,
             sliderValue: 0.3,
-            poppedUpTile: null
+            poppedUpTile: null,
         };
     }
 
     componentDidMount() {
         this.openModal3();
-      //GLOBAL.ANALYTICS.logEvent('mapping_started');
+        // GLOBAL.ANALYTICS.logEvent('mapping_started');
         _mapper = this;
     }
 
@@ -359,11 +354,11 @@ class Mapper extends React.Component {
     }
 
     toggleDisable = () => {
-        this.setState({isDisabled: !this.state.isDisabled});
+        this.setState({ isDisabled: !this.state.isDisabled });
     }
 
     toggleSwipeToClose = () => {
-        this.setState({swipeToClose: !this.state.swipeToClose});
+        this.setState({ swipeToClose: !this.state.swipeToClose });
     }
 
     onClose() {
@@ -398,7 +393,7 @@ class Mapper extends React.Component {
             swipeToClose: false,
             tilePopupDisabled: false,
             sliderValue: 0.3,
-            poppedUpTile: tile
+            poppedUpTile: tile,
         });
         this.refs.tilePopup.open();
     }
@@ -410,7 +405,7 @@ class Mapper extends React.Component {
             swipeToClose: false,
             tilePopupDisabled: true,
             sliderValue: 0.3,
-            poppedUpTile: <View></View>
+            poppedUpTile: <View />,
         });
         this.refs.tilePopup.close();
     }
@@ -418,55 +413,126 @@ class Mapper extends React.Component {
     getProgress = () => (this.refs.progress);
 
     render() {
-        return <View style={styles.mappingContainer}>
-            <View style={styles.swipeNavTop}>
-                <Text style={styles.topText}>
+        return (
+            <View style={styles.mappingContainer}>
+                <View style={styles.swipeNavTop}>
+                    <Text style={styles.topText}>
                     You are looking for:
-                </Text>
-                <Text style={styles.elementText}>
-                    {this.data.lookFor}
-                </Text>
-                <TouchableHighlight style={styles.backButtonContainer} onPress={this.returnToView}><Image
-                    style={styles.backButton} source={require('./assets/backarrow_icon.png')}/></TouchableHighlight>
+                    </Text>
+                    <Text style={styles.elementText}>
+                        {this.data.lookFor}
+                    </Text>
+                    <TouchableHighlight style={styles.backButtonContainer} onPress={this.returnToView}>
+                        <Image
+                            style={styles.backButton}
+                            source={require('./assets/backarrow_icon.png')}
+                        />
+                    </TouchableHighlight>
 
-                <TouchableHighlight style={styles.infoButtonContainer} onPress={this.openModal3}><Image
-                    style={styles.infoButton} source={require('./assets/info_icon.png')}/></TouchableHighlight>
-            </View>
+                    <TouchableHighlight style={styles.infoButtonContainer} onPress={this.openModal3}>
+                        <Image
+                            style={styles.infoButton}
+                            source={require('./assets/info_icon.png')}
+                        />
+                    </TouchableHighlight>
+                </View>
 
 
-            <CardBody data={this.data} paging={true} navigation={this.props.navigation}
-                      ref={"cardbody"}/>
-            <BottomProgress ref={"progress"}/>
-            <Modal style={[styles.modal, styles.modal3]} backdropType="blur" position={"center"} ref={"modal3"}
-                   isDisabled={this.state.isDisabled}>
-                <Text style={styles.header}>How To Contribute</Text>
-                <View style={styles.tutRow}><Image source={require('./assets/tap_icon.png')}
-                                                   style={styles.tutImage}/><Text style={styles.tutText}>TAP TO
-                    SELECT</Text></View>
-                <Text style={styles.tutPar}>Search the image for features listed in your mission brief. Tap each tile
-                    where you find what you're looking for. Tap once for <Text
-                        style={{color: 'rgb(36, 219, 26)'}}>YES</Text>, twice for <Text
-                        style={{color: 'rgb(237, 209, 28)'}}>MAYBE</Text>, and three times for <Text
-                        style={{color: 'rgb(230, 28, 28)'}}>BAD IMAGERY (such as clouds)</Text>.</Text>
-                <View style={styles.tutRow}><Image source={require('./assets/swipeleft_icon.png')}
-                                                   style={styles.tutImage2}/><Text style={styles.tutText}>SWIPE TO
-                    NAVIGATE</Text></View>
-                <Text style={styles.tutPar}>When you feel confident you are done with a piece of the map, scroll to the
-                    next one by simply swiping.</Text>
-                <View style={styles.tutRow}><Image source={require('./assets/tap_icon.png')}
-                                                   style={styles.tutImage2}/><Text style={styles.tutText}>HOLD TO
-                    ZOOM</Text></View>
-                <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
-                <Button style={styles.startButton} onPress={this.closeModal3}
-                        textStyle={{fontSize: 13, color: '#ffffff', fontWeight: '700'}}>
+                <CardBody
+                    data={this.data}
+                    paging
+                    navigation={this.props.navigation}
+                    ref="cardbody"
+                />
+                <BottomProgress ref="progress" />
+                <Modal
+                    style={[styles.modal, styles.modal3]}
+                    backdropType="blur"
+                    position="center"
+                    ref="modal3"
+                    isDisabled={this.state.isDisabled}
+                >
+                    <Text style={styles.header}>How To Contribute</Text>
+                    <View style={styles.tutRow}>
+                        <Image
+                            source={require('./assets/tap_icon.png')}
+                            style={styles.tutImage}
+                        />
+                        <Text style={styles.tutText}>
+TAP TO
+                    SELECT
+                        </Text>
+                    </View>
+                    <Text style={styles.tutPar}>
+Search the image for features listed in your mission brief. Tap each tile
+                    where you find what you're looking for. Tap once for
+                        <Text
+                            style={{ color: 'rgb(36, 219, 26)' }}
+                        >
+YES
+                        </Text>
+, twice for
+                        <Text
+                            style={{ color: 'rgb(237, 209, 28)' }}
+                        >
+MAYBE
+                        </Text>
+, and three times for
+                        <Text
+                            style={{ color: 'rgb(230, 28, 28)' }}
+                        >
+BAD IMAGERY (such as clouds)
+                        </Text>
+.
+                    </Text>
+                    <View style={styles.tutRow}>
+                        <Image
+                            source={require('./assets/swipeleft_icon.png')}
+                            style={styles.tutImage2}
+                        />
+                        <Text style={styles.tutText}>
+SWIPE TO
+                    NAVIGATE
+                        </Text>
+                    </View>
+                    <Text style={styles.tutPar}>
+When you feel confident you are done with a piece of the map, scroll to the
+                    next one by simply swiping.
+                    </Text>
+                    <View style={styles.tutRow}>
+                        <Image
+                            source={require('./assets/tap_icon.png')}
+                            style={styles.tutImage2}
+                        />
+                        <Text style={styles.tutText}>
+HOLD TO
+                    ZOOM
+                        </Text>
+                    </View>
+                    <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
+                    <Button
+                        style={styles.startButton}
+                        onPress={this.closeModal3}
+                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    >
                     I understand
-                </Button>
-            </Modal>
-            <Modal style={styles.tilePopup} backdropType="none" entry={"bottom"} position={"center"} ref={"tilePopup"}
-                   isDisabled={this.state.tilePopupDisabled} forceToFront={true}>{this.state.poppedUpTile}</Modal>
-        </View>;
-        //<Image style={styles.inlineIcon} source={require('./assets/swipeup_icon.png')} /><Text style={styles.underText}>FLAG</Text>
-        //return  <View style={style.mapper}><Text>{this.props.data.name}</Text></View>;
+                    </Button>
+                </Modal>
+                <Modal
+                    style={styles.tilePopup}
+                    backdropType="none"
+                    entry="bottom"
+                    position="center"
+                    ref="tilePopup"
+                    isDisabled={this.state.tilePopupDisabled}
+                    forceToFront
+                >
+                    {this.state.poppedUpTile}
+                </Modal>
+            </View>
+        );
+        // <Image style={styles.inlineIcon} source={require('./assets/swipeup_icon.png')} /><Text style={styles.underText}>FLAG</Text>
+        // return  <View style={style.mapper}><Text>{this.props.data.name}</Text></View>;
         // goes under cardbody
         /*
 
@@ -483,14 +549,13 @@ class Mapper extends React.Component {
 }
 
 class BottomProgress extends React.Component {
-
     getBarStyle(progress) {
         return {
             height: 20,
             width: GLOBAL.SCREEN_WIDTH * 0.98,
             borderRadius: 0,
             marginBottom: 2,
-        }
+        };
     }
 
     getBarTextStyle(progress) {
@@ -502,7 +567,7 @@ class BottomProgress extends React.Component {
             top: 1,
             left: GLOBAL.SCREEN_WIDTH - 160,
             backgroundColor: 'transparent',
-        }
+        };
     }
 
     constructor(props) {
@@ -511,55 +576,57 @@ class BottomProgress extends React.Component {
             progress: 0,
             barStyle: this.getBarStyle(0),
             textStyle: this.getBarTextStyle(0),
-            text: "START MAPPING"
+            text: 'START MAPPING',
         };
     }
 
     updateProgress = (event, cardsLength) => {
-        var newProgress = event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsLength);
+        const newProgress = event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsLength);
         this.setState({
             progress: newProgress,
             barStyle: this.getBarStyle(newProgress),
             textStyle: this.getBarTextStyle(newProgress),
-            text: "YOU'VE MAPPED " + Math.ceil(newProgress * 100) + "%"
+            text: `YOU'VE MAPPED ${Math.ceil(newProgress * 100)}%`,
         });
     }
 
     render() {
-        return <View style={styles.swipeNavBottom}>
-            <Progress.Bar
-                height={20}
-                width={GLOBAL.SCREEN_WIDTH * 0.98}
-                marginBottom={2}
-                borderRadius={0}
-                unfilledColor={'#ffffff'}
-                progress={this.state.progress}
-            />
-            <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
-        </View>
+        return (
+            <View style={styles.swipeNavBottom}>
+                <Progress.Bar
+                    height={20}
+                    width={GLOBAL.SCREEN_WIDTH * 0.98}
+                    marginBottom={2}
+                    borderRadius={0}
+                    unfilledColor="#ffffff"
+                    progress={this.state.progress}
+                />
+                <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
+            </View>
+        );
     }
 }
 
 class IndividualCard extends React.Component {
-
     render() {
-        var rows = [];
-        this.props.card.tileRows.forEach(function (row) {
-            rows.unshift(<TileRow key={row.cardXStart + ":" + row.rowYStart} row={row.tiles}/>);
+        const rows = [];
+        this.props.card.tileRows.forEach((row) => {
+            rows.unshift(<TileRow key={`${row.cardXStart}:${row.rowYStart}`} row={row.tiles} />);
         });
 
-        return <View style={styles.slide}>
-            {rows}
-        </View>;
+        return (
+            <View style={styles.slide}>
+                {rows}
+            </View>
+        );
     }
 }
 
 class LoadMoreCard extends React.Component {
-
     _onMore = () => {
-      //GLOBAL.ANALYTICS.logEvent('complete_group');
-        var parent = this;
-        console.log("made it to more");
+        // GLOBAL.ANALYTICS.logEvent('complete_group');
+        const parent = this;
+        console.log('made it to more');
         MessageBarManager.showAlert({
             title: 'Sync Alert',
             message: 'Syncing your tasks.. do not close',
@@ -567,34 +634,33 @@ class LoadMoreCard extends React.Component {
             // See Properties section for full customization
             // Or check `index.ios.js` or `index.android.js` for a complete example
         });
-        GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then(data => {
-            console.log("did group complete");
+        GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
+            console.log('did group complete');
             _mapper.refs.cardbody.resetState();
-            console.log("hello2");
+            console.log('hello2');
 
             GLOBAL.DB.getSingleGroup(this.props.groupInfo.project).then((data) => {
-                console.log("got new one")
-                console.log("hello2");
+                console.log('got new one');
+                console.log('hello2');
                 _mapper.refs.cardbody.generateCards(data.group);
-
-            }).catch(function (error) {
-                console.log("Show error here");
+            }).catch((error) => {
+                console.log('Show error here');
                 console.log(error);
             });
 
-            console.log("Completed group report");
-            GLOBAL.DB.syncAndDeIndex().then(data => {
+            console.log('Completed group report');
+            GLOBAL.DB.syncAndDeIndex().then((data) => {
                 MessageBarManager.showAlert({
-                    title: data.successCount + " tasks synced",
-                    message: data.errorCount + " failures",
+                    title: `${data.successCount} tasks synced`,
+                    message: `${data.errorCount} failures`,
                     alertType: 'success',
                     // See Properties section for full customization
                     // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
-            }).catch(error => {
+            }).catch((error) => {
                 MessageBarManager.showAlert({
-                    title: data.successCount + " tasks synced",
-                    message: data.errorCount + " failures",
+                    title: `${data.successCount} tasks synced`,
+                    message: `${data.errorCount} failures`,
                     alertType: 'error',
                     // See Properties section for full customization
                     // Or check `index.ios.js` or `index.android.js` for a complete example
@@ -604,12 +670,12 @@ class LoadMoreCard extends React.Component {
     }
 
     _onComplete = () => {
-      //GLOBAL.ANALYTICS.logEvent('complete_group');
-        var parent = this;
-        GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then(data => {
+        // GLOBAL.ANALYTICS.logEvent('complete_group');
+        const parent = this;
+        GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
             _mapper.refs.cardbody.resetState();
 
-            console.log("Completed group report");
+            console.log('Completed group report');
             MessageBarManager.showAlert({
                 title: 'Sync Alert',
                 message: 'Syncing your tasks.. do not close',
@@ -617,19 +683,19 @@ class LoadMoreCard extends React.Component {
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
-            GLOBAL.DB.syncAndDeIndex().then(data => {
+            GLOBAL.DB.syncAndDeIndex().then((data) => {
                 MessageBarManager.showAlert({
-                    title: data.successCount + " tasks synced",
-                    message: data.errorCount + " failures",
+                    title: `${data.successCount} tasks synced`,
+                    message: `${data.errorCount} failures`,
                     alertType: 'success',
                     // See Properties section for full customization
                     // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
                 _mapper.props.navigation.pop();
-            }).catch(error => {
+            }).catch((error) => {
                 MessageBarManager.showAlert({
-                    title: data.successCount + " tasks synced",
-                    message: data.errorCount + " failures",
+                    title: `${data.successCount} tasks synced`,
+                    message: `${data.errorCount} failures`,
                     alertType: 'error',
                     // See Properties section for full customization
                     // Or check `index.ios.js` or `index.android.js` for a complete example
@@ -637,79 +703,81 @@ class LoadMoreCard extends React.Component {
                 _mapper.props.navigation.pop();
             });
         });
-
     }
 
     _onBack() {
         _mapper.refs.cardbody.resetState();
         _mapper.props.navigation.pop();
         // save the current tasks but don't add a completeCount
-        //_mapper.props.navigation.push({id:1, data: _mapper.props.data});
+        // _mapper.props.navigation.push({id:1, data: _mapper.props.data});
     }
 
     render() {
-        var rows = [];
-        this.props.card.tileRows.forEach(function (row) {
-
-            rows.push(<TileRow key={row.cardX + ":" + row.rowYStart} row={row.tiles}/>);
+        const rows = [];
+        this.props.card.tileRows.forEach((row) => {
+            rows.push(<TileRow key={`${row.cardX}:${row.rowYStart}`} row={row.tiles} />);
         });
 
-        return <View style={styles.congratulationsSlide}>
-            <Text style={styles.finishedText}>Great job! You finished this group. Do you want to continue to map more in
-                this project? </Text>
+        return (
+            <View style={styles.congratulationsSlide}>
+                <Text style={styles.finishedText}>
+Great job! You finished this group. Do you want to continue to map more in
+                this project?
+                    {' '}
+                </Text>
 
-            <Button style={styles.moreButton} onPress={this._onMore} textStyle={{fontSize: 18, color: '#ffffff'}}>Map
-                further</Button>
-            <Button style={styles.moreButton} onPress={this._onComplete} textStyle={{fontSize: 18, color: '#ffffff'}}>Complete
-                Session</Button>
-        </View>;
+                <Button style={styles.moreButton} onPress={this._onMore} textStyle={{ fontSize: 18, color: '#ffffff' }}>
+Map
+                further
+                </Button>
+                <Button style={styles.moreButton} onPress={this._onComplete} textStyle={{ fontSize: 18, color: '#ffffff' }}>
+Complete
+                Session
+                </Button>
+            </View>
+        );
     }
 }
 
 //  <Button style={styles.moreButton} onPress={this._onMore} textStyle={{fontSize: 18, color: '#ffffff'}}>Contribute More</Button>
 class TileRow extends React.Component {
-
     render() {
-        var rows = [];
+        const rows = [];
 
-        var xMin = this.props.row.cardXStart;
-        var xOffset = 0;
+        const xMin = this.props.row.cardXStart;
+        let xOffset = 0;
 
 
-        var pushedEmptyRows = false;
-        var parent = this;
-        this.props.row.forEach(function (tile) {
-
+        const pushedEmptyRows = false;
+        const parent = this;
+        this.props.row.forEach((tile) => {
             // inserts empty tiles so that they are always rendered at the same X coordinate on the grid.
             if (tile !== undefined) {
-
-                if (tile === "emptytile") {
-                    rows.push(<EmptyTile key={Math.random()}/>);
+                if (tile === 'emptytile') {
+                    rows.push(<EmptyTile key={Math.random()} />);
                 } else {
-                    rows.push(<Tile data={tile} key={tile.id}/>);
-
+                    rows.push(<Tile data={tile} key={tile.id} />);
                 }
             }
             xOffset++;
         });
         //
-        return <View style={styles.tileRow}>
-            {rows}
-        </View>;
+        return (
+            <View style={styles.tileRow}>
+                {rows}
+            </View>
+        );
     }
 }
 
 class Tile extends React.Component {
-
-
     checkToReport = () => {
-        var parent = this;
+        const parent = this;
 
         if (this.tileStatus != this.lastReportedStatus) {
-
             this.lastReportedStatus = this.tileStatus;
-            var tile = this.props.data;
-            var task = {
+            const tile = this.props.data;
+            const task = {
                 id: tile.id,
                 result: this.tileStatus,
                 projectId: tile.projectId,
@@ -717,7 +785,7 @@ class Tile extends React.Component {
                 item: _mapper.data.lookFor,
                 device: DeviceInfo.getUniqueID(),
                 user: GLOBAL.DB.getAuth().getUser().uid,
-                timestamp: GLOBAL.DB.getTimestamp()
+                timestamp: GLOBAL.DB.getTimestamp(),
             };
             // adds the task result, if fail, try again every second until it is added.
             GLOBAL.DB.taskReadyForProcessing(task);
@@ -726,20 +794,20 @@ class Tile extends React.Component {
 
     getEdgeColor = () => {
         switch (this.tileStatus) {
-            case 0: {
-                return 'rgba(255,255,255,0.0)';
-            }
+        case 0: {
+            return 'rgba(255,255,255,0.0)';
+        }
 
-            case 1: {
-                return 'rgba(36, 219, 26, 0.2)';
-            }
+        case 1: {
+            return 'rgba(36, 219, 26, 0.2)';
+        }
 
-            case 2: {
-                return 'rgba(237, 209, 28, 0.2)';
-            }
-            case 3: {
-                return 'rgba(230, 28, 28, 0.2)';
-            }
+        case 2: {
+            return 'rgba(237, 209, 28, 0.2)';
+        }
+        case 3: {
+            return 'rgba(230, 28, 28, 0.2)';
+        }
         }
         return '#212121';
     }
@@ -756,7 +824,7 @@ class Tile extends React.Component {
                 height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
                 width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
                 borderWidth: 0.5,
-                borderColor: 'rgba(255,255,255,0.2)'
+                borderColor: 'rgba(255,255,255,0.2)',
 
             },
             tileOverlay: {
@@ -764,11 +832,10 @@ class Tile extends React.Component {
                 height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
                 width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
             },
-        }
+        };
     }
 
     _onPressButton = () => {
-
         _mapper.closeTilePopup();
         this.tileStatus = this.tileStatus + 1;
         if (this.tileStatus > 3) {
@@ -780,7 +847,7 @@ class Tile extends React.Component {
                 height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
                 width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
                 borderWidth: 0.5,
-                borderColor: 'rgba(255,255,255,0.2)'
+                borderColor: 'rgba(255,255,255,0.2)',
 
             },
             tileOverlay: {
@@ -806,89 +873,100 @@ class Tile extends React.Component {
      * Returns the ["animation", "text", duration] for the fun text displayed when you map a tile!
      */
     getFunText() {
-        var texts = [
-            ["bounceIn", "Great Job!", "1000"],
-            ["bounceIn", "With every tap you help put a family on the map", "3000"],
-            ["bounceIn", "Thank you!", "1000"],
-            ["bounceIn", "Your effort is helping!", "1000"],
-            ["bounceIn", "Keep up the good work!", "1000"],
+        const texts = [
+            ['bounceIn', 'Great Job!', '1000'],
+            ['bounceIn', 'With every tap you help put a family on the map', '3000'],
+            ['bounceIn', 'Thank you!', '1000'],
+            ['bounceIn', 'Your effort is helping!', '1000'],
+            ['bounceIn', 'Keep up the good work!', '1000'],
         ];
 
-        var random = Math.floor(Math.random() * texts.length);
+        const random = Math.floor(Math.random() * texts.length);
         return texts[random];
     }
 
     zoomRender = () => {
+        const animatedRows = [];
 
-        var animatedRows = [];
+        const tile = this.props.data;
+        // var filePath = dirs.DocumentDir + '/' + tile.id + ".jpeg";
+        const projectDir = `${RNFS.DocumentDirectoryPath}/${_mapper.data.id}`;
+        const dir = `${projectDir}/${_mapper.refs.cardbody.currentGroup}`; // e.g. /1/45
 
-        var tile = this.props.data;
-        //var filePath = dirs.DocumentDir + '/' + tile.id + ".jpeg";
-        let projectDir = RNFS.DocumentDirectoryPath + "/" + _mapper.data.id;
-        let dir = projectDir + "/" + _mapper.refs.cardbody.currentGroup // e.g. /1/45
-
-        var fileName = dir + '/' + tile.id + ".jpeg";
-        var imageSource = _mapper.refs.cardbody.isOfflineGroup === true ? {
+        const fileName = `${dir}/${tile.id}.jpeg`;
+        const imageSource = _mapper.refs.cardbody.isOfflineGroup === true ? {
             isStatic: true,
-            uri: 'file://' + fileName
-        } : {uri: tile.url};
+            uri: `file://${fileName}`,
+        } : { uri: tile.url };
 
 
-        return <Image
-            style={{
-                height: 300,
-                width: 300,
-                borderWidth: 0.5,
-                borderColor: 'rgba(255,255,255,0.2)'
-            }}
+        return (
+            <Image
+                style={{
+                    height: 300,
+                    width: 300,
+                    borderWidth: 0.5,
+                    borderColor: 'rgba(255,255,255,0.2)',
+                }}
 
-            source={imageSource}>
-        </Image>;
+                source={imageSource}
+            />
+        );
     }
 
     render() {
+        const tile = this.props.data;
 
-        var tile = this.props.data;
+        const animatedRows = [];
 
-        var animatedRows = [];
-
-        var showAnim = Math.floor(Math.random() * 5);
+        const showAnim = Math.floor(Math.random() * 5);
 
         if (this.tileStatus === 1 && showAnim === 1) {
-            animatedRows.push(<Animatable.Text key={"anim-" + tile.id} animation={this.getFunText()[0]}
-                                               style={styles.animatedText}>{this.getFunText()[1]}</Animatable.Text>);
+            animatedRows.push(<Animatable.Text
+                key={`anim-${tile.id}`}
+                animation={this.getFunText()[0]}
+                style={styles.animatedText}
+            >
+                {this.getFunText()[1]}
+            </Animatable.Text>);
         }
-        let projectDir = RNFS.DocumentDirectoryPath + "/" + _mapper.data.id;
-        let dir = projectDir + "/" + _mapper.refs.cardbody.currentGroup // e.g. /1/45
+        const projectDir = `${RNFS.DocumentDirectoryPath}/${_mapper.data.id}`;
+        const dir = `${projectDir}/${_mapper.refs.cardbody.currentGroup}`; // e.g. /1/45
 
-        var fileName = dir + '/' + tile.id + ".jpeg";
-        var imageSource = _mapper.refs.cardbody.isOfflineGroup === true ? {
+        const fileName = `${dir}/${tile.id}.jpeg`;
+        const imageSource = _mapper.refs.cardbody.isOfflineGroup === true ? {
             isStatic: true,
-            uri: 'file://' + fileName
-        } : {uri: tile.url};
+            uri: `file://${fileName}`,
+        } : { uri: tile.url };
 
-        return <TouchableHighlight onPress={this._onPressButton} onLongPress={this._onLongPress}
-                                   onPressOut={this._onLongPressOut}><ImageBackground
-            style={this.state.tile}
-            key={"touch-" + tile.id}
-            source={imageSource}>
-            <View style={this.state.tileOverlay} key={"view-" + tile.id}>
-                {animatedRows}
-            </View>
+        return (
+            <TouchableHighlight
+                onPress={this._onPressButton}
+                onLongPress={this._onLongPress}
+                onPressOut={this._onLongPressOut}
+            >
+                <ImageBackground
+                    style={this.state.tile}
+                    key={`touch-${tile.id}`}
+                    source={imageSource}
+                >
+                    <View style={this.state.tileOverlay} key={`view-${tile.id}`}>
+                        {animatedRows}
+                    </View>
 
-        </ImageBackground></TouchableHighlight>;
+                </ImageBackground>
+            </TouchableHighlight>
+        );
     }
 //           <Text style={styles.debugOverlay}>{tile.taskX}, {tile.taskY}</Text>
 }
 
 const EmptyTile = () => (<View style={styles.emptyTile} />);
 
-//noinspection JSAnnotator
+// noinspection JSAnnotator
 class CardBody extends React.Component {
-
-
     resetState = () => {
-        console.log("RESETTING STATE!");
+        console.log('RESETTING STATE!');
         this.allCards = {};
         this.totalRenderedCount = -1;
         this.isOfflineGroup = false;
@@ -897,10 +975,10 @@ class CardBody extends React.Component {
             cardsInView: [],
             cardOutOfView: [],
             progress: 0,
-            pagingEnabled: this.props.paging
+            pagingEnabled: this.props.paging,
         });
 
-        this.refs.scrollView.scrollTo({x: 0, animated: false});
+        this.refs.scrollView.scrollTo({ x: 0, animated: false });
     }
 
     componentDidMount = () => {
@@ -908,14 +986,14 @@ class CardBody extends React.Component {
     }
 
     generateCards = (data) => {
-        var tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
-        var tilesPerCol = GLOBAL.TILES_PER_VIEW_Y;
+        const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
+        const tilesPerCol = GLOBAL.TILES_PER_VIEW_Y;
         this.currentGroup = data.id;
         this.groupXStart = data.xMin;
         this.groupXEnd = data.xMax;
 
-        console.log("arrrrrrrrrrr");
-        var key = 'project-' + data.projectId + '-group-' + data.id;
+        console.log('arrrrrrrrrrr');
+        const key = `project-${data.projectId}-group-${data.id}`;
         console.log(data.projectId);
         this.isOfflineGroup = GLOBAL.DB.isOfflineGroup(key);
         if (this.isOfflineGroup === true) {
@@ -929,44 +1007,42 @@ class CardBody extends React.Component {
                     // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
             }
-        } else {
-            if (this.lastMode !== 'online') {
-                this.lastMode = 'online';
-                MessageBarManager.showAlert({
-                    title: 'Online Mapping Activated',
-                    message: 'If you want to map offline, download tasks on the project home.',
-                    alertType: 'info',
-                    // See Properties section for full customization
-                    // Or check `index.ios.js` or `index.android.js` for a complete example
-                });
-            }
+        } else if (this.lastMode !== 'online') {
+            this.lastMode = 'online';
+            MessageBarManager.showAlert({
+                title: 'Online Mapping Activated',
+                message: 'If you want to map offline, download tasks on the project home.',
+                alertType: 'info',
+                // See Properties section for full customization
+                // Or check `index.ios.js` or `index.android.js` for a complete example
+            });
         }
 
-        var cards = [];
+        const cards = [];
 
         // iterate over all the tasksI with an interval of the tilesPerRow variable
-        for (var cardX = parseFloat(data.xMin); cardX < parseFloat(data.xMax); cardX += tilesPerRow) {
-            var cardToPush = {
-                cardX: cardX,
+        for (let cardX = parseFloat(data.xMin); cardX < parseFloat(data.xMax); cardX += tilesPerRow) {
+            const cardToPush = {
+                cardX,
                 tileRows: [],
-                validTiles: 0
-            }
+                validTiles: 0,
+            };
 
             // iterate over Y once and place all X tiles for this Y coordinate in the tile cache.
-            for (var tileY = parseFloat(data.yMax); tileY >= parseFloat(data.yMin); tileY -= 1) {
-                var tileRowObject = {
+            for (let tileY = parseFloat(data.yMax); tileY >= parseFloat(data.yMin); tileY -= 1) {
+                const tileRowObject = {
                     rowYStart: tileY,
                     rowYEnd: tileY,
                     cardXStart: cardX,
                     cardXEnd: cardX,
-                    tiles: []
+                    tiles: [],
                 };
-                for (var tileX = parseFloat(cardX); tileX < parseFloat(cardX) + tilesPerRow; tileX += 1) {
-                    if (data.tasks[data.zoomLevel + "-" + tileX + "-" + tileY] !== undefined) {
+                for (let tileX = parseFloat(cardX); tileX < parseFloat(cardX) + tilesPerRow; tileX += 1) {
+                    if (data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`] !== undefined) {
                         cardToPush.validTiles++;
                     }
                     tileRowObject.tiles.push(
-                        data.tasks[data.zoomLevel + "-" + tileX + "-" + tileY] === undefined ? "emptytile" : data.tasks[data.zoomLevel + "-" + tileX + "-" + tileY]
+                        data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`] === undefined ? 'emptytile' : data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`],
                     );
 
                     if (tileY > tileRowObject.rowYEnd) {
@@ -980,24 +1056,23 @@ class CardBody extends React.Component {
             }
             if (cardToPush.validTiles > 0) { // ensure the card has tiles
                 this.totalRenderedCount++;
-                this.allCards[cardToPush.cardX] = cardToPush
+                this.allCards[cardToPush.cardX] = cardToPush;
                 cards.push(cardToPush);
             }
         }
         this.setState({
-            cardsInView: cards
-        })
+            cardsInView: cards,
+        });
         // when done loading, always go to the beginning
-        //this.hanldeCardRender(0);
+        // this.hanldeCardRender(0);
     }
 
     getTasks = () => {
         GLOBAL.DB.getSingleGroup(this.props.data.id).then((data) => {
-            console.log("waaaaaa");
+            console.log('waaaaaa');
             this.generateCards(data.group);
-
-        }).catch(function (error) {
-            console.log("Show error here");
+        }).catch((error) => {
+            console.log('Show error here');
             console.error(error);
         });
     }
@@ -1011,7 +1086,7 @@ class CardBody extends React.Component {
         this.totalRenderedCount = -1;
         this.currentGroup = null;
         this.isOfflineGroup = false;
-        this.lastMode = ""; // 0 is online mapping, 1 is offline mapping
+        this.lastMode = ''; // 0 is online mapping, 1 is offline mapping
         this.currentXRenderOffset = 0; // aka the last state
         this.lastState = -1;
 
@@ -1030,12 +1105,12 @@ class CardBody extends React.Component {
             return;
         }
 
-        var diff = this.lastState === -1 ? 0 : scrollThroughComplete - this.lastState;
+        const diff = this.lastState === -1 ? 0 : scrollThroughComplete - this.lastState;
 
-        var renderCount = 5;
-        var renderDistance = renderCount * GLOBAL.TILES_PER_VIEW_X;
+        const renderCount = 5;
+        const renderDistance = renderCount * GLOBAL.TILES_PER_VIEW_X;
 
-        var cardDiff = diff / renderDistance;
+        const cardDiff = diff / renderDistance;
 
         // we increase scroll position regardless
         this.currentXRenderOffset += cardDiff; // negative if the diff is negative, so good like this also for backwards
@@ -1044,46 +1119,50 @@ class CardBody extends React.Component {
     handleScroll = (event: Object) => {
         _mapper.refs.progress.updateProgress(event, this.totalRenderedCount);
 
-        var progressToReport = 0;
+        let progressToReport = 0;
         if (this.state.cardsInView.length > 0) {
-            //console.log(this.state.cardsInView.length + " cards in view");
+            // console.log(this.state.cardsInView.length + " cards in view");
             progressToReport = Math.ceil(event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * this.state.cardsInView.length) * 100);
         }
         this.handleProgress(progressToReport);
     }
 
     render() {
-        var rows = [];
+        const rows = [];
         if (this.state.cardsInView.length > 0) {
-            var lastCard = null;
-            var parent = this;
+            let lastCard = null;
+            const parent = this;
 
-            this.state.cardsInView.forEach(function (card) {
+            this.state.cardsInView.forEach((card) => {
                 lastCard = card;
-                rows.push(<IndividualCard key={card.cardX} card={card}/>);
-
+                rows.push(<IndividualCard key={card.cardX} card={card} />);
             });
 
-            rows.push(<LoadMoreCard key={lastCard.id / 2} card={lastCard}
-                                    groupInfo={{group: this.currentGroup, project: this.props.data.id}}/>); // lastCard.id/2 is random so that it never is the same number
+            rows.push(<LoadMoreCard
+                key={lastCard.id / 2}
+                card={lastCard}
+                groupInfo={{ group: this.currentGroup, project: this.props.data.id }}
+            />); // lastCard.id/2 is random so that it never is the same number
         } else {
             this.showingLoader = true;
-            rows.push(<LoadingIcon key={'loadingicon'}/>);
+            rows.push(<LoadingIcon key="loadingicon" />);
         }
         //
-        return <ScrollView onScroll={this.handleScroll}
-                           automaticallyAdjustInsets={false}
-                           horizontal={true}
-                           ref={"scrollView"}
-                           pagingEnabled={this.state.pagingEnabled}
-                           removeClippedSubviews={true}
-                           contentContainerStyle={[styles.wrapper, {paddingHorizontal: this.state.marginXOffset}]}
-        >
-            {rows}
-        </ScrollView>;
+        return (
+            <ScrollView
+                onScroll={this.handleScroll}
+                automaticallyAdjustInsets={false}
+                horizontal
+                ref="scrollView"
+                pagingEnabled={this.state.pagingEnabled}
+                removeClippedSubviews
+                contentContainerStyle={[styles.wrapper, { paddingHorizontal: this.state.marginXOffset }]}
+            >
+                {rows}
+            </ScrollView>
+        );
     }
 }
 
 
 module.exports = Mapper;
-

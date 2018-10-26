@@ -2,7 +2,7 @@
  * Created by wwadewitte on 7/11/16.
  */
 
-import React from "react";
+import React from 'react';
 
 import {
     Text,
@@ -15,18 +15,19 @@ import {
     TouchableOpacity,
     Dimensions,
     NetInfo,
-    TextInput
-} from "react-native";
-import Button from "apsl-react-native-button";
+    TextInput,
+} from 'react-native';
+import Button from 'apsl-react-native-button';
+
 const MessageBarManager = require('react-native-message-bar').MessageBarManager;
-var GLOBAL = require('../Globals');
-//var ProgressBar = require('react-native-progress-bar');
+const GLOBAL = require('../Globals');
+// var ProgressBar = require('react-native-progress-bar');
 
-//var SplashScreen = require('@remobile/react-native-splashscreen');
-var LoadingIcon = require('./LoadingIcon');
+// var SplashScreen = require('@remobile/react-native-splashscreen');
+const LoadingIcon = require('./LoadingIcon');
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
     startButton: {
         backgroundColor: '#ee0000',
@@ -74,7 +75,7 @@ var styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 13,
         marginBottom: 10,
-        color: '#ffffff'
+        color: '#ffffff',
     },
     text5: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -82,7 +83,7 @@ var styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 10,
         marginBottom: 10,
-        color: '#ffffff'
+        color: '#ffffff',
     },
     tutIcon: {
         resizeMode: 'contain',
@@ -103,9 +104,9 @@ var styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.2)',
         borderRadius: 5,
         color: '#ffffff',
-        paddingLeft: 10
-    }
-})
+        paddingLeft: 10,
+    },
+});
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -114,21 +115,21 @@ class Login extends React.Component {
             password: '',
             email: '',
             loading: false,
-            screen: 0
-        }
+            screen: 0,
+        };
     }
 
     componentDidMount() {
     }
 
     _handleSignUp() {
-      //GLOBAL.ANALYTICS.logEvent('account_screen_seen');
-        var parent = this;
+        // GLOBAL.ANALYTICS.logEvent('account_screen_seen');
+        const parent = this;
         if (this.state.username !== null && this.state.username.length < 3) {
-          //GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
+            // GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             MessageBarManager.showAlert({
-                title: "Error on sign up",
-                message: "Your username must be 4 characters or more",
+                title: 'Error on sign up',
+                message: 'Your username must be 4 characters or more',
                 alertType: 'error',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
@@ -136,11 +137,11 @@ class Login extends React.Component {
             return;
         }
 
-        if (this.state.username !== null && this.state.username.indexOf("@") !== -1) {
-          //GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
+        if (this.state.username !== null && this.state.username.indexOf('@') !== -1) {
+            // GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             MessageBarManager.showAlert({
-                title: "Error on sign up",
-                message: "Your username can not be an email",
+                title: 'Error on sign up',
+                message: 'Your username can not be an email',
                 alertType: 'error',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
@@ -148,116 +149,110 @@ class Login extends React.Component {
             return;
         }
         this.setState({
-            loading: true
+            loading: true,
         });
 
-        GLOBAL.DB.createAccount(this.state.email, this.state.username, this.state.password).then(data => {
+        GLOBAL.DB.createAccount(this.state.email, this.state.username, this.state.password).then((data) => {
             MessageBarManager.showAlert({
-                title: "Success",
-                message: "Welcome to Mapswipe, " + this.state.username,
+                title: 'Success',
+                message: `Welcome to Mapswipe, ${this.state.username}`,
                 alertType: 'info',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
-                loading: false
+                loading: false,
             });
-          //GLOBAL.ANALYTICS.logEvent('account_created');
+            // GLOBAL.ANALYTICS.logEvent('account_created');
             parent.props.navigation.push('ProjectNav');
-        }).catch(error => {
-          //GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
+        }).catch((error) => {
+            // GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
             MessageBarManager.showAlert({
-                title: "Error on sign up",
+                title: 'Error on sign up',
                 message: error,
                 alertType: 'error',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
-                loading: false
-            })
-        })
-
+                loading: false,
+            });
+        });
     }
 
     _switchScreens(screen) {
         this.setState({
-            screen: screen
+            screen,
         });
     }
 
     _handleLogin = () => {
-
         this.setState({
-            loading: true
+            loading: true,
         });
-        var parent = this;
-        GLOBAL.DB.signIn(this.state.email, this.state.password).then(data => {
+        const parent = this;
+        GLOBAL.DB.signIn(this.state.email, this.state.password).then((data) => {
             MessageBarManager.showAlert({
-                title: "Success",
-                message: "Welcome to Mapswipe, " + this.state.username,
+                title: 'Success',
+                message: `Welcome to Mapswipe, ${this.state.username}`,
                 alertType: 'info',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
-                loading: false
-            })
-          //GLOBAL.ANALYTICS.logEvent('account_login');
+                loading: false,
+            });
+            // GLOBAL.ANALYTICS.logEvent('account_login');
             parent.props.navigation.push('ProjectNav');
-        }).catch(error => {
-            if (error.indexOf("deleted") !== -1) {
-                error = "Invalid username or password";
+        }).catch((error) => {
+            if (error.indexOf('deleted') !== -1) {
+                error = 'Invalid username or password';
             }
             MessageBarManager.showAlert({
-                title: "Error on log in",
+                title: 'Error on log in',
                 message: error,
                 alertType: 'error',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
-                loading: false
-            })
-        })
-
+                loading: false,
+            });
+        });
     }
 
     _handlePassReset() {
-
         this.setState({
-            loading: true
+            loading: true,
         });
-        var parent = this;
-        GLOBAL.DB.resetPass(this.state.email).then(data => {
-
+        const parent = this;
+        GLOBAL.DB.resetPass(this.state.email).then((data) => {
             MessageBarManager.showAlert({
-                title: "Success",
-                message: "Check your email",
+                title: 'Success',
+                message: 'Check your email',
                 alertType: 'info',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
-                loading: false
-            })
-          //GLOBAL.ANALYTICS.logEvent('pass_reset_request');
-
-        }).catch(error => {
-            if (error.indexOf("deleted") !== -1) {
-                error = "This email was not found.";
+                loading: false,
+            });
+            // GLOBAL.ANALYTICS.logEvent('pass_reset_request');
+        }).catch((error) => {
+            if (error.indexOf('deleted') !== -1) {
+                error = 'This email was not found.';
             }
             MessageBarManager.showAlert({
-                title: "Error on reset pass",
+                title: 'Error on reset pass',
                 message: error,
                 alertType: 'error',
                 // See Properties section for full customization
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
-                loading: false
-            })
-        })
+                loading: false,
+            });
+        });
     }
 
     /**
@@ -266,22 +261,25 @@ class Login extends React.Component {
      */
     render() {
         console.log('rendering login');
-        var rows = [];
+        const rows = [];
 
         if (this.state.screen === 0) {
-            rows.push(<ScrollView style={styles.container} contentContainerStyle={{
-                alignItems: 'center',
-                width: GLOBAL.SCREEN_WIDTH,
-                backgroundColor: '#0d1949',
-                padding: 20,
-            }}>
+            rows.push(<ScrollView
+                style={styles.container}
+                contentContainerStyle={{
+                    alignItems: 'center',
+                    width: GLOBAL.SCREEN_WIDTH,
+                    backgroundColor: '#0d1949',
+                    padding: 20,
+                }}
+            >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
                 <Text style={styles.text4}>Enter your username (More than 4 characters)</Text>
 
                 <TextInput
                     autoCorrect={false}
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({ username: text })}
+                    onChangeText={text => this.setState({ username: text })}
                     value={this.state.username}
                 />
 
@@ -291,38 +289,49 @@ class Login extends React.Component {
                     autoCorrect={false}
                     secureTextEntry={false}
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({ email: text.replace(" ", "") })}
+                    onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={this.state.email}
                 />
                 <Text style={styles.text4}>Enter your password (More than 6 characters)</Text>
 
                 <TextInput
                     autoCorrect={false}
-                    secureTextEntry={true}
+                    secureTextEntry
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({ password: text })}
+                    onChangeText={text => this.setState({ password: text })}
                 />
-                <Text style={styles.text5}>* All the mapping you contribute to mapswipe is open and available to anyone.
-                    Your username is public, but your email and password will never be shared with anyone.</Text>
-                <Button style={styles.otherButton} onPress={this._handleSignUp}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+                <Text style={styles.text5}>
+* All the mapping you contribute to mapswipe is open and available to anyone.
+                    Your username is public, but your email and password will never be shared with anyone.
+                </Text>
+                <Button
+                    style={styles.otherButton}
+                    onPress={this._handleSignUp}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
                     Sign Up
                 </Button>
-                <Button style={styles.switchToLogin} onPress={() => {
-                    this._switchScreens(1)
-                }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+                <Button
+                    style={styles.switchToLogin}
+                    onPress={() => {
+                        this._switchScreens(1);
+                    }}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
                     Log in to an existing account
                 </Button>
 
-            </ScrollView>)
+            </ScrollView>);
         } else if (this.state.screen === 1) {
-            rows.push(<ScrollView style={styles.container} contentContainerStyle={{
-                alignItems: 'center',
-                width: GLOBAL.SCREEN_WIDTH,
-                backgroundColor: '#0d1949',
-                padding: 20,
-            }}>
+            rows.push(<ScrollView
+                style={styles.container}
+                contentContainerStyle={{
+                    alignItems: 'center',
+                    width: GLOBAL.SCREEN_WIDTH,
+                    backgroundColor: '#0d1949',
+                    padding: 20,
+                }}
+            >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
                 <Text style={styles.text4}>Enter your email</Text>
@@ -331,45 +340,60 @@ class Login extends React.Component {
                     autoCorrect={false}
                     style={styles.textInput}
                     secureTextEntry={false}
-                    onChangeText={(text) => this.setState({ email: text.replace(" ", "") })}
+                    onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={this.state.email}
                 />
                 <Text style={styles.text4}>Enter your password</Text>
 
                 <TextInput
                     autoCorrect={false}
-                    secureTextEntry={true}
+                    secureTextEntry
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({ password: text })}
+                    onChangeText={text => this.setState({ password: text })}
                 />
-                <Text style={styles.text5}>* All the data you contribute to mapswipe is open and available to anyone.
-                    Your username is public, but your email and password will never be shared with anyone. </Text>
-                <Button style={styles.otherButton} onPress={this._handleLogin}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+                <Text style={styles.text5}>
+* All the data you contribute to mapswipe is open and available to anyone.
+                    Your username is public, but your email and password will never be shared with anyone.
+                    {' '}
+                </Text>
+                <Button
+                    style={styles.otherButton}
+                    onPress={this._handleLogin}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
                     Log in
                 </Button>
-                <Button style={styles.switchToLogin} onPress={() => {
-                    this._switchScreens(2)
-                }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+                <Button
+                    style={styles.switchToLogin}
+                    onPress={() => {
+                        this._switchScreens(2);
+                    }}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
                     Forgot your password?
                 </Button>
-                <Button style={styles.switchToLogin} onPress={() => {
-                    this._switchScreens(0)
-                }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+                <Button
+                    style={styles.switchToLogin}
+                    onPress={() => {
+                        this._switchScreens(0);
+                    }}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
                     Create New Account
                 </Button>
 
-            </ScrollView>)
+            </ScrollView>);
         } else if (this.state.screen === 2) {
             rows.push(
-                <ScrollView style={styles.container} contentContainerStyle={{
-                    alignItems: 'center',
-                    width: GLOBAL.SCREEN_WIDTH,
-                    backgroundColor: '#0d1949',
-                    padding: 20,
-                }}>
+                <ScrollView
+                    style={styles.container}
+                    contentContainerStyle={{
+                        alignItems: 'center',
+                        width: GLOBAL.SCREEN_WIDTH,
+                        backgroundColor: '#0d1949',
+                        padding: 20,
+                    }}
+                >
                     <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
                     <Text style={styles.text4}>Enter your email</Text>
@@ -377,37 +401,43 @@ class Login extends React.Component {
                     <TextInput
                         autoCorrect={false}
                         style={styles.textInput}
-                        onChangeText={(text) => this.setState({ email: text.replace(" ", "") })}
+                        onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                         value={this.state.email}
                     />
                     <Text style={styles.text5}>* We will send you an email to reset your password</Text>
-                    <Button style={styles.otherButton} onPress={this._handlePassReset}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+                    <Button
+                        style={styles.otherButton}
+                        onPress={this._handlePassReset}
+                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    >
                         Send Reset Email
                     </Button>
-                    <Button style={styles.switchToLogin} onPress={() => {
-                        this._switchScreens(1)
-                    }}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+                    <Button
+                        style={styles.switchToLogin}
+                        onPress={() => {
+                            this._switchScreens(1);
+                        }}
+                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    >
                         Back to login
                     </Button>
 
 
-                </ScrollView>
-            )
+                </ScrollView>,
+            );
         }
-      return (
-        <View style={styles.container}>
-          {
-                this.state.loading === true ?  // We're loading
+        return (
+            <View style={styles.container}>
+                {
+                    this.state.loading === true // We're loading
 
-                    <LoadingIcon />
-                    : rows
+                        ? <LoadingIcon />
+                        : rows
 
-          }
+                }
 
-        </View>
-        )
+            </View>
+        );
     }
 }
 

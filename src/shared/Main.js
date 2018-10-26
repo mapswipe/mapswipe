@@ -2,34 +2,38 @@
  * @author Pim de Witte (pimdewitte.me/pimdewitte95@gmail.com). Copyright MSF UK 2016.
  *
  * Main is the main class that is called from both Android and iOS on application startup.
- * It initializes the application and controls which scene is rendered to the end user through the Navigator component.
+ * It initializes the application and controls which scene is rendered to the end user through
+ * the Navigator component.
  */
 
 import React from 'react';
-import { Text, View, StyleSheet, Platform, Image, BackHandler} from "react-native";
-import Button from "apsl-react-native-button";
+import {
+    Text, View, StyleSheet, Image,
+} from 'react-native';
+import Button from 'apsl-react-native-button';
 import { createStackNavigator } from 'react-navigation';
 
-var Tutorial = require('./views/Tutorial');
-var ProjectNav = require('./views/ProjectNav');
-var ProjectView = require('./views/ProjectView');
-var WebviewWindow = require('./views/WebviewWindow');
-var Login = require('./views/Login');
-var Mapper = require('./views/Mapper');
-var GLOBAL = require('./Globals');
-var MessageBarAlert = require('react-native-message-bar').MessageBar;
-var MessageBarManager = require('react-native-message-bar').MessageBarManager;
-var Modal = require('react-native-modalbox');
-var ultimateParent = this;
+const MessageBarAlert = require('react-native-message-bar').MessageBar;
+const MessageBarManager = require('react-native-message-bar').MessageBarManager;
+const Modal = require('react-native-modalbox');
+
+const Tutorial = require('./views/Tutorial');
+const ProjectNav = require('./views/ProjectNav');
+const ProjectView = require('./views/ProjectView');
+const WebviewWindow = require('./views/WebviewWindow');
+const Login = require('./views/Login');
+const Mapper = require('./views/Mapper');
+const GLOBAL = require('./Globals');
 
 
-var style = StyleSheet.create({
+const style = StyleSheet.create({
     tutContainer: {
         flex: 1,
-        backgroundColor: "#ffffff"
+        backgroundColor: '#ffffff',
     },
     startButton: {
         backgroundColor: '#ff0000',
+        // backgroundColor: '#0d1949',
         alignItems: 'stretch',
 
         height: 50,
@@ -39,7 +43,7 @@ var style = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         left: 20,
-        width: 260
+        width: 260,
     },
 
     pic: {
@@ -48,17 +52,17 @@ var style = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: "#ffffff",
+        backgroundColor: '#ffffff',
     },
     darkContainer: {
         flex: 1,
-        backgroundColor: "#0d1949",
+        backgroundColor: '#0d1949',
     },
     mainContainer: {
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
         flex: 1,
-        marginTop: GLOBAL.TOP_OFFSET
+        marginTop: GLOBAL.TOP_OFFSET,
     },
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
@@ -66,18 +70,6 @@ var style = StyleSheet.create({
         padding: 12,
         marginTop: 10,
         borderWidth: 0,
-    },
-    startButton: {
-        backgroundColor: '#0d1949',
-        alignItems: 'stretch',
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 20,
-        left: 20,
-        width: 260
     },
     header: {
         fontWeight: '700',
@@ -116,16 +108,16 @@ var style = StyleSheet.create({
 
     modal2: {
         height: 230,
-        backgroundColor: "#3B5998"
+        backgroundColor: '#3B5998',
     },
 
     modal3: {
         marginTop: 10,
         height: 300,
         width: 300,
-        backgroundColor: "#ffffff",
+        backgroundColor: '#ffffff',
         borderRadius: 2,
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
 });
@@ -135,38 +127,33 @@ var style = StyleSheet.create({
  */
 
 class Main extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             isDisabled: false,
-            name: "",
             level: GLOBAL.DB.getLevel(),
-            levelObject: GLOBAL.DB.getLevelObject()
+            levelObject: GLOBAL.DB.getLevelObject(),
         };
     }
 
     showAlert(alertObj) {
-      MessageBarManager.showAlert(alertObj);
+        MessageBarManager.showAlert(alertObj);
     }
 
     showLevelUp() {
-        console.log("level up!!");
+        console.log('level up!!');
     }
 
 
     openModal3(level) {
-        var parent = this;
         this.setState({
             levelObject: GLOBAL.DB.getCustomLevelObject(level),
-            level: level
+            level,
         });
-
         this.refs.modal3.open();
-
     }
 
-    closeModal3(id) {
+    closeModal3() {
         this.refs.modal3.close();
         GLOBAL.DB.stopPopup();
     }
@@ -177,20 +164,16 @@ class Main extends React.Component {
      * Starts the level up timer and register the notification bar
      */
     componentDidMount() {
-
-
-        var parent = this;
-      //GLOBAL.ANALYTICS.logEvent('mapswipe_open');
+        const parent = this;
+        // GLOBAL.ANALYTICS.logEvent('mapswipe_open');
         MessageBarManager.registerMessageBar(parent.refs.alert);
 
-        parent.checkInterval = setInterval(function () {
+        parent.checkInterval = setInterval(() => {
             if (GLOBAL.DB.getPendingLevelUp() > 0) {
                 parent.openModal3(GLOBAL.DB.getPendingLevelUp());
                 GLOBAL.DB.setPendingLevelUp(-1);
             }
         }, 500);
-
-
     }
 
     componentWillUnmount() {
@@ -202,33 +185,43 @@ class Main extends React.Component {
     }
 
     render() {
-        console.log('rendering main');
+        const { isDisabled, level, levelObject } = this.state;
         return (
             <View style={style.mainContainer}>
-            <RootStack />
-            <Modal style={[style.modal, style.modal3]} backdropType="blur" position={"center"} ref={"modal3"}
-                   isDisabled={this.state.isDisabled}>
-                <Text style={style.header}>You are now level {this.state.level}</Text>
-                <Image style={style.pic} key={this.state.level} source={this.state.levelObject.badge}/>
-                <Button style={style.startButton} onPress={this.closeModal3}
-                        textStyle={{fontSize: 13, color: '#ffffff', fontWeight: '700'}}>
+                <RootStack />
+                <Modal
+                    style={[style.modal, style.modal3]}
+                    backdropType="blur"
+                    position="center"
+                    ref="modal3"
+                    isDisabled={isDisabled}
+                >
+                    <Text style={style.header}>
+                    `You are now level ${level}`
+                    </Text>
+                    <Image style={style.pic} key={level} source={levelObject.badge} />
+                    <Button
+                        style={style.startButton}
+                        onPress={this.closeModal3}
+                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    >
                     Close
-                </Button>
-            </Modal>
-            <MessageBarAlert ref="alert"/>
-          </View>
-      )
+                    </Button>
+                </Modal>
+                <MessageBarAlert ref="alert" />
+            </View>
+        );
     }
 }
 
 const RootStack = createStackNavigator(
     {
-        Tutorial: Tutorial,
-        ProjectNav: ProjectNav,
-        ProjectView: ProjectView,
-        Mapper: Mapper,
-        Login: Login,
-        WebviewWindow: WebviewWindow,
+        Tutorial,
+        ProjectNav,
+        ProjectView,
+        Mapper,
+        Login,
+        WebviewWindow,
     },
     {
         initialRouteName: 'Tutorial',

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
     Text,
     View,
@@ -10,21 +10,22 @@ import {
     TouchableOpacity,
     Dimensions,
     TimerMixin,
-    Linking
-} from "react-native";
-import Button from "apsl-react-native-button";
+    Linking,
+} from 'react-native';
+import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
-var GLOBAL = require('../Globals');
+
+const GLOBAL = require('../Globals');
 
 
 /**
  * Import the project card component
  * @type {ProjectCard|exports|module.exports}
  */
-var ProjectCard = require('./ProjectCard');
+const ProjectCard = require('./ProjectCard');
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
     container: {
         alignItems: 'center',
@@ -70,17 +71,17 @@ var styles = StyleSheet.create({
     thumb: {
         width: 40,
         height: 40,
-        padding: 20
+        padding: 20,
     },
     text: {
         flex: 1,
         padding: 10,
-        marginLeft: 10
+        marginLeft: 10,
     },
     pic: {
         height: 150,
         width: 150,
-        marginTop: -75
+        marginTop: -75,
     },
     info: {
         width: GLOBAL.SCREEN_WIDTH > 400 ? 400 : GLOBAL.SCREEN_WIDTH,
@@ -88,7 +89,7 @@ var styles = StyleSheet.create({
         height: 100,
         marginTop: -40,
         marginBottom: -30,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
 
     },
 
@@ -100,7 +101,7 @@ var styles = StyleSheet.create({
         left: 0,
         fontSize: 10,
         textAlign: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
 
     },
 
@@ -112,7 +113,7 @@ var styles = StyleSheet.create({
         fontSize: 10,
         right: 20,
         textAlign: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
 
     infoLeftTitle: {
@@ -123,7 +124,7 @@ var styles = StyleSheet.create({
         left: 0,
         textAlign: 'center',
         fontWeight: 'bold',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
 
     },
 
@@ -135,17 +136,16 @@ var styles = StyleSheet.create({
         right: 20,
         textAlign: 'center',
         fontWeight: 'bold',
-        backgroundColor: 'transparent'
-    }
+        backgroundColor: 'transparent',
+    },
 
 });
 
 class MoreOptions extends React.Component {
-
     refreshStats() {
-        var parent = this;
-        setInterval(function () {
-            if (parent.state.distance !== GLOBAL.DB.getDistance() || parent.state.contributions !== GLOBAL.DB.getContributions() || parent.state.name === "") {
+        const parent = this;
+        setInterval(() => {
+            if (parent.state.distance !== GLOBAL.DB.getDistance() || parent.state.contributions !== GLOBAL.DB.getContributions() || parent.state.name === '') {
                 parent.setState({
                     distance: GLOBAL.DB.getDistance(),
                     contributions: GLOBAL.DB.getContributions(),
@@ -153,108 +153,146 @@ class MoreOptions extends React.Component {
                     level: GLOBAL.DB.getLevel(),
                     name: GLOBAL.DB.getAuth().getUser().displayName,
                     progress: GLOBAL.DB.getToNextLevelPercentage(),
-                })
-
+                });
             }
         }, 500);
     }
 
     componentDidMount() {
-        this.refreshStats()
+        this.refreshStats();
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
+            name: '',
             distance: GLOBAL.DB.getDistance(),
             contributions: GLOBAL.DB.getContributions(),
             progress: GLOBAL.DB.getToNextLevelPercentage(),
             level: GLOBAL.DB.getLevel(),
-            levelObject: GLOBAL.DB.getLevelObject()
+            levelObject: GLOBAL.DB.getLevelObject(),
         };
     }
 
     render() {
+        return (
+            <ScrollView contentContainerStyle={styles.container}>
+                <ScrollingBackground />
+                <Image style={styles.pic} key={this.state.level} source={this.state.levelObject.badge} />
+                <View style={styles.info}>
+                    <Text style={styles.infoLeftTitle}>
+                    Level
+                        {' '}
+                        {this.state.level}
+                    </Text>
+                    <Text style={styles.infoRightTitle}>
+                        {this.state.name}
+                    </Text>
+                    <Text style={styles.infoLeft}>
+                        {this.state.levelObject.title}
+                    </Text>
+                    <Text style={styles.infoRight}>
+                    You've mapped
+                        {' '}
+                        {this.state.distance}
+                        {' '}
+square kilometers and found
+                        {' '}
+                        {this.state.contributions}
+                        {' '}
+objects
+                    </Text>
+                </View>
+                <LevelProgress progress={this.state.progress} />
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            this.props.navigation.push('WebviewWindow', {
+                                uri: 'http://mapswipe.org/faq',
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                    >
+Frequently Asked
+                    Questions
+                    </Button>
+                </View>
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            this.props.navigation.push('WebviewWindow', {
+                                uri: GLOBAL.TUT_LINK,
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                    >
+Tutorial
+                    </Button>
+                </View>
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            this.props.navigation.push('WebviewWindow', {
+                                uri: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                    >
+Contact Us
+                    </Button>
+                </View>
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            this.props.navigation.push('WebviewWindow', {
+                                uri: 'http://missingmaps.org/events',
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                    >
+Events
+                    </Button>
+                </View>
 
-        return <ScrollView contentContainerStyle={styles.container}>
-            <ScrollingBackground />
-            <Image style={styles.pic} key={this.state.level} source={this.state.levelObject.badge}>
-            </Image>
-            <View style={styles.info}>
-                <Text style={styles.infoLeftTitle}>
-                    Level {this.state.level}
-                </Text>
-                <Text style={styles.infoRightTitle}>
-                    {this.state.name}
-                </Text>
-                <Text style={styles.infoLeft}>
-                    {this.state.levelObject.title}
-                </Text>
-                <Text style={styles.infoRight}>
-                    You've mapped {this.state.distance} square kilometers and found {this.state.contributions} objects
-                </Text>
-            </View>
-            <LevelProgress progress={this.state.progress} />
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigation.push('WebviewWindow', {
-                        uri: 'http://mapswipe.org/faq',
-                    })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Frequently Asked
-                    Questions</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigation.push('WebviewWindow', {
-                        uri: GLOBAL.TUT_LINK,
-                    })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Tutorial</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigation.push('WebviewWindow', {
-                        uri: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
-                    })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Contact Us</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigation.push('WebviewWindow', {
-                        uri: 'http://missingmaps.org/events',
-                    })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Events</Button>
-            </View>
-
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigation.push('WebviewWindow', {
-                        uri: 'http://missingmaps.org/blog',
-                    })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Blog</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    GLOBAL.DB.getAuth().logOut();
-                    this.props.navigation.push('WebviewWindow', {
-                        uri: 'http://missingmaps.org/events',
-                    });
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Sign Out</Button>
-            </View>
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            this.props.navigation.push('WebviewWindow', {
+                                uri: 'http://missingmaps.org/blog',
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                    >
+Blog
+                    </Button>
+                </View>
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            GLOBAL.DB.getAuth().logOut();
+                            this.props.navigation.push('WebviewWindow', {
+                                uri: 'http://missingmaps.org/events',
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                    >
+Sign Out
+                    </Button>
+                </View>
 
 
-        </ScrollView>;
+            </ScrollView>
+        );
     }
 }
 
 class ScrollingBackground extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = { offset: 0 };
@@ -267,7 +305,7 @@ class ScrollingBackground extends React.Component {
     }
 
     setInterval() {
-        this.intervals.push(setInterval.apply(null, arguments));
+        this.intervals.push(setInterval(...arguments));
     }
 
     componentWillUnmount() {
@@ -281,12 +319,15 @@ class ScrollingBackground extends React.Component {
             this.nextOffset = 1;
         }
         return (
-            <Image source={require('./assets/map_new.jpg')} style={{
-                resizeMode: 'cover',
-                marginRight: this.state.offset,
-                height: 200,
-                backgroundColor: '#e8e8e8',
-            }} />
+            <Image
+                source={require('./assets/map_new.jpg')}
+                style={{
+                    resizeMode: 'cover',
+                    marginRight: this.state.offset,
+                    height: 200,
+                    backgroundColor: '#e8e8e8',
+                }}
+            />
         );
     }
 
@@ -295,7 +336,7 @@ class ScrollingBackground extends React.Component {
     }
 
     componentDidMount() {
-        var self = this;
+        const self = this;
         this.setInterval(self.tick, 1000 / 50);
     }
 
@@ -308,13 +349,12 @@ class ScrollingBackground extends React.Component {
 
 
 class LevelProgress extends React.Component {
-
     getBarStyle(progress) {
         return {
             height: 30,
             width: GLOBAL.SCREEN_WIDTH,
             borderRadius: 0,
-        }
+        };
     }
 
     getBarTextStyle(progress) {
@@ -327,22 +367,22 @@ class LevelProgress extends React.Component {
             left: 0,
             textAlign: 'center',
             paddingTop: 5,
-        }
+        };
     }
 
     constructor(props) {
         super(props);
-        var parent = this;
-        this.progressInterval = setInterval(function () {
-            var newVal = GLOBAL.DB.getKmTilNextLevel();
+        const parent = this;
+        this.progressInterval = setInterval(() => {
+            const newVal = GLOBAL.DB.getKmTilNextLevel();
             parent.setState({
-                text: newVal + " square km (" + Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6) + " swipes) until the next level"
-            })
+                text: `${newVal} square km (${Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6)} swipes) until the next level`,
+            });
         }, 500);
         this.state = {
             barStyle: this.getBarStyle(0),
             textStyle: this.getBarTextStyle(0),
-            text: GLOBAL.DB.getKmTilNextLevel() + " square km until the next level"
+            text: `${GLOBAL.DB.getKmTilNextLevel()} square km until the next level`,
         };
     }
 
@@ -351,19 +391,20 @@ class LevelProgress extends React.Component {
     }
 
     render() {
-        return <View style={styles.barRow}>
-            <Progress.Bar
-                borderRadius={0}
-                height={30}
-                progress={this.props.progress}
-                unfilledColor={'#0d1949'}
-                width={GLOBAL.SCREEN_WIDTH}
-            />
-            <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
-        </View>
+        return (
+            <View style={styles.barRow}>
+                <Progress.Bar
+                    borderRadius={0}
+                    height={30}
+                    progress={this.props.progress}
+                    unfilledColor="#0d1949"
+                    width={GLOBAL.SCREEN_WIDTH}
+                />
+                <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
+            </View>
+        );
     }
 }
 
 
 module.exports = MoreOptions;
-

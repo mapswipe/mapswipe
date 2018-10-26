@@ -1,17 +1,18 @@
 const React = require('react');
 const ReactNative = require('react-native');
+
 const {
     TouchableNativeFeedback,
     View,
 } = ReactNative;
 
-const Button = (props) => {
-    return <TouchableNativeFeedback
+const Button = props => (
+    <TouchableNativeFeedback
         background={TouchableNativeFeedback.SelectableBackground()}
         {...props}
     >
         {props.children}
-    </TouchableNativeFeedback>;
-};
+    </TouchableNativeFeedback>
+);
 
 module.exports = Button;

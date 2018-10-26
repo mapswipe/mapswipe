@@ -1,8 +1,11 @@
-import React from 'react'
-import {Text, View, Platform, StyleSheet, Image, Dimensions, TimerMixin} from "react-native";
-var GLOBAL = require('../Globals');
+import React from 'react';
+import {
+    Text, View, Platform, StyleSheet, Image, Dimensions, TimerMixin,
+} from 'react-native';
 
-var styles = {
+const GLOBAL = require('../Globals');
+
+const styles = {
     loadingText: {
         color: '#ffffff',
         fontWeight: '300',
@@ -12,7 +15,6 @@ var styles = {
 };
 
 class LoadingComponent extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +27,7 @@ class LoadingComponent extends React.Component {
     }
 
     setInterval() {
-        this.intervals.push(setInterval.apply(null, arguments));
+        this.intervals.push(setInterval(...arguments));
     }
 
     componentWillUnmount() {
@@ -47,20 +49,21 @@ class LoadingComponent extends React.Component {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: GLOBAL.SCREEN_WIDTH,
-                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT)
-            }}>
-                <Image style={{width: 100, height: 100}} source={require('./assets/loadinganimation.gif')}/>
+                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
+            }}
+            >
+                <Image style={{ width: 100, height: 100 }} source={require('./assets/loadinganimation.gif')} />
                 <Text style={styles.loadingText}>Loading...</Text>
             </View>
         );
     }
 
     tick = () => {
-        this.setState({offset: this.state.offset + this.nextOffset});
+        this.setState({ offset: this.state.offset + this.nextOffset });
     }
 
     componentDidMount() {
-        var self = this;
+        const self = this;
         this.setInterval(self.tick, 1000 / 50);
     }
 

@@ -6,18 +6,18 @@
  * It also stores stuff such as the screen dimentions and server variables.
  */
 
-import { Platform, Dimensions } from 'react-native'
+import { Platform, Dimensions } from 'react-native';
 
-//const AuthManager = require('./AuthManager')
+// const AuthManager = require('./AuthManager')
 
-//var authManager = new AuthManager();
+// var authManager = new AuthManager();
 
-//var Analytics = require('react-native-firebase-analytics');
+// var Analytics = require('react-native-firebase-analytics');
 
-var Database = require('./Database');
+const Database = require('./Database');
 
 // FIXME: check the old calculation to include status bar and soft menu
-var screenHeight = Dimensions.get('window').height
+const screenHeight = Dimensions.get('window').height;
 
 module.exports = {
     STORE_KEY: 'a56z0fzrNpl^2',
@@ -25,8 +25,7 @@ module.exports = {
     FILE_PATH: '',
     TOP_OFFSET: Platform.OS === 'android' ? 0 : 20,
     SCREEN_WIDTH: Dimensions.get('window').width,
-    SCREEN_HEIGHT: screenHeight
-    ,
+    SCREEN_HEIGHT: screenHeight,
     COLOR: {
         ORANGE: '#C50',
         DARKBLUE: '#0F3274',
@@ -38,9 +37,9 @@ module.exports = {
     TILES_PER_VIEW_X: 2,
     TILES_PER_VIEW_Y: 3,
     TILE_VIEW_WIDTH: 1,
-  //AUTH_MANAGER: authManager,
+    // AUTH_MANAGER: authManager,
     DB: Database,
     GRADIENT_COUNT: 0,
     TUT_LINK: 'http://www.missingmaps.org/blog/2016/07/18/mapswipetutorial/',
-  //ANALYTICS: Analytics,
+    // ANALYTICS: Analytics,
 };

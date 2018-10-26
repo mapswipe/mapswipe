@@ -1,9 +1,11 @@
-import React from "react";
-import { ImageBackground, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity} from "react-native";
-import Button from "apsl-react-native-button";
-import LinearGradient from "react-native-linear-gradient";
+import React from 'react';
+import {
+    ImageBackground, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity,
+} from 'react-native';
+import Button from 'apsl-react-native-button';
+import LinearGradient from 'react-native-linear-gradient';
 
-var GLOBAL = require('../Globals');
+const GLOBAL = require('../Globals');
 
 
 /**
@@ -12,12 +14,12 @@ var GLOBAL = require('../Globals');
  */
 
 
-var style = StyleSheet.create({
+const style = StyleSheet.create({
     largeCard: {
         height: 250,
         width: GLOBAL.SCREEN_WIDTH,
         shadowColor: '#ccc',
-        shadowOffset: {width: 2, height: 2},
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
         marginTop: 5,
     },
@@ -35,20 +37,20 @@ var style = StyleSheet.create({
         height: 250,
         width: GLOBAL.SCREEN_WIDTH * 0.49,
         shadowColor: '#ccc',
-        shadowOffset: {width: 2, height: 2},
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
         marginTop: 5,
     },
     cardBackground: {
         flex: 1,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     circle: {
         width: 5,
         height: 5,
         borderRadius: 100 / 2,
-        backgroundColor: '#ee0000'
+        backgroundColor: '#ee0000',
     },
     nowButton: {
         backgroundColor: '#ffffff',
@@ -59,7 +61,7 @@ var style = StyleSheet.create({
         borderWidth: 0.1,
         top: 5,
         left: 5,
-        position: 'absolute'
+        position: 'absolute',
     },
     offlineIndicator: {
         borderWidth: 0,
@@ -99,12 +101,12 @@ var style = StyleSheet.create({
         fontSize: 15,
         fontWeight: '600',
         color: '#ffffff',
-        shadowColor: "#000000",
+        shadowColor: '#000000',
         shadowOpacity: 0.8,
         shadowRadius: 2,
         shadowOffset: {
             height: 1,
-            width: 0
+            width: 0,
         },
 
     },
@@ -144,26 +146,24 @@ var style = StyleSheet.create({
 });
 
 class ProjectCard extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups('project-' + this.props.card.id)
-        }
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${this.props.card.id}`),
+        };
     }
 
     _getColorForState(state) {
         if (state === 0) {
             return 'red';
-        } else if (state === 1) {
+        } if (state === 1) {
             return 'orange';
-        } else if (state === 2) { //complete
+        } if (state === 2) { // complete
             return 'green';
         }
     }
 
     _getTextForState(state) {
-
         if (state === 2) {
             return 'COMPLETE';
         }
@@ -180,26 +180,24 @@ class ProjectCard extends React.Component {
 
     _handlePress = () => {
         this.props.navigation.push('ProjectView', { data: this.props.card });
-        //console.log(event);
+        // console.log(event);
     }
 
     getGradientArray() {
+        const gradientToPick = this.props.card.id % 3;
+        let gradientCountArray = null;
 
-        var gradientToPick = this.props.card.id % 3;
-        var gradientCountArray = null;
-
-        var gradientOpacity = ["0.6", "0.8"];
+        const gradientOpacity = ['0.6', '0.8'];
         switch (gradientToPick) {
-
-            case 0:
-                gradientCountArray = ['rgba(12,25,73,' + gradientOpacity[0] + ')', 'rgba(0,0,0,' + gradientOpacity[1] + ')'];
-                break;
-            case 1:
-                gradientCountArray = ['rgba(192,43,43,' + gradientOpacity[0] + ')', 'rgba(0,0,0,' + gradientOpacity[1] + ')'];
-                break;
-            case 2:
-                gradientCountArray = ['rgba(156,36,189,' + gradientOpacity[0] + ')', 'rgba(0,0,0,' + gradientOpacity[1] + ')'];
-                break;
+        case 0:
+            gradientCountArray = [`rgba(12,25,73,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
+            break;
+        case 1:
+            gradientCountArray = [`rgba(192,43,43,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
+            break;
+        case 2:
+            gradientCountArray = [`rgba(156,36,189,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
+            break;
         }
 
 
@@ -211,17 +209,18 @@ class ProjectCard extends React.Component {
         return (
             <TouchableOpacity onPress={this._handlePress}>
                 <View
-                    style={[(this.props.featured === true ? style.largeCard : style.smallCard), {marginLeft: this.props.cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0}]}>
+                    style={[(this.props.featured === true ? style.largeCard : style.smallCard), { marginLeft: this.props.cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
+                >
                     <ImageBackground
                         style={style.cardBackground}
-                        source={{uri: card.image}}
+                        source={{ uri: card.image }}
                     >
                         <LinearGradient
                             colors={this.getGradientArray()}
                             style={style.linearGradient}
                         />
                         <Image
-                            style={[style.offlineIndicator, {opacity: this.state.hasOfflineGroups ? 1 : 0.30}]}
+                            style={[style.offlineIndicator, { opacity: this.state.hasOfflineGroups ? 1 : 0.30 }]}
                             source={require('./assets/offline_icon.png')}
                         />
 

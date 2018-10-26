@@ -3,12 +3,14 @@
  * You do it like this: {this.props.navigation.push('WebViewWindow', { uri: this.state.announcement.url })
  */
 
-import React from "react";
-import {Text, View, Platform, StyleSheet, Image, Dimensions, WebView, TouchableHighlight} from "react-native";
-import {DefaultTabBar} from "react-native-scrollable-tab-view";
-var GLOBAL = require('../Globals');
+import React from 'react';
+import {
+    View, Image, WebView, TouchableHighlight,
+} from 'react-native';
 
-var styles = {
+const GLOBAL = require('../Globals');
+
+const styles = {
     loadingText: {
         color: '#ffffff',
         fontWeight: '300',
@@ -27,7 +29,7 @@ var styles = {
         top: 0,
         padding: 20,
         left: 0,
-        position: 'absolute'
+        position: 'absolute',
     },
     infoButton: {
         width: 20,
@@ -40,18 +42,17 @@ var styles = {
         height: 20,
         top: 20,
         right: 20,
-        position: 'absolute'
+        position: 'absolute',
     },
     swipeNavTop: {
         width: (GLOBAL.SCREEN_WIDTH),
         height: 60,
-        backgroundColor: '#0d1949'
+        backgroundColor: '#0d1949',
 
     },
 };
 
 class WebviewWindow extends React.Component {
-
     returnToView = () => {
         this.props.navigation.pop();
     }
@@ -59,17 +60,21 @@ class WebviewWindow extends React.Component {
     render() {
         const uri = this.props.navigation.getParam('uri', 'https://www.mapswipe.org/');
         return (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <View style={styles.swipeNavTop}>
 
-                    <TouchableHighlight style={styles.backButtonContainer} onPress={this.returnToView}><Image
-                        style={styles.backButton} source={require('./assets/backarrow_icon.png')}/></TouchableHighlight>
+                    <TouchableHighlight style={styles.backButtonContainer} onPress={this.returnToView}>
+                        <Image
+                            style={styles.backButton}
+                            source={require('./assets/backarrow_icon.png')}
+                        />
+                    </TouchableHighlight>
 
                 </View>
                 <WebView
-                    style={{flex: 1}}
-                    javaScriptEnabled={true}
-                    source={{uri: uri}}
+                    style={{ flex: 1 }}
+                    javaScriptEnabled
+                    source={{ uri }}
                 />
             </View>
         );

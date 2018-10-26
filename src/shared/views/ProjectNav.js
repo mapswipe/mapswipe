@@ -1,21 +1,23 @@
-import React from "react";
-import { Text, View, Platform, ScrollView, StyleSheet, Linking } from "react-native";
-import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
-import Button from "apsl-react-native-button";
+import React from 'react';
+import {
+    Text, View, ScrollView, StyleSheet,
+} from 'react-native';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import Button from 'apsl-react-native-button';
+
 const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
-var store = require('react-native-simple-store');
-var GLOBAL = require('../Globals');
+const Modal = require('react-native-modalbox');
+const GLOBAL = require('../Globals');
 
 /**
  * Import the project card component
  * @type {ProjectCard|exports|module.exports}
  */
 
-var ProjectCard = require('./ProjectCard');
-var MoreOptions = require('./MoreOptions');
-var Modal = require('react-native-modalbox');
-var LoadingIcon = require('./LoadingIcon');
+const ProjectCard = require('./ProjectCard');
+const MoreOptions = require('./MoreOptions');
+const LoadingIcon = require('./LoadingIcon');
 
 
 /**
@@ -23,7 +25,7 @@ var LoadingIcon = require('./LoadingIcon');
  */
 
 
-var style = StyleSheet.create({
+const style = StyleSheet.create({
     inModalButton2: {
         backgroundColor: '#ee0000',
         height: 50,
@@ -31,7 +33,7 @@ var style = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.1,
         width: 260,
-        marginTop: 20
+        marginTop: 20,
     },
     inModalButton: {
         backgroundColor: '#0d1949',
@@ -44,7 +46,7 @@ var style = StyleSheet.create({
     listView: {
         width: GLOBAL.SCREEN_WIDTH,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
 
     },
     otherButton: {
@@ -65,7 +67,7 @@ var style = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         left: 20,
-        width: 260
+        width: 260,
     },
     header: {
         fontWeight: '700',
@@ -103,15 +105,15 @@ var style = StyleSheet.create({
 
     modal2: {
         height: 230,
-        backgroundColor: "#3B5998"
+        backgroundColor: '#3B5998',
     },
 
     modal3: {
         marginTop: 10,
         height: 300,
         width: 300,
-        backgroundColor: "#ffffff",
-        borderRadius: 2
+        backgroundColor: '#ffffff',
+        borderRadius: 2,
     },
 
     cardRow: {
@@ -119,7 +121,7 @@ var style = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         width: GLOBAL.SCREEN_WIDTH,
-    }
+    },
 
 });
 
@@ -130,26 +132,24 @@ var style = StyleSheet.create({
  */
 
 class ProjectNav extends React.Component {
-
     componentDidMount() {
-
-      //GLOBAL.ANALYTICS.logEvent('app_home_seen');
-        console.log("Firing sync");
+        // GLOBAL.ANALYTICS.logEvent('app_home_seen');
+        console.log('Firing sync');
         // attempt to sync any unsynced data from last time.
-        GLOBAL.DB.syncAndDeIndex().then(data => {
-            console.log("SyncAndDeIndex complete:");
+        GLOBAL.DB.syncAndDeIndex().then((data) => {
+            console.log('SyncAndDeIndex complete:');
             console.log(data);
             // if(data.successCount === 0 || data.errorCount > 0) {
             MessageBarManager.showAlert({
-                title: data.successCount + " tasks synced",
-                message: data.errorCount + " failures",
+                title: `${data.successCount} tasks synced`,
+                message: `${data.errorCount} failures`,
                 alertType: 'success',
             });
-            //}
-        }).catch(error => {
+            // }
+        }).catch((error) => {
             MessageBarManager.showAlert({
-                title: data.successCount + " tasks synced",
-                message: data.errorCount + " failures",
+                title: `${data.successCount} tasks synced`,
+                message: `${data.errorCount} failures`,
                 alertType: 'error',
             });
         });
@@ -160,13 +160,13 @@ class ProjectNav extends React.Component {
             <ScrollableTabView
                 tabBarActiveTextColor="#ffffff"
                 tabBarInactiveTextColor="#e8e8e8"
-                tabBarUnderlineStyle={{backgroundColor: '#ee0000'}}
-                renderTabBar={() => <DefaultTabBar backgroundColor='#0d1949' style={{ borderBottomWidth: 0 }} />}
+                tabBarUnderlineStyle={{ backgroundColor: '#ee0000' }}
+                renderTabBar={() => <DefaultTabBar backgroundColor="#0d1949" style={{ borderBottomWidth: 0 }} />}
             >
-                <View style={{ flex: 1 }} tabLabel='Missions'>
+                <View style={{ flex: 1 }} tabLabel="Missions">
                     <RecommendedCards navigation={this.props.navigation} />
                 </View>
-                <View style={{ flex: 1 }} tabLabel='More'>
+                <View style={{ flex: 1 }} tabLabel="More">
                     <MoreOptions navigation={this.props.navigation} />
                 </View>
             </ScrollableTabView>
@@ -176,15 +176,14 @@ class ProjectNav extends React.Component {
 
 
 class RecommendedCards extends React.Component {
+    openModal3 = () => {
+        const parent = this;
 
-    openModal3 = (id) => {
-        var parent = this;
-
-        GLOBAL.DB.openPopup().then(data => {
-            console.log("No need to open new tut window")
-        }).catch(err => {
+        GLOBAL.DB.openPopup().then((data) => {
+            console.log('No need to open new tut window');
+        }).catch((err) => {
             parent.refs.modal3.open();
-        })
+        });
     }
 
     closeModal3 = (id) => {
@@ -195,11 +194,11 @@ class RecommendedCards extends React.Component {
     componentDidMount() {
         // get nounouncement, then pop up modal
 
-        var parent = this;
-        GLOBAL.DB.getAnnouncement().then(data => {
+        const parent = this;
+        GLOBAL.DB.getAnnouncement().then((data) => {
             this.setState({
                 announcement: data,
-                projects: this.state.projects
+                projects: this.state.projects,
 
             });
             parent.openModal3();
@@ -217,6 +216,7 @@ class RecommendedCards extends React.Component {
     updateProjects = (newCards) => {
         this.setState({ loadingProjects: false, projects: newCards, announcement: this.state.announcement });
     }
+
     /**
      * Get the initial project state, load from database if necessary.
      * @returns {{dataSource}}
@@ -227,7 +227,7 @@ class RecommendedCards extends React.Component {
         GLOBAL.DB.getProjects().then((data) => {
             console.log('Received project list from DB', data);
             this.updateProjects(data);
-        }).catch(function (error) {
+        }).catch((error) => {
             console.log('Error fetching projects', error);
         });
 
@@ -235,103 +235,121 @@ class RecommendedCards extends React.Component {
             loadingProjects: true,
             projects: {
                 featuredCard: null,
-                otherCards: []
+                otherCards: [],
             },
-            announcement: null
+            announcement: null,
         };
     }
 
     render() {
-        var rows = [];
+        const rows = [];
 
         if (this.state.announcement !== null) {
             rows.push(<Button
                 onPress={() => {
                     this.props.navigation.push('WebviewWindow', {
                         url: this.state.announcement.url,
-                    })
+                    });
                 }}
-                key={'announce'}
+                key="announce"
                 style={style.otherButton}
                 textStyle={{
                     fontSize: 13,
-                        color: '#0d1949',
-                        fontWeight: '700'
-                }}>{this.state.announcement.text}</Button>);
+                    color: '#0d1949',
+                    fontWeight: '700',
+                }}
+            >
+                {this.state.announcement.text}
+            </Button>);
         }
 
         if (this.state.loadingProjects) {
-            rows.push(<LoadingIcon key={'icon'} />);
+            rows.push(<LoadingIcon key="icon" />);
         } else {
             if (this.state.projects.featuredCard !== null) {
                 rows.push(<FeaturedCard
                     key={rows.length}
                     navigation={this.props.navigation}
                     card={this.state.projects.featuredCard}
-                    />);
+                />);
             }
-            var parent = this;
-            this.state.projects.otherCards.forEach(function (cardRow) {
-                rows.push(<CardRow key={rows.length} navigation={parent.props.navigation} cardRow={cardRow} />)
+            const parent = this;
+            this.state.projects.otherCards.forEach((cardRow) => {
+                rows.push(<CardRow key={rows.length} navigation={parent.props.navigation} cardRow={cardRow} />);
             });
         }
 
         rows.push(<Modal
-            key='modal'
-            style={[style.modal, style.modal3]} backdropType="blur" position={"top"} ref={"modal3"}
-            isDisabled={this.state.isDisabled}>
+            key="modal"
+            style={[style.modal, style.modal3]}
+            backdropType="blur"
+            position="top"
+            ref="modal3"
+            isDisabled={this.state.isDisabled}
+        >
             <Text style={style.header}>Tutorial</Text>
             <Text style={style.tutPar}>Learn more about how to use Mapswipe!</Text>
-            <Button style={style.inModalButton2} onPress={() => {
-                this.closeModal3();
-                this.props.navigation.push('WebviewWindow', {
-                    uri: GLOBAL.TUT_LINK,
-                })
-            }} textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+            <Button
+                style={style.inModalButton2}
+                onPress={() => {
+                    this.closeModal3();
+                    this.props.navigation.push('WebviewWindow', {
+                        uri: GLOBAL.TUT_LINK,
+                    });
+                }}
+                textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+            >
                 Go To Tutorial
             </Button>
-            <Button style={style.inModalButton} onPress={this.closeModal3}
-                textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}>
+            <Button
+                style={style.inModalButton}
+                onPress={this.closeModal3}
+                textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+            >
                 No thanks
             </Button>
         </Modal>);
 
-        return <ScrollView contentContainerStyle={style.listView}
-            removeClippedSubviews={true}
-            navigation={this.props.navigation}
-        >
-            {rows}
-        </ScrollView>
-            ;
+        return (
+            <ScrollView
+                contentContainerStyle={style.listView}
+                removeClippedSubviews
+                navigation={this.props.navigation}
+            >
+                {rows}
+            </ScrollView>
+        );
     }
 }
 
 class FeaturedCard extends React.Component {
-
     render() {
-        return <View navigation={this.props.navigation} style={style.cardRow}>
-            <ProjectCard navigation={this.props.navigation} card={this.props.card} featured={true} />
-        </View>
+        return (
+            <View navigation={this.props.navigation} style={style.cardRow}>
+                <ProjectCard navigation={this.props.navigation} card={this.props.card} featured />
+            </View>
+        );
     }
 }
 
 class CardRow extends React.Component {
-
     render() {
-        //var rows = [];
-        //for (var i = 0; i < this.props.cardRow.cards.length; i++) {
+        // var rows = [];
+        // for (var i = 0; i < this.props.cardRow.cards.length; i++) {
         const rows = this.props.cardRow.cards.map((card, index) => (
             <ProjectCard
-            navigation={this.props.navigation}
-            card={card}
-            cardIndex={index}
-            key={card.id}
-            featured={false}
+                navigation={this.props.navigation}
+                card={card}
+                cardIndex={index}
+                key={card.id}
+                featured={false}
             />
         ));
-        return <View navigation={this.props.navigation} style={style.cardRow}>
-            {rows}
-        </View>;
+        return (
+            <View navigation={this.props.navigation} style={style.cardRow}>
+                {rows}
+            </View>
+        );
     }
 }
 
