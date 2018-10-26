@@ -19,7 +19,7 @@ import Button from "apsl-react-native-button";
 var Modal = require('react-native-modalbox');
 var GLOBAL = require('../Globals');
 var store = require('react-native-simple-store');
-
+var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 import * as Progress from 'react-native-progress';
 import DeviceInfo from 'react-native-device-info';
 var RNFS = require('react-native-fs');
@@ -560,7 +560,7 @@ class LoadMoreCard extends React.Component {
       //GLOBAL.ANALYTICS.logEvent('complete_group');
         var parent = this;
         console.log("made it to more");
-        _mapper.props.messageBar.showAlert({
+        MessageBarManager.showAlert({
             title: 'Sync Alert',
             message: 'Syncing your tasks.. do not close',
             alertType: 'info',
@@ -584,7 +584,7 @@ class LoadMoreCard extends React.Component {
 
             console.log("Completed group report");
             GLOBAL.DB.syncAndDeIndex().then(data => {
-                _mapper.props.messageBar.showAlert({
+                MessageBarManager.showAlert({
                     title: data.successCount + " tasks synced",
                     message: data.errorCount + " failures",
                     alertType: 'success',
@@ -592,7 +592,7 @@ class LoadMoreCard extends React.Component {
                     // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
             }).catch(error => {
-                _mapper.props.messageBar.showAlert({
+                MessageBarManager.showAlert({
                     title: data.successCount + " tasks synced",
                     message: data.errorCount + " failures",
                     alertType: 'error',
@@ -610,7 +610,7 @@ class LoadMoreCard extends React.Component {
             _mapper.refs.cardbody.resetState();
 
             console.log("Completed group report");
-            _mapper.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: 'Sync Alert',
                 message: 'Syncing your tasks.. do not close',
                 alertType: 'info',
@@ -618,7 +618,7 @@ class LoadMoreCard extends React.Component {
                 // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             GLOBAL.DB.syncAndDeIndex().then(data => {
-                _mapper.props.messageBar.showAlert({
+                MessageBarManager.showAlert({
                     title: data.successCount + " tasks synced",
                     message: data.errorCount + " failures",
                     alertType: 'success',
@@ -627,7 +627,7 @@ class LoadMoreCard extends React.Component {
                 });
                 _mapper.props.navigator.pop();
             }).catch(error => {
-                _mapper.props.messageBar.showAlert({
+                MessageBarManager.showAlert({
                     title: data.successCount + " tasks synced",
                     message: data.errorCount + " failures",
                     alertType: 'error',
@@ -922,7 +922,7 @@ class CardBody extends React.Component {
         if (this.isOfflineGroup === true) {
             if (this.lastMode !== 'offline') {
                 this.lastMode = 'offline';
-                _mapper.props.messageBar.showAlert({
+                MessageBarManager.showAlert({
                     title: 'You are mapping a downloaded group!',
                     message: 'It will work offline! ',
                     alertType: 'info',
@@ -933,7 +933,7 @@ class CardBody extends React.Component {
         } else {
             if (this.lastMode !== 'online') {
                 this.lastMode = 'online';
-                _mapper.props.messageBar.showAlert({
+                MessageBarManager.showAlert({
                     title: 'Online Mapping Activated',
                     message: 'If you want to map offline, download tasks on the project home.',
                     alertType: 'info',

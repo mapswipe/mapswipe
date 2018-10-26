@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, Platform, ScrollView, StyleSheet, Linking } from "react-native";
 import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
 import Button from "apsl-react-native-button";
+const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
 var store = require('react-native-simple-store');
 var GLOBAL = require('../Globals');
@@ -139,14 +140,14 @@ class ProjectNav extends React.Component {
             console.log("SyncAndDeIndex complete:");
             console.log(data);
             // if(data.successCount === 0 || data.errorCount > 0) {
-            this.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: data.successCount + " tasks synced",
                 message: data.errorCount + " failures",
                 alertType: 'success',
             });
             //}
         }).catch(error => {
-            this.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: data.successCount + " tasks synced",
                 message: data.errorCount + " failures",
                 alertType: 'error',

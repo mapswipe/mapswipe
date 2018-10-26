@@ -8,7 +8,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Platform, Image, BackHandler} from "react-native";
 import { Navigator } from 'react-native-deprecated-custom-components';
-//import Button from "apsl-react-native-button";
+import Button from "apsl-react-native-button";
 
 var Tutorial = require('./views/Tutorial');
 var ProjectNav = require('./views/ProjectNav');
@@ -18,8 +18,8 @@ var Login = require('./views/Login');
 var Mapper = require('./views/Mapper');
 var GLOBAL = require('./Globals');
 // FIXME: message-bar not maintained since 2016
-//var MessageBarAlert = require('react-native-message-bar').MessageBar;
-//var MessageBarManager = require('react-native-message-bar').MessageBarManager;
+var MessageBarAlert = require('react-native-message-bar').MessageBar;
+var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 var Modal = require('react-native-modalbox');
 var ultimateParent = this;
 
@@ -32,6 +32,7 @@ var _route;
 var CustomSceneConfig = Object.assign({}, BaseConfig, {
     gestures: false
 });
+
 var style = StyleSheet.create({
     tutContainer: {
         flex: 1,
@@ -168,8 +169,7 @@ class Main extends React.Component {
     }
 
     showAlert(alertObj) {
-      //MessageBarManager.showAlert(alertObj);
-      console.log(alertObj);
+      MessageBarManager.showAlert(alertObj);
     }
 
     showLevelUp() {
@@ -203,7 +203,7 @@ class Main extends React.Component {
 
         var parent = this;
       //GLOBAL.ANALYTICS.logEvent('mapswipe_open');
-      //MessageBarManager.registerMessageBar(parent.refs.alert);
+        MessageBarManager.registerMessageBar(parent.refs.alert);
 
         parent.checkInterval = setInterval(function () {
             if (GLOBAL.DB.getPendingLevelUp() > 0) {
@@ -269,7 +269,6 @@ class Main extends React.Component {
                 configureScene={this._configureScene}
                 style={style.container}
               />
-            </View>
             <Modal style={[style.modal, style.modal3]} backdropType="blur" position={"center"} ref={"modal3"}
                    isDisabled={this.state.isDisabled}>
                 <Text style={style.header}>You are now level {this.state.level}</Text>
@@ -279,10 +278,9 @@ class Main extends React.Component {
                     Close
                 </Button>
             </Modal>
+          <MessageBarAlert ref="alert"/>
           </View>
       )
-      //<MessageBarAlert ref="alert"/></View>
-      //);
     }
 }
 

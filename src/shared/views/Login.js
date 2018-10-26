@@ -18,6 +18,7 @@ import {
     TextInput
 } from "react-native";
 import Button from "apsl-react-native-button";
+const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 var GLOBAL = require('../Globals');
 //var ProgressBar = require('react-native-progress-bar');
 
@@ -125,7 +126,7 @@ class Login extends React.Component {
         var parent = this;
         if (this.state.username !== null && this.state.username.length < 3) {
           //GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Error on sign up",
                 message: "Your username must be 4 characters or more",
                 alertType: 'error',
@@ -137,7 +138,7 @@ class Login extends React.Component {
 
         if (this.state.username !== null && this.state.username.indexOf("@") !== -1) {
           //GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Error on sign up",
                 message: "Your username can not be an email",
                 alertType: 'error',
@@ -151,7 +152,7 @@ class Login extends React.Component {
         });
 
         GLOBAL.DB.createAccount(this.state.email, this.state.username, this.state.password).then(data => {
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Success",
                 message: "Welcome to Mapswipe, " + this.state.username,
                 alertType: 'info',
@@ -165,7 +166,7 @@ class Login extends React.Component {
             parent.props.navigator.push({ id: 1 });
         }).catch(error => {
           //GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Error on sign up",
                 message: error,
                 alertType: 'error',
@@ -192,7 +193,7 @@ class Login extends React.Component {
         });
         var parent = this;
         GLOBAL.DB.signIn(this.state.email, this.state.password).then(data => {
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Success",
                 message: "Welcome to Mapswipe, " + this.state.username,
                 alertType: 'info',
@@ -208,7 +209,7 @@ class Login extends React.Component {
             if (error.indexOf("deleted") !== -1) {
                 error = "Invalid username or password";
             }
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Error on log in",
                 message: error,
                 alertType: 'error',
@@ -230,7 +231,7 @@ class Login extends React.Component {
         var parent = this;
         GLOBAL.DB.resetPass(this.state.email).then(data => {
 
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Success",
                 message: "Check your email",
                 alertType: 'info',
@@ -246,7 +247,7 @@ class Login extends React.Component {
             if (error.indexOf("deleted") !== -1) {
                 error = "This email was not found.";
             }
-            parent.props.messageBar.showAlert({
+            MessageBarManager.showAlert({
                 title: "Error on reset pass",
                 message: error,
                 alertType: 'error',
