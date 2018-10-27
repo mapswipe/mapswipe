@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#3B5998',
     },
 
-    modal3: {
+    tutorialModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
         backgroundColor: '#ffffff',
@@ -334,17 +334,12 @@ class Mapper extends React.Component {
         super(props);
         this.data = this.props.navigation.getParam('data', null);
         this.state = {
-            isOpen: false,
-            isDisabled: false,
-            swipeToClose: false,
-            tilePopupDisabled: true,
-            sliderValue: 0.3,
             poppedUpTile: null,
         };
     }
 
     componentDidMount() {
-        this.openModal3();
+        this.openTutorialModal();
         // GLOBAL.ANALYTICS.logEvent('mapping_started');
         _mapper = this;
     }
@@ -353,28 +348,8 @@ class Mapper extends React.Component {
         this.refs.cardbody.resetState();
     }
 
-    toggleDisable = () => {
-        this.setState({ isDisabled: !this.state.isDisabled });
-    }
-
-    toggleSwipeToClose = () => {
-        this.setState({ swipeToClose: !this.state.swipeToClose });
-    }
-
-    onClose() {
-        console.log('Modal just closed');
-    }
-
-    onOpen() {
-        console.log('Modal just openned');
-    }
-
-    onClosingState(state) {
-        console.log('the open/close of the swipeToClose just changed');
-    }
-
-    openModal3 = (id) => {
-        this.refs.modal3.open();
+    openTutorialModal = (id) => {
+        this.TutorialModal.open();
     }
 
     returnToView = () => {
@@ -382,32 +357,22 @@ class Mapper extends React.Component {
         this.props.navigation.pop();
     }
 
-    closeModal3 = (id) => {
-        this.refs.modal3.close();
+    closeTutorialModal = (id) => {
+        this.TutorialModal.close();
     }
 
     openTilePopup = (tile) => {
         this.setState({
-            isOpen: false,
-            isDisabled: false,
-            swipeToClose: false,
-            tilePopupDisabled: false,
-            sliderValue: 0.3,
             poppedUpTile: tile,
         });
-        this.refs.tilePopup.open();
+        this.tilePopup.open();
     }
 
     closeTilePopup = (id) => {
         this.setState({
-            isOpen: false,
-            isDisabled: false,
-            swipeToClose: false,
-            tilePopupDisabled: true,
-            sliderValue: 0.3,
             poppedUpTile: <View />,
         });
-        this.refs.tilePopup.close();
+        this.tilePopup.close();
     }
 
     getProgress = () => (this.refs.progress);
@@ -429,7 +394,7 @@ class Mapper extends React.Component {
                         />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={styles.infoButtonContainer} onPress={this.openModal3}>
+                    <TouchableHighlight style={styles.infoButtonContainer} onPress={this.openTutorialModal}>
                         <Image
                             style={styles.infoButton}
                             source={require('./assets/info_icon.png')}
@@ -446,11 +411,10 @@ class Mapper extends React.Component {
                 />
                 <BottomProgress ref="progress" />
                 <Modal
-                    style={[styles.modal, styles.modal3]}
+                    style={[styles.modal, styles.tutorialModal]}
                     backdropType="blur"
                     position="center"
-                    ref="modal3"
-                    isDisabled={this.state.isDisabled}
+                    ref={(r) => { this.TutorialModal = r; }}
                 >
                     <Text style={styles.header}>How To Contribute</Text>
                     <View style={styles.tutRow}>
@@ -512,7 +476,7 @@ HOLD TO
                     <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
                     <Button
                         style={styles.startButton}
-                        onPress={this.closeModal3}
+                        onPress={this.closeTutorialModal}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     I understand
@@ -520,12 +484,9 @@ HOLD TO
                 </Modal>
                 <Modal
                     style={styles.tilePopup}
-                    backdropType="none"
                     entry="bottom"
                     position="center"
-                    ref="tilePopup"
-                    isDisabled={this.state.tilePopupDisabled}
-                    forceToFront
+                    ref={(r) => { this.tilePopup = r; }}
                 >
                     {this.state.poppedUpTile}
                 </Modal>
@@ -819,7 +780,6 @@ class Tile extends React.Component {
         this.reportActive = null;
 
         this.state = {
-            tilePopupDisabled: true,
             tile: {
                 height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
                 width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
@@ -842,7 +802,6 @@ class Tile extends React.Component {
             this.tileStatus = 0;
         }
         this.setState({
-            tilePopupDisabled: true,
             tile: {
                 height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
                 width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
