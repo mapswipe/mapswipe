@@ -304,15 +304,15 @@ class Mapper extends React.Component {
     }
 
     componentWillUnmount() {
-        this.refs.cardbody.resetState();
+        this.cardbody.resetState();
     }
 
-    openTutorialModal = (id) => {
+    openTutorialModal = () => {
         this.TutorialModal.open();
     }
 
     returnToView = () => {
-        this.refs.cardbody.resetState();
+        this.cardbody.resetState();
         this.props.navigation.pop();
     }
 
@@ -334,7 +334,7 @@ class Mapper extends React.Component {
         this.tilePopup.close();
     }
 
-    getProgress = () => (this.refs.progress);
+    getProgress = () => (this.progress);
 
     render() {
         return (
@@ -366,9 +366,9 @@ class Mapper extends React.Component {
                     data={this.data}
                     paging
                     navigation={this.props.navigation}
-                    ref="cardbody"
+                    ref={(r) => { this.cardbody = r; }}
                 />
-                <BottomProgress ref="progress" />
+                <BottomProgress ref={(r) => { this.progress = r; }} />
                 <Modal
                     style={[styles.modal, styles.tutorialModal]}
                     backdropType="blur"
@@ -455,16 +455,17 @@ HOLD TO
 }
 
 class BottomProgress extends React.Component {
-    getBarStyle(progress) {
-        return {
-            height: 20,
-            width: GLOBAL.SCREEN_WIDTH * 0.98,
-            borderRadius: 0,
-            marginBottom: 2,
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            progress: 0,
+            textStyle: this.getBarTextStyle(),
+            text: 'START MAPPING',
         };
     }
 
-    getBarTextStyle(progress) {
+    getBarTextStyle() {
         return {
             color: '#ffffff',
             borderColor: '#212121',
@@ -476,27 +477,17 @@ class BottomProgress extends React.Component {
         };
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            progress: 0,
-            barStyle: this.getBarStyle(0),
-            textStyle: this.getBarTextStyle(0),
-            text: 'START MAPPING',
-        };
-    }
-
     updateProgress = (event, cardsLength) => {
         const newProgress = event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsLength);
         this.setState({
             progress: newProgress,
-            barStyle: this.getBarStyle(newProgress),
-            textStyle: this.getBarTextStyle(newProgress),
+            textStyle: this.getBarTextStyle(),
             text: `YOU'VE MAPPED ${Math.ceil(newProgress * 100)}%`,
         });
     }
 
     render() {
+        const { progress, text, textStyle } = this.state;
         return (
             <View style={styles.swipeNavBottom}>
                 <Progress.Bar
@@ -505,9 +496,9 @@ class BottomProgress extends React.Component {
                     marginBottom={2}
                     borderRadius={0}
                     unfilledColor="#ffffff"
-                    progress={this.state.progress}
+                    progress={progress}
                 />
-                <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
+                <Text elevation={5} style={textStyle}>{text}</Text>
             </View>
         );
     }
@@ -529,75 +520,65 @@ class IndividualCard extends React.Component {
 }
 
 class LoadMoreCard extends React.Component {
-    _onMore = () => {
-        // GLOBAL.ANALYTICS.logEvent('complete_group');
+
+    showSyncResult = (data, alertType) => {
+        MessageBarManager.showAlert({
+            title: `${data.successCount} tasks synced`,
+            message: `${data.errorCount} failures`,
+            alertType,
+        });
+    }
+
+    showSyncProgress = () => {
         MessageBarManager.showAlert({
             title: 'Sync Alert',
             message: 'Syncing your tasks.. do not close',
             alertType: 'info',
         });
-        GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
-            console.log('did group complete');
-            _mapper.refs.cardbody.resetState();
-            console.log('hello2');
+    }
 
-            GLOBAL.DB.getSingleGroup(this.props.groupInfo.project).then((data) => {
+    _onMore = () => {
+        const { groupInfo } = this.props;
+        // GLOBAL.ANALYTICS.logEvent('complete_group');
+        console.log('made it to more');
+        this.showSyncProgress();
+        GLOBAL.DB.addGroupComplete(groupInfo.project, groupInfo.group).then((data) => {
+            console.log('did group complete');
+            _mapper.cardbody.resetState();
+            GLOBAL.DB.getSingleGroup(groupInfo.project).then((data) => {
                 console.log('got new one');
-                console.log('hello2');
-                _mapper.refs.cardbody.generateCards(data.group);
+                _mapper.cardbody.generateCards(data.group);
             }).catch((error) => {
-                console.log('Show error here');
-                console.log(error);
+                console.error(error);
             });
 
             console.log('Completed group report');
             GLOBAL.DB.syncAndDeIndex().then((data) => {
-                MessageBarManager.showAlert({
-                    title: `${data.successCount} tasks synced`,
-                    message: `${data.errorCount} failures`,
-                    alertType: 'success',
-                });
+                this.showSyncResult(data, 'success');
             }).catch((error) => {
-                MessageBarManager.showAlert({
-                    title: `${data.successCount} tasks synced`,
-                    message: `${data.errorCount} failures`,
-                    alertType: 'error',
-                });
+                this.showSyncResult(data, 'error');
             });
         });
     }
 
     _onComplete = () => {
         // GLOBAL.ANALYTICS.logEvent('complete_group');
+        this.showSyncProgress();
         GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
-            _mapper.refs.cardbody.resetState();
-
+            _mapper.cardbody.resetState();
             console.log('Completed group report');
-            MessageBarManager.showAlert({
-                title: 'Sync Alert',
-                message: 'Syncing your tasks.. do not close',
-                alertType: 'info',
-            });
             GLOBAL.DB.syncAndDeIndex().then((data) => {
-                MessageBarManager.showAlert({
-                    title: `${data.successCount} tasks synced`,
-                    message: `${data.errorCount} failures`,
-                    alertType: 'success',
-                });
+                this.showSyncResult(data, 'success');
                 _mapper.props.navigation.pop();
             }).catch((error) => {
-                MessageBarManager.showAlert({
-                    title: `${data.successCount} tasks synced`,
-                    message: `${data.errorCount} failures`,
-                    alertType: 'error',
-                });
+                this.showSyncResult(data, 'error');
                 _mapper.props.navigation.pop();
             });
         });
     }
 
     _onBack() {
-        _mapper.refs.cardbody.resetState();
+        _mapper.cardbody.resetState();
         _mapper.props.navigation.pop();
         // save the current tasks but don't add a completeCount
         // _mapper.props.navigation.push({id:1, data: _mapper.props.data});
@@ -633,9 +614,9 @@ Complete
 class TileRow extends React.Component {
     render() {
         const rows = [];
-
         this.props.row.forEach((tile) => {
-            // inserts empty tiles so that they are always rendered at the same X coordinate on the grid.
+            // inserts empty tiles so that they are always rendered at
+            // the same X coordinate on the grid.
             if (tile !== undefined) {
                 if (tile === 'emptytile') {
                     rows.push(<EmptyTile key={Math.random()} />);
@@ -653,9 +634,31 @@ class TileRow extends React.Component {
 }
 
 class Tile extends React.Component {
-    checkToReport = () => {
 
-        if (this.tileStatus != this.lastReportedStatus) {
+    constructor(props) {
+        super(props);
+        this.tileStatus = 0;
+        this.lastReportedStatus = -1;
+        this.reportActive = null;
+        this.tileHeight = (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y));
+        this.tileWidth = (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X));
+        this.state = {
+            tile: {
+                height: this.tileHeight,
+                width: this.tileWidth,
+                borderWidth: 0.5,
+                borderColor: 'rgba(255,255,255,0.2)',
+            },
+            tileOverlay: {
+                backgroundColor: this.getEdgeColor(),
+                height: this.tileHeight,
+                width: this.tileWidth,
+            },
+        };
+    }
+
+    checkToReport = () => {
+        if (this.tileStatus !== this.lastReportedStatus) {
             this.lastReportedStatus = this.tileStatus;
             const tile = this.props.data;
             const task = {
@@ -678,11 +681,9 @@ class Tile extends React.Component {
         case 0: {
             return 'rgba(255,255,255,0.0)';
         }
-
         case 1: {
             return 'rgba(36, 219, 26, 0.2)';
         }
-
         case 2: {
             return 'rgba(237, 209, 28, 0.2)';
         }
@@ -693,28 +694,6 @@ class Tile extends React.Component {
         return '#212121';
     }
 
-    constructor(props) {
-        super(props);
-        this.tileStatus = 0;
-        this.lastReportedStatus = -1;
-        this.reportActive = null;
-
-        this.state = {
-            tile: {
-                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
-                width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
-                borderWidth: 0.5,
-                borderColor: 'rgba(255,255,255,0.2)',
-
-            },
-            tileOverlay: {
-                backgroundColor: this.getEdgeColor(),
-                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
-                width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
-            },
-        };
-    }
-
     _onPressButton = () => {
         _mapper.closeTilePopup();
         this.tileStatus = this.tileStatus + 1;
@@ -722,17 +701,10 @@ class Tile extends React.Component {
             this.tileStatus = 0;
         }
         this.setState({
-            tile: {
-                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
-                width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
-                borderWidth: 0.5,
-                borderColor: 'rgba(255,255,255,0.2)',
-
-            },
             tileOverlay: {
                 backgroundColor: this.getEdgeColor(),
-                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y)),
-                width: (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X)),
+                height: this.tileHeight,
+                width: this.tileWidth,
             },
         });
 
@@ -767,10 +739,10 @@ class Tile extends React.Component {
     zoomRender = () => {
         const tile = this.props.data;
         const projectDir = `${RNFS.DocumentDirectoryPath}/${_mapper.data.id}`;
-        const dir = `${projectDir}/${_mapper.refs.cardbody.currentGroup}`; // e.g. /1/45
+        const dir = `${projectDir}/${_mapper.cardbody.currentGroup}`; // e.g. /1/45
 
         const fileName = `${dir}/${tile.id}.jpeg`;
-        const imageSource = _mapper.refs.cardbody.isOfflineGroup === true ? {
+        const imageSource = _mapper.cardbody.isOfflineGroup === true ? {
             isStatic: true,
             uri: `file://${fileName}`,
         } : { uri: tile.url };
@@ -807,10 +779,10 @@ class Tile extends React.Component {
             </Animatable.Text>);
         }
         const projectDir = `${RNFS.DocumentDirectoryPath}/${_mapper.data.id}`;
-        const dir = `${projectDir}/${_mapper.refs.cardbody.currentGroup}`; // e.g. /1/45
+        const dir = `${projectDir}/${_mapper.cardbody.currentGroup}`; // e.g. /1/45
 
         const fileName = `${dir}/${tile.id}.jpeg`;
-        const imageSource = _mapper.refs.cardbody.isOfflineGroup === true ? {
+        const imageSource = _mapper.cardbody.isOfflineGroup === true ? {
             isStatic: true,
             uri: `file://${fileName}`,
         } : { uri: tile.url };
@@ -848,8 +820,7 @@ class CardBody extends React.Component {
             cardsInView: [],
             pagingEnabled: this.props.paging,
         });
-
-        this.refs.scrollView.scrollTo({ x: 0, animated: false });
+        this.scrollView.scrollTo({ x: 0, animated: false });
     }
 
     componentDidMount = () => {
@@ -961,7 +932,7 @@ class CardBody extends React.Component {
     }
 
     handleProgress(scrollThroughComplete) {
-        if (true === true || scrollThroughComplete === this.lastState || scrollThroughComplete % 20 !== 0) {
+        if (scrollThroughComplete === this.lastState || scrollThroughComplete % 20 !== 0) {
             return;
         }
 
@@ -977,22 +948,22 @@ class CardBody extends React.Component {
     }
 
     handleScroll = (event: Object) => {
-        _mapper.refs.progress.updateProgress(event, this.totalRenderedCount);
-
+        _mapper.progress.updateProgress(event, this.totalRenderedCount);
+        const { cardsInView } = this.state;
         let progressToReport = 0;
-        if (this.state.cardsInView.length > 0) {
-            // console.log(this.state.cardsInView.length + " cards in view");
-            progressToReport = Math.ceil(event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * this.state.cardsInView.length) * 100);
+        if (cardsInView.length > 0) {
+            progressToReport = Math.ceil(event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsInView.length) * 100);
         }
         this.handleProgress(progressToReport);
     }
 
     render() {
         const rows = [];
-        if (this.state.cardsInView.length > 0) {
+        const { cardsInView, marginXOffset, pagingEnabled } = this.state;
+        if (cardsInView.length > 0) {
             let lastCard = null;
 
-            this.state.cardsInView.forEach((card) => {
+            cardsInView.forEach((card) => {
                 lastCard = card;
                 rows.push(<IndividualCard key={card.cardX} card={card} />);
             });
@@ -1012,10 +983,10 @@ class CardBody extends React.Component {
                 onScroll={this.handleScroll}
                 automaticallyAdjustInsets={false}
                 horizontal
-                ref="scrollView"
-                pagingEnabled={this.state.pagingEnabled}
+                ref={(r) => { this.scrollView = r; }}
+                pagingEnabled={pagingEnabled}
                 removeClippedSubviews
-                contentContainerStyle={[styles.wrapper, { paddingHorizontal: this.state.marginXOffset }]}
+                contentContainerStyle={[styles.wrapper, { paddingHorizontal: marginXOffset }]}
             >
                 {rows}
             </ScrollView>
