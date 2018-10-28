@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     startButton: {
         backgroundColor: '#0d1949',
         alignItems: 'stretch',
-
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -48,14 +47,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         height: 40,
     },
-
     tutPar: {
         fontSize: 14,
         color: 'rgba(0,0,0,0.54)',
         fontWeight: '500',
         lineHeight: 20,
     },
-
     loadingText: {
         color: '#ffffff',
         fontWeight: '300',
@@ -69,7 +66,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: 5,
     },
-
     tutImage: {
         height: 30,
         resizeMode: 'contain',
@@ -78,25 +74,19 @@ const styles = StyleSheet.create({
         height: 30,
         resizeMode: 'contain',
     },
-
-
     modal: {
         padding: 20,
     },
-
     modal2: {
         height: 230,
         backgroundColor: '#3B5998',
     },
-
     tutorialModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
         backgroundColor: '#ffffff',
         borderRadius: 2,
     },
-
-
     tilePopup: {
         position: 'absolute',
         top: 0,
@@ -105,18 +95,15 @@ const styles = StyleSheet.create({
         width: 300,
         backgroundColor: 'transparent',
     },
-
     modal4: {
         height: 300,
     },
-
     btn: {
         margin: 10,
         backgroundColor: '#3B5998',
         color: 'white',
         padding: 10,
     },
-
     btnModal: {
         position: 'absolute',
         top: 0,
@@ -125,17 +112,11 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'transparent',
     },
-
-    text: {
-        color: '#212121',
-        fontSize: 22,
-    },
     tile: {
         height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_X)),
         width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
         backgroundColor: '#e8e8e8',
     },
-
     emptyTile: {
         width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
         backgroundColor: '#e8e8e8',
@@ -143,8 +124,6 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderColor: '#212121',
     },
-
-
     finishedText: {
         textAlign: 'center',
         color: '#ffffff',
@@ -190,14 +169,11 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     congratulationsSlide: {
-
         width: (GLOBAL.SCREEN_WIDTH),
         height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
-
         borderWidth: 0,
         backgroundColor: '#212121',
         justifyContent: 'center',
-
         flexDirection: 'column',
         alignItems: 'center',
     },
@@ -219,10 +195,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-end',
         flex: 1,
-
     },
-
-
     debugOverlay: {
         // backgroundColor:'yellow',
         color: '#ffffff',
@@ -237,19 +210,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor: 'transparent',
     },
-
     resetRow: {
         flex: 1,
-
-
     },
-
     backButton: {
         width: 20,
         height: 20,
     },
-
-
     backButtonContainer: {
         width: 40,
         height: 40,
@@ -261,9 +228,7 @@ const styles = StyleSheet.create({
     infoButton: {
         width: 20,
         height: 20,
-
     },
-
     infoButtonContainer: {
         width: 20,
         height: 20,
@@ -274,19 +239,16 @@ const styles = StyleSheet.create({
     swipeNavTop: {
         width: (GLOBAL.SCREEN_WIDTH),
         height: 40,
-
     },
     swipeNavBottom: {
         width: (GLOBAL.SCREEN_WIDTH),
         bottom: 3,
         position: 'absolute',
         left: 0,
-
         flexDirection: 'row',
         justifyContent: 'center',
         backgroundColor: '#0d1949',
     },
-
     topText: {
         justifyContent: 'center',
         color: '#ffffff',
@@ -295,7 +257,6 @@ const styles = StyleSheet.create({
         marginTop: 1,
         backgroundColor: 'transparent',
     },
-
     elementText: {
         justifyContent: 'center',
         color: '#ffffff',
@@ -306,14 +267,12 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         backgroundColor: 'transparent',
     },
-
     oneOfThree: {
         flex: 1 / 3,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
     },
-
     underText: {
         color: '#ffffff',
         marginLeft: 10,
@@ -357,7 +316,7 @@ class Mapper extends React.Component {
         this.props.navigation.pop();
     }
 
-    closeTutorialModal = (id) => {
+    closeTutorialModal = () => {
         this.TutorialModal.close();
     }
 
@@ -368,7 +327,7 @@ class Mapper extends React.Component {
         this.tilePopup.open();
     }
 
-    closeTilePopup = (id) => {
+    closeTilePopup = () => {
         this.setState({
             poppedUpTile: <View />,
         });
@@ -492,20 +451,6 @@ HOLD TO
                 </Modal>
             </View>
         );
-        // <Image style={styles.inlineIcon} source={require('./assets/swipeup_icon.png')} /><Text style={styles.underText}>FLAG</Text>
-        // return  <View style={style.mapper}><Text>{this.props.data.name}</Text></View>;
-        // goes under cardbody
-        /*
-
-         return '';
-         }
-
-         case 2: {
-         return '';
-         }
-         case 3: {
-         return ';
-         */
     }
 }
 
@@ -586,14 +531,10 @@ class IndividualCard extends React.Component {
 class LoadMoreCard extends React.Component {
     _onMore = () => {
         // GLOBAL.ANALYTICS.logEvent('complete_group');
-        const parent = this;
-        console.log('made it to more');
         MessageBarManager.showAlert({
             title: 'Sync Alert',
             message: 'Syncing your tasks.. do not close',
             alertType: 'info',
-            // See Properties section for full customization
-            // Or check `index.ios.js` or `index.android.js` for a complete example
         });
         GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
             console.log('did group complete');
@@ -615,16 +556,12 @@ class LoadMoreCard extends React.Component {
                     title: `${data.successCount} tasks synced`,
                     message: `${data.errorCount} failures`,
                     alertType: 'success',
-                    // See Properties section for full customization
-                    // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
             }).catch((error) => {
                 MessageBarManager.showAlert({
                     title: `${data.successCount} tasks synced`,
                     message: `${data.errorCount} failures`,
                     alertType: 'error',
-                    // See Properties section for full customization
-                    // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
             });
         });
@@ -632,7 +569,6 @@ class LoadMoreCard extends React.Component {
 
     _onComplete = () => {
         // GLOBAL.ANALYTICS.logEvent('complete_group');
-        const parent = this;
         GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
             _mapper.refs.cardbody.resetState();
 
@@ -641,16 +577,12 @@ class LoadMoreCard extends React.Component {
                 title: 'Sync Alert',
                 message: 'Syncing your tasks.. do not close',
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             GLOBAL.DB.syncAndDeIndex().then((data) => {
                 MessageBarManager.showAlert({
                     title: `${data.successCount} tasks synced`,
                     message: `${data.errorCount} failures`,
                     alertType: 'success',
-                    // See Properties section for full customization
-                    // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
                 _mapper.props.navigation.pop();
             }).catch((error) => {
@@ -658,8 +590,6 @@ class LoadMoreCard extends React.Component {
                     title: `${data.successCount} tasks synced`,
                     message: `${data.errorCount} failures`,
                     alertType: 'error',
-                    // See Properties section for full customization
-                    // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
                 _mapper.props.navigation.pop();
             });
@@ -700,17 +630,10 @@ Complete
     }
 }
 
-//  <Button style={styles.moreButton} onPress={this._onMore} textStyle={{fontSize: 18, color: '#ffffff'}}>Contribute More</Button>
 class TileRow extends React.Component {
     render() {
         const rows = [];
 
-        const xMin = this.props.row.cardXStart;
-        let xOffset = 0;
-
-
-        const pushedEmptyRows = false;
-        const parent = this;
         this.props.row.forEach((tile) => {
             // inserts empty tiles so that they are always rendered at the same X coordinate on the grid.
             if (tile !== undefined) {
@@ -720,9 +643,7 @@ class TileRow extends React.Component {
                     rows.push(<Tile data={tile} key={tile.id} />);
                 }
             }
-            xOffset++;
         });
-        //
         return (
             <View style={styles.tileRow}>
                 {rows}
@@ -733,7 +654,6 @@ class TileRow extends React.Component {
 
 class Tile extends React.Component {
     checkToReport = () => {
-        const parent = this;
 
         if (this.tileStatus != this.lastReportedStatus) {
             this.lastReportedStatus = this.tileStatus;
@@ -845,10 +765,7 @@ class Tile extends React.Component {
     }
 
     zoomRender = () => {
-        const animatedRows = [];
-
         const tile = this.props.data;
-        // var filePath = dirs.DocumentDir + '/' + tile.id + ".jpeg";
         const projectDir = `${RNFS.DocumentDirectoryPath}/${_mapper.data.id}`;
         const dir = `${projectDir}/${_mapper.refs.cardbody.currentGroup}`; // e.g. /1/45
 
@@ -917,23 +834,18 @@ class Tile extends React.Component {
             </TouchableHighlight>
         );
     }
-//           <Text style={styles.debugOverlay}>{tile.taskX}, {tile.taskY}</Text>
 }
 
 const EmptyTile = () => (<View style={styles.emptyTile} />);
 
-// noinspection JSAnnotator
 class CardBody extends React.Component {
     resetState = () => {
-        console.log('RESETTING STATE!');
         this.allCards = {};
         this.totalRenderedCount = -1;
         this.isOfflineGroup = false;
         this.currentGroup = null;
         this.setState({
             cardsInView: [],
-            cardOutOfView: [],
-            progress: 0,
             pagingEnabled: this.props.paging,
         });
 
@@ -946,14 +858,11 @@ class CardBody extends React.Component {
 
     generateCards = (data) => {
         const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
-        const tilesPerCol = GLOBAL.TILES_PER_VIEW_Y;
         this.currentGroup = data.id;
         this.groupXStart = data.xMin;
         this.groupXEnd = data.xMax;
 
-        console.log('arrrrrrrrrrr');
         const key = `project-${data.projectId}-group-${data.id}`;
-        console.log(data.projectId);
         this.isOfflineGroup = GLOBAL.DB.isOfflineGroup(key);
         if (this.isOfflineGroup === true) {
             if (this.lastMode !== 'offline') {
@@ -962,8 +871,6 @@ class CardBody extends React.Component {
                     title: 'You are mapping a downloaded group!',
                     message: 'It will work offline! ',
                     alertType: 'info',
-                    // See Properties section for full customization
-                    // Or check `index.ios.js` or `index.android.js` for a complete example
                 });
             }
         } else if (this.lastMode !== 'online') {
@@ -972,8 +879,6 @@ class CardBody extends React.Component {
                 title: 'Online Mapping Activated',
                 message: 'If you want to map offline, download tasks on the project home.',
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
         }
 
@@ -1028,11 +933,9 @@ class CardBody extends React.Component {
 
     getTasks = () => {
         GLOBAL.DB.getSingleGroup(this.props.data.id).then((data) => {
-            console.log('waaaaaa');
             this.generateCards(data.group);
         }).catch((error) => {
-            console.log('Show error here');
-            console.error(error);
+            console.error('Error in getTasks', error);
         });
     }
 
@@ -1051,9 +954,7 @@ class CardBody extends React.Component {
 
 
         this.state = {
-            progress: 0,
             cardsInView: [],
-            cardsOutOfView: [],
             pagingEnabled: this.props.paging,
             marginXOffset: 0,
         };
@@ -1090,7 +991,6 @@ class CardBody extends React.Component {
         const rows = [];
         if (this.state.cardsInView.length > 0) {
             let lastCard = null;
-            const parent = this;
 
             this.state.cardsInView.forEach((card) => {
                 lastCard = card;
