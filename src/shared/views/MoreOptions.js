@@ -2,15 +2,9 @@ import React from 'react';
 import {
     Text,
     View,
-    Platform,
     ScrollView,
-    ListView,
     StyleSheet,
     Image,
-    TouchableOpacity,
-    Dimensions,
-    TimerMixin,
-    Linking,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
@@ -18,21 +12,11 @@ import * as Progress from 'react-native-progress';
 const GLOBAL = require('../Globals');
 
 
-/**
- * Import the project card component
- * @type {ProjectCard|exports|module.exports}
- */
-const ProjectCard = require('./ProjectCard');
-
-
 const styles = StyleSheet.create({
-
     container: {
         alignItems: 'center',
         width: GLOBAL.SCREEN_WIDTH,
     },
-
-
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 30,
@@ -90,9 +74,7 @@ const styles = StyleSheet.create({
         marginTop: -40,
         marginBottom: -30,
         backgroundColor: 'transparent',
-
     },
-
     infoLeft: {
         width: 100,
         height: 50,
@@ -102,9 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
         textAlign: 'center',
         backgroundColor: 'transparent',
-
     },
-
     infoRight: {
         width: 100,
         height: 50,
@@ -115,7 +95,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor: 'transparent',
     },
-
     infoLeftTitle: {
         width: 100,
         height: 50,
@@ -125,9 +104,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         backgroundColor: 'transparent',
-
     },
-
     infoRightTitle: {
         width: 100,
         height: 50,
@@ -138,30 +115,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         backgroundColor: 'transparent',
     },
-
 });
 
 class MoreOptions extends React.Component {
-    refreshStats() {
-        const parent = this;
-        setInterval(() => {
-            if (parent.state.distance !== GLOBAL.DB.getDistance() || parent.state.contributions !== GLOBAL.DB.getContributions() || parent.state.name === '') {
-                parent.setState({
-                    distance: GLOBAL.DB.getDistance(),
-                    contributions: GLOBAL.DB.getContributions(),
-                    levelObject: GLOBAL.DB.getLevelObject(),
-                    level: GLOBAL.DB.getLevel(),
-                    name: GLOBAL.DB.getAuth().getUser().displayName,
-                    progress: GLOBAL.DB.getToNextLevelPercentage(),
-                });
-            }
-        }, 500);
-    }
-
-    componentDidMount() {
-        this.refreshStats();
-    }
-
     constructor(props) {
         super(props);
         this.state = {
@@ -174,40 +130,74 @@ class MoreOptions extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.refreshStats();
+    }
+
+    refreshStats() {
+        const parent = this;
+        const { contributions, distance, name } = this.state;
+        const user = GLOBAL.DB.getAuth().getUser();
+        const username = user ? user.displayName : 'unknown';
+        const newContributions = GLOBAL.DB.getContributions();
+        const newDistance = GLOBAL.DB.getDistance();
+        setInterval(() => {
+            if (distance !== newDistance || contributions !== newContributions || name === '') {
+                parent.setState({
+                    distance: newDistance,
+                    contributions: newContributions,
+                    levelObject: GLOBAL.DB.getLevelObject(),
+                    level: GLOBAL.DB.getLevel(),
+                    name: username,
+                    progress: GLOBAL.DB.getToNextLevelPercentage(),
+                });
+            }
+        }, 500);
+    }
+
     render() {
+        const {
+            contributions,
+            distance,
+            level,
+            levelObject,
+            name,
+            progress,
+        } = this.state;
+        const { navigation } = this.props;
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <ScrollingBackground />
-                <Image style={styles.pic} key={this.state.level} source={this.state.levelObject.badge} />
+                <Image style={styles.pic} key={level} source={levelObject.badge} />
                 <View style={styles.info}>
                     <Text style={styles.infoLeftTitle}>
                     Level
                         {' '}
-                        {this.state.level}
+                        {level}
                     </Text>
                     <Text style={styles.infoRightTitle}>
-                        {this.state.name}
+                        {name}
                     </Text>
                     <Text style={styles.infoLeft}>
-                        {this.state.levelObject.title}
+                        {levelObject.title}
                     </Text>
                     <Text style={styles.infoRight}>
-                    You've mapped
+                    You&apos;ve mapped
                         {' '}
-                        {this.state.distance}
+                        {distance}
                         {' '}
 square kilometers and found
                         {' '}
-                        {this.state.contributions}
+                        {contributions}
                         {' '}
 objects
                     </Text>
                 </View>
-                <LevelProgress progress={this.state.progress} />
+                <LevelProgress progress={progress} />
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            this.props.navigation.push('WebviewWindow', {
+                            navigation.push('WebviewWindow', {
                                 uri: 'http://mapswipe.org/faq',
                             });
                         }}
@@ -221,7 +211,7 @@ Frequently Asked
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            this.props.navigation.push('WebviewWindow', {
+                            navigation.push('WebviewWindow', {
                                 uri: GLOBAL.TUT_LINK,
                             });
                         }}
@@ -234,7 +224,7 @@ Tutorial
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            this.props.navigation.push('WebviewWindow', {
+                            navigation.push('WebviewWindow', {
                                 uri: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
                             });
                         }}
@@ -247,7 +237,7 @@ Contact Us
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            this.props.navigation.push('WebviewWindow', {
+                            navigation.push('WebviewWindow', {
                                 uri: 'http://missingmaps.org/events',
                             });
                         }}
@@ -261,7 +251,7 @@ Events
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            this.props.navigation.push('WebviewWindow', {
+                            navigation.push('WebviewWindow', {
                                 uri: 'http://missingmaps.org/blog',
                             });
                         }}
@@ -275,7 +265,7 @@ Blog
                     <Button
                         onPress={() => {
                             GLOBAL.DB.getAuth().logOut();
-                            this.props.navigation.push('WebviewWindow', {
+                            navigation.push('WebviewWindow', {
                                 uri: 'http://missingmaps.org/events',
                             });
                         }}
@@ -296,26 +286,24 @@ class ScrollingBackground extends React.Component {
     constructor(props) {
         super(props);
         this.state = { offset: 0 };
+        this.bgInterval = 0;
+        this.nextOffset = 2;
     }
 
-    nextOffset: 2;
-
-    componentWillMount() {
-        this.intervals = [];
-    }
-
-    setInterval() {
-        this.intervals.push(setInterval(...arguments));
+    componentDidMount() {
+        const self = this;
+        this.bgInterval = setInterval(self.tick, 1000 / 50);
     }
 
     componentWillUnmount() {
-        this.intervals.forEach(clearInterval);
+        clearInterval(this.bgInterval);
     }
 
     backgroundImage = () => {
-        if (this.state.offset > 1500) {
+        const { offset } = this.state;
+        if (offset > 1500) {
             this.nextOffset = -1;
-        } else if (this.state.offset < -1500) {
+        } else if (offset < -1500) {
             this.nextOffset = 1;
         }
         return (
@@ -323,7 +311,7 @@ class ScrollingBackground extends React.Component {
                 source={require('./assets/map_new.jpg')}
                 style={{
                     resizeMode: 'cover',
-                    marginRight: this.state.offset,
+                    marginRight: offset,
                     height: 200,
                     backgroundColor: '#e8e8e8',
                 }}
@@ -332,12 +320,9 @@ class ScrollingBackground extends React.Component {
     }
 
     tick = () => {
-        this.setState({ offset: this.state.offset + this.nextOffset });
-    }
-
-    componentDidMount() {
-        const self = this;
-        this.setInterval(self.tick, 1000 / 50);
+        let { offset } = this.state;
+        offset += this.nextOffset;
+        this.setState({ offset });
     }
 
     render() {
@@ -349,15 +334,22 @@ class ScrollingBackground extends React.Component {
 
 
 class LevelProgress extends React.Component {
-    getBarStyle(progress) {
-        return {
-            height: 30,
-            width: GLOBAL.SCREEN_WIDTH,
-            borderRadius: 0,
+    constructor(props) {
+        super(props);
+        const parent = this;
+        this.progressInterval = setInterval(() => {
+            const newVal = GLOBAL.DB.getKmTilNextLevel();
+            parent.setState({
+                text: `${newVal} square km (${Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6)} swipes) until the next level`,
+            });
+        }, 500);
+        this.state = {
+            textStyle: this.getBarTextStyle(),
+            text: `${GLOBAL.DB.getKmTilNextLevel()} square km until the next level`,
         };
     }
 
-    getBarTextStyle(progress) {
+    getBarTextStyle() {
         return {
             color: '#ffffff',
             borderColor: '#212121',
@@ -370,22 +362,6 @@ class LevelProgress extends React.Component {
         };
     }
 
-    constructor(props) {
-        super(props);
-        const parent = this;
-        this.progressInterval = setInterval(() => {
-            const newVal = GLOBAL.DB.getKmTilNextLevel();
-            parent.setState({
-                text: `${newVal} square km (${Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6)} swipes) until the next level`,
-            });
-        }, 500);
-        this.state = {
-            barStyle: this.getBarStyle(0),
-            textStyle: this.getBarTextStyle(0),
-            text: `${GLOBAL.DB.getKmTilNextLevel()} square km until the next level`,
-        };
-    }
-
     componentWillUnmount() {
         clearInterval(this.progressInterval);
     }
@@ -395,9 +371,11 @@ class LevelProgress extends React.Component {
             <View style={styles.barRow}>
                 <Progress.Bar
                     borderRadius={0}
+                    borderWidth={0}
+                    color="#0d1949"
                     height={30}
                     progress={this.props.progress}
-                    unfilledColor="#0d1949"
+                    unfilledColor="#bbbbbb"
                     width={GLOBAL.SCREEN_WIDTH}
                 />
                 <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
