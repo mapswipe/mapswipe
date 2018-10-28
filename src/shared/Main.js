@@ -197,7 +197,7 @@ class Main extends React.Component {
                     isDisabled={isDisabled}
                 >
                     <Text style={style.header}>
-                    `You are now level ${level}`
+                        {`You are now level ${level}`}
                     </Text>
                     <Image style={style.pic} key={level} source={levelObject.badge} />
                     <Button
