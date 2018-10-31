@@ -1,0 +1,36 @@
+language: node_js
+node_js:
+  - "8.12"
+sudo: false
+env:
+  - NODE_ENV='test'
+script:
+  - yarn install
+matrix:
+  include:
+    - language: android
+      os: linux
+      jdk: oraclejdk8
+      sudo: required
+      node_js: false
+      before_install:
+        - nvm install 7
+        - node --version
+        - travis_retry curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+        - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+        - travis_retry sudo apt-get update -qq
+        - travis_retry sudo apt-get install -y -qq yarn
+      install:
+        - yarn
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-27.0.3
+          - android-27
+          - extra-android-m2repository
+          - extra-google-google_play_services
+          - extra-google-m2repository
+          - addon-google_apis-google-27
+      script:
+        - yarn buildDev
