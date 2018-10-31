@@ -115,10 +115,40 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MAPSWIPE_RELEASE_STORE_FILE')) {
+                storeFile file(MAPSWIPE_RELEASE_STORE_FILE)
+                storePassword MAPSWIPE_RELEASE_STORE_PASSWORD
+                keyAlias MAPSWIPE_RELEASE_KEY_ALIAS
+                keyPassword MAPSWIPE_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        // flavors build a slightly different version of the app.
+        // Both can be built as debug or release variant.
+        // Both flavors can coexist on a phone
+        dev {
+            // dev: points at dev-mapswipe firebase
+            // only used by a handful of people for developing and testing
+            dimension "version"
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+        }
+        production {
+            // production: points at msf-mapswipe firebase
+            // the one distributed to all users
+            // applicationId '' // skipped to keep the current appId and allow easy upgrades for users
+            dimension "version"
         }
     }
     // applicationVariants are e.g. debug, release
