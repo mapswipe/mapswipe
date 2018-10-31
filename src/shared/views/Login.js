@@ -21,14 +21,9 @@ import Button from 'apsl-react-native-button';
 
 const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 const GLOBAL = require('../Globals');
-// var ProgressBar = require('react-native-progress-bar');
-
-// var SplashScreen = require('@remobile/react-native-splashscreen');
 const LoadingIcon = require('./LoadingIcon');
 
-
 const styles = StyleSheet.create({
-
     startButton: {
         backgroundColor: '#ee0000',
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -67,7 +62,6 @@ const styles = StyleSheet.create({
         height: GLOBAL.SCREEN_HEIGHT * 0.5,
         textAlign: 'center',
         fontSize: 20,
-
     },
     text4: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -96,7 +90,6 @@ const styles = StyleSheet.create({
         height: 100,
         marginBottom: 30,
         marginTop: 30,
-
     },
     textInput: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -108,6 +101,11 @@ const styles = StyleSheet.create({
     },
 });
 
+// Screen constants
+const SCREEN_SIGNUP = 0;
+const SCREEN_LOGIN = 1;
+const SCREEN_FORGOT_PASSWORD = 2;
+
 class _Login extends React.Component {
     constructor(props) {
         super(props);
@@ -116,7 +114,7 @@ class _Login extends React.Component {
             password: '',
             email: '',
             loading: false,
-            screen: 0,
+            screen: SCREEN_SIGNUP,
         };
     }
 
@@ -126,29 +124,30 @@ class _Login extends React.Component {
         }
     }
 
-    _handleSignUp() {
+    handleSignUp() {
         // GLOBAL.ANALYTICS.logEvent('account_screen_seen');
+        const {
+            email,
+            password,
+            username,
+        } = this.state;
         const parent = this;
-        if (this.state.username !== null && this.state.username.length < 3) {
+        if (username !== null && username.length < 3) {
             // GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             MessageBarManager.showAlert({
                 title: 'Error on sign up',
                 message: 'Your username must be 4 characters or more',
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             return;
         }
 
-        if (this.state.username !== null && this.state.username.indexOf('@') !== -1) {
+        if (username !== null && username.indexOf('@') !== -1) {
             // GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             MessageBarManager.showAlert({
                 title: 'Error on sign up',
                 message: 'Your username can not be an email',
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             return;
         }
@@ -156,13 +155,11 @@ class _Login extends React.Component {
             loading: true,
         });
 
-        GLOBAL.DB.createAccount(this.state.email, this.state.username, this.state.password).then((data) => {
+        GLOBAL.DB.createAccount(email, username, password).then(() => {
             MessageBarManager.showAlert({
                 title: 'Success',
-                message: `Welcome to Mapswipe, ${this.state.username}`,
+                message: `Welcome to Mapswipe, ${username}`,
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -175,8 +172,6 @@ class _Login extends React.Component {
                 title: 'Error on sign up',
                 message: error,
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -184,40 +179,39 @@ class _Login extends React.Component {
         });
     }
 
-    _switchScreens(screen) {
+    switchScreens(screen) {
         this.setState({
             screen,
         });
     }
 
-    _handleLogin = () => {
+    handleLogin = () => {
+        const {
+            email,
+            password,
+            username,
+        } = this.state;
         this.setState({
             loading: true,
         });
         const parent = this;
-        GLOBAL.DB.signIn(this.state.email, this.state.password).then((data) => {
+        GLOBAL.DB.signIn(email, password).then(() => {
             MessageBarManager.showAlert({
                 title: 'Success',
-                message: `Welcome to Mapswipe, ${this.state.username}`,
+                message: `Welcome to Mapswipe, ${username}`,
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
-            });
-            parent.setState({
-                loading: false,
             });
             // GLOBAL.ANALYTICS.logEvent('account_login');
             parent.props.navigation.push('ProjectNav');
         }).catch((error) => {
+            let errorMessage;
             if (error.indexOf('deleted') !== -1) {
-                error = 'Invalid username or password';
+                errorMessage = 'Invalid username or password';
             }
             MessageBarManager.showAlert({
                 title: 'Error on log in',
-                message: error,
+                message: errorMessage,
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -226,32 +220,32 @@ class _Login extends React.Component {
     }
 
     _handlePassReset() {
+        const {
+            email,
+        } = this.state;
         this.setState({
             loading: true,
         });
         const parent = this;
-        GLOBAL.DB.resetPass(this.state.email).then((data) => {
+        GLOBAL.DB.resetPass(email).then(() => {
             MessageBarManager.showAlert({
                 title: 'Success',
                 message: 'Check your email',
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
             });
             // GLOBAL.ANALYTICS.logEvent('pass_reset_request');
         }).catch((error) => {
+            let errorMessage;
             if (error.indexOf('deleted') !== -1) {
-                error = 'This email was not found.';
+                errorMessage = 'This email was not found.';
             }
             MessageBarManager.showAlert({
                 title: 'Error on reset pass',
-                message: error,
+                message: errorMessage,
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -259,15 +253,13 @@ class _Login extends React.Component {
         });
     }
 
-    render() {
-        console.log('rendering login', this.props);
-        if (this.props.loggedIn) {
-            this.props.navigation.push('ProjectNav');
-        }
-        const rows = [];
-
-        if (this.state.screen === 0) {
-            rows.push(<ScrollView
+    renderSignupScreen = () => {
+        const {
+            email,
+            username,
+        } = this.state;
+        return (
+            <ScrollView
                 style={styles.container}
                 contentContainerStyle={{
                     alignItems: 'center',
@@ -283,7 +275,7 @@ class _Login extends React.Component {
                     autoCorrect={false}
                     style={styles.textInput}
                     onChangeText={text => this.setState({ username: text })}
-                    value={this.state.username}
+                    value={username}
                 />
 
                 <Text style={styles.text4}>Enter your email</Text>
@@ -293,7 +285,7 @@ class _Login extends React.Component {
                     secureTextEntry={false}
                     style={styles.textInput}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
-                    value={this.state.email}
+                    value={email}
                 />
                 <Text style={styles.text4}>Enter your password (More than 6 characters)</Text>
 
@@ -309,24 +301,28 @@ class _Login extends React.Component {
                 </Text>
                 <Button
                     style={styles.otherButton}
-                    onPress={this._handleSignUp}
+                    onPress={this.handleSignUp}
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
                     Sign Up
                 </Button>
                 <Button
                     style={styles.switchToLogin}
-                    onPress={() => {
-                        this._switchScreens(1);
-                    }}
+                    onPress={() => this.switchScreens(SCREEN_LOGIN)}
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
                     Log in to an existing account
                 </Button>
+            </ScrollView>
+        );
+    }
 
-            </ScrollView>);
-        } else if (this.state.screen === 1) {
-            rows.push(<ScrollView
+    renderLoginScreen = () => {
+        const {
+            email,
+        } = this.state;
+        return (
+            <ScrollView
                 style={styles.container}
                 contentContainerStyle={{
                     alignItems: 'center',
@@ -338,13 +334,12 @@ class _Login extends React.Component {
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
                 <Text style={styles.text4}>Enter your email</Text>
-
                 <TextInput
                     autoCorrect={false}
                     style={styles.textInput}
                     secureTextEntry={false}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
-                    value={this.state.email}
+                    value={email}
                 />
                 <Text style={styles.text4}>Enter your password</Text>
 
@@ -361,84 +356,97 @@ class _Login extends React.Component {
                 </Text>
                 <Button
                     style={styles.otherButton}
-                    onPress={this._handleLogin}
+                    onPress={this.handleLogin}
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
                     Log in
                 </Button>
                 <Button
                     style={styles.switchToLogin}
-                    onPress={() => {
-                        this._switchScreens(2);
-                    }}
+                    onPress={() => this.switchScreens(SCREEN_FORGOT_PASSWORD)}
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
                     Forgot your password?
                 </Button>
                 <Button
                     style={styles.switchToLogin}
-                    onPress={() => {
-                        this._switchScreens(0);
-                    }}
+                    onPress={() => this.switchScreens(SCREEN_SIGNUP)}
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
                     Create New Account
                 </Button>
+            </ScrollView>
+        );
+    }
 
-            </ScrollView>);
-        } else if (this.state.screen === 2) {
-            rows.push(
-                <ScrollView
-                    style={styles.container}
-                    contentContainerStyle={{
-                        alignItems: 'center',
-                        width: GLOBAL.SCREEN_WIDTH,
-                        backgroundColor: '#0d1949',
-                        padding: 20,
-                    }}
+    renderForgotPasswordScreen = () => {
+        const {
+            email,
+        } = this.state;
+        return (
+            <ScrollView
+                style={styles.container}
+                contentContainerStyle={{
+                    alignItems: 'center',
+                    width: GLOBAL.SCREEN_WIDTH,
+                    backgroundColor: '#0d1949',
+                    padding: 20,
+                }}
+            >
+                <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
+
+                <Text style={styles.text4}>Enter your email</Text>
+                <TextInput
+                    autoCorrect={false}
+                    style={styles.textInput}
+                    onChangeText={text => this.setState({ email: text.replace(' ', '') })}
+                    value={email}
+                />
+                <Text style={styles.text5}>* We will send you an email to reset your password</Text>
+                <Button
+                    style={styles.otherButton}
+                    onPress={this.handlePassReset}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
-                    <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
+                    Send Reset Email
+                </Button>
+                <Button
+                    style={styles.switchToLogin}
+                    onPress={() => this.switchScreens(SCREEN_LOGIN)}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
+                    Back to login
+                </Button>
+            </ScrollView>
+        );
+    }
 
-                    <Text style={styles.text4}>Enter your email</Text>
-
-                    <TextInput
-                        autoCorrect={false}
-                        style={styles.textInput}
-                        onChangeText={text => this.setState({ email: text.replace(' ', '') })}
-                        value={this.state.email}
-                    />
-                    <Text style={styles.text5}>* We will send you an email to reset your password</Text>
-                    <Button
-                        style={styles.otherButton}
-                        onPress={this._handlePassReset}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
-                    >
-                        Send Reset Email
-                    </Button>
-                    <Button
-                        style={styles.switchToLogin}
-                        onPress={() => {
-                            this._switchScreens(1);
-                        }}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
-                    >
-                        Back to login
-                    </Button>
-
-
-                </ScrollView>,
-            );
+    render() {
+        const { loggedIn, navigation } = this.props;
+        const {
+            loading,
+            screen,
+        } = this.state;
+        if (loggedIn) {
+            navigation.push('ProjectNav');
         }
+        let content;
+
+        if (screen === SCREEN_SIGNUP) {
+            content = this.renderSignupScreen();
+        } else if (screen === SCREEN_LOGIN) {
+            content = this.renderLoginScreen();
+        } else if (screen === SCREEN_FORGOT_PASSWORD) {
+            content = this.renderForgotPasswordScreen();
+        }
+
         return (
             <View style={styles.container}>
                 {
-                    this.props.loggedIn === null || this.state.loading
-
+                    loggedIn === null || loading
                         ? <LoadingIcon />
-                        : rows
-
+                        : content
                 }
-
             </View>
         );
     }
