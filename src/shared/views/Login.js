@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-
+import { connect } from 'react-redux';
 import {
     Text,
     View,
@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
 });
-class Login extends React.Component {
+
+class _Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -120,6 +121,9 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.loggedIn) {
+            this.props.navigation.push('ProjectNav');
+        }
     }
 
     _handleSignUp() {
@@ -255,12 +259,11 @@ class Login extends React.Component {
         });
     }
 
-    /**
-     * Render function. W want to keep state throughout the entire component, so it's all one big horrible convention for now.
-     * @returns {XML}
-     */
     render() {
-        console.log('rendering login');
+        console.log('rendering login', this.props);
+        if (this.props.loggedIn) {
+            this.props.navigation.push('ProjectNav');
+        }
         const rows = [];
 
         if (this.state.screen === 0) {
@@ -429,7 +432,7 @@ class Login extends React.Component {
         return (
             <View style={styles.container}>
                 {
-                    this.state.loading === true // We're loading
+                    this.props.loggedIn === null || this.state.loading
 
                         ? <LoadingIcon />
                         : rows
@@ -440,5 +443,26 @@ class Login extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        navigation: ownProps.navigation,
+        loggedIn: state.ui.auth.loggedIn,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        //onLogin: () => {
+        //dispatch(loginAction());
+        //},
+    }
+);
+
+export const Login = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(_Login);
+
 
 module.exports = Login;

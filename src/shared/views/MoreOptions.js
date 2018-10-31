@@ -136,12 +136,13 @@ class MoreOptions extends React.Component {
 
     refreshStats() {
         const parent = this;
-        const { contributions, distance, name } = this.state;
-        const user = GLOBAL.DB.getAuth().getUser();
-        const username = user ? user.displayName : 'unknown';
-        const newContributions = GLOBAL.DB.getContributions();
-        const newDistance = GLOBAL.DB.getDistance();
         setInterval(() => {
+            const { contributions, distance, name } = parent.state;
+            const user = GLOBAL.DB.getAuth().getUser();
+            const username = user ? user.displayName : 'unknown';
+            const newContributions = GLOBAL.DB.getContributions();
+            const newDistance = GLOBAL.DB.getDistance();
+            //console.log('refreshStats', user, distance);
             if (distance !== newDistance || contributions !== newContributions || name === '') {
                 parent.setState({
                     distance: newDistance,

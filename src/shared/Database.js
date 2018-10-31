@@ -8,6 +8,7 @@
 // import { Platform } from "react-native";
 import firebase from 'firebase';
 import { Levels as levels } from './Levels';
+import { store as reduxStore } from './store';
 
 const RNFS = require('react-native-fs');
 const ConnectionManager = require('./ConnectionManager');
@@ -854,32 +855,16 @@ module.exports = {
     offlineGroups: [],
     interval: null,
 
-    handleSessionStart(state) {
-        const parent = this;
-        // this.refreshIgnoreList();
+    setupConnection(state) {
         con.initializeWithState(state);
         this.refreshOfflineGroups();
-
-        return new Promise(((resolve, reject) => {
-            // this will throw, x does not exist
-            // checks every 500 ms if we are authenticated and if we have finished the tutorial
-            parent.interval = setInterval(() => {
-                // do what you need here
-                if (auth.receivedLoginStatus() === true) {
-                    store.get('finishTutorial').then((result) => {
-                        if (auth.isLoggedIn() && result !== null && result !== undefined) {
-                            myUserRef = database.ref(`/users/${auth.getUser().uid}`);
-                            parent.compareAndUpdate();
-                            resolve();
-                            clearInterval(parent.interval);
-                        } else {
-                            reject();
-                            clearInterval(parent.interval);
-                        }
-                    });
-                }
-            }, 500);
-        }));
+        const unsubscribe = reduxStore.subscribe(() => {
+            const s = reduxStore.getState();
+            if (s.ui.auth.loggedIn) {
+                //myUserRef = database.ref(`/users/${s.ui.auth.user.uid}`);
+                this.compareAndUpdate();
+            }
+        });
     },
 
     /**
@@ -957,25 +942,6 @@ module.exports = {
                 console.log(error);
                 reject(error);
             });
-        }));
-    },
-
-
-    /**
-     * Sets the tut to complete
-     */
-    setTutorialComplete() {
-        return new Promise(((resolve, reject) => {
-            // this will throw, x does not exist
-            store
-                .save('finishTutorial', {
-                    finished: true,
-                }).then((status) => {
-                    resolve(status);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
         }));
     },
 

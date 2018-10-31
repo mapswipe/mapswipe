@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Text,
     View,
@@ -8,6 +9,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
+import { completeWelcome } from '../actions/index';
 
 const Swiper = require('react-native-swiper');
 const GLOBAL = require('../Globals');
@@ -119,40 +121,54 @@ const styles = StyleSheet.create({
     },
 });
 
-class Tutorial extends React.Component {
+class _Tutorial extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            status: 'loading',
-        };
     }
 
     componentDidMount() {
-        const parent = this;
-        NetInfo.getConnectionInfo().then((reach) => {
-            GLOBAL.DB.handleSessionStart(reach).then(() => {
-                SplashScreen.hide();
-                parent.props.navigation.push('ProjectNav');
-            }).catch((error) => {
-                console.log(error);
-                SplashScreen.hide();
-                parent.setState({
-                    status: 'tutorial',
-                });
-            });
-        });
+        const { welcomeCompleted } = this.props;
+        SplashScreen.hide();
+        if (welcomeCompleted) {
+            this.finishWelcomeScreens();
+        }
     }
 
+    finishWelcomeScreens = () => {
+        this.props.onWelcomeComplete();
+        // GLOBAL.ANALYTICS.logEvent('completed_tutorial');
+        this.props.navigation.navigate('Login');
+    }
 
     render() {
-        return this.state.status === 'tutorial' ? <TutCardView navigation={this.props.navigation} />
-            : (
-                <View style={{ flex: 1 }}>
-                    <Text />
-                </View>
-            );
+        const { welcomeCompleted } = this.props;
+        console.log('welcomeCompleted', welcomeCompleted);
+        return (welcomeCompleted
+            ? <View style={{ flex: 1 }}><Text /></View>
+            : <TutCardView onCompletion={this.finishWelcomeScreens} />
+        );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        navigation: ownProps.navigation,
+        welcomeCompleted: state.ui.auth.welcomeCompleted,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        onWelcomeComplete: () => {
+            dispatch(completeWelcome());
+        },
+    }
+);
+
+export const Tutorial = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(_Tutorial);
 
 class TutCardView extends React.Component {
     constructor(props) {
@@ -164,11 +180,7 @@ class TutCardView extends React.Component {
 
     _handlePress = () => {
         const parent = this;
-
-        GLOBAL.DB.setTutorialComplete().then(() => {
-            parent.props.navigation.push('Login');
-            // GLOBAL.ANALYTICS.logEvent('completed_tutorial');
-        });
+        this.props.onCompletion();
     }
 
     render() {

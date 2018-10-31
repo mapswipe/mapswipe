@@ -8,7 +8,11 @@
 
 import React from 'react';
 import {
-    Text, View, StyleSheet, Image,
+    Image,
+    NetInfo,
+    StyleSheet,
+    Text,
+    View,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { createStackNavigator } from 'react-navigation';
@@ -140,11 +144,6 @@ class Main extends React.Component {
         MessageBarManager.showAlert(alertObj);
     }
 
-    showLevelUp() {
-        console.log('level up!!');
-    }
-
-
     openModal3(level) {
         this.setState({
             levelObject: GLOBAL.DB.getCustomLevelObject(level),
@@ -167,6 +166,9 @@ class Main extends React.Component {
         const parent = this;
         // GLOBAL.ANALYTICS.logEvent('mapswipe_open');
         MessageBarManager.registerMessageBar(parent.refs.alert);
+        NetInfo.getConnectionInfo().then((state) => {
+            GLOBAL.DB.setupConnection(state);
+        });
 
         parent.checkInterval = setInterval(() => {
             if (GLOBAL.DB.getPendingLevelUp() > 0) {
