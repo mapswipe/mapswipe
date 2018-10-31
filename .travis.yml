@@ -14,14 +14,14 @@ matrix:
       sudo: required
       node_js: false
       before_install:
-        - nvm install 7
+        - nvm install node
         - node --version
         - travis_retry curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
         - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
         - travis_retry sudo apt-get update -qq
         - travis_retry sudo apt-get install -y -qq yarn
       install:
-        - yarn
+        - yarn install --frozen-lockfile
       android:
         components:
           - tools
