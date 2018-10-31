@@ -854,11 +854,27 @@ module.exports = {
     offlineGroups: [],
     interval: null,
 
-    handleSessionStart(state) {
-        const parent = this;
-        // this.refreshIgnoreList();
+    setupConnection(state) {
         con.initializeWithState(state);
         this.refreshOfflineGroups();
+    },
+
+    checkLogin() {
+        if (auth.receivedLoginStatus()) {
+            console.log('got an auth status');
+            if (auth.isLoggedIn()) {
+                console.log('annnnd we are logged in');
+                myUserRef = database.ref(`/users/${auth.getUser().uid}`);
+                this.compareAndUpdate();
+                return true;
+            }
+        }
+        return false;
+    },
+
+    handleSessionStart() {
+        const parent = this;
+        // this.refreshIgnoreList();
 
         return new Promise(((resolve, reject) => {
             // this will throw, x does not exist
@@ -957,25 +973,6 @@ module.exports = {
                 console.log(error);
                 reject(error);
             });
-        }));
-    },
-
-
-    /**
-     * Sets the tut to complete
-     */
-    setTutorialComplete() {
-        return new Promise(((resolve, reject) => {
-            // this will throw, x does not exist
-            store
-                .save('finishTutorial', {
-                    finished: true,
-                }).then((status) => {
-                    resolve(status);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
         }));
     },
 

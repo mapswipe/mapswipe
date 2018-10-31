@@ -1,6 +1,9 @@
 import React from 'react';
 import { Platform, Dimensions } from 'react-native';
 
+import { store } from './store';
+import { authStatusAvailable } from './actions/index';
+
 class AuthManager {
     /**
      * Constructor is called every time the object is initialized
@@ -163,8 +166,9 @@ class AuthManager {
         const that = this;
         this.firebase.auth().onAuthStateChanged((user) => {
             that.hasReceivedLoginStatus = true;
+            store.dispatch(authStatusAvailable(user));
             if (user) {
-                console.log("we're signed in");
+                console.log("Listener: we're signed in");
                 console.log(`${that.isLoggedIn()} login status`);
             } else {
                 console.log('not signed in..');

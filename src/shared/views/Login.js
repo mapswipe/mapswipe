@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-
+import { connect } from 'react-redux';
 import {
     Text,
     View,
@@ -21,14 +21,9 @@ import Button from 'apsl-react-native-button';
 
 const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 const GLOBAL = require('../Globals');
-// var ProgressBar = require('react-native-progress-bar');
-
-// var SplashScreen = require('@remobile/react-native-splashscreen');
 const LoadingIcon = require('./LoadingIcon');
 
-
 const styles = StyleSheet.create({
-
     startButton: {
         backgroundColor: '#ee0000',
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -67,7 +62,6 @@ const styles = StyleSheet.create({
         height: GLOBAL.SCREEN_HEIGHT * 0.5,
         textAlign: 'center',
         fontSize: 20,
-
     },
     text4: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -96,7 +90,6 @@ const styles = StyleSheet.create({
         height: 100,
         marginBottom: 30,
         marginTop: 30,
-
     },
     textInput: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -107,7 +100,8 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
 });
-class Login extends React.Component {
+
+class _Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -120,6 +114,9 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
+        if (GLOBAL.DB.checkLogin()) {
+            this.props.navigation.push('ProjectNav');
+        }
     }
 
     _handleSignUp() {
@@ -131,8 +128,6 @@ class Login extends React.Component {
                 title: 'Error on sign up',
                 message: 'Your username must be 4 characters or more',
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             return;
         }
@@ -143,8 +138,6 @@ class Login extends React.Component {
                 title: 'Error on sign up',
                 message: 'Your username can not be an email',
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             return;
         }
@@ -157,8 +150,6 @@ class Login extends React.Component {
                 title: 'Success',
                 message: `Welcome to Mapswipe, ${this.state.username}`,
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -171,8 +162,6 @@ class Login extends React.Component {
                 title: 'Error on sign up',
                 message: error,
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -196,8 +185,6 @@ class Login extends React.Component {
                 title: 'Success',
                 message: `Welcome to Mapswipe, ${this.state.username}`,
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -212,8 +199,6 @@ class Login extends React.Component {
                 title: 'Error on log in',
                 message: error,
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -231,8 +216,6 @@ class Login extends React.Component {
                 title: 'Success',
                 message: 'Check your email',
                 alertType: 'info',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -246,8 +229,6 @@ class Login extends React.Component {
                 title: 'Error on reset pass',
                 message: error,
                 alertType: 'error',
-                // See Properties section for full customization
-                // Or check `index.ios.js` or `index.android.js` for a complete example
             });
             parent.setState({
                 loading: false,
@@ -255,12 +236,11 @@ class Login extends React.Component {
         });
     }
 
-    /**
-     * Render function. W want to keep state throughout the entire component, so it's all one big horrible convention for now.
-     * @returns {XML}
-     */
     render() {
         console.log('rendering login');
+        if (GLOBAL.DB.checkLogin()) {
+            this.props.navigation.push('ProjectNav');
+        }
         const rows = [];
 
         if (this.state.screen === 0) {
@@ -440,5 +420,26 @@ class Login extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        navigation: ownProps.navigation,
+        loggedIn: state.ui.auth.loggedIn,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        //onLogin: () => {
+        //dispatch(loginAction());
+        //},
+    }
+);
+
+export const Login = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(_Login);
+
 
 module.exports = Login;
