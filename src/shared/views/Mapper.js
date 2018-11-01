@@ -564,6 +564,8 @@ class LoadMoreCard extends React.Component {
     _onComplete = () => {
         // GLOBAL.ANALYTICS.logEvent('complete_group');
         this.showSyncProgress();
+        console.log('completing', this.props.groupInfo);
+        debugger;
         GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
             _mapper.cardbody.resetState();
             console.log('Completed group report');

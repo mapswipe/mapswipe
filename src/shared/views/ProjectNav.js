@@ -147,6 +147,7 @@ class ProjectNav extends React.Component {
             });
             // }
         }).catch((error) => {
+            console.warn('pbpbpb', error);
             MessageBarManager.showAlert({
                 title: `${data.successCount} tasks synced`,
                 message: `${data.errorCount} failures`,
@@ -156,6 +157,7 @@ class ProjectNav extends React.Component {
     }
 
     render() {
+        console.log('render ProjectNav');
         return (
             <ScrollableTabView
                 tabBarActiveTextColor="#ffffff"
@@ -214,6 +216,7 @@ class RecommendedCards extends React.Component {
      * @param updateDb
      */
     updateProjects = (newCards) => {
+        console.log('updateProjects', newCards);
         this.setState({ loadingProjects: false, projects: newCards, announcement: this.state.announcement });
     }
 
@@ -223,6 +226,7 @@ class RecommendedCards extends React.Component {
      */
     constructor(props) {
         super(props);
+        console.log('construct RecommendedCards');
         // get the projects
         GLOBAL.DB.getProjects().then((data) => {
             console.log('Received project list from DB', data);

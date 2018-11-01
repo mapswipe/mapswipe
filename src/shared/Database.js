@@ -4,9 +4,7 @@
  * Database is the main class for communicating with firebase and AsyncStorage.
  */
 
-// import React from "react";
-// import { Platform } from "react-native";
-import firebase from 'firebase';
+import firebase from 'react-native-firebase';
 import { Levels as levels } from './Levels';
 import { store as reduxStore } from './store';
 
@@ -18,7 +16,6 @@ const AuthManager = require('./AuthManager');
 const config = require('../../config.json');
 
 console.log(RNFS.DocumentDirectoryPath);
-firebase.initializeApp(config.firebaseConfig);
 
 /* var PushNotification = require('react-native-push-notification');
 PushNotification.configure({
@@ -134,6 +131,7 @@ module.exports = {
                             // initialize the
                                 groups: results.group.error,
                             }).then((status) => {
+                                console.log('syncAndDeIndex check', status, successCount, errorCount);
                                 if (errorCount > successCount) {
                                     // more errors than successes... nope
                                     reject({
@@ -189,9 +187,12 @@ module.exports = {
                 }
             };
 
+            console.log('syncAndStatus');
             if (con.isOnline()) {
+                console.log('syncAndStatus is online');
                 // get the current task results in memory that have not been synced yet
                 store.get('taskResults').then((result) => {
+                    console.log('store returned raskResults', result);
                     if (result !== null) {
                         for (let i = 0; i < result.tasks.length; i++) {
                             const task = result.tasks[i];
@@ -218,7 +219,7 @@ module.exports = {
                 // sync the group complete count with firebase (The completed count is used to sort groups so that they can always be returned properly)
                 store.get('groupCompletes').then((result) => {
                     if (result !== null) {
-                        console.log('completes:');
+                        console.log('completes:', result);
 
                         for (let i = 0; i < result.groups.length; i++) {
                             const group = result.groups[i];
@@ -241,6 +242,7 @@ module.exports = {
                         }
                     }
                 });
+                resolve(resolveTypes);
             } else {
                 console.log("We're offline, not reporting rn");
                 resolve(resolveTypes);
@@ -746,6 +748,7 @@ module.exports = {
      */
     compareAndUpdate() {
         myUserRef = database.ref(`/users/${auth.getUser().uid}`);
+        console.log('compareAndUpdate user', myUserRef);
 
         const parent = this;
         myUserRef.once('value', (data) => {
@@ -755,7 +758,6 @@ module.exports = {
             store.get('currentUser').then((local) => {
                 if (local !== null && local !== undefined && local.distance !== undefined && local.contributions !== undefined) {
                     // IMPORTANT PART!
-
                     const localDistance = local.distance;
                     const remoteDistance = remoteObj.distance;
                     const localContributions = local.contributions;
@@ -861,8 +863,8 @@ module.exports = {
         const unsubscribe = reduxStore.subscribe(() => {
             const s = reduxStore.getState();
             if (s.ui.auth.loggedIn) {
-                //myUserRef = database.ref(`/users/${s.ui.auth.user.uid}`);
                 this.compareAndUpdate();
+                unsubscribe();
             }
         });
     },
@@ -958,11 +960,15 @@ module.exports = {
             }, {});
         }
 
+        console.log('getting projects');
         return new Promise(((resolve, reject) => {
             {
                 if (con.isOnline()) {
-                    projectsRef.on('value', (snapshot) => {
+                    console.log('getProjects online');
+                    let pr = projectsRef.on('value', (snapshot) => {
+                        console.log('getProjects snapshot', snapshot);
                         const projects = snapshot.val();
+                        console.log('getProjects', projects);
 
                         const newCards = {
                             featuredCard: null,
@@ -993,11 +999,14 @@ module.exports = {
                                 cards: newCards,
                             })
                             .catch((error) => {
-                                console.log('Threw error on saving new cards');
+                                console.log('Threw error on saving new cards', error);
                             });
                         console.log('Resolving!');
                         resolve(newCards);
+                    }, (dbError) => {
+                        console.warn('Error while getting projects', dbError);
                     });
+                    console.log('pr is', pr);
                 } else {
                     console.log('Getting projects offline......');
                     store.get('projects').then((result) => {

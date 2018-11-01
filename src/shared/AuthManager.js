@@ -106,7 +106,9 @@ class AuthManager {
      */
 
     getUser() {
-        return this.firebase.auth().currentUser;
+        const user = this.firebase.auth().currentUser;
+        console.log('getUser', user);
+        return user;
     }
 
     /**
@@ -162,7 +164,7 @@ class AuthManager {
      */
 
     addListeners() {
-        console.log('added listeners');
+        console.log('Added auth listeners');
         const that = this;
         this.firebase.auth().onAuthStateChanged((user) => {
             that.hasReceivedLoginStatus = true;
