@@ -7,19 +7,14 @@ import { connect } from 'react-redux';
 import {
     Text,
     View,
-    Platform,
     ScrollView,
-    ListView,
     StyleSheet,
     Image,
-    TouchableOpacity,
-    Dimensions,
-    NetInfo,
     TextInput,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import { MessageBarManager } from 'react-native-message-bar';
 
-const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 const GLOBAL = require('../Globals');
 const LoadingIcon = require('./LoadingIcon');
 
@@ -119,12 +114,22 @@ class _Login extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.loggedIn) {
-            this.props.navigation.push('ProjectNav');
+        const { loggedIn, navigation } = this.props;
+        if (loggedIn) {
+            navigation.push('ProjectNav');
         }
     }
 
-    handleSignUp() {
+    componentDidUpdate(prevProps) {
+        const { loggedIn, navigation } = this.props;
+        if (loggedIn !== prevProps.loggedIn) {
+            if (loggedIn) {
+                navigation.push('ProjectNav');
+            }
+        }
+    }
+
+    handleSignUp = () => {
         // GLOBAL.ANALYTICS.logEvent('account_screen_seen');
         const {
             email,
@@ -179,7 +184,7 @@ class _Login extends React.Component {
         });
     }
 
-    switchScreens(screen) {
+    switchScreens = (screen) => {
         this.setState({
             screen,
         });
@@ -422,14 +427,11 @@ class _Login extends React.Component {
     }
 
     render() {
-        const { loggedIn, navigation } = this.props;
+        const { loggedIn } = this.props;
         const {
             loading,
             screen,
         } = this.state;
-        if (loggedIn) {
-            navigation.push('ProjectNav');
-        }
         let content;
 
         if (screen === SCREEN_SIGNUP) {
