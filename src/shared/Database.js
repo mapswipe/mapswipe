@@ -597,12 +597,16 @@ module.exports = {
 
                 // add the added contributions in firebase (never override with local value bc it might reset)
                 if (con.isOnline()) {
-                    myUserRef.transaction((user) => {
-                        if (user) {
-                            user.contributions += addedContributions;
-                        }
-                        return user;
-                    });
+                    if (myUserRef) {
+                        // FIXME: this doesn't really solve the problem.
+                        // We should use firebase to automatically sync client & DB
+                        myUserRef.transaction((user) => {
+                            if (user) {
+                                user.contributions += addedContributions;
+                            }
+                            return user;
+                        });
+                    }
                 }
             }
         });
@@ -908,12 +912,12 @@ module.exports = {
                     contributions: 0,
 
                 };
-                database.ref(`/users/${auth.getUser().uid}`).set(userObj).then((data) => {
-                    resolve(data);
-                });
                 myUserRef = database.ref(`/users/${auth.getUser().uid}`);
                 parent.compareAndUpdate();
                 store.update('currentUser', userObj);
+                myUserRef.set(userObj).then((data) => {
+                    resolve(data);
+                });
             }).catch((error) => {
                 console.log(error);
                 reject(error);
