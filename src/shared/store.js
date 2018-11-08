@@ -4,6 +4,7 @@ import { reactReduxFirebase } from 'react-redux-firebase';
 import reducers from './reducers/index';
 
 const reactFirebaseConfig = {
+    attachAuthIsReady: true,
     enableRedirectHandling: false,
     userProfile: 'users',
 };
