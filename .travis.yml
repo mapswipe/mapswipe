@@ -14,7 +14,8 @@ matrix:
       sudo: required
       node_js: false
       before_install:
-        - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in google-services.json.enc -out android/app/src/dev/google-services.json -d
+        - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
+        - tar xvf secrets.tar
         - nvm install node
         - node --version
         - travis_retry curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
