@@ -1,10 +1,15 @@
 import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import {
     Text, View, ScrollView, StyleSheet,
 } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import Button from 'apsl-react-native-button';
 
+import { requestProjects } from '../actions/index';
+import { MoreOptions } from './MoreOptions';
 const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
 const Modal = require('react-native-modalbox');
@@ -16,7 +21,6 @@ const GLOBAL = require('../Globals');
  */
 
 const ProjectCard = require('./ProjectCard');
-const MoreOptions = require('./MoreOptions');
 const LoadingIcon = require('./LoadingIcon');
 
 
@@ -131,7 +135,7 @@ const style = StyleSheet.create({
  * This is the base view for the project navigation, the individual tabs are rendered within here.
  */
 
-class ProjectNav extends React.Component {
+class _ProjectNav extends React.Component {
     componentDidMount() {
         // GLOBAL.ANALYTICS.logEvent('app_home_seen');
         console.log('Firing sync');
@@ -153,11 +157,15 @@ class ProjectNav extends React.Component {
                 message: `${data.errorCount} failures`,
                 alertType: 'error',
             });
+        }).then(() => {
+            // request projects and announcements from firebase
+            this.props.onRequestProjects();
         });
     }
 
     render() {
-        console.log('render ProjectNav');
+        console.log('render ProjectNav', this.props);
+        const { auth, profile } = this.props;
         return (
             <ScrollableTabView
                 tabBarActiveTextColor="#ffffff"
@@ -176,6 +184,29 @@ class ProjectNav extends React.Component {
     }
 }
 
+const mapStateToProps = (state, ownProps) => (
+    {
+        navigation: ownProps.navigation,
+        auth: state.firebase.auth,
+        profile: state.firebase.profile,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        onRequestProjects: () => {
+            dispatch(requestProjects());
+        },
+    }
+);
+
+export const ProjectNav = compose(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    ),
+    firebaseConnect(),
+)(_ProjectNav);
 
 class RecommendedCards extends React.Component {
     openModal3 = () => {

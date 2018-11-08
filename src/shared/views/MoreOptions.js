@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import {
     Text,
     View,
@@ -8,6 +12,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
+import { Levels } from '../Levels';
 
 const GLOBAL = require('../Globals');
 
@@ -117,55 +122,27 @@ const styles = StyleSheet.create({
     },
 });
 
-class MoreOptions extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            distance: GLOBAL.DB.getDistance(),
-            contributions: GLOBAL.DB.getContributions(),
-            progress: GLOBAL.DB.getToNextLevelPercentage(),
-            level: GLOBAL.DB.getLevel(),
-            levelObject: GLOBAL.DB.getLevelObject(),
-        };
-    }
+class _MoreOptions extends React.Component {
 
-    componentDidMount() {
-        this.refreshStats();
-    }
-
-    refreshStats() {
-        const parent = this;
-        setInterval(() => {
-            const { contributions, distance, name } = parent.state;
-            const user = GLOBAL.DB.getAuth().getUser();
-            const username = user ? user.displayName : 'unknown';
-            const newContributions = GLOBAL.DB.getContributions();
-            const newDistance = GLOBAL.DB.getDistance();
-            //console.log('refreshStats', user, distance);
-            if (distance !== newDistance || contributions !== newContributions || name === '') {
-                parent.setState({
-                    distance: newDistance,
-                    contributions: newContributions,
-                    levelObject: GLOBAL.DB.getLevelObject(),
-                    level: GLOBAL.DB.getLevel(),
-                    name: username,
-                    progress: GLOBAL.DB.getToNextLevelPercentage(),
-                });
-            }
-        }, 500);
+    static propTypes = {
+        auth: PropTypes.object.isRequired,
+        kmTillNextLevel: PropTypes.number.isRequired,
+        level: PropTypes.number.isRequired,
+        navigation: PropTypes.object.isRequired,
+        profile: PropTypes.object.isRequired,
+        progress: PropTypes.number.isRequired,
     }
 
     render() {
         const {
-            contributions,
-            distance,
+            auth,
+            kmTillNextLevel,
             level,
-            levelObject,
-            name,
+            navigation,
+            profile,
             progress,
-        } = this.state;
-        const { navigation } = this.props;
+        } = this.props;
+        const levelObject = Levels[level];
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <ScrollingBackground />
@@ -177,7 +154,7 @@ class MoreOptions extends React.Component {
                         {level}
                     </Text>
                     <Text style={styles.infoRightTitle}>
-                        {name}
+                        {auth.displayName}
                     </Text>
                     <Text style={styles.infoLeft}>
                         {levelObject.title}
@@ -185,16 +162,19 @@ class MoreOptions extends React.Component {
                     <Text style={styles.infoRight}>
                     You&apos;ve mapped
                         {' '}
-                        {distance}
+                        {profile.distance}
                         {' '}
 square kilometers and found
                         {' '}
-                        {contributions}
+                        {profile.contributions}
                         {' '}
 objects
                     </Text>
                 </View>
-                <LevelProgress progress={progress} />
+                <LevelProgress
+                    kmTillNextLevel={kmTillNextLevel}
+                    progress={progress}
+                />
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
@@ -265,10 +245,8 @@ Blog
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            GLOBAL.DB.getAuth().logOut();
-                            navigation.push('WebviewWindow', {
-                                uri: 'http://missingmaps.org/events',
-                            });
+                            this.props.firebase.logout();
+                            navigation.navigate('Login');
                         }}
                         style={styles.otherButton}
                         textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
@@ -282,6 +260,24 @@ Sign Out
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        auth: state.firebase.auth,
+        kmTillNextLevel: state.ui.user.kmTillNextLevel,
+        level: state.ui.user.level,
+        navigation: ownProps.navigation,
+        profile: state.firebase.profile,
+        progress: state.ui.user.progress,
+    }
+);
+
+const enhance = compose(
+    firebaseConnect(),
+    connect(mapStateToProps),
+);
+
+export const MoreOptions = enhance(_MoreOptions);
 
 class ScrollingBackground extends React.Component {
     constructor(props) {
@@ -333,41 +329,29 @@ class ScrollingBackground extends React.Component {
     }
 }
 
+const progressStyle = StyleSheet.create({
+    text: {
+        color: '#ffffff',
+        borderColor: '#212121',
+        fontWeight: '500',
+        position: 'absolute',
+        width: GLOBAL.SCREEN_WIDTH,
+        left: 0,
+        textAlign: 'center',
+        paddingTop: 5,
+    },
+});
 
 class LevelProgress extends React.Component {
-    constructor(props) {
-        super(props);
-        const parent = this;
-        this.progressInterval = setInterval(() => {
-            const newVal = GLOBAL.DB.getKmTilNextLevel();
-            parent.setState({
-                text: `${newVal} square km (${Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6)} swipes) until the next level`,
-            });
-        }, 500);
-        this.state = {
-            textStyle: this.getBarTextStyle(),
-            text: `${GLOBAL.DB.getKmTilNextLevel()} square km until the next level`,
-        };
-    }
 
-    getBarTextStyle() {
-        return {
-            color: '#ffffff',
-            borderColor: '#212121',
-            fontWeight: '500',
-            position: 'absolute',
-            width: GLOBAL.SCREEN_WIDTH,
-            left: 0,
-            textAlign: 'center',
-            paddingTop: 5,
-        };
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.progressInterval);
+    static propTypes = {
+        kmTillNextLevel: PropTypes.number.isRequired,
+        progress: PropTypes.number.isRequired,
     }
 
     render() {
+        const { kmTillNextLevel, progress } = this.props;
+        const swipes = Math.ceil(kmTillNextLevel / (0.0233732728 * 6));
         return (
             <View style={styles.barRow}>
                 <Progress.Bar
@@ -375,15 +359,14 @@ class LevelProgress extends React.Component {
                     borderWidth={0}
                     color="#0d1949"
                     height={30}
-                    progress={this.props.progress}
+                    progress={progress}
                     unfilledColor="#bbbbbb"
                     width={GLOBAL.SCREEN_WIDTH}
                 />
-                <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
+                <Text elevation={5} style={progressStyle.text}>
+                    {`${kmTillNextLevel} square km (${swipes} swipes) until the next level`}
+                </Text>
             </View>
         );
     }
 }
-
-
-module.exports = MoreOptions;

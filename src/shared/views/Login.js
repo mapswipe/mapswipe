@@ -3,7 +3,9 @@
  */
 
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     Text,
     View,
@@ -114,16 +116,16 @@ class _Login extends React.Component {
     }
 
     componentDidMount() {
-        const { loggedIn, navigation } = this.props;
-        if (loggedIn) {
+        const { auth, navigation } = this.props;
+        if (isLoaded(auth) && !isEmpty(auth)) {
             navigation.push('ProjectNav');
         }
     }
 
     componentDidUpdate(prevProps) {
-        const { loggedIn, navigation } = this.props;
-        if (loggedIn !== prevProps.loggedIn) {
-            if (loggedIn) {
+        const { auth, navigation } = this.props;
+        if (auth !== prevProps.auth) {
+            if (isLoaded(auth) && !isEmpty(auth)) {
                 navigation.push('ProjectNav');
             }
         }
@@ -160,7 +162,13 @@ class _Login extends React.Component {
             loading: true,
         });
 
-        GLOBAL.DB.createAccount(email, username, password).then(() => {
+        this.props.firebase.createUser({ email, username, password }).then(() => {
+            // firebase doesn't record the username by default
+            this.props.firebase.updateProfile({
+                displayName: username,
+                distance: 0,
+                contributions: 0,
+            });
             MessageBarManager.showAlert({
                 title: 'Success',
                 message: `Welcome to Mapswipe, ${username}`,
@@ -194,16 +202,15 @@ class _Login extends React.Component {
         const {
             email,
             password,
-            username,
         } = this.state;
         this.setState({
             loading: true,
         });
         const parent = this;
-        GLOBAL.DB.signIn(email, password).then(() => {
+        this.props.firebase.login({ email, password }).then((user) => {
             MessageBarManager.showAlert({
                 title: 'Success',
-                message: `Welcome to Mapswipe, ${username}`,
+                message: `Welcome to Mapswipe, ${user.user.user._user.displayName}`,
                 alertType: 'info',
             });
             // GLOBAL.ANALYTICS.logEvent('account_login');
@@ -232,7 +239,7 @@ class _Login extends React.Component {
             loading: true,
         });
         const parent = this;
-        GLOBAL.DB.resetPass(email).then(() => {
+        this.props.firebase.sendPasswordResetEmail(email).then(() => {
             MessageBarManager.showAlert({
                 title: 'Success',
                 message: 'Check your email',
@@ -427,7 +434,7 @@ class _Login extends React.Component {
     }
 
     render() {
-        const { loggedIn } = this.props;
+        const { auth } = this.props;
         const {
             loading,
             screen,
@@ -445,7 +452,7 @@ class _Login extends React.Component {
         return (
             <View style={styles.container}>
                 {
-                    loggedIn === null || loading
+                    !isLoaded(auth) || loading
                         ? <LoadingIcon />
                         : content
                 }
@@ -456,23 +463,17 @@ class _Login extends React.Component {
 
 const mapStateToProps = (state, ownProps) => (
     {
+        auth: state.firebase.auth,
         navigation: ownProps.navigation,
-        loggedIn: state.ui.auth.loggedIn,
+        profile: state.firebase.profile,
     }
 );
 
-const mapDispatchToProps = dispatch => (
-    {
-        //onLogin: () => {
-        //dispatch(loginAction());
-        //},
-    }
+const enhance = compose(
+    firebaseConnect(),
+    connect(
+        mapStateToProps,
+    ),
 );
 
-export const Login = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(_Login);
-
-
-module.exports = Login;
+export default enhance(_Login);

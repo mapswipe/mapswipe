@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
-import { auth } from './ui';
+import { firebaseReducer } from 'react-redux-firebase';
+import { user } from './ui';
 
 const ui = combineReducers({
-    auth,
+    user,
 });
 
 const rootReducers = combineReducers({
+    firebase: firebaseReducer,
     ui,
 });
 

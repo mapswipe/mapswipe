@@ -54,13 +54,8 @@ PushNotification.configure({
 
 const database = firebase.database();
 
-
-const INTERVALS = {};
-
-
 const projectsRef = database.ref('projects');
 const groupsRef = database.ref('groups');
-const resultsRef = database.ref('results');
 let myUserRef;
 const announcementRef = database.ref('announcement');
 
@@ -68,9 +63,6 @@ const store = require('react-native-simple-store');
 
 const con = new ConnectionManager();
 const auth = new AuthManager(firebase);
-
-auth.addListeners();
-
 
 module.exports = {
 
@@ -496,55 +488,6 @@ module.exports = {
     },
 
     /**
-     * Get the exp needed for a level
-     * @param lvl
-     * @returns {*}
-     */
-
-    getExpForLevel(lvl) {
-        return levels[lvl].expRequired;
-    },
-
-    /**
-     * Get the percentage until the next level
-     * @returns {number}
-     */
-
-    getToNextLevelPercentage() {
-        if (level == this.maxLevel) {
-            return 1;
-        }
-        var level = parseInt(this.getLevel());
-        const checkAgainst = level + 1;
-        const currentLevelExp = levels[level].expRequired;
-        const nextLevelExp = this.getExpForLevel(checkAgainst);
-        const myExp = this.distance;
-        const expToGainTotal = (nextLevelExp - currentLevelExp);
-        const expToGainForMe = (nextLevelExp - myExp);
-        const toReturn = 1 - (expToGainForMe / expToGainTotal);
-        return toReturn;
-    },
-
-    /**
-     * Get the amount of kilometers until the next level
-     * @returns {number}
-     */
-
-    getKmTilNextLevel() {
-        if (level == this.maxLevel) {
-            return 1;
-        }
-        var level = parseInt(this.getLevel());
-        const checkAgainst = level + 1;
-        const currentLevelExp = levels[level].expRequired;
-        const nextLevelExp = this.getExpForLevel(checkAgainst);
-        const myExp = this.distance;
-        const expToGainTotal = (nextLevelExp - currentLevelExp);
-        const expToGainForMe = (nextLevelExp - myExp);
-        return expToGainForMe;
-    },
-
-    /**
      * Calculate how much 1 tile is in square kilometers
      * @param zoomLevel
      * @returns {number}
@@ -864,91 +807,6 @@ module.exports = {
     setupConnection(state) {
         con.initializeWithState(state);
         this.refreshOfflineGroups();
-        const unsubscribe = reduxStore.subscribe(() => {
-            const s = reduxStore.getState();
-            if (s.ui.auth.loggedIn) {
-                this.compareAndUpdate();
-                unsubscribe();
-            }
-        });
-    },
-
-    /**
-     * Dispatches an event to reset the pass to the user
-     * @param email
-     * @returns {Promise}
-     */
-    resetPass(email) {
-        return new Promise(((resolve, reject) => {
-            // this will throw, x does not exist
-
-            auth.resetPass(email).then((data) => {
-                resolve(data);
-            }).catch((error) => {
-                console.log(error);
-                reject(error);
-            });
-        }));
-    },
-
-    /**
-     * Dispatches an event to create the account
-     * @param email
-     * @param username
-     * @param pass
-     * @returns {Promise}
-     */
-
-    createAccount(email, username, pass) {
-        const parent = this;
-        return new Promise(((resolve, reject) => {
-            // this will throw, x does not exist
-
-            auth.createAccount(email, username, pass).then((data) => {
-                console.log('account created!!');
-                const userObj = {
-                    username,
-                    distance: 0,
-                    contributions: 0,
-
-                };
-                myUserRef = database.ref(`/users/${auth.getUser().uid}`);
-                parent.compareAndUpdate();
-                store.update('currentUser', userObj);
-                myUserRef.set(userObj).then((data) => {
-                    resolve(data);
-                });
-            }).catch((error) => {
-                console.log(error);
-                reject(error);
-            });
-        }));
-    },
-
-    /**
-     * Dispatches an event to the auth manager to sign in
-     * @param email
-     * @param pass
-     * @returns {Promise}
-     */
-    signIn(email, pass) {
-        const parent = this;
-        return new Promise(((resolve, reject) => {
-            // this will throw, x does not exist
-
-
-            auth.signIn(email, pass).then((data) => {
-                // set the user ref
-                myUserRef = database.ref(`/users/${auth.getUser().uid}`);
-
-                // compare the remote obj and set the local one
-                parent.compareAndUpdate();
-                resolve(data);
-            }).catch((error) => {
-                console.log(error);
-                reject(error);
-            });
-        }));
     },
 
     /**

@@ -142,7 +142,6 @@ class _Tutorial extends React.Component {
 
     render() {
         const { welcomeCompleted } = this.props;
-        console.log('welcomeCompleted', welcomeCompleted);
         return (welcomeCompleted
             ? <View style={{ flex: 1 }}><Text /></View>
             : <TutCardView onCompletion={this.finishWelcomeScreens} />
@@ -153,7 +152,7 @@ class _Tutorial extends React.Component {
 const mapStateToProps = (state, ownProps) => (
     {
         navigation: ownProps.navigation,
-        welcomeCompleted: state.ui.auth.welcomeCompleted,
+        welcomeCompleted: state.ui.user.welcomeCompleted,
     }
 );
 
