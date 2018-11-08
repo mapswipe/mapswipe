@@ -13,8 +13,6 @@ const ConnectionManager = require('./ConnectionManager');
 const AuthManager = require('./AuthManager');
 
 
-const config = require('../../config.json');
-
 console.log(RNFS.DocumentDirectoryPath);
 
 /* var PushNotification = require('react-native-push-notification');
@@ -1047,8 +1045,7 @@ module.exports = {
                     console.log('asking firebase for.. stuff');
                     const myGroups = groupsRef.child(`${projectId}`);
 
-
-                    fetch(`${config.firebaseConfig.databaseURL}/groups/${projectId}.json?orderBy="completedCount"&limitToFirst=${groupCount}`)
+                    myGroups.orderByChild('completeCount').limitToFirst(groupCount)
                         .then(response => response.json())
                         .then((data) => {
                             const returnGroups = [];
