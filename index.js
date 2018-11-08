@@ -1,9 +1,5 @@
 /** @format */
 
-// import polyfills to prevent weird errors without remote debugging
-// https://github.com/facebook/react-native/issues/20902#issuecomment-431177779
-import '@babel/polyfill';
-
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
