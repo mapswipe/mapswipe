@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    ImageBackground, Text, View, Image, StyleSheet, Dimensions, TouchableOpacity,
+    ImageBackground, Text, View, Image, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,6 +22,7 @@ const style = StyleSheet.create({
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
         marginTop: 5,
+        flex: 1,
     },
     groupAvatarBorderRadiusFix: {
         position: 'absolute',
@@ -41,6 +42,7 @@ const style = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 3,
         marginTop: 5,
+        flex: 1,
     },
     cardBackground: {
         flex: 1,
@@ -108,7 +110,6 @@ const style = StyleSheet.create({
             height: 1,
             width: 0,
         },
-
     },
     teamMates: {
         borderColor: '#e8e8e8',
@@ -145,7 +146,7 @@ const style = StyleSheet.create({
     },
 });
 
-class ProjectCard extends React.Component {
+export default class ProjectCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -170,9 +171,6 @@ class ProjectCard extends React.Component {
         if (state === 1) {
             return 'ON HOLD';
         }
-
-        // if the state is not any of these,
-
         if (state === 0) {
             return 'NEEDS MAPPING';
         }
@@ -180,7 +178,6 @@ class ProjectCard extends React.Component {
 
     _handlePress = () => {
         this.props.navigation.push('ProjectView', { data: this.props.card });
-        // console.log(event);
     }
 
     getGradientArray() {
@@ -199,17 +196,20 @@ class ProjectCard extends React.Component {
             gradientCountArray = [`rgba(156,36,189,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
             break;
         }
-
-
         return gradientCountArray;
     }
 
     render() {
-        const { card } = this.props;
+        const {
+            card,
+            cardIndex,
+            featured,
+        } = this.props;
         return (
             <TouchableOpacity onPress={this._handlePress}>
                 <View
-                    style={[(this.props.featured === true ? style.largeCard : style.smallCard), { marginLeft: this.props.cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
+                    style={[(card.isFeatured ? style.largeCard : style.smallCard),
+                        { marginLeft: cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
                 >
                     <ImageBackground
                         style={style.cardBackground}
@@ -235,7 +235,7 @@ class ProjectCard extends React.Component {
                             {this._getTextForState(card.state)}
                         </Button>
 
-                        <View style={this.props.featured === true ? style.bottomTextArea : style.bottomTextAreaSmallCard}>
+                        <View style={featured ? style.bottomTextArea : style.bottomTextAreaSmallCard}>
                             <Text style={style.projectName}>{card.name}</Text>
                             <View style={style.teamMates}>
                                 <Image
@@ -253,6 +253,3 @@ class ProjectCard extends React.Component {
         );
     }
 }
-
-
-module.exports = ProjectCard;

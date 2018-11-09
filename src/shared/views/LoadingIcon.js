@@ -14,7 +14,7 @@ const styles = {
     },
 };
 
-class LoadingComponent extends React.Component {
+export default class LoadingComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -73,5 +73,3 @@ class LoadingComponent extends React.Component {
         );
     }
 }
-
-module.exports = LoadingComponent;

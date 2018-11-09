@@ -16,10 +16,10 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
+import LoadingIcon from './LoadingIcon';
 import { store as reduxStore } from '../store';
 
 const GLOBAL = require('../Globals');
-const LoadingIcon = require('./LoadingIcon');
 
 const styles = StyleSheet.create({
     startButton: {

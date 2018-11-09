@@ -6,6 +6,7 @@ import {
 import { Levels } from '../Levels';
 
 const defaultUserState = {
+    kmTillNextLevel: 0,
     level: 1,
     progress: 0,
     username: '',
