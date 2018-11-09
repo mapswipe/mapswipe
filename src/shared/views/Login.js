@@ -137,6 +137,10 @@ class _Login extends React.Component {
     handleSignUp = () => {
         // GLOBAL.ANALYTICS.logEvent('account_screen_seen');
         const {
+            firebase,
+            navigation,
+        } = this.props;
+        const {
             email,
             password,
             username,
@@ -165,34 +169,45 @@ class _Login extends React.Component {
             loading: true,
         });
 
-        this.props.firebase.createUser({ email, username, password }).then(() => {
-            // firebase doesn't record the username by default
-            this.props.firebase.updateProfile({
-                displayName: username,
-                distance: 0,
-                contributions: 0,
+        firebase.createUser({ email, password }, { username, email })
+            .then(() => {
+                // firebase doesn't record the username by default
+                firebase.updateAuth({
+                    displayName: username,
+                });
+            })
+            .then(() => {
+                firebase.reloadAuth();
+            })
+            .then(() => {
+                firebase.updateProfile({
+                    distance: 0,
+                    contributions: 0,
+                });
+            })
+            .then(() => {
+                MessageBarManager.showAlert({
+                    title: 'Success',
+                    message: `Welcome to Mapswipe, ${username}`,
+                    alertType: 'info',
+                });
+                parent.setState({
+                    loading: false,
+                });
+                // GLOBAL.ANALYTICS.logEvent('account_created');
+                navigation.push('ProjectNav');
+            })
+            .catch((error) => {
+                // GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
+                MessageBarManager.showAlert({
+                    title: 'Error on sign up',
+                    message: error,
+                    alertType: 'error',
+                });
+                parent.setState({
+                    loading: false,
+                });
             });
-            MessageBarManager.showAlert({
-                title: 'Success',
-                message: `Welcome to Mapswipe, ${username}`,
-                alertType: 'info',
-            });
-            parent.setState({
-                loading: false,
-            });
-            // GLOBAL.ANALYTICS.logEvent('account_created');
-            parent.props.navigation.push('ProjectNav');
-        }).catch((error) => {
-            // GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
-            MessageBarManager.showAlert({
-                title: 'Error on sign up',
-                message: error,
-                alertType: 'error',
-            });
-            parent.setState({
-                loading: false,
-            });
-        });
     }
 
     switchScreens = (screen) => {
