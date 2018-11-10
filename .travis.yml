@@ -28,7 +28,8 @@ matrix:
         components:
           - tools
           - platform-tools
-          - build-tools-27.0.3
+          - build-tools-28.0.2
+          - android-28
           - android-27
           - android-26
           - extra-android-m2repository
@@ -46,7 +47,7 @@ matrix:
         - node --version
         - travis_retry npm install -g yarn
         - yarn -version
-        - wget https://dl.google.com/firebase/sdk/ios/5_12_0/Firebase-5.12.0.zip
+        - wget -nv https://dl.google.com/firebase/sdk/ios/5_12_0/Firebase-5.12.0.zip
         - unzip -q Firebase-5.12.0.zip -d ios
       install:
         - travis_retry gem install xcpretty
