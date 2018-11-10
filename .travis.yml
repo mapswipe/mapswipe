@@ -46,6 +46,8 @@ matrix:
         - node --version
         - travis_retry npm install -g yarn
         - yarn -version
+        - wget https://dl.google.com/firebase/sdk/ios/5_12_0/Firebase-5.12.0.zip
+        - unzip -q Firebase-5.12.0.zip -d ios
       install:
         - travis_retry gem install xcpretty
         - travis_retry yarn install --frozen-lockfile
