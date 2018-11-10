@@ -98,8 +98,6 @@ const style = StyleSheet.create({
     },
 });
 
-// todo: put flexDirection:'column', justifyContent:'center' and fix 50% issues
-
 /**
  * This is the base view for the project navigation, the individual tabs are rendered within here.
  */

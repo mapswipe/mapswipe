@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
 });
 
 class _MoreOptions extends React.Component {
-
     static propTypes = {
         auth: PropTypes.object.isRequired,
         kmTillNextLevel: PropTypes.number.isRequired,
