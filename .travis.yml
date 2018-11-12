@@ -62,5 +62,6 @@ matrix:
       xcode_scheme: ios/mapswipeTests
       script:
         - cd ios
+        - pod install
         - xcodebuild -scheme mapswipe -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
         - travis_retry xctool run-tests -scheme mapswipe -sdk iphonesimulator -launch-timeout 90  ONLY_ACTIVE_ARCH=NO
