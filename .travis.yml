@@ -24,6 +24,8 @@ matrix:
         - travis_retry sudo apt-get install -y -qq yarn
       install:
         - yarn install --frozen-lockfile
+      before_deploy:
+        - find . -name *.apk
       deploy:
         provider: releases
         api_key:
