@@ -60,7 +60,7 @@ matrix:
       install:
         - travis_retry gem install xcpretty
         - travis_retry yarn install --frozen-lockfile
-      xcode_project: ios/mapswipe.xcodeproj
+      xcode_project: ios/mapswipe.xcworkspace
       xcode_scheme: ios/mapswipeTests
       script:
         - cd ios
