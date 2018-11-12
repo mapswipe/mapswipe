@@ -28,7 +28,7 @@ matrix:
         provider: releases
         api_key:
           secure: PAOPhK4V3QcD9xwe7doux5wbZBQ+9yI1PPVxEROKVL9F3ploddiXCCTteYrZRX3X/lwi0RshKZlLifPVwZNgnnLAMXpua/q5RWafiIN2HCT7u+Etju0baaLzXIzhh2ZLeDWfWf9y/na65Q1Ys4nZ9Fo4CiiZ5sqbLbb6pBhZrM7USc4+Ec8M8Av0kqULpDYfP16k2dOyyMhAbxz5boD6SWng3DY4bwygag5yL03UkqwsOssLYS4JtYeuandxPExb+R56JhI/mbiTyijoNYtIi/cPNkFm8S1DrLmcqrdFuF1i/F7GSRvu5pS7tXKWR9hAeXJDpCEAqRSJys80OLn3jy2n0ym93eYCXNtvasJrRy5teyh4d5dwbc9c5mEHjAJe+ftnyHkQGJuax1fJZCdnW3oGZam6H6/rpAcjtJ2bzmmeyk0Be9N2iYFlReMqrxwMUtCYcFzZSn9c39GNnyYzCDZwuRDUPn564i+JdaG5hsW16TY51pSHspuNT4nZLSCGpSbViLb2547L9sNyzqQmX8GYdE5/6lILdVX4SJJj5ihgyeMkP1ghsg8Gj4LD1OVxQTtOUWZ5LPT61kAfyz6F0GygYN+oiLev3KxGBm4EzrNmOgUChEAnA24+BKk25nnaHUBJqwoOXl2SczWjUDU8jAocr+Kt28yl+67ZrsL3U/o=
-        file: "android/app/build/outputs/apk/dev/debug/app-dev-debug.apk"
+        file: "app/build/outputs/apk/dev/debug/app-dev-debug.apk"
         skip_cleanup: true
         on:
           all_branches: true
