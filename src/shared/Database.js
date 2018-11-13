@@ -884,8 +884,8 @@ module.exports = {
                     console.log('asking firebase for.. stuff');
                     const myGroups = groupsRef.child(`${projectId}`);
 
-                    myGroups.orderByChild('completeCount').limitToFirst(groupCount)
-                        .then(response => response.json())
+                    myGroups.orderByChild('completedCount').limitToFirst(1).once('value')
+                        .then(response => response.val())
                         .then((data) => {
                             const returnGroups = [];
                             if (downloadTiles === true) {
