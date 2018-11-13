@@ -1,4 +1,7 @@
 import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import {
     Text,
     View,
@@ -249,10 +252,6 @@ const style = StyleSheet.create({
 
 });
 
-/**
- * This is the base view for the project navigation, the individual tabs are rendered within here.
- */
-
 const ProjectView = props => (
     <ProjectHeader
         style={style.headerContainer}
@@ -261,7 +260,7 @@ const ProjectView = props => (
     />
 );
 
-class ProjectHeader extends React.Component {
+class _ProjectHeader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -348,7 +347,7 @@ class ProjectHeader extends React.Component {
 
         if (GLOBAL.DB.getConnectionManager().isOnWifi() || !GLOBAL.DB.getConnectionManager().isOnline()) {
             navigation.push('Mapper', {
-                data: project,
+                project,
             });
         } else {
             Alert.alert(
@@ -359,7 +358,7 @@ class ProjectHeader extends React.Component {
                     {
                         text: 'Continue',
                         onPress: () => navigation.push('Mapper', {
-                            data: project,
+                            project,
                         }),
                     },
                 ],
@@ -399,7 +398,7 @@ class ProjectHeader extends React.Component {
                         },
                     ],
                 );
-                GLOBAL.DB.getTaskGroupsForProject(parent.props.data.id, -1, originalTaskAmount, parent.props.data.groupAverage, true);
+                GLOBAL.DB.getTaskGroupsForProject(project.id, -1, originalTaskAmount, project.groupAverage, true);
                 parent.closeModal3();
             } else {
                 Alert.alert(
@@ -417,7 +416,7 @@ class ProjectHeader extends React.Component {
                             text: 'Continue',
                             onPress: () => {
                                 console.log(`We're headed to download${originalTaskAmount} tasks!`);
-                                GLOBAL.DB.getTaskGroupsForProject(parent.props.data.id, -1, originalTaskAmount, parent.props.data.groupAverage, true);
+                                GLOBAL.DB.getTaskGroupsForProject(project.id, -1, originalTaskAmount, project.groupAverage, true);
                                 parent.closeModal3();
                             },
                         },
@@ -607,5 +606,20 @@ We will let you know when your download ends, it will be auto-deleted after
     }
 }
 
+const mapStateToProps = (state, ownProps) => (
+    {
+        navigation: ownProps.navigation,
+        // project: state.firebase.data.project,
+        project: ownProps.project,
+    }
+);
+
+export const ProjectHeader = compose(
+    firebaseConnect(() => [
+    ]),
+    connect(
+        mapStateToProps,
+    ),
+)(_ProjectHeader);
 
 module.exports = ProjectView;
