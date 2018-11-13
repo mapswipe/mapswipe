@@ -1,5 +1,8 @@
 // @flow
 import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import {
     Text,
     View,
@@ -7,16 +10,12 @@ import {
     Image,
     TouchableHighlight,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
-import DeviceInfo from 'react-native-device-info';
 import CardBody from './CardBody';
 
 const Modal = require('react-native-modalbox');
-const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 const GLOBAL = require('../../Globals');
-const LoadingIcon = require('../LoadingIcon');
 
 const styles = StyleSheet.create({
     startButton: {
@@ -149,10 +148,10 @@ type State = {
     poppedUpTile: React.Node,
 }
 
-class Mapper extends React.Component<Props, State> {
+class _Mapper extends React.Component<Props, State> {
     constructor(props:Props) {
         super(props);
-        this.data = props.navigation.getParam('data', null);
+        this.project = props.navigation.getParam('project', null);
         this.state = {
             poppedUpTile: null,
         };
@@ -197,6 +196,7 @@ class Mapper extends React.Component<Props, State> {
     getProgress = () => (this.progress);
 
     render() {
+        const { navigation } = this.props;
         return (
             <View style={styles.mappingContainer}>
                 <View style={styles.swipeNavTop}>
@@ -204,7 +204,7 @@ class Mapper extends React.Component<Props, State> {
                     You are looking for:
                     </Text>
                     <Text style={styles.elementText}>
-                        {this.data.lookFor}
+                        {this.project.lookFor}
                     </Text>
                     <TouchableHighlight style={styles.backButtonContainer} onPress={this.returnToView}>
                         <Image
@@ -222,10 +222,10 @@ class Mapper extends React.Component<Props, State> {
                 </View>
 
                 <CardBody
-                    data={this.data}
+                    projectId={this.project.id}
                     mapper={this}
                     paging
-                    navigation={this.props.navigation}
+                    navigation={navigation}
                     ref={(r) => { this.cardbody = r; }}
                 />
                 <BottomProgress ref={(r) => { this.progress = r; }} />
@@ -307,6 +307,20 @@ HOLD TO
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        navigation: ownProps.navigation,
+    }
+);
+
+export const Mapper = compose(
+    firebaseConnect(() => [
+    ]),
+    connect(
+        mapStateToProps,
+    ),
+)(_Mapper);
 
 class BottomProgress extends React.Component {
 
