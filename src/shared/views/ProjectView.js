@@ -257,7 +257,7 @@ const ProjectView = props => (
     <ProjectHeader
         style={style.headerContainer}
         navigation={props.navigation}
-        data={props.navigation.getParam('data', null)}
+        project={props.navigation.getParam('project', null)}
     />
 );
 
@@ -277,26 +277,27 @@ class ProjectHeader extends React.Component {
     mounted: false;
 
     componentDidMount() {
+        const { project } = this.props;
         GLOBAL.GRADIENT_COUNT = 0;
         this.mounted = true;
         // FIXME see below :)
         // GLOBAL.ANALYTICS.logEvent('project_view_opened');
         const parent = this;
         parent.setState({
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${this.props.data.id}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.id}`),
         });
         setInterval(() => {
             if (!parent.mounted) {
                 return;
             }
             let progress = 0;
-            const projectKey = `project-${parent.props.data.id}`;
+            const projectKey = `project-${project.id}`;
             if (GLOBAL.DB.totalRequestsOutstanding2[projectKey] !== undefined) {
                 progress = Math.ceil(100 - ((GLOBAL.DB.totalRequestsOutstanding2[projectKey] / GLOBAL.DB.totalRequests[projectKey]) * 100));
             }
             parent.setState({
                 progress,
-                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${parent.props.data.id}`),
+                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.id}`),
             });
         }, 300);
     }
@@ -306,8 +307,8 @@ class ProjectHeader extends React.Component {
     }
 
     _handlePress = () => {
-        const parent = this;
-        if (GLOBAL.DB.hasOpenDownloads(`project-${this.props.data.id}`) === false) {
+        const { navigation, project } = this.props;
+        if (GLOBAL.DB.hasOpenDownloads(`project-${project.id}`) === false) {
             this.checkWifiMapping();
         } else {
             Alert.alert(
@@ -316,8 +317,8 @@ class ProjectHeader extends React.Component {
                 [
                     {
                         text: 'Okay',
-                        onPress: () => this.props.navigation.push('ProjectNav', {
-                            uri: this.props.data,
+                        onPress: () => navigation.push('ProjectNav', {
+                            uri: project,
                         }),
                     },
                     { text: 'Close', onPress: () => console.log('closed') },
@@ -343,11 +344,11 @@ class ProjectHeader extends React.Component {
     }
 
     checkWifiMapping() {
-        const parent = this;
+        const { navigation, project } = this.props;
 
         if (GLOBAL.DB.getConnectionManager().isOnWifi() || !GLOBAL.DB.getConnectionManager().isOnline()) {
-            this.props.navigation.push('Mapper', {
-                data: this.props.data,
+            navigation.push('Mapper', {
+                data: project,
             });
         } else {
             Alert.alert(
@@ -357,8 +358,8 @@ class ProjectHeader extends React.Component {
                     { text: 'Cancel', onPress: () => console.log('canceled wifi mapping') },
                     {
                         text: 'Continue',
-                        onPress: () => parent.props.navigation.push('Mapper', {
-                            data: this.props.data,
+                        onPress: () => navigation.push('Mapper', {
+                            data: project,
                         }),
                     },
                 ],
@@ -458,8 +459,9 @@ class ProjectHeader extends React.Component {
     }
 
     render() {
+        const { navigation, project } = this.props;
         const renderQueue = [];
-        const chunks = this.props.data.projectDetails.split('\\n');
+        const chunks = project.projectDetails.split('\\n');
         chunks.forEach((chunk) => {
             renderQueue.push(chunk, '\n');
         });
@@ -469,11 +471,11 @@ class ProjectHeader extends React.Component {
                 <ImageBackground
 
                     style={style.backgroundImage}
-                    source={{ uri: this.props.data.image }}
+                    source={{ uri: project.image }}
                 >
                     <View style={style.overlay}>
 
-                        <Text style={style.overlayProjectName}>{this.props.data.name.toUpperCase()}</Text>
+                        <Text style={style.overlayProjectName}>{project.name.toUpperCase()}</Text>
                         <View style={style.bottomTextArea}>
 
                             <View style={style.infoArea}>
@@ -485,12 +487,8 @@ class ProjectHeader extends React.Component {
                                     <Text
                                         style={style.infoBlockText}
                                     >
-                                        {this.props.data.progress}
-% GLOBAL PROGRESS
-                                BY
-                                        {this.props.data.contributors}
-                                        {' '}
-MAPPERS JUST LIKE YOU.
+                                        {`${project.progress.toFixed(0)}% GLOBAL PROGRESS BY `}
+                                        {`${project.contributors} MAPPERS JUST LIKE YOU.`}
                                     </Text>
                                     <Image
                                         style={style.mmLogo}
@@ -516,7 +514,7 @@ MAPPERS JUST LIKE YOU.
                     <Button
                         style={style.startButtonTutorial}
                         onPress={() => {
-                            this.props.navigation.push('WebviewWindow', {
+                            navigation.push('WebviewWindow', {
                                 uri: GLOBAL.TUT_LINK,
                             });
                         }}
@@ -543,7 +541,7 @@ MAPPERS JUST LIKE YOU.
 
                     <Button
                         style={style.startButton2}
-                        onPress={this._handleProjectRemoval(`project-${this.props.data.id}`)}
+                        onPress={this._handleProjectRemoval(`project-${project.id}`)}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     Bugs? Clear Project Data
@@ -553,7 +551,7 @@ MAPPERS JUST LIKE YOU.
                         ? (
                             <Button
                                 style={style.startButton2}
-                                onPress={this._handleRemoval(`project-${this.props.data.id}`)}
+                                onPress={this._handleRemoval(`project-${project.id}`)}
                                 textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                             >
                         Remove Offline Data

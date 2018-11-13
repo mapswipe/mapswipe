@@ -177,7 +177,7 @@ export default class ProjectCard extends React.Component {
     }
 
     _handlePress = () => {
-        this.props.navigation.push('ProjectView', { data: this.props.card });
+        this.props.navigation.push('ProjectView', { project: this.props.card });
     }
 
     getGradientArray() {
