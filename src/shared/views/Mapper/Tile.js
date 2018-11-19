@@ -133,18 +133,20 @@ export class Tile extends React.Component {
         return texts[random];
     }
 
-    zoomRender = () => {
+    getImgSource = () => {
         const tile = this.props.data;
-        const projectDir = `${RNFS.DocumentDirectoryPath}/${this.props.mapper.data.id}`;
+        const projectDir = `${RNFS.DocumentDirectoryPath}/${this.props.mapper.projectId}`;
         const dir = `${projectDir}/${this.props.mapper.cardbody.currentGroup}`; // e.g. /1/45
-
         const fileName = `${dir}/${tile.id}.jpeg`;
         const imageSource = this.props.mapper.cardbody.isOfflineGroup === true ? {
             isStatic: true,
             uri: `file://${fileName}`,
         } : { uri: tile.url };
+        return imageSource;
+    }
 
-
+    zoomRender = () => {
+        const imageSource = this.getImgSource();
         return (
             <Image
                 style={{
@@ -175,14 +177,7 @@ export class Tile extends React.Component {
                 {this.getFunText()[1]}
             </Animatable.Text>);
         }
-        const projectDir = `${RNFS.DocumentDirectoryPath}/${this.props.mapper.data.id}`;
-        const dir = `${projectDir}/${this.props.mapper.cardbody.currentGroup}`; // e.g. /1/45
-
-        const fileName = `${dir}/${tile.id}.jpeg`;
-        const imageSource = this.props.mapper.cardbody.isOfflineGroup === true ? {
-            isStatic: true,
-            uri: `file://${fileName}`,
-        } : { uri: tile.url };
+        const imageSource = this.getImgSource();
 
         return (
             <TouchableHighlight
