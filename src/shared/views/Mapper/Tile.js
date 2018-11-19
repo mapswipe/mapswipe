@@ -1,5 +1,8 @@
 // @flow
 import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     ImageBackground,
     View,
@@ -9,6 +12,7 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
+import { toggleMapTile } from '../../actions/index';
 
 const RNFS = require('react-native-fs');
 const GLOBAL = require('../../Globals');
@@ -31,7 +35,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export class Tile extends React.Component {
+export class _Tile extends React.Component {
     constructor(props) {
         super(props);
         this.tileStatus = 0;
@@ -63,13 +67,12 @@ export class Tile extends React.Component {
                 result: this.tileStatus,
                 projectId: tile.projectId,
                 wkt: tile.wkt,
-                item: this.props.mapper.data.lookFor,
+                item: this.props.mapper.project.lookFor,
                 device: DeviceInfo.getUniqueID(),
                 user: GLOBAL.DB.getAuth().getUser().uid,
                 timestamp: GLOBAL.DB.getTimestamp(),
             };
-            // adds the task result, if fail, try again every second until it is added.
-            GLOBAL.DB.taskReadyForProcessing(task);
+            this.props.onToggleTile(task);
         }
     }
 
@@ -200,4 +203,28 @@ export class Tile extends React.Component {
     }
 }
 
+const mapStateToProps = (state, ownProps) => (
+    {
+        group: state.firebase.data.group,
+        navigation: ownProps.navigation,
+        projectId: ownProps.projectId,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        onToggleTile: (tileInfo) => {
+            dispatch(toggleMapTile(tileInfo));
+        },
+    }
+);
+
+export const Tile = compose(
+    firebaseConnect(() => [
+    ]),
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    ),
+)(_Tile);
 export const EmptyTile = () => (<View style={styles.emptyTile} />);

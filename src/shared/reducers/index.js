@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { firebaseReducer } from 'react-redux-firebase';
+import results from './results';
 import { user } from './ui';
 
 const ui = combineReducers({
@@ -8,6 +9,7 @@ const ui = combineReducers({
 
 const rootReducers = combineReducers({
     firebase: firebaseReducer,
+    results,
     ui,
 });
 
