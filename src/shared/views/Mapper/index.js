@@ -139,6 +139,15 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         backgroundColor: 'transparent',
     },
+    progressBarText: {
+        color: '#ffffff',
+        borderColor: '#212121',
+        fontWeight: '500',
+        position: 'absolute',
+        top: 1,
+        left: GLOBAL.SCREEN_WIDTH - 160,
+        backgroundColor: 'transparent',
+    },
 });
 
 type Props = {
@@ -328,20 +337,7 @@ class BottomProgress extends React.Component {
         super(props);
         this.state = {
             progress: 0,
-            textStyle: this.getBarTextStyle(),
             text: 'START MAPPING',
-        };
-    }
-
-    getBarTextStyle() {
-        return {
-            color: '#ffffff',
-            borderColor: '#212121',
-            fontWeight: '500',
-            position: 'absolute',
-            top: 1,
-            left: GLOBAL.SCREEN_WIDTH - 160,
-            backgroundColor: 'transparent',
         };
     }
 
@@ -349,13 +345,12 @@ class BottomProgress extends React.Component {
         const newProgress = event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsLength);
         this.setState({
             progress: newProgress,
-            textStyle: this.getBarTextStyle(),
             text: `YOU'VE MAPPED ${Math.ceil(newProgress * 100)}%`,
         });
     }
 
     render() {
-        const { progress, text, textStyle } = this.state;
+        const { progress, text } = this.state;
         return (
             <View style={styles.swipeNavBottom}>
                 <Progress.Bar
@@ -366,7 +361,7 @@ class BottomProgress extends React.Component {
                     unfilledColor="#ffffff"
                     progress={progress}
                 />
-                <Text elevation={5} style={textStyle}>{text}</Text>
+                <Text elevation={5} style={styles.progressBarText}>{text}</Text>
             </View>
         );
     }
