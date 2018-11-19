@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     ScrollView,
     StyleSheet,
@@ -51,7 +54,7 @@ class IndividualCard extends React.Component {
     }
 }
 
-export class TileRow extends React.Component {
+class TileRow extends React.Component {
     render() {
         const rows = [];
         const { mapper } = this.props;
@@ -74,53 +77,39 @@ export class TileRow extends React.Component {
     }
 }
 
-export default class CardBody extends React.Component {
-    resetState = () => {
-        this.allCards = {};
-        this.totalRenderedCount = -1;
-        this.isOfflineGroup = false;
+class _CardBody extends React.Component {
+    constructor(props) {
+        super(props);
         this.currentGroup = null;
-        this.setState({
+        this.isOfflineGroup = false;
+        this.lastMode = ''; // 0 is online mapping, 1 is offline mapping
+        this.currentXRenderOffset = 0; // aka the last state
+        this.lastState = -1;
+
+        this.state = {
             cardsInView: [],
-            pagingEnabled: this.props.paging,
-        });
-        this.scrollView.scrollTo({ x: 0, animated: false });
+            marginXOffset: 0,
+        };
     }
 
-    componentDidMount = () => {
-        GLOBAL.DB.getSingleGroup(this.props.data.id).then((data) => {
-            this.generateCards(data.group);
-        }).catch((error) => {
-            console.error('Error in getTasks', error);
-        });
+    componentDidUpdate = (prevProps) => {
+        const { group, mapper } = this.props;
+        console.log('CardBody updated', prevProps, this.props);
+        if (prevProps.group !== group) {
+            if (isLoaded(group) && !isEmpty(group)) {
+                this.generateCards();
+                mapper.progress.updateProgress(0);
+                this.scrollView.scrollTo({ x: 0, animated: false });
+            }
+        }
     }
 
-    generateCards = (data) => {
+    generateCards = () => {
+        const { group } = this.props;
+        const groupId = Object.keys(group)[0];
+        const data = group[groupId];
         const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
         this.currentGroup = data.id;
-        this.groupXStart = data.xMin;
-        this.groupXEnd = data.xMax;
-
-        const key = `project-${data.projectId}-group-${data.id}`;
-        this.isOfflineGroup = GLOBAL.DB.isOfflineGroup(key);
-        if (this.isOfflineGroup === true) {
-            if (this.lastMode !== 'offline') {
-                this.lastMode = 'offline';
-                MessageBarManager.showAlert({
-                    title: 'You are mapping a downloaded group!',
-                    message: 'It will work offline! ',
-                    alertType: 'info',
-                });
-            }
-        } else if (this.lastMode !== 'online') {
-            this.lastMode = 'online';
-            MessageBarManager.showAlert({
-                title: 'Online Mapping Activated',
-                message: 'If you want to map offline, download tasks on the project home.',
-                alertType: 'info',
-            });
-        }
-
         const cards = [];
 
         // iterate over all the tasksI with an interval of the tilesPerRow variable
@@ -158,37 +147,12 @@ export default class CardBody extends React.Component {
                 cardToPush.tileRows.push(tileRowObject);
             }
             if (cardToPush.validTiles > 0) { // ensure the card has tiles
-                this.totalRenderedCount++;
-                this.allCards[cardToPush.cardX] = cardToPush;
                 cards.push(cardToPush);
             }
         }
         this.setState({
             cardsInView: cards,
         });
-        // when done loading, always go to the beginning
-        // this.hanldeCardRender(0);
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.allCards = {};
-        this.groupXStart = -1;
-        this.groupXEnd = -1;
-        this.totalRenderedCount = -1;
-        this.currentGroup = null;
-        this.isOfflineGroup = false;
-        this.lastMode = ''; // 0 is online mapping, 1 is offline mapping
-        this.currentXRenderOffset = 0; // aka the last state
-        this.lastState = -1;
-
-        this.state = {
-            cardsInView: [],
-            pagingEnabled: this.props.paging,
-            marginXOffset: 0,
-        };
-    }
     }
 
     handleScroll = (event: Object) => {
@@ -204,33 +168,37 @@ export default class CardBody extends React.Component {
 
     render() {
         const rows = [];
-        const { cardsInView, marginXOffset, pagingEnabled } = this.state;
+        console.log('render CardBody', this.state);
+        const { cardsInView, marginXOffset } = this.state;
+        const { mapper, navigation, projectId } = this.props;
         if (cardsInView.length > 0) {
             let lastCard = null;
 
             cardsInView.forEach((card) => {
                 lastCard = card;
-                rows.push(<IndividualCard key={card.cardX} card={card} mapper={this.props.mapper} />);
+                rows.push(<IndividualCard key={card.cardX} card={card} mapper={mapper} />);
             });
 
             rows.push(<LoadMoreCard
                 key={lastCard.id / 2}
                 card={lastCard}
-                groupInfo={{ group: this.currentGroup, project: this.props.data.id }}
-                mapper={this.props.mapper}
+                groupId={this.currentGroup}
+                mapper={mapper}
+                navigation={navigation}
+                projectId={projectId}
             />); // lastCard.id/2 is random so that it never is the same number
         } else {
             this.showingLoader = true;
             rows.push(<LoadingIcon key="loadingicon" />);
         }
-        //
+
         return (
             <ScrollView
                 onScroll={this.handleScroll}
                 automaticallyAdjustInsets={false}
                 horizontal
                 ref={(r) => { this.scrollView = r; }}
-                pagingEnabled={pagingEnabled}
+                pagingEnabled
                 removeClippedSubviews
                 contentContainerStyle={[styles.wrapper, { paddingHorizontal: marginXOffset }]}
             >
@@ -240,3 +208,24 @@ export default class CardBody extends React.Component {
     }
 }
 
+const mapStateToProps = (state, ownProps) => (
+    {
+        group: state.firebase.data.group,
+        mapper: ownProps.mapper,
+        navigation: ownProps.navigation,
+        projectId: ownProps.projectId,
+    }
+);
+
+export default compose(
+    firebaseConnect(props => [
+        {
+            path: `groups/${props.projectId}`,
+            queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
+            storeAs: 'group',
+        },
+    ]),
+    connect(
+        mapStateToProps,
+    ),
+)(_CardBody);

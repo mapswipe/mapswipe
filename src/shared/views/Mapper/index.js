@@ -171,16 +171,11 @@ class _Mapper extends React.Component<Props, State> {
         // GLOBAL.ANALYTICS.logEvent('mapping_started');
     }
 
-    componentWillUnmount() {
-        this.cardbody.resetState();
-    }
-
     openTutorialModal = () => {
         this.TutorialModal.open();
     }
 
     returnToView = () => {
-        this.cardbody.resetState();
         this.props.navigation.pop();
     }
 
@@ -233,7 +228,6 @@ class _Mapper extends React.Component<Props, State> {
                 <CardBody
                     projectId={this.project.id}
                     mapper={this}
-                    paging
                     navigation={navigation}
                     ref={(r) => { this.cardbody = r; }}
                 />

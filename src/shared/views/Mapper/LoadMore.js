@@ -1,5 +1,8 @@
 // @flow
 import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     StyleSheet,
     Text,
@@ -7,6 +10,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
+import { commitGroup } from '../../actions/index';
 
 const GLOBAL = require('../../Globals');
 
@@ -34,10 +38,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#ffffff',
     },
-
 });
 
-export default class LoadMoreCard extends React.Component {
+class _LoadMoreCard extends React.Component {
 
     showSyncResult = (data, alertType) => {
         MessageBarManager.showAlert({
@@ -55,54 +58,33 @@ export default class LoadMoreCard extends React.Component {
         });
     }
 
-    _onMore = () => {
-        const { groupInfo, mapper } = this.props;
+    commitCompletedGroup = () => {
+        // user completed the group: let's commit it to firebase
+        const { groupId, onCommitGroup, projectId, results } = this.props;
+        onCommitGroup({ tasks: results, groupId, projectId });
+    }
+
+    onMore = () => {
+        const { groupInfo, navigation } = this.props;
         // GLOBAL.ANALYTICS.logEvent('complete_group');
         console.log('made it to more');
         this.showSyncProgress();
-        GLOBAL.DB.addGroupComplete(groupInfo.project, groupInfo.group).then((data) => {
-            console.log('did group complete');
-            mapper.cardbody.resetState();
-            GLOBAL.DB.getSingleGroup(groupInfo.project).then((data) => {
-                console.log('got new one');
-                mapper.cardbody.generateCards(data.group);
-            }).catch((error) => {
-                console.error(error);
-            });
-
-            console.log('Completed group report');
-            GLOBAL.DB.syncAndDeIndex().then((data) => {
-                this.showSyncResult(data, 'success');
-            }).catch((error) => {
-                this.showSyncResult(data, 'error');
-            });
-        });
+        this.commitCompletedGroup();
+        navigation.navigate('Mapper');
     }
 
-    _onComplete = () => {
+    onComplete = () => {
         // GLOBAL.ANALYTICS.logEvent('complete_group');
-        const { mapper } = this.props;
+        const { navigation } = this.props;
         this.showSyncProgress();
         console.log('completing', this.props.groupInfo);
-        GLOBAL.DB.addGroupComplete(this.props.groupInfo.project, this.props.groupInfo.group).then((data) => {
-            mapper.cardbody.resetState();
-            console.log('Completed group report');
-            GLOBAL.DB.syncAndDeIndex().then((data) => {
-                this.showSyncResult(data, 'success');
-                mapper.props.navigation.pop();
-            }).catch((error) => {
-                this.showSyncResult(data, 'error');
-                mapper.props.navigation.pop();
-            });
-        });
+        this.commitCompletedGroup();
+        navigation.pop();
     }
 
     _onBack = () => {
         const { mapper } = this.props;
-        mapper.cardbody.resetState();
         mapper.props.navigation.pop();
-        // save the current tasks but don't add a completeCount
-        // mapper.props.navigation.push({id:1, data: mapper.props.data});
     }
 
     render() {
@@ -114,17 +96,44 @@ Great job! You finished this group. Do you want to continue to map more in
                     {' '}
                 </Text>
 
-                <Button style={styles.moreButton} onPress={this._onMore} textStyle={{ fontSize: 18, color: '#ffffff' }}>
-Map
-                further
+                <Button
+                    style={styles.moreButton}
+                    onPress={this.onMore}
+                    textStyle={{ fontSize: 18, color: '#ffffff' }}
+                >
+                    Map further
                 </Button>
-                <Button style={styles.moreButton} onPress={this._onComplete} textStyle={{ fontSize: 18, color: '#ffffff' }}>
-Complete
-                Session
+                <Button
+                    style={styles.moreButton}
+                    onPress={this.onComplete}
+                    textStyle={{ fontSize: 18, color: '#ffffff' }}
+                >
+                    Complete Session
                 </Button>
             </View>
         );
     }
 }
 
+const mapStateToProps = (state, ownProps) => (
+    {
+        navigation: ownProps.navigation,
+        results: state.results,
+    }
+);
 
+const mapDispatchToProps = dispatch => (
+    {
+        onCommitGroup(groupInfo) {
+            dispatch(commitGroup(groupInfo));
+        },
+    }
+);
+
+export default compose(
+    firebaseConnect(),
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    ),
+)(_LoadMoreCard);
