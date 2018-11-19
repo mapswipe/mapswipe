@@ -341,11 +341,10 @@ class BottomProgress extends React.Component {
         };
     }
 
-    updateProgress = (event, cardsLength) => {
-        const newProgress = event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsLength);
+    updateProgress = (progress) => {
         this.setState({
-            progress: newProgress,
-            text: `YOU'VE MAPPED ${Math.ceil(newProgress * 100)}%`,
+            progress,
+            text: `YOU'VE MAPPED ${Math.ceil(progress * 100)}%`,
         });
     }
 

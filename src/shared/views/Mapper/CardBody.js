@@ -189,31 +189,17 @@ export default class CardBody extends React.Component {
             marginXOffset: 0,
         };
     }
-
-    handleProgress(scrollThroughComplete) {
-        if (scrollThroughComplete === this.lastState || scrollThroughComplete % 20 !== 0) {
-            return;
-        }
-
-        const diff = this.lastState === -1 ? 0 : scrollThroughComplete - this.lastState;
-
-        const renderCount = 5;
-        const renderDistance = renderCount * GLOBAL.TILES_PER_VIEW_X;
-
-        const cardDiff = diff / renderDistance;
-
-        // we increase scroll position regardless
-        this.currentXRenderOffset += cardDiff; // negative if the diff is negative, so good like this also for backwards
     }
 
     handleScroll = (event: Object) => {
-        this.props.mapper.progress.updateProgress(event, this.totalRenderedCount);
+        const { x } = event.nativeEvent.contentOffset;
         const { cardsInView } = this.state;
-        let progressToReport = 0;
+        const { mapper } = this.props;
+        let progress = 0;
         if (cardsInView.length > 0) {
-            progressToReport = Math.ceil(event.nativeEvent.contentOffset.x / (GLOBAL.SCREEN_WIDTH * cardsInView.length) * 100);
+            progress = x / (GLOBAL.SCREEN_WIDTH * cardsInView.length);
         }
-        this.handleProgress(progressToReport);
+        mapper.progress.updateProgress(progress);
     }
 
     render() {
