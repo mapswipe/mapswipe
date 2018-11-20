@@ -359,5 +359,3 @@ class BottomProgress extends React.Component {
         );
     }
 }
-
-module.exports = Mapper;

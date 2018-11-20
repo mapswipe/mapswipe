@@ -17,6 +17,7 @@ import {
 import Button from 'apsl-react-native-button';
 import { createStackNavigator } from 'react-navigation';
 import Login from './views/Login';
+import { Mapper } from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
@@ -26,7 +27,6 @@ const Modal = require('react-native-modalbox');
 const Tutorial = require('./views/Tutorial');
 const ProjectView = require('./views/ProjectView');
 const WebviewWindow = require('./views/WebviewWindow');
-const Mapper = require('./views/Mapper');
 const GLOBAL = require('./Globals');
 
 
