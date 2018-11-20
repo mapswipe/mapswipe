@@ -161,7 +161,7 @@ class _MoreOptions extends React.Component {
                     <Text style={styles.infoRight}>
                     You&apos;ve mapped
                         {' '}
-                        {profile.distance}
+                        {profile.distance.toFixed(0)}
                         {' '}
 square kilometers and found
                         {' '}
@@ -171,7 +171,7 @@ objects
                     </Text>
                 </View>
                 <LevelProgress
-                    kmTillNextLevel={kmTillNextLevel}
+                    kmTillNextLevel={kmTillNextLevel.toFixed(0)}
                     progress={progress}
                 />
                 <View style={styles.row}>
@@ -349,7 +349,10 @@ class LevelProgress extends React.Component {
     }
 
     render() {
-        const { kmTillNextLevel, progress } = this.props;
+        let { kmTillNextLevel, progress } = this.props;
+        if (Number.isNaN(kmTillNextLevel)) {
+            kmTillNextLevel = 0;
+        }
         const swipes = Math.ceil(kmTillNextLevel / (0.0233732728 * 6));
         return (
             <View style={styles.barRow}>
@@ -358,7 +361,7 @@ class LevelProgress extends React.Component {
                     borderWidth={0}
                     color="#0d1949"
                     height={30}
-                    progress={progress}
+                    progress={Number.isNaN(progress) ? 0 : progress}
                     unfilledColor="#bbbbbb"
                     width={GLOBAL.SCREEN_WIDTH}
                 />

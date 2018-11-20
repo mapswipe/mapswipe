@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
+import { firebaseConnect } from 'react-redux-firebase';
 import {
     StyleSheet,
     Text,
@@ -11,6 +11,7 @@ import {
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import { commitGroup } from '../../actions/index';
+import { getSqKmForZoomLevelPerTile } from '../../Database';
 
 const GLOBAL = require('../../Globals');
 
@@ -60,8 +61,23 @@ class _LoadMoreCard extends React.Component {
 
     commitCompletedGroup = () => {
         // user completed the group: let's commit it to firebase
-        const { groupId, onCommitGroup, projectId, results } = this.props;
-        onCommitGroup({ tasks: results, groupId, projectId });
+        const {
+            group,
+            groupId,
+            onCommitGroup,
+            projectId,
+            results,
+        } = this.props;
+        const contributionsCount = Object.keys(results).length;
+        const addedDistance = group.count * getSqKmForZoomLevelPerTile(group.zoomLevel);
+        onCommitGroup({
+            addedDistance,
+            groupId,
+            projectId,
+            contributionsCount,
+            tasks: results,
+            zoomLevel: group.zoomLevel,
+        });
     }
 
     onMore = () => {

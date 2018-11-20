@@ -62,7 +62,7 @@ const store = require('react-native-simple-store');
 const con = new ConnectionManager();
 const auth = new AuthManager(firebase);
 
-module.exports = {
+export default {
 
     /**
      * Variable to access internal functions through promises.
@@ -1314,3 +1314,31 @@ module.exports = {
 
 
 };
+
+export function getSqKmForZoomLevelPerTile(zoomLevel) {
+    if (zoomLevel === 23) {
+        return 2.29172838e-5;
+    } if (zoomLevel === 22) {
+        return 9.11795814e-5;
+    } if (zoomLevel === 21) {
+        return 0.000364718326;
+    } if (zoomLevel === 20) {
+        return 0.00146082955;
+    } if (zoomLevel === 19) {
+        return 0.00584331821;
+    } if (zoomLevel === 18) {
+        return 0.0233732728; // (((0.5972 * 256) ^ 2) / (1000 ^ 2))
+    } if (zoomLevel === 17) {
+        return 0.0934774368;
+    } if (zoomLevel === 16) {
+        return 0.373941056;
+    } if (zoomLevel === 15) {
+        return 1.4957016;
+    } if (zoomLevel === 14) {
+        return 5.98280642;
+    } if (zoomLevel === 13) {
+        return 23.9314761;
+    } else if (zoomLevel === 12) {
+        return 95.7254037;
+    }
+}

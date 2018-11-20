@@ -170,7 +170,12 @@ class _CardBody extends React.Component {
         const rows = [];
         console.log('render CardBody', this.state);
         const { cardsInView, marginXOffset } = this.state;
-        const { mapper, navigation, projectId } = this.props;
+        const {
+            group,
+            mapper,
+            navigation,
+            projectId
+        } = this.props;
         if (cardsInView.length > 0) {
             let lastCard = null;
 
@@ -182,6 +187,7 @@ class _CardBody extends React.Component {
             rows.push(<LoadMoreCard
                 key={lastCard.id / 2}
                 card={lastCard}
+                group={group[Object.keys(group)[0]]}
                 groupId={this.currentGroup}
                 mapper={mapper}
                 navigation={navigation}

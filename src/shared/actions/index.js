@@ -47,10 +47,22 @@ export function commitGroup(groupInfo) {
         // once they have all completed
         firebase.database().ref(`groups/${groupInfo.projectId}/${groupInfo.groupId}`)
             .transaction((group) => {
+                const newGroup = group;
                 if (group) {
-                    group.completedCount += 1;
+                    newGroup.completedCount += 1;
                 }
-                return group;
+                return newGroup;
+            });
+
+        // update the user's contributions and total mapped area
+        firebase.database().ref(`users/${userId}/`)
+            .transaction((user) => {
+                const newUser = user;
+                if (user) {
+                    newUser.contributions += groupInfo.contributionsCount;
+                    newUser.distance += groupInfo.addedDistance;
+                }
+                return newUser;
             });
     };
 }
