@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import {
-    Text, View, ScrollView, StyleSheet,
+    View,
 } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
@@ -11,92 +11,7 @@ import { requestProjects } from '../actions/index';
 import { RecommendedCards } from './RecommendedCards';
 import { MoreOptions } from './MoreOptions';
 
-const MessageBarManager = require('react-native-message-bar').MessageBarManager;
-
 const GLOBAL = require('../Globals');
-
-/**
- * Import the project card component
- * @type {ProjectCard|exports|module.exports}
- */
-
-const ProjectCard = require('./ProjectCard');
-const LoadingIcon = require('./LoadingIcon');
-
-
-/**
- * Styling properties for the class
- */
-
-
-const style = StyleSheet.create({
-    inModalButton2: {
-        backgroundColor: '#ee0000',
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        width: 260,
-        marginTop: 20,
-    },
-    inModalButton: {
-        backgroundColor: '#0d1949',
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        width: 260,
-    },
-    startButton: {
-        backgroundColor: '#0d1949',
-        alignItems: 'stretch',
-
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 20,
-        left: 20,
-        width: 260,
-    },
-    header: {
-        fontWeight: '700',
-        color: '#212121',
-        fontSize: 18,
-    },
-    tutRow: {
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        height: 40,
-    },
-    tutPar: {
-        fontSize: 14,
-        color: '#575757',
-        fontWeight: '500',
-        lineHeight: 20,
-        marginTop: 10,
-    },
-    tutText: {
-        fontSize: 11,
-        fontWeight: '600',
-        color: '#50acd4',
-        marginTop: 10,
-        lineHeight: 20,
-    },
-    modal2: {
-        height: 230,
-        backgroundColor: '#3B5998',
-    },
-    cardRow: {
-        flex: 1,
-        alignItems: 'center',
-        flexDirection: 'row',
-        width: GLOBAL.SCREEN_WIDTH,
-    },
-});
 
 /**
  * This is the base view for the project navigation, the individual tabs are rendered within here.

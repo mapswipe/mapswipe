@@ -16,6 +16,28 @@ import LoadingIcon from './LoadingIcon';
 const GLOBAL = require('../Globals');
 
 const style = StyleSheet.create({
+    header: {
+        fontWeight: '700',
+        color: '#212121',
+        fontSize: 18,
+    },
+    inModalButton2: {
+        backgroundColor: '#ee0000',
+        height: 50,
+        padding: 12,
+        borderRadius: 5,
+        borderWidth: 0.1,
+        width: 260,
+        marginTop: 20,
+    },
+    inModalButton: {
+        backgroundColor: '#0d1949',
+        height: 50,
+        padding: 12,
+        borderRadius: 5,
+        borderWidth: 0.1,
+        width: 260,
+    },
     listView: {
         width: GLOBAL.SCREEN_WIDTH,
         flex: 0,
@@ -40,6 +62,13 @@ const style = StyleSheet.create({
         marginTop: 10,
         borderWidth: 0,
     },
+    tutPar: {
+        fontSize: 14,
+        color: '#575757',
+        fontWeight: '500',
+        lineHeight: 20,
+        marginTop: 10,
+    },
 });
 
 class _RecommendedCards extends React.Component {
@@ -49,19 +78,12 @@ class _RecommendedCards extends React.Component {
         projects: PropTypes.array,
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            announcement: null,
-        };
-    }
-
     openModal3 = () => {
         const parent = this;
 
         GLOBAL.DB.openPopup().then(() => {
             console.log('No need to open new tut window');
-        }).catch((err) => {
+        }).catch(() => {
             parent.refs.modal3.open();
         });
     }
@@ -132,7 +154,6 @@ class _RecommendedCards extends React.Component {
 
     render() {
         const {
-            announcement,
             navigation,
             projects,
         } = this.props;
