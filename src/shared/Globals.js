@@ -14,7 +14,8 @@ import { Platform, Dimensions } from 'react-native';
 
 // var Analytics = require('react-native-firebase-analytics');
 
-const Database = require('./Database');
+// const Database = require('./Database');
+import Database from './Database';
 
 // FIXME: check the old calculation to include status bar and soft menu
 const screenHeight = Dimensions.get('window').height;
