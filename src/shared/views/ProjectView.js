@@ -243,7 +243,7 @@ const style = StyleSheet.create({
         backgroundColor: '#3B5998',
     },
 
-    modal3: {
+    offlineModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
         backgroundColor: '#ffffff',
@@ -327,16 +327,16 @@ class _ProjectHeader extends React.Component {
         }
     }
 
-    _handleLater() {
-        this.openModal3();
+    openOfflineModal = () => {
+        this.offlineModal.open();
     }
 
-    openModal3 = (id) => {
-        this.refs.modal3.open();
+    closeOfflineModal = () => {
+        this.offlineModal.close();
     }
 
-    closeModal3 = (id) => {
-        this.refs.modal3.close();
+    _handleLater = () => {
+        this.openOfflineModal();
     }
 
     checkWifiMapping() {
@@ -376,7 +376,7 @@ class _ProjectHeader extends React.Component {
                             text: 'Got it',
                             onPress: () => {
                                 console.log('canceled wifi');
-                                parent.closeModal3();
+                                parent.closeOfflineModal();
                             },
                         },
 
@@ -391,13 +391,13 @@ class _ProjectHeader extends React.Component {
                         {
                             text: 'Ok',
                             onPress: () => {
-                                parent.closeModal3();
+                                parent.closeOfflineModal();
                             },
                         },
                     ],
                 );
                 // TODO: load data for offline work here
-                parent.closeModal3();
+                parent.closeOfflineModal();
             } else {
                 Alert.alert(
                     'Warning: You are not on wifi',
@@ -407,7 +407,7 @@ class _ProjectHeader extends React.Component {
                             text: 'Cancel',
                             onPress: () => {
                                 console.log('canceled wifi');
-                                parent.closeModal3();
+                                parent.closeOfflineModal();
                             },
                         },
                         {
@@ -415,7 +415,7 @@ class _ProjectHeader extends React.Component {
                             onPress: () => {
                                 console.log(`We're headed to download${originalTaskAmount} tasks!`);
                                 // TODO: load data for offline work here
-                                parent.closeModal3();
+                                parent.closeOfflineModal();
                             },
                         },
                     ],
@@ -554,10 +554,10 @@ class _ProjectHeader extends React.Component {
                         ) : null}
                 </View>
                 <Modal
-                    style={[style.modal, style.modal3]}
+                    style={[style.modal, style.offlineModal]}
                     backdropType="blur"
                     position="center"
-                    ref="modal3"
+                    ref={(r) => { this.offlineModal = r; }}
                     isDisabled={this.state.isDisabled}
                 >
                     <Text style={style.header}>Download Options</Text>
@@ -591,7 +591,7 @@ We will let you know when your download ends, it will be auto-deleted after
                     </Button>
                     <Button
                         style={style.closeButton}
-                        onPress={this.closeModal3}
+                        onPress={this.closeOfflineModal}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     Cancel
