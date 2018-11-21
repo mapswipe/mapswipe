@@ -9,7 +9,6 @@ import { Levels as levels } from './Levels';
 import { store as reduxStore } from './store';
 
 const RNFS = require('react-native-fs');
-const ConnectionManager = require('./ConnectionManager');
 const AuthManager = require('./AuthManager');
 
 
@@ -59,7 +58,6 @@ const announcementRef = database.ref('announcement');
 
 const store = require('react-native-simple-store');
 
-const con = new ConnectionManager();
 const auth = new AuthManager(firebase);
 
 export default {
@@ -77,13 +75,6 @@ export default {
     taskResults: [],
     groupCompletes: [],
 
-    /**
-     * Returns the connection manager
-     * @returns {ConnectionManager|exports|module.exports}
-     */
-    getConnectionManager() {
-        return con;
-    },
     /**
      * Returns the auth manager
      * @returns {AuthManager|exports|module.exports}
@@ -198,15 +189,12 @@ export default {
         });
     },
     /**
-     * Handles the initial loading of the app (what we consider login) to see if the user has already used Mapswipe before.
+     * Handles the initial loading of the app (what we consider login)
+     * to see if the user has already used Mapswipe before.
      * @returns {Promise}
      */
     offlineGroups: [],
     interval: null,
-
-    setupConnection(state) {
-        con.initializeWithState(state);
-    },
 
     totalRequests: {},
     totalRequestsOutstanding2: {},

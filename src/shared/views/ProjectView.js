@@ -15,6 +15,7 @@ import {
 import Button from 'apsl-react-native-button';
 
 import Markdown from 'react-native-simple-markdown';
+import ConnectionManager from '../ConnectionManager';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
@@ -341,7 +342,7 @@ class _ProjectHeader extends React.Component {
     checkWifiMapping() {
         const { navigation, project } = this.props;
 
-        if (GLOBAL.DB.getConnectionManager().isOnWifi() || !GLOBAL.DB.getConnectionManager().isOnline()) {
+        if (ConnectionManager.isOnWifi() || !ConnectionManager.isOnline()) {
             navigation.push('Mapper', {
                 project,
             });
@@ -366,7 +367,7 @@ class _ProjectHeader extends React.Component {
         const parent = this;
         const { project } = this.props;
         return function (taskAmount) {
-            if (!GLOBAL.DB.getConnectionManager().isOnline()) {
+            if (!ConnectionManager.isOnline()) {
                 Alert.alert(
                     'Warning: You are offline',
                     'Connect to a network and try again',
@@ -381,7 +382,7 @@ class _ProjectHeader extends React.Component {
 
                     ],
                 );
-            } else if (GLOBAL.DB.getConnectionManager().isOnWifi()) {
+            } else if (ConnectionManager.isOnWifi()) {
                 console.log(`We're headed to download${originalTaskAmount} tasks!`);
                 Alert.alert(
                     'Be patient!',

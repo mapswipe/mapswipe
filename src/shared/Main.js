@@ -166,9 +166,6 @@ class Main extends React.Component {
         const parent = this;
         // GLOBAL.ANALYTICS.logEvent('mapswipe_open');
         MessageBarManager.registerMessageBar(parent.refs.alert);
-        NetInfo.getConnectionInfo().then((state) => {
-            GLOBAL.DB.setupConnection(state);
-        });
 
         parent.checkInterval = setInterval(() => {
             if (GLOBAL.DB.getPendingLevelUp() > 0) {
