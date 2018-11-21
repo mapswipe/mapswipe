@@ -83,7 +83,6 @@ class _LoadMoreCard extends React.Component {
     onMore = () => {
         const { groupInfo, navigation } = this.props;
         // GLOBAL.ANALYTICS.logEvent('complete_group');
-        console.log('made it to more');
         this.showSyncProgress();
         this.commitCompletedGroup();
         navigation.navigate('Mapper');
@@ -93,7 +92,6 @@ class _LoadMoreCard extends React.Component {
         // GLOBAL.ANALYTICS.logEvent('complete_group');
         const { navigation } = this.props;
         this.showSyncProgress();
-        console.log('completing', this.props.groupInfo);
         this.commitCompletedGroup();
         navigation.pop();
     }

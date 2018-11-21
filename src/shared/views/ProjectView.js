@@ -264,7 +264,7 @@ class _ProjectHeader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            progress: 0,
+            downloadProgress: 0,
             hasOfflineGroups: false,
         };
     }
@@ -289,13 +289,13 @@ class _ProjectHeader extends React.Component {
             if (!parent.mounted) {
                 return;
             }
-            let progress = 0;
+            let downloadProgress = 0;
             const projectKey = `project-${project.id}`;
             if (GLOBAL.DB.totalRequestsOutstanding2[projectKey] !== undefined) {
-                progress = Math.ceil(100 - ((GLOBAL.DB.totalRequestsOutstanding2[projectKey] / GLOBAL.DB.totalRequests[projectKey]) * 100));
+                downloadProgress = Math.ceil(100 - ((GLOBAL.DB.totalRequestsOutstanding2[projectKey] / GLOBAL.DB.totalRequests[projectKey]) * 100));
             }
             parent.setState({
-                progress,
+                downloadProgress,
                 hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.id}`),
             });
         }, 300);
@@ -307,7 +307,7 @@ class _ProjectHeader extends React.Component {
 
     _handlePress = () => {
         const { navigation, project } = this.props;
-        if (GLOBAL.DB.hasOpenDownloads(`project-${project.id}`) === false) {
+        if (!GLOBAL.DB.hasOpenDownloads(`project-${project.id}`)) {
             this.checkWifiMapping();
         } else {
             Alert.alert(
@@ -332,10 +332,6 @@ class _ProjectHeader extends React.Component {
 
     openModal3 = (id) => {
         this.refs.modal3.open();
-    }
-
-    returnToView = () => {
-        this.props.navigation.pop();
     }
 
     closeModal3 = (id) => {
@@ -368,6 +364,7 @@ class _ProjectHeader extends React.Component {
 
     checkWifiDownload(originalTaskAmount) {
         const parent = this;
+        const { project } = this.props;
         return function (taskAmount) {
             if (!GLOBAL.DB.getConnectionManager().isOnline()) {
                 Alert.alert(
@@ -398,7 +395,7 @@ class _ProjectHeader extends React.Component {
                         },
                     ],
                 );
-                GLOBAL.DB.getTaskGroupsForProject(project.id, -1, originalTaskAmount, project.groupAverage, true);
+                // TODO: load data for offline work here
                 parent.closeModal3();
             } else {
                 Alert.alert(
@@ -416,7 +413,7 @@ class _ProjectHeader extends React.Component {
                             text: 'Continue',
                             onPress: () => {
                                 console.log(`We're headed to download${originalTaskAmount} tasks!`);
-                                GLOBAL.DB.getTaskGroupsForProject(project.id, -1, originalTaskAmount, project.groupAverage, true);
+                                // TODO: load data for offline work here
                                 parent.closeModal3();
                             },
                         },
@@ -432,10 +429,9 @@ class _ProjectHeader extends React.Component {
 
     _handleRemoval(projectId) {
         return function () {
-            const found = GLOBAL.DB.removeOfflineProject(projectId);
             Alert.alert(
                 'Deletion Complete',
-                `We found ${found} groups in this project and deleted them.`,
+                `We found 0 groups in this project and deleted them.`,
                 [
                     { text: 'Okay', onPress: () => console.log('closed') },
                     { text: 'Close', onPress: () => console.log('closed') },
@@ -446,7 +442,6 @@ class _ProjectHeader extends React.Component {
 
     _handleProjectRemoval(projectId) {
         return function () {
-            GLOBAL.DB.removeProject(projectId);
             Alert.alert(
                 'Project Reset Complete',
                 'Your progress will still be synced! Try Now!',
@@ -531,11 +526,11 @@ class _ProjectHeader extends React.Component {
 )
                     </Button>
                     <Button
-                        style={this.state.progress === 0 || this.state.progress == 100 ? style.startButton : style.inProgressButton}
-                        onPress={this.state.progress === 0 ? this._handleLater : this._handleInProgress}
+                        style={this.state.downloadProgress === 0 || this.state.downloadProgress == 100 ? style.startButton : style.inProgressButton}
+                        onPress={this.state.downloadProgress === 0 ? this._handleLater : this._handleInProgress}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
-                        {this.state.progress === 0 || this.state.progress === 100 || !this.state.progress ? 'Download For Later' : `Downloading (${this.state.progress}%)`}
+                        {this.state.downloadProgress === 0 || this.state.downloadProgress === 100 || !this.state.downloadProgress ? 'Download For Later' : `Downloading (${this.state.downloadProgress}%)`}
                     </Button>
 
                     <Button

@@ -126,7 +126,6 @@ class _RecommendedCards extends React.Component {
                 backdropType="blur"
                 position="top"
                 ref="modal3"
-                isDisabled={this.state.isDisabled}
             >
                 <Text style={style.header}>Tutorial</Text>
                 <Text style={style.tutPar}>Learn more about how to use Mapswipe!</Text>

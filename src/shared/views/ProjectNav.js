@@ -20,29 +20,7 @@ const GLOBAL = require('../Globals');
 class _ProjectNav extends React.Component {
     componentDidMount() {
         // GLOBAL.ANALYTICS.logEvent('app_home_seen');
-        console.log('Firing sync');
-        // attempt to sync any unsynced data from last time.
-        GLOBAL.DB.syncAndDeIndex().then((data) => {
-            console.log('SyncAndDeIndex complete:');
-            console.log(data);
-            // if(data.successCount === 0 || data.errorCount > 0) {
-            MessageBarManager.showAlert({
-                title: `${data.successCount} tasks synced`,
-                message: `${data.errorCount} failures`,
-                alertType: 'success',
-            });
-            // }
-        }).catch((error) => {
-            console.warn('pbpbpb', error);
-            MessageBarManager.showAlert({
-                title: `${data.successCount} tasks synced`,
-                message: `${data.errorCount} failures`,
-                alertType: 'error',
-            });
-        }).then(() => {
-            // request projects and announcements from firebase
-            this.props.onRequestProjects();
-        });
+        this.props.onRequestProjects();
     }
 
     render() {
@@ -81,7 +59,7 @@ const mapDispatchToProps = dispatch => (
     }
 );
 
-export default ProjectNav = compose(
+export default compose(
     connect(
         mapStateToProps,
         mapDispatchToProps,

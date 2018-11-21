@@ -107,7 +107,6 @@ export class _Tile extends React.Component {
                 width: this.tileWidth,
             },
         });
-
         this.checkToReport();
     }
 
@@ -118,7 +117,6 @@ export class _Tile extends React.Component {
     _onLongPressOut = () => {
         this.props.mapper.closeTilePopup();
     }
-
 
     /**
      * Returns the ["animation", "text", duration] for the fun text displayed when you map a tile!
@@ -158,7 +156,6 @@ export class _Tile extends React.Component {
                     borderWidth: 0.5,
                     borderColor: 'rgba(255,255,255,0.2)',
                 }}
-
                 source={imageSource}
             />
         );
@@ -166,9 +163,7 @@ export class _Tile extends React.Component {
 
     render() {
         const tile = this.props.data;
-
         const animatedRows = [];
-
         const showAnim = Math.floor(Math.random() * 5);
 
         if (this.tileStatus === 1 && showAnim === 1) {
@@ -196,7 +191,6 @@ export class _Tile extends React.Component {
                     <View style={this.state.tileOverlay} key={`view-${tile.id}`}>
                         {animatedRows}
                     </View>
-
                 </ImageBackground>
             </TouchableHighlight>
         );
