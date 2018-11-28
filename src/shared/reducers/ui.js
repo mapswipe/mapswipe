@@ -46,13 +46,12 @@ const getProgress = (distance, level) => {
     const nextLevelExp = Levels[level + 1].expRequired;
     const myExp = distance;
     const expToGainTotal = (nextLevelExp - currentLevelExp);
-    const kmTillNextLevel = nextLevelExp - myExp;
+    const kmTillNextLevel = parseFloat(nextLevelExp - myExp);
     const percentage = 1 - (kmTillNextLevel / expToGainTotal);
     return { kmTillNextLevel, percentage };
 };
 
 export function user(state = defaultUserState, action) {
-    console.log('ACTION', action);
     let level = 1;
     switch (action.type) {
     case WELCOME_COMPLETED:
