@@ -6,6 +6,8 @@
  * the Navigator component.
  */
 
+// @flow
+
 import React from 'react';
 import {
     Image,
@@ -16,6 +18,7 @@ import {
 import Button from 'apsl-react-native-button';
 import { createStackNavigator } from 'react-navigation';
 import Login from './views/Login';
+import BuildingFootprintValidator from './views/BuildingFootprint';
 import { Mapper } from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import Tutorial from './views/Tutorial';
@@ -214,6 +217,7 @@ class Main extends React.Component {
 
 const RootStack = createStackNavigator(
     {
+        BuildingFootprintValidator,
         Tutorial,
         ProjectNav,
         ProjectView,

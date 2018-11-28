@@ -16,6 +16,10 @@ import Button from 'apsl-react-native-button';
 
 import Markdown from 'react-native-simple-markdown';
 import ConnectionManager from '../ConnectionManager';
+import {
+    BUILDING_FOOTPRINTS,
+    LEGACY_TILES,
+} from '../constants';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
@@ -320,11 +324,27 @@ class _ProjectHeader extends React.Component {
 
     checkWifiMapping() {
         const { navigation, project } = this.props;
-
+        if (project.projectType === undefined) {
+            // force a project type on the old ones
+            project.projectType = LEGACY_TILES;
+        }
         if (ConnectionManager.isOnWifi() || !ConnectionManager.isOnline()) {
-            navigation.push('Mapper', {
-                project,
-            });
+            switch (project.projectType) {
+            case LEGACY_TILES:
+                // this is the original project type
+                navigation.push('Mapper', {
+                    project,
+                });
+                break;
+            case BUILDING_FOOTPRINTS:
+                // this is the original project type
+                navigation.push('BuildingFootprintValidator', {
+                    project,
+                });
+                break;
+            default:
+                console.log('Unsupported project', project);
+            }
         } else {
             Alert.alert(
                 'Warning: You are not on wifi',
@@ -584,7 +604,6 @@ We will let you know when your download ends, it will be auto-deleted after
 const mapStateToProps = (state, ownProps) => (
     {
         navigation: ownProps.navigation,
-        // project: state.firebase.data.project,
         project: ownProps.project,
     }
 );
