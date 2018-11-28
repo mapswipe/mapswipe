@@ -18,13 +18,8 @@ matrix:
         - tar xvf secrets.tar
         - nvm install node
         - node --version
-        - travis_retry curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-        - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-        - travis_retry sudo apt-get update -qq
-        - travis_retry sudo apt-get install -y -qq yarn
-        - which yarn
-        - yarn --version
-        - /usr/bin/yarn --version
+        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+        - export PATH="$HOME/.yarn/bin:$PATH"
       install:
         - yarn install --frozen-lockfile
       before_deploy:
