@@ -326,7 +326,6 @@ export const Mapper = compose(
 )(_Mapper);
 
 class BottomProgress extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -347,6 +346,7 @@ class BottomProgress extends React.Component {
         return (
             <View style={styles.swipeNavBottom}>
                 <Progress.Bar
+                    animated={false}
                     height={20}
                     width={GLOBAL.SCREEN_WIDTH * 0.98}
                     marginBottom={2}
