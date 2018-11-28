@@ -20,13 +20,10 @@ import ConnectionManager from '../ConnectionManager';
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
 
-
 const style = StyleSheet.create({
-
     closeButton: {
         backgroundColor: '#212121',
         alignItems: 'stretch',
-
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -44,16 +41,14 @@ const style = StyleSheet.create({
         marginLeft: 15,
         marginRight: 15,
         paddingTop: 20,
-
     },
     headerContainer: {
         flex: 1,
     },
     backgroundImage: {
-        flex: 1,
-        borderRadius: 5,
-        height: 250,
         borderRadius: 0,
+        flex: 1,
+        height: 250,
     },
     overlay: {
         backgroundColor: 'rgba(52,52,52,0.7)',
@@ -77,7 +72,6 @@ const style = StyleSheet.create({
         right: 0,
         left: 0,
         backgroundColor: 'transparent',
-
     },
     backButton: {
         width: 20,
@@ -105,26 +99,21 @@ const style = StyleSheet.create({
         fontWeight: '600',
         color: '#212121',
     },
-
     projectDetails: {
         width: GLOBAL.SCREEN_WIDTH,
     },
-
     heart: {
         width: 13,
         height: 13,
         resizeMode: 'contain',
         marginTop: 5,
-
     },
-
     infoArea: {
         borderTopWidth: 1,
         borderLeftWidth: 0,
         borderRightWidth: 0,
         borderBottomWidth: 0,
         borderColor: '#212121',
-
         flexDirection: 'row',
         alignItems: 'center',
         height: 50,
@@ -141,7 +130,6 @@ const style = StyleSheet.create({
         flexDirection: 'row',
     },
     infoBlockText: {
-
         color: '#e8e8e8',
         fontWeight: '500',
         fontSize: 11,
@@ -197,7 +185,6 @@ const style = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.1,
     },
-
     downloadButton: {
         backgroundColor: '#0d1949',
         height: 50,
@@ -217,14 +204,12 @@ const style = StyleSheet.create({
         alignItems: 'flex-start',
         height: 40,
     },
-
     tutPar: {
         fontSize: 13,
         color: '#575757',
         fontWeight: '500',
         lineHeight: 20,
     },
-
     tutText: {
         fontSize: 13,
         fontWeight: '600',
@@ -232,25 +217,19 @@ const style = StyleSheet.create({
         marginTop: 5,
         lineHeight: 20,
     },
-
-
     modal: {
         padding: 20,
     },
-
     modal2: {
         height: 230,
         backgroundColor: '#3B5998',
     },
-
     offlineModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
         backgroundColor: '#ffffff',
         borderRadius: 2,
     },
-
-
 });
 
 const ProjectView = props => (

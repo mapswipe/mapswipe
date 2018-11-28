@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
+import { firebaseConnect } from 'react-redux-firebase';
 import {
     ImageBackground,
     View,
@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
         borderColor: '#212121',
     },
 });
+
+type Props = {
+    tile: React.Node,
+};
 
 export class _Tile extends React.Component {
     constructor(props) {

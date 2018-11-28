@@ -1,27 +1,21 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import { connect } from 'react-redux';
 import {
     Text,
     View,
     StyleSheet,
     Image,
-    NetInfo,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
+import { NavigationState } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 
 const Swiper = require('react-native-swiper');
 const GLOBAL = require('../Globals');
 
-
-/**
- * Styling properties for the class
- */
-
-
 const styles = StyleSheet.create({
-
     startButton: {
         backgroundColor: '#ee0000',
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -44,16 +38,6 @@ const styles = StyleSheet.create({
         bottom: 50,
         left: GLOBAL.SCREEN_WIDTH * 0.05,
     },
-    otherButton: {
-        backgroundColor: '#0d1949',
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        bottom: 50,
-    },
-    wrapper: {},
     slide1: {
         flex: 1,
         justifyContent: 'center',
@@ -75,7 +59,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(247,232,172)',
         flexDirection: 'column',
     },
-
     text: {
         width: GLOBAL.SCREEN_WIDTH * 0.8,
         height: GLOBAL.SCREEN_HEIGHT * 0.5,
@@ -83,49 +66,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
 
     },
-    text4: {
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
-        marginTop: 10,
-        textAlign: 'left',
-        fontSize: 13,
-        marginBottom: 10,
-        color: '#ffffff',
-    },
-    text5: {
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
-        marginTop: 10,
-        textAlign: 'left',
-        fontSize: 10,
-        marginBottom: 10,
-        color: '#ffffff',
-    },
     tutIcon: {
         resizeMode: 'contain',
         width: GLOBAL.SCREEN_WIDTH,
         height: GLOBAL.SCREEN_HEIGHT * 0.5,
     },
-    tutIcon2: {
-        resizeMode: 'contain',
-        width: 100,
-        height: 100,
-        marginBottom: 30,
-        marginTop: 30,
-
-    },
-    textInput: {
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
-        height: 40,
-        backgroundColor: 'rgba(255,255,255,0.2)',
-        borderRadius: 5,
-        color: '#ffffff',
-    },
 });
 
-class _Tutorial extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+type Props = {
+    navigation: NavigationScreenProp,
+    onWelcomeComplete: (any) => any,
+    welcomeCompleted: boolean,
+};
 
+class _Tutorial extends React.Component<Props> {
     componentDidMount() {
         const { welcomeCompleted } = this.props;
         SplashScreen.hide();
@@ -135,9 +89,10 @@ class _Tutorial extends React.Component {
     }
 
     finishWelcomeScreens = () => {
-        this.props.onWelcomeComplete();
+        const { navigation, onWelcomeComplete } = this.props;
+        onWelcomeComplete();
         // GLOBAL.ANALYTICS.logEvent('completed_tutorial');
-        this.props.navigation.navigate('Login');
+        navigation.navigate('Login');
     }
 
     render() {
@@ -164,12 +119,22 @@ const mapDispatchToProps = dispatch => (
     }
 );
 
-export const Tutorial = connect(
+// Tutorial
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(_Tutorial);
 
-class TutCardView extends React.Component {
+type TutCardProps = {
+    onCompletion: any => any,
+};
+
+type TutCardState = {
+    newIndex: number,
+};
+
+// eslint-disable-next-line react/no-multi-comp
+class TutCardView extends React.Component<TutCardProps, TutCardState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -177,24 +142,22 @@ class TutCardView extends React.Component {
         };
     }
 
-    _handlePress = () => {
-        const parent = this;
-        this.props.onCompletion();
-    }
-
     render() {
+        const { onCompletion } = this.props;
+        const { newIndex } = this.state;
         // GLOBAL.ANALYTICS.logEvent('starting_tutorial');
         return (
             <Swiper
-                style={styles.wrapper}
                 showsButtons={false}
                 loop={false}
-                yourNewPageIndex={this.state.newIndex}
+                yourNewPageIndex={newIndex}
             >
                 <View style={styles.slide1}>
 
                     <Image style={styles.tutIcon} source={require('./assets/tut1.png')} />
-                    <Text style={styles.text}>You receive groups of satellite images from vulnerable areas. </Text>
+                    <Text style={styles.text}>
+                        You receive groups of satellite images from vulnerable areas.
+                    </Text>
                     <Button
                         style={styles.nextButton}
                         onPress={() => this.setState({ newIndex: 1 })}
@@ -227,7 +190,7 @@ Mapping has already helped save lives. Are you ready to become a mobile
                     </Text>
                     <Button
                         style={styles.startButton}
-                        onPress={this._handlePress}
+                        onPress={() => onCompletion()}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     Sign Up
@@ -237,6 +200,3 @@ Mapping has already helped save lives. Are you ready to become a mobile
         );
     }
 }
-
-
-module.exports = Tutorial;

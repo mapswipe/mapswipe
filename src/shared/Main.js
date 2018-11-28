@@ -9,7 +9,6 @@
 import React from 'react';
 import {
     Image,
-    NetInfo,
     StyleSheet,
     Text,
     View,
@@ -19,14 +18,14 @@ import { createStackNavigator } from 'react-navigation';
 import Login from './views/Login';
 import { Mapper } from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
+import Tutorial from './views/Tutorial';
+import WebviewWindow from './views/WebviewWindow';
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
 const MessageBarManager = require('react-native-message-bar').MessageBarManager;
 const Modal = require('react-native-modalbox');
 
-const Tutorial = require('./views/Tutorial');
 const ProjectView = require('./views/ProjectView');
-const WebviewWindow = require('./views/WebviewWindow');
 const GLOBAL = require('./Globals');
 
 
