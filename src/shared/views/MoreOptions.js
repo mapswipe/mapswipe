@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import {
     Text,
     View,
@@ -142,6 +142,8 @@ class _MoreOptions extends React.Component {
             progress,
         } = this.props;
         const levelObject = Levels[level];
+        const contributions = isLoaded(profile) ? profile.contributions : 0;
+        const distance = isLoaded(profile) ? profile.distance : 0;
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <ScrollingBackground />
@@ -161,11 +163,11 @@ class _MoreOptions extends React.Component {
                     <Text style={styles.infoRight}>
                     You&apos;ve mapped
                         {' '}
-                        {profile.distance.toFixed(0)}
+                        {distance.toFixed(0)}
                         {' '}
 square kilometers and found
                         {' '}
-                        {profile.contributions}
+                        {contributions}
                         {' '}
 objects
                     </Text>
