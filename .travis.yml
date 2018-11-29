@@ -33,6 +33,7 @@ matrix:
         on:
           all_branches: true
           repo: laurentS/mapswipe
+          tags: true
       android:
         components:
           - tools

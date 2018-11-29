@@ -68,4 +68,5 @@ It should all be set automatically from `package.json`. When you need to release
 ```
 yarn version
 ```
-and input the new version number (in semantic version format). The build scripts should take care of adjusting the builds based on this.
+and input the new version number (in semantic version format). The build scripts should take care of adjusting the builds based on this. The `yarn postversion` script will push to github, which in turn will trigger a build on travis and deployment to github releases.
+For android, gradle will pull the version number from package.json when building.
