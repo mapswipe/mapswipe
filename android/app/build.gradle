@@ -83,6 +83,26 @@ project.ext.sentryCli = [
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 
+// generate apk version numbers from package.json
+// see https://medium.com/@andr3wjack/versioning-react-native-apps-407469707661
+import groovy.json.JsonSlurper
+
+// read "version" in package.json
+def getNpmVersion() {
+    def inputFile = new File("../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["version"]
+}
+
+// build an integer number to keep google happy
+def getGoogleVersion() {
+    def (major, minor, patch) = getNpmVersion().tokenize('.')
+    return Integer.parseInt(major) * 10000 + Integer.parseInt(minor) * 100 + Integer.parseInt(patch)
+}
+
+def userVersion = getNpmVersion()
+def googleVersion = getGoogleVersion()
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -106,8 +126,8 @@ android {
         applicationId "org.missingmaps.mapswipe"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "1.2.1"
+        versionCode googleVersion
+        versionName userVersion
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

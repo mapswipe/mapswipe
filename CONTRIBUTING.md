@@ -60,3 +60,12 @@ When creating a new release for the Play store, you'll need to increment the `ve
 
 ## Developing - iOS
 You can access the xcode project in the iOS directory. Make sure to open the xcworkspace file and not the xcodeproj file.
+
+## Version numbering
+
+It should all be set automatically from `package.json`. When you need to release a new version, just run:
+
+```
+yarn version
+```
+and input the new version number (in semantic version format). The build scripts should take care of adjusting the builds based on this.
