@@ -7,7 +7,6 @@ const defaultResultsState = {
 };
 
 export default function results(state = defaultResultsState, action) {
-    console.log('RESULTS', state, action);
     switch (action.type) {
     case TOGGLE_MAP_TILE:
         // update the tile's state

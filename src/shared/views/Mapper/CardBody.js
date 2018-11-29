@@ -94,7 +94,6 @@ class _CardBody extends React.Component {
 
     componentDidUpdate = (prevProps) => {
         const { group, mapper } = this.props;
-        console.log('CardBody updated', prevProps, this.props);
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
                 this.generateCards();
@@ -168,7 +167,6 @@ class _CardBody extends React.Component {
 
     render() {
         const rows = [];
-        console.log('render CardBody', this.state);
         const { cardsInView, marginXOffset } = this.state;
         const {
             group,
