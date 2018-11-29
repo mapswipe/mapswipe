@@ -199,9 +199,21 @@ class _Login extends React.Component {
             })
             .catch((error) => {
                 // GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
+                let errorMsg;
+                // error codes from https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#createUserWithEmailAndPassword
+                switch (error.code) {
+                case 'auth/email-already-in-use':
+                    errorMsg = 'Email already used by another account';
+                    break;
+                case 'auth/invalid-email':
+                    errorMsg = 'Email address is invalid';
+                    break;
+                default:
+                    errorMsg = 'Problem signing up';
+                }
                 MessageBarManager.showAlert({
                     title: 'Error on sign up',
-                    message: error,
+                    message: errorMsg,
                     alertType: 'error',
                 });
                 parent.setState({
