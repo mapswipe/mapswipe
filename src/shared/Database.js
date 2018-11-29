@@ -8,11 +8,8 @@ import firebase from 'react-native-firebase';
 import { Levels as levels } from './Levels';
 import { store as reduxStore } from './store';
 
-const RNFS = require('react-native-fs');
 const AuthManager = require('./AuthManager');
 
-
-console.log(RNFS.DocumentDirectoryPath);
 
 /* var PushNotification = require('react-native-push-notification');
 PushNotification.configure({

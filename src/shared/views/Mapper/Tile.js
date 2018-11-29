@@ -14,7 +14,6 @@ import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { toggleMapTile } from '../../actions/index';
 
-const RNFS = require('react-native-fs');
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
@@ -140,14 +139,7 @@ export class _Tile extends React.Component {
 
     getImgSource = () => {
         const tile = this.props.data;
-        const projectDir = `${RNFS.DocumentDirectoryPath}/${this.props.mapper.projectId}`;
-        const dir = `${projectDir}/${this.props.mapper.cardbody.currentGroup}`; // e.g. /1/45
-        const fileName = `${dir}/${tile.id}.jpeg`;
-        const imageSource = this.props.mapper.cardbody.isOfflineGroup === true ? {
-            isStatic: true,
-            uri: `file://${fileName}`,
-        } : { uri: tile.url };
-        return imageSource;
+        return { uri: tile.url };
     }
 
     zoomRender = () => {

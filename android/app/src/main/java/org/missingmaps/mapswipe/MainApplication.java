@@ -10,7 +10,6 @@ import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -37,8 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebaseAuthPackage(),
             new SplashScreenReactPackage(),
             new RNDeviceInfo(),
-            new LinearGradientPackage(),
-            new RNFSPackage()
+            new LinearGradientPackage()
       );
     }
 
