@@ -233,22 +233,36 @@ class _Login extends React.Component {
             email,
             password,
         } = this.state;
+        const { firebase } = this.props;
         this.setState({
             loading: true,
         });
         const parent = this;
-        this.props.firebase.login({ email, password }).then((user) => {
+        firebase.login({ email, password }).then((userCredentials) => {
             MessageBarManager.showAlert({
                 title: 'Success',
-                message: `Welcome to Mapswipe, ${user.user.user._user.displayName}`,
+                message: `Welcome to Mapswipe, ${userCredentials.user.user.displayName}`,
                 alertType: 'info',
             });
             // GLOBAL.ANALYTICS.logEvent('account_login');
             parent.props.navigation.push('ProjectNav');
         }).catch((error) => {
             let errorMessage;
-            if (error.indexOf('deleted') !== -1) {
-                errorMessage = 'Invalid username or password';
+            // error codes from
+            // https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#signInWithEmailAndPassword
+            switch (error.code) {
+            case 'auth/user-not-found':
+                errorMessage = 'No account with this email address';
+                break;
+            case 'auth/wrong-password':
+            case 'auth/invalid-email':
+                errorMessage = 'Invalid email or password';
+                break;
+            case 'auth/user-disabled':
+                errorMessage = 'Account disabled';
+                break;
+            default:
+                errorMessage = 'Problem logging in';
             }
             MessageBarManager.showAlert({
                 title: 'Error on log in',
@@ -265,11 +279,12 @@ class _Login extends React.Component {
         const {
             email,
         } = this.state;
+        const { firebase } = this.props;
         this.setState({
             loading: true,
         });
         const parent = this;
-        this.props.firebase.sendPasswordResetEmail(email).then(() => {
+        firebase.sendPasswordResetEmail(email).then(() => {
             MessageBarManager.showAlert({
                 title: 'Success',
                 message: 'Check your email',
@@ -281,8 +296,15 @@ class _Login extends React.Component {
             // GLOBAL.ANALYTICS.logEvent('pass_reset_request');
         }).catch((error) => {
             let errorMessage;
-            if (error.indexOf('deleted') !== -1) {
-                errorMessage = 'This email was not found.';
+            switch (error.code) {
+            case 'auth/user-not-found':
+                errorMessage = 'No account found for this email';
+                break;
+            case 'auth/invalid-email':
+                errorMessage = 'Invalid email address';
+                break;
+            default:
+                errorMessage = 'Problem resetting your password';
             }
             MessageBarManager.showAlert({
                 title: 'Error on reset pass',
