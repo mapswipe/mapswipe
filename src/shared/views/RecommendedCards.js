@@ -55,12 +55,13 @@ const style = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderRadius: 2,
     },
-    otherButton: {
+    announcementButton: {
         width: GLOBAL.SCREEN_WIDTH,
-        height: 30,
-        padding: 12,
+        height: 40,
         marginTop: 10,
-        borderWidth: 0,
+        borderColor: '#0d1949',
+        borderRadius: 0,
+        borderWidth: 2,
     },
     tutPar: {
         fontSize: 14,
@@ -102,14 +103,14 @@ class _RecommendedCards extends React.Component {
             <Button
                 onPress={() => {
                     navigation.push('WebviewWindow', {
-                        url: announcement.url,
+                        uri: announcement.url,
                     });
                 }}
                 key="announce"
-                style={style.otherButton}
+                style={style.announcementButton}
                 textStyle={{
+                    color: '#0d1949',
                     fontSize: 13,
-                    color: 'black',
                     fontWeight: '700',
                 }}
             >
@@ -198,7 +199,7 @@ export const RecommendedCards = compose(
     firebaseConnect(props => [
         // request only active projects from firebase
         { path: 'projects', queryParams: ['orderByChild=state', 'equalTo=0', 'limitToFirst=20'] },
-        { path: 'announcement', queryParams: ['limitToLast=1'] },
+        { path: 'announcement', queryParams: ['limitToLast=2'] },
     ]),
     connect(
         mapStateToProps,
