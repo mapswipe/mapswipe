@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "@mapbox/tilebelt": "^1.0.1",
     "apsl-react-native-button": "^3.1.1",
     "react": "16.6.1",
     "react-native": "0.57.7",
