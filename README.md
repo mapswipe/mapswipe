@@ -1,6 +1,6 @@
 # MapSwipe
 
-Welcome to the Mapswipe app. This is the app that is distributed through mapswipe.org as well as through the Play and Apple stores. It was initially developed by Doctors without Borders as part of the Missing Maps project. 
+Welcome to the Mapswipe app. This is the app that is distributed through mapswipe.org as well as through the Play and Apple stores. It was initially developed by Doctors without Borders as part of the Missing Maps project.
 
 ## Main Overview
 
@@ -27,15 +27,12 @@ If you'd like to modify and improve Mapswipe, read through the following to get 
 ## Technology Used
 
 1. The app is written entirely in [React Native](https://facebook.github.io/react-native/docs/getting-started.html)
-1. Firebase provides the backend database. It is protected with security rules so that users and contributors to this open source project can not cause damage. In the near future, we might set up a dev environment and open source the project. 
+1. Firebase provides the backend database. It is protected with security rules so that users and contributors to this open source project can not cause damage.
 1. The workers on the backend are running on Google Cloud and handle pre-processing and post-processing the data
 
 ## Libraries
 
-- React native 0.29
-- NPM 6.0.0
-- We have vendored the `node_modules` directory because we were forced to make some changes to certain libraries (in particular, [this one](https://github.com/leecade/react-native-swiper/issues/111#issuecomment-227443561), but also some older react packages were not compatible with newer react versions, so we made them compatible.
-- We hope to remove `node_modules` in favor of a stricter pinning strategy for dependencies
+- React native 0.57.3
 
 ## State of the project
 The project has been released, but is very much a work in progress. Keep in mind that this entire project was developed by 1 person, and in order to make it to the deadline - some code compromises had to be taken. For example, the app does currently not include redux or global styles. Currently, the main developer of the project is [Pim de Witte](http://github.com/pimdewitte). Please feel more than welcome to reach out to him.
