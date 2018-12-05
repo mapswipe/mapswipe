@@ -32,7 +32,7 @@ matrix:
         skip_cleanup: true
         on:
           all_branches: true
-          repo: laurentS/mapswipe
+          repo: mapswipe/mapswipe
           tags: true
       android:
         components:
