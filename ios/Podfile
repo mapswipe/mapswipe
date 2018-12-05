@@ -1,17 +1,37 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '8.0'
-# Uncomment this line if you're using Swift
-# use_frameworks!
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
 
-target 'Mapswipe' do
-pod 'Firebase'
-pod 'Firebase/Auth'
-pod 'Firebase/Database'
-pod 'Firebase/Storage'
-pod 'Firebase/Messaging'
+target 'mapswipe' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for mapswipe
+  pod 'Firebase/Core', '~> 5.11.0'
+
+  pod 'Firebase/Auth', '~> 5.11.0'
+  pod 'Firebase/Core', '~> 5.11.0'
+  pod 'Firebase/Database', '~> 5.11.0'
+  # pod 'Fabric', '~> 1.7.13'
+  # pod 'Crashlytics', '~> 3.10.9'
+
+  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
+
+  target 'mapswipeTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
 end
 
-target 'MapswipeTests' do
+target 'mapswipe-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for mapswipe-tvOS
+
+  target 'mapswipe-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
 
 end
-

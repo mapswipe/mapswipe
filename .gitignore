@@ -1,6 +1,13 @@
+# Configs
+config.json*
+android/app/google-services.json
+android/app/src/dev/google-services.json
+ios/cfg/GoogleService-Info.plist
+
 # OSX
 #
 .DS_Store
+ios/Pods/
 
 # Xcode
 #
@@ -22,21 +29,38 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
-# Android/IJ
+# Android/IntelliJ
 #
+build/
 .idea
 .gradle
 local.properties
+*.iml
 
 # node.js
 #
-#node_modules/
+node_modules/
 npm-debug.log
 *.keystore
+yarn-error.log
 
 # BUCK
 buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+*.keystore
 
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
+
+# Bundle artifact
+*.jsbundle
