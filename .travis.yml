@@ -27,7 +27,7 @@ matrix:
       deploy:
         provider: releases
         api_key:
-          secure: PAOPhK4V3QcD9xwe7doux5wbZBQ+9yI1PPVxEROKVL9F3ploddiXCCTteYrZRX3X/lwi0RshKZlLifPVwZNgnnLAMXpua/q5RWafiIN2HCT7u+Etju0baaLzXIzhh2ZLeDWfWf9y/na65Q1Ys4nZ9Fo4CiiZ5sqbLbb6pBhZrM7USc4+Ec8M8Av0kqULpDYfP16k2dOyyMhAbxz5boD6SWng3DY4bwygag5yL03UkqwsOssLYS4JtYeuandxPExb+R56JhI/mbiTyijoNYtIi/cPNkFm8S1DrLmcqrdFuF1i/F7GSRvu5pS7tXKWR9hAeXJDpCEAqRSJys80OLn3jy2n0ym93eYCXNtvasJrRy5teyh4d5dwbc9c5mEHjAJe+ftnyHkQGJuax1fJZCdnW3oGZam6H6/rpAcjtJ2bzmmeyk0Be9N2iYFlReMqrxwMUtCYcFzZSn9c39GNnyYzCDZwuRDUPn564i+JdaG5hsW16TY51pSHspuNT4nZLSCGpSbViLb2547L9sNyzqQmX8GYdE5/6lILdVX4SJJj5ihgyeMkP1ghsg8Gj4LD1OVxQTtOUWZ5LPT61kAfyz6F0GygYN+oiLev3KxGBm4EzrNmOgUChEAnA24+BKk25nnaHUBJqwoOXl2SczWjUDU8jAocr+Kt28yl+67ZrsL3U/o=
+          secure: ao6BfKCG0/QFDITW8cJ+cuHgWBP2UgOK3ONMmaLcRIih9h8ZZB5sRPL5epphUsMQVcc3p9+flUOcPGqAjC6xhk9+/MiTdk8733WmaKxAqvcEQzfoaWjAMRyOAByLYGyk1T9wCaHI5nvEQsdoxyL1i36J3QcSZ6cqbAwnFkAgJ4ovoCupNBrMC36PGMtzTNcGOQ1Vxcr+o/sxwF1ic4TbkvWCXwZmuStUvMIcjN+unXIuh9F0zcvEVVbt2ElFZkvzIdGhvWpdbOTujRldI5MgGU496sRniKY5gxVY91r2quTOG/C310RBBSmO904s8CHcT1y5R1ou+uUF0Zis0VMza/Atp3N/uPQYOjs88x6rZcqdsSjXP3XnrksdflMPuwqAI4ZbYZZ3GDveMEk58WOO24n2fGRszml+EuseB+zATDI8ZevefjjYOPQwk9IHoeSz3h0WSqnoK5/WHW+YImCPp9YZu+YMKNfrQEPlNbeKNRrsgwy3sOoOeIuUEb4MzdKPkdipggxhdck68eEU8Ynf9jWvoE6G1Ft4RIEG6ZZmYYsT3zxMHG0CbR9XW4wum/XZ+yXv7ONfQvmyo6Lf9b14fBDYScc/8gFSr3SAQAiwuLRKdf13SG3VB6uvrtz87VQg5PNdsNnG8cH5J5yFLGfERKTAZZa8b61vuD/xbD+UwZ4=
         file: "./android/app/build/outputs/apk/dev/release/app-dev-release.apk"
         skip_cleanup: true
         on:
