@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
+import LoadingIcon from '../LoadingIcon';
 
 const styles = StyleSheet.create({
     button: {
@@ -35,6 +36,9 @@ export default class Validator extends React.Component {
         const fullTaskId = `${group.projectId}_${group.id}_${currentTaskId}`;
         const currentTask = group.tasks[fullTaskId];
         console.log('VV', this.props, this.state);
+        if (currentTask === undefined) {
+            return <LoadingIcon />;
+        }
         return (
             <View>
                 <FootprintDisplay
