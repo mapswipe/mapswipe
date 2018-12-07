@@ -3,14 +3,13 @@ import {
     ART,
     Image,
     StyleSheet,
-    Text,
     View,
 } from 'react-native';
 import tilebelt from '@mapbox/tilebelt';
 
 const GLOBAL = require('../../Globals');
 
-const tileSize = GLOBAL.SCREEN_WIDTH / 2;
+const tileSize = GLOBAL.SCREEN_WIDTH;
 
 const styles = StyleSheet.create({
     mapContainer: {
@@ -20,9 +19,8 @@ const styles = StyleSheet.create({
         width: 256,
     },
     tileImg: {
-        borderColor: 'white',
-        borderWidth: 0.5,
         height: tileSize,
+        position: 'absolute',
         width: tileSize,
     },
     whiteText: {
@@ -36,8 +34,8 @@ export default class FootprintDisplay extends React.Component {
      */
     getPolygon = (coords, screenBBox) => {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
-        const lon2x = lon => ((lon - minLon) / (maxLon - minLon)) * tileSize * 2;
-        const lat2y = lat => (1 - (lat - minLat) / (maxLat - minLat)) * tileSize * 2;
+        const lon2x = lon => ((lon - minLon) / (maxLon - minLon)) * tileSize;
+        const lat2y = lat => (1 - (lat - minLat) / (maxLat - minLat)) * tileSize;
         const p = ART.Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
         coords.forEach((corner) => {
             p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
@@ -55,74 +53,120 @@ export default class FootprintDisplay extends React.Component {
         return [lons[0], lats[0], lons[lons.length - 1], lats[lats.length - 1]];
     }
 
-    render = () => {
-        const { project, task } = this.props;
-        // drop the last point, as it's the same as the first one
-        const coords = task.geojson.coordinates[0];
-        const footprintBBox = this.getBuildingBBox(coords);
-        let parentTile = tilebelt.bboxToTile(footprintBBox);
-        console.log('parentTile', coords, footprintBBox, parentTile);
-        while (parentTile[2] > 18) {
-            // force a max zoom of 18, as there is no imagery beyond that
-            parentTile = tilebelt.getParent(parentTile);
-        }
-        const tiles = tilebelt.getChildren(parentTile);
-        const quadKeys = tiles.map(tilebelt.tileToQuadkey);
-        const tileUrls = quadKeys.map(quadKey => project.info.tileserver_url
-            .replace('{quad_key}', quadKey)
-            .replace('{key}', project.info.api_key));
-        // build footprint polyline
-        const screenBBox = tilebelt.tileToBBOX(parentTile);
-        console.log('IMG', tiles, screenBBox);
-        const p = this.getPolygon(coords, screenBBox);
-        console.log('polygon', p, coords);
+    // return the center of the building footprint
+    getBuildingCentroid = (coords) => {
+        const centroid = coords.slice(0, -1).reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
+        return centroid.map(c => c / (coords.length - 1));
+    }
 
+    // return a bouding box to zoom to as [W, S, E, N]
+    // which has the same size as a tile at these coordinates and zoom level
+    getScreenBBoxFromCenter = (center, zoom) => {
+        const lon = center[0];
+        const lat = center[1];
+        const centerTile = tilebelt.pointToTile(lon, lat, zoom);
+        // calculate width and height of the tile in degrees
+        const tileBBOX = tilebelt.tileToBBOX(centerTile);
+        const tileW = tileBBOX[2] - tileBBOX[0];
+        const tileH = tileBBOX[3] - tileBBOX[1];
+        return [lon - tileW / 2, lat - tileH / 2, lon + tileW / 2, lat + tileH / 2];
+    }
+
+    BBOXToCoords = (bbox) => {
+        const [w, s, e, n] = bbox;
+        return [[w, s], [w, n], [e, n], [e, s]];
+    }
+
+    getTilesFromScreenCorners = (corners, z) => {
+        const sw = tilebelt.pointToTile(corners[0][0], corners[0][1], z);
+        const nw = [sw[0], sw[1] - 1, z];
+        const ne = [nw[0] + 1, nw[1], z];
+        const se = [ne[0], sw[1], z];
+        return [sw, nw, ne, se];
+    }
+
+    getTileUrl = (tile) => {
+        const { project } = this.props;
+        const quadKey = tilebelt.tileToQuadkey(tile);
+        const url = project.info.tileserver_url
+            .replace('{quad_key}', quadKey)
+            .replace('{key}', project.info.api_key);
+        return url;
+    }
+
+    render = () => {
+        const { task } = this.props;
+        const zoomLevel = 19;
+        const coords = task.geojson.coordinates[0];
+        const center = this.getBuildingCentroid(coords);
+        // get 4 tiles at zoomLevel and shift them as needed
+        const screenBBox = this.getScreenBBoxFromCenter(center, zoomLevel);
+        const corners = this.BBOXToCoords(screenBBox);
+        const swCornerTile = tilebelt.pointToTileFraction(corners[0][0], corners[0][1], zoomLevel);
+        const tiles = this.getTilesFromScreenCorners(corners, zoomLevel);
+        const tileUrls = tiles.map(this.getTileUrl);
+
+        // build footprint polyline
+        const p = this.getPolygon(coords, screenBBox);
+
+        const shiftX = (swCornerTile[0] % 1) * tileSize;
+        const shiftY = (swCornerTile[1] % 1) * tileSize;
         return (
-            <View style={styles.mapContainer}>
-                <Image
-                    style={[
-                        StyleSheet.absoluteFill,
-                        {
-                            left: 0,
-                            top: 0,
-                        },
-                        styles.tileImg,
-                    ]}
-                    source={{ uri: tileUrls[0] }}
-                />
-                <Image
-                    style={[
-                        StyleSheet.absoluteFill,
-                        {
-                            left: tileSize,
-                            top: 0,
-                        },
-                        styles.tileImg,
-                    ]}
-                    source={{ uri: tileUrls[1] }}
-                />
-                <Image
-                    style={[
-                        StyleSheet.absoluteFill,
-                        {
-                            left: 0,
-                            top: tileSize,
-                        },
-                        styles.tileImg,
-                    ]}
-                    source={{ uri: tileUrls[3] }}
-                />
-                <Image
-                    style={[
-                        StyleSheet.absoluteFill,
-                        {
-                            left: tileSize,
-                            top: tileSize,
-                        },
-                        styles.tileImg,
-                    ]}
-                    source={{ uri: tileUrls[2] }}
-                />
+            <View style={{
+                height: tileSize,
+                overflow: 'hidden',
+                width: tileSize,
+            }}
+            >
+                <View style={{
+                    position: 'absolute',
+                    left: -shiftX,
+                    top: -(shiftY),
+                    height: tileSize * 2,
+                    width: tileSize * 2,
+                }}
+                >
+                    <Image
+                        style={[
+                            {
+                                left: 0,
+                                top: 0,
+                            },
+                            styles.tileImg,
+                        ]}
+                        source={{ uri: tileUrls[1] }}
+                    />
+                    <Image
+                        style={[
+                            {
+                                left: tileSize,
+                                top: 0,
+                            },
+                            styles.tileImg,
+                        ]}
+                        source={{ uri: tileUrls[2] }}
+                    />
+                    <Image
+                        style={[
+                            {
+                                left: 0,
+                                top: tileSize,
+                            },
+                            styles.tileImg,
+                        ]}
+                        source={{ uri: tileUrls[0] }}
+                    />
+                    <Image
+                        style={[
+                            {
+                                left: tileSize,
+                                top: tileSize,
+                            },
+                            styles.tileImg,
+                        ]}
+                        source={{ uri: tileUrls[3] }}
+                    />
+                </View>
                 <ART.Surface
                     height={GLOBAL.SCREEN_WIDTH}
                     width={GLOBAL.SCREEN_WIDTH}
@@ -133,9 +177,6 @@ export default class FootprintDisplay extends React.Component {
                         strokeWidth={2}
                     />
                 </ART.Surface>
-                <Text style={styles.whiteText}>
-                    {`Task ${task.id} - tile ${parentTile}`}
-                </Text>
             </View>
         );
     }
