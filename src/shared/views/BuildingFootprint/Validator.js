@@ -27,31 +27,39 @@ const FOOTPRINT_NO_BUILDING = 3;
 export default class Validator extends React.Component {
     constructor(props) {
         super(props);
+        this.taskGen = this.makeNextTaskGenerator(props.group.tasks);
         this.state = {
-            currentTaskId: 0,
+            currentTaskId: this.taskGen.next(),
         };
     }
 
-    getFullTaskId = (group, taskNumber) => `${group.projectId}_${group.id}_${taskNumber}`;
-
     nextTask = (result) => {
         const { commitCompletedGroup, group, submitFootprintResult } = this.props;
-        const { currentTaskId } = this.state;
-        submitFootprintResult(result, this.getFullTaskId(group, currentTaskId));
-        console.log('BLEH', currentTaskId, group.tasks, group.tasks.length);
-        if (currentTaskId >= Object.keys(group.tasks).length - 1) {
+        let { currentTaskId } = this.state;
+        submitFootprintResult(result, currentTaskId.value);
+        currentTaskId = this.taskGen.next();
+        if (currentTaskId.done) {
             // no more tasks in the group, commit results and go back to menu
             commitCompletedGroup();
         }
-        this.setState({ currentTaskId: currentTaskId + 1 });
+        this.setState({ currentTaskId });
+    }
+
+    * makeNextTaskGenerator(tasks) {
+        // generator function that picks the next task to work on
+        // we cannot assume any specific order of taskId in the group
+        const taskIds = Object.keys(tasks);
+        let i;
+        // eslint-disable-next-line no-plusplus
+        for (i = 0; i < taskIds.length; i++) {
+            yield taskIds[i];
+        }
     }
 
     render = () => {
         const { group, project } = this.props;
         const { currentTaskId } = this.state;
-        const fullTaskId = this.getFullTaskId(group, currentTaskId);
-        const currentTask = group.tasks[fullTaskId];
-        console.log('VV', this.props, this.state);
+        const currentTask = group.tasks[currentTaskId.value];
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
