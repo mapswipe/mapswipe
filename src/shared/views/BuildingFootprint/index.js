@@ -10,7 +10,10 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import DeviceInfo from 'react-native-device-info';
+import { commitGroup, submitFootprint } from '../../actions/index';
 import Validator from './Validator';
+import LoadMoreCard from '../Mapper/LoadMore';
 
 const GLOBAL = require('../../Globals');
 
@@ -79,14 +82,48 @@ const styles = StyleSheet.create({
 class BuildingFootprintValidator extends React.Component {
     constructor(props) {
         super(props);
+        this.deviceId = DeviceInfo.getUniqueID();
+        this.userId = GLOBAL.DB.getAuth().getUser().uid;
         this.project = props.navigation.getParam('project');
+        this.state = {
+            groupCompleted: false,
+        };
+    }
+
+    submitFootprintResult = (result, taskId) => {
+        const resultObject = {
+            id: taskId,
+            result,
+            projectId: this.project.id,
+            item: 'Buildings',
+            device: this.deviceId,
+            user: GLOBAL.DB.getAuth().getUser().uid,
+            timestamp: GLOBAL.DB.getTimestamp(),
+            wkt: '',
+        };
+        this.props.onSubmitFootprint(resultObject);
+    }
+
+    commitCompletedGroup = () => {
+        this.setState({ groupCompleted: true });
     }
 
     render = () => {
-        const { group } = this.props;
+        const { group, navigation } = this.props;
+        const { groupCompleted } = this.state;
         console.log('BV', this.props);
         if (!group) {
             return null;
+        }
+        const groupData = group[Object.keys(group)[0]];
+        if (groupCompleted) {
+            return (
+                <LoadMoreCard
+                    group={groupData}
+                    navigation={navigation}
+                    projectId={this.project.id}
+                />
+            );
         }
         return (
             <View style={styles.mappingContainer}>
@@ -114,8 +151,10 @@ class BuildingFootprintValidator extends React.Component {
                     </TouchableHighlight>
                 </View>
                 <Validator
-                    group={group[Object.keys(group)[0]]}
+                    commitCompletedGroup={this.commitCompletedGroup}
+                    group={groupData}
                     project={this.project}
+                    submitFootprintResult={this.submitFootprintResult}
                 />
             </View>
         );
@@ -126,6 +165,18 @@ const mapStateToProps = (state, ownProps) => (
     {
         group: state.firebase.data.group,
         navigation: ownProps.navigation,
+        results: state.results,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        onCommitGroup(groupInfo) {
+            dispatch(commitGroup(groupInfo));
+        },
+        onSubmitFootprint(resultObject) {
+            dispatch(submitFootprint(resultObject));
+        },
     }
 );
 
@@ -139,5 +190,6 @@ export default compose(
     ]),
     connect(
         mapStateToProps,
+        mapDispatchToProps,
     ),
 )(BuildingFootprintValidator);

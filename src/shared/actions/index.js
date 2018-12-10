@@ -2,6 +2,7 @@ export const WELCOME_COMPLETED = 'WELCOME_COMPLETED';
 export const AUTH_STATUS_AVAILABLE = 'AUTH_STATUS_AVAILABLE';
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 export const TOGGLE_MAP_TILE = 'TOGGLE_MAP_TILE';
+export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
 export const COMMIT_GROUP = 'COMMIT_GROUP';
 export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
 export const COMMIT_GROUP_SUCCESS = 'COMMIT_GROUP_SUCCESS';
@@ -31,6 +32,10 @@ export function commitGroupFailed(taskId, error) {
     return { type: COMMIT_GROUP_FAILED, taskId, error };
 }
 
+export function submitFootprint(resultObject) {
+    return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
+}
+
 export function commitGroup(groupInfo) {
     // dispatched when a group is finished, when the user choose to either
     // map another group, or complete mapping.
@@ -55,12 +60,14 @@ export function commitGroup(groupInfo) {
             });
 
         // update the user's contributions and total mapped area
+        const addedContributions = groupInfo.contributionsCount || 0;
+        const addedDistance = groupInfo.addedDistance || 0;
         firebase.database().ref(`users/${userId}/`)
             .transaction((user) => {
                 const newUser = user;
                 if (user) {
-                    newUser.contributions += groupInfo.contributionsCount;
-                    newUser.distance += groupInfo.addedDistance;
+                    newUser.contributions += addedContributions;
+                    newUser.distance += addedDistance;
                 }
                 return newUser;
             });

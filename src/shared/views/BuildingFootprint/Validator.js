@@ -9,13 +9,20 @@ import LoadingIcon from '../LoadingIcon';
 
 const styles = StyleSheet.create({
     button: {
-        height: 40,
+        borderRadius: 0,
+        height: 55,
+        marginBottom: 0,
+        marginTop: 5,
     },
     buttonText: {
         fontSize: 15,
         color: 'white',
     },
 });
+
+const FOOTPRINT_CORRECT = 1;
+const FOOTPRINT_NEEDS_ADJUSTMENT = 2;
+const FOOTPRINT_NO_BUILDING = 3;
 
 export default class Validator extends React.Component {
     constructor(props) {
@@ -25,15 +32,24 @@ export default class Validator extends React.Component {
         };
     }
 
-    nextTask = () => {
+    getFullTaskId = (group, taskNumber) => `${group.projectId}_${group.id}_${taskNumber}`;
+
+    nextTask = (result) => {
+        const { commitCompletedGroup, group, submitFootprintResult } = this.props;
         const { currentTaskId } = this.state;
+        submitFootprintResult(result, this.getFullTaskId(group, currentTaskId));
+        console.log('BLEH', currentTaskId, group.tasks, group.tasks.length);
+        if (currentTaskId >= Object.keys(group.tasks).length - 1) {
+            // no more tasks in the group, commit results and go back to menu
+            commitCompletedGroup();
+        }
         this.setState({ currentTaskId: currentTaskId + 1 });
     }
 
     render = () => {
         const { group, project } = this.props;
         const { currentTaskId } = this.state;
-        const fullTaskId = `${group.projectId}_${group.id}_${currentTaskId}`;
+        const fullTaskId = this.getFullTaskId(group, currentTaskId);
         const currentTask = group.tasks[fullTaskId];
         console.log('VV', this.props, this.state);
         if (currentTask === undefined) {
@@ -46,7 +62,7 @@ export default class Validator extends React.Component {
                     task={currentTask}
                 />
                 <Button
-                    onPress={this.nextTask}
+                    onPress={() => this.nextTask(FOOTPRINT_CORRECT)}
                     style={[
                         { backgroundColor: 'green' },
                         styles.button,
@@ -55,7 +71,7 @@ export default class Validator extends React.Component {
                     Looks good
                 </Button>
                 <Button
-                    onPress={this.nextTask}
+                    onPress={() => this.nextTask(FOOTPRINT_NEEDS_ADJUSTMENT)}
                     style={[
                         { backgroundColor: 'orange' },
                         styles.button,
@@ -64,7 +80,7 @@ export default class Validator extends React.Component {
                     Needs adjustment
                 </Button>
                 <Button
-                    onPress={this.nextTask}
+                    onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
                     style={[
                         { backgroundColor: 'red' },
                         styles.button,

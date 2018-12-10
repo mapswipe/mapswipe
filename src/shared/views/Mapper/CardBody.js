@@ -80,7 +80,6 @@ class TileRow extends React.Component {
 class _CardBody extends React.Component {
     constructor(props) {
         super(props);
-        this.currentGroup = null;
         this.isOfflineGroup = false;
         this.lastMode = ''; // 0 is online mapping, 1 is offline mapping
         this.currentXRenderOffset = 0; // aka the last state
@@ -108,7 +107,6 @@ class _CardBody extends React.Component {
         const groupId = Object.keys(group)[0];
         const data = group[groupId];
         const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
-        this.currentGroup = data.id;
         const cards = [];
 
         // iterate over all the tasksI with an interval of the tilesPerRow variable
@@ -184,10 +182,7 @@ class _CardBody extends React.Component {
 
             rows.push(<LoadMoreCard
                 key={lastCard.id / 2}
-                card={lastCard}
                 group={group[Object.keys(group)[0]]}
-                groupId={this.currentGroup}
-                mapper={mapper}
                 navigation={navigation}
                 projectId={projectId}
             />); // lastCard.id/2 is random so that it never is the same number

@@ -63,7 +63,6 @@ class _LoadMoreCard extends React.Component {
         // user completed the group: let's commit it to firebase
         const {
             group,
-            groupId,
             onCommitGroup,
             projectId,
             results,
@@ -72,7 +71,7 @@ class _LoadMoreCard extends React.Component {
         const addedDistance = group.count * getSqKmForZoomLevelPerTile(group.zoomLevel);
         onCommitGroup({
             addedDistance,
-            groupId,
+            groupId: group.id,
             projectId,
             contributionsCount,
             tasks: results,
@@ -97,8 +96,8 @@ class _LoadMoreCard extends React.Component {
     }
 
     _onBack = () => {
-        const { mapper } = this.props;
-        mapper.props.navigation.pop();
+        const { navigation } = this.props;
+        navigation.pop();
     }
 
     render() {
