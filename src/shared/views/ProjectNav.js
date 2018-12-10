@@ -7,11 +7,8 @@ import {
 } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
-import { requestProjects } from '../actions/index';
 import { RecommendedCards } from './RecommendedCards';
 import { MoreOptions } from './MoreOptions';
-
-const GLOBAL = require('../Globals');
 
 /**
  * This is the base view for the project navigation, the individual tabs are rendered within here.
@@ -20,7 +17,6 @@ const GLOBAL = require('../Globals');
 class _ProjectNav extends React.Component {
     componentDidMount() {
         // GLOBAL.ANALYTICS.logEvent('app_home_seen');
-        this.props.onRequestProjects();
     }
 
     render() {
@@ -51,18 +47,9 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
-    {
-        onRequestProjects: () => {
-            dispatch(requestProjects());
-        },
-    }
-);
-
 export default compose(
     connect(
         mapStateToProps,
-        mapDispatchToProps,
     ),
     firebaseConnect(),
 )(_ProjectNav);
