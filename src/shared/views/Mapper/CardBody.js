@@ -7,9 +7,9 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
-import { MessageBarManager } from 'react-native-message-bar';
+import { getSqKmForZoomLevelPerTile } from '../../Database';
 import LoadingIcon from '../LoadingIcon';
-import LoadMoreCard from './LoadMore';
+import LoadMoreCard from '../LoadMore';
 import { EmptyTile, Tile } from './Tile';
 
 const GLOBAL = require('../../Globals');
@@ -152,6 +152,17 @@ class _CardBody extends React.Component {
         });
     }
 
+    getContributions = (group, results) => {
+        const contributionsCount = Object.keys(results).length;
+        const addedDistance = group.count * getSqKmForZoomLevelPerTile(group.zoomLevel);
+        return { contributionsCount, addedDistance };
+    }
+
+    toNextGroup = () => {
+        const { navigation } = this.props;
+        navigation.navigate('Mapper');
+    }
+
     handleScroll = (event: Object) => {
         const { x } = event.nativeEvent.contentOffset;
         const { cardsInView } = this.state;
@@ -182,6 +193,7 @@ class _CardBody extends React.Component {
 
             rows.push(<LoadMoreCard
                 key={lastCard.id / 2}
+                getContributions={this.getContributions}
                 group={group[Object.keys(group)[0]]}
                 navigation={navigation}
                 projectId={projectId}

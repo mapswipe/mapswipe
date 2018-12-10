@@ -10,10 +10,9 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
-import { commitGroup } from '../../actions/index';
-import { getSqKmForZoomLevelPerTile } from '../../Database';
+import { commitGroup } from '../actions/index';
 
-const GLOBAL = require('../../Globals');
+const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
     congratulationsSlide: {
@@ -62,13 +61,13 @@ class _LoadMoreCard extends React.Component {
     commitCompletedGroup = () => {
         // user completed the group: let's commit it to firebase
         const {
+            getContributions,
             group,
             onCommitGroup,
             projectId,
             results,
         } = this.props;
-        const contributionsCount = Object.keys(results).length;
-        const addedDistance = group.count * getSqKmForZoomLevelPerTile(group.zoomLevel);
+        const { contributionsCount, addedDistance } = getContributions(group, results);
         onCommitGroup({
             addedDistance,
             groupId: group.id,
@@ -80,11 +79,11 @@ class _LoadMoreCard extends React.Component {
     }
 
     onMore = () => {
-        const { groupInfo, navigation } = this.props;
+        const { groupInfo, navigation, toNextGroup } = this.props;
         // GLOBAL.ANALYTICS.logEvent('complete_group');
         this.showSyncProgress();
         this.commitCompletedGroup();
-        navigation.navigate('Mapper');
+        toNextGroup();
     }
 
     onComplete = () => {

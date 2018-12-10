@@ -13,7 +13,8 @@ import { firebaseConnect } from 'react-redux-firebase';
 import DeviceInfo from 'react-native-device-info';
 import { commitGroup, submitFootprint } from '../../actions/index';
 import Validator from './Validator';
-import LoadMoreCard from '../Mapper/LoadMore';
+import LoadMoreCard from '../LoadMore';
+import { getSqKmForZoomLevelPerTile } from '../../Database';
 
 const GLOBAL = require('../../Globals');
 
@@ -108,10 +109,20 @@ class BuildingFootprintValidator extends React.Component {
         this.setState({ groupCompleted: true });
     }
 
+    getContributions = (group, results) => {
+        const contributionsCount = Object.keys(results).length;
+        const addedDistance = group.count * getSqKmForZoomLevelPerTile(19);
+        return { contributionsCount, addedDistance };
+    }
+
+    toNextGroup = () => {
+        const { navigation } = this.props;
+        navigation.navigate('BuildingFootprintValidator', { project: this.project });
+    }
+
     render = () => {
         const { group, navigation } = this.props;
         const { groupCompleted } = this.state;
-        console.log('BV', this.props);
         if (!group) {
             return null;
         }
@@ -119,6 +130,7 @@ class BuildingFootprintValidator extends React.Component {
         if (groupCompleted) {
             return (
                 <LoadMoreCard
+                    getContributions={this.getContributions}
                     group={groupData}
                     navigation={navigation}
                     projectId={this.project.id}
