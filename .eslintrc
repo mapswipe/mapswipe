@@ -28,6 +28,10 @@
       }
     ]
   },
+  "globals": {
+      "Generator": true,
+      "IntervalID": true
+  },
   "env": {
     "jest": true
   }

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
-import { NavigationState } from '../flow-types';
+import type { NavigationProp } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 
 const Swiper = require('react-native-swiper');
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    navigation: NavigationScreenProp,
+    navigation: NavigationProp,
     onWelcomeComplete: (any) => any,
     welcomeCompleted: boolean,
 };
@@ -142,6 +142,7 @@ class TutCardView extends React.Component<TutCardProps, TutCardState> {
         };
     }
 
+    /* eslint-disable global-require */
     render() {
         const { onCompletion } = this.props;
         const { newIndex } = this.state;
@@ -199,4 +200,5 @@ Mapping has already helped save lives. Are you ready to become a mobile
             </Swiper>
         );
     }
+    /* eslint-enable global-require */
 }

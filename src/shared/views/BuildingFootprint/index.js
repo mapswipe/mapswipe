@@ -15,6 +15,12 @@ import { commitGroup, submitFootprint } from '../../actions/index';
 import Validator from './Validator';
 import LoadMoreCard from '../LoadMore';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
+import type {
+    GroupMapType,
+    GroupType,
+    NavigationProp,
+    ProjectType,
+} from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -80,7 +86,17 @@ const styles = StyleSheet.create({
     },
 });
 
-class BuildingFootprintValidator extends React.Component {
+type Props = {
+    group: GroupMapType,
+    navigation: NavigationProp,
+    onSubmitFootprint: (Object) => void,
+};
+
+type State = {
+    groupCompleted: bool,
+};
+
+class BuildingFootprintValidator extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.deviceId = DeviceInfo.getUniqueID();
@@ -92,6 +108,7 @@ class BuildingFootprintValidator extends React.Component {
     }
 
     submitFootprintResult = (result, taskId) => {
+        const { onSubmitFootprint } = this.props;
         const resultObject = {
             id: taskId,
             result,
@@ -102,7 +119,7 @@ class BuildingFootprintValidator extends React.Component {
             timestamp: GLOBAL.DB.getTimestamp(),
             wkt: '',
         };
-        this.props.onSubmitFootprint(resultObject);
+        onSubmitFootprint(resultObject);
     }
 
     commitCompletedGroup = () => {
@@ -120,13 +137,19 @@ class BuildingFootprintValidator extends React.Component {
         navigation.navigate('BuildingFootprintValidator', { project: this.project });
     }
 
+    deviceId: string;
+
+    userId: string;
+
+    project: ProjectType;
+
     render = () => {
         const { group, navigation } = this.props;
         const { groupCompleted } = this.state;
         if (!group) {
             return null;
         }
-        const groupData = group[Object.keys(group)[0]];
+        const groupData : GroupType = group[Object.keys(group)[0]];
         if (groupCompleted) {
             return (
                 <LoadMoreCard

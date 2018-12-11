@@ -8,7 +8,7 @@
 
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import {
     Image,
     StyleSheet,
@@ -19,13 +19,13 @@ import Button from 'apsl-react-native-button';
 import { createStackNavigator } from 'react-navigation';
 import Login from './views/Login';
 import BuildingFootprintValidator from './views/BuildingFootprint';
-import { Mapper } from './views/Mapper';
+import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import Tutorial from './views/Tutorial';
 import WebviewWindow from './views/WebviewWindow';
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
-const MessageBarManager = require('react-native-message-bar').MessageBarManager;
+const { MessageBarManager } = require('react-native-message-bar');
 const Modal = require('react-native-modalbox');
 
 const ProjectView = require('./views/ProjectView');
@@ -128,12 +128,14 @@ const style = StyleSheet.create({
 
 });
 
-/**
- * Main rendering class
- */
+type State = {
+    isDisabled: bool,
+    level: number,
+    levelObject: Object,
+};
 
-class Main extends React.Component {
-    constructor(props) {
+class Main extends React.Component<{}, State> {
+    constructor(props: {}) {
         super(props);
         this.state = {
             isDisabled: false,
@@ -142,32 +144,13 @@ class Main extends React.Component {
         };
     }
 
-    showAlert(alertObj) {
-        MessageBarManager.showAlert(alertObj);
-    }
-
-    openModal3(level) {
-        this.setState({
-            levelObject: GLOBAL.DB.getCustomLevelObject(level),
-            level,
-        });
-        this.refs.modal3.open();
-    }
-
-    closeModal3() {
-        this.refs.modal3.close();
-        GLOBAL.DB.stopPopup();
-    }
-
-    checkInterval: null;
-
     /**
      * Starts the level up timer and register the notification bar
      */
     componentDidMount() {
         const parent = this;
         // GLOBAL.ANALYTICS.logEvent('mapswipe_open');
-        MessageBarManager.registerMessageBar(parent.refs.alert);
+        MessageBarManager.registerMessageBar(parent.alert);
 
         parent.checkInterval = setInterval(() => {
             if (GLOBAL.DB.getPendingLevelUp() > 0) {
@@ -179,6 +162,27 @@ class Main extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.checkInterval);
+    }
+
+    alert: ?React.ComponentType<{}>;
+
+    checkInterval: IntervalID;
+
+    modal3: ?React.ComponentType<{}>;
+
+    openModal3(level) {
+        this.setState({
+            levelObject: GLOBAL.DB.getCustomLevelObject(level),
+            level,
+        });
+        // $FlowFixMe
+        this.modal3.open();
+    }
+
+    closeModal3() {
+        // $FlowFixMe
+        this.modal3.close();
+        GLOBAL.DB.stopPopup();
     }
 
     levelUp() {
@@ -194,7 +198,7 @@ class Main extends React.Component {
                     style={[style.modal, style.modal3]}
                     backdropType="blur"
                     position="center"
-                    ref="modal3"
+                    ref={(r) => { this.modal3 = r; }}
                     isDisabled={isDisabled}
                 >
                     <Text style={style.header}>
@@ -209,7 +213,7 @@ class Main extends React.Component {
                     Close
                     </Button>
                 </Modal>
-                <MessageBarAlert ref="alert" />
+                <MessageBarAlert ref={(r) => { this.alert = r; }} />
             </View>
         );
     }

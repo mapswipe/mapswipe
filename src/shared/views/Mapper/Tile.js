@@ -13,8 +13,12 @@ import {
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { toggleMapTile } from '../../actions/index';
+import type { TaskType } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
+
+const tileHeight = GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y);
+const tileWidth = GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X);
 
 const styles = StyleSheet.create({
     animatedText: {
@@ -32,51 +36,36 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderColor: '#212121',
     },
+    tileStyle: {
+        height: tileHeight,
+        width: tileWidth,
+        borderWidth: 0.5,
+        borderColor: 'rgba(255,255,255,0.2)',
+    },
 });
 
 type Props = {
-    tile: React.Node,
+    tile: Object,
+    mapper: Object,
+    onToggleTile: TaskType => void,
 };
 
-export class _Tile extends React.Component {
-    constructor(props) {
+type State = {
+    tileOverlay: Object,
+};
+
+export class _Tile extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.tileStatus = 0;
         this.lastReportedStatus = -1;
-        this.reportActive = null;
-        this.tileHeight = (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y));
-        this.tileWidth = (GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X));
         this.state = {
-            tile: {
-                height: this.tileHeight,
-                width: this.tileWidth,
-                borderWidth: 0.5,
-                borderColor: 'rgba(255,255,255,0.2)',
-            },
             tileOverlay: {
                 backgroundColor: this.getEdgeColor(),
-                height: this.tileHeight,
-                width: this.tileWidth,
+                height: tileHeight,
+                width: tileWidth,
             },
         };
-    }
-
-    checkToReport = () => {
-        if (this.tileStatus !== this.lastReportedStatus) {
-            this.lastReportedStatus = this.tileStatus;
-            const tile = this.props.data;
-            const task = {
-                id: tile.id,
-                result: this.tileStatus,
-                projectId: tile.projectId,
-                wkt: tile.wkt,
-                item: this.props.mapper.project.lookFor,
-                device: DeviceInfo.getUniqueID(),
-                user: GLOBAL.DB.getAuth().getUser().uid,
-                timestamp: GLOBAL.DB.getTimestamp(),
-            };
-            this.props.onToggleTile(task);
-        }
     }
 
     getEdgeColor = () => {
@@ -93,12 +82,15 @@ export class _Tile extends React.Component {
         case 3: {
             return 'rgba(230, 28, 28, 0.2)';
         }
+        default: {
+            return '#212121';
         }
-        return '#212121';
+        }
     }
 
-    _onPressButton = () => {
-        this.props.mapper.closeTilePopup();
+    onPressButton = () => {
+        const { mapper } = this.props;
+        mapper.closeTilePopup();
         this.tileStatus = this.tileStatus + 1;
         if (this.tileStatus > 3) {
             this.tileStatus = 0;
@@ -106,24 +98,27 @@ export class _Tile extends React.Component {
         this.setState({
             tileOverlay: {
                 backgroundColor: this.getEdgeColor(),
-                height: this.tileHeight,
-                width: this.tileWidth,
+                height: tileHeight,
+                width: tileWidth,
             },
         });
         this.checkToReport();
     }
 
-    _onLongPress = () => {
-        this.props.mapper.openTilePopup(this.zoomRender());
+    onLongPress = () => {
+        const { mapper } = this.props;
+        mapper.openTilePopup(this.zoomRender());
     }
 
-    _onLongPressOut = () => {
-        this.props.mapper.closeTilePopup();
+    onLongPressOut = () => {
+        const { mapper } = this.props;
+        mapper.closeTilePopup();
     }
 
     /**
      * Returns the ["animation", "text", duration] for the fun text displayed when you map a tile!
      */
+    // eslint-disable-next-line class-methods-use-this
     getFunText() {
         const texts = [
             ['bounceIn', 'Great Job!', '1000'],
@@ -137,8 +132,26 @@ export class _Tile extends React.Component {
         return texts[random];
     }
 
+    checkToReport = () => {
+        const { mapper, onToggleTile, tile } = this.props;
+        if (this.tileStatus !== this.lastReportedStatus) {
+            this.lastReportedStatus = this.tileStatus;
+            const task = {
+                id: tile.id,
+                result: this.tileStatus,
+                projectId: tile.projectId,
+                wkt: tile.wkt,
+                item: mapper.project.lookFor,
+                device: DeviceInfo.getUniqueID(),
+                user: GLOBAL.DB.getAuth().getUser().uid,
+                timestamp: GLOBAL.DB.getTimestamp(),
+            };
+            onToggleTile(task);
+        }
+    }
+
     getImgSource = () => {
-        const tile = this.props.data;
+        const { tile } = this.props;
         return { uri: tile.url };
     }
 
@@ -157,34 +170,41 @@ export class _Tile extends React.Component {
         );
     }
 
+    tileStatus: number;
+
+    lastReportedStatus: number;
+
     render() {
-        const tile = this.props.data;
+        const { tile } = this.props;
+        const { tileOverlay } = this.state;
         const animatedRows = [];
         const showAnim = Math.floor(Math.random() * 5);
 
         if (this.tileStatus === 1 && showAnim === 1) {
-            animatedRows.push(<Animatable.Text
-                key={`anim-${tile.id}`}
-                animation={this.getFunText()[0]}
-                style={styles.animatedText}
-            >
-                {this.getFunText()[1]}
-            </Animatable.Text>);
+            animatedRows.push(
+                <Animatable.Text
+                    key={`anim-${tile.id}`}
+                    animation={this.getFunText()[0]}
+                    style={styles.animatedText}
+                >
+                    {this.getFunText()[1]}
+                </Animatable.Text>,
+            );
         }
         const imageSource = this.getImgSource();
 
         return (
             <TouchableHighlight
-                onPress={this._onPressButton}
-                onLongPress={this._onLongPress}
-                onPressOut={this._onLongPressOut}
+                onPress={this.onPressButton}
+                onLongPress={this.onLongPress}
+                onPressOut={this.onLongPressOut}
             >
                 <ImageBackground
-                    style={this.state.tile}
+                    style={styles.tileStyle}
                     key={`touch-${tile.id}`}
                     source={imageSource}
                 >
-                    <View style={this.state.tileOverlay} key={`view-${tile.id}`}>
+                    <View style={tileOverlay} key={`view-${tile.id}`}>
                         {animatedRows}
                     </View>
                 </ImageBackground>

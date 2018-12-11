@@ -1,3 +1,4 @@
+// @flow
 import * as React from 'react';
 import {
     ART,
@@ -6,6 +7,14 @@ import {
     View,
 } from 'react-native';
 import tilebelt from '@mapbox/tilebelt';
+import type {
+    BBOX,
+    Point,
+    Polygon,
+    ProjectType,
+    TaskType,
+    Tile,
+} from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -28,11 +37,16 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class FootprintDisplay extends React.Component {
+type Props = {
+    project: ProjectType,
+    task: TaskType,
+};
+
+export default class FootprintDisplay extends React.Component<Props> {
     /*
      * Get the polygon to draw over the image
      */
-    getPolygon = (coords, screenBBox) => {
+    getPolygon = (coords: Polygon, screenBBox: BBOX) => {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
         const lon2x = lon => ((lon - minLon) / (maxLon - minLon)) * tileSize;
         const lat2y = lat => (1 - (lat - minLat) / (maxLat - minLat)) * tileSize;
@@ -47,21 +61,23 @@ export default class FootprintDisplay extends React.Component {
     /*
      * Get the building bounding box (in real coordinates)
      */
-    getBuildingBBox = (coords) => {
+    getBuildingBBox = (coords: Polygon): BBOX => {
         const lons = coords.map(p => p[0]).sort();
         const lats = coords.map(p => p[1]).sort();
         return [lons[0], lats[0], lons[lons.length - 1], lats[lats.length - 1]];
     }
 
     // return the center of the building footprint
-    getBuildingCentroid = (coords) => {
-        const centroid = coords.slice(0, -1).reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
+    getBuildingCentroid = (coords: Polygon): Point => {
+        const centroid: Point = coords.slice(0, -1)
+            .reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
+        // $FlowFixMe
         return centroid.map(c => c / (coords.length - 1));
     }
 
     // return a bouding box to zoom to as [W, S, E, N]
     // which has the same size as a tile at these coordinates and zoom level
-    getScreenBBoxFromCenter = (center, zoom) => {
+    getScreenBBoxFromCenter = (center: Point, zoom: number) => {
         const lon = center[0];
         const lat = center[1];
         const centerTile = tilebelt.pointToTile(lon, lat, zoom);
@@ -72,12 +88,12 @@ export default class FootprintDisplay extends React.Component {
         return [lon - tileW / 2, lat - tileH / 2, lon + tileW / 2, lat + tileH / 2];
     }
 
-    BBOXToCoords = (bbox) => {
+    BBOXToCoords = (bbox: BBOX) => {
         const [w, s, e, n] = bbox;
         return [[w, s], [w, n], [e, n], [e, s]];
     }
 
-    getTilesFromScreenCorners = (corners, z) => {
+    getTilesFromScreenCorners = (corners: Polygon, z: number) => {
         const sw = tilebelt.pointToTile(corners[0][0], corners[0][1], z);
         const nw = [sw[0], sw[1] - 1, z];
         const ne = [nw[0] + 1, nw[1], z];
@@ -85,7 +101,7 @@ export default class FootprintDisplay extends React.Component {
         return [sw, nw, ne, se];
     }
 
-    getTileUrl = (tile) => {
+    getTileUrl = (tile: Tile) => {
         const { project } = this.props;
         const quadKey = tilebelt.tileToQuadkey(tile);
         const url = project.info.tileserver_url
@@ -97,6 +113,7 @@ export default class FootprintDisplay extends React.Component {
     render = () => {
         const { task } = this.props;
         const zoomLevel = 19;
+        // $FlowFixMe
         const coords = task.geojson.coordinates[0];
         const center = this.getBuildingCentroid(coords);
         // get 4 tiles at zoomLevel and shift them as needed

@@ -11,8 +11,9 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
-import * as Progress from 'react-native-progress';
 import CardBody from './CardBody';
+import BottomProgress from './BottomProgress';
+import type { NavigationProp, ProjectType } from '../../flow-types';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
@@ -112,15 +113,6 @@ const styles = StyleSheet.create({
         width: (GLOBAL.SCREEN_WIDTH),
         height: 40,
     },
-    swipeNavBottom: {
-        width: (GLOBAL.SCREEN_WIDTH),
-        bottom: 3,
-        position: 'absolute',
-        left: 0,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        backgroundColor: '#0d1949',
-    },
     topText: {
         justifyContent: 'center',
         color: '#ffffff',
@@ -139,18 +131,10 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         backgroundColor: 'transparent',
     },
-    progressBarText: {
-        color: '#ffffff',
-        borderColor: '#212121',
-        fontWeight: '500',
-        position: 'absolute',
-        top: 1,
-        left: GLOBAL.SCREEN_WIDTH - 160,
-        backgroundColor: 'transparent',
-    },
 });
 
 type Props = {
+    navigation: NavigationProp,
 }
 
 type State = {
@@ -172,14 +156,17 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     openTutorialModal = () => {
+        // $FlowFixMe
         this.TutorialModal.open();
     }
 
     returnToView = () => {
-        this.props.navigation.pop();
+        const { navigation } = this.props;
+        navigation.pop();
     }
 
     closeTutorialModal = () => {
+        // $FlowFixMe
         this.TutorialModal.close();
     }
 
@@ -187,6 +174,7 @@ class _Mapper extends React.Component<Props, State> {
         this.setState({
             poppedUpTile: tile,
         });
+        // $FlowFixMe
         this.tilePopup.open();
     }
 
@@ -194,13 +182,22 @@ class _Mapper extends React.Component<Props, State> {
         this.setState({
             poppedUpTile: <View />,
         });
+        // $FlowFixMe
         this.tilePopup.close();
     }
 
-    getProgress = () => (this.progress);
+    progress: ?React.Ref<typeof BottomProgress>;
+
+    project: ProjectType;
+
+    tilePopup: ?React.ComponentType<void>;
+
+    TutorialModal: ?React.ComponentType<void>;
 
     render() {
+        /* eslint-disable global-require */
         const { navigation } = this.props;
+        const { poppedUpTile } = this.state;
         return (
             <View style={styles.mappingContainer}>
                 <View style={styles.swipeNavTop}>
@@ -210,14 +207,20 @@ class _Mapper extends React.Component<Props, State> {
                     <Text style={styles.elementText}>
                         {this.project.lookFor}
                     </Text>
-                    <TouchableHighlight style={styles.backButtonContainer} onPress={this.returnToView}>
+                    <TouchableHighlight
+                        style={styles.backButtonContainer}
+                        onPress={this.returnToView}
+                    >
                         <Image
                             style={styles.backButton}
                             source={require('../assets/backarrow_icon.png')}
                         />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={styles.infoButtonContainer} onPress={this.openTutorialModal}>
+                    <TouchableHighlight
+                        style={styles.infoButtonContainer}
+                        onPress={this.openTutorialModal}
+                    >
                         <Image
                             style={styles.infoButton}
                             source={require('../assets/info_icon.png')}
@@ -229,7 +232,6 @@ class _Mapper extends React.Component<Props, State> {
                     projectId={this.project.id}
                     mapper={this}
                     navigation={navigation}
-                    ref={(r) => { this.cardbody = r; }}
                 />
                 <BottomProgress ref={(r) => { this.progress = r; }} />
                 <Modal
@@ -251,16 +253,16 @@ TAP TO
                     </View>
                     <Text style={styles.tutPar}>
 Search the image for features listed in your mission brief. Tap each tile
-                    where you find what you're looking for. Tap once for
-                        <Text style={{ color: 'rgb(36, 219, 26)' }} >
+                    where you find what you&apos;re looking for. Tap once for
+                        <Text style={{ color: 'rgb(36, 219, 26)' }}>
                             YES
                         </Text>
                         , twice for
-                        <Text style={{ color: 'rgb(237, 209, 28)' }} >
+                        <Text style={{ color: 'rgb(237, 209, 28)' }}>
                             MAYBE
                         </Text>
                         , and three times for
-                        <Text style={{ color: 'rgb(230, 28, 28)' }} >
+                        <Text style={{ color: 'rgb(230, 28, 28)' }}>
                             BAD IMAGERY (such as clouds)
                         </Text>
 .
@@ -304,11 +306,12 @@ HOLD TO
                     position="center"
                     ref={(r) => { this.tilePopup = r; }}
                 >
-                    {this.state.poppedUpTile}
+                    {poppedUpTile}
                 </Modal>
             </View>
         );
     }
+    /* eslint-enable global-require */
 }
 
 const mapStateToProps = (state, ownProps) => (
@@ -317,45 +320,11 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-export const Mapper = compose(
+// Mapper
+export default compose(
     firebaseConnect(() => [
     ]),
     connect(
         mapStateToProps,
     ),
 )(_Mapper);
-
-class BottomProgress extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            progress: 0,
-            text: 'START MAPPING',
-        };
-    }
-
-    updateProgress = (progress) => {
-        this.setState({
-            progress,
-            text: `YOU'VE MAPPED ${Math.ceil(progress * 100)}%`,
-        });
-    }
-
-    render() {
-        const { progress, text } = this.state;
-        return (
-            <View style={styles.swipeNavBottom}>
-                <Progress.Bar
-                    animated={false}
-                    height={20}
-                    width={GLOBAL.SCREEN_WIDTH * 0.98}
-                    marginBottom={2}
-                    borderRadius={0}
-                    unfilledColor="#ffffff"
-                    progress={progress}
-                />
-                <Text elevation={5} style={styles.progressBarText}>{text}</Text>
-            </View>
-        );
-    }
-}

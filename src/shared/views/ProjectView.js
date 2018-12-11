@@ -364,7 +364,6 @@ class _ProjectHeader extends React.Component {
 
     checkWifiDownload(originalTaskAmount) {
         const parent = this;
-        const { project } = this.props;
         return function (taskAmount) {
             if (!ConnectionManager.isOnline()) {
                 Alert.alert(

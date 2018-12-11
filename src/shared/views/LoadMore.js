@@ -11,6 +11,7 @@ import {
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import { commitGroup } from '../actions/index';
+import type { GroupType, NavigationProp, ResultMapType } from '../flow-types';
 
 const GLOBAL = require('../Globals');
 
@@ -40,8 +41,17 @@ const styles = StyleSheet.create({
     },
 });
 
-class _LoadMoreCard extends React.Component {
+type Props = {
+    getContributions: (GroupType, ResultMapType) => Object,
+    group: GroupType,
+    navigation: NavigationProp,
+    onCommitGroup: Object => void,
+    projectId: number,
+    results: ResultMapType,
+    toNextGroup: void => void,
+};
 
+class _LoadMoreCard extends React.Component<Props> {
     showSyncResult = (data, alertType) => {
         MessageBarManager.showAlert({
             title: `${data.successCount} tasks synced`,
@@ -79,7 +89,7 @@ class _LoadMoreCard extends React.Component {
     }
 
     onMore = () => {
-        const { groupInfo, navigation, toNextGroup } = this.props;
+        const { toNextGroup } = this.props;
         // GLOBAL.ANALYTICS.logEvent('complete_group');
         this.showSyncProgress();
         this.commitCompletedGroup();

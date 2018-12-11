@@ -1,3 +1,4 @@
+// @flow
 import * as React from 'react';
 import {
     StyleSheet,
@@ -6,6 +7,11 @@ import {
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
+import type {
+    GroupType,
+    ProjectType,
+    TaskMapType,
+} from '../../flow-types';
 
 const styles = StyleSheet.create({
     button: {
@@ -24,28 +30,46 @@ const FOOTPRINT_CORRECT = 1;
 const FOOTPRINT_NEEDS_ADJUSTMENT = 2;
 const FOOTPRINT_NO_BUILDING = 3;
 
-export default class Validator extends React.Component {
-    constructor(props) {
+type Props = {
+    commitCompletedGroup: () => void,
+    group: GroupType,
+    project: ProjectType,
+    submitFootprintResult: (number, string) => void,
+};
+
+type State = {
+    currentTaskId: string,
+};
+
+// see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
+type taskGenType = Generator<string, void, void>;
+
+export default class Validator extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.taskGen = this.makeNextTaskGenerator(props.group.tasks);
+        const { value } = this.taskGen.next();
         this.state = {
-            currentTaskId: this.taskGen.next(),
+            currentTaskId: value,
         };
     }
 
-    nextTask = (result) => {
-        const { commitCompletedGroup, group, submitFootprintResult } = this.props;
-        let { currentTaskId } = this.state;
-        submitFootprintResult(result, currentTaskId.value);
-        currentTaskId = this.taskGen.next();
-        if (currentTaskId.done) {
+    nextTask = (result: number) => {
+        const { commitCompletedGroup, submitFootprintResult } = this.props;
+        const { currentTaskId } = this.state;
+        submitFootprintResult(result, currentTaskId);
+        const { done, value } = this.taskGen.next();
+        if (done) {
             // no more tasks in the group, commit results and go back to menu
             commitCompletedGroup();
         }
-        this.setState({ currentTaskId });
+        this.setState({ currentTaskId: value });
     }
 
-    * makeNextTaskGenerator(tasks) {
+    taskGen: taskGenType;
+
+    // eslint-disable-next-line class-methods-use-this
+    * makeNextTaskGenerator(tasks: TaskMapType): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
         const taskIds = Object.keys(tasks);
@@ -59,7 +83,7 @@ export default class Validator extends React.Component {
     render = () => {
         const { group, project } = this.props;
         const { currentTaskId } = this.state;
-        const currentTask = group.tasks[currentTaskId.value];
+        const currentTask = group.tasks[currentTaskId];
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }

@@ -11,6 +11,10 @@ import { getSqKmForZoomLevelPerTile } from '../../Database';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import { EmptyTile, Tile } from './Tile';
+import type {
+    GroupMapType,
+    NavigationProp,
+} from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -39,45 +43,70 @@ const styles = StyleSheet.create({
     },
 });
 
-class IndividualCard extends React.Component {
-    render() {
-        const rows = [];
-        this.props.card.tileRows.forEach((row) => {
-            rows.unshift(<TileRow key={`${row.cardXStart}:${row.rowYStart}`} mapper={this.props.mapper} row={row.tiles} />);
-        });
+type CardToPushType = {
+    cardX: number,
+    tileRows: Array<>,
+    validTiles: number,
+};
 
-        return (
-            <View style={styles.slide}>
-                {rows}
-            </View>
-        );
-    }
-}
+type ICProps = {
+    card: Object,
+    mapper: Object,
+};
 
-class TileRow extends React.Component {
-    render() {
-        const rows = [];
-        const { mapper } = this.props;
-        this.props.row.forEach((tile) => {
-            // inserts empty tiles so that they are always rendered at
-            // the same X coordinate on the grid.
-            if (tile !== undefined) {
-                if (tile === 'emptytile') {
-                    rows.push(<EmptyTile key={Math.random()} />);
-                } else {
-                    rows.push(<Tile data={tile} key={tile.id} mapper={mapper} />);
-                }
+const IndividualCard = (props: ICProps) => {
+    const rows = [];
+    const { card, mapper } = props;
+    card.tileRows.forEach((row) => {
+        rows.unshift(<TileRow key={`${row.cardXStart}:${row.rowYStart}`} mapper={mapper} row={row.tiles} />);
+    });
+
+    return (
+        <View style={styles.slide}>
+            {rows}
+        </View>
+    );
+};
+
+type TRProps = {
+    mapper: Object,
+    row: Array<>,
+};
+
+const TileRow = (props: TRProps) => {
+    const rows = [];
+    const { mapper, row } = props;
+    row.forEach((tile) => {
+        // inserts empty tiles so that they are always rendered at
+        // the same X coordinate on the grid.
+        if (tile !== undefined) {
+            if (tile === 'emptytile') {
+                rows.push(<EmptyTile key={Math.random()} />);
+            } else {
+                rows.push(<Tile tile={tile} key={tile.id} mapper={mapper} />);
             }
-        });
-        return (
-            <View style={styles.tileRow}>
-                {rows}
-            </View>
-        );
-    }
-}
+        }
+    });
+    return (
+        <View style={styles.tileRow}>
+            {rows}
+        </View>
+    );
+};
 
-class _CardBody extends React.Component {
+type Props = {
+    group: GroupMapType,
+    mapper: Object,
+    navigation: NavigationProp,
+    projectId: number,
+};
+
+type State = {
+    cardsInView: Array<>,
+    marginXOffset: number,
+};
+
+class _CardBody extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.isOfflineGroup = false;
@@ -110,8 +139,10 @@ class _CardBody extends React.Component {
         const cards = [];
 
         // iterate over all the tasksI with an interval of the tilesPerRow variable
-        for (let cardX = parseFloat(data.xMin); cardX < parseFloat(data.xMax); cardX += tilesPerRow) {
-            const cardToPush = {
+        const minX = parseFloat(data.xMin);
+        const maxX = parseFloat(data.xMax);
+        for (let cardX = minX; cardX < maxX; cardX += tilesPerRow) {
+            const cardToPush: CardToPushType = {
                 cardX,
                 tileRows: [],
                 validTiles: 0,
@@ -126,9 +157,11 @@ class _CardBody extends React.Component {
                     cardXEnd: cardX,
                     tiles: [],
                 };
-                for (let tileX = parseFloat(cardX); tileX < parseFloat(cardX) + tilesPerRow; tileX += 1) {
+                const tileMinX = parseFloat(cardX);
+                const tileMaxX = tileMinX + tilesPerRow;
+                for (let tileX = parseFloat(cardX); tileX < tileMaxX; tileX += 1) {
                     if (data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`] !== undefined) {
-                        cardToPush.validTiles++;
+                        cardToPush.validTiles += 1;
                     }
                     tileRowObject.tiles.push(
                         data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`] === undefined ? 'emptytile' : data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`],
@@ -181,7 +214,7 @@ class _CardBody extends React.Component {
             group,
             mapper,
             navigation,
-            projectId
+            projectId,
         } = this.props;
         if (cardsInView.length > 0) {
             let lastCard = null;
