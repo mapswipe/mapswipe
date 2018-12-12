@@ -11,7 +11,7 @@
     "runAndroid": "cd android && ./gradlew installDevDebug && adb -d shell am start -n org.missingmaps.mapswipe.dev/org.missingmaps.mapswipe.MainActivity ; cd ..",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "postversion": "git push --tags && echo \"Successfully released version $npm_package_version!\""
+    "postversion": "git push && git push --tags && echo \"Successfully released version $npm_package_version!\""
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
