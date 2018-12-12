@@ -230,6 +230,7 @@ class _CardBody extends React.Component<Props, State> {
                 group={group[Object.keys(group)[0]]}
                 navigation={navigation}
                 projectId={projectId}
+                toNextGroup={this.toNextGroup}
             />); // lastCard.id/2 is random so that it never is the same number
         } else {
             this.showingLoader = true;

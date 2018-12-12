@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect } from 'react-redux-firebase';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import DeviceInfo from 'react-native-device-info';
 import { commitGroup, submitFootprint } from '../../actions/index';
 import Validator from './Validator';
@@ -107,6 +107,15 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         };
     }
 
+    componentDidUpdate = (prevProps) => {
+        const { group } = this.props;
+        if (prevProps.group !== group) {
+            if (isLoaded(group) && !isEmpty(group)) {
+                this.setState({ groupCompleted: false });
+            }
+        }
+    }
+
     submitFootprintResult = (result, taskId) => {
         const { onSubmitFootprint } = this.props;
         const resultObject = {
@@ -157,6 +166,7 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
                     group={groupData}
                     navigation={navigation}
                     projectId={this.project.id}
+                    toNextGroup={this.toNextGroup}
                 />
             );
         }
