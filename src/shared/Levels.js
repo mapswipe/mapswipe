@@ -2,7 +2,9 @@
  * Level details for mappers
  */
 
-export const Levels = {
+/* eslint-disable global-require */
+
+export default {
     1: {
         badge: require('./views/badges/1.png'),
         title: 'Square One',

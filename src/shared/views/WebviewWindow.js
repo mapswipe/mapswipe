@@ -3,6 +3,8 @@
  * eg: {this.props.navigation.push('WebViewWindow', { uri: this.state.announcement.url })
  */
 
+/* eslint-disable global-require */
+
 import React from 'react';
 import {
     View, Image, WebView, TouchableHighlight,

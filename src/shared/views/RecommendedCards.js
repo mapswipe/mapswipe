@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
@@ -12,6 +12,7 @@ import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
 import ProjectCard from './ProjectCard';
 import LoadingIcon from './LoadingIcon';
+import type { NavigationProp, ProjectType } from '../flow-types';
 
 const GLOBAL = require('../Globals');
 
@@ -72,32 +73,37 @@ const style = StyleSheet.create({
     },
 });
 
-class _RecommendedCards extends React.Component {
-    static propTypes = {
-        announcement: PropTypes.object,
-        navigation: PropTypes.object.isRequired,
-        projects: PropTypes.array,
-    }
+type OrderedProject = {
+    key: string,
+    value: ProjectType,
+};
 
+type Props = {
+    announcement: Object,
+    navigation: NavigationProp,
+    projects: Array<OrderedProject>,
+};
+
+class _RecommendedCards extends React.Component<Props> {
     openModal3 = () => {
         const parent = this;
 
         GLOBAL.DB.openPopup().then(() => {
             console.log('No need to open new tut window');
         }).catch(() => {
-            parent.refs.modal3.open();
+            parent.tutorialModal.open();
         });
     }
 
     closeModal3 = () => {
-        this.refs.modal3.close();
+        this.tutorialModal.close();
         GLOBAL.DB.stopPopup();
     }
 
     renderAnnouncement = () => {
         const { announcement, navigation } = this.props;
         if (!isLoaded(announcement) || isEmpty(announcement)) {
-            return;
+            return null;
         }
         return (
             <Button
@@ -120,13 +126,14 @@ class _RecommendedCards extends React.Component {
     }
 
     renderHelpModal = () => {
+        const { navigation } = this.props;
         return (
             <Modal
                 key="modal"
                 style={[style.modal, style.modal3]}
                 backdropType="blur"
                 position="top"
-                ref="modal3"
+                ref={(r) => { this.tutorialModal = r; }}
             >
                 <Text style={style.header}>Tutorial</Text>
                 <Text style={style.tutPar}>Learn more about how to use Mapswipe!</Text>
@@ -134,7 +141,7 @@ class _RecommendedCards extends React.Component {
                     style={style.inModalButton2}
                     onPress={() => {
                         this.closeModal3();
-                        this.props.navigation.push('WebviewWindow', {
+                        navigation.push('WebviewWindow', {
                             uri: GLOBAL.TUT_LINK,
                         });
                     }}
@@ -195,8 +202,8 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-export const RecommendedCards = compose(
-    firebaseConnect(props => [
+export default compose(
+    firebaseConnect(() => [
         // request only active projects from firebase
         { path: 'projects', queryParams: ['orderByChild=state', 'equalTo=0', 'limitToFirst=20'] },
         { path: 'announcement', queryParams: ['limitToLast=2'] },

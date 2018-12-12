@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const GLOBAL = require('../Globals');
 
+/* eslint-disable global-require */
 
 /**
  * The ProjectCard class represents a single card instance.
@@ -150,11 +151,11 @@ export default class ProjectCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${this.props.card.id}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.id}`),
         };
     }
 
-    _getColorForState(state) {
+    getColorForState(state) {
         if (state === 0) {
             return 'red';
         } if (state === 1) {
@@ -164,7 +165,7 @@ export default class ProjectCard extends React.Component {
         }
     }
 
-    _getTextForState(state) {
+    getTextForState(state) {
         if (state === 2) {
             return 'COMPLETE';
         }
@@ -176,12 +177,9 @@ export default class ProjectCard extends React.Component {
         }
     }
 
-    _handlePress = () => {
-        this.props.navigation.push('ProjectView', { project: this.props.card });
-    }
-
     getGradientArray() {
-        const gradientToPick = this.props.card.id % 3;
+        const { card } = this.props;
+        const gradientToPick = card.id % 3;
         let gradientCountArray = null;
 
         const gradientOpacity = ['0.6', '0.8'];
@@ -199,14 +197,20 @@ export default class ProjectCard extends React.Component {
         return gradientCountArray;
     }
 
+    handlePress = () => {
+        const { card, navigation } = this.props;
+        navigation.push('ProjectView', { project: card });
+    }
+
     render() {
         const {
             card,
             cardIndex,
             featured,
         } = this.props;
+        const { hasOfflineGroups } = this.state;
         return (
-            <TouchableOpacity onPress={this._handlePress}>
+            <TouchableOpacity onPress={this.handlePress}>
                 <View
                     style={[(card.isFeatured ? style.largeCard : style.smallCard),
                         { marginLeft: cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
@@ -220,7 +224,8 @@ export default class ProjectCard extends React.Component {
                             style={style.linearGradient}
                         />
                         <Image
-                            style={[style.offlineIndicator, { opacity: this.state.hasOfflineGroups ? 1 : 0.30 }]}
+                            style={[style.offlineIndicator,
+                                { opacity: hasOfflineGroups ? 1 : 0.30 }]}
                             source={require('./assets/offline_icon.png')}
                         />
 
@@ -228,14 +233,16 @@ export default class ProjectCard extends React.Component {
                             style={style.nowButton}
                             textStyle={{
                                 fontSize: 10,
-                                color: this._getColorForState(card.state),
+                                color: this.getColorForState(card.state),
                                 fontWeight: '600',
                             }}
                         >
-                            {this._getTextForState(card.state)}
+                            {this.getTextForState(card.state)}
                         </Button>
 
-                        <View style={featured ? style.bottomTextArea : style.bottomTextAreaSmallCard}>
+                        <View style={featured
+                            ? style.bottomTextArea : style.bottomTextAreaSmallCard}
+                        >
                             <Text style={style.projectName}>{card.name}</Text>
                             <View style={style.teamMates}>
                                 <Image

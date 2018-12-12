@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
-import { RecommendedCards } from './RecommendedCards';
-import { MoreOptions } from './MoreOptions';
+import RecommendedCards from './RecommendedCards';
+import MoreOptions from './MoreOptions';
 
 /**
  * This is the base view for the project navigation, the individual tabs are rendered within here.

@@ -24,6 +24,8 @@ import {
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
 
+/* eslint-disable global-require */
+
 const style = StyleSheet.create({
     closeButton: {
         backgroundColor: '#212121',
@@ -253,12 +255,6 @@ class _ProjectHeader extends React.Component {
         };
     }
 
-    returnToView = () => {
-        this.props.navigation.pop();
-    }
-
-    mounted: false;
-
     componentDidMount() {
         const { project } = this.props;
         GLOBAL.GRADIENT_COUNT = 0;
@@ -273,11 +269,8 @@ class _ProjectHeader extends React.Component {
             if (!parent.mounted) {
                 return;
             }
-            let downloadProgress = 0;
-            const projectKey = `project-${project.id}`;
-            if (GLOBAL.DB.totalRequestsOutstanding2[projectKey] !== undefined) {
-                downloadProgress = Math.ceil(100 - ((GLOBAL.DB.totalRequestsOutstanding2[projectKey] / GLOBAL.DB.totalRequests[projectKey]) * 100));
-            }
+            // FIXME: calculate progress once we rebuild offline
+            const downloadProgress = 0;
             parent.setState({
                 downloadProgress,
                 hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.id}`),
@@ -289,7 +282,12 @@ class _ProjectHeader extends React.Component {
         this.mounted = false;
     }
 
-    _handlePress = () => {
+    returnToView = () => {
+        const { navigation } = this.props;
+        navigation.pop();
+    }
+
+    handlePress = () => {
         const { navigation, project } = this.props;
         if (!GLOBAL.DB.hasOpenDownloads(`project-${project.id}`)) {
             this.checkWifiMapping();
@@ -318,9 +316,11 @@ class _ProjectHeader extends React.Component {
         this.offlineModal.close();
     }
 
-    _handleLater = () => {
+    handleLater = () => {
         this.openOfflineModal();
     }
+
+    mounted: false;
 
     checkWifiMapping() {
         const { navigation, project } = this.props;
@@ -364,6 +364,7 @@ class _ProjectHeader extends React.Component {
 
     checkWifiDownload(originalTaskAmount) {
         const parent = this;
+        // eslint-disable-next-line func-names
         return function (taskAmount) {
             if (!ConnectionManager.isOnline()) {
                 Alert.alert(
@@ -422,37 +423,37 @@ class _ProjectHeader extends React.Component {
         };
     }
 
-    _handleInProgress() {
+    // eslint-disable-next-line class-methods-use-this
+    handleInProgress() {
 
     }
 
-    _handleRemoval(projectId) {
-        return function () {
-            Alert.alert(
-                'Deletion Complete',
-                `We found 0 groups in this project and deleted them.`,
-                [
-                    { text: 'Okay', onPress: () => console.log('closed') },
-                    { text: 'Close', onPress: () => console.log('closed') },
-                ],
-            );
-        };
+    // eslint-disable-next-line class-methods-use-this
+    handleRemoval() {
+        Alert.alert(
+            'Deletion Complete',
+            'We found 0 groups in this project and deleted them.',
+            [
+                { text: 'Okay', onPress: () => console.log('closed') },
+                { text: 'Close', onPress: () => console.log('closed') },
+            ],
+        );
     }
 
-    _handleProjectRemoval(projectId) {
-        return function () {
-            Alert.alert(
-                'Project Reset Complete',
-                'Your progress will still be synced! Try Now!',
-                [
-                    { text: 'Okay', onPress: () => console.log('closed') },
-                ],
-            );
-        };
+    // eslint-disable-next-line class-methods-use-this
+    handleProjectRemoval() {
+        Alert.alert(
+            'Project Reset Complete',
+            'Your progress will still be synced! Try Now!',
+            [
+                { text: 'Okay', onPress: () => console.log('closed') },
+            ],
+        );
     }
 
     render() {
         const { navigation, project } = this.props;
+        const { downloadProgress, hasOfflineGroups, isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
         chunks.forEach((chunk) => {
@@ -517,34 +518,36 @@ class _ProjectHeader extends React.Component {
                     </Button>
                     <Button
                         style={style.startButton}
-                        onPress={this._handlePress}
+                        onPress={this.handlePress}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     Map Now (
-                        {this.state.hasOfflineGroups === false ? 'requires network' : 'available offline'}
+                        {hasOfflineGroups === false ? 'requires network' : 'available offline'}
 )
                     </Button>
                     <Button
-                        style={this.state.downloadProgress === 0 || this.state.downloadProgress == 100 ? style.startButton : style.inProgressButton}
-                        onPress={this.state.downloadProgress === 0 ? this._handleLater : this._handleInProgress}
+                        style={downloadProgress === 0 || downloadProgress === 100
+                            ? style.startButton : style.inProgressButton}
+                        onPress={downloadProgress === 0
+                            ? this.handleLater : this.handleInProgress}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
-                        {this.state.downloadProgress === 0 || this.state.downloadProgress === 100 || !this.state.downloadProgress ? 'Download For Later' : `Downloading (${this.state.downloadProgress}%)`}
+                        {downloadProgress === 0 || downloadProgress === 100 || !downloadProgress ? 'Download For Later' : `Downloading (${downloadProgress}%)`}
                     </Button>
 
                     <Button
                         style={style.startButton2}
-                        onPress={this._handleProjectRemoval(`project-${project.id}`)}
+                        onPress={this.handleProjectRemoval}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     Bugs? Clear Project Data
                     </Button>
 
-                    {this.state.hasOfflineGroups === true
+                    {hasOfflineGroups
                         ? (
                             <Button
                                 style={style.startButton2}
-                                onPress={this._handleRemoval(`project-${project.id}`)}
+                                onPress={this.handleRemoval}
                                 textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                             >
                         Remove Offline Data
@@ -556,14 +559,16 @@ class _ProjectHeader extends React.Component {
                     backdropType="blur"
                     position="center"
                     ref={(r) => { this.offlineModal = r; }}
-                    isDisabled={this.state.isDisabled}
+                    isDisabled={isDisabled}
                 >
                     <Text style={style.header}>Download Options</Text>
                     <Text style={style.tutPar}>
 We will let you know when your download ends, it will be auto-deleted after
                     completion. Do not close the Mapswipe app.
                     </Text>
-                    <View style={style.tutRow}><Text style={style.tutText}>About 10 min of mapping</Text></View>
+                    <View style={style.tutRow}>
+                        <Text style={style.tutText}>About 10 min of mapping</Text>
+                    </View>
                     <Button
                         style={style.downloadButton}
                         onPress={this.checkWifiDownload(1000)}
@@ -571,7 +576,9 @@ We will let you know when your download ends, it will be auto-deleted after
                     >
                     Download 1k tiles (approx 20MB)
                     </Button>
-                    <View style={style.tutRow}><Text style={style.tutText}>About 40 min of mapping </Text></View>
+                    <View style={style.tutRow}>
+                        <Text style={style.tutText}>About 40 min of mapping </Text>
+                    </View>
                     <Button
                         style={style.downloadButton}
                         onPress={this.checkWifiDownload(4000)}
@@ -579,7 +586,9 @@ We will let you know when your download ends, it will be auto-deleted after
                     >
                     Download 4k tiles (approx 80MB)
                     </Button>
-                    <View style={style.tutRow}><Text style={style.tutText}>About 2.5 hrs of mapping</Text></View>
+                    <View style={style.tutRow}>
+                        <Text style={style.tutText}>About 2.5 hrs of mapping</Text>
+                    </View>
                     <Button
                         style={style.downloadButton}
                         onPress={this.checkWifiDownload(16000)}
@@ -607,7 +616,7 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-export const ProjectHeader = compose(
+const ProjectHeader = compose(
     firebaseConnect(() => [
     ]),
     connect(

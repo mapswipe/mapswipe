@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
@@ -12,10 +12,12 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
-import { Levels } from '../Levels';
+import Levels from '../Levels';
+import type { NavigationProp } from '../flow-types';
 
 const GLOBAL = require('../Globals');
 
+/* eslint-disable global-require */
 
 const styles = StyleSheet.create({
     container: {
@@ -122,19 +124,22 @@ const styles = StyleSheet.create({
     },
 });
 
-class _MoreOptions extends React.Component {
-    static propTypes = {
-        auth: PropTypes.object.isRequired,
-        kmTillNextLevel: PropTypes.number.isRequired,
-        level: PropTypes.number.isRequired,
-        navigation: PropTypes.object.isRequired,
-        profile: PropTypes.object.isRequired,
-        progress: PropTypes.number.isRequired,
-    }
+type MOProps = {
+    auth: Object,
+    firebase: Object,
+    kmTillNextLevel: number,
+    level: number,
+    navigation: NavigationProp,
+    profile: Object,
+    progress: number,
+}
 
+// eslint-disable-next-line react/prefer-stateless-function
+class _MoreOptions extends React.Component<MOProps> {
     render() {
         const {
             auth,
+            firebase,
             kmTillNextLevel,
             level,
             navigation,
@@ -173,7 +178,7 @@ objects
                     </Text>
                 </View>
                 <LevelProgress
-                    kmTillNextLevel={kmTillNextLevel.toFixed(0)}
+                    kmTillNextLevel={kmTillNextLevel}
                     progress={progress}
                 />
                 <View style={styles.row}>
@@ -246,7 +251,7 @@ Blog
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            this.props.firebase.logout();
+                            firebase.logout();
                             navigation.navigate('Login');
                         }}
                         style={styles.otherButton}
@@ -278,13 +283,17 @@ const enhance = compose(
     connect(mapStateToProps),
 );
 
-export const MoreOptions = enhance(_MoreOptions);
+export default enhance(_MoreOptions);
 
-class ScrollingBackground extends React.Component {
-    constructor(props) {
+type SBState = {
+    offset: number,
+};
+
+// eslint-disable-next-line react/no-multi-comp
+class ScrollingBackground extends React.Component<{}, SBState> {
+    constructor(props: {}) {
         super(props);
         this.state = { offset: 0 };
-        this.bgInterval = 0;
         this.nextOffset = 2;
     }
 
@@ -323,6 +332,10 @@ class ScrollingBackground extends React.Component {
         this.setState({ offset });
     }
 
+    bgInterval: IntervalID;
+
+    nextOffset: number;
+
     render() {
         return (
             this.backgroundImage()
@@ -343,34 +356,33 @@ const progressStyle = StyleSheet.create({
     },
 });
 
-class LevelProgress extends React.Component {
+type LPProps = {
+    kmTillNextLevel: number,
+    progress: number,
+};
 
-    static propTypes = {
-        kmTillNextLevel: PropTypes.number.isRequired,
-        progress: PropTypes.number.isRequired,
+const LevelProgress = (props: LPProps) => {
+    let { kmTillNextLevel } = props;
+    const { progress } = props;
+    if (Number.isNaN(kmTillNextLevel)) {
+        kmTillNextLevel = 0;
     }
-
-    render() {
-        let { kmTillNextLevel, progress } = this.props;
-        if (Number.isNaN(kmTillNextLevel)) {
-            kmTillNextLevel = 0;
-        }
-        const swipes = Math.ceil(kmTillNextLevel / (0.0233732728 * 6));
-        return (
-            <View style={styles.barRow}>
-                <Progress.Bar
-                    borderRadius={0}
-                    borderWidth={0}
-                    color="#0d1949"
-                    height={30}
-                    progress={Number.isNaN(progress) ? 0 : progress}
-                    unfilledColor="#bbbbbb"
-                    width={GLOBAL.SCREEN_WIDTH}
-                />
-                <Text elevation={5} style={progressStyle.text}>
-                    {`${kmTillNextLevel} square km (${swipes} swipes) until the next level`}
-                </Text>
-            </View>
-        );
-    }
-}
+    const swipes = Math.ceil(kmTillNextLevel / (0.0233732728 * 6));
+    const sqkm = kmTillNextLevel.toFixed(0);
+    return (
+        <View style={styles.barRow}>
+            <Progress.Bar
+                borderRadius={0}
+                borderWidth={0}
+                color="#0d1949"
+                height={30}
+                progress={Number.isNaN(progress) ? 0 : progress}
+                unfilledColor="#bbbbbb"
+                width={GLOBAL.SCREEN_WIDTH}
+            />
+            <Text elevation={5} style={progressStyle.text}>
+                {`${sqkm} square km (${swipes} swipes) until the next level`}
+            </Text>
+        </View>
+    );
+};

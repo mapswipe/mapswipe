@@ -8,8 +8,11 @@ export type NavigationProp = NavigationScreenProp<NavigationState>;
 export type ProjectType = {
     id: number,
     info: { api_key: string, tileserver_url: string },
+    isFeatured: bool,
     lookFor: string,
 };
+
+export type ProjectMapType = { [project_id: string]: ProjectType };
 
 export type TaskType = {
     featureId?: number,

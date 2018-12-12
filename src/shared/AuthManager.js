@@ -1,8 +1,3 @@
-import React from 'react';
-import { Platform, Dimensions } from 'react-native';
-
-import { store } from './store';
-import { authStatusAvailable } from './actions/index';
 
 class AuthManager {
     /**
@@ -25,7 +20,6 @@ class AuthManager {
 
     getUser() {
         const user = this.firebase.auth().currentUser;
-        console.log('getUser', user);
         return user;
     }
 

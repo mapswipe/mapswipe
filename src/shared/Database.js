@@ -5,8 +5,7 @@
  */
 
 import firebase from 'react-native-firebase';
-import { Levels as levels } from './Levels';
-import { store as reduxStore } from './store';
+import levels from './Levels';
 
 const AuthManager = require('./AuthManager');
 
@@ -45,13 +44,6 @@ PushNotification.configure({
      *
     requestPermissions: true,
 }); */
-
-const database = firebase.database();
-
-const projectsRef = database.ref('projects');
-const groupsRef = database.ref('groups');
-let myUserRef;
-const announcementRef = database.ref('announcement');
 
 const store = require('react-native-simple-store');
 
@@ -130,13 +122,14 @@ export default {
      */
 
     getLevelForExp(exp) {
+        let toReturn = 1;
         try {
-            var toReturn = 1;
             const parent = this;
             Object.keys(levels).forEach((level) => {
                 if (exp > levels[parent.maxLevel]) {
                     toReturn = parent.maxLevel;
-                } else if (exp > levels[level].expRequired && exp < levels[parseInt(level) + 1].expRequired) {
+                } else if (exp > levels[level].expRequired
+                    && exp < levels[parseInt(level, 10) + 1].expRequired) {
                     toReturn = level;
                 }
             });
@@ -148,11 +141,10 @@ export default {
         } catch (err) {
             console.log(err);
         }
-
         return toReturn;
     },
 
-   /**
+    /**
      * Returns the firebase timestamp
      * @returns {rf.TIMESTAMP|{[.sv]}|sf.TIMESTAMP}
      */
@@ -163,9 +155,7 @@ export default {
     /**
      * Whether we should open the popup
      */
-    openPopup(state) {
-        const parent = this;
-
+    openPopup() {
         return new Promise(((resolve, reject) => {
             // this will throw, x does not exist
 
@@ -268,7 +258,7 @@ export function getSqKmForZoomLevelPerTile(zoomLevel) {
         return 5.98280642;
     } if (zoomLevel === 13) {
         return 23.9314761;
-    } else if (zoomLevel === 12) {
+    } if (zoomLevel === 12) {
         return 95.7254037;
     }
 }

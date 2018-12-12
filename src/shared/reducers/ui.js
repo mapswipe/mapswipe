@@ -3,7 +3,7 @@ import {
     AUTH_STATUS_AVAILABLE,
     WELCOME_COMPLETED,
 } from '../actions/index';
-import { Levels } from '../Levels';
+import Levels from '../Levels';
 
 const defaultUserState = {
     kmTillNextLevel: 0,
