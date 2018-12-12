@@ -116,6 +116,11 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         }
     }
 
+    returnToView = () => {
+        const { navigation } = this.props;
+        navigation.pop();
+    }
+
     submitFootprintResult = (result, taskId) => {
         const { onSubmitFootprint } = this.props;
         const resultObject = {
@@ -181,7 +186,7 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
                     </Text>
                     <TouchableHighlight
                         style={styles.backButtonContainer}
-                        onPress={null}
+                        onPress={this.returnToView}
                     >
                         <Image
                             style={styles.backButton}
