@@ -113,7 +113,16 @@ export default class FootprintDisplay extends React.Component<Props> {
     render = () => {
         const { task } = this.props;
         const zoomLevel = 19;
-        // $FlowFixMe
+        if (task.geojson === undefined) {
+            // data is not ready yet, just show a placeholder
+            return (
+                <View style={{
+                    height: tileSize,
+                    width: tileSize,
+                }}
+                />
+            );
+        }
         const coords = task.geojson.coordinates[0];
         const center = this.getBuildingCentroid(coords);
         // get 4 tiles at zoomLevel and shift them as needed

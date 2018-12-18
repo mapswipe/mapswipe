@@ -47,14 +47,29 @@ type taskGenType = Generator<string, void, void>;
 export default class Validator extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.taskGen = this.makeNextTaskGenerator(props.group.tasks);
-        const taskGenValue = this.taskGen.next();
-        if (!taskGenValue.done) {
-            this.state = {
-                currentTaskId: taskGenValue.value,
-            };
+        this.state = {
+            currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
+        };
+    }
+
+    componentDidUpdate = (prevProps: Props) => {
+        // reset the taskId generator, as it might have been initialized on another project group
+        const { group } = this.props;
+        if (prevProps.group !== group) {
+            const currentTaskId = this.setupTaskIdGenerator(group.tasks);
+            this.setState({ currentTaskId });
         }
     }
+
+    setupTaskIdGenerator = (tasks: TaskMapType) => {
+        this.taskGen = this.makeNextTaskGenerator(tasks);
+        const taskGenValue = this.taskGen.next();
+        if (!taskGenValue.done) {
+            return taskGenValue.value;
+        }
+        return ''; // to keep flow and eslint happy
+    }
+
 
     nextTask = (result: number) => {
         const { commitCompletedGroup, submitFootprintResult } = this.props;
