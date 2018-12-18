@@ -328,37 +328,21 @@ class _ProjectHeader extends React.Component {
             // force a project type on the old ones
             project.projectType = LEGACY_TILES;
         }
-        if (ConnectionManager.isOnWifi() || !ConnectionManager.isOnline()) {
-            switch (project.projectType) {
-            case LEGACY_TILES:
-                // this is the original project type
-                navigation.push('Mapper', {
-                    project,
-                });
-                break;
-            case BUILDING_FOOTPRINTS:
-                // this is the original project type
-                navigation.push('BuildingFootprintValidator', {
-                    project,
-                });
-                break;
-            default:
-                console.log('Unsupported project', project);
-            }
-        } else {
-            Alert.alert(
-                'Warning: You are not on wifi',
-                'You can map about 8 hours per 1GB of data',
-                [
-                    { text: 'Cancel', onPress: () => console.log('canceled wifi mapping') },
-                    {
-                        text: 'Continue',
-                        onPress: () => navigation.push('Mapper', {
-                            project,
-                        }),
-                    },
-                ],
-            );
+        switch (project.projectType) {
+        case LEGACY_TILES:
+            // this is the original project type
+            navigation.push('Mapper', {
+                project,
+            });
+            break;
+        case BUILDING_FOOTPRINTS:
+            // this is the original project type
+            navigation.push('BuildingFootprintValidator', {
+                project,
+            });
+            break;
+        default:
+            console.log('Unsupported project', project);
         }
     }
 
