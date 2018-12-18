@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
@@ -178,7 +178,7 @@ class _RecommendedCards extends React.Component<Props> {
                 navigation={navigation}
             >
                 { this.renderAnnouncement() }
-                { projects.sort((a, b) => b.value.isFeatured - a.value.isFeatured)
+                { projects.sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
                     .map(project => (
                         <ProjectCard
                             navigation={navigation}

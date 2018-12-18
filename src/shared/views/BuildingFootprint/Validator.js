@@ -48,10 +48,12 @@ export default class Validator extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.taskGen = this.makeNextTaskGenerator(props.group.tasks);
-        const { value } = this.taskGen.next();
-        this.state = {
-            currentTaskId: value,
-        };
+        const taskGenValue = this.taskGen.next();
+        if (!taskGenValue.done) {
+            this.state = {
+                currentTaskId: taskGenValue.value,
+            };
+        }
     }
 
     nextTask = (result: number) => {

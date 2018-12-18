@@ -24,6 +24,8 @@ import type {
 
 const GLOBAL = require('../../Globals');
 
+/* eslint-disable global-require */
+
 const styles = StyleSheet.create({
     backButton: {
         width: 20,

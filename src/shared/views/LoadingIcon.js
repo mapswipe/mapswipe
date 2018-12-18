@@ -1,9 +1,12 @@
+// @flow
 import React from 'react';
 import {
-    Text, View, Platform, StyleSheet, Image, Dimensions, TimerMixin,
+    Text, View, Image,
 } from 'react-native';
 
 const GLOBAL = require('../Globals');
+
+/* eslint-disable global-require */
 
 const styles = {
     loadingText: {
@@ -14,37 +17,47 @@ const styles = {
     },
 };
 
-export default class LoadingComponent extends React.Component {
-    constructor(props) {
+type State = {
+    offset: number,
+};
+
+export default class LoadingComponent extends React.Component<{}, State> {
+    nextOffset: number = 2;
+
+    constructor(props: {}) {
         super(props);
         this.state = {
             offset: 0,
         };
     }
 
-    componentWillMount() {
-        this.intervals = [];
-    }
-
-    setInterval() {
-        this.intervals.push(setInterval(...arguments));
+    componentDidMount() {
+        const self = this;
+        this.interval = setInterval(self.tick, 1000 / 50);
     }
 
     componentWillUnmount() {
-        this.intervals.forEach(clearInterval);
+        clearInterval(this.interval);
     }
 
-    nextOffset: 2;
+    tick = () => {
+        let { offset } = this.state;
+        offset += this.nextOffset;
+        this.setState({ offset });
+    }
 
-    loadingImage = () => {
-        if (this.state.offset >= 0.8) {
+    interval: IntervalID;
+
+    render() {
+        const { offset } = this.state;
+        if (offset >= 0.8) {
             this.nextOffset = -0.04;
-        } else if (this.state.offset <= 0.3) {
+        } else if (offset <= 0.3) {
             this.nextOffset = 0.02;
         }
         return (
             <View style={{
-                opacity: this.state.offset,
+                opacity: offset,
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -52,24 +65,12 @@ export default class LoadingComponent extends React.Component {
                 height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
             }}
             >
-                <Image style={{ width: 100, height: 100 }} source={require('./assets/loadinganimation.gif')} />
+                <Image
+                    style={{ width: 100, height: 100 }}
+                    source={require('./assets/loadinganimation.gif')}
+                />
                 <Text style={styles.loadingText}>Loading...</Text>
             </View>
-        );
-    }
-
-    tick = () => {
-        this.setState({ offset: this.state.offset + this.nextOffset });
-    }
-
-    componentDidMount() {
-        const self = this;
-        this.setInterval(self.tick, 1000 / 50);
-    }
-
-    render() {
-        return (
-            this.loadingImage()
         );
     }
 }
