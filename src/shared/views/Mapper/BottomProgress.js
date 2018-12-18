@@ -11,7 +11,7 @@ const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     progressBarText: {
-        color: '#ffffff',
+        color: '#e8e8e8',
         borderColor: '#212121',
         fontWeight: '500',
         position: 'absolute',
