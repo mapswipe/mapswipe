@@ -22,7 +22,8 @@ const getLevelForDistance = (distance) => {
         Object.keys(Levels).forEach((level) => {
             if (distance > Levels[maxLevel]) {
                 toReturn = maxLevel;
-            } else if (distance > Levels[level].expRequired && distance < Levels[parseInt(level, 10) + 1].expRequired) {
+            } else if (distance > Levels[level].expRequired
+                && distance < Levels[parseInt(level, 10) + 1].expRequired) {
                 toReturn = level;
             }
         });
@@ -51,7 +52,7 @@ const getProgress = (distance, level) => {
     return { kmTillNextLevel, percentage };
 };
 
-export function user(state = defaultUserState, action) {
+export default function user(state = defaultUserState, action) {
     let level = 1;
     switch (action.type) {
     case WELCOME_COMPLETED:
@@ -65,7 +66,7 @@ export function user(state = defaultUserState, action) {
             loggedIn: !!action.user,
             user: action.user,
         };
-    case actionTypes.SET_PROFILE:
+    case actionTypes.SET_PROFILE: {
         const distance = action.profile ? action.profile.distance : 0;
         level = getLevelForDistance(distance);
         const { kmTillNextLevel, percentage } = getProgress(distance, level);
@@ -75,6 +76,7 @@ export function user(state = defaultUserState, action) {
             level,
             progress: percentage,
         };
+    }
     default:
         return state;
     }

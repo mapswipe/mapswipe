@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { firebaseReducer } from 'react-redux-firebase';
 import results from './results';
-import { user } from './ui';
+import user from './ui';
 
 const ui = combineReducers({
     user,
