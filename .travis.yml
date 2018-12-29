@@ -68,9 +68,6 @@ matrix:
         - bundle install
         - travis_retry gem install xcpretty cocoapods
         - travis_retry yarn install --frozen-lockfile
-      xcode_project: ios/mapswipe.xcworkspace
-      xcode_scheme: ios/mapswipeTests
       script:
         - cd ios
-        - pod install --repo-update
         - fastlane test

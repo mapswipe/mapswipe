@@ -3,6 +3,10 @@ default_platform :ios
 setup_travis
 
 platform :ios do
+  before_all do
+    cocoapods(repo_update: true)
+  end
+
   desc "Runs all the tests"
   lane :test do
     scan(scheme: "mapswipe")
