@@ -71,5 +71,5 @@ matrix:
       xcode_scheme: ios/mapswipeTests
       script:
         - cd ios
-        - pod install --repo-update --verbose
+        - pod install --repo-update
         - fastlane test
