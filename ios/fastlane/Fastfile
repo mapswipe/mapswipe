@@ -1,11 +1,8 @@
 # fastlane/Fastfile
 default_platform :ios
+setup_travis
 
 platform :ios do
-  before_all do
-    setup_circle_ci
-  end
-
   desc "Runs all the tests"
   lane :test do
     scan(scheme: "mapswipe")
