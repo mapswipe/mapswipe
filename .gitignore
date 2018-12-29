@@ -61,6 +61,8 @@ android/keystores/debug.keystore
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+*/fastlane/test_output/report.html
+*/fastlane/test_output/report.junit
 
 # Bundle artifact
 *.jsbundle

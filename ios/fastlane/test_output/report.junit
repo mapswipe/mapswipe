@@ -1,9 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<testsuites name='mapswipeUITests.xctest' tests='2' failures='0'>
-  <testsuite name='mapswipeTests' tests='1' failures='0'>
-    <testcase classname='mapswipeTests' name='testExample' time='0.001'/>
-  </testsuite>
-  <testsuite name='mapswipeUITests' tests='1' failures='0'>
-    <testcase classname='mapswipeUITests' name='testSignUpScreen' time='4.333'/>
-  </testsuite>
-</testsuites>
