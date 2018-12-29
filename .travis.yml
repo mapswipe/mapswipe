@@ -59,6 +59,7 @@ matrix:
       osx_image: xcode10.1
       node_js: false
       before_install:
+        - export FASTLANE_DISABLE_COLORS=1 // disable colors for fastlane output
         - nvm install node
         - node --version
         - travis_retry npm install -g yarn
