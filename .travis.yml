@@ -64,6 +64,7 @@ matrix:
         - travis_retry npm install -g yarn
         - yarn -version
       install:
+        - bundle install
         - travis_retry gem install xcpretty cocoapods
         - travis_retry yarn install --frozen-lockfile
       xcode_project: ios/mapswipe.xcworkspace
@@ -71,5 +72,4 @@ matrix:
       script:
         - cd ios
         - pod install --repo-update --verbose
-        - xcodebuild -scheme mapswipe -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
-        - travis_retry xctool run-tests -scheme mapswipe -sdk iphonesimulator -launch-timeout 90  ONLY_ACTIVE_ARCH=NO
+        - fastlane test

@@ -66,6 +66,16 @@
                ReferencedContainer = "container:mapswipe.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AB02778921D7E68B00F713BA"
+               BuildableName = "mapswipeUITests.xctest"
+               BlueprintName = "mapswipeUITests"
+               ReferencedContainer = "container:mapswipe.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
