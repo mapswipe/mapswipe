@@ -43,6 +43,7 @@
 		B15BEE5B9DE16769017FE3C8 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B80A323A64B3D449577DD80 /* libPods-mapswipe.a */; };
 		C9E66B42799EEB9A8D8C781F /* libPods-mapswipe-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */; };
 		EA14168951F2446643781FD2 /* libPods-mapswipeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A0E8A60355A1A570941ABE /* libPods-mapswipeTests.a */; };
+		702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8B7CB818144B286E4344D /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -371,6 +372,7 @@
 		BD0EB54425EF296572FE69B0 /* Pods-mapswipe-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOSTests/Pods-mapswipe-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		D82BBAD0C4FF4E439964417D /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		E74AD7AFE4F2093C718B1051 /* Pods-mapswipe-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOSTests/Pods-mapswipe-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C9E8B7CB818144B286E4344D /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -401,6 +403,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				B15BEE5B9DE16769017FE3C8 /* libPods-mapswipe.a in Frameworks */,
 				82DC3B46004B48A99CC5DA95 /* libRNFirebase.a in Frameworks */,
+				702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +560,7 @@
 				5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */,
 				76FDFD0E9C0E3BC32A011524 /* libPods-mapswipe-tvOSTests.a */,
 				B1A0E8A60355A1A570941ABE /* libPods-mapswipeTests.a */,
+				C9E8B7CB818144B286E4344D /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -675,6 +679,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6EB7E586CE44447B8E02EBF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -706,6 +718,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				B82A30C62BB743A193B99395 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -1170,7 +1183,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		0B71E133F524097237C2A9FA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1211,7 +1224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		2FC725822560A504FEB40C0A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1278,6 +1291,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B82A30C62BB743A193B99395 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Upload Debug Symbols to Sentry";
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 /* End PBXShellScriptBuildPhase section */
 
