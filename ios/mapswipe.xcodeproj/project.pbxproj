@@ -41,7 +41,7 @@
 		82DC3B46004B48A99CC5DA95 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 510AD77F86E44DB8A8188003 /* libRNFirebase.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AB02778D21D7E68B00F713BA /* mapswipeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB02778C21D7E68B00F713BA /* mapswipeUITests.m */; };
-		AB2393AE21C32BE9009F10CA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB23938721C32BE9009F10CA /* GoogleService-Info.plist */; };
+		AB02786021DFD50000F713BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB02785F21DFD50000F713BA /* GoogleService-Info.plist */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B15BEE5B9DE16769017FE3C8 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B80A323A64B3D449577DD80 /* libPods-mapswipe.a */; };
 		C9E66B42799EEB9A8D8C781F /* libPods-mapswipe-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */; };
@@ -378,7 +378,9 @@
 		AB02778A21D7E68B00F713BA /* mapswipeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mapswipeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB02778C21D7E68B00F713BA /* mapswipeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mapswipeUITests.m; sourceTree = "<group>"; };
 		AB02778E21D7E68B00F713BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AB23938721C32BE9009F10CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "cfg/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AB02782821DFD2AC00F713BA /* prod.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = prod.xcconfig; path = cfg/prod.xcconfig; sourceTree = "<group>"; };
+		AB02782921DFD2AC00F713BA /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = cfg/debug.xcconfig; sourceTree = "<group>"; };
+		AB02785F21DFD50000F713BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "cfg/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B1A0E8A60355A1A570941ABE /* libPods-mapswipeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD0EB54425EF296572FE69B0 /* Pods-mapswipe-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOSTests/Pods-mapswipe-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -536,7 +538,7 @@
 		13B07FAE1A68108700A75B9A /* mapswipe */ = {
 			isa = PBXGroup;
 			children = (
-				AB23938721C32BE9009F10CA /* GoogleService-Info.plist */,
+				AB02785F21DFD50000F713BA /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -649,6 +651,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AB02782921DFD2AC00F713BA /* debug.xcconfig */,
+				AB02782821DFD2AC00F713BA /* prod.xcconfig */,
 				13B07FAE1A68108700A75B9A /* mapswipe */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* mapswipeTests */,
@@ -738,7 +742,9 @@
 				0B71E133F524097237C2A9FA /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				AB02782621DFD23000F713BA /* Select GoogleService-Info.plist */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				AB02782721DFD26900F713BA /* Clean GoogleService-Info.plist */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				B82A30C62BB743A193B99395 /* Upload Debug Symbols to Sentry */,
 			);
@@ -1197,7 +1203,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				AB2393AE21C32BE9009F10CA /* GoogleService-Info.plist in Resources */,
+				AB02786021DFD50000F713BA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1346,6 +1352,42 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AB02782621DFD23000F713BA /* Select GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Select GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp \"cfg/GoogleService-Info.\"$FIREBASE_CONFIG_EXTENSION\".plist\" \"cfg/GoogleService-Info.plist\"\n";
+		};
+		AB02782721DFD26900F713BA /* Clean GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Clean GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nrm \"cfg/GoogleService-Info.plist\"\n";
 		};
 		B82A30C62BB743A193B99395 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1685,6 +1727,7 @@
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB02782921DFD2AC00F713BA /* debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1738,6 +1781,7 @@
 		};
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB02782821DFD2AC00F713BA /* prod.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

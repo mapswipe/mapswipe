@@ -64,6 +64,7 @@ matrix:
         - node --version
         - travis_retry npm install -g yarn
         - yarn -version
+        - openssl aes-256-cbc -K $encrypted_4979e3271397_key -iv $encrypted_4979e3271397_iv -in cfg/GoogleService-Info.dev.plist.enc -out cfg/GoogleService-Info.dev.plist -d
       install:
         - bundle install
         - travis_retry gem install xcpretty cocoapods
@@ -71,3 +72,11 @@ matrix:
       script:
         - cd ios
         - fastlane test
+      before_deploy: 
+        - openssl aes-256-cbc -K $encrypted_4979e3271397_key -iv $encrypted_4979e3271397_iv -in cfg/GoogleService-Info.prd.plist.enc -out cfg/GoogleService-Info.prd.plist -d
+      deploy:
+        provider: script
+        script: fastlane release
+        on:
+          branch: master
+          tags: true

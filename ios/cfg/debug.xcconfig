@@ -1,0 +1,14 @@
+//
+//  debug.xcconfig
+//  mapswipe
+//
+//  Created by Henry Huck on 04/01/2019.
+//  Copyright © 2019 Facebook. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+PRODUCT_BUNDLE_IDENTIFIER=org.reactjs.native.example.mapswipe
+FIREBASE_CONFIG_EXTENSION=dev
+
