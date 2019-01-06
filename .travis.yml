@@ -69,7 +69,6 @@ matrix:
       - openssl aes-256-cbc -K $encrypted_b20c83b1102e_key -iv $encrypted_b20c83b1102e_iv -in ios/cfg/secrets.tar.enc -out ios/cfg/secrets.tar -d
       - tar -xvf ios/cfg/secrets.tar -C ios/cfg
       install:
-      - xcrun simctl list
       - open -b com.apple.iphonesimulator
       - bundle install
       - travis_retry gem install xcpretty cocoapods
