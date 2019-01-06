@@ -60,6 +60,8 @@ matrix:
       osx_image: xcode10.1
       node_js: false
       before_install:
+      - set -o pipefail
+      - brew update
       - nvm install node
       - node --version
       - travis_retry npm install -g yarn
@@ -67,13 +69,14 @@ matrix:
       - openssl aes-256-cbc -K $encrypted_b20c83b1102e_key -iv $encrypted_b20c83b1102e_iv -in ios/cfg/secrets.tar.enc -out ios/cfg/secrets.tar -d
       - tar -xvf ios/cfg/secrets.tar -C ios/cfg
       install:
+      - xcrun simctl list
+      - open -b com.apple.iphonesimulator
       - bundle install
       - travis_retry gem install xcpretty cocoapods
       - travis_retry yarn install --frozen-lockfile
       script:
       - cd ios
-      - travis_retry open -b com.apple.iphonesimulator
-      - travis_wait fastlane test
+      - fastlane test
       - rm -f cfg/GoogleService-Info.plist
       before_deploy: 
       deploy:

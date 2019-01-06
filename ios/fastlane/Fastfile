@@ -9,6 +9,6 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    scan(scheme: "mapswipe", configuration: "Debug", clean: true, devices:['iPhone X'], xcargs: "-quiet")
+    scan(scheme: "mapswipe", configuration: "Debug", clean: true, devices:['iPhone X'])
   end
 end
