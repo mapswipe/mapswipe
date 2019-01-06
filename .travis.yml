@@ -72,8 +72,8 @@ matrix:
       - travis_retry yarn install --frozen-lockfile
       script:
       - cd ios
-      - open -a simulator
-      - fastlane test
+      - travis_retry open -b com.apple.iphonesimulator
+      - travis_wait fastlane test
       - rm -f cfg/GoogleService-Info.plist
       before_deploy: 
       deploy:
