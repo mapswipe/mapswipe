@@ -57,7 +57,7 @@ matrix:
         - yarn buildDev
     - language: objective-c
       os: osx
-      osx_image: xcode9.3
+      osx_image: xcode10.1
       node_js: false
       before_install:
       - set -o pipefail
@@ -68,7 +68,6 @@ matrix:
       - openssl aes-256-cbc -K $encrypted_b20c83b1102e_key -iv $encrypted_b20c83b1102e_iv -in ios/cfg/secrets.tar.enc -out ios/cfg/secrets.tar -d
       - tar -xvf ios/cfg/secrets.tar -C ios/cfg
       install:
-      - open -b com.apple.iphonesimulator
       - bundle install
       - travis_retry gem install xcpretty cocoapods
       - travis_retry yarn install --frozen-lockfile
