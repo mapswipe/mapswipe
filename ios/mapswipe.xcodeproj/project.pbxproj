@@ -744,7 +744,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				AB02782621DFD23000F713BA /* Select GoogleService-Info.plist */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
-				AB02782721DFD26900F713BA /* Clean GoogleService-Info.plist */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				B82A30C62BB743A193B99395 /* Upload Debug Symbols to Sentry */,
 			);
@@ -1370,24 +1369,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cp \"cfg/GoogleService-Info.\"$FIREBASE_CONFIG_EXTENSION\".plist\" \"cfg/GoogleService-Info.plist\"\n";
-		};
-		AB02782721DFD26900F713BA /* Clean GoogleService-Info.plist */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Clean GoogleService-Info.plist";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nrm \"cfg/GoogleService-Info.plist\"\n";
 		};
 		B82A30C62BB743A193B99395 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;

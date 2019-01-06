@@ -3,6 +3,7 @@ config.json*
 android/app/google-services.json
 android/app/src/dev/google-services.json
 ios/cfg/GoogleService-Info.*.plist
+ios/cfg/GoogleService-Info.plist
 ios/cfg/secrets.tar
 
 # OSX
