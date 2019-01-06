@@ -57,11 +57,10 @@ matrix:
         - yarn buildDev
     - language: objective-c
       os: osx
-      osx_image: xcode10.1
+      osx_image: xcode9.4
       node_js: false
       before_install:
       - set -o pipefail
-      - brew update
       - nvm install node
       - node --version
       - travis_retry npm install -g yarn
