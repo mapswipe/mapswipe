@@ -73,12 +73,15 @@ matrix:
       - travis_retry yarn install --frozen-lockfile
       script:
       - cd ios
+    - cp "cfg/GoogleService-Info.dev.plist" "cfg/GoogleService-Info.plist"
       - fastlane test
       - rm -f cfg/GoogleService-Info.plist
       before_deploy: 
       deploy:
         provider: script
-        script: fastlane release
+        script:
+        - cp "cfg/GoogleService-Info.prd.plist" "cfg/GoogleService-Info.plist"
+        - fastlane release
         on:
           branch: master
           tags: true
