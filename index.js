@@ -4,6 +4,7 @@ import React from 'react';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
+import './src/shared/i18n';
 import Main from './src/shared/Main';
 import { name as appName } from './app.json';
 import setupStore from './src/shared/store';

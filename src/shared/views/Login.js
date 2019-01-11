@@ -6,6 +6,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
+import { withNamespaces } from 'react-i18next';
 import {
     Text,
     View,
@@ -318,6 +319,7 @@ class _Login extends React.Component {
     }
 
     renderSignupScreen = () => {
+        const { t } = this.props;
         const {
             email,
             username,
@@ -333,7 +335,7 @@ class _Login extends React.Component {
                 }}
             >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
-                <Text style={styles.text4}>Enter your username (More than 4 characters)</Text>
+                <Text style={styles.text4}>{t('login:enterUsername')}</Text>
 
                 <TextInput
                     autoCorrect={false}
@@ -522,6 +524,7 @@ const mapStateToProps = (state, ownProps) => (
 );
 
 const enhance = compose(
+    withNamespaces('login'),
     firebaseConnect(),
     connect(
         mapStateToProps,
