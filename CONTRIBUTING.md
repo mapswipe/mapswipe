@@ -112,3 +112,12 @@ See https://docs.travis-ci.com/user/deployment/releases/. To pick the right repo
 ```
 travis setup releases --org -r mapswipe/mapswipe
 ```
+
+## Translating the app
+
+We use [transifex](https://www.transifex.com/mapswipe/mapswipe-app/) to translate the text in the app to other languages. As a developer, you need to know the following:
+
+- install the transifex client: https://docs.transifex.com/client/installing-the-client
+- if you modify text strings in the code, you need to push these updates to transifex with `tx push -s`
+- if you add new translations (in other languages than English) in the code, use `tx push -t` to upload the translations to transifex
+- to pull new translations from transifex into the code base: `tx pull -a`, and commit the updated `<lang>.json` files to git :)
