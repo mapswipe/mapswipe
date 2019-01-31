@@ -1,0 +1,6 @@
+# The Deliverfile allows you to store various App Store Connect metadata
+# For more information, check out the docs
+# https://docs.fastlane.tools/actions/deliver/
+
+app_identifier("org.missingmaps.mapswipe") # Bundle identifier for the app
+username("mapswipe.dev@gmail.com") # Your Apple Developer Portal username

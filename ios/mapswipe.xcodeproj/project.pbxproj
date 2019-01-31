@@ -381,6 +381,7 @@
 		AB02782821DFD2AC00F713BA /* prod.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = prod.xcconfig; path = cfg/prod.xcconfig; sourceTree = "<group>"; };
 		AB02782921DFD2AC00F713BA /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = cfg/debug.xcconfig; sourceTree = "<group>"; };
 		AB02785F21DFD50000F713BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "cfg/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ABDD495922036AE60025486F /* mapswipe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mapswipe.entitlements; path = mapswipe/mapswipe.entitlements; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B1A0E8A60355A1A570941ABE /* libPods-mapswipeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD0EB54425EF296572FE69B0 /* Pods-mapswipe-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOSTests/Pods-mapswipe-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -538,6 +539,7 @@
 		13B07FAE1A68108700A75B9A /* mapswipe */ = {
 			isa = PBXGroup;
 			children = (
+				ABDD495922036AE60025486F /* mapswipe.entitlements */,
 				AB02785F21DFD50000F713BA /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -824,6 +826,15 @@
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = ZEK3TUVC49;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = ZEK3TUVC49;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1242,7 +1253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		0B71E133F524097237C2A9FA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1507,8 +1518,12 @@
 			baseConfigurationReference = 7458B98F18CB2FD970F42815 /* Pods-mapswipe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = ZEK3TUVC49;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1521,8 +1536,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe;
 				PRODUCT_NAME = mapswipe;
+				PROVISIONING_PROFILE_SPECIFIER = "match Development org.missingmaps.mapswipe";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1532,7 +1548,11 @@
 			baseConfigurationReference = 1E0592B88B5096FD530933DC /* Pods-mapswipe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZEK3TUVC49;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1545,8 +1565,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe;
 				PRODUCT_NAME = mapswipe;
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

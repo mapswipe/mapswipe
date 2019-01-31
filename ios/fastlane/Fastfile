@@ -9,6 +9,7 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
+    match(type: "development", readonly: is_ci)
     scan(scheme: "mapswipe",
          configuration: "Debug",
          clean: true,
@@ -21,4 +22,18 @@ platform :ios do
          derived_data_path: "build",
          devices:['iPhone X'])   
   end
+
+  lane :release do 
+    match(type: "appstore", readonly: is_ci)
+    build_app(scheme: "mapswipe", configuration: "Release", clean: true)
+    upload_to_app_store
+    slack(message: "Successfully uploaded a new App Store build")
+  end
+
+  lane :beta do 
+    match(type: "appstore", readonly: is_ci)
+    build_app(scheme: "mapswipe", configuration: "Release", clean: true)
+    upload_to_testflight(username: "mapswipe.dev@gmail.com")
+    slack(message: "Successfully distributed a new beta build")
+  end 
 end
