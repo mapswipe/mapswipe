@@ -7,6 +7,7 @@
 import firebase from 'react-native-firebase';
 import levels from './Levels';
 
+const store = require('react-native-simple-store');
 const AuthManager = require('./AuthManager');
 
 
@@ -44,8 +45,6 @@ PushNotification.configure({
      *
     requestPermissions: true,
 }); */
-
-const store = require('react-native-simple-store');
 
 const auth = new AuthManager(firebase);
 
@@ -189,27 +188,12 @@ export default {
     isDownloading: {},
 
     /**
-     * Whether the have the group in memory already
-     * @param key
-     * @returns {boolean}
-     */
-
-    isOfflineGroup(key) {
-        for (let i = 0; i < this.offlineGroups.length; i++) {
-            if (this.offlineGroups[i] === key) {
-                console.log(`found offline group!${key}`);
-                return true;
-            }
-        }
-        return false;
-    },
-
-    /**
      * Whether the project has any offline groups
      * @param project
      * @returns {boolean}
      */
     hasOfflineGroups(project) {
+        // eslint-disable-next-line no-plusplus
         for (let i = 0; i < this.offlineGroups.length; i++) {
             if (this.offlineGroups[i].indexOf(project) !== -1) {
                 return true;
@@ -225,6 +209,7 @@ export default {
      */
 
     hasOpenDownloads(project) {
+        console.log(project);
         return false;
     },
 
@@ -261,4 +246,5 @@ export function getSqKmForZoomLevelPerTile(zoomLevel) {
     } if (zoomLevel === 12) {
         return 95.7254037;
     }
+    return 95.72;
 }

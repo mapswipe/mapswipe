@@ -74,7 +74,7 @@ const style = StyleSheet.create({
 });
 
 type OrderedProject = {
-    key: string,
+    key: number,
     value: ProjectType,
 };
 
@@ -91,14 +91,20 @@ class _RecommendedCards extends React.Component<Props> {
         GLOBAL.DB.openPopup().then(() => {
             console.log('No need to open new tut window');
         }).catch(() => {
-            parent.tutorialModal.open();
+            if (parent.tutorialModal) {
+                parent.tutorialModal.open();
+            }
         });
     }
 
     closeModal3 = () => {
-        this.tutorialModal.close();
+        if (this.tutorialModal) {
+            this.tutorialModal.close();
+        }
         GLOBAL.DB.stopPopup();
     }
+
+    tutorialModal: ?Modal;
 
     renderAnnouncement = () => {
         const { announcement, navigation } = this.props;
@@ -175,7 +181,6 @@ class _RecommendedCards extends React.Component<Props> {
             <ScrollView
                 contentContainerStyle={style.listView}
                 removeClippedSubviews
-                navigation={navigation}
             >
                 { this.renderAnnouncement() }
                 { projects.sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)

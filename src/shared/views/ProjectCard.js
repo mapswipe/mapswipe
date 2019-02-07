@@ -1,9 +1,12 @@
+// @flow
+
 import React from 'react';
 import {
     ImageBackground, Text, View, Image, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import LinearGradient from 'react-native-linear-gradient';
+import type { NavigationProp, ProjectType } from '../flow-types';
 
 const GLOBAL = require('../Globals');
 
@@ -147,33 +150,39 @@ const style = StyleSheet.create({
     },
 });
 
-export default class ProjectCard extends React.Component {
-    constructor(props) {
+type Props = {
+    card: ProjectType,
+    cardIndex: number,
+    navigation: NavigationProp,
+}
+
+type State = {
+    hasOfflineGroups: boolean,
+}
+
+export default class ProjectCard extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.id}`),
         };
     }
 
-    getColorForState(state) {
-        if (state === 0) {
-            return 'red';
-        } if (state === 1) {
-            return 'orange';
-        } if (state === 2) { // complete
-            return 'green';
+    // eslint-disable-next-line class-methods-use-this
+    getColorForState(state: number): string {
+        switch (state) {
+        case 0: return 'red';
+        case 1: return 'orange';
+        default: return 'green';
         }
     }
 
-    getTextForState(state) {
-        if (state === 2) {
-            return 'COMPLETE';
-        }
-        if (state === 1) {
-            return 'ON HOLD';
-        }
-        if (state === 0) {
-            return 'NEEDS MAPPING';
+    // eslint-disable-next-line class-methods-use-this
+    getTextForState(state: number): string {
+        switch (state) {
+        case 0: return 'NEEDS MAPPING';
+        case 1: return 'ON HOLD';
+        default: return 'COMPLETE';
         }
     }
 
@@ -190,7 +199,7 @@ export default class ProjectCard extends React.Component {
         case 1:
             gradientCountArray = [`rgba(192,43,43,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
             break;
-        case 2:
+        default:
             gradientCountArray = [`rgba(156,36,189,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
             break;
         }
@@ -206,7 +215,6 @@ export default class ProjectCard extends React.Component {
         const {
             card,
             cardIndex,
-            featured,
         } = this.props;
         const { hasOfflineGroups } = this.state;
         return (
@@ -240,7 +248,7 @@ export default class ProjectCard extends React.Component {
                             {this.getTextForState(card.state)}
                         </Button>
 
-                        <View style={featured
+                        <View style={card.isFeatured
                             ? style.bottomTextArea : style.bottomTextAreaSmallCard}
                         >
                             <Text style={style.projectName}>{card.name}</Text>

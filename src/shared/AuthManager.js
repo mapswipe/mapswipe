@@ -34,20 +34,6 @@ class AuthManager {
     }
 
     /**
-     * Log the use rout
-     */
-
-    logOut() {
-        console.log('logging out');
-
-        this.firebase.auth().signOut().then(() => {
-            console.log('Logged out');
-        }, (error) => {
-            // An error happened.
-        });
-    }
-
-    /**
      * Whether we have received a log in status from firebase
      * @returns {boolean}
      */

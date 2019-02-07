@@ -109,7 +109,6 @@ type State = {
 class _CardBody extends React.Component<Props, State> {
     constructor(props) {
         super(props);
-        this.isOfflineGroup = false;
         this.lastMode = ''; // 0 is online mapping, 1 is offline mapping
         this.currentXRenderOffset = 0; // aka the last state
         this.lastState = -1;

@@ -2,6 +2,8 @@
  * Created by wwadewitte on 7/11/16.
  */
 
+// @flow
+
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -19,6 +21,9 @@ import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import LoadingIcon from './LoadingIcon';
 import { store as reduxStore } from '../store';
+import type { NavigationProp } from '../flow-types';
+
+/* eslint-disable global-require */
 
 const GLOBAL = require('../Globals');
 
@@ -105,7 +110,22 @@ const SCREEN_SIGNUP = 0;
 const SCREEN_LOGIN = 1;
 const SCREEN_FORGOT_PASSWORD = 2;
 
-class _Login extends React.Component {
+type Props = {
+    auth: {},
+    firebase: Object,
+    navigation: NavigationProp,
+    t: (string) => string,
+}
+
+type State = {
+    username: string,
+    password: string,
+    email: string,
+    loading: boolean,
+    screen: number
+}
+
+class _Login extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
@@ -276,7 +296,7 @@ class _Login extends React.Component {
         });
     }
 
-    _handlePassReset() {
+    handlePassReset() {
         const {
             email,
         } = this.state;
@@ -362,8 +382,9 @@ class _Login extends React.Component {
                     onChangeText={text => this.setState({ password: text })}
                 />
                 <Text style={styles.text5}>
-* All the mapping you contribute to mapswipe is open and available to anyone.
-                    Your username is public, but your email and password will never be shared with anyone.
+                    * All the mapping you contribute to mapswipe is open and available to anyone.
+                    Your username is public, but your email and password will never be
+                    shared with anyone.
                 </Text>
                 <Button
                     style={styles.otherButton}
@@ -416,8 +437,9 @@ class _Login extends React.Component {
                     onChangeText={text => this.setState({ password: text })}
                 />
                 <Text style={styles.text5}>
-* All the data you contribute to mapswipe is open and available to anyone.
-                    Your username is public, but your email and password will never be shared with anyone.
+                    * All the data you contribute to mapswipe is open and available to anyone.
+                    Your username is public, but your email and password will never be
+                    shared with anyone.
                     {' '}
                 </Text>
                 <Button

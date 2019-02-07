@@ -19,10 +19,15 @@ export type NavigationProp = NavigationScreenProp<NavigationState>;
 // types related to firebase data
 
 export type ProjectType = {
+    contributors: number,
     id: number,
+    image: string,
     info: { api_key: string, tileserver_url: string },
-    isFeatured: bool,
+    isFeatured: boolean,
     lookFor: string,
+    name: string,
+    progress: number,
+    state: number,
 };
 
 export type ProjectMapType = { [project_id: string]: ProjectType };

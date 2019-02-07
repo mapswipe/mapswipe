@@ -186,7 +186,7 @@ class _Mapper extends React.Component<Props, State> {
         this.tilePopup.close();
     }
 
-    progress: ?React.Ref<typeof BottomProgress>;
+    progress: ?BottomProgress;
 
     project: ProjectType;
 

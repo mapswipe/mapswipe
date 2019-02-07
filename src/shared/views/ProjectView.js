@@ -20,6 +20,7 @@ import {
     BUILDING_FOOTPRINTS,
     LEGACY_TILES,
 } from '../constants';
+import type { NavigationProp } from '../flow-types';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
@@ -238,15 +239,26 @@ const style = StyleSheet.create({
     },
 });
 
-const ProjectView = props => (
+type Props = {
+    navigation: NavigationProp,
+}
+
+/* eslint-disable react/destructuring-assignment */
+const ProjectView = (props: Props) => (
     <ProjectHeader
         style={style.headerContainer}
         navigation={props.navigation}
         project={props.navigation.getParam('project', null)}
     />
 );
+/* eslint-enable react/destructuring-assignment */
 
-class _ProjectHeader extends React.Component {
+type HeaderProps = {
+    navigation: NavigationProp,
+    project: {},
+}
+
+class _ProjectHeader extends React.Component<HeaderProps> {
     constructor(props) {
         super(props);
         this.state = {
@@ -350,6 +362,7 @@ class _ProjectHeader extends React.Component {
         const parent = this;
         // eslint-disable-next-line func-names
         return function (taskAmount) {
+            console.log(`Starting download with ${taskAmount} tasks.`);
             if (!ConnectionManager.isOnline()) {
                 Alert.alert(
                     'Warning: You are offline',
