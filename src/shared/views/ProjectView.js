@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 
+// $FlowFixMe
 import Markdown from 'react-native-simple-markdown';
 import ConnectionManager from '../ConnectionManager';
 import {
@@ -511,8 +512,10 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     </TouchableOpacity>
                 </ImageBackground>
 
+                {/* $FlowFixMe */}
                 <View style={style.detailContainer}>
 
+                    {/* $FlowFixMe */}
                     <Markdown style={style.projectDetails}>
                         {renderQueue}
                     </Markdown>

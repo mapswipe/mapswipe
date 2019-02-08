@@ -19,6 +19,9 @@
 ; Ignore metro
 .*/node_modules/metro/.*
 
+; ignore react-native-simple-markdown which is all broken
+.*/node_modules/react-native-simple-markdown/.*
+
 [include]
 
 [libs]
