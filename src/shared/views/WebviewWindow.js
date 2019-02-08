@@ -1,3 +1,4 @@
+// @flow
 /**
  * The WebviewWindow is the component that opens when you call anything with a webview in it.
  * eg: {this.props.navigation.push('WebViewWindow', { uri: this.state.announcement.url })
@@ -9,6 +10,7 @@ import React from 'react';
 import {
     View, Image, WebView, TouchableHighlight,
 } from 'react-native';
+import type { NavigationProp } from '../flow-types';
 
 const GLOBAL = require('../Globals');
 
@@ -34,7 +36,7 @@ const styles = {
 };
 
 type Props = {
-    navigation: React.Node,
+    navigation: NavigationProp,
 };
 
 // WebviewWindow

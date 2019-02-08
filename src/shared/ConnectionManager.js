@@ -1,3 +1,4 @@
+// @flow
 import { NetInfo } from 'react-native';
 
 class ConnectionManager {
@@ -16,6 +17,8 @@ class ConnectionManager {
             handler,
         );
     }
+
+    networkState: string;
 
     /**
      * Whether the user is online or not,

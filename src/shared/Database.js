@@ -195,7 +195,7 @@ export default {
      * @param project
      * @returns {boolean}
      */
-    hasOfflineGroups(project: number): boolean {
+    hasOfflineGroups(project: string): boolean {
         // eslint-disable-next-line no-plusplus
         for (let i = 0; i < this.offlineGroups.length; i++) {
             if (this.offlineGroups[i].indexOf(project) !== -1) {
@@ -211,7 +211,7 @@ export default {
      * @returns {boolean}
      */
 
-    hasOpenDownloads(project: number): boolean {
+    hasOpenDownloads(project: string): boolean {
         console.log(project);
         return false;
     },

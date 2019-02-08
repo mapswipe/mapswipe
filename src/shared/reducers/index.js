@@ -1,3 +1,4 @@
+// @flow
 import { combineReducers } from 'redux';
 import { firebaseReducer } from 'react-redux-firebase';
 import results from './results';

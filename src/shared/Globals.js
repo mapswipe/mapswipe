@@ -1,3 +1,4 @@
+// @flow
 /**
  * @author Pim de Witte (pimdewitte.me/pimdewitte95@gmail.com). Copyright MSF UK 2016.
  *

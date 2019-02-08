@@ -168,25 +168,22 @@ class Main extends React.Component<{}, State> {
 
     checkInterval: IntervalID;
 
-    modal3: ?React.ComponentType<{}>;
+    modal3: ?Modal;
 
-    openModal3(level) {
+    openModal3(level: number) {
         this.setState({
             levelObject: GLOBAL.DB.getCustomLevelObject(level),
             level,
         });
-        // $FlowFixMe
-        this.modal3.open();
+        if (this.modal3) {
+            this.modal3.open();
+        }
     }
 
     closeModal3() {
         // $FlowFixMe
         this.modal3.close();
         GLOBAL.DB.stopPopup();
-    }
-
-    levelUp() {
-        this.openModal3();
     }
 
     render() {
