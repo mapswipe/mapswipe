@@ -4,6 +4,8 @@
  * Database is the main class for communicating with firebase and AsyncStorage.
  */
 
+// @flow
+
 import firebase from 'react-native-firebase';
 import levels from './Levels';
 
@@ -81,7 +83,7 @@ export default {
         return this.pendingLvlUp;
     },
 
-    setPendingLevelUp(val) {
+    setPendingLevelUp(val: number) {
         this.pendingLvlUp = val;
     },
 
@@ -110,7 +112,7 @@ export default {
      * @param customLevel
      * @returns {*}
      */
-    getCustomLevelObject(customLevel) {
+    getCustomLevelObject(customLevel: number): {} {
         return levels[customLevel];
     },
 
@@ -120,7 +122,7 @@ export default {
      * @returns {number}
      */
 
-    getLevelForExp(exp) {
+    getLevelForExp(exp: number): number {
         let toReturn = 1;
         try {
             const parent = this;
@@ -148,6 +150,7 @@ export default {
      * @returns {rf.TIMESTAMP|{[.sv]}|sf.TIMESTAMP}
      */
     getTimestamp() {
+        // $FlowFixMe
         return firebase.database.ServerValue.TIMESTAMP;
     },
 
@@ -192,7 +195,7 @@ export default {
      * @param project
      * @returns {boolean}
      */
-    hasOfflineGroups(project) {
+    hasOfflineGroups(project: number): boolean {
         // eslint-disable-next-line no-plusplus
         for (let i = 0; i < this.offlineGroups.length; i++) {
             if (this.offlineGroups[i].indexOf(project) !== -1) {
@@ -208,7 +211,7 @@ export default {
      * @returns {boolean}
      */
 
-    hasOpenDownloads(project) {
+    hasOpenDownloads(project: number): boolean {
         console.log(project);
         return false;
     },
@@ -220,7 +223,7 @@ export default {
  * @param zoomLevel
  * @returns {number}
  */
-export function getSqKmForZoomLevelPerTile(zoomLevel) {
+export function getSqKmForZoomLevelPerTile(zoomLevel: number): number {
     if (zoomLevel === 23) {
         return 2.29172838e-5;
     } if (zoomLevel === 22) {

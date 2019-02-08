@@ -1,3 +1,4 @@
+// @flow
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
 
 type CardToPushType = {
     cardX: number,
-    tileRows: Array<>,
+    tileRows: Array<Tile>,
     validTiles: number,
 };
 
@@ -70,7 +71,7 @@ const IndividualCard = (props: ICProps) => {
 
 type TRProps = {
     mapper: Object,
-    row: Array<>,
+    row: Array<Tile>,
 };
 
 const TileRow = (props: TRProps) => {
@@ -102,7 +103,7 @@ type Props = {
 };
 
 type State = {
-    cardsInView: Array<>,
+    cardsInView: Array<CardToPushType>,
     marginXOffset: number,
 };
 
@@ -125,7 +126,9 @@ class _CardBody extends React.Component<Props, State> {
             if (isLoaded(group) && !isEmpty(group)) {
                 this.generateCards();
                 mapper.progress.updateProgress(0);
-                this.scrollView.scrollTo({ x: 0, animated: false });
+                if (this.scrollView) {
+                    this.scrollView.scrollTo({ x: 0, animated: false });
+                }
             }
         }
     }
@@ -206,6 +209,16 @@ class _CardBody extends React.Component<Props, State> {
         mapper.progress.updateProgress(progress);
     }
 
+    currentXRenderOffset: number;
+
+    lastMode: string;
+
+    lastState: number;
+
+    scrollView: ?ScrollView;
+
+    showingLoader: boolean;
+
     render() {
         const rows = [];
         const { cardsInView, marginXOffset } = this.state;
@@ -224,7 +237,7 @@ class _CardBody extends React.Component<Props, State> {
             });
 
             rows.push(<LoadMoreCard
-                key={lastCard.id / 2}
+                key={lastCard ? lastCard.id / 2 : 0}
                 getContributions={this.getContributions}
                 group={group[Object.keys(group)[0]]}
                 navigation={navigation}
@@ -239,7 +252,7 @@ class _CardBody extends React.Component<Props, State> {
         return (
             <ScrollView
                 onScroll={this.handleScroll}
-                automaticallyAdjustInsets={false}
+                automaticallyAdjustContentInsets={false}
                 horizontal
                 ref={(r) => { this.scrollView = r; }}
                 pagingEnabled

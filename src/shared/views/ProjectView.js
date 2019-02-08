@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -20,7 +21,7 @@ import {
     BUILDING_FOOTPRINTS,
     LEGACY_TILES,
 } from '../constants';
-import type { NavigationProp } from '../flow-types';
+import type { NavigationProp, ProjectType } from '../flow-types';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
@@ -255,15 +256,22 @@ const ProjectView = (props: Props) => (
 
 type HeaderProps = {
     navigation: NavigationProp,
-    project: {},
+    project: ProjectType,
 }
 
-class _ProjectHeader extends React.Component<HeaderProps> {
+type HeaderState = {
+    downloadProgress: number,
+    hasOfflineGroups: boolean,
+    isDisabled: boolean,
+}
+
+class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     constructor(props) {
         super(props);
         this.state = {
             downloadProgress: 0,
             hasOfflineGroups: false,
+            isDisabled: true,
         };
     }
 
@@ -321,18 +329,24 @@ class _ProjectHeader extends React.Component<HeaderProps> {
     }
 
     openOfflineModal = () => {
-        this.offlineModal.open();
+        if (this.offlineModal) {
+            this.offlineModal.open();
+        }
     }
 
     closeOfflineModal = () => {
-        this.offlineModal.close();
+        if (this.offlineModal) {
+            this.offlineModal.close();
+        }
     }
 
     handleLater = () => {
         this.openOfflineModal();
     }
 
-    mounted: false;
+    mounted: boolean;
+
+    offlineModal: ?Modal;
 
     checkWifiMapping() {
         const { navigation, project } = this.props;

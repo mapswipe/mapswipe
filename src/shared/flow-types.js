@@ -26,6 +26,8 @@ export type ProjectType = {
     isFeatured: boolean,
     lookFor: string,
     name: string,
+    projectDetails: string,
+    projectType: ?number,
     progress: number,
     state: number,
 };
@@ -46,6 +48,10 @@ export type GroupType = {
     projectId: number,
     tasks: TaskMapType,
     zoomLevel: number,
+    xMax: number;
+    xMin: number;
+    yMax: number;
+    yMin: number;
 }
 
 export type GroupMapType = { [group_id: string]: GroupType };
