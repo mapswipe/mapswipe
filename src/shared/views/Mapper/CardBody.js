@@ -6,12 +6,13 @@ import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     ScrollView,
     StyleSheet,
-    View,
 } from 'react-native';
+
 import { getSqKmForZoomLevelPerTile } from '../../Database';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
-import { EmptyTile, Tile } from './Tile';
+import { Tile } from './Tile';
+import IndividualCard from './IndividualCard';
 import type {
     GroupMapType,
     NavigationProp,
@@ -20,21 +21,6 @@ import type {
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
-    slide: {
-        width: (GLOBAL.SCREEN_WIDTH),
-        height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
-        flex: 1,
-        borderWidth: 0,
-        backgroundColor: '#212121',
-        justifyContent: 'flex-start',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-    },
-    tileRow: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        flex: 1,
-    },
     wrapper: {
         flex: 1,
         backgroundColor: '#0d1949',
@@ -48,51 +34,6 @@ type CardToPushType = {
     cardX: number,
     tileRows: Array<Tile>,
     validTiles: number,
-};
-
-type ICProps = {
-    card: Object,
-    mapper: Object,
-};
-
-const IndividualCard = (props: ICProps) => {
-    const rows = [];
-    const { card, mapper } = props;
-    card.tileRows.forEach((row) => {
-        rows.unshift(<TileRow key={`${row.cardXStart}:${row.rowYStart}`} mapper={mapper} row={row.tiles} />);
-    });
-
-    return (
-        <View style={styles.slide}>
-            {rows}
-        </View>
-    );
-};
-
-type TRProps = {
-    mapper: Object,
-    row: Array<Tile>,
-};
-
-const TileRow = (props: TRProps) => {
-    const rows = [];
-    const { mapper, row } = props;
-    row.forEach((tile) => {
-        // inserts empty tiles so that they are always rendered at
-        // the same X coordinate on the grid.
-        if (tile !== undefined) {
-            if (tile === 'emptytile') {
-                rows.push(<EmptyTile key={Math.random()} />);
-            } else {
-                rows.push(<Tile tile={tile} key={tile.id} mapper={mapper} />);
-            }
-        }
-    });
-    return (
-        <View style={styles.tileRow}>
-            {rows}
-        </View>
-    );
 };
 
 type Props = {
