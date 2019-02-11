@@ -1,9 +1,12 @@
+// @flow
 import { actionTypes } from 'react-redux-firebase';
 import {
     AUTH_STATUS_AVAILABLE,
     WELCOME_COMPLETED,
 } from '../actions/index';
 import Levels from '../Levels';
+import type { Action } from '../actions';
+import type { UIState } from '../flow-types';
 
 const defaultUserState = {
     kmTillNextLevel: 0,
@@ -52,7 +55,7 @@ const getProgress = (distance, level) => {
     return { kmTillNextLevel, percentage };
 };
 
-export default function user(state = defaultUserState, action) {
+export default function user(state: UIState = defaultUserState, action: Action): UIState {
     let level = 1;
     switch (action.type) {
     case WELCOME_COMPLETED:
@@ -67,6 +70,7 @@ export default function user(state = defaultUserState, action) {
             user: action.user,
         };
     case actionTypes.SET_PROFILE: {
+        // $FlowFixMe
         const distance = action.profile ? action.profile.distance : 0;
         level = getLevelForDistance(distance);
         const { kmTillNextLevel, percentage } = getProgress(distance, level);

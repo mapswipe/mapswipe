@@ -57,6 +57,20 @@ export type GroupType = {
 export type GroupMapType = { [group_id: string]: GroupType };
 
 export type ResultType = {
+    id: number,
+    result: number,
 }
 
 export type ResultMapType = { [string]: ResultType };
+
+// redux types
+
+export type UIState = {
+    welcomeCompleted: boolean,
+};
+
+export type State = {
+    +firebase?: {},
+    +results?: ResultMapType,
+    +ui?: UIState,
+};

@@ -4,16 +4,13 @@ import {
     SUBMIT_BUILDING_FOOTPRINT,
     TOGGLE_MAP_TILE,
 } from '../actions/index';
+import type { Action } from '../actions/index';
+import type { ResultMapType } from '../flow-types';
 
 const defaultResultsState = {
 };
 
-type Action =
-    | { type: COMMIT_GROUP}
-    | { type: SUBMIT_BUILDING_FOOTPRINT, resultObject: { id: number }}
-    | { type: TOGGLE_MAP_TILE, tileInfo: { id: number }};
-
-export default function results(state: {} = defaultResultsState, action: Action) {
+export default function results(state: ResultMapType = defaultResultsState, action: Action) {
     switch (action.type) {
     case TOGGLE_MAP_TILE: {
         // update the tile's state

@@ -1,3 +1,4 @@
+// @flow
 
 class AuthManager {
     /**
@@ -5,13 +6,17 @@ class AuthManager {
      * @param firebase  the firebase connection
      */
 
-    constructor(firebase) {
+    constructor(firebase: Object) {
         this.firebase = firebase;
         this.hasReceivedLoginStatus = false;
 
         // get current auth object from the store
         // if no auth object found, or the current auth object is invalid, we will request a new one
     }
+
+    firebase: Object;
+
+    hasReceivedLoginStatus: boolean;
 
     /**
      * Gets the current user object the user is logged in as
@@ -29,7 +34,6 @@ class AuthManager {
      */
     isLoggedIn() {
         const user = this.firebase.auth().currentUser;
-        console.log(`user logged in said: ${user != null}`);
         return user != null;
     }
 
