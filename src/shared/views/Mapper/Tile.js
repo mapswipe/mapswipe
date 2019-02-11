@@ -42,30 +42,29 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: 'rgba(255,255,255,0.2)',
     },
+    tileOverlay: {
+        height: tileHeight,
+        width: tileWidth,
+    },
 });
 
 type Props = {
     tile: Object,
     mapper: Object,
     onToggleTile: TaskType => void,
+    results: TaskType,
 };
 
-type State = {
-    tileOverlay: Object,
-};
-
-export class _Tile extends React.Component<Props, State> {
+export class _Tile extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.tileStatus = 0;
         this.lastReportedStatus = -1;
-        this.state = {
-            tileOverlay: {
-                backgroundColor: this.getEdgeColor(),
-                height: tileHeight,
-                width: tileWidth,
-            },
-        };
+    }
+
+    shouldComponentUpdate(nextProps: Props) {
+        const { results, tile } = this.props;
+        return (results[tile.id] !== nextProps.results[tile.id]);
     }
 
     getEdgeColor = () => {
@@ -89,20 +88,26 @@ export class _Tile extends React.Component<Props, State> {
     }
 
     onPressButton = () => {
-        const { mapper } = this.props;
+        const {
+            mapper,
+            onToggleTile,
+            results,
+            tile,
+        } = this.props;
         mapper.closeTilePopup();
-        this.tileStatus = this.tileStatus + 1;
-        if (this.tileStatus > 3) {
-            this.tileStatus = 0;
-        }
-        this.setState({
-            tileOverlay: {
-                backgroundColor: this.getEdgeColor(),
-                height: tileHeight,
-                width: tileWidth,
-            },
-        });
-        this.checkToReport();
+        let tileStatus = results[tile.id] ? results[tile.id].result : 0;
+        tileStatus = (tileStatus + 1) % 4;
+        const task = {
+            id: tile.id,
+            result: tileStatus,
+            projectId: tile.projectId,
+            wkt: tile.wkt,
+            item: mapper.project.lookFor,
+            device: DeviceInfo.getUniqueID(),
+            user: GLOBAL.DB.getAuth().getUser().uid,
+            timestamp: GLOBAL.DB.getTimestamp(),
+        };
+        onToggleTile(task);
     }
 
     onLongPress = () => {
@@ -132,24 +137,6 @@ export class _Tile extends React.Component<Props, State> {
         return texts[random];
     }
 
-    checkToReport = () => {
-        const { mapper, onToggleTile, tile } = this.props;
-        if (this.tileStatus !== this.lastReportedStatus) {
-            this.lastReportedStatus = this.tileStatus;
-            const task = {
-                id: tile.id,
-                result: this.tileStatus,
-                projectId: tile.projectId,
-                wkt: tile.wkt,
-                item: mapper.project.lookFor,
-                device: DeviceInfo.getUniqueID(),
-                user: GLOBAL.DB.getAuth().getUser().uid,
-                timestamp: GLOBAL.DB.getTimestamp(),
-            };
-            onToggleTile(task);
-        }
-    }
-
     getImgSource = () => {
         const { tile } = this.props;
         return { uri: tile.url };
@@ -175,12 +162,13 @@ export class _Tile extends React.Component<Props, State> {
     lastReportedStatus: number;
 
     render() {
-        const { tile } = this.props;
-        const { tileOverlay } = this.state;
+        const { results, tile } = this.props;
+        const tileStatus = results[tile.id] ? results[tile.id].result : 0;
+        const overlayColor = this.getEdgeColor(tileStatus);
         const animatedRows = [];
         const showAnim = Math.floor(Math.random() * 5);
 
-        if (this.tileStatus === 1 && showAnim === 1) {
+        if (tileStatus > 1 && showAnim === 1) {
             animatedRows.push(
                 <Animatable.Text
                     key={`anim-${tile.id}`}
@@ -204,7 +192,7 @@ export class _Tile extends React.Component<Props, State> {
                     key={`touch-${tile.id}`}
                     source={imageSource}
                 >
-                    <View style={tileOverlay} key={`view-${tile.id}`}>
+                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${tile.id}`}>
                         {animatedRows}
                     </View>
                 </ImageBackground>
@@ -218,6 +206,7 @@ const mapStateToProps = (state, ownProps) => (
         group: state.firebase.data.group,
         navigation: ownProps.navigation,
         projectId: ownProps.projectId,
+        results: state.results,
     }
 );
 
