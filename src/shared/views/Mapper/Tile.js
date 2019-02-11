@@ -67,24 +67,14 @@ export class _Tile extends React.Component<Props> {
         return (results[tile.id] !== nextProps.results[tile.id]);
     }
 
-    getEdgeColor = () => {
-        switch (this.tileStatus) {
-        case 0: {
-            return 'rgba(255,255,255,0.0)';
-        }
-        case 1: {
-            return 'rgba(36, 219, 26, 0.2)';
-        }
-        case 2: {
-            return 'rgba(237, 209, 28, 0.2)';
-        }
-        case 3: {
-            return 'rgba(230, 28, 28, 0.2)';
-        }
-        default: {
-            return '#212121';
-        }
-        }
+    getTileColor = (status: number) => {
+        const colors = [
+            'rgba(255,255,255,0.0)',
+            'rgba(36, 219, 26, 0.2)',
+            'rgba(237, 209, 28, 0.2)',
+            'rgba(230, 28, 28, 0.2)',
+        ];
+        return colors[status];
     }
 
     onPressButton = () => {
@@ -164,7 +154,7 @@ export class _Tile extends React.Component<Props> {
     render() {
         const { results, tile } = this.props;
         const tileStatus = results[tile.id] ? results[tile.id].result : 0;
-        const overlayColor = this.getEdgeColor(tileStatus);
+        const overlayColor = this.getTileColor(tileStatus);
         const animatedRows = [];
         const showAnim = Math.floor(Math.random() * 5);
 
