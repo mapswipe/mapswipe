@@ -1,12 +1,16 @@
 // @flow
 
 import * as React from 'react';
+import { connect } from 'react-redux';
 import {
     PanResponder,
     StyleSheet,
     Text,
     View,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import { toggleMapTile } from '../../actions/index';
+import type { TaskType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
 
 const GLOBAL = require('../../Globals');
@@ -68,6 +72,7 @@ const TileRow = (props: TRProps) => {
 type ICProps = {
     card: Object,
     mapper: Object,
+    onToggleTile: TaskType => void,
 };
 
 type ICState = {
@@ -78,7 +83,7 @@ type PressEvent = {}; // FIXME: figure out the proper type
 type PanResponderInstance = PanResponder.PanResponderInstance;
 type GestureState = PanResponder.GestureState;
 
-export default class IndividualCard extends React.Component<ICProps, ICState> {
+class _IndividualCard extends React.Component<ICProps, ICState> {
     constructor(props: ICProps) {
         super(props);
         // vertical swipe handlers
@@ -133,8 +138,25 @@ export default class IndividualCard extends React.Component<ICProps, ICState> {
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
+        const { card, mapper, onToggleTile } = this.props;
         console.log('ResponderEnd', gestureState.dx, gestureState.dy);
         this.setState({ showSwipeHelp: false });
+        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 1.5) {
+            card.tileRows.forEach((row) => {
+                row.tiles.forEach((tile) => {
+                    onToggleTile({
+                        id: tile.id,
+                        result: 3,
+                        projectId: tile.projectId,
+                        wkt: tile.wkt,
+                        item: mapper.project.lookFor,
+                        device: DeviceInfo.getUniqueID(),
+                        user: GLOBAL.DB.getAuth().getUser().uid,
+                        timestamp: GLOBAL.DB.getTimestamp(),
+                    });
+                });
+            });
+        }
     };
 
     handlePanResponderTerminate = (event: PressEvent, gestureState: GestureState) => {
@@ -172,3 +194,24 @@ export default class IndividualCard extends React.Component<ICProps, ICState> {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        card: ownProps.card,
+        mapper: ownProps.mapper,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        onToggleTile: (tileInfo) => {
+            dispatch(toggleMapTile(tileInfo));
+        },
+    }
+);
+
+// IndividualCard
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(_IndividualCard);
