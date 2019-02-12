@@ -4,6 +4,7 @@ import * as React from 'react';
 import {
     PanResponder,
     StyleSheet,
+    Text,
     View,
 } from 'react-native';
 import { EmptyTile, Tile } from './Tile';
@@ -20,6 +21,15 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         flexDirection: 'column',
         alignItems: 'flex-start',
+    },
+    swipeHelp: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: '700',
+        position: 'absolute',
+        top: 50,
+        left: 30,
+        zIndex: 100,
     },
     tileRow: {
         flexDirection: 'row',
@@ -113,28 +123,40 @@ export default class IndividualCard extends React.Component<ICProps, ICState> {
     ) => {
         // OK, we've been given this swipe to handle, show feedback to the user
         console.log('Grant', gestureState.numberActiveTouches);
+        this.setState({ showSwipeHelp: true });
     };
 
     handlePanResponderMove = (event: PressEvent, gestureState: GestureState) => {
         // called on each frame while the user's finger is swiping
-        console.log('ResponderMove', gestureState.dx, gestureState.dy, gestureState.numberActiveTouches);
+        console.log('ResponderMove', gestureState.dx, gestureState.dy);
     };
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
-        console.log('ResponderEnd', gestureState.dx, gestureState.dy, gestureState.numberActiveTouches);
+        console.log('ResponderEnd', gestureState.dx, gestureState.dy);
+        this.setState({ showSwipeHelp: false });
     };
 
     handlePanResponderTerminate = (event: PressEvent, gestureState: GestureState) => {
         // swipe cancelled, eg: some other component took over (ScrollView?)
         console.log('ResponderTerminate', gestureState);
+        this.setState({ showSwipeHelp: false });
     };
 
     panResponder: PanResponderInstance;
 
+    swipeThreshold: number;
+
+    renderSwipeHelp = () => (
+        <Text style={styles.swipeHelp}>
+            Swipe down to mark all 6 tiles RED
+        </Text>
+    )
+
     render() {
         const rows = [];
         const { card, mapper } = this.props;
+        const { showSwipeHelp } = this.state;
         card.tileRows.forEach((row) => {
             rows.unshift(<TileRow key={`${row.cardXStart}:${row.rowYStart}`} mapper={mapper} row={row.tiles} />);
         });
@@ -144,6 +166,7 @@ export default class IndividualCard extends React.Component<ICProps, ICState> {
                 style={styles.slide}
                 {...this.panResponder.panHandlers}
             >
+                { showSwipeHelp && this.renderSwipeHelp() }
                 {rows}
             </View>
         );
