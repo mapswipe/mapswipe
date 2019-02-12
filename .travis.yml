@@ -46,6 +46,9 @@ matrix:
           - extra-google-google_play_services
           - extra-google-m2repository
           - addon-google_apis-google-27
+      before_script:
+        - yarn lint
+        - yarn flow
       script:
         - yarn buildDev
     - language: objective-c
