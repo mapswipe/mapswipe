@@ -100,14 +100,14 @@ export class _Tile extends React.Component<Props> {
         onToggleTile(task);
     }
 
+    onDismissZoom = () => {
+        const { mapper } = this.props;
+        mapper.closeTilePopup();
+    }
+
     onLongPress = () => {
         const { mapper } = this.props;
         mapper.openTilePopup(this.zoomRender());
-    }
-
-    onLongPressOut = () => {
-        const { mapper } = this.props;
-        mapper.closeTilePopup();
     }
 
     /**
@@ -135,15 +135,17 @@ export class _Tile extends React.Component<Props> {
     zoomRender = () => {
         const imageSource = this.getImgSource();
         return (
-            <Image
-                style={{
-                    height: 300,
-                    width: 300,
-                    borderWidth: 0.5,
-                    borderColor: 'rgba(255,255,255,0.2)',
-                }}
-                source={imageSource}
-            />
+            <TouchableHighlight onPress={this.onDismissZoom}>
+                <ImageBackground
+                    style={{
+                        height: 300,
+                        width: 300,
+                        borderWidth: 0.5,
+                        borderColor: 'rgba(255,255,255,0.2)',
+                    }}
+                    source={imageSource}
+                />
+            </TouchableHighlight>
         );
     }
 
@@ -175,7 +177,6 @@ export class _Tile extends React.Component<Props> {
             <TouchableHighlight
                 onPress={this.onPressButton}
                 onLongPress={this.onLongPress}
-                onPressOut={this.onLongPressOut}
             >
                 <ImageBackground
                     style={styles.tileStyle}
