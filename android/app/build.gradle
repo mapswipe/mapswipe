@@ -81,7 +81,9 @@ project.ext.sentryCli = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
+    apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+}
 
 // generate apk version numbers from package.json
 // see https://medium.com/@andr3wjack/versioning-react-native-apps-407469707661
@@ -192,7 +194,7 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-sentry')
+    implementation project(':react-native-sentry')
     implementation project(':react-native-firebase')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-device-info')
