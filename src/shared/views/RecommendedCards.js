@@ -162,7 +162,8 @@ class _RecommendedCards extends React.Component<Props> {
                 >
                     No thanks
                 </Button>
-            </Modal>);
+            </Modal>
+        );
     }
 
     render() {

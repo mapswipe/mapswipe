@@ -81,6 +81,9 @@ project.ext.sentryCli = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+
+// prevent sentry upload of sourcemaps in debug build
+// https://github.com/getsentry/react-native-sentry/issues/539#issuecomment-461972163
 if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
     apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 }
