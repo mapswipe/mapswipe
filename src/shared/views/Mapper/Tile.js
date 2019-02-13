@@ -7,13 +7,12 @@ import {
     ImageBackground,
     View,
     StyleSheet,
-    Image,
     TouchableHighlight,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import { toggleMapTile } from '../../actions/index';
-import type { TaskType } from '../../flow-types';
+import type { Mapper, TaskType } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     tile: Object,
-    mapper: Object,
+    mapper: Mapper,
     onToggleTile: TaskType => void,
     results: TaskType,
 };

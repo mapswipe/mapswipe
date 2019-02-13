@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { toggleMapTile } from '../../actions/index';
-import type { TaskType } from '../../flow-types';
+import type { Mapper, TaskType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
 
 const GLOBAL = require('../../Globals');
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 type TRProps = {
-    mapper: Object,
+    mapper: Mapper,
     row: Array<Tile>,
 };
 
@@ -71,7 +71,7 @@ const TileRow = (props: TRProps) => {
 
 type ICProps = {
     card: Object,
-    mapper: Object,
+    mapper: Mapper,
     onToggleTile: TaskType => void,
 };
 

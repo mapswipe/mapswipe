@@ -1,6 +1,7 @@
 // @flow
 // type definitions. This should be safe to import everywhere
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
+import BottomProgress from './views/Mapper/BottomProgress';
 
 // geographic types
 
@@ -62,6 +63,15 @@ export type ResultType = {
 }
 
 export type ResultMapType = { [string]: ResultType };
+
+// internal app types
+
+export type Mapper = {
+    closeTilePopup: () => void,
+    openTilePopup: (any) => void,
+    progress: BottomProgress,
+    project: ProjectType,
+}
 
 // redux types
 
