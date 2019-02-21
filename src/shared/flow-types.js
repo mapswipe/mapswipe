@@ -23,7 +23,7 @@ export type ProjectType = {
     contributors: number,
     id: number,
     image: string,
-    info: { api_key: string, tileserver_url: string },
+    info: { apiKey: string, tileServerUrl: string },
     isFeatured: boolean,
     lookFor: string,
     name: string,
