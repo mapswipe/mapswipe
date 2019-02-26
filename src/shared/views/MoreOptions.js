@@ -147,8 +147,10 @@ class _MoreOptions extends React.Component<MOProps> {
             progress,
         } = this.props;
         const levelObject = Levels[level];
-        const contributions = isLoaded(profile) ? profile.contributions : 0;
-        const distance = isLoaded(profile) ? profile.distance : 0;
+        const contributions = isLoaded(profile)
+            && Object.prototype.hasOwnProperty.call(profile, 'contributions') ? profile.contributions : 0;
+        const distance = isLoaded(profile)
+            && Object.prototype.hasOwnProperty.call(profile, 'distance') ? profile.distance : 0;
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <ScrollingBackground />
