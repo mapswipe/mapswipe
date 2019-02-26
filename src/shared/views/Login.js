@@ -190,7 +190,7 @@ class _Login extends React.Component<Props, State> {
             loading: true,
         });
 
-        firebase.createUser({ email, password }, { username, email })
+        firebase.createUser({ email, password }, { username })
             .then(() => {
                 // firebase doesn't record the username by default
                 firebase.updateAuth({
