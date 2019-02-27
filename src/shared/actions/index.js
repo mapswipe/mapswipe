@@ -52,7 +52,7 @@ export function submitFootprint(resultObject: ResultType) {
     return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
 }
 
-type GroupInfo = {
+export type GroupInfo = {
     addedDistance: number,
     groupId: number,
     projectId: number,

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
-import { commitGroup } from '../actions/index';
+import { commitGroup, type GroupInfo } from '../actions/index';
 import type { GroupType, NavigationProp, ResultMapType } from '../flow-types';
 
 const GLOBAL = require('../Globals');
@@ -45,7 +45,7 @@ type Props = {
     getContributions: (GroupType, ResultMapType) => Object,
     group: GroupType,
     navigation: NavigationProp,
-    onCommitGroup: Object => void,
+    onCommitGroup: GroupInfo => void,
     projectId: number,
     results: ResultMapType,
     toNextGroup: void => void,
