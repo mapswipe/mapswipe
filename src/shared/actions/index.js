@@ -11,6 +11,8 @@ export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
 export const COMMIT_GROUP = 'COMMIT_GROUP';
 export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
 export const COMMIT_GROUP_SUCCESS = 'COMMIT_GROUP_SUCCESS';
+export const COMMIT_TASK_FAILED = 'COMMIT_TASK_FAILED';
+export const COMMIT_TASK_SUCCESS = 'COMMIT_TASK_SUCCESS';
 
 type CompleteWelcome = { type: typeof WELCOME_COMPLETED };
 export function completeWelcome(): CompleteWelcome {
@@ -36,6 +38,16 @@ export function commitGroupFailed(taskId: string, error: {}) {
     return { type: COMMIT_GROUP_FAILED, taskId, error };
 }
 
+type CommitTaskSuccess = { type: typeof COMMIT_TASK_SUCCESS, taskId: number };
+export function commitTaskSuccess(taskId: string) {
+    return { type: COMMIT_TASK_SUCCESS, taskId };
+}
+
+type CommitTaskFailed = { type: typeof COMMIT_TASK_FAILED, taskId: number };
+export function commitTaskFailed(taskId: string, error: {}) {
+    return { type: COMMIT_TASK_FAILED, taskId, error };
+}
+
 export function submitFootprint(resultObject: ResultType) {
     return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
 }
@@ -54,6 +66,8 @@ export type Action =
     | actionTypes.SET_PROFILE
     | AuthStatusAvailable
     | CommitGroup
+    | CommitTaskSuccess
+    | CommitTaskFailed
     | CompleteWelcome
     | ToggleMapTile
 
@@ -71,8 +85,8 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         const userId = firebase.auth().currentUser.uid;
         Object.keys(groupInfo.tasks).forEach(taskId => firebase
             .set(`results/${taskId}/${userId}/`, { data: groupInfo.tasks[taskId] })
-            .then(() => dispatch(commitGroupSuccess(taskId)))
-            .catch(error => dispatch(commitGroupFailed(taskId, error))));
+            .then(() => dispatch(commitTaskSuccess(taskId)))
+            .catch(error => dispatch(commitTaskFailed(taskId, error))));
         // increase the completion count on the group so we know how many users
         // have swiped through it
         // FIXME: chain all the promises above so that we can throw an action

@@ -1,6 +1,6 @@
 // @flow
 import {
-    COMMIT_GROUP,
+    COMMIT_TASK_SUCCESS,
     SUBMIT_BUILDING_FOOTPRINT,
     TOGGLE_MAP_TILE,
 } from '../actions/index';
@@ -29,9 +29,13 @@ export default function results(state: ResultMapType = defaultResultsState, acti
             [resultObject.id]: resultObject,
         };
     }
-    case COMMIT_GROUP:
-        // results have been copied to firebase, clear redux state now
-        return state;
+    case COMMIT_TASK_SUCCESS: {
+        const { taskId } = action;
+        // remove the task from state once uploaded
+        return Object.assign({}, ...Object.keys(state)
+            .filter(id => id !== taskId)
+            .map(id => ({ [id]: state[id] })));
+    }
     default:
         return state;
     }
