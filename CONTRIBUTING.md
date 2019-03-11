@@ -1,4 +1,5 @@
 # Contributing
+
 We want to invite the vast community of developers to contribute to our mission and improve MapSwipe.
 
 ## Contributions
@@ -31,6 +32,7 @@ When user testing, you probably want to use `DevRelease` so that your users don'
 `ProductionDebug` should in practice not be used.
 
 ### Setting up Firebase
+
 MapSwipe uses Firebase to handle data transfers. The project won't run unless you create your own Firebase configuration.
 
 First , clone the repository. Create a project in Firebase. (Or use an existing Firebase project that you have access to.)
@@ -50,17 +52,18 @@ You will need several terminals running in parallel:
 - `yarn start` will run the javascript packager
 - `yarn runAndroid` will assemble the android `DevDebug` app and run it on your emulator or phone. This overrides the standard `react-native run-android` command which is broken with build flavors/variants.
 
-If none of the above makes sense, read https://facebook.github.io/react-native/docs/getting-started first.
+If none of the above makes sense, read the [react-native intro](https://facebook.github.io/react-native/docs/getting-started) first.
 
 ### Assembling a Release
 
-Note: this section is mostly useless, as releases are automatically produced by travis CI.
+Note: this section is mostly for reference, as releases are automatically produced by travis CI.
 
 To assemble a release for Android, you'll have to set up your Android development environment to generate a signed APK. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/0.23/signed-apk-android.html) on this to follow. To generate a signed release, you'll need to obtain the release keystore file from a MapSwipe developer as well as the credentials for it. Note, generating a signed release is only necessary for updating the app on the Google Play store.
 
 When creating a new release for the Play store, you'll need to increment the `versionCode` and the `versionName` so that they don't clash with existing versions. See [Version numbering](#version-numbering) below on how to do this.
 
 ## Developing - iOS
+
 You can access the xcode project in the iOS directory. Make sure to open the xcworkspace file and not the xcodeproj file.
 
 TBC

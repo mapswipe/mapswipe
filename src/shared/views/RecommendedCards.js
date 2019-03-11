@@ -202,6 +202,8 @@ class _RecommendedCards extends React.Component<Props> {
 
 const mapStateToProps = (state, ownProps) => (
     {
+        // define where the props (left of the colon) are coming from in the redux store (right)
+        // the right side must match the definitions "path" under firebaseConnect below
         announcement: state.firebase.data.announcement,
         navigation: ownProps.navigation,
         projects: state.firebase.ordered.projects,
@@ -210,10 +212,16 @@ const mapStateToProps = (state, ownProps) => (
 
 export default compose(
     firebaseConnect(() => [
-        // request only active projects from firebase
+        // request only active projects from firebase (state === 0)
+        // limit to 20 projects maximum
+        // `path` defines where the resulting data is copied in the redux store
+        // (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
         { path: 'projects', queryParams: ['orderByChild=state', 'equalTo=0', 'limitToFirst=20'] },
+        // load any announcement data from firebase
+        // (state.firebase.data.announcement here because we've not ordered the query)
         { path: 'announcement', queryParams: ['limitToLast=2'] },
     ]),
+    // connect to redux store
     connect(
         mapStateToProps,
     ),

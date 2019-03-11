@@ -78,15 +78,18 @@ type Dispatch = (action: Action | PromiseAction) => any;
 type ThunkAction = (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => any;
 
 export function commitGroup(groupInfo: GroupInfo): ThunkAction {
-    // dispatched when a group is finished, when the user choose to either
+    // dispatched when a group is finished, when the user chooses to either
     // map another group, or complete mapping.
     return (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
+
+        // write each task result in firebase
         Object.keys(groupInfo.tasks).forEach(taskId => firebase
             .set(`results/${taskId}/${userId}/`, { data: groupInfo.tasks[taskId] })
             .then(() => dispatch(commitTaskSuccess(taskId)))
             .catch(error => dispatch(commitTaskFailed(taskId, error))));
+
         // increase the completion count on the group so we know how many users
         // have swiped through it
         // FIXME: chain all the promises above so that we can throw an action
