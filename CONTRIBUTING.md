@@ -14,6 +14,8 @@ To run the application, you need to have NodeJS installed (version 6.3 or higher
 For Android, you'll have to set up some Gradle variables to prepare a release. The React Native docs have a [good explanation and instructions](https://facebook.github.io/react-native/docs/signed-apk-android.html) for doing that.
 At this point however, there is a travis CI build pipeline, so that manual releases should not be needed any longer.
 
+For iOS you will need to install some dependencies with cocoapods, Within the directory `./ios/` run `pod install`.
+
 OUTDATED: To run the application, run either `react-native run-android` or `react-native run-ios` from the root of the project to build it. (If you have trouble running `react-native run-ios`, open the file `./ios/Mapswipe.xcworkspace` in Xcode.)
 
 ### App variants
@@ -65,6 +67,8 @@ When creating a new release for the Play store, you'll need to increment the `ve
 ## Developing - iOS
 
 You can access the xcode project in the iOS directory. Make sure to open the xcworkspace file and not the xcodeproj file.
+
+To get started with developing for iOS you will first need to link a sentry account using `react-native link react-native-sentry`.
 
 TBC
 
