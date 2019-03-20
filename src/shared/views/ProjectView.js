@@ -94,28 +94,8 @@ const style = StyleSheet.create({
         left: 0,
         position: 'absolute',
     },
-    bookmarkButton: {
-        borderWidth: 0,
-        backgroundColor: 'transparent',
-        width: 15,
-        resizeMode: 'contain',
-        right: 25,
-        top: 0,
-        position: 'absolute',
-    },
-    projectName: {
-        fontSize: 15,
-        fontWeight: '600',
-        color: '#212121',
-    },
     projectDetails: {
         width: GLOBAL.SCREEN_WIDTH,
-    },
-    heart: {
-        width: 13,
-        height: 13,
-        resizeMode: 'contain',
-        marginTop: 5,
     },
     infoArea: {
         borderTopWidth: 1,
@@ -228,10 +208,6 @@ const style = StyleSheet.create({
     },
     modal: {
         padding: 20,
-    },
-    modal2: {
-        height: 230,
-        backgroundColor: '#3B5998',
     },
     offlineModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,

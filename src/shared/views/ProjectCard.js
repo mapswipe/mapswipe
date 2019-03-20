@@ -28,16 +28,6 @@ const style = StyleSheet.create({
         marginTop: 5,
         flex: 1,
     },
-    groupAvatarBorderRadiusFix: {
-        position: 'absolute',
-        top: -10,
-        right: -10,
-        bottom: -10,
-        left: -10,
-        borderRadius: 29,
-        borderWidth: 10,
-        borderColor: '#212121',
-    },
     smallCard: {
         height: 250,
         width: GLOBAL.SCREEN_WIDTH * 0.49,
@@ -51,12 +41,6 @@ const style = StyleSheet.create({
     cardBackground: {
         flex: 1,
         overflow: 'hidden',
-    },
-    circle: {
-        width: 5,
-        height: 5,
-        borderRadius: 100 / 2,
-        backgroundColor: '#ee0000',
     },
     nowButton: {
         backgroundColor: '#ffffff',

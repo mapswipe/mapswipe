@@ -20,10 +20,6 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         marginTop: 5,
     },
-    buttonText: {
-        fontSize: 15,
-        color: 'white',
-    },
 });
 
 const FOOTPRINT_CORRECT = 1;

@@ -49,26 +49,6 @@ const styles = StyleSheet.create({
         borderColor: '#e8e8e8',
         width: GLOBAL.SCREEN_WIDTH,
     },
-    lastRow: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        padding: 5,
-        borderTopWidth: 0,
-        borderBottomWidth: 0.5,
-        borderColor: '#e8e8e8',
-        backgroundColor: '#ffffff',
-        width: GLOBAL.SCREEN_WIDTH,
-    },
-    thumb: {
-        width: 40,
-        height: 40,
-        padding: 20,
-    },
-    text: {
-        flex: 1,
-        padding: 10,
-        marginLeft: 10,
-    },
     pic: {
         height: 150,
         width: 150,

@@ -33,15 +33,10 @@ const GLOBAL = require('./Globals');
 
 
 const style = StyleSheet.create({
-    tutContainer: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-    },
     startButton: {
         backgroundColor: '#ff0000',
         // backgroundColor: '#0d1949',
         alignItems: 'stretch',
-
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -51,18 +46,9 @@ const style = StyleSheet.create({
         left: 20,
         width: 260,
     },
-
     pic: {
         height: 150,
         width: 150,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-    },
-    darkContainer: {
-        flex: 1,
-        backgroundColor: '#0d1949',
     },
     mainContainer: {
         height: GLOBAL.SCREEN_HEIGHT,
@@ -70,53 +56,14 @@ const style = StyleSheet.create({
         flex: 1,
         marginTop: GLOBAL.TOP_OFFSET,
     },
-    otherButton: {
-        width: GLOBAL.SCREEN_WIDTH,
-        height: 30,
-        padding: 12,
-        marginTop: 10,
-        borderWidth: 0,
-    },
     header: {
         fontWeight: '700',
         color: '#212121',
         fontSize: 18,
-
     },
-    tutRow: {
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        height: 40,
-    },
-
-    tutPar: {
-        fontSize: 14,
-        color: '#575757',
-        fontWeight: '500',
-        lineHeight: 20,
-        marginTop: 10,
-    },
-
-    tutText: {
-        fontSize: 11,
-        fontWeight: '600',
-        color: '#50acd4',
-        marginTop: 10,
-        lineHeight: 20,
-    },
-
-
     modal: {
         padding: 20,
     },
-
-    modal2: {
-        height: 230,
-        backgroundColor: '#3B5998',
-    },
-
     modal3: {
         marginTop: 10,
         height: 300,
@@ -125,7 +72,6 @@ const style = StyleSheet.create({
         borderRadius: 2,
         alignItems: 'center',
     },
-
 });
 
 type State = {

@@ -21,19 +21,10 @@ const GLOBAL = require('../../Globals');
 const tileSize = GLOBAL.SCREEN_WIDTH;
 
 const styles = StyleSheet.create({
-    mapContainer: {
-    },
-    polygonOverlay: {
-        height: 256,
-        width: 256,
-    },
     tileImg: {
         height: tileSize,
         position: 'absolute',
         width: tileSize,
-    },
-    whiteText: {
-        color: 'white',
     },
 });
 

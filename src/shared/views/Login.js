@@ -28,17 +28,6 @@ import type { NavigationProp } from '../flow-types';
 const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
-    startButton: {
-        backgroundColor: '#ee0000',
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 50,
-        left: GLOBAL.SCREEN_WIDTH * 0.05,
-    },
     switchToLogin: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         height: 50,
@@ -54,18 +43,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.1,
     },
-    wrapper: {},
     container: {
         width: GLOBAL.SCREEN_WIDTH,
         height: GLOBAL.SCREEN_HEIGHT,
         backgroundColor: '#0d1949',
         flex: 1,
-    },
-    text: {
-        width: GLOBAL.SCREEN_WIDTH * 0.8,
-        height: GLOBAL.SCREEN_HEIGHT * 0.5,
-        textAlign: 'center',
-        fontSize: 20,
     },
     text4: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -82,11 +64,6 @@ const styles = StyleSheet.create({
         fontSize: 10,
         marginBottom: 10,
         color: '#ffffff',
-    },
-    tutIcon: {
-        resizeMode: 'contain',
-        width: GLOBAL.SCREEN_WIDTH,
-        height: GLOBAL.SCREEN_HEIGHT * 0.5,
     },
     tutIcon2: {
         resizeMode: 'contain',
