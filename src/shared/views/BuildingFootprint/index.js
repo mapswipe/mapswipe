@@ -1,10 +1,7 @@
 // @flow
 import * as React from 'react';
 import {
-    Image,
     StyleSheet,
-    Text,
-    TouchableHighlight,
     View,
 } from 'react-native';
 import { compose } from 'redux';
@@ -12,6 +9,7 @@ import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import DeviceInfo from 'react-native-device-info';
 import { commitGroup, submitFootprint } from '../../actions/index';
+import Header from '../Header';
 import Validator from './Validator';
 import LoadMoreCard from '../LoadMore';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
@@ -27,64 +25,10 @@ const GLOBAL = require('../../Globals');
 /* eslint-disable global-require */
 
 const styles = StyleSheet.create({
-    backButton: {
-        width: 20,
-        height: 20,
-    },
-    backButtonContainer: {
-        width: 40,
-        height: 40,
-        top: 0,
-        padding: 10,
-        left: 0,
-        position: 'absolute',
-    },
-    elementText: {
-        justifyContent: 'center',
-        color: '#ffffff',
-        alignItems: 'center',
-        textAlign: 'center',
-        marginTop: 2,
-        fontSize: 11,
-        fontWeight: '700',
-        backgroundColor: 'transparent',
-    },
-    infoButton: {
-        width: 20,
-        height: 20,
-    },
-    infoButtonContainer: {
-        width: 20,
-        height: 20,
-        top: 10,
-        right: 20,
-        position: 'absolute',
-    },
     mappingContainer: {
         backgroundColor: '#0d1949',
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
-    },
-    swipeNavBottom: {
-        width: (GLOBAL.SCREEN_WIDTH),
-        bottom: 3,
-        position: 'absolute',
-        left: 0,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        backgroundColor: '#0d1949',
-    },
-    swipeNavTop: {
-        width: (GLOBAL.SCREEN_WIDTH),
-        height: 40,
-    },
-    topText: {
-        justifyContent: 'center',
-        color: '#ffffff',
-        alignItems: 'center',
-        textAlign: 'center',
-        marginTop: 1,
-        backgroundColor: 'transparent',
     },
 });
 
@@ -179,29 +123,10 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         }
         return (
             <View style={styles.mappingContainer}>
-                <View style={styles.swipeNavTop}>
-                    <Text style={styles.topText}>
-                        You are looking for:
-                    </Text>
-                    <Text style={styles.elementText}>
-                        {this.project.lookFor}
-                    </Text>
-                    <TouchableHighlight
-                        style={styles.backButtonContainer}
-                        onPress={this.returnToView}
-                    >
-                        <Image
-                            style={styles.backButton}
-                            source={require('../assets/backarrow_icon.png')}
-                        />
-                    </TouchableHighlight>
-                    <TouchableHighlight style={styles.infoButtonContainer} onPress={null}>
-                        <Image
-                            style={styles.infoButton}
-                            source={require('../assets/info_icon.png')}
-                        />
-                    </TouchableHighlight>
-                </View>
+                <Header
+                    lookFor={this.project.lookFor}
+                    onBackPress={this.returnToView}
+                />
                 <Validator
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={groupData}

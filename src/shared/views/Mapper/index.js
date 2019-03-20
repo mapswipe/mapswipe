@@ -8,9 +8,9 @@ import {
     View,
     StyleSheet,
     Image,
-    TouchableHighlight,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
 import type { NavigationProp, ProjectType } from '../../flow-types';
@@ -86,51 +86,6 @@ const styles = StyleSheet.create({
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
     },
-    backButton: {
-        width: 20,
-        height: 20,
-    },
-    backButtonContainer: {
-        width: 40,
-        height: 40,
-        top: 0,
-        padding: 10,
-        left: 0,
-        position: 'absolute',
-    },
-    infoButton: {
-        width: 20,
-        height: 20,
-    },
-    infoButtonContainer: {
-        width: 20,
-        height: 20,
-        top: 10,
-        right: 20,
-        position: 'absolute',
-    },
-    swipeNavTop: {
-        width: (GLOBAL.SCREEN_WIDTH),
-        height: 40,
-    },
-    topText: {
-        justifyContent: 'center',
-        color: '#ffffff',
-        alignItems: 'center',
-        textAlign: 'center',
-        marginTop: 1,
-        backgroundColor: 'transparent',
-    },
-    elementText: {
-        justifyContent: 'center',
-        color: '#ffffff',
-        alignItems: 'center',
-        textAlign: 'center',
-        marginTop: 2,
-        fontSize: 11,
-        fontWeight: '700',
-        backgroundColor: 'transparent',
-    },
 });
 
 type Props = {
@@ -200,33 +155,11 @@ class _Mapper extends React.Component<Props, State> {
         const { poppedUpTile } = this.state;
         return (
             <View style={styles.mappingContainer}>
-                <View style={styles.swipeNavTop}>
-                    <Text style={styles.topText}>
-                    You are looking for:
-                    </Text>
-                    <Text style={styles.elementText}>
-                        {this.project.lookFor}
-                    </Text>
-                    <TouchableHighlight
-                        style={styles.backButtonContainer}
-                        onPress={this.returnToView}
-                    >
-                        <Image
-                            style={styles.backButton}
-                            source={require('../assets/backarrow_icon.png')}
-                        />
-                    </TouchableHighlight>
-
-                    <TouchableHighlight
-                        style={styles.infoButtonContainer}
-                        onPress={this.openTutorialModal}
-                    >
-                        <Image
-                            style={styles.infoButton}
-                            source={require('../assets/info_icon.png')}
-                        />
-                    </TouchableHighlight>
-                </View>
+                <Header
+                    lookFor={this.project.lookFor}
+                    onBackPress={this.returnToView}
+                    onInfoPress={this.openTutorialModal}
+                />
 
                 <CardBody
                     projectId={this.project.id}
