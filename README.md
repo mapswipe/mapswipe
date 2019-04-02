@@ -12,6 +12,8 @@ In a nutshell, here is how MapSwipe works:
 1. The user searches those tiles and classifies them. The results are then synced back to Firebase.
 1. When a user chooses to map an area, he or she is distributed groups of the project. On completion, the user then gets badges for the distance they've mapped.
 
+:)
+
 ## Project Diagram
 
 The following is an outline of how data typically flows and makes it into the mobile application. Most of the action happens in one of the three areas, namely the **backend scripts**, **Firebase database**, and **clients**. 
