@@ -5,16 +5,25 @@ We want to invite the vast community of developers to contribute to our mission 
 ## Contributions
 We welcome any contributions that help improve the application. Before you start hacking, please read through [README](README.md) and the issues on GitHub to find the best fit for your skills. If you find a task that you confortable working on, simply fork the repo and submit a PR when you are ready!
 
-## Building the Application locally
+**Read this entire page before you start doing anything, the order of instructions here is not perfect!**
 
-To build the application locally, you'll need to install Android Studio or XCode in order to build the app in Android or iOS respectively. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/getting-started.html) for both of those setups under the section "Building Projects with Native Code" that you can follow. Do that first.
+## Building the Application locally (START HERE)
 
-To run the application, you need to have NodeJS installed (version 6.3 or higher) as well as React Native. You can install React Native globally with `npm install -g react-native-cli`.
+To build the application locally, you'll need to install Android Studio or XCode in order to build the app in Android or iOS respectively. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/getting-started.html) for both of those setups under the section "Building Projects with Native Code" that you can follow. Do that first. (Ignore the parts about `Expo CLI Quickstart`, you need to use the `React Native CLI Quickstart`).
 
-For Android, you'll have to set up some Gradle variables to prepare a release. The React Native docs have a [good explanation and instructions](https://facebook.github.io/react-native/docs/signed-apk-android.html) for doing that.
-At this point however, there is a travis CI build pipeline, so that manual releases should not be needed any longer.
+To run the application, make sure you have NodeJS installed (version 6.3 or higher) as well as React Native CLI. You can install React Native globally with `npm install -g react-native-cli` or `yarn global add react-native-cli`. If you followed the getting started instructions from react-native above, you should be all set.
 
-OUTDATED: To run the application, run either `react-native run-android` or `react-native run-ios` from the root of the project to build it. (If you have trouble running `react-native run-ios`, open the file `./ios/Mapswipe.xcworkspace` in Xcode.)
+You should now have:
+- the android SDK
+- the android platform tools, including a functioning `adb`. Run
+
+```sh
+adb devices
+```
+with your android phone setup for development (again, follow the `getting started` instructions to make this work) and check that it finds your phone (or your android emulator).
+
+- node.js
+- yarn
 
 ### App variants
 
@@ -27,6 +36,8 @@ There are 4 versions of the app (for Android, this still needs setting up on iOS
 `Dev` and `Production` point to the `dev-mapswipe` and `msf-mapswipe` server, respectively.
 `Debug` and `Release` are built with debug extras or optimised for distribution.
 
+Use the `DevDebug` variant for developing, with the `dev-mapswipe` firebase backend.
+
 When user testing, you probably want to use `DevRelease` so that your users don't suffer from debug version sluggishness.
 
 `ProductionDebug` should in practice not be used.
@@ -35,30 +46,54 @@ When user testing, you probably want to use `DevRelease` so that your users don'
 
 MapSwipe uses Firebase to handle data transfers. The project won't run unless you create your own Firebase configuration.
 
-First , clone the repository. Create a project in Firebase. (Or use an existing Firebase project that you have access to.)
+First, clone the repository. Create a project in Firebase. (Or use an existing Firebase project that you have access to.)
 
 Next, download the Firebase Google Services files from Firebase > Settings > Add App > Download files.
 
-Copy the Android file to `android/app/src/dev/google-services.json` or `android/app/src/production/google-services.json` (depending on the variant you're using) and the iOS file to `ios/cfg/GoogleService-Info.plist`.(#TODO: add variants for iOS)
+Copy the Android file to `android/app/src/dev/google-services.json` or `android/app/src/production/google-services.json` (depending on the variant you're using. For local development, you will be using `dev`) and the iOS file to `ios/cfg/GoogleService-Info.plist`.(#TODO: add variants for iOS)
 
-You should also request access to the `dev-mapswipe` firebase instance, on which there are real test projects to test against. Contact one of the project admins for this.
+You should also request access to the `dev-mapswipe` firebase instance, on which there are real test projects to test against. Contact one of the project admins for this (see https://www.mapswipe.org/ for contacts).
 
 ## Developing - Android
 
-Use the `DevDebug` variant for developing, with the `dev-mapswipe` firebase backend.
+Install all dependencies of the mapswipe project (including `react-native`, but not `react-native-cli` which you need to install globally beforehand):
 
-You will need several terminals running in parallel:
-- `yarn reduxDebugger` (optional) to get the redux state debugger (see https://github.com/zalmoxisus/redux-devtools-extension for docs). You'll need the chrome redux debugger or an alternative installed to use this.
-- `yarn start` will run the javascript packager
-- `yarn runAndroid` will assemble the android `DevDebug` app and run it on your emulator or phone. This overrides the standard `react-native run-android` command which is broken with build flavors/variants.
+```sh
+yarn install
+```
 
-If none of the above makes sense, read the [react-native intro](https://facebook.github.io/react-native/docs/getting-started) first.
+You will need several terminals running in parallel. With your phone (or emulator) set up for development, run the following commands, in this order:
+
+- Allow your phone to talk to the development server:
+```sh
+adb reverse tcp:8081 tcp:8081; adb reverse tcp:5678 tcp:5678
+```
+
+- (optional) Get the redux state debugger (see https://github.com/zalmoxisus/redux-devtools-extension for docs). You'll need the chrome redux debugger or an alternative installed to use this.
+```sh
+yarn reduxDebugger
+```
+
+- Start the development server (including the javascript packager):
+```sh
+yarn start
+```
+
+- Assemble the android `DevDebug` app and run it on your emulator or phone. This overrides the standard `react-native run-android` command which is broken with build flavors/variants.
+
+```sh
+yarn runAndroid
+```
+
+TODO: adda line on getting to chrome debugging tools (incl url) and link to fb rn debugging page
+
+If none of the above makes sense, read the [react-native intro](https://facebook.github.io/react-native/docs/getting-started) again.
 
 ### Assembling a Release
 
-Note: this section is mostly for reference, as releases are automatically produced by travis CI.
+Note: this section is mostly for reference, as releases are automatically produced by travis CI. You can safely ignore this section for now.
 
-To assemble a release for Android, you'll have to set up your Android development environment to generate a signed APK. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/0.23/signed-apk-android.html) on this to follow. To generate a signed release, you'll need to obtain the release keystore file from a MapSwipe developer as well as the credentials for it. Note, generating a signed release is only necessary for updating the app on the Google Play store.
+To assemble a release for Android, you'll have to set up your Android development environment to generate a signed APK. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/signed-apk-android.html) on this to follow. To generate a signed release, you'll need to obtain the release keystore file from a MapSwipe developer as well as the credentials for it. Note, generating a signed release is only necessary for updating the app on the Google Play store.
 
 When creating a new release for the Play store, you'll need to increment the `versionCode` and the `versionName` so that they don't clash with existing versions. See [Version numbering](#version-numbering) below on how to do this.
 
