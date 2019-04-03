@@ -14,7 +14,7 @@ To build the application locally, you'll need to install Android Studio or XCode
 To run the application, make sure you have NodeJS installed (version 6.3 or higher) as well as React Native CLI. You can install React Native globally with `npm install -g react-native-cli` or `yarn global add react-native-cli`. If you followed the getting started instructions from react-native above, you should be all set.
 
 You should now have:
-- the android SDK
+- the android SDK installed, make sure that you have a working `sdkmanager` under `<SDK_home>/tools/`,
 - the android platform tools, including a functioning `adb`. Run
 
 ```sh
@@ -22,8 +22,15 @@ adb devices
 ```
 with your android phone setup for development (again, follow the `getting started` instructions to make this work) and check that it finds your phone (or your android emulator).
 
-- node.js
-- yarn
+Make sure you have followed instructions in there to install:
+- `node.js`
+- `yarn`
+
+It is now time to clone this repository:
+
+```sh
+git clone git@github.com:mapswipe/mapswipe.git
+```
 
 ### App variants
 
@@ -79,6 +86,16 @@ yarn reduxDebugger
 yarn start
 ```
 
+- set ANDROID_HOME path to where you extracted the android SDK (to make this permanent, add this line to your `~/.bashrc` or equivalent):
+```
+export ANDROID_HOME=/path/to/android-sdk/
+```
+
+- accept SDK licenses (sdkmanager is under the android SDK folder):
+```sh
+yes | sdkmanager --licenses
+```
+
 - Assemble the android `DevDebug` app and run it on your emulator or phone. This overrides the standard `react-native run-android` command which is broken with build flavors/variants.
 
 ```sh
@@ -113,6 +130,8 @@ yarn version
 and input the new version number (in semantic version format). A new commit will be produced with the version number changed in `package.json`. The build scripts will take care of adjusting the builds based on this. The `yarn postversion` script will run automatically, and push the commit and new tag to github, which in turn will trigger a build on travis and deployment to github releases. (TODO: add deployment to google playstore for `ProductionRelease` version)
 
 For android, gradle will pull the version number from package.json when building.
+
+## Developping and debugging
 
 ## Travis setup
 
