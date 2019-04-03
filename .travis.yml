@@ -26,6 +26,7 @@ matrix:
         - find . -name *.apk
       deploy:
         provider: releases
+        name: $TRAVIS_TAG
         api_key:
           secure: ao6BfKCG0/QFDITW8cJ+cuHgWBP2UgOK3ONMmaLcRIih9h8ZZB5sRPL5epphUsMQVcc3p9+flUOcPGqAjC6xhk9+/MiTdk8733WmaKxAqvcEQzfoaWjAMRyOAByLYGyk1T9wCaHI5nvEQsdoxyL1i36J3QcSZ6cqbAwnFkAgJ4ovoCupNBrMC36PGMtzTNcGOQ1Vxcr+o/sxwF1ic4TbkvWCXwZmuStUvMIcjN+unXIuh9F0zcvEVVbt2ElFZkvzIdGhvWpdbOTujRldI5MgGU496sRniKY5gxVY91r2quTOG/C310RBBSmO904s8CHcT1y5R1ou+uUF0Zis0VMza/Atp3N/uPQYOjs88x6rZcqdsSjXP3XnrksdflMPuwqAI4ZbYZZ3GDveMEk58WOO24n2fGRszml+EuseB+zATDI8ZevefjjYOPQwk9IHoeSz3h0WSqnoK5/WHW+YImCPp9YZu+YMKNfrQEPlNbeKNRrsgwy3sOoOeIuUEb4MzdKPkdipggxhdck68eEU8Ynf9jWvoE6G1Ft4RIEG6ZZmYYsT3zxMHG0CbR9XW4wum/XZ+yXv7ONfQvmyo6Lf9b14fBDYScc/8gFSr3SAQAiwuLRKdf13SG3VB6uvrtz87VQg5PNdsNnG8cH5J5yFLGfERKTAZZa8b61vuD/xbD+UwZ4=
         file: "./android/app/build/outputs/apk/dev/release/app-dev-release.apk"
