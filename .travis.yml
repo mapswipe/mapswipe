@@ -60,6 +60,7 @@ matrix:
       - FASTLANE_DISABLE_COLORS=1
       before_install:
       - set -o pipefail
+      - gem install bundler --pre
       - nvm install node
       - node --version
       - travis_retry npm install -g yarn
