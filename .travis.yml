@@ -64,8 +64,8 @@ matrix:
       - node --version
       - travis_retry npm install -g yarn
       - yarn -version
-      - openssl aes-256-cbc -K $encrypted_b20c83b1102e_key -iv $encrypted_b20c83b1102e_iv -in ios/cfg/secrets.tar.enc -out ios/cfg/secrets.tar -d
-      - tar -xvf ios/cfg/secrets.tar -C ios/cfg
+      - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
+      - tar -xvf secrets.tar
       install:
       - bundle install
       - travis_retry gem install xcpretty cocoapods
@@ -73,14 +73,12 @@ matrix:
       script:
       - open -b com.apple.iphonesimulator
       - cd ios
-      - cp "cfg/GoogleService-Info.dev.plist" "cfg/GoogleService-Info.plist"
       - fastlane test
       - rm -f cfg/GoogleService-Info.plist
-      before_deploy: 
+      before_deploy:
       deploy:
         provider: script
-        script: 
-        - cp "cfg/GoogleService-Info.prd.plist" "cfg/GoogleService-Info.plist"
+        script:
         - fastlane release
         on:
           branch: master
