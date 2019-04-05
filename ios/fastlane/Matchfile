@@ -1,4 +1,4 @@
-git_url("git@github.com:mapswipe/ios-certificates.git")
+git_url("git@gitlab.com:mapswipe/ios-certificates.git")
 
 type "development" # The default type, can be: appstore, adhoc or development
 clone_branch_directly "true"
