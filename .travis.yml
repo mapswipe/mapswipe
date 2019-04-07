@@ -77,11 +77,16 @@ matrix:
       - eval "$(ssh-agent -s)"
       - chmod 600 ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
       - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+      - export KEY_CHAIN=ios-build.keychain
+      - security create-keychain -p travis $KEY_CHAIN
+      - security default-keychain -s $KEY_CHAIN
+      - security unlock-keychain -p travis $KEY_CHAIN
+      - security set-keychain-settings -t 3600 -u $KEY_CHAIN
       - open -b com.apple.iphonesimulator
       - cd ios
       - bundle exec fastlane match appstore --readonly --verbose
       - bundle exec fastlane test
-      - bundle exec fastlane beta
+      - bundle exec fastlane beta --verbose
       before_deploy:
       deploy:
         provider: script
