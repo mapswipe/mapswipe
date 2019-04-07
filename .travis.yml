@@ -77,8 +77,8 @@ matrix:
       - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
       - open -b com.apple.iphonesimulator
       - cd ios
-      - fastlane test
-      - rm -f cfg/GoogleService-Info.plist
+      - bundle exec fastlane test
+      - bundle exec fastlane beta
       before_deploy:
       deploy:
         provider: script
