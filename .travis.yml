@@ -77,6 +77,7 @@ matrix:
       - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
       - open -b com.apple.iphonesimulator
       - cd ios
+      - bundle exec fastlane match appstore --readonly --verbose
       - bundle exec fastlane test
       - bundle exec fastlane beta
       before_deploy:
