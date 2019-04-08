@@ -85,7 +85,6 @@ matrix:
       - open -b com.apple.iphonesimulator
       - cd ios
       - bundle exec fastlane match appstore --readonly --verbose
-      - bundle exec fastlane test
       - bundle exec fastlane beta --verbose
       before_deploy:
       deploy:
