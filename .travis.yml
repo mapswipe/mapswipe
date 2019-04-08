@@ -74,6 +74,8 @@ matrix:
       - travis_retry gem install xcpretty cocoapods
       - travis_retry yarn install --frozen-lockfile
       script:
+      - export CLANG_WARN_COMMA=NO
+      - export CLANG_WARN_DOCUMENTATION=NO
       - eval "$(ssh-agent -s)"
       - chmod 600 ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
       - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
