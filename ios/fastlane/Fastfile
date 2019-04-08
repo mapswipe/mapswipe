@@ -31,10 +31,10 @@ platform :ios do
   end
 
   lane :beta do
-    match(type: "appstore", readonly: is_ci)
-    build_app(scheme: "mapswipe", configuration: "Release", clean: true, silent: true)
     increment_build_number(build_number: ENV['MAPSWIPE_BUILD_NUMBER'])
     increment_version_number(version_number: ENV['MAPSWIPE_PACKAGE_VERSION'])
+    match(type: "appstore", readonly: is_ci)
+    build_app(scheme: "mapswipe", configuration: "Release", clean: true, silent: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com")
     slack(message: "Successfully distributed a new beta build")
   end
