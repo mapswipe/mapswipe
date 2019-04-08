@@ -32,7 +32,7 @@ platform :ios do
 
   lane :beta do
     match(type: "appstore", readonly: is_ci)
-    build_app(scheme: "mapswipe", configuration: "Release", clean: true, disable_xcpretty: true)
+    build_app(scheme: "mapswipe", configuration: "Release", clean: true, suppress_xcode_output: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com")
     slack(message: "Successfully distributed a new beta build")
   end
