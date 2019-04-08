@@ -4,7 +4,7 @@ setup_travis
 
 platform :ios do
   before_all do
-    cocoapods(repo_update: true)
+    cocoapods(repo_update: true, silent: true)
   end
 
   desc "Runs all the tests"
