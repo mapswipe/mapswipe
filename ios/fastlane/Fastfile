@@ -20,20 +20,20 @@ platform :ios do
          configuration: "Debug",
          test_without_building: true,
          derived_data_path: "build",
-         devices:['iPhone X'])   
+         devices:['iPhone X'])
   end
 
-  lane :release do 
+  lane :release do
     match(type: "appstore", readonly: is_ci)
     build_app(scheme: "mapswipe", configuration: "Release", clean: true)
     upload_to_app_store
     slack(message: "Successfully uploaded a new App Store build")
   end
 
-  lane :beta do 
+  lane :beta do
     match(type: "appstore", readonly: is_ci)
     build_app(scheme: "mapswipe", configuration: "Release", clean: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com")
     slack(message: "Successfully distributed a new beta build")
-  end 
+  end
 end
