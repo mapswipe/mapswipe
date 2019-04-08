@@ -67,6 +67,7 @@ matrix:
       - node --version
       - travis_retry npm install -g yarn
       - yarn -version
+      # open the secret box with passwords and API keys
       - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
       - tar -xvf secrets.tar
       install:
@@ -74,11 +75,16 @@ matrix:
       - travis_retry gem install xcpretty cocoapods
       - travis_retry yarn install --frozen-lockfile
       script:
+      # calculate version numbers for fastlane
+      - source ios/version-ios.sh
+      # try to hide some build warnings
       - export CLANG_WARN_COMMA=NO
       - export CLANG_WARN_DOCUMENTATION=NO
+      # setup RSA key so we can clone the certificate repo in gitlab
       - eval "$(ssh-agent -s)"
       - chmod 600 ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
       - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+      # define a custom keychain for fastlane to use
       - export KEY_CHAIN=ios-build.keychain
       - security create-keychain -p travis $KEY_CHAIN
       - security default-keychain -s $KEY_CHAIN
@@ -86,7 +92,9 @@ matrix:
       - security set-keychain-settings -t 3600 -u $KEY_CHAIN
       - open -b com.apple.iphonesimulator
       - cd ios
+      # get the certificates from gitlab
       - bundle exec fastlane match appstore --readonly --verbose
+      # build and deploy the app to testflight
       - bundle exec fastlane beta --verbose
       before_deploy:
       deploy:
