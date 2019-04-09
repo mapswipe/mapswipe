@@ -5,6 +5,7 @@ sudo: false
 env:
   - NODE_ENV='test'
 matrix:
+  # this matrix runs two processes in parallel, one for android, one for iOS
   include:
     - language: android
       os: linux
@@ -94,13 +95,22 @@ matrix:
       - cd ios
       # get the certificates from gitlab
       - bundle exec fastlane match appstore --readonly --verbose
-      # build and deploy the app to testflight
-      - bundle exec fastlane beta --verbose
+      # always build the app to make sure that it compiles
+      - bundle exec fastlane build
       before_deploy:
       deploy:
-        provider: script
-        script:
-        - fastlane release
-        on:
-          branch: master
-          tags: true
+        # deploy the beta/dev build to testflight for all tagged commits
+        - provider: script
+          script:
+          - bundle exec fastlane beta --verbose
+          on:
+            all_branches: true
+            tags: true
+        # and for tagged commits to master, deploy to production
+        # FIXME: this probably does not work yet
+        - provider: script
+          script:
+          - fastlane release
+          on:
+            branch: master
+            tags: true
