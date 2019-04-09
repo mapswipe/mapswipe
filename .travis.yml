@@ -91,7 +91,6 @@ matrix:
       - security default-keychain -s $KEY_CHAIN
       - security unlock-keychain -p travis $KEY_CHAIN
       - security set-keychain-settings -t 3600 -u $KEY_CHAIN
-      - open -b com.apple.iphonesimulator
       - cd ios
       # get the certificates from gitlab
       - bundle exec fastlane match appstore --readonly --verbose
