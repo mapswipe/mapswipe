@@ -10,11 +10,11 @@ We also suggest you get in touch with the developers to find out what the curren
 
 ## Developing - Android
 
-See [Setting up a development environment for Android](develop-android) for all the details.
+See [Setting up a development environment for Android](docs/develop-android.md) for all the details.
 
 ## Developing - iOS
 
-See [Setting up a developer environment for iOS](develop-ios).
+See [Setting up a developer environment for iOS](docs/develop-ios.md).
 
 ### Assembling a Release
 
@@ -23,17 +23,6 @@ Note: this section is mostly for reference, as releases are automatically produc
 To assemble a release for Android, you'll have to set up your Android development environment to generate a signed APK. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/signed-apk-android.html) on this to follow. To generate a signed release, you'll need to obtain the release keystore file from a MapSwipe developer as well as the credentials for it. Note, generating a signed release is only necessary for updating the app on the Google Play store.
 
 When creating a new release for the Play store, you'll need to increment the `versionCode` and the `versionName` so that they don't clash with existing versions. See [Version numbering](#version-numbering) below on how to do this.
-
-## Version numbering
-
-It should all be set automatically from `package.json`. When you need to release a new version, just run:
-
-```
-yarn version
-```
-and input the new version number (in semantic version format). A new commit will be produced with the version number changed in `package.json`. The build scripts will take care of adjusting the builds based on this. The `yarn postversion` script will run automatically, and push the commit and new tag to github, which in turn will trigger a build on travis and deployment to github releases. (TODO: add deployment to google playstore for `ProductionRelease` version)
-
-For android, gradle will pull the version number from package.json when building.
 
 ## Developping and debugging
 

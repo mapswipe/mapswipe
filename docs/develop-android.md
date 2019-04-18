@@ -121,3 +121,14 @@ Use the `DevDebug` variant for developing, with the `dev-mapswipe` firebase back
 When user testing, you probably want to use `DevRelease` so that your users don't suffer from debug version sluggishness.
 
 `ProductionDebug` should in practice not be used.
+
+## Version numbering
+
+It should all be set automatically from `package.json`. When you need to release a new version, just run:
+
+```
+yarn version
+```
+and input the new version number (in semantic version format). A new commit will be produced with the version number changed in `package.json`. The build scripts will take care of adjusting the builds based on this. The `yarn postversion` script will run automatically, and push the commit and new tag to github, which in turn will trigger a build on travis and deployment to github releases. (TODO: add deployment to google playstore for `ProductionRelease` version)
+
+For android, gradle will pull the version number from package.json when building.

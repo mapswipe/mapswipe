@@ -32,6 +32,12 @@ Copy the iOS file to `ios/cfg/GoogleService-Info.plist`.
 
 TBD
 
+### Version numbering
+
+See [the android page](develop-android.md#version-numbering) for details.
+
+On the iOS side, the version number is not written in files, but passed to fastlane via environment variables during the build. The variables are set from `package.json` to ensure a single source of truth, so android and iOS builds will have matching version and build numbers. See `.travis.yml` and `fastlane` files (under `ios/fastlane/`) for details.
+
 ## CI build process
 
 **Warning**: this is written as I discover the process, it may not be fully accurate, correct or optimal.
@@ -39,6 +45,26 @@ TBD
 The CI build process relies on [fastlane](https://docs.fastlane.tools) tools to build the app, sign it, and upload it to the beta system (`testflight`) or to the real app store.
 
 At this point, the fastlane setup is built around the premise that you won't be deploying app updates from your computer, but only via travis. The docs below may not make sense for your own laptop.
+
+### Build variants
+
+There are 2 different apps:
+- mapswipe, which talks to the the main `msf-mapswipe` firebase instance. It is the one pushed to public users.
+- mapswipe-dev has the exact same code base, but points to the `dev-mapswipe` firebase instance. It is the version used in development, and is shared with beta-testers via `testflight`. It never goes to the appstore, so general users will never see it.
+
+Travis runs like this:
+
+- on every `git push`, the tests are run, and the app is compiled, to verify that there are no broken dependencies, etc...
+- on all pushes with a tag (except on the `master` branch), it also deploys the `dev` version to the appstore connect, for beta-testers to review.
+- on a push to `master` with a tag, it does all the above, but also deploys the production version to the appstore (this requires a final manual step, plus a review by apple which takes 1-2 days).
+
+### Getting users to test the beta version
+
+There are 2 ways to test a beta build:
+- inside the mapswipe core team: the users who are registered on the AppStore Connect can see and test all builds without approval from Apple. This is limited to 25 users who we trust enough to add to the organization.
+- outside the mapswipe core team (public testing): we can share selected builds with up to 1000 users. These builds must be reviewed by Apple, which can take up to 24 hours. The AppStore Connect page will give you a link you can share with testers for them to get access (they need to install the testflight app)
+
+For the app build that actually goes to the App Store, a review by Apple is also required, and takes up to 2 days.
 
 ### Code signing
 
