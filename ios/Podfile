@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '9.0'
 
 target 'mapswipe' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
@@ -13,8 +13,39 @@ target 'mapswipe' do
   pod 'Firebase/Database', '~> 5.11.0'
   # pod 'Fabric', '~> 1.7.13'
   # pod 'Crashlytics', '~> 3.10.9'
+  
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'DoubleConversion', :podspec => "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  pod 'Folly', :podspec => "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  pod 'glog', :podspec => "../node_modules/react-native/third-party-podspecs/GLog.podspec"
+  pod 'React', path: '../node_modules/react-native', subspecs: [
+  'Core',
+  'CxxBridge',
+  'RCTAnimation',
+  'RCTActionSheet',
+  'RCTImage',
+  'RCTLinkingIOS',
+  'RCTNetwork',
+  'RCTSettings',
+  'RCTText',
+  'RCTVibration',
+  'RCTWebSocket',
+  'RCTPushNotification',
+  'RCTCameraRoll',
+  'RCTSettings',
+  'RCTBlob',
+  'RCTGeolocation',
+  'DevSupport'
+  ]
 
+  
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
   target 'mapswipeTests' do
     inherit! :search_paths
@@ -34,4 +65,23 @@ target 'mapswipe-tvOS' do
     # Pods for testing
   end
 
+end
+
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        
+        # The following is needed to ensure the "archive" step works in XCode.
+        # It removes React & Yoga from the Pods project, as it is already included in the main project.
+        # Without this, you'd see errors when you archive like:
+        # "Multiple commands produce ... libReact.a"
+        # "Multiple commands produce ... libyoga.a"
+        
+        targets_to_ignore = %w(React yoga)
+        
+        if targets_to_ignore.include? target.name
+            target.remove_from_project
+        end
+        
+    end
 end

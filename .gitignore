@@ -2,7 +2,9 @@
 config.json*
 android/app/google-services.json
 android/app/src/dev/google-services.json
+ios/cfg/GoogleService-Info.*.plist
 ios/cfg/GoogleService-Info.plist
+ios/cfg/secrets.tar
 
 # OSX
 #
@@ -28,6 +30,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+*.dSYM.zip
 
 # Android/IntelliJ
 #
@@ -61,6 +64,8 @@ android/keystores/debug.keystore
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+*/fastlane/test_output/report.html
+*/fastlane/test_output/report.junit
 
 # Bundle artifact
 *.jsbundle

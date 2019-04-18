@@ -1,0 +1,47 @@
+# fastlane/Fastfile
+default_platform :ios
+setup_travis
+
+platform :ios do
+  before_all do
+    cocoapods(repo_update: true, silent: true)
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    match(type: "development", readonly: is_ci)
+    scan(scheme: "mapswipe",
+         configuration: "Debug",
+         clean: true,
+         derived_data_path: "build",
+         build_for_testing: true,
+         devices:['iPhone X'])
+    scan(scheme: "mapswipe",
+         configuration: "Debug",
+         test_without_building: true,
+         derived_data_path: "build",
+         devices:['iPhone X'])
+  end
+
+  lane :release do
+    # build production version and upload to appstore
+    match(type: "appstore", readonly: is_ci)
+    build_app(scheme: "mapswipe", configuration: "Release", clean: true)
+    upload_to_app_store
+    slack(message: "Successfully uploaded a new App Store build")
+  end
+
+  lane :build do
+    # adjust build number and version, and compile the app into an ipa
+    increment_build_number(build_number: ENV['MAPSWIPE_BUILD_NUMBER'])
+    increment_version_number(version_number: ENV['MAPSWIPE_PACKAGE_VERSION'])
+    match(type: "appstore", readonly: is_ci)
+    build_app(scheme: "mapswipe", configuration: "Release", clean: true, silent: true)
+  end
+
+  lane :beta do
+    # upload the ipa to testflight (dev-mapswipe version)
+    upload_to_testflight(username: "mapswipe.dev@gmail.com")
+    slack(message: "Successfully distributed a new beta build")
+  end
+end

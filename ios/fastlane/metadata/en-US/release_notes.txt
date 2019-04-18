@@ -1,0 +1,4 @@
+- Fixes double imagery
+- Fixes tutorial and adds more extensive documentation to the tasks
+- Fixes project sorting and displaying the feature image properly
+- Adds the ability to hide projects
