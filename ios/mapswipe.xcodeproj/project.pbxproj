@@ -372,7 +372,6 @@
 		7458B98F18CB2FD970F42815 /* Pods-mapswipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe/Pods-mapswipe.debug.xcconfig"; sourceTree = "<group>"; };
 		76FDFD0E9C0E3BC32A011524 /* libPods-mapswipe-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipe-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		81EF88BDD62288D8EDFDF33E /* Pods-mapswipe-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOS/Pods-mapswipe-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		91449E5226D3C367CD2E5E7F /* Pods-mapswipe-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOS/Pods-mapswipe-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		AB02778A21D7E68B00F713BA /* mapswipeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mapswipeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -858,6 +857,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

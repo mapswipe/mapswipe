@@ -206,7 +206,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BVLinearGradient: b0b70acf63ee888829b7c2ebbf6b50e227396e55
+  BVLinearGradient: 0d985ec461359c82bc254f26d11008bdae50d17a
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
@@ -222,13 +222,13 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-splash-screen: a49be22f0f6648b8416f3bd28258645eeaa5b42b
-  RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
+  React: 67899bbb285ceb9b4ee1c88b3991602ba5772ad2
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
-  SentryReactNative: 4c4ac0518ba34bb90832af4ceb8f2e9db861c1ed
-  yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
+  SentryReactNative: 2c3cc5e3417a4e2cb3b9449f3ea99ac021fe6575
+  yoga: 192d724e53380b783e09b7d687a55cd8ed5188be
 
 PODFILE CHECKSUM: 22fc62db87fa14eb9de84e5ba6f3c8e270239197
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
