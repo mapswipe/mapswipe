@@ -148,7 +148,7 @@ export default class ProjectCard extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.id}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.projectId}`),
         };
     }
 
@@ -172,7 +172,7 @@ export default class ProjectCard extends React.Component<Props, State> {
 
     getGradientArray() {
         const { card } = this.props;
-        const gradientToPick = card.id % 3;
+        const gradientToPick = card.projectId % 3;
         let gradientCountArray = null;
 
         const gradientOpacity = ['0.6', '0.8'];

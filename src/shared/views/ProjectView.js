@@ -260,7 +260,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         // GLOBAL.ANALYTICS.logEvent('project_view_opened');
         const parent = this;
         parent.setState({
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.id}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.projectId}`),
         });
         setInterval(() => {
             if (!parent.mounted) {
@@ -270,7 +270,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             const downloadProgress = 0;
             parent.setState({
                 downloadProgress,
-                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.id}`),
+                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.projectId}`),
             });
         }, 300);
     }
@@ -286,7 +286,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 
     handlePress = () => {
         const { navigation, project } = this.props;
-        if (!GLOBAL.DB.hasOpenDownloads(`project-${project.id}`)) {
+        if (!GLOBAL.DB.hasOpenDownloads(`project-${project.projectId}`)) {
             this.checkWifiMapping();
         } else {
             Alert.alert(

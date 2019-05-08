@@ -21,13 +21,13 @@ export type NavigationProp = NavigationScreenProp<NavigationState>;
 
 export type ProjectType = {
     contributors: number,
-    id: number,
     image: string,
     info: { apiKey: string, tileServerUrl: string },
     isFeatured: boolean,
     lookFor: string,
     name: string,
     projectDetails: string,
+    projectId: number,
     projectType: ?number,
     progress: number,
     state: number,
