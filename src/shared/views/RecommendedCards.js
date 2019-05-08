@@ -212,11 +212,12 @@ const mapStateToProps = (state, ownProps) => (
 
 export default compose(
     firebaseConnect(() => [
-        // request only active projects from firebase (state === 0)
-        // limit to 20 projects maximum
+        // request only active projects from firebase (status === 'active')
+        // firebase doesn't allow multiple query params, so for project types we filter in render()
+        // but here we can still limit to 20 projects maximum
         // `path` defines where the resulting data is copied in the redux store
         // (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
-        { path: 'projects', queryParams: ['orderByChild=state', 'equalTo=0', 'limitToFirst=20'] },
+        { path: 'projects', queryParams: ['orderByChild=status', 'equalTo=active', 'limitToFirst=20'] },
         // load any announcement data from firebase
         // (state.firebase.data.announcement here because we've not ordered the query)
         { path: 'announcement', queryParams: ['limitToLast=2'] },
