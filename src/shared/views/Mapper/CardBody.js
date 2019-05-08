@@ -79,13 +79,13 @@ class _CardBody extends React.Component<Props, State> {
     generateCards = () => {
         const { group } = this.props;
         const groupId = Object.keys(group)[0];
-        const data = group[groupId];
+        const groupData = group[groupId];
         const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
         const cards = [];
 
         // iterate over all the tasksI with an interval of the tilesPerRow variable
-        const minX = parseFloat(data.xMin);
-        const maxX = parseFloat(data.xMax);
+        const minX = parseFloat(groupData.xMin);
+        const maxX = parseFloat(groupData.xMax);
         for (let cardX = minX; cardX < maxX; cardX += tilesPerRow) {
             const cardToPush: CardToPushType = {
                 cardX,
@@ -94,7 +94,9 @@ class _CardBody extends React.Component<Props, State> {
             };
 
             // iterate over Y once and place all X tiles for this Y coordinate in the tile cache.
-            for (let tileY = parseFloat(data.yMax); tileY >= parseFloat(data.yMin); tileY -= 1) {
+            const yMin = parseInt(groupData.yMin, 10);
+            const yMax = parseInt(groupData.yMax, 10);
+            for (let tileY = yMax; tileY >= yMin; tileY -= 1) {
                 const tileRowObject = {
                     rowYStart: tileY,
                     rowYEnd: tileY,
@@ -102,15 +104,20 @@ class _CardBody extends React.Component<Props, State> {
                     cardXEnd: cardX,
                     tiles: [],
                 };
-                const tileMinX = parseFloat(cardX);
+                const tileMinX = parseInt(cardX, 10);
                 const tileMaxX = tileMinX + tilesPerRow;
-                for (let tileX = parseFloat(cardX); tileX < tileMaxX; tileX += 1) {
-                    if (data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`] !== undefined) {
-                        cardToPush.validTiles += 1;
-                    }
-                    tileRowObject.tiles.push(
-                        data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`] === undefined ? 'emptytile' : data.tasks[`${data.zoomLevel}-${tileX}-${tileY}`],
+                for (let tileX = tileMinX; tileX < tileMaxX; tileX += 1) {
+                    const taskIdx = groupData.tasks.findIndex(
+                        e => (parseInt(e.taskX, 10) === tileX && parseInt(e.taskY, 10) === tileY),
                     );
+                    if (taskIdx > -1) {
+                        // we have a valid task for these coordinates
+                        cardToPush.validTiles += 1;
+                        tileRowObject.tiles.push(groupData.tasks[taskIdx]);
+                    } else {
+                        // no task: insert an empty tile marker
+                        tileRowObject.tiles.push('emptytile');
+                    }
 
                     if (tileY > tileRowObject.rowYEnd) {
                         tileRowObject.rowYEnd = tileY;

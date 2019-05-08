@@ -57,7 +57,7 @@ const TileRow = (props: TRProps) => {
             if (tile === 'emptytile') {
                 rows.push(<EmptyTile key={Math.random()} />);
             } else {
-                rows.push(<Tile tile={tile} key={tile.id} mapper={mapper} />);
+                rows.push(<Tile tile={tile} key={tile.taskId} mapper={mapper} />);
             }
         }
     });
