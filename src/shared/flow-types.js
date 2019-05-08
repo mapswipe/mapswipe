@@ -36,18 +36,23 @@ export type ProjectType = {
 export type ProjectMapType = { [project_id: string]: ProjectType };
 
 export type TaskType = {
+    groupId: number,
     featureId?: number,
     geojson?: { type: string, coordinates: { [number]: Polygon }},
-    id: string,
+    projectId: number,
+    taskId: string,
+    taskX: number,
+    taskY: number,
+    url: string,
 }
 
 export type TaskMapType = { [task_id: string]: TaskType };
 
 export type GroupType = {
-    id: number,
+    groupId: number,
     neededCount: number,
     projectId: number,
-    tasks: TaskMapType,
+    tasks: Array<TaskType>,
     zoomLevel: number,
     xMax: number;
     xMin: number;
@@ -58,8 +63,11 @@ export type GroupType = {
 export type GroupMapType = { [group_id: string]: GroupType };
 
 export type ResultType = {
-    id: number,
+    groupId: number,
+    projectId: number,
+    resultId: string,
     result: number,
+    timestamp: {},
 }
 
 export type ResultMapType = { [string]: ResultType };

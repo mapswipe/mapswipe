@@ -18,7 +18,7 @@ export default function results(state: ResultMapType = defaultResultsState, acti
         const { tileInfo } = action;
         return {
             ...state,
-            [tileInfo.id]: tileInfo,
+            [tileInfo.resultId]: tileInfo,
         };
     }
     case SUBMIT_BUILDING_FOOTPRINT: {
