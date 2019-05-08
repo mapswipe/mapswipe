@@ -178,13 +178,19 @@ class _RecommendedCards extends React.Component<Props> {
             return (<Text>Nothing to work on!</Text>);
         }
 
+        // since we can't completely filter projects by status AND projectType in firebase
+        // we add a filter here to make sure we only display project types that the app can handle
         return (
             <ScrollView
                 contentContainerStyle={style.listView}
                 removeClippedSubviews
             >
                 { this.renderAnnouncement() }
-                { projects.sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
+                { projects.filter(
+                    p => p.value && p.value.projectType
+                    && GLOBAL.SUPPORTED_PROJECT_TYPES.includes(p.value.projectType),
+                )
+                    .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
                     .map(project => (
                         <ProjectCard
                             navigation={navigation}
