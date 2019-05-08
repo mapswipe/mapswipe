@@ -448,6 +448,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             renderQueue.push(chunk, '\n');
         });
 
+        // show progress = 0 if we somehow get a negative value
+        const projectProgress = Math.max(0, project.progress).toFixed(0);
+
         return (
             <ScrollView style={style.projectViewContainer}>
                 <ImageBackground
@@ -469,7 +472,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                     <Text
                                         style={style.infoBlockText}
                                     >
-                                        {`${project.progress.toFixed(0)}% GLOBAL PROGRESS BY `}
+                                        {`${projectProgress}% GLOBAL PROGRESS BY `}
                                         {`${project.contributors} MAPPERS JUST LIKE YOU.`}
                                     </Text>
                                     <Image
