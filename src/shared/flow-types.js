@@ -22,7 +22,6 @@ export type NavigationProp = NavigationScreenProp<NavigationState>;
 export type ProjectType = {
     contributors: number,
     image: string,
-    info: { apiKey: string, tileServerUrl: string },
     isFeatured: boolean,
     lookFor: string,
     name: string,
@@ -31,6 +30,11 @@ export type ProjectType = {
     projectType: ?number,
     progress: number,
     state: number,
+    tileServer: {
+        apiKey: string,
+        name: string,
+        url: string,
+    },
 };
 
 export type ProjectMapType = { [project_id: string]: ProjectType };

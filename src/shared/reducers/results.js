@@ -26,7 +26,7 @@ export default function results(state: ResultMapType = defaultResultsState, acti
         const { resultObject } = action;
         return {
             ...state,
-            [resultObject.id]: resultObject,
+            [resultObject.resultId]: resultObject,
         };
     }
     case COMMIT_TASK_SUCCESS: {

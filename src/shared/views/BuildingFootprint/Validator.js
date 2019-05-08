@@ -1,5 +1,8 @@
 // @flow
 import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     StyleSheet,
     View,
@@ -10,7 +13,7 @@ import LoadingIcon from '../LoadingIcon';
 import type {
     GroupType,
     ProjectType,
-    TaskMapType,
+    TaskType,
 } from '../../flow-types';
 
 const styles = StyleSheet.create({
@@ -40,7 +43,7 @@ type State = {
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
 type taskGenType = Generator<string, void, void>;
 
-export default class Validator extends React.Component<Props, State> {
+class _Validator extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -51,17 +54,19 @@ export default class Validator extends React.Component<Props, State> {
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
         const { group } = this.props;
-        if (prevProps.group !== group) {
+        if (prevProps.group.tasks !== group.tasks) {
             const currentTaskId = this.setupTaskIdGenerator(group.tasks);
             this.setState({ currentTaskId });
         }
     }
 
-    setupTaskIdGenerator = (tasks: TaskMapType) => {
-        this.taskGen = this.makeNextTaskGenerator(tasks);
-        const taskGenValue = this.taskGen.next();
-        if (!taskGenValue.done) {
-            return taskGenValue.value;
+    setupTaskIdGenerator = (tasks: Array<TaskType>) => {
+        if (isLoaded(tasks) && !isEmpty(tasks)) {
+            this.taskGen = this.makeNextTaskGenerator(tasks);
+            const taskGenValue = this.taskGen.next();
+            if (!taskGenValue.done) {
+                return taskGenValue.value;
+            }
         }
         return ''; // to keep flow and eslint happy
     }
@@ -82,10 +87,10 @@ export default class Validator extends React.Component<Props, State> {
     taskGen: taskGenType;
 
     // eslint-disable-next-line class-methods-use-this
-    * makeNextTaskGenerator(tasks: TaskMapType): taskGenType {
+    * makeNextTaskGenerator(tasks: Array<TaskType>): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
-        const taskIds = Object.keys(tasks);
+        const taskIds = tasks.map(t => t.taskId);
         let i;
         // eslint-disable-next-line no-plusplus
         for (i = 0; i < taskIds.length; i++) {
@@ -96,7 +101,10 @@ export default class Validator extends React.Component<Props, State> {
     render = () => {
         const { group, project } = this.props;
         const { currentTaskId } = this.state;
-        const currentTask = group.tasks[currentTaskId];
+        if (!group.tasks) {
+            return <LoadingIcon />;
+        }
+        const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
@@ -137,3 +145,31 @@ export default class Validator extends React.Component<Props, State> {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        commitCompletedGroup: ownProps.commitCompletedGroup,
+        group: ownProps.group,
+        project: ownProps.project,
+        submitFootprintResult: ownProps.submitFootprintResult,
+    }
+);
+
+export default compose(
+    firebaseConnect((props) => {
+        if (props.group) {
+            const { groupId } = props.group;
+            return [
+                {
+                    path: `tasks/${props.project.projectId}/${groupId}`,
+                    // queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
+                    storeAs: `group/${groupId}/tasks`,
+                },
+            ];
+        }
+        return [];
+    }),
+    connect(
+        mapStateToProps,
+    ),
+)(_Validator);

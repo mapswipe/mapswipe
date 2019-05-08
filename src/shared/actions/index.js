@@ -48,7 +48,8 @@ export function commitTaskFailed(taskId: string, error: {}) {
     return { type: COMMIT_TASK_FAILED, taskId, error };
 }
 
-export function submitFootprint(resultObject: ResultType) {
+type SubmitFootprint = { type: typeof SUBMIT_BUILDING_FOOTPRINT, resultObject: ResultType };
+export function submitFootprint(resultObject: ResultType): SubmitFootprint {
     return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
 }
 

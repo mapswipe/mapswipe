@@ -11,6 +11,7 @@ import DeviceInfo from 'react-native-device-info';
 import { commitGroup, submitFootprint } from '../../actions/index';
 import Header from '../Header';
 import Validator from './Validator';
+import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
 import type {
@@ -68,16 +69,14 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
     }
 
     submitFootprintResult = (result, taskId) => {
-        const { onSubmitFootprint } = this.props;
+        const { group, onSubmitFootprint } = this.props;
         const resultObject = {
-            id: taskId,
+            resultId: taskId,
             result,
-            projectId: this.project.id,
-            item: 'Buildings',
-            device: this.deviceId,
+            groupId: group[Object.keys(group)[0]].groupId,
+            projectId: this.project.projectId,
             user: GLOBAL.DB.getAuth().getUser().uid,
             timestamp: GLOBAL.DB.getTimestamp(),
-            wkt: '',
         };
         onSubmitFootprint(resultObject);
     }
@@ -107,7 +106,7 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         const { group, navigation } = this.props;
         const { groupCompleted } = this.state;
         if (!group) {
-            return null;
+            return <LoadingIcon />;
         }
         const groupData : GroupType = group[Object.keys(group)[0]];
         if (groupCompleted) {
@@ -116,7 +115,7 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
                     getContributions={this.getContributions}
                     group={groupData}
                     navigation={navigation}
-                    projectId={this.project.id}
+                    projectId={this.project.projectId}
                     toNextGroup={this.toNextGroup}
                 />
             );
@@ -160,7 +159,7 @@ const mapDispatchToProps = dispatch => (
 export default compose(
     firebaseConnect(props => [
         {
-            path: `groups/${props.navigation.getParam('project').id}`,
+            path: `groups/${props.navigation.getParam('project').projectId}`,
             queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
             storeAs: 'group',
         },
