@@ -64,10 +64,11 @@ class _CardBody extends React.Component<Props, State> {
 
     componentDidUpdate = (prevProps) => {
         const { group, mapper } = this.props;
-        if (prevProps.group !== group) {
-            if (isLoaded(group) && !isEmpty(group)) {
+        const groupId = Object.keys(prevProps.group)[0];
+        if (prevProps.group[groupId].tasks !== group[groupId].tasks) {
+            if (isLoaded(group[groupId].tasks) && !isEmpty(group[groupId].tasks)) {
                 this.generateCards();
-                mapper.progress.updateProgress(0);
+                if (mapper.progress) mapper.progress.updateProgress(0);
                 if (this.scrollView) {
                     this.scrollView.scrollTo({ x: 0, animated: false });
                 }
@@ -209,7 +210,7 @@ class _CardBody extends React.Component<Props, State> {
 
 const mapStateToProps = (state, ownProps) => (
     {
-        group: state.firebase.data.group,
+        group: ownProps.group,
         mapper: ownProps.mapper,
         navigation: ownProps.navigation,
         projectId: ownProps.projectId,
@@ -217,13 +218,19 @@ const mapStateToProps = (state, ownProps) => (
 );
 
 export default compose(
-    firebaseConnect(props => [
-        {
-            path: `groups/${props.projectId}`,
-            queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
-            storeAs: 'group',
-        },
-    ]),
+    firebaseConnect((props) => {
+        if (props.group) {
+            const groupId = Object.keys(props.group)[0];
+            return [
+                {
+                    path: `tasks/${props.projectId}/${groupId}`,
+                    // queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
+                    storeAs: `group/${groupId}/tasks`,
+                },
+            ];
+        }
+        return [];
+    }),
     connect(
         mapStateToProps,
     ),

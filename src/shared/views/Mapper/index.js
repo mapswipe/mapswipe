@@ -13,7 +13,8 @@ import Button from 'apsl-react-native-button';
 import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
-import type { NavigationProp, ProjectType } from '../../flow-types';
+import LoadingIcon from '../LoadingIcon';
+import type { GroupType, NavigationProp, ProjectType } from '../../flow-types';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    group: GroupType,
     navigation: NavigationProp,
 }
 
@@ -151,8 +153,23 @@ class _Mapper extends React.Component<Props, State> {
 
     render() {
         /* eslint-disable global-require */
-        const { navigation } = this.props;
+        const { group, navigation } = this.props;
         const { poppedUpTile } = this.state;
+        let comp;
+        // only show the mapping component once we have downloaded the group data
+        if (group) {
+            comp = (
+                <CardBody
+                    group={group}
+                    mapper={this}
+                    navigation={navigation}
+                    projectId={this.project.projectId}
+                />
+            );
+        } else {
+            comp = <LoadingIcon />;
+        }
+
         return (
             <View style={styles.mappingContainer}>
                 <Header
@@ -161,11 +178,8 @@ class _Mapper extends React.Component<Props, State> {
                     onInfoPress={this.openTutorialModal}
                 />
 
-                <CardBody
-                    projectId={this.project.id}
-                    mapper={this}
-                    navigation={navigation}
-                />
+                {comp}
+
                 <BottomProgress ref={(r) => { this.progress = r; }} />
                 <Modal
                     style={[styles.modal, styles.tutorialModal]}
@@ -249,14 +263,26 @@ HOLD TO
 
 const mapStateToProps = (state, ownProps) => (
     {
+        group: state.firebase.data.group,
         navigation: ownProps.navigation,
     }
 );
 
 // Mapper
 export default compose(
-    firebaseConnect(() => [
-    ]),
+    firebaseConnect((props) => {
+        const { projectId } = props.navigation.getParam('project', null);
+        if (projectId) {
+            return [
+                {
+                    path: `groups/${projectId}`,
+                    queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
+                    storeAs: 'group',
+                },
+            ];
+        }
+        return [];
+    }),
     connect(
         mapStateToProps,
     ),
