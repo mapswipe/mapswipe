@@ -63,7 +63,7 @@
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
                BuildableName = "mapswipeTests.xctest"
                BlueprintName = "mapswipeTests"
-               ReferencedContainer = "container:mapswipe.temp_caseinsensitive_rename.xcodeproj">
+               ReferencedContainer = "container:mapswipe.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -73,7 +73,7 @@
                BlueprintIdentifier = "AB02778921D7E68B00F713BA"
                BuildableName = "mapswipeUITests.xctest"
                BlueprintName = "mapswipeUITests"
-               ReferencedContainer = "container:mapswipe.temp_caseinsensitive_rename.xcodeproj">
+               ReferencedContainer = "container:mapswipe.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

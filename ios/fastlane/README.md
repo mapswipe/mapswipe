@@ -26,6 +26,11 @@ Runs all the tests
 fastlane ios release
 ```
 
+### ios build
+```
+fastlane ios build
+```
+
 ### ios beta
 ```
 fastlane ios beta
