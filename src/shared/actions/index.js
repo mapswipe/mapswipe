@@ -97,31 +97,5 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
                 .then(() => dispatch(commitTaskSuccess(resultId)))
                 .catch(error => dispatch(commitTaskFailed(resultId, error)));
         });
-
-        // increase the completion count on the group so we know how many users
-        // have swiped through it
-        // FIXME: chain all the promises above so that we can throw an action
-        // once they have all completed
-        firebase.database().ref(`groups/${groupInfo.projectId}/${groupInfo.groupId}`)
-            .transaction((group) => {
-                const newGroup = group;
-                if (group) {
-                    newGroup.completedCount += 1;
-                }
-                return newGroup;
-            });
-
-        // update the user's contributions and total mapped area
-        const addedContributions = groupInfo.contributionsCount || 0;
-        const addedDistance = groupInfo.addedDistance || 0;
-        firebase.database().ref(`users/${userId}/`)
-            .transaction((user) => {
-                const newUser = user;
-                if (user) {
-                    newUser.contributions += addedContributions;
-                    newUser.distance += addedDistance;
-                }
-                return newUser;
-            });
     };
 }
