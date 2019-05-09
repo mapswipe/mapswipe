@@ -69,7 +69,7 @@ matrix:
         - travis_retry npm install -g yarn
         - yarn -version
         # open the secret box with passwords and API keys
-        - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
+        - openssl aes-256-cbc -K $encrypted_175ea8c9aaac_key -iv $encrypted_175ea8c9aaac_iv -in secrets.tar.enc -out secrets.tar -d
         - tar -xvf secrets.tar
       install:
         - bundle install
