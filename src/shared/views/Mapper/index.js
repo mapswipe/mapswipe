@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { get } from 'lodash';
 import {
     Text,
     View,
@@ -261,13 +262,6 @@ HOLD TO
     /* eslint-enable global-require */
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        group: state.firebase.data.group,
-        navigation: ownProps.navigation,
-    }
-);
-
 // Mapper
 export default compose(
     firebaseConnect((props) => {
@@ -283,7 +277,21 @@ export default compose(
         }
         return [];
     }),
-    connect(
-        mapStateToProps,
-    ),
+    connect((state, ownProps) => {
+        // if we're offline, there might be more than 1 group in the local
+        // firebase data, so we need to pick one that is actually linked
+        // to our current project. Which one doesn't really matter at this point,
+        // so we just take the first one that matches.
+        const { projectId } = ownProps.navigation.getParam('project', null);
+        let groupId = '';
+        if (isLoaded(state.firebase.data.group)) {
+            // eslint-disable-next-line prefer-destructuring
+            groupId = Object.keys(state.firebase.data.group).filter(key => (
+                state.firebase.data.group[key].projectId === projectId))[0];
+        }
+        return {
+            group: get(state.firebase.data, `group.${groupId}`),
+            navigation: ownProps.navigation,
+        };
+    }),
 )(_Mapper);

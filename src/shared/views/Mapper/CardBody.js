@@ -14,7 +14,7 @@ import LoadMoreCard from '../LoadMore';
 import { Tile } from './Tile';
 import IndividualCard from './IndividualCard';
 import type {
-    GroupMapType,
+    GroupType,
     Mapper,
     NavigationProp,
 } from '../../flow-types';
@@ -38,7 +38,7 @@ type CardToPushType = {
 };
 
 type Props = {
-    group: GroupMapType,
+    group: GroupType,
     mapper: Mapper,
     navigation: NavigationProp,
     projectId: number,
@@ -64,9 +64,8 @@ class _CardBody extends React.Component<Props, State> {
 
     componentDidUpdate = (prevProps) => {
         const { group, mapper } = this.props;
-        const groupId = Object.keys(prevProps.group)[0];
-        if (prevProps.group[groupId].tasks !== group[groupId].tasks) {
-            if (isLoaded(group[groupId].tasks) && !isEmpty(group[groupId].tasks)) {
+        if (prevProps.group.tasks !== group.tasks) {
+            if (isLoaded(group.tasks) && !isEmpty(group.tasks)) {
                 this.generateCards();
                 if (mapper.progress) mapper.progress.updateProgress(0);
                 if (this.scrollView) {
@@ -78,14 +77,12 @@ class _CardBody extends React.Component<Props, State> {
 
     generateCards = () => {
         const { group } = this.props;
-        const groupId = Object.keys(group)[0];
-        const groupData = group[groupId];
         const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
         const cards = [];
 
         // iterate over all the tasksI with an interval of the tilesPerRow variable
-        const minX = parseFloat(groupData.xMin);
-        const maxX = parseFloat(groupData.xMax);
+        const minX = parseFloat(group.xMin);
+        const maxX = parseFloat(group.xMax);
         for (let cardX = minX; cardX < maxX; cardX += tilesPerRow) {
             const cardToPush: CardToPushType = {
                 cardX,
@@ -94,8 +91,8 @@ class _CardBody extends React.Component<Props, State> {
             };
 
             // iterate over Y once and place all X tiles for this Y coordinate in the tile cache.
-            const yMin = parseInt(groupData.yMin, 10);
-            const yMax = parseInt(groupData.yMax, 10);
+            const yMin = parseInt(group.yMin, 10);
+            const yMax = parseInt(group.yMax, 10);
             for (let tileY = yMax; tileY >= yMin; tileY -= 1) {
                 const tileRowObject = {
                     rowYStart: tileY,
@@ -107,13 +104,13 @@ class _CardBody extends React.Component<Props, State> {
                 const tileMinX = parseInt(cardX, 10);
                 const tileMaxX = tileMinX + tilesPerRow;
                 for (let tileX = tileMinX; tileX < tileMaxX; tileX += 1) {
-                    const taskIdx = groupData.tasks.findIndex(
+                    const taskIdx = group.tasks.findIndex(
                         e => (parseInt(e.taskX, 10) === tileX && parseInt(e.taskY, 10) === tileY),
                     );
                     if (taskIdx > -1) {
                         // we have a valid task for these coordinates
                         cardToPush.validTiles += 1;
-                        tileRowObject.tiles.push(groupData.tasks[taskIdx]);
+                        tileRowObject.tiles.push(group.tasks[taskIdx]);
                     } else {
                         // no task: insert an empty tile marker
                         tileRowObject.tiles.push('emptytile');
@@ -189,7 +186,7 @@ class _CardBody extends React.Component<Props, State> {
             rows.push(<LoadMoreCard
                 key={lastCard ? lastCard.id / 2 : 0}
                 getContributions={this.getContributions}
-                group={group[Object.keys(group)[0]]}
+                group={group}
                 navigation={navigation}
                 projectId={projectId}
                 toNextGroup={this.toNextGroup}
@@ -227,7 +224,7 @@ const mapStateToProps = (state, ownProps) => (
 export default compose(
     firebaseConnect((props) => {
         if (props.group) {
-            const groupId = Object.keys(props.group)[0];
+            const { groupId } = props.group;
             return [
                 {
                     path: `tasks/${props.projectId}/${groupId}`,
