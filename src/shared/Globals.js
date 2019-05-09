@@ -44,4 +44,5 @@ module.exports = {
     GRADIENT_COUNT: 0,
     TUT_LINK: 'http://www.missingmaps.org/blog/2016/07/18/mapswipetutorial/',
     // ANALYTICS: Analytics,
+    SUPPORTED_PROJECT_TYPES: [1, 2],
 };

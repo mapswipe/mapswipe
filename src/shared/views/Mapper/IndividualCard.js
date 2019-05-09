@@ -8,9 +8,8 @@ import {
     Text,
     View,
 } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import { toggleMapTile } from '../../actions/index';
-import type { Mapper, TaskType } from '../../flow-types';
+import type { Mapper, ResultType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
 
 const GLOBAL = require('../../Globals');
@@ -57,7 +56,7 @@ const TileRow = (props: TRProps) => {
             if (tile === 'emptytile') {
                 rows.push(<EmptyTile key={Math.random()} />);
             } else {
-                rows.push(<Tile tile={tile} key={tile.id} mapper={mapper} />);
+                rows.push(<Tile tile={tile} key={tile.taskId} mapper={mapper} />);
             }
         }
     });
@@ -72,7 +71,7 @@ const TileRow = (props: TRProps) => {
 type ICProps = {
     card: Object,
     mapper: Mapper,
-    onToggleTile: TaskType => void,
+    onToggleTile: ResultType => void,
 };
 
 type ICState = {
@@ -138,19 +137,17 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
-        const { card, mapper, onToggleTile } = this.props;
+        const { card, onToggleTile } = this.props;
         console.log('ResponderEnd', gestureState.dx, gestureState.dy);
         this.setState({ showSwipeHelp: false });
         if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 1.5) {
             card.tileRows.forEach((row) => {
                 row.tiles.forEach((tile) => {
                     onToggleTile({
-                        id: tile.id,
+                        groupId: tile.groupId,
+                        resultId: tile.taskId,
                         result: 3,
                         projectId: tile.projectId,
-                        wkt: tile.wkt,
-                        item: mapper.project.lookFor,
-                        device: DeviceInfo.getUniqueID(),
                         user: GLOBAL.DB.getAuth().getUser().uid,
                         timestamp: GLOBAL.DB.getTimestamp(),
                     });

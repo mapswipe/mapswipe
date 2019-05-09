@@ -10,9 +10,12 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import DeviceInfo from 'react-native-device-info';
 import { toggleMapTile } from '../../actions/index';
-import type { Mapper, TaskType } from '../../flow-types';
+import type {
+    Mapper,
+    ResultType,
+    TaskType,
+} from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -48,9 +51,9 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    tile: Object,
+    tile: TaskType,
     mapper: Mapper,
-    onToggleTile: TaskType => void,
+    onToggleTile: ResultType => void,
     results: TaskType,
 };
 
@@ -63,7 +66,7 @@ export class _Tile extends React.Component<Props> {
 
     shouldComponentUpdate(nextProps: Props) {
         const { results, tile } = this.props;
-        return (results[tile.id] !== nextProps.results[tile.id]);
+        return (results[tile.taskId] !== nextProps.results[tile.taskId]);
     }
 
     getTileColor = (status: number) => {
@@ -84,19 +87,15 @@ export class _Tile extends React.Component<Props> {
             tile,
         } = this.props;
         mapper.closeTilePopup();
-        let tileStatus = results[tile.id] ? results[tile.id].result : 0;
+        let tileStatus = results[tile.taskId] ? results[tile.taskId].result : 0;
         tileStatus = (tileStatus + 1) % 4;
-        const task = {
-            id: tile.id,
+        onToggleTile({
+            resultId: tile.taskId,
             result: tileStatus,
+            groupId: tile.groupId,
             projectId: tile.projectId,
-            wkt: tile.wkt,
-            item: mapper.project.lookFor,
-            device: DeviceInfo.getUniqueID(),
-            user: GLOBAL.DB.getAuth().getUser().uid,
             timestamp: GLOBAL.DB.getTimestamp(),
-        };
-        onToggleTile(task);
+        });
     }
 
     onDismissZoom = () => {
@@ -154,7 +153,7 @@ export class _Tile extends React.Component<Props> {
 
     render() {
         const { results, tile } = this.props;
-        const tileStatus = results[tile.id] ? results[tile.id].result : 0;
+        const tileStatus = results[tile.taskId] ? results[tile.taskId].result : 0;
         const overlayColor = this.getTileColor(tileStatus);
         const animatedRows = [];
         const showAnim = Math.floor(Math.random() * 5);
@@ -162,7 +161,7 @@ export class _Tile extends React.Component<Props> {
         if (tileStatus > 1 && showAnim === 1) {
             animatedRows.push(
                 <Animatable.Text
-                    key={`anim-${tile.id}`}
+                    key={`anim-${tile.taskId}`}
                     animation={this.getFunText()[0]}
                     style={styles.animatedText}
                 >
@@ -179,10 +178,10 @@ export class _Tile extends React.Component<Props> {
             >
                 <ImageBackground
                     style={styles.tileStyle}
-                    key={`touch-${tile.id}`}
+                    key={`touch-${tile.taskId}`}
                     source={imageSource}
                 >
-                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${tile.id}`}>
+                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${tile.taskId}`}>
                         {animatedRows}
                     </View>
                 </ImageBackground>
@@ -197,6 +196,7 @@ const mapStateToProps = (state, ownProps) => (
         navigation: ownProps.navigation,
         projectId: ownProps.projectId,
         results: state.results,
+        tile: ownProps.tile,
     }
 );
 

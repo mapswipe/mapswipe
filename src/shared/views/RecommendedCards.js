@@ -178,13 +178,19 @@ class _RecommendedCards extends React.Component<Props> {
             return (<Text>Nothing to work on!</Text>);
         }
 
+        // since we can't completely filter projects by status AND projectType in firebase
+        // we add a filter here to make sure we only display project types that the app can handle
         return (
             <ScrollView
                 contentContainerStyle={style.listView}
                 removeClippedSubviews
             >
                 { this.renderAnnouncement() }
-                { projects.sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
+                { projects.filter(
+                    p => p.value && p.value.projectType
+                    && GLOBAL.SUPPORTED_PROJECT_TYPES.includes(p.value.projectType),
+                )
+                    .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
                     .map(project => (
                         <ProjectCard
                             navigation={navigation}
@@ -212,11 +218,12 @@ const mapStateToProps = (state, ownProps) => (
 
 export default compose(
     firebaseConnect(() => [
-        // request only active projects from firebase (state === 0)
-        // limit to 20 projects maximum
+        // request only active projects from firebase (status === 'active')
+        // firebase doesn't allow multiple query params, so for project types we filter in render()
+        // but here we can still limit to 20 projects maximum
         // `path` defines where the resulting data is copied in the redux store
         // (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
-        { path: 'projects', queryParams: ['orderByChild=state', 'equalTo=0', 'limitToFirst=20'] },
+        { path: 'projects', queryParams: ['orderByChild=status', 'equalTo=active', 'limitToFirst=20'] },
         // load any announcement data from firebase
         // (state.firebase.data.announcement here because we've not ordered the query)
         { path: 'announcement', queryParams: ['limitToLast=2'] },

@@ -148,7 +148,7 @@ export default class ProjectCard extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.id}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.projectId}`),
         };
     }
 
@@ -172,7 +172,7 @@ export default class ProjectCard extends React.Component<Props, State> {
 
     getGradientArray() {
         const { card } = this.props;
-        const gradientToPick = card.id % 3;
+        const gradientToPick = card.projectId % 3;
         let gradientCountArray = null;
 
         const gradientOpacity = ['0.6', '0.8'];
@@ -201,6 +201,9 @@ export default class ProjectCard extends React.Component<Props, State> {
             cardIndex,
         } = this.props;
         const { hasOfflineGroups } = this.state;
+        // show progress = 0 if we somehow get a negative value
+        const progress = Math.max(0, card.progress).toFixed(0);
+
         return (
             <TouchableOpacity onPress={this.handlePress}>
                 <View
@@ -242,7 +245,7 @@ export default class ProjectCard extends React.Component<Props, State> {
                                     source={require('./assets/heart_icon.png')}
                                 />
                                 <Text style={style.teamMateText}>
-                                    {`${card.progress.toFixed(0)}% by ${card.contributors} mappers`}
+                                    {`${progress}% by ${card.contributors} mappers`}
                                 </Text>
                             </View>
                         </View>

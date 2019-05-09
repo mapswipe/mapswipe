@@ -1,7 +1,7 @@
 // @flow
 
 import { actionTypes } from 'react-redux-firebase';
-import type { ResultType, State } from '../flow-types';
+import type { ResultMapType, ResultType, State } from '../flow-types';
 
 export const WELCOME_COMPLETED: 'WELCOME_COMPLETED' = 'WELCOME_COMPLETED';
 export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' = 'AUTH_STATUS_AVAILABLE';
@@ -48,7 +48,8 @@ export function commitTaskFailed(taskId: string, error: {}) {
     return { type: COMMIT_TASK_FAILED, taskId, error };
 }
 
-export function submitFootprint(resultObject: ResultType) {
+type SubmitFootprint = { type: typeof SUBMIT_BUILDING_FOOTPRINT, resultObject: ResultType };
+export function submitFootprint(resultObject: ResultType): SubmitFootprint {
     return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
 }
 
@@ -57,7 +58,7 @@ export type GroupInfo = {
     groupId: number,
     projectId: number,
     contributionsCount: number,
-    tasks: {},
+    results: ResultMapType,
     zoomLevel: number
 }
 
@@ -80,40 +81,21 @@ type ThunkAction = (dispatch: Dispatch, getState: GetState, getFirebase: GetFire
 export function commitGroup(groupInfo: GroupInfo): ThunkAction {
     // dispatched when a group is finished, when the user chooses to either
     // map another group, or complete mapping.
+    // Note that there are situations were the redux state tree will contain results from
+    // a previously mapped group/project, so we are going to upload results for everything now.
     return (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
 
-        // write each task result in firebase
-        Object.keys(groupInfo.tasks).forEach(taskId => firebase
-            .set(`results/${taskId}/${userId}/`, { data: groupInfo.tasks[taskId] })
-            .then(() => dispatch(commitTaskSuccess(taskId)))
-            .catch(error => dispatch(commitTaskFailed(taskId, error))));
-
-        // increase the completion count on the group so we know how many users
-        // have swiped through it
-        // FIXME: chain all the promises above so that we can throw an action
-        // once they have all completed
-        firebase.database().ref(`groups/${groupInfo.projectId}/${groupInfo.groupId}`)
-            .transaction((group) => {
-                const newGroup = group;
-                if (group) {
-                    newGroup.completedCount += 1;
-                }
-                return newGroup;
-            });
-
-        // update the user's contributions and total mapped area
-        const addedContributions = groupInfo.contributionsCount || 0;
-        const addedDistance = groupInfo.addedDistance || 0;
-        firebase.database().ref(`users/${userId}/`)
-            .transaction((user) => {
-                const newUser = user;
-                if (user) {
-                    newUser.contributions += addedContributions;
-                    newUser.distance += addedDistance;
-                }
-                return newUser;
-            });
+        Object.keys(groupInfo.results).forEach((resultId) => {
+            const resObj = groupInfo.results[resultId];
+            const fbpath = `results/${resObj.projectId}/${resObj.groupId}/${userId}/`;
+            // this overwrites the timestamp if there are multiple results for a group
+            firebase.set(`${fbpath}timestamp`, resObj.timestamp);
+            firebase
+                .set(`${fbpath}results/${resObj.resultId}`, resObj.result)
+                .then(() => dispatch(commitTaskSuccess(resultId)))
+                .catch(error => dispatch(commitTaskFailed(resultId, error)));
+        });
     };
 }

@@ -80,10 +80,10 @@ class _LoadMoreCard extends React.Component<Props> {
         const { contributionsCount, addedDistance } = getContributions(group, results);
         onCommitGroup({
             addedDistance,
-            groupId: group.id,
+            groupId: group.groupId,
             projectId,
             contributionsCount,
-            tasks: results,
+            results,
             zoomLevel: group.zoomLevel,
         });
     }
