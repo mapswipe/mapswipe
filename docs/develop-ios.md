@@ -30,7 +30,17 @@ Copy the iOS file to `ios/cfg/GoogleService-Info.plist`.
 
 ### Running the app and developing
 
-TBD
+Install steps
+
+1. Clone the repo
+2. Run `yarn install` -> Install the React native dependencies
+3. Run `yarn start` -> Start React Native
+4. Run `cd ios && pod install` -> Install (mostly copy) the dependencies for iOS
+5. Login in Xcode as mapswipe dev. Why ? This allows to share the signing certificates between developers with match.
+6. Get Access to the gitlab repo with the certificates
+7. Run `fastlane match development` -> Get the certificates from GitLab repo and add them to your keychain. A password is needed to decrypt the certificates.
+8. Build & run the target mapswipe in debug.
+9. Check that the tests are passing locally: Run `fastlane ios test`
 
 ### Version numbering
 
@@ -49,6 +59,7 @@ At this point, the fastlane setup is built around the premise that you won't be 
 ### Build variants
 
 There are 2 different apps:
+
 - mapswipe, which talks to the the main `msf-mapswipe` firebase instance. It is the one pushed to public users.
 - mapswipe-dev has the exact same code base, but points to the `dev-mapswipe` firebase instance. It is the version used in development, and is shared with beta-testers via `testflight`. It never goes to the appstore, so general users will never see it.
 
@@ -61,6 +72,7 @@ Travis runs like this:
 ### Getting users to test the beta version
 
 There are 2 ways to test a beta build:
+
 - inside the mapswipe core team: the users who are registered on the AppStore Connect can see and test all builds without approval from Apple. This is limited to 25 users who we trust enough to add to the organization.
 - outside the mapswipe core team (public testing): we can share selected builds with up to 1000 users. These builds must be reviewed by Apple, which can take up to 24 hours. The AppStore Connect page will give you a link you can share with testers for them to get access (they need to install the testflight app)
 
