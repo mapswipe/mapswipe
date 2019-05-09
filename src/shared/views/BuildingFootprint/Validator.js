@@ -34,6 +34,7 @@ type Props = {
     group: GroupType,
     project: ProjectType,
     submitFootprintResult: (number, string) => void,
+    updateProgress: (number) => void,
 };
 
 type State = {
@@ -49,6 +50,7 @@ class _Validator extends React.Component<Props, State> {
         this.state = {
             currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
         };
+        this.tasksDone = 0;
     }
 
     componentDidUpdate = (prevProps: Props) => {
@@ -56,6 +58,7 @@ class _Validator extends React.Component<Props, State> {
         const { group } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
             const currentTaskId = this.setupTaskIdGenerator(group.tasks);
+            this.tasksDone = 0;
             this.setState({ currentTaskId });
         }
     }
@@ -73,7 +76,12 @@ class _Validator extends React.Component<Props, State> {
 
 
     nextTask = (result: number) => {
-        const { commitCompletedGroup, submitFootprintResult } = this.props;
+        const {
+            commitCompletedGroup,
+            group,
+            submitFootprintResult,
+            updateProgress,
+        } = this.props;
         const { currentTaskId } = this.state;
         submitFootprintResult(result, currentTaskId);
         const { done, value } = this.taskGen.next();
@@ -81,10 +89,14 @@ class _Validator extends React.Component<Props, State> {
             // no more tasks in the group, commit results and go back to menu
             commitCompletedGroup();
         }
+        this.tasksDone += 1;
+        updateProgress(this.tasksDone / group.numberOfTasks);
         this.setState({ currentTaskId: value });
     }
 
     taskGen: taskGenType;
+
+    tasksDone: number;
 
     // eslint-disable-next-line class-methods-use-this
     * makeNextTaskGenerator(tasks: Array<TaskType>): taskGenType {

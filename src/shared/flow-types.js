@@ -55,6 +55,7 @@ export type TaskMapType = { [task_id: string]: TaskType };
 export type GroupType = {
     groupId: number,
     neededCount: number,
+    numberOfTasks: number,
     projectId: number,
     tasks: Array<TaskType>,
     zoomLevel: number,

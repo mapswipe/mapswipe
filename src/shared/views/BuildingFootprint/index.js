@@ -11,6 +11,7 @@ import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { cancelGroup, commitGroup, submitFootprint } from '../../actions/index';
 import Header from '../Header';
 import Validator from './Validator';
+import BottomProgress from '../Mapper/BottomProgress';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
@@ -62,6 +63,7 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
                 this.setState({ groupCompleted: false });
+                if (this.progress) this.progress.updateProgress(0);
             }
         }
     }
@@ -114,6 +116,14 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         navigation.navigate('BuildingFootprintValidator', { project: this.project });
     }
 
+    updateProgress = (progress: number) => {
+        if (this.progress) {
+            this.progress.updateProgress(progress);
+        }
+    }
+
+    progress: ?BottomProgress;
+
     project: ProjectType;
 
     render = () => {
@@ -145,7 +155,9 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
                     group={groupData}
                     project={this.project}
                     submitFootprintResult={this.submitFootprintResult}
+                    updateProgress={this.updateProgress}
                 />
+                <BottomProgress ref={(r) => { this.progress = r; }} />
             </View>
         );
     }
