@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react';
 import {
+    BackHandler,
     StyleSheet,
     View,
 } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { commitGroup, submitFootprint } from '../../actions/index';
+import { cancelGroup, commitGroup, submitFootprint } from '../../actions/index';
 import Header from '../Header';
 import Validator from './Validator';
 import LoadingIcon from '../LoadingIcon';
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
 type Props = {
     group: GroupMapType,
     navigation: NavigationProp,
+    onCancelGroup: {} => void,
     onSubmitFootprint: (Object) => void,
 };
 
@@ -51,6 +53,10 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         };
     }
 
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
     componentDidUpdate = (prevProps) => {
         const { group } = this.props;
         if (prevProps.group !== group) {
@@ -60,8 +66,24 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         }
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    handleBackPress = () => {
+        this.returnToView();
+        return true;
+    }
+
     returnToView = () => {
-        const { navigation } = this.props;
+        const { group, navigation, onCancelGroup } = this.props;
+        // TODO: this will not work with offline preloading of multiple groups
+        // as several groups will be stored in redux, possibly with clashing groupId
+        const grp = group[Object.keys(group)[0]];
+        onCancelGroup({
+            groupId: grp.groupId,
+            projectId: grp.projectId,
+        });
         navigation.pop();
     }
 
@@ -139,6 +161,9 @@ const mapStateToProps = (state, ownProps) => (
 
 const mapDispatchToProps = dispatch => (
     {
+        onCancelGroup(groupDetails) {
+            dispatch(cancelGroup(groupDetails));
+        },
         onCommitGroup(groupInfo) {
             dispatch(commitGroup(groupInfo));
         },
