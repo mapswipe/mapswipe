@@ -36,7 +36,7 @@
     "react-native-swiper": "1.5.13",
     "react-navigation": "^2.18.1",
     "react-redux": "^5.1.0",
-    "react-redux-firebase": "^2.1.9",
+    "react-redux-firebase": "^2.2.6",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
