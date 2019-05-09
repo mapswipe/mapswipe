@@ -7,7 +7,7 @@ platform :ios do
     cocoapods(repo_update: true, silent: true)
   end
 
-  desc "Runs all the tests"
+  desc "Runs the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step."
   lane :test do
     match(type: "development", readonly: is_ci)
     scan(scheme: "mapswipe",
@@ -23,24 +23,22 @@ platform :ios do
          devices:['iPhone X'])
   end
 
+  desc "Build production version and upload to appstore. This step is executed when a tag on master is created"
   lane :release do
-    # build production version and upload to appstore
+    increment_build_number(build_number: ENV['MAPSWIPE_BUILD_NUMBER'])
+    increment_version_number(version_number: ENV['MAPSWIPE_PACKAGE_VERSION'])
     match(type: "appstore", readonly: is_ci)
     build_app(scheme: "mapswipe", configuration: "Release", clean: true)
     upload_to_app_store
     slack(message: "Successfully uploaded a new App Store build")
   end
 
-  lane :build do
-    # adjust build number and version, and compile the app into an ipa
+  desc "Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created"
+  lane :beta do
     increment_build_number(build_number: ENV['MAPSWIPE_BUILD_NUMBER'])
     increment_version_number(version_number: ENV['MAPSWIPE_PACKAGE_VERSION'])
     match(type: "appstore", readonly: is_ci)
-    build_app(scheme: "mapswipe", configuration: "Release", clean: true, silent: true)
-  end
-
-  lane :beta do
-    # upload the ipa to testflight (dev-mapswipe version)
+    build_app(scheme: "mapswipe", configuration: "Beta", clean: true, silent: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com")
     slack(message: "Successfully distributed a new beta build")
   end

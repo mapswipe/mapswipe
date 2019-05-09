@@ -20,7 +20,7 @@ or alternatively using `brew cask install fastlane`
 ```
 fastlane ios test
 ```
-Runs all the tests
+Runs the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step.
 ### ios release
 ```
 fastlane ios release
