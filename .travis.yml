@@ -106,6 +106,8 @@ matrix:
             tags: true
         # and for tagged commits to master, deploy to production
         # FIXME: this probably does not work yet
+        # TODO: copy the GoogleService-Info.prd.plist to replace GoogleService-Info.plist
+        # TODO: Do the same for the sentry.properties
         - provider: script
           script:
             - fastlane release
