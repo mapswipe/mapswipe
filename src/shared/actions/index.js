@@ -8,6 +8,7 @@ export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' = 'AUTH_STATUS_AVAIL
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 export const TOGGLE_MAP_TILE: 'TOGGLE_MAP_TILE' = 'TOGGLE_MAP_TILE';
 export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
+export const CANCEL_GROUP = 'CANCEL_GROUP';
 export const COMMIT_GROUP = 'COMMIT_GROUP';
 export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
 export const COMMIT_GROUP_SUCCESS = 'COMMIT_GROUP_SUCCESS';
@@ -28,6 +29,13 @@ type ToggleMapTile = { type: typeof TOGGLE_MAP_TILE, tileInfo: ResultType };
 export function toggleMapTile(tileInfo: ResultType): ToggleMapTile {
     // dispatched every time a map tile is tapped to change its state
     return { type: TOGGLE_MAP_TILE, tileInfo };
+}
+
+type CancelGroup = { type: typeof CANCEL_GROUP, groupDetails: {} };
+export function cancelGroup(groupDetails: {}): CancelGroup {
+    // dispatched when the user cancels work on a group midway
+    // this forces deletion of the results created so far
+    return { type: CANCEL_GROUP, groupDetails };
 }
 
 export function commitGroupSuccess(taskId: string) {

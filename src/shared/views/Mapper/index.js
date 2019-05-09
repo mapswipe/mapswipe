@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { get } from 'lodash';
 import {
+    BackHandler,
     Text,
     View,
     StyleSheet,
     Image,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import { cancelGroup } from '../../actions';
 import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
@@ -93,6 +95,7 @@ const styles = StyleSheet.create({
 type Props = {
     group: GroupType,
     navigation: NavigationProp,
+    onCancelGroup: {} => void,
 }
 
 type State = {
@@ -111,6 +114,16 @@ class _Mapper extends React.Component<Props, State> {
     componentDidMount() {
         this.openTutorialModal();
         // GLOBAL.ANALYTICS.logEvent('mapping_started');
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    handleBackPress = () => {
+        this.returnToView();
+        return true;
     }
 
     openTutorialModal = () => {
@@ -119,7 +132,11 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     returnToView = () => {
-        const { navigation } = this.props;
+        const { group, navigation, onCancelGroup } = this.props;
+        onCancelGroup({
+            groupId: group.groupId,
+            projectId: group.projectId,
+        });
         navigation.pop();
     }
 
@@ -262,6 +279,14 @@ HOLD TO
     /* eslint-enable global-require */
 }
 
+const mapDispatchToProps = dispatch => (
+    {
+        onCancelGroup(groupDetails) {
+            dispatch(cancelGroup(groupDetails));
+        },
+    }
+);
+
 // Mapper
 export default compose(
     firebaseConnect((props) => {
@@ -293,5 +318,6 @@ export default compose(
             group: get(state.firebase.data, `group.${groupId}`),
             navigation: ownProps.navigation,
         };
-    }),
+    },
+    mapDispatchToProps),
 )(_Mapper);

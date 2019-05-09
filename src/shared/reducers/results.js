@@ -1,5 +1,6 @@
 // @flow
 import {
+    CANCEL_GROUP,
     COMMIT_TASK_SUCCESS,
     SUBMIT_BUILDING_FOOTPRINT,
     TOGGLE_MAP_TILE,
@@ -12,6 +13,14 @@ const defaultResultsState = {
 
 export default function results(state: ResultMapType = defaultResultsState, action: Action) {
     switch (action.type) {
+    case CANCEL_GROUP: {
+        // remove all results for this group
+        const { groupDetails } = action;
+        return Object.assign({}, ...Object.keys(state)
+            .filter(id => state[id].projectId !== groupDetails.projectId
+                && state[id].groupId !== groupDetails.groupId)
+            .map(id => ({ [id]: state[id] })));
+    }
     case TOGGLE_MAP_TILE: {
         // update the tile's state
         // $FlowFixMe
