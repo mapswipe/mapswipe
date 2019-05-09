@@ -70,7 +70,7 @@ matrix:
         - yarn -version
         # open the secret box with passwords and API keys. The path should include ios/cfg
         - openssl aes-256-cbc -K $encrypted_175ea8c9aaac_key -iv $encrypted_175ea8c9aaac_iv -in ios/cfg/secrets.tar.enc -out ios/cfg/secrets.tar -d
-        - tar -xvf secrets.tar
+        - tar -xvf ios/cfg/secrets.tar -C ios/cfg
       install:
         - bundle install
         - travis_retry gem install xcpretty cocoapods
