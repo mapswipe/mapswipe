@@ -177,7 +177,7 @@ export default compose(
     firebaseConnect(props => [
         {
             path: `groups/${props.navigation.getParam('project').projectId}`,
-            queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
+            queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
             storeAs: 'group',
         },
     ]),
