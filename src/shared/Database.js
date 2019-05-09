@@ -211,8 +211,7 @@ export default {
      * @returns {boolean}
      */
 
-    hasOpenDownloads(project: string): boolean {
-        console.log(project);
+    hasOpenDownloads(): boolean {
         return false;
     },
 
