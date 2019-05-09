@@ -4,7 +4,6 @@ import React from 'react';
 import {
     ImageBackground, Text, View, Image, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import Button from 'apsl-react-native-button';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NavigationProp, ProjectType } from '../flow-types';
 
@@ -16,7 +15,6 @@ const GLOBAL = require('../Globals');
  * The ProjectCard class represents a single card instance.
  *
  */
-
 
 const style = StyleSheet.create({
     largeCard: {
@@ -41,17 +39,6 @@ const style = StyleSheet.create({
     cardBackground: {
         flex: 1,
         overflow: 'hidden',
-    },
-    nowButton: {
-        backgroundColor: '#ffffff',
-        width: 110,
-        height: 20,
-        padding: 12,
-        borderRadius: 2,
-        borderWidth: 0.1,
-        top: 5,
-        left: 5,
-        position: 'absolute',
     },
     offlineIndicator: {
         borderWidth: 0,
@@ -152,24 +139,6 @@ export default class ProjectCard extends React.Component<Props, State> {
         };
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    getColorForState(state: number): string {
-        switch (state) {
-        case 0: return 'red';
-        case 1: return 'orange';
-        default: return 'green';
-        }
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    getTextForState(state: number): string {
-        switch (state) {
-        case 0: return 'NEEDS MAPPING';
-        case 1: return 'ON HOLD';
-        default: return 'COMPLETE';
-        }
-    }
-
     getGradientArray() {
         const { card } = this.props;
         const gradientToPick = card.projectId % 3;
@@ -223,17 +192,6 @@ export default class ProjectCard extends React.Component<Props, State> {
                                 { opacity: hasOfflineGroups ? 1 : 0.30 }]}
                             source={require('./assets/offline_icon.png')}
                         />
-
-                        <Button
-                            style={style.nowButton}
-                            textStyle={{
-                                fontSize: 10,
-                                color: this.getColorForState(card.state),
-                                fontWeight: '600',
-                            }}
-                        >
-                            {this.getTextForState(card.state)}
-                        </Button>
 
                         <View style={card.isFeatured
                             ? style.bottomTextArea : style.bottomTextAreaSmallCard}
