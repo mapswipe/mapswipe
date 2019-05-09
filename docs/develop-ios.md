@@ -36,7 +36,7 @@ Install steps
 2. Run `yarn install` -> Install the React native dependencies
 3. Run `yarn start` -> Start React Native
 4. Run `cd ios && pod install` -> Install (mostly copy) the dependencies for iOS
-5. Login in Xcode as mapswipe dev. Why ? This allows to share the signing certificates between developers with match.
+5. Login in Xcode as mapswipe.dev@gmail.com. Why ? This allows to share the signing certificates between developers with fastlane match.
 6. Get Access to the gitlab repo with the certificates
 7. Run `fastlane match development` -> Get the certificates from GitLab repo and add them to your keychain. A password is needed to decrypt the certificates.
 8. Build & run the target mapswipe in debug.
