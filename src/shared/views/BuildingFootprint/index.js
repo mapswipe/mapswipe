@@ -7,7 +7,6 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import DeviceInfo from 'react-native-device-info';
 import { commitGroup, submitFootprint } from '../../actions/index';
 import Header from '../Header';
 import Validator from './Validator';
@@ -46,8 +45,6 @@ type State = {
 class BuildingFootprintValidator extends React.Component<Props, State> {
     constructor(props) {
         super(props);
-        this.deviceId = DeviceInfo.getUniqueID();
-        this.userId = GLOBAL.DB.getAuth().getUser().uid;
         this.project = props.navigation.getParam('project');
         this.state = {
             groupCompleted: false,
@@ -75,7 +72,6 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
             result,
             groupId: group[Object.keys(group)[0]].groupId,
             projectId: this.project.projectId,
-            user: GLOBAL.DB.getAuth().getUser().uid,
             timestamp: GLOBAL.DB.getTimestamp(),
         };
         onSubmitFootprint(resultObject);
@@ -95,10 +91,6 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         const { navigation } = this.props;
         navigation.navigate('BuildingFootprintValidator', { project: this.project });
     }
-
-    deviceId: string;
-
-    userId: string;
 
     project: ProjectType;
 

@@ -94,7 +94,6 @@ export class _Tile extends React.Component<Props> {
             result: tileStatus,
             groupId: tile.groupId,
             projectId: tile.projectId,
-            user: GLOBAL.DB.getAuth().getUser().uid,
             timestamp: GLOBAL.DB.getTimestamp(),
         });
     }
