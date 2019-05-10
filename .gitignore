@@ -1,13 +1,15 @@
-# Configs
+# Configs Android
 config.json*
 android/app/google-services.json
 android/app/src/dev/google-services.json
+
+# Configs iOS
 ios/cfg/GoogleService-Info.*.plist
 ios/cfg/GoogleService-Info.plist
 ios/cfg/secrets.tar
 ios/cfg/sentry.properties
 ios/cfg/sentry.*.properties
-
+ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
 
 # OSX
 #

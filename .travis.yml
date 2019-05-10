@@ -77,21 +77,21 @@ matrix:
         - travis_retry yarn install --frozen-lockfile
       script:
         # calculate version numbers for fastlane
-        - source ios/version-ios.sh
+        - cd ios
+        - source version-ios.sh
         # try to hide some build warnings
         - export CLANG_WARN_COMMA=NO
         - export CLANG_WARN_DOCUMENTATION=NO
         # setup RSA key so we can clone the certificate repo in gitlab
         - eval "$(ssh-agent -s)"
-        - chmod 600 ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
-        - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+        - chmod 600 cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+        - ssh-add cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
         # define a custom keychain for fastlane to use
         - export KEY_CHAIN=ios-build.keychain
         - security create-keychain -p travis $KEY_CHAIN
         - security default-keychain -s $KEY_CHAIN
         - security unlock-keychain -p travis $KEY_CHAIN
         - security set-keychain-settings -t 3600 -u $KEY_CHAIN
-        - cd ios
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # UI Tests have been disabled since Travis has issues launching the simulator.
         - bundle exec fastlane test
