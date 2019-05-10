@@ -43,7 +43,7 @@
 		AB02778D21D7E68B00F713BA /* mapswipeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB02778C21D7E68B00F713BA /* mapswipeUITests.m */; };
 		AB02786021DFD50000F713BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB02785F21DFD50000F713BA /* GoogleService-Info.plist */; };
 		ABBFFD3F2284DCD800E4F21E /* beta.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = ABBFFD3E2284DCD800E4F21E /* beta.xcconfig */; };
-		ABBFFD412284E46E00E4F21E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ABBFFD402284E46E00E4F21E /* main.jsbundle */; };
+		ABBFFD422284FBFB00E4F21E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ABBFFD402284E46E00E4F21E /* main.jsbundle */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B15BEE5B9DE16769017FE3C8 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B80A323A64B3D449577DD80 /* libPods-mapswipe.a */; };
 		C9E66B42799EEB9A8D8C781F /* libPods-mapswipe-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */; };
@@ -1222,9 +1222,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABBFFD422284FBFB00E4F21E /* main.jsbundle in Resources */,
 				ABBFFD3F2284DCD800E4F21E /* beta.xcconfig in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				ABBFFD412284E46E00E4F21E /* main.jsbundle in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				AB02786021DFD50000F713BA /* GoogleService-Info.plist in Resources */,
 			);
