@@ -103,7 +103,7 @@ type State = {
 }
 
 class _Login extends React.Component<Props, State> {
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             username: '',
@@ -123,7 +123,7 @@ class _Login extends React.Component<Props, State> {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const { auth, navigation } = this.props;
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
@@ -220,7 +220,7 @@ class _Login extends React.Component<Props, State> {
             });
     }
 
-    switchScreens = (screen) => {
+    switchScreens = (screen: number) => {
         this.setState({
             screen,
         });

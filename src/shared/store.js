@@ -17,7 +17,7 @@ const composeEnhancers = composeWithDevTools({
     name: Platform.OS,
     hostname: 'localhost',
     port: 5678,
-    realtime: true,
+    realtime: false,
 });
 
 export const store = createStore(
