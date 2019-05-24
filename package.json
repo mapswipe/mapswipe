@@ -53,6 +53,7 @@
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-native": "^3.6.0",
     "eslint_d": "^7.3.0",
+    "firebase-mock": "^2.2.10",
     "flow-bin": "0.78.0",
     "jest": "24.6.0",
     "metro-react-native-babel-preset": "0.48.1",
