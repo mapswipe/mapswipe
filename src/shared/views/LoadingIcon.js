@@ -69,7 +69,7 @@ export default class LoadingComponent extends React.Component<{}, State> {
                     style={{ width: 100, height: 100 }}
                     source={require('./assets/loadinganimation.gif')}
                 />
-                <Text style={styles.loadingText}>Loading...</Text>
+                <Text style={styles.loadingText} testID="loading-icon">Loading...</Text>
             </View>
         );
     }

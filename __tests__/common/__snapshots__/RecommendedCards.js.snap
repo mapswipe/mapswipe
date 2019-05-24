@@ -1,0 +1,664 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders RecommendedCards screen 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ScrollView
+    contentContainerStyle={
+      Object {
+        "flex": 0,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "space-between",
+        "width": 750,
+      }
+    }
+    removeClippedSubviews={true}
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+              "height": 250,
+              "marginTop": 5,
+              "shadowColor": "#ccc",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 2,
+              },
+              "shadowOpacity": 0.5,
+              "width": 750,
+            },
+            Object {
+              "marginLeft": 0,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Object {
+              "flex": 1,
+              "overflow": "hidden",
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "uri": "http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                undefined,
+              ]
+            }
+          />
+          <BVLinearGradient
+            colors={
+              Array [
+                2577147069,
+                3422552064,
+              ]
+            }
+            endPoint={
+              Object {
+                "x": 0.5,
+                "y": 1,
+              }
+            }
+            locations={null}
+            startPoint={
+              Object {
+                "x": 0.5,
+                "y": 0,
+              }
+            }
+            style={
+              Object {
+                "flex": 1,
+                "paddingLeft": 15,
+                "paddingRight": 15,
+              }
+            }
+          />
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/shared/views/assets/offline_icon.png",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                  "position": "absolute",
+                  "resizeMode": "contain",
+                  "right": 5,
+                  "top": -10,
+                  "width": 20,
+                },
+                Object {
+                  "opacity": 0.3,
+                },
+              ]
+            }
+          />
+          <View
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "bottom": 0,
+                "flex": 1,
+                "height": 75,
+                "left": 0,
+                "marginLeft": 5,
+                "marginRight": 5,
+                "padding": 10,
+                "position": "absolute",
+                "right": 0,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#ffffff",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "marginBottom": 3,
+                  "shadowColor": "#000000",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.8,
+                  "shadowRadius": 2,
+                }
+              }
+            >
+              BuildArea Default with Bing Sample Project
+            </Text>
+            <View
+              style={
+                Object {
+                  "borderBottomWidth": 0,
+                  "borderColor": "#e8e8e8",
+                  "borderLeftWidth": 0,
+                  "borderRightWidth": 0,
+                  "borderTopWidth": 1,
+                  "flex": 1,
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/shared/views/assets/heart_icon.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 13,
+                    "marginTop": 5,
+                    "resizeMode": "contain",
+                    "width": 13,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Object {
+                    "color": "#ffffff",
+                    "fontSize": 13,
+                    "marginLeft": 10,
+                    "marginTop": 5,
+                    "shadowColor": "#000000",
+                    "shadowOffset": Object {
+                      "height": 1,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 0.8,
+                    "shadowRadius": 2,
+                  }
+                }
+              >
+                0% by 0 mappers
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.2}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+              "height": 250,
+              "marginTop": 5,
+              "shadowColor": "#ccc",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 2,
+              },
+              "shadowOpacity": 0.5,
+              "shadowRadius": 3,
+              "width": 367.5,
+            },
+            Object {
+              "marginLeft": 0,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Object {
+              "flex": 1,
+              "overflow": "hidden",
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "uri": "http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                undefined,
+              ]
+            }
+          />
+          <BVLinearGradient
+            colors={
+              Array [
+                2577147069,
+                3422552064,
+              ]
+            }
+            endPoint={
+              Object {
+                "x": 0.5,
+                "y": 1,
+              }
+            }
+            locations={null}
+            startPoint={
+              Object {
+                "x": 0.5,
+                "y": 0,
+              }
+            }
+            style={
+              Object {
+                "flex": 1,
+                "paddingLeft": 15,
+                "paddingRight": 15,
+              }
+            }
+          />
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/shared/views/assets/offline_icon.png",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                  "position": "absolute",
+                  "resizeMode": "contain",
+                  "right": 5,
+                  "top": -10,
+                  "width": 20,
+                },
+                Object {
+                  "opacity": 0.3,
+                },
+              ]
+            }
+          />
+          <View
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "bottom": 0,
+                "flex": 1,
+                "height": 100,
+                "left": 0,
+                "marginLeft": 5,
+                "marginRight": 5,
+                "padding": 10,
+                "position": "absolute",
+                "right": 0,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#ffffff",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "marginBottom": 3,
+                  "shadowColor": "#000000",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.8,
+                  "shadowRadius": 2,
+                }
+              }
+            >
+              BuildArea Sentinel Sample Project
+            </Text>
+            <View
+              style={
+                Object {
+                  "borderBottomWidth": 0,
+                  "borderColor": "#e8e8e8",
+                  "borderLeftWidth": 0,
+                  "borderRightWidth": 0,
+                  "borderTopWidth": 1,
+                  "flex": 1,
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/shared/views/assets/heart_icon.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 13,
+                    "marginTop": 5,
+                    "resizeMode": "contain",
+                    "width": 13,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Object {
+                    "color": "#ffffff",
+                    "fontSize": 13,
+                    "marginLeft": 10,
+                    "marginTop": 5,
+                    "shadowColor": "#000000",
+                    "shadowOffset": Object {
+                      "height": 1,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 0.8,
+                    "shadowRadius": 2,
+                  }
+                }
+              >
+                10% by 0 mappers
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.2}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+              "height": 250,
+              "marginTop": 5,
+              "shadowColor": "#ccc",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 2,
+              },
+              "shadowOpacity": 0.5,
+              "shadowRadius": 3,
+              "width": 367.5,
+            },
+            Object {
+              "marginLeft": 0,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityIgnoresInvertColors={true}
+          style={
+            Object {
+              "flex": 1,
+              "overflow": "hidden",
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "uri": "https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                Object {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                undefined,
+              ]
+            }
+          />
+          <BVLinearGradient
+            colors={
+              Array [
+                2577147069,
+                3422552064,
+              ]
+            }
+            endPoint={
+              Object {
+                "x": 0.5,
+                "y": 1,
+              }
+            }
+            locations={null}
+            startPoint={
+              Object {
+                "x": 0.5,
+                "y": 0,
+              }
+            }
+            style={
+              Object {
+                "flex": 1,
+                "paddingLeft": 15,
+                "paddingRight": 15,
+              }
+            }
+          />
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/shared/views/assets/offline_icon.png",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                  "borderWidth": 0,
+                  "position": "absolute",
+                  "resizeMode": "contain",
+                  "right": 5,
+                  "top": -10,
+                  "width": 20,
+                },
+                Object {
+                  "opacity": 0.3,
+                },
+              ]
+            }
+          />
+          <View
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "bottom": 0,
+                "flex": 1,
+                "height": 100,
+                "left": 0,
+                "marginLeft": 5,
+                "marginRight": 5,
+                "padding": 10,
+                "position": "absolute",
+                "right": 0,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#ffffff",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "marginBottom": 3,
+                  "shadowColor": "#000000",
+                  "shadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.8,
+                  "shadowRadius": 2,
+                }
+              }
+            >
+              Validate OSM Aweil 1
+            </Text>
+            <View
+              style={
+                Object {
+                  "borderBottomWidth": 0,
+                  "borderColor": "#e8e8e8",
+                  "borderLeftWidth": 0,
+                  "borderRightWidth": 0,
+                  "borderTopWidth": 1,
+                  "flex": 1,
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/shared/views/assets/heart_icon.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": 13,
+                    "marginTop": 5,
+                    "resizeMode": "contain",
+                    "width": 13,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Object {
+                    "color": "#ffffff",
+                    "fontSize": 13,
+                    "marginLeft": 10,
+                    "marginTop": 5,
+                    "shadowColor": "#000000",
+                    "shadowOffset": Object {
+                      "height": 1,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 0.8,
+                    "shadowRadius": 2,
+                  }
+                }
+              >
+                0% by 0 mappers
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+    <View />
+  </ScrollView>
+</View>
+`;
+
+exports[`Renders projects screen while loading 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "height": 1264,
+        "justifyContent": "center",
+        "opacity": 0,
+        "width": 750,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../src/shared/views/assets/loadinganimation.gif",
+        }
+      }
+      style={
+        Object {
+          "height": 100,
+          "width": 100,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontSize": 20,
+          "fontWeight": "300",
+          "marginTop": 20,
+        }
+      }
+      testID="loading-icon"
+    >
+      Loading...
+    </Text>
+  </View>
+</View>
+`;

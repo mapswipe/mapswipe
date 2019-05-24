@@ -17,11 +17,13 @@ const composeEnhancers = composeWithDevTools({
     name: Platform.OS,
     hostname: 'localhost',
     port: 5678,
-    realtime: false,
+    realtime: true,
 });
 
-export const store = createStore(
+// the initial state argument is only used for jest
+export const store = (initialState?: {} = {}) => createStore(
     reducers,
+    initialState,
     composeEnhancers(
         applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
         reactReduxFirebase(firebase, reactFirebaseConfig),
@@ -29,5 +31,5 @@ export const store = createStore(
 );
 
 export default function setupStore() {
-    return store;
+    return store();
 }
