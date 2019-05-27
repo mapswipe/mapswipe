@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render, wait, waitForElement } from 'native-testing-library';
-import { store } from '../../src/shared/store';
+import { createNewStore } from '../../src/shared/store';
 import rootReducer from '../../src/shared/reducers';
 import RecommendedCards from '../../src/shared/views/RecommendedCards';
 import projectsAction from '../fixtures/projects';
@@ -11,7 +11,7 @@ test('Renders projects screen while loading', async () => {
     // jest.useFakeTimers();
 
     const l = (
-        <Provider store={store()}>
+        <Provider store={createNewStore()}>
             <RecommendedCards
                 navigation={navigation}
             />
@@ -33,11 +33,11 @@ test('Renders projects screen while loading', async () => {
 test('Renders RecommendedCards screen', async () => {
     const navigation = { push: jest.fn() };
     // calculate the state after receiving the projects data from backend
-    const reduxState = rootReducer(store().getState(), projectsAction);
+    const reduxState = rootReducer(createNewStore().getState(), projectsAction);
 
     // now create a fresh store initialized with that state
     // so that we have projects to show
-    const loadedStore = store(reduxState);
+    const loadedStore = createNewStore(reduxState);
     const l = (
         <Provider store={loadedStore}>
             <RecommendedCards
