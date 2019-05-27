@@ -1,53 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renders sign up screen 1`] = `
+exports[`Renders sign up screen before auth ready 1`] = `
 <View
+  collapsable={true}
+  pointerEvents="box-none"
   style={
     Object {
-      "backgroundColor": "#0d1949",
       "flex": 1,
-      "height": 1334,
-      "width": 750,
     }
   }
 >
   <View
     style={
       Object {
-        "alignItems": "center",
+        "backgroundColor": "#0d1949",
         "flex": 1,
-        "height": 1264,
-        "justifyContent": "center",
-        "opacity": 0,
+        "height": 1334,
         "width": 750,
       }
     }
   >
-    <Image
-      source={
-        Object {
-          "testUri": "../../../src/shared/views/assets/loadinganimation.gif",
-        }
-      }
+    <View
       style={
         Object {
-          "height": 100,
-          "width": 100,
-        }
-      }
-    />
-    <Text
-      style={
-        Object {
-          "color": "#ffffff",
-          "fontSize": 20,
-          "fontWeight": "300",
-          "marginTop": 20,
+          "alignItems": "center",
+          "flex": 1,
+          "height": 1264,
+          "justifyContent": "center",
+          "opacity": 0,
+          "width": 750,
         }
       }
     >
-      Loading...
-    </Text>
+      <Image
+        source={
+          Object {
+            "testUri": "../../../src/shared/views/assets/loadinganimation.gif",
+          }
+        }
+        style={
+          Object {
+            "height": 100,
+            "width": 100,
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "color": "#ffffff",
+            "fontSize": 20,
+            "fontWeight": "300",
+            "marginTop": 20,
+          }
+        }
+        testID="loading-icon"
+      >
+        Loading...
+      </Text>
+    </View>
   </View>
 </View>
 `;

@@ -19,8 +19,8 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
+import reduxStore from '../store';
 import LoadingIcon from './LoadingIcon';
-import { store as reduxStore } from '../store';
 import type { NavigationProp } from '../flow-types';
 
 /* eslint-disable global-require */
@@ -113,7 +113,7 @@ class _Login extends React.Component<Props, State> {
             screen: SCREEN_SIGNUP,
         };
         const that = this;
-        reduxStore.firebaseAuthIsReady.then(() => that.setState({ loading: false }));
+        reduxStore().firebaseAuthIsReady.then(() => that.setState({ loading: false }));
     }
 
     componentDidMount() {

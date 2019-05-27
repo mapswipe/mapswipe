@@ -21,7 +21,8 @@ const composeEnhancers = composeWithDevTools({
 });
 
 // the initial state argument is only used for jest
-export const store = (initialState?: {} = {}) => createStore(
+// direct imports of createNewStore should only happen in tests
+export const createNewStore = (initialState?: {} = {}) => createStore(
     reducers,
     initialState,
     composeEnhancers(
@@ -30,6 +31,9 @@ export const store = (initialState?: {} = {}) => createStore(
     ),
 );
 
+// this is the main store used by the app
+const store = createNewStore();
+
 export default function setupStore() {
-    return store();
+    return store;
 }
