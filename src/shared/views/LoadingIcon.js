@@ -1,7 +1,10 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import {
-    Text, View, Image,
+    Animated,
+    Easing,
+    Image,
+    Text,
 } from 'react-native';
 
 const GLOBAL = require('../Globals');
@@ -18,59 +21,59 @@ const styles = {
 };
 
 type State = {
-    offset: number,
+    animOpacity: Animated.Value,
 };
 
 export default class LoadingComponent extends React.Component<{}, State> {
-    nextOffset: number = 2;
-
     constructor(props: {}) {
         super(props);
         this.state = {
-            offset: 0,
+            animOpacity: new Animated.Value(0),
         };
     }
 
     componentDidMount() {
-        const self = this;
-        this.interval = setInterval(self.tick, 1000 / 50);
+        const { animOpacity } = this.state;
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(
+                    animOpacity,
+                    {
+                        toValue: 1,
+                        duration: 500,
+                        easing: Easing.in(Easing.sin),
+                    },
+                ),
+                Animated.timing(
+                    animOpacity,
+                    {
+                        toValue: 0,
+                        duration: 500,
+                        easing: Easing.in(Easing.sin),
+                    },
+                ),
+            ]),
+        ).start();
     }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-
-    tick = () => {
-        let { offset } = this.state;
-        offset += this.nextOffset;
-        this.setState({ offset });
-    }
-
-    interval: IntervalID;
 
     render() {
-        const { offset } = this.state;
-        if (offset >= 0.8) {
-            this.nextOffset = -0.04;
-        } else if (offset <= 0.3) {
-            this.nextOffset = 0.02;
-        }
+        const { animOpacity } = this.state;
         return (
-            <View style={{
-                opacity: offset,
+            <Animated.View style={{
+                opacity: animOpacity,
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: GLOBAL.SCREEN_WIDTH,
-                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
+                height: (GLOBAL.TILE_VIEW_HEIGHT),
             }}
             >
                 <Image
                     style={{ width: 100, height: 100 }}
                     source={require('./assets/loadinganimation.gif')}
                 />
-                <Text style={styles.loadingText}>Loading...</Text>
-            </View>
+                <Text style={styles.loadingText} testID="loading-icon">Loading...</Text>
+            </Animated.View>
         );
     }
 }

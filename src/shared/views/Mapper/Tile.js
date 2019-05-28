@@ -19,7 +19,7 @@ import type {
 
 const GLOBAL = require('../../Globals');
 
-const tileHeight = GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y);
+const tileHeight = GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y);
 const tileWidth = GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X);
 
 const styles = StyleSheet.create({

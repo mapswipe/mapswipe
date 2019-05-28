@@ -20,13 +20,19 @@ const composeEnhancers = composeWithDevTools({
     realtime: true,
 });
 
-export const store = createStore(
+// the initial state argument is only used for jest
+// direct imports of createNewStore should only happen in tests
+export const createNewStore = (initialState?: {} = {}) => createStore(
     reducers,
+    initialState,
     composeEnhancers(
         applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
         reactReduxFirebase(firebase, reactFirebaseConfig),
     ),
 );
+
+// this is the main store used by the app
+const store = createNewStore();
 
 export default function setupStore() {
     return store;

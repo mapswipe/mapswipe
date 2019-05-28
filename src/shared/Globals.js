@@ -35,7 +35,7 @@ module.exports = {
         DARKGRAY: '#999',
     },
     TASKS_PROCESSING: 0,
-    TILE_VIEW_HEIGHT: (screenHeight - 40 - 30) / screenHeight, // 40 is top bar, 30 is bottom bar
+    TILE_VIEW_HEIGHT: (screenHeight - 40 - 30), // 40 is top bar, 30 is bottom bar
     TILES_PER_VIEW_X: 2,
     TILES_PER_VIEW_Y: 3,
     TILE_VIEW_WIDTH: 1,

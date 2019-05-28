@@ -19,8 +19,8 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
+import reduxStore from '../store';
 import LoadingIcon from './LoadingIcon';
-import { store as reduxStore } from '../store';
 import type { NavigationProp } from '../flow-types';
 
 /* eslint-disable global-require */
@@ -103,7 +103,7 @@ type State = {
 }
 
 class _Login extends React.Component<Props, State> {
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             username: '',
@@ -113,7 +113,7 @@ class _Login extends React.Component<Props, State> {
             screen: SCREEN_SIGNUP,
         };
         const that = this;
-        reduxStore.firebaseAuthIsReady.then(() => that.setState({ loading: false }));
+        reduxStore().firebaseAuthIsReady.then(() => that.setState({ loading: false }));
     }
 
     componentDidMount() {
@@ -123,7 +123,7 @@ class _Login extends React.Component<Props, State> {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const { auth, navigation } = this.props;
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
@@ -220,7 +220,7 @@ class _Login extends React.Component<Props, State> {
             });
     }
 
-    switchScreens = (screen) => {
+    switchScreens = (screen: number) => {
         this.setState({
             screen,
         });

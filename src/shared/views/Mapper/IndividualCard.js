@@ -17,7 +17,7 @@ const GLOBAL = require('../../Globals');
 const styles = StyleSheet.create({
     slide: {
         width: (GLOBAL.SCREEN_WIDTH),
-        height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
+        height: (GLOBAL.TILE_VIEW_HEIGHT),
         flex: 1,
         borderWidth: 0,
         backgroundColor: '#212121',
