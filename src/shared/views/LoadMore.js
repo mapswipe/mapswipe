@@ -18,7 +18,7 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     congratulationsSlide: {
         width: (GLOBAL.SCREEN_WIDTH),
-        height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
+        height: (GLOBAL.TILE_VIEW_HEIGHT),
         borderWidth: 0,
         backgroundColor: '#212121',
         justifyContent: 'center',
