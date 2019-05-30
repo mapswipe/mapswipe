@@ -128,9 +128,9 @@ class _MoreOptions extends React.Component<MOProps> {
         } = this.props;
         const levelObject = Levels[level];
         const contributions = isLoaded(profile)
-            && Object.prototype.hasOwnProperty.call(profile, 'contributions') ? profile.contributions : 0;
-        const distance = isLoaded(profile)
-            && Object.prototype.hasOwnProperty.call(profile, 'distance') ? profile.distance : 0;
+            && Object.prototype.hasOwnProperty.call(profile, 'taskContributionCount') ? profile.taskContributionCount : 0;
+        // FIXME: hardcode distance for now, as it is being removed from the backend
+        const distance = contributions;
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <ScrollingBackground />
