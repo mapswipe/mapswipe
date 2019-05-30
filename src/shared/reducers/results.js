@@ -3,6 +3,7 @@ import {
     CANCEL_GROUP,
     COMMIT_TASK_SUCCESS,
     SUBMIT_BUILDING_FOOTPRINT,
+    SUBMIT_CHANGE,
     TOGGLE_MAP_TILE,
 } from '../actions/index';
 import type { Action } from '../actions/index';
@@ -30,7 +31,8 @@ export default function results(state: ResultMapType = defaultResultsState, acti
             [tileInfo.resultId]: tileInfo,
         };
     }
-    case SUBMIT_BUILDING_FOOTPRINT: {
+    case SUBMIT_BUILDING_FOOTPRINT:
+    case SUBMIT_CHANGE: {
         // $FlowFixMe
         const { resultObject } = action;
         return {

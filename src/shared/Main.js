@@ -19,6 +19,7 @@ import Button from 'apsl-react-native-button';
 import { createStackNavigator } from 'react-navigation';
 import Login from './views/Login';
 import BuildingFootprintValidator from './views/BuildingFootprint';
+import ChangeDetectionScreen from './views/ChangeDetection';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import Tutorial from './views/Tutorial';
@@ -165,6 +166,7 @@ class Main extends React.Component<{}, State> {
 const RootStack = createStackNavigator(
     {
         BuildingFootprintValidator,
+        ChangeDetectionScreen,
         Tutorial,
         ProjectNav,
         ProjectView,

@@ -20,6 +20,7 @@ import Markdown from 'react-native-simple-markdown';
 import ConnectionManager from '../ConnectionManager';
 import {
     BUILDING_FOOTPRINTS,
+    CHANGE_DETECTION,
     LEGACY_TILES,
 } from '../constants';
 import type { NavigationProp, ProjectType } from '../flow-types';
@@ -339,8 +340,12 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             });
             break;
         case BUILDING_FOOTPRINTS:
-            // this is the original project type
             navigation.push('BuildingFootprintValidator', {
+                project,
+            });
+            break;
+        case CHANGE_DETECTION:
+            navigation.push('ChangeDetectionScreen', {
                 project,
             });
             break;

@@ -8,6 +8,7 @@ export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' = 'AUTH_STATUS_AVAIL
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 export const TOGGLE_MAP_TILE: 'TOGGLE_MAP_TILE' = 'TOGGLE_MAP_TILE';
 export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
+export const SUBMIT_CHANGE = 'SUBMIT_CHANGE';
 export const CANCEL_GROUP = 'CANCEL_GROUP';
 export const COMMIT_GROUP = 'COMMIT_GROUP';
 export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
@@ -54,6 +55,11 @@ export function commitTaskSuccess(taskId: string) {
 type CommitTaskFailed = { type: typeof COMMIT_TASK_FAILED, taskId: number };
 export function commitTaskFailed(taskId: string, error: {}) {
     return { type: COMMIT_TASK_FAILED, taskId, error };
+}
+
+type SubmitChange = { type: typeof SUBMIT_CHANGE, resultObject: ResultType };
+export function submitChange(resultObject: ResultType): SubmitChange {
+    return { type: SUBMIT_CHANGE, resultObject };
 }
 
 type SubmitFootprint = { type: typeof SUBMIT_BUILDING_FOOTPRINT, resultObject: ResultType };

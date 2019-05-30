@@ -69,9 +69,21 @@ export type BuildingFootprintTaskType = {
     taskId: string,
 }
 
+// used only by projects of type CHANGE_DETECTION
+export type ChangeDetectionTaskType = {
+    groupId: number,
+    projectId: string,
+    taskId: string,
+    taskX: number,
+    taskY: number,
+    urlA: string,
+    urlB: string,
+}
+
 export type TaskType =
     | BuiltAreaTaskType
     | BuildingFootprintTaskType
+    | ChangeDetectionTaskType
 
 export type TaskMapType = { [task_id: string]: TaskType };
 
@@ -92,10 +104,13 @@ type GenericGroupType<T> = {
 
 export type BuiltAreaGroupType = GenericGroupType<BuiltAreaTaskType>;
 export type BuildingFootprintGroupType = GenericGroupType<BuildingFootprintTaskType>;
+export type ChangeDetectionGroupType = GenericGroupType<ChangeDetectionTaskType>;
 
 export type GroupType =
     | BuiltAreaGroupType
     | BuildingFootprintGroupType
+    | ChangeDetectionGroupType
+
 export type GroupMapType = { [group_id: string]: GroupType };
 
 // results should all look the same
