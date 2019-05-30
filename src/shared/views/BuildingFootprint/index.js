@@ -16,8 +16,7 @@ import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
 import type {
-    GroupMapType,
-    GroupType,
+    BuildingFootprintGroupType,
     NavigationProp,
     ProjectType,
 } from '../../flow-types';
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    group: GroupMapType,
+    group: { [group_id: string]: BuildingFootprintGroupType },
     navigation: NavigationProp,
     onCancelGroup: {} => void,
     onSubmitFootprint: (Object) => void,
@@ -132,7 +131,7 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
         if (!group) {
             return <LoadingIcon />;
         }
-        const groupData : GroupType = group[Object.keys(group)[0]];
+        const groupData : BuildingFootprintGroupType = group[Object.keys(group)[0]];
         if (groupCompleted) {
             return (
                 <LoadMoreCard

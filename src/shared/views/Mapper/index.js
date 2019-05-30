@@ -17,7 +17,7 @@ import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../LoadingIcon';
-import type { GroupType, NavigationProp, ProjectType } from '../../flow-types';
+import type { BuiltAreaGroupType, NavigationProp, ProjectType } from '../../flow-types';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    group: GroupType,
+    group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: {} => void,
 }

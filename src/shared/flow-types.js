@@ -17,16 +17,24 @@ export type Tile = [number, number, number];
 
 export type NavigationProp = NavigationScreenProp<NavigationState>;
 
-// types related to firebase data
+/*
+ * types related to firebase data
+ *
+ * These type definitions should match the format seen
+ * in the firebase database and the docs at
+ * https://mapswipe-workers.readthedocs.io/en/dev/diagrams.html
+ */
 
+// projects all have the same structure
 export type ProjectType = {
     contributors: number,
+    created: number,
     image: string,
     isFeatured: boolean,
     lookFor: string,
     name: string,
     projectDetails: string,
-    projectId: number,
+    projectId: string,
     projectType: ?number,
     progress: number,
     state: number,
@@ -39,25 +47,42 @@ export type ProjectType = {
 
 export type ProjectMapType = { [project_id: string]: ProjectType };
 
-export type TaskType = {
+// tasks have a different shape for each project type
+// we define a type for each to avoid all sorts of optional
+// attributes in the objects, which make typing a bit useless
+
+// used only by projects of type LEGACY_PROJECT (type 1)
+export type BuiltAreaTaskType = {
     groupId: number,
-    featureId?: number,
-    geojson?: { type: string, coordinates: { [number]: Polygon }},
-    projectId: number,
+    projectId: string,
     taskId: string,
     taskX: number,
     taskY: number,
     url: string,
 }
 
+// used only by projects of type BUILDING_FOOTPRINTS (type 2)
+export type BuildingFootprintTaskType = {
+    groupId: number,
+    geojson: { type: string, coordinates: { [number]: Polygon }},
+    projectId: string,
+    taskId: string,
+}
+
+export type TaskType =
+    | BuiltAreaTaskType
+    | BuildingFootprintTaskType
+
 export type TaskMapType = { [task_id: string]: TaskType };
 
-export type GroupType = {
+// groups also have a different task content for each project type
+
+type GenericGroupType<T> = {
     groupId: number,
     neededCount: number,
     numberOfTasks: number,
-    projectId: number,
-    tasks: Array<TaskType>,
+    projectId: string,
+    tasks: Array<T>,
     zoomLevel: number,
     xMax: number;
     xMin: number;
@@ -65,11 +90,19 @@ export type GroupType = {
     yMin: number;
 }
 
+export type BuiltAreaGroupType = GenericGroupType<BuiltAreaTaskType>;
+export type BuildingFootprintGroupType = GenericGroupType<BuildingFootprintTaskType>;
+
+export type GroupType =
+    | BuiltAreaGroupType
+    | BuildingFootprintGroupType
 export type GroupMapType = { [group_id: string]: GroupType };
+
+// results should all look the same
 
 export type ResultType = {
     groupId: number,
-    projectId: number,
+    projectId: string,
     resultId: string,
     result: number,
     timestamp: {},

@@ -11,9 +11,9 @@ import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
 import type {
-    GroupType,
+    BuildingFootprintGroupType,
     ProjectType,
-    TaskType,
+    BuildingFootprintTaskType,
 } from '../../flow-types';
 
 const styles = StyleSheet.create({
@@ -31,7 +31,7 @@ const FOOTPRINT_NO_BUILDING = 3;
 
 type Props = {
     commitCompletedGroup: () => void,
-    group: GroupType,
+    group: BuildingFootprintGroupType,
     project: ProjectType,
     submitFootprintResult: (number, string) => void,
     updateProgress: (number) => void,
@@ -63,7 +63,7 @@ class _Validator extends React.Component<Props, State> {
         }
     }
 
-    setupTaskIdGenerator = (tasks: Array<TaskType>) => {
+    setupTaskIdGenerator = (tasks: Array<BuildingFootprintTaskType>) => {
         if (isLoaded(tasks) && !isEmpty(tasks)) {
             this.taskGen = this.makeNextTaskGenerator(tasks);
             const taskGenValue = this.taskGen.next();
@@ -99,7 +99,7 @@ class _Validator extends React.Component<Props, State> {
     tasksDone: number;
 
     // eslint-disable-next-line class-methods-use-this
-    * makeNextTaskGenerator(tasks: Array<TaskType>): taskGenType {
+    * makeNextTaskGenerator(tasks: Array<BuildingFootprintTaskType>): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
         const taskIds = tasks.map(t => t.taskId);

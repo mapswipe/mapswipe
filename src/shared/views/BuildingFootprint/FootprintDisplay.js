@@ -12,7 +12,7 @@ import type {
     Point,
     Polygon,
     ProjectType,
-    TaskType,
+    BuildingFootprintTaskType,
     Tile,
 } from '../../flow-types';
 
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     project: ProjectType,
-    task: TaskType,
+    task: BuildingFootprintTaskType,
 };
 
 export default class FootprintDisplay extends React.Component<Props> {

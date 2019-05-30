@@ -14,7 +14,7 @@ import { toggleMapTile } from '../../actions/index';
 import type {
     Mapper,
     ResultType,
-    TaskType,
+    BuiltAreaTaskType,
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    tile: TaskType,
+    tile: BuiltAreaTaskType,
     mapper: Mapper,
     onToggleTile: ResultType => void,
-    results: TaskType,
+    results: BuiltAreaTaskType,
 };
 
 export class _Tile extends React.Component<Props> {

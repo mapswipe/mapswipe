@@ -141,7 +141,7 @@ export default class ProjectCard extends React.Component<Props, State> {
 
     getGradientArray() {
         const { card } = this.props;
-        const gradientToPick = card.projectId % 3;
+        const gradientToPick = parseInt(card.created, 10) % 3;
         let gradientCountArray = null;
 
         const gradientOpacity = ['0.6', '0.8'];

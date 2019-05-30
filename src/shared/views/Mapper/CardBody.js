@@ -14,7 +14,7 @@ import LoadMoreCard from '../LoadMore';
 import { Tile } from './Tile';
 import IndividualCard from './IndividualCard';
 import type {
-    GroupType,
+    BuiltAreaGroupType,
     Mapper,
     NavigationProp,
 } from '../../flow-types';
@@ -38,7 +38,7 @@ type CardToPushType = {
 };
 
 type Props = {
-    group: GroupType,
+    group: BuiltAreaGroupType,
     mapper: Mapper,
     navigation: NavigationProp,
     projectId: number,
