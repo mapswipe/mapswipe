@@ -78,7 +78,7 @@ type ICState = {
     showSwipeHelp: boolean,
 };
 
-type PressEvent = {}; // FIXME: figure out the proper type
+type PressEvent = PanResponder.PressEvent;
 type PanResponderInstance = PanResponder.PanResponderInstance;
 type GestureState = PanResponder.GestureState;
 
