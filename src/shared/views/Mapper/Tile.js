@@ -97,7 +97,6 @@ export class _Tile extends React.Component<Props> {
             result: tileStatus,
             groupId: tile.groupId,
             projectId: tile.projectId,
-            timestamp: GLOBAL.DB.getTimestamp(),
         });
     }
 

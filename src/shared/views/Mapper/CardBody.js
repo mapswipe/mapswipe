@@ -119,26 +119,22 @@ class _CardBody extends React.Component<Props, State> {
                         const tile = group.tasks[taskIdx];
                         tileRowObject.tiles.push(tile);
                         // store a 0 result for each tile
-                        const timestamp = GLOBAL.DB.getTimestamp();
                         onToggleTile({
                             resultId: tile.taskId,
                             result: 0,
                             groupId: tile.groupId,
                             projectId: tile.projectId,
-                            timestamp,
                         });
                     } else {
                         // no task: insert an empty tile marker
                         tileRowObject.tiles.push('emptytile');
                         const tile = group.tasks[taskIdx];
                         // store a BAD_IMAGERY result for each tile
-                        const timestamp = GLOBAL.DB.getTimestamp();
                         onToggleTile({
                             resultId: tile.taskId,
                             result: 3,
                             groupId: tile.groupId,
                             projectId: tile.projectId,
-                            timestamp,
                         });
                     }
 

@@ -2,6 +2,7 @@
 
 import { actionTypes } from 'react-redux-firebase';
 import type { ResultMapType, ResultType, State } from '../flow-types';
+import GLOBAL from '../Globals';
 
 export const WELCOME_COMPLETED: 'WELCOME_COMPLETED' = 'WELCOME_COMPLETED';
 export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' = 'AUTH_STATUS_AVAILABLE';
@@ -100,12 +101,13 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
     return (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
+        // get a single timestamp upon completion of the group
+        const timestamp = GLOBAL.DB.getTimestamp();
 
         Object.keys(groupInfo.results).forEach((resultId) => {
             const resObj = groupInfo.results[resultId];
             const fbpath = `results/${resObj.projectId}/${resObj.groupId}/${userId}/`;
-            // this overwrites the timestamp if there are multiple results for a group
-            firebase.set(`${fbpath}timestamp`, resObj.timestamp);
+            firebase.set(`${fbpath}timestamp`, timestamp);
             firebase
                 .set(`${fbpath}results/${resObj.resultId}`, resObj.result)
                 .then(() => dispatch(commitTaskSuccess(resultId)))

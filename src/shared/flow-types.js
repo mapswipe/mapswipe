@@ -120,7 +120,6 @@ export type ResultType = {
     projectId: string,
     resultId: string,
     result: number,
-    timestamp: {},
 }
 
 export type ResultMapType = { [string]: ResultType };
