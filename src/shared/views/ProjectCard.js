@@ -6,6 +6,9 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NavigationProp, ProjectType } from '../flow-types';
+import {
+    COLOR_LIGHT_GRAY,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -87,7 +90,7 @@ const style = StyleSheet.create({
         },
     },
     teamMates: {
-        borderColor: '#e8e8e8',
+        borderColor: COLOR_LIGHT_GRAY,
         borderTopWidth: 1,
         borderLeftWidth: 0,
         borderRightWidth: 0,

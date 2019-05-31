@@ -18,13 +18,16 @@ import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../LoadingIcon';
 import type { BuiltAreaGroupType, NavigationProp, ProjectType } from '../../flow-types';
+import {
+    COLOR_DEEP_BLUE,
+} from '../../constants';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     startButton: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         alignItems: 'stretch',
         height: 50,
         padding: 12,
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     mappingContainer: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
     },

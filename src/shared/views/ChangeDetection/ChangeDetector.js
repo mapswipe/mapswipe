@@ -12,6 +12,13 @@ import {
 import Button from 'apsl-react-native-button';
 import LoadingIcon from '../LoadingIcon';
 import GLOBAL from '../../Globals';
+import {
+    COLOR_GREEN,
+    COLOR_LIGHT_GRAY,
+    COLOR_RED,
+    COLOR_YELLOW,
+} from '../../constants';
+
 import type {
     ChangeDetectionGroupType,
     ChangeDetectionTaskType,
@@ -19,18 +26,19 @@ import type {
 
 const styles = StyleSheet.create({
     leftButton: {
-        backgroundColor: 'red',
+        backgroundColor: COLOR_RED,
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
         left: 0,
+        opacity: 0.5,
         position: 'absolute',
         top: 0,
         width: '15%',
         zIndex: 1,
     },
     bottomButton: {
-        backgroundColor: 'yellow',
+        backgroundColor: COLOR_YELLOW,
         borderRadius: 0,
         borderWidth: 0,
         bottom: 0,
@@ -38,27 +46,30 @@ const styles = StyleSheet.create({
         left: '15%',
         marginBottom: 0,
         marginTop: 0,
+        opacity: 0.5,
         position: 'absolute',
         width: '70%',
         zIndex: 1,
     },
     rightButton: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR_GREEN,
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
         right: 0,
+        opacity: 0.5,
         position: 'absolute',
         top: 0,
         width: '15%',
         zIndex: 1,
     },
     topButton: {
-        backgroundColor: 'gray',
+        backgroundColor: COLOR_LIGHT_GRAY,
         borderRadius: 0,
         borderWidth: 0,
         height: '10%',
         left: '15%',
+        opacity: 0.5,
         position: 'absolute',
         top: 0,
         width: '70%',

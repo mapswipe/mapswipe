@@ -13,6 +13,10 @@ import Modal from 'react-native-modalbox';
 import ProjectCard from './ProjectCard';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, ProjectType } from '../flow-types';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -32,7 +36,7 @@ const style = StyleSheet.create({
         marginTop: 20,
     },
     inModalButton: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -53,14 +57,14 @@ const style = StyleSheet.create({
         marginTop: 10,
         height: 300,
         width: 300,
-        backgroundColor: '#ffffff',
+        backgroundColor: COLOR_WHITE,
         borderRadius: 2,
     },
     announcementButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 40,
         marginTop: 10,
-        borderColor: '#0d1949',
+        borderColor: COLOR_DEEP_BLUE,
         borderRadius: 0,
         borderWidth: 2,
     },
@@ -121,7 +125,7 @@ class _RecommendedCards extends React.Component<Props> {
                 key="announce"
                 style={style.announcementButton}
                 textStyle={{
-                    color: '#0d1949',
+                    color: COLOR_DEEP_BLUE,
                     fontSize: 13,
                     fontWeight: '700',
                 }}
@@ -151,14 +155,14 @@ class _RecommendedCards extends React.Component<Props> {
                             uri: GLOBAL.TUT_LINK,
                         });
                     }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{ fontSize: 13, color: COLOR_WHITE, fontWeight: '700' }}
                 >
                     Go To Tutorial
                 </Button>
                 <Button
                     style={style.inModalButton}
                     onPress={this.closeModal3}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{ fontSize: 13, color: COLOR_WHITE, fontWeight: '700' }}
                 >
                     No thanks
                 </Button>

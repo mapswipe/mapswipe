@@ -11,6 +11,9 @@ import {
     View, Image, WebView, TouchableHighlight,
 } from 'react-native';
 import type { NavigationProp } from '../flow-types';
+import {
+    COLOR_DEEP_BLUE,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -30,7 +33,7 @@ const styles = {
     swipeNavTop: {
         width: (GLOBAL.SCREEN_WIDTH),
         height: 60,
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
 
     },
 };

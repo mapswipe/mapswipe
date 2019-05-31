@@ -11,6 +11,9 @@ import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
 import type { NavigationProp } from '../flow-types';
 import { completeWelcome } from '../actions/index';
+import {
+    COLOR_DEEP_BLUE,
+} from '../constants';
 
 const Swiper = require('react-native-swiper');
 const GLOBAL = require('../Globals');
@@ -28,7 +31,7 @@ const styles = StyleSheet.create({
         left: GLOBAL.SCREEN_WIDTH * 0.05,
     },
     nextButton: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         height: 50,
         padding: 12,

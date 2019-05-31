@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { toggleMapTile } from '../../actions/index';
+import {
+    COLOR_LIGHT_GRAY,
+} from '../../constants';
 import type {
     Mapper,
     ResultType,
@@ -33,7 +36,7 @@ const styles = StyleSheet.create({
     },
     emptyTile: {
         width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
-        backgroundColor: '#e8e8e8',
+        backgroundColor: COLOR_LIGHT_GRAY,
         borderWidth: 1,
         borderTopWidth: 1,
         borderColor: '#212121',

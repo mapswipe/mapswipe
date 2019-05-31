@@ -12,6 +12,11 @@ import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import { commitGroup, type GroupInfo } from '../actions/index';
 import type { GroupType, NavigationProp, ResultMapType } from '../flow-types';
+import {
+    COLOR_DARK_GRAY,
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -20,13 +25,13 @@ const styles = StyleSheet.create({
         width: (GLOBAL.SCREEN_WIDTH),
         height: (GLOBAL.TILE_VIEW_HEIGHT),
         borderWidth: 0,
-        backgroundColor: '#212121',
+        backgroundColor: COLOR_DARK_GRAY,
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
     },
     moreButton: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         marginTop: 20,
         width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
         marginLeft: (GLOBAL.SCREEN_WIDTH * (1 / 4)),
@@ -37,7 +42,7 @@ const styles = StyleSheet.create({
     },
     finishedText: {
         textAlign: 'center',
-        color: '#ffffff',
+        color: COLOR_WHITE,
     },
 });
 
@@ -121,14 +126,14 @@ Great job! You finished this group. Do you want to continue to map more in
                 <Button
                     style={styles.moreButton}
                     onPress={this.onMore}
-                    textStyle={{ fontSize: 18, color: '#ffffff' }}
+                    textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                 >
                     Map further
                 </Button>
                 <Button
                     style={styles.moreButton}
                     onPress={this.onComplete}
-                    textStyle={{ fontSize: 18, color: '#ffffff' }}
+                    textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                 >
                     Complete Session
                 </Button>

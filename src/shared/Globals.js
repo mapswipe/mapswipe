@@ -33,12 +33,6 @@ module.exports = {
     TOP_OFFSET: Platform.OS === 'android' ? 0 : 20,
     SCREEN_WIDTH: Dimensions.get('window').width,
     SCREEN_HEIGHT: screenHeight,
-    COLOR: {
-        ORANGE: '#C50',
-        DARKBLUE: '#0F3274',
-        LIGHTBLUE: '#6EA8DA',
-        DARKGRAY: '#999',
-    },
     TASKS_PROCESSING: 0,
     TILE_VIEW_HEIGHT: (screenHeight - 40 - 30), // 40 is top bar, 30 is bottom bar
     TILES_PER_VIEW_X: 2,

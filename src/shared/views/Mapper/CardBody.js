@@ -18,13 +18,16 @@ import type {
     Mapper,
     NavigationProp,
 } from '../../flow-types';
+import {
+    COLOR_DEEP_BLUE,
+} from '../../constants';
 
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         position: 'absolute',
         left: 0,
         bottom: 30,

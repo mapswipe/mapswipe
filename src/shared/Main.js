@@ -36,7 +36,6 @@ const GLOBAL = require('./Globals');
 const style = StyleSheet.create({
     startButton: {
         backgroundColor: '#ff0000',
-        // backgroundColor: '#0d1949',
         alignItems: 'stretch',
         height: 50,
         padding: 12,

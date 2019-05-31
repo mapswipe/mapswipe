@@ -9,6 +9,10 @@ import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-vi
 import RecommendedCards from './RecommendedCards';
 import MoreOptions from './MoreOptions';
 import type { NavigationProp } from '../flow-types';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+} from '../constants';
 
 /**
  * This is the base view for the project navigation, the individual tabs are rendered within here.
@@ -28,9 +32,14 @@ class _ProjectNav extends React.Component<Props> {
         return (
             <ScrollableTabView
                 tabBarActiveTextColor="#ffffff"
-                tabBarInactiveTextColor="#e8e8e8"
+                tabBarInactiveTextColor={COLOR_LIGHT_GRAY}
                 tabBarUnderlineStyle={{ backgroundColor: '#ee0000' }}
-                renderTabBar={() => <DefaultTabBar backgroundColor="#0d1949" style={{ borderBottomWidth: 0 }} />}
+                renderTabBar={() => (
+                    <DefaultTabBar
+                        backgroundColor={COLOR_DEEP_BLUE}
+                        style={{ borderBottomWidth: 0 }}
+                    />
+                )}
             >
                 <RecommendedCards navigation={navigation} tabLabel="Missions" />
                 <MoreOptions navigation={navigation} tabLabel="More" />

@@ -22,12 +22,21 @@ import { MessageBarManager } from 'react-native-message-bar';
 import reduxStore from '../store';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp } from '../flow-types';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+} from '../constants';
 
 /* eslint-disable global-require */
 
 const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
+    buttonText: {
+        color: COLOR_WHITE,
+        fontSize: 13,
+        fontWeight: '700',
+    },
     switchToLogin: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         height: 50,
@@ -46,7 +55,7 @@ const styles = StyleSheet.create({
     container: {
         width: GLOBAL.SCREEN_WIDTH,
         height: GLOBAL.SCREEN_HEIGHT,
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         flex: 1,
     },
     text4: {
@@ -55,7 +64,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 13,
         marginBottom: 10,
-        color: '#ffffff',
+        color: COLOR_WHITE,
     },
     text5: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
@@ -63,7 +72,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 10,
         marginBottom: 10,
-        color: '#ffffff',
+        color: COLOR_WHITE,
     },
     tutIcon2: {
         resizeMode: 'contain',
@@ -75,9 +84,9 @@ const styles = StyleSheet.create({
     textInput: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         height: 40,
-        backgroundColor: 'rgba(255,255,255,0.2)',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderRadius: 5,
-        color: '#ffffff',
+        color: COLOR_WHITE,
         paddingLeft: 10,
     },
 });
@@ -327,7 +336,7 @@ class _Login extends React.Component<Props, State> {
                 contentContainerStyle={{
                     alignItems: 'center',
                     width: GLOBAL.SCREEN_WIDTH,
-                    backgroundColor: '#0d1949',
+                    backgroundColor: COLOR_DEEP_BLUE,
                     padding: 20,
                 }}
             >
@@ -366,14 +375,14 @@ class _Login extends React.Component<Props, State> {
                 <Button
                     style={styles.otherButton}
                     onPress={this.handleSignUp}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={styles.buttonText}
                 >
                     Sign Up
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_LOGIN)}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={styles.buttonText}
                 >
                     Log in to an existing account
                 </Button>
@@ -391,7 +400,7 @@ class _Login extends React.Component<Props, State> {
                 contentContainerStyle={{
                     alignItems: 'center',
                     width: GLOBAL.SCREEN_WIDTH,
-                    backgroundColor: '#0d1949',
+                    backgroundColor: COLOR_DEEP_BLUE,
                     padding: 20,
                 }}
             >
@@ -422,21 +431,21 @@ class _Login extends React.Component<Props, State> {
                 <Button
                     style={styles.otherButton}
                     onPress={this.handleLogin}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={styles.buttonText}
                 >
                     Log in
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_FORGOT_PASSWORD)}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={styles.buttonText}
                 >
                     Forgot your password?
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_SIGNUP)}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={styles.buttonText}
                 >
                     Create New Account
                 </Button>
@@ -454,7 +463,7 @@ class _Login extends React.Component<Props, State> {
                 contentContainerStyle={{
                     alignItems: 'center',
                     width: GLOBAL.SCREEN_WIDTH,
-                    backgroundColor: '#0d1949',
+                    backgroundColor: COLOR_DEEP_BLUE,
                     padding: 20,
                 }}
             >
@@ -471,14 +480,14 @@ class _Login extends React.Component<Props, State> {
                 <Button
                     style={styles.otherButton}
                     onPress={this.handlePassReset}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={styles.buttonText}
                 >
                     Send Reset Email
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_LOGIN)}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={styles.buttonText}
                 >
                     Back to login
                 </Button>

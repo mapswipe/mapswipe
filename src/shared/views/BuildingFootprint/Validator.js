@@ -10,6 +10,12 @@ import {
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
+import {
+    COLOR_GREEN,
+    COLOR_RED,
+    COLOR_YELLOW,
+} from '../../constants';
+
 import type {
     BuildingFootprintGroupType,
     ProjectType,
@@ -129,7 +135,7 @@ class _Validator extends React.Component<Props, State> {
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_CORRECT)}
                     style={[
-                        { backgroundColor: 'green' },
+                        { backgroundColor: COLOR_GREEN },
                         styles.button,
                     ]}
                 >
@@ -138,7 +144,7 @@ class _Validator extends React.Component<Props, State> {
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_NEEDS_ADJUSTMENT)}
                     style={[
-                        { backgroundColor: 'orange' },
+                        { backgroundColor: COLOR_YELLOW },
                         styles.button,
                     ]}
                 >
@@ -147,7 +153,7 @@ class _Validator extends React.Component<Props, State> {
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
                     style={[
-                        { backgroundColor: 'red' },
+                        { backgroundColor: COLOR_RED },
                         styles.button,
                     ]}
                 >

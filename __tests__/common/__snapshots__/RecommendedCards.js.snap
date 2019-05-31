@@ -81,7 +81,7 @@ exports[`Renders RecommendedCards screen 1`] = `
           <BVLinearGradient
             colors={
               Array [
-                2577147069,
+                2567706953,
                 3422552064,
               ]
             }
@@ -276,7 +276,7 @@ exports[`Renders RecommendedCards screen 1`] = `
           <BVLinearGradient
             colors={
               Array [
-                2577147069,
+                2579508011,
                 3422552064,
               ]
             }

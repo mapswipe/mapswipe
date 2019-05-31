@@ -21,6 +21,10 @@ import ConnectionManager from '../ConnectionManager';
 import {
     BUILDING_FOOTPRINTS,
     CHANGE_DETECTION,
+    COLOR_DARK_GRAY,
+    COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+    COLOR_WHITE,
     LEGACY_TILES,
 } from '../constants';
 import type { NavigationProp, ProjectType } from '../flow-types';
@@ -31,8 +35,13 @@ const GLOBAL = require('../Globals');
 /* eslint-disable global-require */
 
 const style = StyleSheet.create({
+    buttonText: {
+        fontSize: 13,
+        color: COLOR_WHITE,
+        fontWeight: '700',
+    },
     closeButton: {
-        backgroundColor: '#212121',
+        backgroundColor: COLOR_DARK_GRAY,
         alignItems: 'stretch',
         height: 50,
         padding: 12,
@@ -68,7 +77,7 @@ const style = StyleSheet.create({
         justifyContent: 'center',
     },
     overlayProjectName: {
-        color: '#FFFFFF',
+        color: COLOR_WHITE,
         fontWeight: '700',
         fontSize: 20,
         width: 200,
@@ -103,7 +112,7 @@ const style = StyleSheet.create({
         borderLeftWidth: 0,
         borderRightWidth: 0,
         borderBottomWidth: 0,
-        borderColor: '#212121',
+        borderColor: COLOR_DARK_GRAY,
         flexDirection: 'row',
         alignItems: 'center',
         height: 50,
@@ -114,13 +123,13 @@ const style = StyleSheet.create({
         backgroundColor: 'rgba(52,52,52,0.5)',
     },
     infoBlock: {
-        borderColor: '#212121',
+        borderColor: COLOR_DARK_GRAY,
         flex: 1,
         height: 30,
         flexDirection: 'row',
     },
     infoBlockText: {
-        color: '#e8e8e8',
+        color: COLOR_LIGHT_GRAY,
         fontWeight: '500',
         fontSize: 11,
         marginLeft: 20,
@@ -176,7 +185,7 @@ const style = StyleSheet.create({
         borderWidth: 0.1,
     },
     downloadButton: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -185,7 +194,7 @@ const style = StyleSheet.create({
     },
     header: {
         fontWeight: '700',
-        color: '#212121',
+        color: COLOR_DARK_GRAY,
         fontSize: 18,
     },
     tutRow: {
@@ -213,7 +222,7 @@ const style = StyleSheet.create({
     offlineModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
-        backgroundColor: '#ffffff',
+        backgroundColor: COLOR_WHITE,
         borderRadius: 2,
     },
 });
@@ -510,14 +519,14 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                 uri: GLOBAL.TUT_LINK,
                             });
                         }}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                     Tutorial
                     </Button>
                     <Button
                         style={style.startButton}
                         onPress={this.handlePress}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                     Map Now (
                         {hasOfflineGroups === false ? 'requires network' : 'available offline'}
@@ -528,7 +537,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                             ? style.startButton : style.inProgressButton}
                         onPress={downloadProgress === 0
                             ? this.handleLater : this.handleInProgress}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                         {downloadProgress === 0 || downloadProgress === 100 || !downloadProgress ? 'Download For Later' : `Downloading (${downloadProgress}%)`}
                     </Button>
@@ -536,7 +545,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     <Button
                         style={style.startButton2}
                         onPress={this.handleProjectRemoval}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                     Bugs? Clear Project Data
                     </Button>
@@ -546,7 +555,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                             <Button
                                 style={style.startButton2}
                                 onPress={this.handleRemoval}
-                                textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                                textStyle={style.buttonText}
                             >
                         Remove Offline Data
                             </Button>
@@ -570,7 +579,7 @@ We will let you know when your download ends, it will be auto-deleted after
                     <Button
                         style={style.downloadButton}
                         onPress={this.checkWifiDownload(1000)}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                     Download 1k tiles (approx 20MB)
                     </Button>
@@ -580,7 +589,7 @@ We will let you know when your download ends, it will be auto-deleted after
                     <Button
                         style={style.downloadButton}
                         onPress={this.checkWifiDownload(4000)}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                     Download 4k tiles (approx 80MB)
                     </Button>
@@ -590,14 +599,14 @@ We will let you know when your download ends, it will be auto-deleted after
                     <Button
                         style={style.downloadButton}
                         onPress={this.checkWifiDownload(16000)}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                     Download 16k tiles (approx 320MB)
                     </Button>
                     <Button
                         style={style.closeButton}
                         onPress={this.closeOfflineModal}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={style.buttonText}
                     >
                     Cancel
                     </Button>

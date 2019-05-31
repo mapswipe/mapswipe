@@ -22,13 +22,17 @@ import type {
     ProjectType,
 } from '../../flow-types';
 
+import {
+    COLOR_DEEP_BLUE,
+} from '../../constants';
+
 const GLOBAL = require('../../Globals');
 
 /* eslint-disable global-require */
 
 const styles = StyleSheet.create({
     mappingContainer: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
     },
