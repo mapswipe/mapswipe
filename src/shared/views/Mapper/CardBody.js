@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { getSqKmForZoomLevelPerTile } from '../../Database';
+import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import { Tile } from './Tile';
@@ -17,6 +18,7 @@ import type {
     BuiltAreaGroupType,
     Mapper,
     NavigationProp,
+    ResultType,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -44,6 +46,7 @@ type Props = {
     group: BuiltAreaGroupType,
     mapper: Mapper,
     navigation: NavigationProp,
+    onToggleTile: ResultType => void,
     projectId: number,
 };
 
@@ -79,7 +82,7 @@ class _CardBody extends React.Component<Props, State> {
     }
 
     generateCards = () => {
-        const { group } = this.props;
+        const { group, onToggleTile } = this.props;
         const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
         const cards = [];
 
@@ -113,10 +116,30 @@ class _CardBody extends React.Component<Props, State> {
                     if (taskIdx > -1) {
                         // we have a valid task for these coordinates
                         cardToPush.validTiles += 1;
-                        tileRowObject.tiles.push(group.tasks[taskIdx]);
+                        const tile = group.tasks[taskIdx];
+                        tileRowObject.tiles.push(tile);
+                        // store a 0 result for each tile
+                        const timestamp = GLOBAL.DB.getTimestamp();
+                        onToggleTile({
+                            resultId: tile.taskId,
+                            result: 0,
+                            groupId: tile.groupId,
+                            projectId: tile.projectId,
+                            timestamp,
+                        });
                     } else {
                         // no task: insert an empty tile marker
                         tileRowObject.tiles.push('emptytile');
+                        const tile = group.tasks[taskIdx];
+                        // store a BAD_IMAGERY result for each tile
+                        const timestamp = GLOBAL.DB.getTimestamp();
+                        onToggleTile({
+                            resultId: tile.taskId,
+                            result: 3,
+                            groupId: tile.groupId,
+                            projectId: tile.projectId,
+                            timestamp,
+                        });
                     }
 
                     if (tileY > tileRowObject.rowYEnd) {
@@ -215,6 +238,14 @@ class _CardBody extends React.Component<Props, State> {
     }
 }
 
+const mapDispatchToProps = dispatch => (
+    {
+        onToggleTile: (tileInfo) => {
+            dispatch(toggleMapTile(tileInfo));
+        },
+    }
+);
+
 const mapStateToProps = (state, ownProps) => (
     {
         group: ownProps.group,
@@ -240,5 +271,6 @@ export default compose(
     }),
     connect(
         mapStateToProps,
+        mapDispatchToProps,
     ),
 )(_CardBody);
