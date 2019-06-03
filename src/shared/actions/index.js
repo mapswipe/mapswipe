@@ -27,10 +27,10 @@ export function authStatusAvailable(user: {}): AuthStatusAvailable {
     return { type: AUTH_STATUS_AVAILABLE, user };
 }
 
-type ToggleMapTile = { type: typeof TOGGLE_MAP_TILE, tileInfo: ResultType };
-export function toggleMapTile(tileInfo: ResultType): ToggleMapTile {
+type ToggleMapTile = { type: typeof TOGGLE_MAP_TILE, resultObject: ResultType };
+export function toggleMapTile(resultObject: ResultType): ToggleMapTile {
     // dispatched every time a map tile is tapped to change its state
-    return { type: TOGGLE_MAP_TILE, tileInfo };
+    return { type: TOGGLE_MAP_TILE, resultObject };
 }
 
 type CancelGroup = { type: typeof CANCEL_GROUP, groupDetails: {} };

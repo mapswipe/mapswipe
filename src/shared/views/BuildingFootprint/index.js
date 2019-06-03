@@ -98,7 +98,6 @@ class BuildingFootprintValidator extends React.Component<Props, State> {
             result,
             groupId: group[Object.keys(group)[0]].groupId,
             projectId: this.project.projectId,
-            timestamp: GLOBAL.DB.getTimestamp(),
         };
         onSubmitFootprint(resultObject);
     }

@@ -22,16 +22,29 @@ export default function results(state: ResultMapType = defaultResultsState, acti
                 && state[id].groupId !== groupDetails.groupId)
             .map(id => ({ [id]: state[id] })));
     }
+    case SUBMIT_BUILDING_FOOTPRINT:
+    case SUBMIT_CHANGE:
     case TOGGLE_MAP_TILE: {
-        // update the tile's state
+        // update the result attached to a task
+        // the result store looks like:
+        // results
+        //  |- projectId
+        //  |   |- groupId
+        //  |   |   |- resultId: result
+        //  |   |   |- resultId2: result
+        //  |   |   ...
+        //  |   |- groupId2
+        //  |       |- resultId: result
+        //  |- projectId2
+        //      |_ ...
         // $FlowFixMe
-        const { tileInfo } = action;
+        const { resultObject } = action;
         const {
             groupId,
             projectId,
             result,
             resultId,
-        } = tileInfo;
+        } = resultObject;
         const otherGroups = state[projectId] || {};
         let otherResults = {};
         if (state[projectId]) {
@@ -47,15 +60,6 @@ export default function results(state: ResultMapType = defaultResultsState, acti
                     [resultId]: result,
                 },
             },
-        };
-    }
-    case SUBMIT_BUILDING_FOOTPRINT:
-    case SUBMIT_CHANGE: {
-        // $FlowFixMe
-        const { resultObject } = action;
-        return {
-            ...state,
-            [resultObject.resultId]: resultObject,
         };
     }
     case COMMIT_TASK_SUCCESS: {
