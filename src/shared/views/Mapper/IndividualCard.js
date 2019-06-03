@@ -92,7 +92,6 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
             onMoveShouldSetPanResponderCapture: this.handleMoveShouldSetPanResponderCapture,
             onPanResponderGrant: this.handlePanResponderGrant,
-            onPanResponderMove: this.handlePanResponderMove,
             onPanResponderRelease: this.handlePanResponderEnd,
             onPanResponderTerminate: this.handlePanResponderTerminate,
         });
@@ -130,17 +129,11 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         this.setState({ showSwipeHelp: true });
     };
 
-    handlePanResponderMove = (event: PressEvent, gestureState: GestureState) => {
-        // called on each frame while the user's finger is swiping
-        console.log('ResponderMove', gestureState.dx, gestureState.dy);
-    };
-
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         const { card, onToggleTile } = this.props;
-        console.log('ResponderEnd', gestureState.dx, gestureState.dy);
         this.setState({ showSwipeHelp: false });
-        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 1.5) {
+        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 0.5) {
             card.tileRows.forEach((row) => {
                 row.tiles.forEach((tile) => {
                     onToggleTile({
@@ -148,8 +141,6 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
                         resultId: tile.taskId,
                         result: 3,
                         projectId: tile.projectId,
-                        user: GLOBAL.DB.getAuth().getUser().uid,
-                        timestamp: GLOBAL.DB.getTimestamp(),
                     });
                 });
             });
