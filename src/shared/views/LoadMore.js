@@ -89,7 +89,6 @@ class _LoadMoreCard extends React.Component<Props> {
             projectId,
             contributionsCount,
             results,
-            zoomLevel: group.zoomLevel,
         });
     }
 

@@ -90,7 +90,6 @@ export type GroupInfo = {
     projectId: string,
     contributionsCount: number,
     results: ResultMapType,
-    zoomLevel: number
 }
 
 type CommitGroup = { type: typeof COMMIT_GROUP }
