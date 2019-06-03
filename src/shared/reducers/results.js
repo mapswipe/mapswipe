@@ -26,9 +26,27 @@ export default function results(state: ResultMapType = defaultResultsState, acti
         // update the tile's state
         // $FlowFixMe
         const { tileInfo } = action;
+        const {
+            groupId,
+            projectId,
+            result,
+            resultId,
+        } = tileInfo;
+        const otherGroups = state[projectId] || {};
+        let otherResults = {};
+        if (state[projectId]) {
+            otherResults = state[projectId][groupId] || {};
+        }
         return {
             ...state,
-            [tileInfo.resultId]: tileInfo,
+            [projectId]: {
+                ...otherGroups,
+                // $FlowFixMe
+                [groupId]: {
+                    ...otherResults,
+                    [resultId]: result,
+                },
+            },
         };
     }
     case SUBMIT_BUILDING_FOOTPRINT:

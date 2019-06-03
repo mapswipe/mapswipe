@@ -129,7 +129,8 @@ class _CardBody extends React.Component<Props, State> {
                         // no task: insert an empty tile marker
                         tileRowObject.tiles.push('emptytile');
                         const tile = group.tasks[taskIdx];
-                        // store a BAD_IMAGERY result for each tile
+                        // store a BAD_IMAGERY result for tile without image
+                        // as it will save the user a few taps
                         onToggleTile({
                             resultId: tile.taskId,
                             result: 3,

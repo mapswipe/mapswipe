@@ -57,7 +57,7 @@ type Props = {
     tile: BuiltAreaTaskType,
     mapper: Mapper,
     onToggleTile: ResultType => void,
-    results: BuiltAreaTaskType,
+    results: number,
 };
 
 export class _Tile extends React.Component<Props> {
@@ -68,8 +68,8 @@ export class _Tile extends React.Component<Props> {
     }
 
     shouldComponentUpdate(nextProps: Props) {
-        const { results, tile } = this.props;
-        return (results[tile.taskId] !== nextProps.results[tile.taskId]);
+        const { results } = this.props;
+        return (results !== nextProps.results);
     }
 
     getTileColor = (status: number) => {
@@ -83,20 +83,22 @@ export class _Tile extends React.Component<Props> {
     }
 
     onPressButton = () => {
+        // called when a tile is tapped
         const {
             mapper,
             onToggleTile,
             results,
-            tile,
+            tile: { taskId, projectId, groupId },
         } = this.props;
         mapper.closeTilePopup();
-        let tileStatus = results[tile.taskId] ? results[tile.taskId].result : 0;
+        // find the tile status from redux results
+        let tileStatus = results;
         tileStatus = (tileStatus + 1) % 4;
         onToggleTile({
-            resultId: tile.taskId,
+            resultId: taskId,
             result: tileStatus,
-            groupId: tile.groupId,
-            projectId: tile.projectId,
+            groupId,
+            projectId,
         });
     }
 
@@ -154,8 +156,8 @@ export class _Tile extends React.Component<Props> {
     lastReportedStatus: number;
 
     render() {
-        const { results, tile } = this.props;
-        const tileStatus = results[tile.taskId] ? results[tile.taskId].result : 0;
+        const { results, tile: { taskId } } = this.props;
+        const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
         const animatedRows = [];
         const showAnim = Math.floor(Math.random() * 5);
@@ -163,7 +165,7 @@ export class _Tile extends React.Component<Props> {
         if (tileStatus > 1 && showAnim === 1) {
             animatedRows.push(
                 <Animatable.Text
-                    key={`anim-${tile.taskId}`}
+                    key={`anim-${taskId}`}
                     animation={this.getFunText()[0]}
                     style={styles.animatedText}
                 >
@@ -180,10 +182,10 @@ export class _Tile extends React.Component<Props> {
             >
                 <ImageBackground
                     style={styles.tileStyle}
-                    key={`touch-${tile.taskId}`}
+                    key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${tile.taskId}`}>
+                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${taskId}`}>
                         {animatedRows}
                     </View>
                 </ImageBackground>
@@ -192,15 +194,26 @@ export class _Tile extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        group: state.firebase.data.group,
-        navigation: ownProps.navigation,
-        projectId: ownProps.projectId,
-        results: state.results,
-        tile: ownProps.tile,
+const mapStateToProps = (state, ownProps) => {
+    // here we plug only the relevant part of the redux state
+    // into the component, this helps limit the rerendering of
+    // Tiles to only the one that was just tapped.
+    let results = 0;
+    const { groupId, projectId, taskId } = ownProps.tile;
+    // we need this ugly if ()... because the first rendering of the screen
+    // happens before initial results have been generated in redux by
+    // generateCards
+    if (state.results[projectId]
+        && state.results[projectId][groupId]
+        && state.results[projectId][groupId][taskId]) {
+        results = state.results[projectId][groupId][taskId];
     }
-);
+    return {
+        mapper: ownProps.mapper,
+        results,
+        tile: ownProps.tile,
+    };
+};
 
 const mapDispatchToProps = dispatch => (
     {

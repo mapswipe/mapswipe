@@ -53,7 +53,7 @@ export type ProjectMapType = { [project_id: string]: ProjectType };
 
 // used only by projects of type LEGACY_PROJECT (type 1)
 export type BuiltAreaTaskType = {
-    groupId: number,
+    groupId: string,
     projectId: string,
     taskId: string,
     taskX: number,
@@ -63,7 +63,7 @@ export type BuiltAreaTaskType = {
 
 // used only by projects of type BUILDING_FOOTPRINTS (type 2)
 export type BuildingFootprintTaskType = {
-    groupId: number,
+    groupId: string,
     geojson: { type: string, coordinates: { [number]: Polygon }},
     projectId: string,
     taskId: string,
@@ -71,7 +71,7 @@ export type BuildingFootprintTaskType = {
 
 // used only by projects of type CHANGE_DETECTION
 export type ChangeDetectionTaskType = {
-    groupId: number,
+    groupId: string,
     projectId: string,
     taskId: string,
     taskX: number,
@@ -90,7 +90,7 @@ export type TaskMapType = { [task_id: string]: TaskType };
 // groups also have a different task content for each project type
 
 type GenericGroupType<T> = {
-    groupId: number,
+    groupId: string,
     neededCount: number,
     numberOfTasks: number,
     projectId: string,
@@ -116,7 +116,7 @@ export type GroupMapType = { [group_id: string]: GroupType };
 // results should all look the same
 
 export type ResultType = {
-    groupId: number,
+    groupId: string,
     projectId: string,
     resultId: string,
     result: number,

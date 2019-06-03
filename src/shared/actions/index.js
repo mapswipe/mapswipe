@@ -70,7 +70,7 @@ export function submitFootprint(resultObject: ResultType): SubmitFootprint {
 
 export type GroupInfo = {
     addedDistance: number,
-    groupId: number,
+    groupId: string,
     projectId: number,
     contributionsCount: number,
     results: ResultMapType,
