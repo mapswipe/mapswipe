@@ -33,11 +33,11 @@ export function toggleMapTile(resultObject: ResultType): ToggleMapTile {
     return { type: TOGGLE_MAP_TILE, resultObject };
 }
 
-type CancelGroup = { type: typeof CANCEL_GROUP, groupDetails: {} };
-export function cancelGroup(groupDetails: {}): CancelGroup {
+type CancelGroup = { type: typeof CANCEL_GROUP, projectId: string, groupId: string };
+export function cancelGroup(grp: { projectId: string, groupId: string }): CancelGroup {
     // dispatched when the user cancels work on a group midway
     // this forces deletion of the results created so far
-    return { type: CANCEL_GROUP, groupDetails };
+    return { type: CANCEL_GROUP, projectId: grp.projectId, groupId: grp.groupId };
 }
 
 type CommitGroupSuccess = { type: typeof COMMIT_GROUP_SUCCESS, projectId: string, groupId: string };
