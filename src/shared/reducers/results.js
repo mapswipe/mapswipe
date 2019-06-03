@@ -1,7 +1,7 @@
 // @flow
 import {
     CANCEL_GROUP,
-    COMMIT_TASK_SUCCESS,
+    COMMIT_GROUP_SUCCESS,
     SUBMIT_BUILDING_FOOTPRINT,
     SUBMIT_CHANGE,
     TOGGLE_MAP_TILE,
@@ -62,12 +62,18 @@ export default function results(state: ResultMapType = defaultResultsState, acti
             },
         };
     }
-    case COMMIT_TASK_SUCCESS: {
-        const { taskId } = action;
-        // remove the task from state once uploaded
-        return Object.assign({}, ...Object.keys(state)
-            .filter(id => id !== taskId)
-            .map(id => ({ [id]: state[id] })));
+    case COMMIT_GROUP_SUCCESS: {
+        // remove the group from state once uploaded
+        // the code is slightly heavy, as it assumes that we may have
+        // results stored for other projects or groups. In practice, this is
+        // unlikely to happen...
+        const { projectId, groupId } = action;
+        const { [projectId]: projectGroups, ...otherProjects } = state;
+        const { [groupId]: removeMe, ...otherGroups } = projectGroups;
+        return {
+            ...otherProjects,
+            [projectId]: otherGroups,
+        };
     }
     default:
         return state;

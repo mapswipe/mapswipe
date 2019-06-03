@@ -40,12 +40,28 @@ export function cancelGroup(groupDetails: {}): CancelGroup {
     return { type: CANCEL_GROUP, groupDetails };
 }
 
-export function commitGroupSuccess(taskId: string) {
-    return { type: COMMIT_GROUP_SUCCESS, taskId };
+type CommitGroupSuccess = { type: typeof COMMIT_GROUP_SUCCESS, projectId: string, groupId: string };
+export function commitGroupSuccess(projectId: string, groupId: string): CommitGroupSuccess {
+    return { type: COMMIT_GROUP_SUCCESS, projectId, groupId };
 }
 
-export function commitGroupFailed(taskId: string, error: {}) {
-    return { type: COMMIT_GROUP_FAILED, taskId, error };
+type CommitGroupFailed = {
+    type: typeof COMMIT_GROUP_SUCCESS,
+    projectId: string,
+    groupId: string,
+    error: {},
+};
+export function commitGroupFailed(
+    projectId: string,
+    groupId: string,
+    error: {},
+): CommitGroupFailed {
+    return {
+        type: COMMIT_GROUP_FAILED,
+        projectId,
+        groupId,
+        error,
+    };
 }
 
 type CommitTaskSuccess = { type: typeof COMMIT_TASK_SUCCESS, taskId: number };
@@ -71,7 +87,7 @@ export function submitFootprint(resultObject: ResultType): SubmitFootprint {
 export type GroupInfo = {
     addedDistance: number,
     groupId: string,
-    projectId: number,
+    projectId: string,
     contributionsCount: number,
     results: ResultMapType,
     zoomLevel: number
@@ -96,22 +112,23 @@ type ThunkAction = (dispatch: Dispatch, getState: GetState, getFirebase: GetFire
 export function commitGroup(groupInfo: GroupInfo): ThunkAction {
     // dispatched when a group is finished, when the user chooses to either
     // map another group, or complete mapping.
-    // Note that there are situations were the redux state tree will contain results from
-    // a previously mapped group/project, so we are going to upload results for everything now.
+    // Note that when using the app offline, this action is triggered as well,
+    // but the firebase layer will store results locally instead of uploading them
+    // to the backend. This is transparent to us, so our code will not know its
+    // online/offline status.
     return (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
         // get a single timestamp upon completion of the group
         const timestamp = GLOBAL.DB.getTimestamp();
-
-        Object.keys(groupInfo.results).forEach((resultId) => {
-            const resObj = groupInfo.results[resultId];
-            const fbpath = `results/${resObj.projectId}/${resObj.groupId}/${userId}/`;
-            firebase.set(`${fbpath}timestamp`, timestamp);
-            firebase
-                .set(`${fbpath}results/${resObj.resultId}`, resObj.result)
-                .then(() => dispatch(commitTaskSuccess(resultId)))
-                .catch(error => dispatch(commitTaskFailed(resultId, error)));
-        });
+        const { groupId, projectId, results } = groupInfo;
+        const objToUpload = {
+            timestamp,
+            results: results[projectId][groupId],
+        };
+        const fbPath = `results/${projectId}/${groupId}/${userId}/`;
+        firebase.set(fbPath, objToUpload)
+            .then(() => dispatch(commitGroupSuccess(projectId, groupId)))
+            .catch(error => dispatch(commitGroupFailed(projectId, groupId, error)));
     };
 }

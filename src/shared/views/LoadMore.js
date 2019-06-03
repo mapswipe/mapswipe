@@ -51,7 +51,7 @@ type Props = {
     group: GroupType,
     navigation: NavigationProp,
     onCommitGroup: GroupInfo => void,
-    projectId: number,
+    projectId: string,
     results: ResultMapType,
     toNextGroup: void => void,
 };
