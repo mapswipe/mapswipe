@@ -59,6 +59,16 @@ describe('Results reducers for BuiltArea projects:', () => {
 });
 
 describe('CANCEL_GROUP reducer', () => {
+    test('should return the same results state if it is already empty', () => {
+        const cancelAction = {
+            type: 'CANCEL_GROUP',
+            projectId: '-Lg2iUikAAYgdwMFJpH4',
+            groupId: '118',
+        };
+        const state = resultsReducer({}, cancelAction);
+        expect(state).toEqual({});
+    });
+
     test('should empty the project state', () => {
         const cancelAction = {
             type: 'CANCEL_GROUP',

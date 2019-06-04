@@ -65,10 +65,15 @@ export default function results(state: ResultMapType = defaultResultsState, acti
         // unlikely to happen...
         const { projectId, groupId } = action;
         const { [projectId]: projectGroups, ...otherProjects } = state;
-        const { [groupId]: removeMe, ...otherGroups } = projectGroups;
+        if (projectGroups) {
+            const { [groupId]: removeMe, ...otherGroups } = projectGroups;
+            return {
+                ...otherProjects,
+                [projectId]: otherGroups,
+            };
+        }
         return {
             ...otherProjects,
-            [projectId]: otherGroups,
         };
     }
     default:
