@@ -346,6 +346,7 @@ export default compose(
             const { groupId } = props.group;
             return [
                 {
+                    type: 'once',
                     path: `tasks/${props.project.projectId}/${groupId}`,
                     storeAs: `group/${groupId}/tasks`,
                 },

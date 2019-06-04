@@ -189,6 +189,7 @@ const mapDispatchToProps = dispatch => (
 export default compose(
     firebaseConnect(props => [
         {
+            type: 'once',
             path: `groups/${props.navigation.getParam('project').projectId}`,
             queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
             storeAs: 'group',

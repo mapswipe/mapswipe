@@ -258,6 +258,7 @@ export default compose(
             const { groupId } = props.group;
             return [
                 {
+                    type: 'once',
                     path: `tasks/${props.projectId}/${groupId}`,
                     // queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
                     storeAs: `group/${groupId}/tasks`,

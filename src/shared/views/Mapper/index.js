@@ -297,6 +297,7 @@ export default compose(
         if (projectId) {
             return [
                 {
+                    type: 'once',
                     path: `groups/${projectId}`,
                     queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
                     storeAs: 'group',
