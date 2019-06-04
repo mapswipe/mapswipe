@@ -127,10 +127,6 @@ class _Validator extends React.Component<Props, State> {
 
         this.swipeThreshold = 3;
 
-        this.viewHeight = 0;
-        this.viewTop = 0;
-        this.viewWidth = 0;
-
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
             onPanResponderGrant: this.handlePanResponderGrant,
@@ -149,49 +145,36 @@ class _Validator extends React.Component<Props, State> {
         }
     }
 
-    setViewDimensions = (evt: { nativeEvent : { layout: {
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-    }}}) => {
-        console.log('setVD', evt, evt.nativeEvent.layout);
-        this.viewWidth = evt.nativeEvent.layout.width;
-        this.viewHeight = evt.nativeEvent.layout.height;
-        this.viewTop = evt.nativeEvent.layout.y;
-    }
-
     // decide if we handle the move event: only if it has moved a little
     handleMoveShouldSetPanResponder = (
         event: PressEvent,
         gestureState: GestureState,
     ): boolean => Math.abs(gestureState.dx + gestureState.dy) > 3;
 
-    handlePanResponderGrant = (
-        event: PressEvent,
-        gestureState: GestureState,
-    ) => {
+    handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
-        console.log('Grant', gestureState.numberActiveTouches);
         this.setState({ sidesVisible: true });
     };
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         this.setState({ sidesVisible: false });
-        const { moveX, moveY } = gestureState;
-        const height = this.viewHeight;
-        const top = this.viewTop;
-        const width = this.viewWidth;
+        const { dx, dy } = gestureState;
+        const swipeRatio = 3; // the ratio of x/y that decides whether we have a clear direction
 
-        // determine where the swipe ended
-        if (moveX < width * 0.15) {
+        const absX = Math.abs(dx);
+        const absY = Math.abs(dy);
+        // discard very short swipes
+        if (absX + absY < this.imageSize * 0.4) {
+            return false;
+        }
+        if (dx < 0 && absX > absY * swipeRatio) {
             this.nextTask(CHANGES_NO_CHANGES_DETECTED);
-        } else if (moveX > width * 0.85) {
+        } else if (dx > 0 && absX > absY * swipeRatio) {
             this.nextTask(CHANGES_CHANGES_DETECTED);
-        } else if (moveY < top + height * 0.1 && moveX > width * 0.15 && moveX < width * 0.85) {
+        } else if (dy < 0 && absY > absX * swipeRatio) {
             this.nextTask(CHANGES_BAD_IMAGERY);
-        } else if (moveY > top + height * 0.9 && moveX > width * 0.15 && moveX < width * 0.85) {
+        } else if (dy > 0 && absY > absX * swipeRatio) {
             this.nextTask(CHANGES_UNSURE);
         }
         return false;
@@ -234,13 +217,6 @@ class _Validator extends React.Component<Props, State> {
 
     imageSize: number;
 
-    // rendered size of the view used for swipes
-    viewHeight: number;
-
-    viewTop: number;
-
-    viewWidth: number;
-
     panResponder: PanResponder.PanResponderInstance;
 
     swipeThreshold: number;
@@ -274,7 +250,6 @@ class _Validator extends React.Component<Props, State> {
         return (
             <View
                 {...this.panResponder.panHandlers}
-                onLayout={this.setViewDimensions}
                 style={{
                     alignItems: 'center',
                     flexDirection: 'column',
