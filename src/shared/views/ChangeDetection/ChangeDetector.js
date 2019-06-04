@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         height: '100%',
         left: 0,
-        opacity: 0.5,
         position: 'absolute',
         top: 0,
         width: '15%',
@@ -46,7 +45,6 @@ const styles = StyleSheet.create({
         left: '15%',
         marginBottom: 0,
         marginTop: 0,
-        opacity: 0.5,
         position: 'absolute',
         width: '70%',
         zIndex: 1,
@@ -57,7 +55,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         height: '100%',
         right: 0,
-        opacity: 0.5,
         position: 'absolute',
         top: 0,
         width: '15%',
@@ -69,7 +66,6 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         height: '10%',
         left: '15%',
-        opacity: 0.5,
         position: 'absolute',
         top: 0,
         width: '70%',
@@ -106,7 +102,10 @@ type Props = {
 
 type State = {
     currentTaskId: string,
-    sidesVisible: boolean,
+    bottomOpacity: number,
+    leftOpacity: number,
+    rightOpacity: number,
+    topOpacity: number,
 };
 
 type GestureState = PanResponder.GestureState;
@@ -120,7 +119,10 @@ class _Validator extends React.Component<Props, State> {
         super(props);
         this.state = {
             currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
-            sidesVisible: false,
+            bottomOpacity: 0,
+            leftOpacity: 0,
+            rightOpacity: 0,
+            topOpacity: 0,
         };
         this.tasksDone = 0;
         this.imageSize = 250;
@@ -130,6 +132,7 @@ class _Validator extends React.Component<Props, State> {
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
             onPanResponderGrant: this.handlePanResponderGrant,
+            onPanResponderMove: this.handlePanResponderMove,
             onPanResponderRelease: this.handlePanResponderEnd,
             onPanResponderTerminate: this.handlePanResponderTerminate,
         });
@@ -153,21 +156,64 @@ class _Validator extends React.Component<Props, State> {
 
     handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
-        this.setState({ sidesVisible: true });
+    };
+
+    handlePanResponderMove = (event: PressEvent, gestureState: GestureState) => {
+        // we have captured the swipe, now the user's finger is moving on the
+        // screen, show a visual hint that something is happening:
+        // we increase the opacity of the side that we think the finger is
+        // aiming towards.
+        const { dx, dy } = gestureState;
+        const D = this.imageSize * 0.4;
+        const absX = Math.abs(dx);
+        const absY = Math.abs(dy);
+        const swipeRatio = 3; // the ratio of x/y that decides whether we have a clear direction
+
+        if (dx < 0 && absX > absY * swipeRatio) {
+            // we're headed for a no
+            this.setState({
+                bottomOpacity: 0,
+                leftOpacity: 0.1 + (absX / D) * 0.9,
+                rightOpacity: 0,
+                topOpacity: 0,
+            });
+        } else if (dx > 0 && absX > absY * swipeRatio) {
+            this.setState({
+                bottomOpacity: 0,
+                leftOpacity: 0,
+                rightOpacity: 0.1 + (absX / D) * 0.9,
+                topOpacity: 0,
+            });
+        } else if (dy < 0 && absY > absX * swipeRatio) {
+            this.setState({
+                bottomOpacity: 0,
+                leftOpacity: 0,
+                rightOpacity: 0,
+                topOpacity: 0.1 + (absY / D) * 0.9,
+            });
+        } else if (dy > 0 && absY > absX * swipeRatio) {
+            this.setState({
+                bottomOpacity: 0.1 + (absY / D) * 0.9,
+                leftOpacity: 0,
+                rightOpacity: 0,
+                topOpacity: 0,
+            });
+        }
     };
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
-        this.setState({ sidesVisible: false });
         const { dx, dy } = gestureState;
         const swipeRatio = 3; // the ratio of x/y that decides whether we have a clear direction
 
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
+        this.resetOpacities();
         // discard very short swipes
         if (absX + absY < this.imageSize * 0.4) {
             return false;
         }
+        // determine the direction of the swipe
         if (dx < 0 && absX > absY * swipeRatio) {
             this.nextTask(CHANGES_NO_CHANGES_DETECTED);
         } else if (dx > 0 && absX > absY * swipeRatio) {
@@ -182,7 +228,16 @@ class _Validator extends React.Component<Props, State> {
 
     handlePanResponderTerminate = () => {
         // swipe cancelled, eg: some other component took over (ScrollView?)
-        this.setState({ sidesVisible: false });
+        this.resetOpacities();
+    };
+
+    resetOpacities = () => {
+        this.setState({
+            bottomOpacity: 0,
+            leftOpacity: 0,
+            rightOpacity: 0,
+            topOpacity: 0,
+        });
     };
 
     setupTaskIdGenerator = (tasks: Array<ChangeDetectionTaskType>) => {
@@ -217,6 +272,8 @@ class _Validator extends React.Component<Props, State> {
 
     imageSize: number;
 
+    leftOpacity: number;
+
     panResponder: PanResponder.PanResponderInstance;
 
     swipeThreshold: number;
@@ -239,7 +296,13 @@ class _Validator extends React.Component<Props, State> {
 
     render = () => {
         const { group } = this.props;
-        const { currentTaskId, sidesVisible } = this.state;
+        const {
+            bottomOpacity,
+            currentTaskId,
+            leftOpacity,
+            rightOpacity,
+            topOpacity,
+        } = this.state;
         if (!group.tasks) {
             return <LoadingIcon />;
         }
@@ -257,24 +320,18 @@ class _Validator extends React.Component<Props, State> {
                     justifyContent: 'space-between',
                 }}
             >
-                { sidesVisible
-                    ? (
-                        <>
-                            <Button
-                                onPress={() => this.nextTask(CHANGES_NO_CHANGES_DETECTED)}
-                                style={[styles.leftButton]}
-                            >
-                                No
-                            </Button>
-                            <Button
-                                onPress={() => this.nextTask(CHANGES_BAD_IMAGERY)}
-                                style={[styles.topButton]}
-                            >
-                                Bad imagery
-                            </Button>
-                        </>
-                    )
-                    : null }
+                <Button
+                    onPress={() => this.nextTask(CHANGES_NO_CHANGES_DETECTED)}
+                    style={[{ opacity: leftOpacity }, styles.leftButton]}
+                >
+                    No
+                </Button>
+                <Button
+                    onPress={() => this.nextTask(CHANGES_BAD_IMAGERY)}
+                    style={[{ opacity: topOpacity }, styles.topButton]}
+                >
+                    Bad imagery
+                </Button>
                 <Image
                     source={{ uri: currentTask.urlA }}
                     style={styles.topImage}
@@ -283,24 +340,18 @@ class _Validator extends React.Component<Props, State> {
                     source={{ uri: currentTask.urlB }}
                     style={styles.bottomImage}
                 />
-                { sidesVisible
-                    ? (
-                        <>
-                            <Button
-                                onPress={() => this.nextTask(CHANGES_UNSURE)}
-                                style={[styles.bottomButton]}
-                            >
-                                Not sure
-                            </Button>
-                            <Button
-                                onPress={() => this.nextTask(CHANGES_CHANGES_DETECTED)}
-                                style={[styles.rightButton]}
-                            >
-                                Yes
-                            </Button>
-                        </>
-                    )
-                    : null }
+                <Button
+                    onPress={() => this.nextTask(CHANGES_UNSURE)}
+                    style={[{ opacity: bottomOpacity }, styles.bottomButton]}
+                >
+                    Not sure
+                </Button>
+                <Button
+                    onPress={() => this.nextTask(CHANGES_CHANGES_DETECTED)}
+                    style={[{ opacity: rightOpacity }, styles.rightButton]}
+                >
+                    Yes
+                </Button>
             </View>
         );
     }
