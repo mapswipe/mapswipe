@@ -12,7 +12,13 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { toggleMapTile } from '../../actions/index';
 import {
+    COLOR_DARK_GRAY,
+    COLOR_GREEN,
     COLOR_LIGHT_GRAY,
+    COLOR_RED,
+    COLOR_TRANSPARENT,
+    COLOR_WHITE,
+    COLOR_YELLOW,
 } from '../../constants';
 import type {
     Mapper,
@@ -32,23 +38,25 @@ const styles = StyleSheet.create({
         color: '#BBF1FF',
         textAlign: 'center',
         marginTop: 50,
-        backgroundColor: 'transparent',
+        backgroundColor: COLOR_TRANSPARENT,
     },
     emptyTile: {
         width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
         backgroundColor: COLOR_LIGHT_GRAY,
         borderWidth: 1,
         borderTopWidth: 1,
-        borderColor: '#212121',
+        borderColor: COLOR_DARK_GRAY,
     },
     tileStyle: {
         height: tileHeight,
         width: tileWidth,
         borderWidth: 0.5,
-        borderColor: 'rgba(255,255,255,0.2)',
+        borderColor: COLOR_WHITE,
+        opacity: 0.2,
     },
     tileOverlay: {
         height: tileHeight,
+        opacity: 0.2,
         width: tileWidth,
     },
 });
@@ -74,10 +82,10 @@ export class _Tile extends React.Component<Props> {
 
     getTileColor = (status: number) => {
         const colors = [
-            'rgba(255,255,255,0.0)',
-            'rgba(36, 219, 26, 0.2)',
-            'rgba(237, 209, 28, 0.2)',
-            'rgba(230, 28, 28, 0.2)',
+            COLOR_TRANSPARENT,
+            COLOR_GREEN,
+            COLOR_YELLOW,
+            COLOR_RED,
         ];
         return colors[status];
     }
