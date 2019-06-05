@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import LoadingIcon from '../LoadingIcon';
+import SatImage from '../../common/SatImage';
 import GLOBAL from '../../Globals';
 import {
     COLOR_GREEN,
@@ -332,11 +333,11 @@ class _Validator extends React.Component<Props, State> {
                 >
                     Bad imagery
                 </Button>
-                <Image
+                <SatImage
                     source={{ uri: currentTask.urlA }}
                     style={styles.topImage}
                 />
-                <Image
+                <SatImage
                     source={{ uri: currentTask.urlB }}
                     style={styles.bottomImage}
                 />
