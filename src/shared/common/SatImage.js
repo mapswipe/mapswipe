@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { Image } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+import {
+    Image,
+    ImageBackground,
+    StyleSheet,
+    Text,
+} from 'react-native';
+// import { Sentry } from 'react-native-sentry';
 
 type Props = {
     source: Image.ImageSourcePropType,
@@ -11,6 +16,13 @@ type State = {
     source: string,
 };
 
+const styles = StyleSheet.create({
+    imgText: {
+        fontSize: 13,
+        color: 'white',
+    },
+});
+
 export default class SatImage extends React.Component<Props, State> {
     // An image component that works like a standard image, except
     // that it shows a "no image found" icon if the url provided is
@@ -19,6 +31,7 @@ export default class SatImage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
+            debugInfo: props.source.uri,
             source: props.source,
         };
     }
@@ -33,21 +46,30 @@ export default class SatImage extends React.Component<Props, State> {
 
     onError = (evt: {}) => {
         const { source } = this.state;
-        Sentry.captureException(new Error(source, evt.nativeEvent));
-        console.log('SatImage', evt, evt.nativeEvent);
-        // eslint-disable-next-line global-require
-        this.setState({ source: require('../../../assets/noImageAvailable.png') });
+        const debugInfo = `${source.uri} - ${JSON.stringify(evt.nativeEvent)}`;
+        // Sentry.captureException(new Error(source.uri, evt));
+        // console.log('SatImage', debugInfo, evt, evt.nativeEvent);
+        this.setState({
+            debugInfo,
+            // eslint-disable-next-line global-require
+            source: require('../../../assets/noImageAvailable.png'),
+        });
     }
 
     render() {
-        const { source } = this.state;
+        const { debugInfo, source } = this.state;
         const { style } = this.props;
+        console.log('dbg', debugInfo);
         return (
-            <Image
+            <ImageBackground
                 onError={this.onError}
                 source={source}
                 style={style}
-            />
+            >
+                <Text style={styles.imgText}>
+                    { debugInfo }
+                </Text>
+            </ImageBackground>
         );
     }
 }
