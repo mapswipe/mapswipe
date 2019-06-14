@@ -93,6 +93,17 @@ const CHANGES_CHANGES_DETECTED = 1;
 const CHANGES_UNSURE = 2;
 const CHANGES_BAD_IMAGERY = 3;
 
+// swiping settings
+// swipe ratio: ratio of finger travel distance over the cross distance, defines how
+// "horizontal" or "vertical" a swipe must be to be considered.
+// Minimum is 1, which will consider any swipe of sufficient length, but will make it
+// less obvious which direction is wanted as a 45 degree swipe will be acceptable.
+// There is no maximum value, but 4 or 5 is probably reasonable.
+const swipeRatio = 3;
+// Minimum distance to be travelled for the swipe to be considered. It is expressed as
+// a ratio of the image width (or height, as they are squares).
+const minSwipeLength = 0.2;
+
 type Props = {
     commitCompletedGroup: () => void,
     group: ChangeDetectionGroupType,
@@ -126,8 +137,6 @@ class _Validator extends React.Component<Props, State> {
         };
         this.tasksDone = 0;
         this.imageSize = 250;
-
-        this.swipeThreshold = 3;
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
@@ -164,10 +173,9 @@ class _Validator extends React.Component<Props, State> {
         // we increase the opacity of the side that we think the finger is
         // aiming towards.
         const { dx, dy } = gestureState;
-        const D = this.imageSize * 0.4;
+        const D = this.imageSize * minSwipeLength;
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
-        const swipeRatio = 3; // the ratio of x/y that decides whether we have a clear direction
 
         if (dx < 0 && absX > absY * swipeRatio) {
             // we're headed for a no
@@ -204,13 +212,12 @@ class _Validator extends React.Component<Props, State> {
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         const { dx, dy } = gestureState;
-        const swipeRatio = 3; // the ratio of x/y that decides whether we have a clear direction
 
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
         this.resetOpacities();
         // discard very short swipes
-        if (absX + absY < this.imageSize * 0.4) {
+        if (absX + absY < this.imageSize * minSwipeLength) {
             return false;
         }
         // determine the direction of the swipe
@@ -275,8 +282,6 @@ class _Validator extends React.Component<Props, State> {
     leftOpacity: number;
 
     panResponder: PanResponder.PanResponderInstance;
-
-    swipeThreshold: number;
 
     taskGen: taskGenType;
 
