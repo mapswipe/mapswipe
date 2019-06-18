@@ -101,6 +101,7 @@ matrix:
       deploy:
         # deploy the beta/dev build to testflight for all tagged commits
         - provider: script
+          skip_cleanup: true
           script:
           - bundle exec fastlane beta --verbose
           on:
