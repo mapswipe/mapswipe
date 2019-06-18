@@ -140,8 +140,6 @@ class _MoreOptions extends React.Component<MOProps> {
         const levelObject = Levels[level];
         const contributions = isLoaded(profile)
             && Object.prototype.hasOwnProperty.call(profile, 'taskContributionCount') ? profile.taskContributionCount : 0;
-        // FIXME: hardcode distance for now, as it is being removed from the backend
-        const distance = contributions;
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <ScrollingBackground />
@@ -159,15 +157,11 @@ class _MoreOptions extends React.Component<MOProps> {
                         {levelObject.title}
                     </Text>
                     <Text style={styles.infoRight}>
-                    You&apos;ve mapped
-                        {' '}
-                        {distance.toFixed(0)}
-                        {' '}
-square kilometers and found
+                    You&apos;ve completed
                         {' '}
                         {contributions}
                         {' '}
-objects
+                        tasks!
                     </Text>
                 </View>
                 <LevelProgress
@@ -360,7 +354,7 @@ const LevelProgress = (props: LPProps) => {
     if (Number.isNaN(kmTillNextLevel)) {
         kmTillNextLevel = 0;
     }
-    const swipes = Math.ceil(kmTillNextLevel / (0.0233732728 * 6));
+    const swipes = Math.ceil(kmTillNextLevel / 6);
     const sqkm = kmTillNextLevel.toFixed(0);
     return (
         <View style={styles.barRow}>
@@ -374,7 +368,7 @@ const LevelProgress = (props: LPProps) => {
                 width={GLOBAL.SCREEN_WIDTH}
             />
             <Text elevation={5} style={progressStyle.text}>
-                {`${sqkm} square km (${swipes} swipes) until the next level`}
+                {`${sqkm} tasks (${swipes} swipes) until the next level`}
             </Text>
         </View>
     );
