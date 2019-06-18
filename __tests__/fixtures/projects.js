@@ -14,7 +14,7 @@ export default {
             state: 0,
             progress: -9,
             archived: false,
-            contributors: 0,
+            contributorCount: 0,
             created: 1557402812.975345,
             tileServer: {
                 url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
@@ -38,7 +38,7 @@ export default {
             projectId: '-LeHBeL2stS355zoovrJ',
             progress: 10,
             archived: false,
-            contributors: 0,
+            contributorCount: 0,
             created: 1557230974.503323,
             zoomLevel: 14,
             tileServer: {
@@ -64,7 +64,7 @@ export default {
             projectId: '-LeHBeH7KCvowivQWxy-',
             progress: -19,
             archived: false,
-            contributors: 0,
+            contributorCount: 0,
             created: 1557230970.982896,
             zoomLevel: 18,
             tileServer: {
@@ -93,7 +93,7 @@ export default {
                 projectId: '-LeHBeH7KCvowivQWxy-',
                 progress: -19,
                 archived: false,
-                contributors: 0,
+                contributorCount: 0,
                 created: 1557230970.982896,
                 zoomLevel: 18,
                 tileServer: {
@@ -121,7 +121,7 @@ export default {
                 projectId: '-LeHBeL2stS355zoovrJ',
                 progress: 10,
                 archived: false,
-                contributors: 0,
+                contributorCount: 0,
                 created: 1557230974.503323,
                 zoomLevel: 14,
                 tileServer: {
@@ -151,7 +151,7 @@ export default {
                 state: 0,
                 progress: -9,
                 archived: false,
-                contributors: 0,
+                contributorCount: 0,
                 created: 1557402812.975345,
                 tileServer: {
                     url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',

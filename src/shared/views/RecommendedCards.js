@@ -198,7 +198,7 @@ class _RecommendedCards extends React.Component<Props> {
                     .map(project => (
                         <ProjectCard
                             navigation={navigation}
-                            card={project.value}
+                            project={project.value}
                             key={project.key}
                             cardIndex={project.key}
                         />

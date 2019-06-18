@@ -487,7 +487,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                         style={style.infoBlockText}
                                     >
                                         {`${projectProgress}% GLOBAL PROGRESS BY `}
-                                        {`${project.contributors} MAPPERS JUST LIKE YOU.`}
+                                        {`${project.contributorCount} MAPPERS JUST LIKE YOU.`}
                                     </Text>
                                     <Image
                                         style={style.mmLogo}

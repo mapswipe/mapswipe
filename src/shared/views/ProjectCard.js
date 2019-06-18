@@ -125,7 +125,7 @@ const style = StyleSheet.create({
 });
 
 type Props = {
-    card: ProjectType,
+    project: ProjectType,
     cardIndex: number,
     navigation: NavigationProp,
 }
@@ -138,13 +138,13 @@ export default class ProjectCard extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.projectId}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.project.projectId}`),
         };
     }
 
     getGradientArray() {
-        const { card } = this.props;
-        const gradientToPick = parseInt(card.created, 10) % 3;
+        const { project } = this.props;
+        const gradientToPick = parseInt(project.created, 10) % 3;
         let gradientCountArray = null;
 
         const gradientOpacity = ['0.6', '0.8'];
@@ -163,28 +163,28 @@ export default class ProjectCard extends React.Component<Props, State> {
     }
 
     handlePress = () => {
-        const { card, navigation } = this.props;
-        navigation.push('ProjectView', { project: card });
+        const { navigation, project } = this.props;
+        navigation.push('ProjectView', { project });
     }
 
     render() {
         const {
-            card,
+            project,
             cardIndex,
         } = this.props;
         const { hasOfflineGroups } = this.state;
         // show progress = 0 if we somehow get a negative value
-        const progress = Math.max(0, card.progress).toFixed(0);
+        const progress = Math.max(0, project.progress).toFixed(0);
 
         return (
             <TouchableOpacity onPress={this.handlePress}>
                 <View
-                    style={[(card.isFeatured ? style.largeCard : style.smallCard),
+                    style={[(project.isFeatured ? style.largeCard : style.smallCard),
                         { marginLeft: cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
                 >
                     <ImageBackground
                         style={style.cardBackground}
-                        source={{ uri: card.image }}
+                        source={{ uri: project.image }}
                     >
                         <LinearGradient
                             colors={this.getGradientArray()}
@@ -196,17 +196,17 @@ export default class ProjectCard extends React.Component<Props, State> {
                             source={require('./assets/offline_icon.png')}
                         />
 
-                        <View style={card.isFeatured
+                        <View style={project.isFeatured
                             ? style.bottomTextArea : style.bottomTextAreaSmallCard}
                         >
-                            <Text style={style.projectName}>{card.name}</Text>
+                            <Text style={style.projectName}>{project.name}</Text>
                             <View style={style.teamMates}>
                                 <Image
                                     style={style.heart}
                                     source={require('./assets/heart_icon.png')}
                                 />
                                 <Text style={style.teamMateText}>
-                                    {`${progress}% by ${card.contributors} mappers`}
+                                    {`${progress}% by ${project.contributorCount} mappers`}
                                 </Text>
                             </View>
                         </View>

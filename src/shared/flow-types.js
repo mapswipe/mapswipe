@@ -27,7 +27,7 @@ export type NavigationProp = NavigationScreenProp<NavigationState>;
 
 // projects all have the same structure
 export type ProjectType = {
-    contributors: number,
+    contributorCount: number,
     created: number,
     image: string,
     isFeatured: boolean,
