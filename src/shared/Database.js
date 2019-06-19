@@ -147,11 +147,9 @@ export default {
 
     /**
      * Returns the firebase timestamp
-     * @returns {rf.TIMESTAMP|{[.sv]}|sf.TIMESTAMP}
      */
     getTimestamp() {
-        // $FlowFixMe
-        return firebase.database.ServerValue.TIMESTAMP;
+        return firebase.database().getServerTime();
     },
 
     /**
