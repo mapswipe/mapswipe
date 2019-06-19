@@ -177,14 +177,16 @@ export default compose(
     firebaseConnect((props) => {
         if (props.group) {
             const { groupId } = props.group;
-            return [
-                {
-                    type: 'once',
-                    path: `tasks/${props.project.projectId}/${groupId}`,
-                    // queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
-                    storeAs: `group/${groupId}/tasks`,
-                },
-            ];
+            const { projectId } = props.project;
+            if (groupId !== undefined) {
+                return [
+                    {
+                        type: 'once',
+                        path: `tasks/${projectId}/${groupId}`,
+                        storeAs: `projects/${projectId}/groups/${groupId}/tasks`,
+                    },
+                ];
+            }
         }
         return [];
     }),
