@@ -316,7 +316,7 @@ export default compose(
                     type: 'once',
                     path: `groups/${projectId}`,
                     queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
-                    storeAs: 'group',
+                    storeAs: `projects/${projectId}/groups`,
                 },
             ];
         }
@@ -324,18 +324,16 @@ export default compose(
     }),
     connect((state, ownProps) => {
         // if we're offline, there might be more than 1 group in the local
-        // firebase data, so we need to pick one that is actually linked
-        // to our current project. Which one doesn't really matter at this point,
-        // so we just take the first one that matches.
+        // firebase data, for now, we just pick the first one
         const { projectId } = ownProps.navigation.getParam('project', null);
         let groupId = '';
-        if (isLoaded(state.firebase.data.group)) {
+        const { groups } = state.firebase.data.projects[projectId];
+        if (isLoaded(groups)) {
             // eslint-disable-next-line prefer-destructuring
-            groupId = Object.keys(state.firebase.data.group).filter(key => (
-                state.firebase.data.group[key].projectId === projectId))[0];
+            groupId = Object.keys(groups)[0];
         }
         return {
-            group: get(state.firebase.data, `group.${groupId}`),
+            group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
             navigation: ownProps.navigation,
         };
     },

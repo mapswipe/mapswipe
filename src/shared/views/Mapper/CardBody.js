@@ -260,8 +260,7 @@ export default compose(
                 {
                     type: 'once',
                     path: `tasks/${props.projectId}/${groupId}`,
-                    // queryParams: ['limitToFirst=1', 'orderByChild=completedCount'],
-                    storeAs: `group/${groupId}/tasks`,
+                    storeAs: `projects/${props.projectId}/groups/${groupId}/tasks`,
                 },
             ];
         }
