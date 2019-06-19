@@ -41,7 +41,7 @@ platform :ios do
 
   lane :beta do
     # upload the ipa to testflight (dev-mapswipe version)
-    upload_to_testflight(username: "mapswipe.dev@gmail.com", ipa: "ios/mapswipe.ipa")
-    slack(message: "Successfully distributed a new beta build")
+    upload_to_testflight(username: "mapswipe.dev@gmail.com", ipa: "mapswipe.ipa")
+    slack(message: "Successfully distributed a new beta build for iOS")
   end
 end
