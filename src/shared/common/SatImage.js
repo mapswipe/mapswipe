@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Image } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+import { Sentry, SentrySeverity } from 'react-native-sentry';
 
 type Props = {
     source: Image.ImageSourcePropType,
@@ -31,10 +31,11 @@ export default class SatImage extends React.Component<Props, State> {
         }
     }
 
-    onError = (evt: {}) => {
+    onError = () => {
         const { source } = this.state;
-        Sentry.captureException(new Error(source, evt.nativeEvent));
-        console.log('SatImage', evt, evt.nativeEvent);
+        Sentry.captureMessage(`Cannot load: ${source.uri}`, {
+            level: SentrySeverity.Warning,
+        });
         // eslint-disable-next-line global-require
         this.setState({ source: require('../../../assets/noImageAvailable.png') });
     }
