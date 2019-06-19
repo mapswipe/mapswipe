@@ -11,6 +11,7 @@ export const TOGGLE_MAP_TILE: 'TOGGLE_MAP_TILE' = 'TOGGLE_MAP_TILE';
 export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
 export const SUBMIT_CHANGE = 'SUBMIT_CHANGE';
 export const CANCEL_GROUP = 'CANCEL_GROUP';
+export const START_GROUP = 'START_GROUP';
 export const COMMIT_GROUP = 'COMMIT_GROUP';
 export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
 export const COMMIT_GROUP_SUCCESS = 'COMMIT_GROUP_SUCCESS';
@@ -38,6 +39,23 @@ export function cancelGroup(grp: { projectId: string, groupId: string }): Cancel
     // dispatched when the user cancels work on a group midway
     // this forces deletion of the results created so far
     return { type: CANCEL_GROUP, projectId: grp.projectId, groupId: grp.groupId };
+}
+type StartGroup = {
+    type: typeof START_GROUP,
+    projectId: string,
+    groupId: string,
+    timestamp: number,
+};
+export function startGroup(grp: { projectId: string, groupId: string, timestamp: number }):
+StartGroup {
+    // dispatched when the user cancels work on a group midway
+    // this forces deletion of the results created so far
+    return {
+        type: START_GROUP,
+        projectId: grp.projectId,
+        groupId: grp.groupId,
+        timestamp: grp.timestamp,
+    };
 }
 
 type CommitGroupSuccess = { type: typeof COMMIT_GROUP_SUCCESS, projectId: string, groupId: string };
@@ -120,10 +138,14 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         const userId = firebase.auth().currentUser.uid;
         // get a single timestamp upon completion of the group
         const timestamp = GLOBAL.DB.getTimestamp();
+        const endTime = timestamp;
         const { groupId, projectId, results } = groupInfo;
+        const { startTime, ...rest } = results[projectId][groupId];
         const objToUpload = {
+            startTime,
+            endTime,
             timestamp,
-            results: results[projectId][groupId],
+            results: rest,
         };
         const fbPath = `results/${projectId}/${groupId}/${userId}/`;
         firebase.set(fbPath, objToUpload)

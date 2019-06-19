@@ -2,6 +2,7 @@
 import {
     CANCEL_GROUP,
     COMMIT_GROUP_SUCCESS,
+    START_GROUP,
     SUBMIT_BUILDING_FOOTPRINT,
     SUBMIT_CHANGE,
     TOGGLE_MAP_TILE,
@@ -50,6 +51,20 @@ export default function results(state: ResultMapType = defaultResultsState, acti
                 [groupId]: {
                     ...otherResults,
                     [resultId]: result,
+                },
+            },
+        };
+    }
+    case START_GROUP: {
+        // log the timestamp of when the user started mapping
+        const { projectId, groupId, timestamp } = action;
+        const otherGroups = state[projectId] || {};
+        return {
+            ...state,
+            [projectId]: {
+                ...otherGroups,
+                [groupId]: {
+                    startTime: timestamp,
                 },
             },
         };

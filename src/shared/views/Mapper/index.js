@@ -12,7 +12,7 @@ import {
     Image,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
-import { cancelGroup } from '../../actions';
+import { cancelGroup, startGroup } from '../../actions';
 import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
@@ -99,6 +99,7 @@ type Props = {
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: {} => void,
+    onStartGroup: {} => void,
 }
 
 type State = {
@@ -118,6 +119,18 @@ class _Mapper extends React.Component<Props, State> {
         this.openTutorialModal();
         // GLOBAL.ANALYTICS.logEvent('mapping_started');
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    componentDidUpdate(prevProps) {
+        const { group, onStartGroup } = this.props;
+        if (prevProps.group !== undefined && prevProps.group !== group) {
+            // we just started working on a group, make a note of the time
+            onStartGroup({
+                groupId: group.groupId,
+                projectId: group.projectId,
+                timestamp: GLOBAL.DB.getTimestamp(),
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -286,6 +299,9 @@ const mapDispatchToProps = dispatch => (
     {
         onCancelGroup(groupDetails) {
             dispatch(cancelGroup(groupDetails));
+        },
+        onStartGroup(groupDetails) {
+            dispatch(startGroup(groupDetails));
         },
     }
 );

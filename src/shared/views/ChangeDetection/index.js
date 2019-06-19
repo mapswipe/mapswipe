@@ -8,7 +8,12 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { cancelGroup, commitGroup, submitChange } from '../../actions/index';
+import {
+    cancelGroup,
+    commitGroup,
+    startGroup,
+    submitChange,
+} from '../../actions/index';
 import Header from '../Header';
 import BottomProgress from '../Mapper/BottomProgress';
 import ChangeDetector from './ChangeDetector';
@@ -42,6 +47,7 @@ type Props = {
     group: GroupMapType,
     navigation: NavigationProp,
     onCancelGroup: {} => void,
+    onStartGroup: {} => void,
     onSubmitChange: (Object) => void,
 };
 
@@ -63,11 +69,23 @@ class _ChangeDetectionScreen extends React.Component<Props, State> {
     }
 
     componentDidUpdate = (prevProps) => {
-        const { group } = this.props;
+        const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
-                this.setState({ groupCompleted: false });
-                if (this.progress) this.progress.updateProgress(0);
+                // FIXME: adjust props.group so that it hold the group itself
+                // see Mapper/index.js for how to do this
+                const grp = group[Object.keys(group)[0]];
+                // the component props are updated when group is received
+                // and then when tasks are received
+                if (grp.tasks !== undefined) {
+                    onStartGroup({
+                        groupId: grp.groupId,
+                        projectId: grp.projectId,
+                        timestamp: GLOBAL.DB.getTimestamp(),
+                    });
+                    this.setState({ groupCompleted: false });
+                    if (this.progress) this.progress.updateProgress(0);
+                }
             }
         }
     }
@@ -182,6 +200,9 @@ const mapDispatchToProps = dispatch => (
         },
         onCommitGroup(groupInfo) {
             dispatch(commitGroup(groupInfo));
+        },
+        onStartGroup(groupDetails) {
+            dispatch(startGroup(groupDetails));
         },
         onSubmitChange(resultObject) {
             dispatch(submitChange(resultObject));
