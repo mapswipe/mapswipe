@@ -125,7 +125,7 @@ type PressEvent = PanResponder.PressEvent;
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
 type taskGenType = Generator<string, void, void>;
 
-class _Validator extends React.Component<Props, State> {
+class _ChangeDetector extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -375,17 +375,20 @@ export default compose(
     firebaseConnect((props) => {
         if (props.group) {
             const { groupId } = props.group;
-            return [
-                {
-                    type: 'once',
-                    path: `tasks/${props.project.projectId}/${groupId}`,
-                    storeAs: `group/${groupId}/tasks`,
-                },
-            ];
+            const { projectId } = props.project;
+            if (groupId !== undefined) {
+                return [
+                    {
+                        type: 'once',
+                        path: `tasks/${projectId}/${groupId}`,
+                        storeAs: `projects/${projectId}/groups/${groupId}/tasks`,
+                    },
+                ];
+            }
         }
         return [];
     }),
     connect(
         mapStateToProps,
     ),
-)(_Validator);
+)(_ChangeDetector);

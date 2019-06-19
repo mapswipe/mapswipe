@@ -8,6 +8,7 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
+import { get } from 'lodash';
 import {
     cancelGroup,
     commitGroup,
@@ -22,7 +23,6 @@ import LoadMoreCard from '../LoadMore';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
 import type {
     GroupMapType,
-    GroupType,
     NavigationProp,
     ProjectType,
 } from '../../flow-types';
@@ -72,15 +72,12 @@ class _ChangeDetectionScreen extends React.Component<Props, State> {
         const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
-                // FIXME: adjust props.group so that it hold the group itself
-                // see Mapper/index.js for how to do this
-                const grp = group[Object.keys(group)[0]];
-                // the component props are updated when group is received
+                // the component props are updated twice: when group is received
                 // and then when tasks are received
-                if (grp.tasks !== undefined) {
+                if (group.tasks !== undefined) {
                     onStartGroup({
-                        groupId: grp.groupId,
-                        projectId: grp.projectId,
+                        groupId: group.groupId,
+                        projectId: group.projectId,
                         timestamp: GLOBAL.DB.getTimestamp(),
                     });
                     this.setState({ groupCompleted: false });
@@ -103,10 +100,9 @@ class _ChangeDetectionScreen extends React.Component<Props, State> {
         const { group, navigation, onCancelGroup } = this.props;
         // TODO: this will not work with offline preloading of multiple groups
         // as several groups will be stored in redux, possibly with clashing groupId
-        const grp = group[Object.keys(group)[0]];
         onCancelGroup({
-            groupId: grp.groupId,
-            projectId: grp.projectId,
+            groupId: group.groupId,
+            projectId: group.projectId,
         });
         navigation.pop();
     }
@@ -116,7 +112,7 @@ class _ChangeDetectionScreen extends React.Component<Props, State> {
         const resultObject = {
             resultId: taskId,
             result,
-            groupId: group[Object.keys(group)[0]].groupId,
+            groupId: group.groupId,
             projectId: this.project.projectId,
             timestamp: GLOBAL.DB.getTimestamp(),
         };
@@ -154,12 +150,11 @@ class _ChangeDetectionScreen extends React.Component<Props, State> {
         if (!group) {
             return <LoadingIcon />;
         }
-        const groupData : GroupType = group[Object.keys(group)[0]];
         if (groupCompleted) {
             return (
                 <LoadMoreCard
                     getContributions={this.getContributions}
-                    group={groupData}
+                    group={group}
                     navigation={navigation}
                     projectId={this.project.projectId}
                     toNextGroup={this.toNextGroup}
@@ -174,7 +169,7 @@ class _ChangeDetectionScreen extends React.Component<Props, State> {
                 />
                 <ChangeDetector
                     commitCompletedGroup={this.commitCompletedGroup}
-                    group={groupData}
+                    group={group}
                     project={this.project}
                     submitChangeResult={this.submitChangeResult}
                     updateProgress={this.updateProgress}
@@ -185,13 +180,22 @@ class _ChangeDetectionScreen extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        group: state.firebase.data.group,
+const mapStateToProps = (state, ownProps) => {
+    // if we're offline, there might be more than 1 group in the local
+    // firebase data, for now, we just pick the first one
+    const { projectId } = ownProps.navigation.getParam('project', null);
+    let groupId = '';
+    const { groups } = state.firebase.data.projects[projectId];
+    if (isLoaded(groups)) {
+        // eslint-disable-next-line prefer-destructuring
+        groupId = Object.keys(groups)[0];
+    }
+    return {
+        group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
         navigation: ownProps.navigation,
         results: state.results,
-    }
-);
+    };
+};
 
 const mapDispatchToProps = dispatch => (
     {
@@ -211,14 +215,20 @@ const mapDispatchToProps = dispatch => (
 );
 
 export default compose(
-    firebaseConnect(props => [
-        {
-            type: 'once',
-            path: `groups/${props.navigation.getParam('project').projectId}`,
-            queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
-            storeAs: 'group',
-        },
-    ]),
+    firebaseConnect((props) => {
+        const { projectId } = props.navigation.getParam('project', null);
+        if (projectId) {
+            return [
+                {
+                    type: 'once',
+                    path: `groups/${projectId}`,
+                    queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
+                    storeAs: `projects/${projectId}/groups`,
+                },
+            ];
+        }
+        return [];
+    }),
     connect(
         mapStateToProps,
         mapDispatchToProps,
