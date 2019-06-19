@@ -102,30 +102,20 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
     }
 
     handleMoveShouldSetPanResponder = (
+        // decide if we handle the move event: only if it's vertical
         event: PressEvent,
         gestureState: GestureState,
-    ): boolean => {
-        // decide if we handle the move event: only if it's vertical
-        console.log('Move', gestureState.dx, gestureState.dy, gestureState.vx, gestureState.vy);
-        return Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
-    };
+    ): boolean => Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handleMoveShouldSetPanResponderCapture = (
-        event: PressEvent,
-        gestureState: GestureState,
-    ): boolean => {
         // decide if we handle the move event: only if it's vertical
         // this captures the swipe from the ScrollView
-        console.log('MoveCapture', gestureState.dx, gestureState.dy, gestureState.vx, gestureState.vy);
-        return Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
-    };
-
-    handlePanResponderGrant = (
         event: PressEvent,
         gestureState: GestureState,
-    ) => {
+    ): boolean => Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
+
+    handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
-        console.log('Grant', gestureState.numberActiveTouches);
         this.setState({ showSwipeHelp: true });
     };
 
@@ -147,9 +137,8 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         }
     };
 
-    handlePanResponderTerminate = (event: PressEvent, gestureState: GestureState) => {
+    handlePanResponderTerminate = () => {
         // swipe cancelled, eg: some other component took over (ScrollView?)
-        console.log('ResponderTerminate', gestureState);
         this.setState({ showSwipeHelp: false });
     };
 
