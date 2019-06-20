@@ -229,13 +229,14 @@ class _Mapper extends React.Component<Props, State> {
                             style={styles.tutImage}
                         />
                         <Text style={styles.tutText}>
-TAP TO
-                    SELECT
+                            TAP TO
+                            SELECT
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>
-Search the image for features listed in your mission brief. Tap each tile
-                    where you find what you&apos;re looking for. Tap once for
+                        Search the image for features listed in your mission brief.
+                        Tap each tile where you find what you&apos;re looking for.
+                        Tap once for
                         <Text style={{ color: 'rgb(36, 219, 26)' }}>
                             YES
                         </Text>
@@ -247,7 +248,7 @@ Search the image for features listed in your mission brief. Tap each tile
                         <Text style={{ color: 'rgb(230, 28, 28)' }}>
                             BAD IMAGERY (such as clouds)
                         </Text>
-.
+                        .
                     </Text>
                     <View style={styles.tutRow}>
                         <Image
@@ -255,13 +256,13 @@ Search the image for features listed in your mission brief. Tap each tile
                             style={styles.tutImage2}
                         />
                         <Text style={styles.tutText}>
-SWIPE TO
-                    NAVIGATE
+                            SWIPE TO
+                            NAVIGATE
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>
-When you feel confident you are done with a piece of the map, scroll to the
-                    next one by simply swiping.
+                        When you feel confident you are done with a piece of the map,
+                        scroll to the next one by simply swiping.
                     </Text>
                     <View style={styles.tutRow}>
                         <Image
@@ -269,8 +270,8 @@ When you feel confident you are done with a piece of the map, scroll to the
                             style={styles.tutImage2}
                         />
                         <Text style={styles.tutText}>
-HOLD TO
-                    ZOOM
+                            HOLD TO
+                            ZOOM
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
@@ -279,7 +280,7 @@ HOLD TO
                         onPress={this.closeTutorialModal}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
-                    I understand
+                        I understand
                     </Button>
                 </Modal>
                 <Modal
