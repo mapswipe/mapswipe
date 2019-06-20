@@ -515,8 +515,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     <Button
                         style={style.startButtonTutorial}
                         onPress={() => {
-                            navigation.push('WebviewWindow', {
-                                uri: GLOBAL.TUT_LINK,
+                            navigation.push('Mapper', {
+                                project,
+                                tutorial: true,
                             });
                         }}
                         textStyle={style.buttonText}

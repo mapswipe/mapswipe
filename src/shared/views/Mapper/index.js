@@ -100,6 +100,7 @@ type Props = {
     navigation: NavigationProp,
     onCancelGroup: {} => void,
     onStartGroup: {} => void,
+    tutorial: boolean,
 }
 
 type State = {
@@ -309,6 +310,25 @@ const mapDispatchToProps = dispatch => (
 // Mapper
 export default compose(
     firebaseConnect((props) => {
+        const tutorial = props.navigation.getParam('tutorial', false);
+        if (tutorial) {
+            // we're running the tutorial: we need to load the correct tutorial
+            // project instead of the one we were showing in the menu
+            return [
+                {
+                    type: 'once',
+                    path: 'projects',
+                    queryParams: ['orderByChild=status', 'equalTo=build_area_tutorial', 'limitToFirst=1'],
+                    storeAs: 'projects/build_area_tutorial',
+                },
+                {
+                    type: 'once',
+                    path: 'groups/build_area_tutorial',
+                    queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
+                    storeAs: 'projects/build_area_tutorial/groups',
+                },
+            ];
+        }
         const { projectId } = props.navigation.getParam('project', null);
         if (projectId) {
             return [
@@ -325,7 +345,11 @@ export default compose(
     connect((state, ownProps) => {
         // if we're offline, there might be more than 1 group in the local
         // firebase data, for now, we just pick the first one
-        const { projectId } = ownProps.navigation.getParam('project', null);
+        const tutorial = ownProps.navigation.getParam('tutorial', false);
+        let { projectId } = ownProps.navigation.getParam('project', null);
+        if (tutorial) {
+            projectId = 'build_area_tutorial';
+        }
         let groupId = '';
         const { groups } = state.firebase.data.projects[projectId];
         if (isLoaded(groups)) {
@@ -335,6 +359,7 @@ export default compose(
         return {
             group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
             navigation: ownProps.navigation,
+            tutorial,
         };
     },
     mapDispatchToProps),
