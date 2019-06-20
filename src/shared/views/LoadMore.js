@@ -117,18 +117,10 @@ class _LoadMoreCard extends React.Component<Props> {
         return (
             <View style={styles.congratulationsSlide}>
                 <Text style={styles.finishedText}>
-Great job! You finished this group. Do you want to continue to map more in
-                this project?
+Great job! You finished this group.
                     {' '}
                 </Text>
 
-                <Button
-                    style={styles.moreButton}
-                    onPress={this.onMore}
-                    textStyle={{ fontSize: 18, color: COLOR_WHITE }}
-                >
-                    Map further
-                </Button>
                 <Button
                     style={styles.moreButton}
                     onPress={this.onComplete}
