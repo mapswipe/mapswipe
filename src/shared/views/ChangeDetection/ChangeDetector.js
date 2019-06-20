@@ -104,6 +104,8 @@ const swipeRatio = 3;
 // a ratio of the image width (or height, as they are squares).
 const minSwipeLength = 0.2;
 
+const minOpacity = 0;
+
 type Props = {
     commitCompletedGroup: () => void,
     group: ChangeDetectionGroupType,
@@ -130,10 +132,10 @@ class _ChangeDetector extends React.Component<Props, State> {
         super(props);
         this.state = {
             currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
-            bottomOpacity: 0,
-            leftOpacity: 0,
-            rightOpacity: 0,
-            topOpacity: 0,
+            bottomOpacity: minOpacity,
+            leftOpacity: minOpacity,
+            rightOpacity: minOpacity,
+            topOpacity: minOpacity,
         };
         this.tasksDone = 0;
         this.imageSize = 250;
@@ -180,31 +182,31 @@ class _ChangeDetector extends React.Component<Props, State> {
         if (dx < 0 && absX > absY * swipeRatio) {
             // we're headed for a no
             this.setState({
-                bottomOpacity: 0,
-                leftOpacity: 0.1 + (absX / D) * 0.9,
-                rightOpacity: 0,
-                topOpacity: 0,
+                bottomOpacity: minOpacity,
+                leftOpacity: minOpacity + 0.1 + (absX / D) * 0.9,
+                rightOpacity: minOpacity,
+                topOpacity: minOpacity,
             });
         } else if (dx > 0 && absX > absY * swipeRatio) {
             this.setState({
-                bottomOpacity: 0,
-                leftOpacity: 0,
-                rightOpacity: 0.1 + (absX / D) * 0.9,
-                topOpacity: 0,
+                bottomOpacity: minOpacity,
+                leftOpacity: minOpacity,
+                rightOpacity: minOpacity + 0.1 + (absX / D) * 0.9,
+                topOpacity: minOpacity,
             });
         } else if (dy < 0 && absY > absX * swipeRatio) {
             this.setState({
-                bottomOpacity: 0,
-                leftOpacity: 0,
-                rightOpacity: 0,
-                topOpacity: 0.1 + (absY / D) * 0.9,
+                bottomOpacity: minOpacity,
+                leftOpacity: minOpacity,
+                rightOpacity: minOpacity,
+                topOpacity: minOpacity + 0.1 + (absY / D) * 0.9,
             });
         } else if (dy > 0 && absY > absX * swipeRatio) {
             this.setState({
-                bottomOpacity: 0.1 + (absY / D) * 0.9,
-                leftOpacity: 0,
-                rightOpacity: 0,
-                topOpacity: 0,
+                bottomOpacity: minOpacity + 0.1 + (absY / D) * 0.9,
+                leftOpacity: minOpacity,
+                rightOpacity: minOpacity,
+                topOpacity: minOpacity,
             });
         }
     };
@@ -240,10 +242,10 @@ class _ChangeDetector extends React.Component<Props, State> {
 
     resetOpacities = () => {
         this.setState({
-            bottomOpacity: 0,
-            leftOpacity: 0,
-            rightOpacity: 0,
-            topOpacity: 0,
+            bottomOpacity: minOpacity,
+            leftOpacity: minOpacity,
+            rightOpacity: minOpacity,
+            topOpacity: minOpacity,
         });
     };
 
