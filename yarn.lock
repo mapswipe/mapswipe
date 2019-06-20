@@ -6758,7 +6758,7 @@ regjsparser@^0.6.0:
   dependencies:
     jsesc "~0.5.0"
 
-remote-redux-devtools@^0.5.13:
+remote-redux-devtools@^0.5.16:
   version "0.5.16"
   resolved "https://registry.yarnpkg.com/remote-redux-devtools/-/remote-redux-devtools-0.5.16.tgz#95b1a4a1988147ca04f3368f3573b661748b3717"
   integrity sha512-xZ2D1VRIWzat5nsvcraT6fKEX9Cfi+HbQBCwzNnUAM8Uicm/anOc60XGalcaDPrVmLug7nhDl2nimEa3bL3K9w==
@@ -6770,10 +6770,10 @@ remote-redux-devtools@^0.5.13:
     rn-host-detect "^1.1.5"
     socketcluster-client "^14.2.1"
 
-remotedev-rn-debugger@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/remotedev-rn-debugger/-/remotedev-rn-debugger-0.8.3.tgz#89f22ecb52d0bc56717c51fdc6dad98ff3541a45"
-  integrity sha512-Ie1ciAbzbXjx603AfnmID73TfI4OdmtDFzTDVAs6kdm+3K22v5Mj2kKTXyYPK3NOD7FD7l75mksIp021zDikwA==
+remotedev-rn-debugger@^0.8.4:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/remotedev-rn-debugger/-/remotedev-rn-debugger-0.8.4.tgz#ea2de1bee307a96b784ac3f35fa997d0743e93a0"
+  integrity sha512-S08bhlfxUknMel9K8eSrVEc/R7y25ckrFK1YwzEYYzYBSnHw1Jj9QAdvCJ+p5pVyNe/+6SXKepCvK2s53PfeCQ==
   dependencies:
     chalk "^2.0.1"
     minimist "^1.2.0"
