@@ -187,8 +187,6 @@ class _CardBody extends React.Component<Props, State> {
 
     scrollView: ?ScrollView;
 
-    showingLoader: boolean;
-
     render() {
         const rows = [];
         const { cardsInView, marginXOffset } = this.state;
@@ -215,7 +213,6 @@ class _CardBody extends React.Component<Props, State> {
                 toNextGroup={this.toNextGroup}
             />); // lastCard.id/2 is random so that it never is the same number
         } else {
-            this.showingLoader = true;
             rows.push(<LoadingIcon key="loadingicon" />);
         }
 
