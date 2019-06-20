@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     modal: {
         padding: 20,
     },
-    tutorialModal: {
+    HelpModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
         backgroundColor: '#ffffff',
@@ -117,7 +117,10 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        this.openTutorialModal();
+        const { tutorial } = this.props;
+        if (!tutorial) {
+            this.openHelpModal();
+        }
         // GLOBAL.ANALYTICS.logEvent('mapping_started');
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
@@ -143,9 +146,9 @@ class _Mapper extends React.Component<Props, State> {
         return true;
     }
 
-    openTutorialModal = () => {
+    openHelpModal = () => {
         // $FlowFixMe
-        this.TutorialModal.open();
+        this.HelpModal.open();
     }
 
     returnToView = () => {
@@ -157,9 +160,9 @@ class _Mapper extends React.Component<Props, State> {
         navigation.pop();
     }
 
-    closeTutorialModal = () => {
+    closeHelpModal = () => {
         // $FlowFixMe
-        this.TutorialModal.close();
+        this.HelpModal.close();
     }
 
     openTilePopup = (tile) => {
@@ -184,7 +187,7 @@ class _Mapper extends React.Component<Props, State> {
 
     tilePopup: ?React.ComponentType<void>;
 
-    TutorialModal: ?React.ComponentType<void>;
+    HelpModal: ?React.ComponentType<void>;
 
     render() {
         /* eslint-disable global-require */
@@ -210,17 +213,17 @@ class _Mapper extends React.Component<Props, State> {
                 <Header
                     lookFor={this.project.lookFor}
                     onBackPress={this.returnToView}
-                    onInfoPress={this.openTutorialModal}
+                    onInfoPress={this.openHelpModal}
                 />
 
                 {comp}
 
                 <BottomProgress ref={(r) => { this.progress = r; }} />
                 <Modal
-                    style={[styles.modal, styles.tutorialModal]}
+                    style={[styles.modal, styles.HelpModal]}
                     backdropType="blur"
                     position="center"
-                    ref={(r) => { this.TutorialModal = r; }}
+                    ref={(r) => { this.HelpModal = r; }}
                 >
                     <Text style={styles.header}>How To Contribute</Text>
                     <View style={styles.tutRow}>
@@ -277,7 +280,7 @@ class _Mapper extends React.Component<Props, State> {
                     <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
                     <Button
                         style={styles.startButton}
-                        onPress={this.closeTutorialModal}
+                        onPress={this.closeHelpModal}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                         I understand
