@@ -25,8 +25,16 @@ export type NavigationProp = NavigationScreenProp<NavigationState>;
  * https://mapswipe-workers.readthedocs.io/en/dev/diagrams.html
  */
 
+export type CategoriesType = {
+    [cat_id: string]: {
+        pre: string,
+        post_correct: string,
+        post_wrong: string,
+    }
+};
 // projects all have the same structure
 export type ProjectType = {
+    categories: ?CategoriesType,
     contributorCount: number,
     created: number,
     image: string,
@@ -53,8 +61,10 @@ export type ProjectMapType = { [project_id: string]: ProjectType };
 
 // used only by projects of type LEGACY_PROJECT (type 1)
 export type BuiltAreaTaskType = {
+    category: ?string, // only found in tutorial projects
     groupId: string,
     projectId: string,
+    referenceAnswer: ?number,
     taskId: string,
     taskX: number,
     taskY: number,

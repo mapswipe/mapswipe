@@ -191,17 +191,19 @@ class _Mapper extends React.Component<Props, State> {
 
     render() {
         /* eslint-disable global-require */
-        const { group, navigation } = this.props;
+        const { group, navigation, tutorial } = this.props;
         const { poppedUpTile } = this.state;
         let comp;
         // only show the mapping component once we have downloaded the group data
         if (group) {
             comp = (
                 <CardBody
+                    categories={tutorial ? this.project.categories : null}
                     group={group}
                     mapper={this}
                     navigation={navigation}
                     projectId={this.project.projectId}
+                    tutorial={tutorial}
                 />
             );
         } else {

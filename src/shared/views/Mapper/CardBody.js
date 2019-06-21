@@ -7,17 +7,20 @@ import {
     ScrollView,
     StyleSheet,
 } from 'react-native';
-
+import { get } from 'lodash';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
+import TutorialBox from '../../common/Tutorial';
 import { Tile } from './Tile';
 import IndividualCard from './IndividualCard';
 import type {
     BuiltAreaGroupType,
+    CategoriesType,
     Mapper,
     NavigationProp,
+    ResultMapType,
     ResultType,
 } from '../../flow-types';
 import {
@@ -43,24 +46,38 @@ type CardToPushType = {
 };
 
 type Props = {
+    categories: CategoriesType,
     group: BuiltAreaGroupType,
     mapper: Mapper,
     navigation: NavigationProp,
     onToggleTile: ResultType => void,
     projectId: number,
+    results: ResultMapType,
+    tutorial: boolean,
 };
 
 type State = {
     cardsInView: Array<CardToPushType>,
+    currentX: string,
     marginXOffset: number,
+    tutorialMode: string,
+};
+
+const tutorialModes = {
+    pre: 'pre',
+    post_correct: 'post_correct',
+    post_wrong: 'post_wrong',
 };
 
 class _CardBody extends React.Component<Props, State> {
     constructor(props) {
         super(props);
+        this.scrollEnabled = !props.tutorial;
         this.state = {
             cardsInView: [],
+            currentX: props.group.xMin,
             marginXOffset: 0,
+            tutorialMode: tutorialModes.pre,
         };
     }
 
@@ -165,6 +182,9 @@ class _CardBody extends React.Component<Props, State> {
     }
 
     handleScroll = (event: Object) => {
+        // this event is triggered much more than once during scrolling
+        // Updating the progress bar here allows a smooth transition
+        console.log('scroll', this.scrollEnabled);
         const { x } = event.nativeEvent.contentOffset;
         const { cardsInView } = this.state;
         const { mapper } = this.props;
@@ -173,21 +193,117 @@ class _CardBody extends React.Component<Props, State> {
             progress = x / (GLOBAL.SCREEN_WIDTH * cardsInView.length);
         }
         mapper.progress.updateProgress(progress);
+        return progress;
     }
 
+    checkTutorialAnswers = () => {
+        // only called when running the tutorial
+        // compare the user's results with what is expected
+        // and set the tutorial mode to correct/wrong for
+        // appropriate feedback
+        const { group, results } = this.props;
+        const { currentX } = this.state;
+        const x = parseInt(currentX, 10);
+        const Xs = [x, x + 1].map(n => n.toString());
+        const tilesToCheck = group.tasks.filter(
+            t => Xs.includes(t.taskX),
+        );
+        const allCorrect = tilesToCheck.reduce(
+            (ok, t) => ok && t.referenceAnswer === results[t.taskId].toString(),
+            true,
+        );
+        if (allCorrect) {
+            this.setState({ tutorialMode: tutorialModes.post_correct });
+            this.scrollEnabled = true;
+        } else {
+            this.setState({ tutorialMode: tutorialModes.post_wrong });
+        }
+    }
 
+    handleTutorialScrollCapture = (event: Object) => {
+        // Only used when running the tutorial
+        // when scrolling is disabled, determine if the user
+        // tried to scroll, and respond accordingly
+        const e = event.nativeEvent;
+        const { tutorial } = this.props;
+        if (tutorial && !this.scrollEnabled) {
+            if (this.firstTouch === undefined
+                || (e.identifier === this.previousTouch.identifier
+                && e.timestamp - this.previousTouch.timestamp > 100)) {
+                // during a swipe, events are fired at about 15-30ms interval
+                // so at more than 100ms interval, we probably have a new touch event
+                this.firstTouch = e;
+                this.previousTouch = e;
+            } else {
+                // we're swiping!
+                const swipeX = e.pageX - this.firstTouch.pageX;
+                const swipeY = e.pageY - this.firstTouch.pageY;
+                this.previousTouch = e;
+                if (-swipeX > GLOBAL.SCREEN_WIDTH * 0.2
+                    && -swipeX > 3 * Math.abs(swipeY)) {
+                    this.checkTutorialAnswers();
+                    // we have a horizontal left swipe, claim this touch
+                    return true;
+                }
+            }
+        }
+        // we're not interested in this touch, leave it to some other component
+        return false;
+    }
+
+    onMomentumScrollEnd = (event: Object) => {
+        // update the page number for the tutorial
+        // we don't do this in handleScroll as each scroll
+        // triggers dozens of these events, whereas this happens
+        // only once per page
+        const { group: { xMax, xMin }, tutorial } = this.props;
+        if (tutorial) {
+            const progress = this.handleScroll(event);
+            // determine current taskX for tutorial
+            const min = parseInt(xMin, 10);
+            const max = parseInt(xMax, 10);
+            this.setState({ currentX: Math.ceil(min + (max - min) * progress).toString() });
+            // we changed page, reset state variables
+            this.scrollEnabled = false;
+            this.setState({ tutorialMode: tutorialModes.pre });
+        }
+    }
+
+    currentX: number;
+
+    firstTouch: Object;
+
+    previousTouch: Object;
+
+    scrollEnabled: boolean;
 
     scrollView: ?ScrollView;
 
     render() {
         const rows = [];
-        const { cardsInView, marginXOffset } = this.state;
         const {
+            cardsInView,
+            currentX,
+            marginXOffset,
+            tutorialMode,
+        } = this.state;
+        const {
+            categories,
             group,
             mapper,
             navigation,
             projectId,
+            tutorial,
         } = this.props;
+
+        let tutorialText;
+
+        if (tutorial && group.tasks) {
+            const { category } = group.tasks.filter(t => t.taskX === currentX)[0];
+            // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
+            tutorialText = categories[category][tutorialMode];
+        }
+
         if (cardsInView.length > 0) {
             let lastCard = null;
 
@@ -209,17 +325,29 @@ class _CardBody extends React.Component<Props, State> {
         }
 
         return (
-            <ScrollView
-                onScroll={this.handleScroll}
-                automaticallyAdjustContentInsets={false}
-                horizontal
-                ref={(r) => { this.scrollView = r; }}
-                pagingEnabled
-                removeClippedSubviews
-                contentContainerStyle={[styles.wrapper, { paddingHorizontal: marginXOffset }]}
-            >
-                {rows}
-            </ScrollView>
+            <>
+                <ScrollView
+                    onMomentumScrollEnd={this.onMomentumScrollEnd}
+                    onScroll={this.handleScroll}
+                    onMoveShouldSetResponderCapture={this.handleTutorialScrollCapture}
+                    automaticallyAdjustContentInsets={false}
+                    horizontal
+                    ref={(r) => { this.scrollView = r; }}
+                    pagingEnabled
+                    removeClippedSubviews
+                    scrollEnabled={this.scrollEnabled}
+                    contentContainerStyle={[styles.wrapper, { paddingHorizontal: marginXOffset }]}
+                >
+                    {rows}
+                </ScrollView>
+                { tutorial
+                && (
+                    <TutorialBox>
+                        { tutorialText }
+                    </TutorialBox>
+                )
+                }
+            </>
         );
     }
 }
@@ -238,6 +366,8 @@ const mapStateToProps = (state, ownProps) => (
         mapper: ownProps.mapper,
         navigation: ownProps.navigation,
         projectId: ownProps.projectId,
+        results: get(state.results.build_area_tutorial, ownProps.group.groupId, null),
+        tutorial: ownProps.tutorial,
     }
 );
 
