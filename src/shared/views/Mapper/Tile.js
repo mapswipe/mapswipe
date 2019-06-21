@@ -3,6 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import analytics from '@segment/analytics-react-native'
 import {
     ImageBackground,
     View,
@@ -101,12 +102,16 @@ export class _Tile extends React.Component<Props> {
         // find the tile status from redux results
         let tileStatus = results;
         tileStatus = (tileStatus + 1) % 4;
-        onToggleTile({
+        const resultObject = {
             resultId: taskId,
             result: tileStatus,
             groupId,
             projectId,
+        }
+        analytics.track('Mapswipe Mobile - Toggle Map Tile', {
+          ...resultObject
         });
+        onToggleTile(resultObject);
     }
 
     onDismissZoom = () => {
