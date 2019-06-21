@@ -117,10 +117,7 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const { tutorial } = this.props;
-        if (!tutorial) {
-            this.openHelpModal();
-        }
+        this.openHelpModal();
         // GLOBAL.ANALYTICS.logEvent('mapping_started');
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
@@ -189,44 +186,13 @@ class _Mapper extends React.Component<Props, State> {
 
     HelpModal: ?React.ComponentType<void>;
 
-    render() {
+    renderIntroModal() {
         /* eslint-disable global-require */
-        const { group, navigation, tutorial } = this.props;
-        const { poppedUpTile } = this.state;
-        let comp;
-        // only show the mapping component once we have downloaded the group data
-        if (group) {
-            comp = (
-                <CardBody
-                    categories={tutorial ? this.project.categories : null}
-                    group={group}
-                    mapper={this}
-                    navigation={navigation}
-                    projectId={this.project.projectId}
-                    tutorial={tutorial}
-                />
-            );
-        } else {
-            comp = <LoadingIcon />;
-        }
-
-        return (
-            <View style={styles.mappingContainer}>
-                <Header
-                    lookFor={this.project.lookFor}
-                    onBackPress={this.returnToView}
-                    onInfoPress={this.openHelpModal}
-                />
-
-                {comp}
-
-                <BottomProgress ref={(r) => { this.progress = r; }} />
-                <Modal
-                    style={[styles.modal, styles.HelpModal]}
-                    backdropType="blur"
-                    position="center"
-                    ref={(r) => { this.HelpModal = r; }}
-                >
+        const { tutorial } = this.props;
+        let content;
+        if (!tutorial) {
+            content = (
+                <>
                     <Text style={styles.header}>How To Contribute</Text>
                     <View style={styles.tutRow}>
                         <Image
@@ -280,14 +246,89 @@ class _Mapper extends React.Component<Props, State> {
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
-                    <Button
-                        style={styles.startButton}
-                        onPress={this.closeHelpModal}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
-                    >
-                        I understand
-                    </Button>
-                </Modal>
+                </>
+            );
+        } else {
+            content = (
+                <View>
+                    <Text style={styles.tutPar}>
+                        Welcome to the tutorial!
+                    </Text>
+                    <View style={styles.tutRow}>
+                        <Text style={styles.tutPar}>
+                            This should make you a wizard of Mapswipe
+                            in a few minutes.
+                        </Text>
+                    </View>
+                    <View style={styles.tutRow}>
+                        <Text style={styles.tutPar}>
+                            Just follow the instructions on the screen,
+                            and swipe left to continue.
+                        </Text>
+                    </View>
+                    <View style={styles.tutRow}>
+                        <Text style={styles.tutPar}>
+                            If the instructions are in your way,
+                            just tap the message box to move it.
+                        </Text>
+                    </View>
+                </View>
+            );
+        }
+
+        return (
+            <Modal
+                style={[styles.modal, styles.HelpModal]}
+                backdropType="blur"
+                position="center"
+                ref={(r) => { this.HelpModal = r; }}
+            >
+                {content}
+                <Button
+                    style={styles.startButton}
+                    onPress={this.closeHelpModal}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
+                    I understand
+                </Button>
+            </Modal>
+        );
+        /* eslint-enable global-require */
+    }
+
+    render() {
+        const { group, navigation, tutorial } = this.props;
+        const { poppedUpTile } = this.state;
+        let comp;
+        // only show the mapping component once we have downloaded the group data
+        if (group) {
+            comp = (
+                <CardBody
+                    categories={tutorial ? this.project.categories : null}
+                    group={group}
+                    mapper={this}
+                    navigation={navigation}
+                    projectId={this.project.projectId}
+                    tutorial={tutorial}
+                />
+            );
+        } else {
+            comp = <LoadingIcon />;
+        }
+        const introModal = this.renderIntroModal();
+
+        return (
+            <View style={styles.mappingContainer}>
+                <Header
+                    lookFor={this.project.lookFor}
+                    onBackPress={this.returnToView}
+                    onInfoPress={this.openHelpModal}
+                />
+
+                {comp}
+
+                <BottomProgress ref={(r) => { this.progress = r; }} />
+                {introModal}
                 <Modal
                     style={styles.tilePopup}
                     entry="bottom"
