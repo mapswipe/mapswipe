@@ -8,6 +8,7 @@ import {
     Text,
     View,
 } from 'react-native';
+import analytics from '@segment/analytics-react-native'
 import { toggleMapTile } from '../../actions/index';
 import type { Mapper, ResultType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
@@ -124,6 +125,12 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         const { card, onToggleTile } = this.props;
         this.setState({ showSwipeHelp: false });
         if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 0.5) {
+            let resultObject = {
+              groupId: null,
+              projectId: null,
+              resultIds: [],
+              result: 3
+            }
             card.tileRows.forEach((row) => {
                 row.tiles.forEach((tile) => {
                     onToggleTile({
@@ -132,7 +139,15 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
                         result: 3,
                         projectId: tile.projectId,
                     });
+
+                    resultObject.groupId = tile.groupId
+                    resultObject.projectId = tile.projectId
+                    resultObject.resultIds.push(tile.taskId)
                 });
+            });
+
+            analytics.track('Mapswipe Mobile - Swiped to Toggle All Tiles', {
+              ...resultObject
             });
         }
     };
