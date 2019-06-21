@@ -58,10 +58,6 @@ type State = {
 class _CardBody extends React.Component<Props, State> {
     constructor(props) {
         super(props);
-        this.lastMode = ''; // 0 is online mapping, 1 is offline mapping
-        this.currentXRenderOffset = 0; // aka the last state
-        this.lastState = -1;
-
         this.state = {
             cardsInView: [],
             marginXOffset: 0,
@@ -179,11 +175,7 @@ class _CardBody extends React.Component<Props, State> {
         mapper.progress.updateProgress(progress);
     }
 
-    currentXRenderOffset: number;
 
-    lastMode: string;
-
-    lastState: number;
 
     scrollView: ?ScrollView;
 
