@@ -96,6 +96,7 @@ matrix:
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # UI Tests have been disabled since Travis has issues launching the simulator.
         - bundle exec fastlane test
+        - bundle exec fastlane test_build_release
       before_deploy:
       deploy:
         # deploy the beta/dev build to testflight for all tagged commits
