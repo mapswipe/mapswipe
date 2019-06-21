@@ -3,6 +3,12 @@ package org.missingmaps.mapswipe;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import io.sentry.RNSentryPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.segment.analytics.reactnative.core.RNAnalyticsPackage;
 import io.sentry.RNSentryPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
@@ -30,6 +36,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
+            new RNSentryPackage(),
+            new LinearGradientPackage(),
+            new RNFirebasePackage(),
+            new RNDeviceInfo(),
+            new RNAnalyticsPackage(),
             new RNSentryPackage(),
             new RNFirebasePackage(),
             new RNFirebaseDatabasePackage(),

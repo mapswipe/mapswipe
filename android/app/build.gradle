@@ -197,6 +197,12 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
+    compile project(':react-native-sentry')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-firebase')
+    compile project(':react-native-device-info')
+    compile project(':@segment_analytics-react-native')
     implementation project(':react-native-sentry')
     implementation project(':react-native-firebase')
     implementation project(':react-native-splash-screen')

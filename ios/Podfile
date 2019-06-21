@@ -47,6 +47,8 @@ target 'mapswipe' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'RNAnalytics', :path => '../node_modules/@segment/analytics-react-native'
+
   target 'mapswipeTests' do
     inherit! :search_paths
     # Pods for testing
