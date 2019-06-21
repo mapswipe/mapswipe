@@ -127,7 +127,7 @@ class _Mapper extends React.Component<Props, State> {
 
     componentDidUpdate(prevProps) {
         const { group, onStartGroup } = this.props;
-        if (prevProps.group !== undefined && prevProps.group !== group) {
+        if (prevProps.group !== undefined && group !== undefined && prevProps.group !== group) {
             // we just started working on a group, make a note of the time
             onStartGroup({
                 groupId: group.groupId,
@@ -355,8 +355,13 @@ export default compose(
             projectId = 'build_area_tutorial';
         }
         let groupId = '';
-        const { groups } = state.firebase.data.projects[projectId];
-        if (isLoaded(groups)) {
+        let groups;
+        const projectData = state.firebase.data.projects[projectId];
+        if (projectData) {
+            // eslint-disable-next-line prefer-destructuring
+            groups = projectData.groups;
+        }
+        if (groups && isLoaded(groups)) {
             // eslint-disable-next-line prefer-destructuring
             groupId = Object.keys(groups)[0];
         }
