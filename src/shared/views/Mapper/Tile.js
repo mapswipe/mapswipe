@@ -108,7 +108,7 @@ export class _Tile extends React.Component<Props> {
             groupId,
             projectId,
         }
-        analytics.track('Mapswipe Mobile - Toggle Map Tile', {
+        analytics.track('Mapswipe Mobile - Toggled Map Tile', {
           ...resultObject
         });
         onToggleTile(resultObject);

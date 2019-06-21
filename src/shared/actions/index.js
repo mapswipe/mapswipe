@@ -21,7 +21,7 @@ export const COMMIT_TASK_SUCCESS = 'COMMIT_TASK_SUCCESS';
 
 type CompleteWelcome = { type: typeof WELCOME_COMPLETED };
 export function completeWelcome(): CompleteWelcome {
-    analytics.track('Mapswipe Mobile - Complete Welcome');
+    analytics.track('Mapswipe Mobile - Completed Welcome');
     return { type: WELCOME_COMPLETED };
 }
 
@@ -43,7 +43,7 @@ type CancelGroup = { type: typeof CANCEL_GROUP, projectId: string, groupId: stri
 export function cancelGroup(grp: { projectId: string, groupId: string }): CancelGroup {
     // dispatched when the user cancels work on a group midway
     // this forces deletion of the results created so far
-    analytics.track('Mapswipe Mobile - Group Cancelled', {
+    analytics.track('Mapswipe Mobile - Cancelled Group', {
       ...grp
     });
     return { type: CANCEL_GROUP, projectId: grp.projectId, groupId: grp.groupId };
@@ -58,7 +58,7 @@ export function startGroup(grp: { projectId: string, groupId: string, timestamp:
 StartGroup {
     // dispatched when the user cancels work on a group midway
     // this forces deletion of the results created so far
-    analytics.track('Mapswipe Mobile - Group Started', {
+    analytics.track('Mapswipe Mobile - Started Group', {
       ...grp
     });
     return {
@@ -71,7 +71,7 @@ StartGroup {
 
 type CommitGroupSuccess = { type: typeof COMMIT_GROUP_SUCCESS, projectId: string, groupId: string };
 export function commitGroupSuccess(projectId: string, groupId: string): CommitGroupSuccess {
-    analytics.track('Mapswipe Mobile - Group Completed', {
+    analytics.track('Mapswipe Mobile - Completed Group', {
       projectId,
       groupId,
     });
@@ -89,7 +89,7 @@ export function commitGroupFailed(
     groupId: string,
     error: {},
 ): CommitGroupFailed {
-    analytics.track('Mapswipe Mobile - Group Failed', {
+    analytics.track('Mapswipe Mobile - Failed Group ', {
       projectId,
       groupId,
       error,
@@ -104,7 +104,7 @@ export function commitGroupFailed(
 
 type CommitTaskSuccess = { type: typeof COMMIT_TASK_SUCCESS, taskId: number };
 export function commitTaskSuccess(taskId: string) {
-    analytics.track('Mapswipe Mobile - Task Completed', {
+    analytics.track('Mapswipe Mobile - Completed Task', {
       taskId,
     });
     return { type: COMMIT_TASK_SUCCESS, taskId };
@@ -112,7 +112,7 @@ export function commitTaskSuccess(taskId: string) {
 
 type CommitTaskFailed = { type: typeof COMMIT_TASK_FAILED, taskId: number };
 export function commitTaskFailed(taskId: string, error: {}) {
-    analytics.track('Mapswipe Mobile - Task Failed', {
+    analytics.track('Mapswipe Mobile - Failed Task',{
       taskId,
       error,
     });
@@ -121,7 +121,7 @@ export function commitTaskFailed(taskId: string, error: {}) {
 
 type SubmitChange = { type: typeof SUBMIT_CHANGE, resultObject: ResultType };
 export function submitChange(resultObject: ResultType): SubmitChange {
-    analytics.track('Mapswipe Mobile - Change Found', {
+    analytics.track('Mapswipe Mobile - Found Change', {
       ...resultObject
     });
     return { type: SUBMIT_CHANGE, resultObject };
@@ -129,7 +129,7 @@ export function submitChange(resultObject: ResultType): SubmitChange {
 
 type SubmitFootprint = { type: typeof SUBMIT_BUILDING_FOOTPRINT, resultObject: ResultType };
 export function submitFootprint(resultObject: ResultType): SubmitFootprint {
-    analytics.track('Mapswipe Mobile - Building Found', {
+    analytics.track('Mapswipe Mobile - Found Building', {
       ...resultObject
     });
     return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
