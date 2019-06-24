@@ -107,7 +107,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         navigation.pop();
     }
 
-    submitResult = (result, taskId) => {
+    submitResult = (result: number, taskId) => {
         const { group, onSubmitResult } = this.props;
         const resultObject = {
             resultId: taskId,
@@ -123,9 +123,9 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         this.setState({ groupCompleted: true });
     }
 
-    getContributions = (group, results) => {
+    getContributions = (group: GroupType, results: ResultMapType) => {
         const contributionsCount = Object.keys(results).length;
-        const addedDistance = group.count * getSqKmForZoomLevelPerTile(19);
+        const addedDistance = group.numberOfTasks * getSqKmForZoomLevelPerTile(19);
         return { contributionsCount, addedDistance };
     }
 
