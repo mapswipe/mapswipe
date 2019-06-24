@@ -17,7 +17,12 @@ import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../LoadingIcon';
-import type { BuiltAreaGroupType, NavigationProp, ProjectType } from '../../flow-types';
+import type {
+    BuiltAreaGroupType,
+    CategoriesType,
+    NavigationProp,
+    ProjectType,
+} from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
 } from '../../constants';
@@ -96,6 +101,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    categories: CategoriesType,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: {} => void,
@@ -299,18 +305,23 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     render() {
-        const { group, navigation, tutorial } = this.props;
+        const {
+            categories,
+            group,
+            navigation,
+            tutorial,
+        } = this.props;
         const { poppedUpTile } = this.state;
         let comp;
         // only show the mapping component once we have downloaded the group data
         if (group) {
             comp = (
                 <CardBody
-                    categories={tutorial ? this.project.categories : null}
+                    categories={tutorial ? categories : null}
                     group={group}
                     mapper={this}
                     navigation={navigation}
-                    projectId={this.project.projectId}
+                    projectId={group.projectId}
                     tutorial={tutorial}
                 />
             );
@@ -368,7 +379,7 @@ export default compose(
                     type: 'once',
                     path: 'projects',
                     queryParams: ['orderByChild=status', 'equalTo=build_area_tutorial', 'limitToFirst=1'],
-                    storeAs: 'projects/build_area_tutorial',
+                    storeAs: 'projects',
                 },
                 {
                     type: 'once',
@@ -399,18 +410,22 @@ export default compose(
         if (tutorial) {
             projectId = 'build_area_tutorial';
         }
+        let categories = null;
         let groupId = '';
         let groups;
         const projectData = state.firebase.data.projects[projectId];
         if (projectData) {
-            // eslint-disable-next-line prefer-destructuring
+            /* eslint-disable prefer-destructuring */
             groups = projectData.groups;
+            categories = projectData.categories;
+            /* eslint-enable prefer-destructuring */
         }
         if (groups && isLoaded(groups)) {
             // eslint-disable-next-line prefer-destructuring
             groupId = Object.keys(groups)[0];
         }
         return {
+            categories,
             group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
             navigation: ownProps.navigation,
             tutorial,

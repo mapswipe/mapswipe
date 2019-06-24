@@ -367,6 +367,7 @@ const mapDispatchToProps = dispatch => (
 
 const mapStateToProps = (state, ownProps) => (
     {
+        categories: ownProps.categories,
         group: ownProps.group,
         mapper: ownProps.mapper,
         navigation: ownProps.navigation,
