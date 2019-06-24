@@ -384,11 +384,12 @@ export default compose(
     firebaseConnect((props) => {
         if (props.group) {
             const { groupId } = props.group;
+            const prefix = props.tutorial ? 'tutorial' : 'projects';
             return [
                 {
                     type: 'once',
                     path: `tasks/${props.projectId}/${groupId}`,
-                    storeAs: `projects/${props.projectId}/groups/${groupId}/tasks`,
+                    storeAs: `${prefix}/${props.projectId}/groups/${groupId}/tasks`,
                 },
             ];
         }

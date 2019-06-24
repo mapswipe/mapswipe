@@ -379,13 +379,13 @@ export default compose(
                     type: 'once',
                     path: 'projects',
                     queryParams: ['orderByChild=status', 'equalTo=build_area_tutorial', 'limitToFirst=1'],
-                    storeAs: 'projects',
+                    storeAs: 'tutorial',
                 },
                 {
                     type: 'once',
                     path: 'groups/build_area_tutorial',
                     queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
-                    storeAs: 'projects/build_area_tutorial/groups',
+                    storeAs: 'tutorial/build_area_tutorial/groups',
                 },
             ];
         }
@@ -413,12 +413,11 @@ export default compose(
         let categories = null;
         let groupId = '';
         let groups;
-        const projectData = state.firebase.data.projects[projectId];
-        if (projectData) {
-            /* eslint-disable prefer-destructuring */
-            groups = projectData.groups;
-            categories = projectData.categories;
-            /* eslint-enable prefer-destructuring */
+        const prefix = tutorial ? 'tutorial' : 'projects';
+        // const projectData = state.firebase.data[prefix][projectId];
+        const { data } = state.firebase;
+        if (data[prefix] && data[prefix][projectId]) {
+            ({ categories, groups } = data[prefix][projectId]);
         }
         if (groups && isLoaded(groups)) {
             // eslint-disable-next-line prefer-destructuring
@@ -426,7 +425,7 @@ export default compose(
         }
         return {
             categories,
-            group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
+            group: get(state.firebase.data, `${prefix}.${projectId}.groups.${groupId}`),
             navigation: ownProps.navigation,
             tutorial,
         };
