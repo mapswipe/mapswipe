@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         height: tileHeight,
         width: tileWidth,
         borderWidth: 0.5,
-        borderColor: COLOR_WHITE,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     tileOverlay: {
         height: tileHeight,
