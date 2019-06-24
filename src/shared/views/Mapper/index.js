@@ -150,11 +150,13 @@ class _Mapper extends React.Component<Props, State> {
 
     returnToView = () => {
         const { group, navigation, onCancelGroup } = this.props;
-        onCancelGroup({
-            groupId: group.groupId,
-            projectId: group.projectId,
-        });
-        navigation.pop();
+        if (group) {
+            onCancelGroup({
+                groupId: group.groupId,
+                projectId: group.projectId,
+            });
+            navigation.pop();
+        }
     }
 
     closeHelpModal = () => {
