@@ -309,7 +309,12 @@ class _CardBody extends React.Component<Props, State> {
 
             cardsInView.forEach((card) => {
                 lastCard = card;
-                rows.push(<IndividualCard key={card.cardX} card={card} mapper={mapper} />);
+                rows.push(<IndividualCard
+                    key={card.cardX}
+                    card={card}
+                    mapper={mapper}
+                    tutorial={tutorial}
+                />);
             });
 
             rows.push(<LoadMoreCard
