@@ -184,7 +184,6 @@ class _CardBody extends React.Component<Props, State> {
     handleScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
-        console.log('scroll', this.scrollEnabled);
         const { x } = event.nativeEvent.contentOffset;
         const { cardsInView } = this.state;
         const { mapper } = this.props;
@@ -299,14 +298,18 @@ class _CardBody extends React.Component<Props, State> {
         let tutorialText;
 
         if (tutorial && group.tasks) {
-            const { category } = group.tasks.filter(t => t.taskX === currentX)[0];
-            // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
-            tutorialText = categories[category][tutorialMode];
+            if (currentX === group.xMax) {
+                // we've reached the end, hide the tutorial text
+                tutorialText = '';
+            } else {
+                const { category } = group.tasks.filter(t => t.taskX === currentX)[0];
+                // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
+                tutorialText = categories[category][tutorialMode];
+            }
         }
 
         if (cardsInView.length > 0) {
             let lastCard = null;
-
             cardsInView.forEach((card) => {
                 lastCard = card;
                 rows.push(<IndividualCard
@@ -345,7 +348,7 @@ class _CardBody extends React.Component<Props, State> {
                 >
                     {rows}
                 </ScrollView>
-                { tutorial
+                { tutorial && tutorialText !== ''
                 && (
                     <TutorialBox>
                         { tutorialText }
