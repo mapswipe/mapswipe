@@ -8,6 +8,11 @@ import {
     Text,
     View,
 } from 'react-native';
+import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type {
+    GestureState,
+    PanResponderInstance,
+} from 'react-native/Libraries/Interaction/PanResponder';
 import { toggleMapTile } from '../../actions/index';
 import type { Mapper, ResultType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
@@ -84,10 +89,6 @@ type ICProps = {
 type ICState = {
     showSwipeHelp: boolean,
 };
-
-type PressEvent = PanResponder.PressEvent;
-type PanResponderInstance = PanResponder.PanResponderInstance;
-type GestureState = PanResponder.GestureState;
 
 class _IndividualCard extends React.Component<ICProps, ICState> {
     constructor(props: ICProps) {
