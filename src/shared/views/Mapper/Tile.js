@@ -17,7 +17,6 @@ import {
     COLOR_LIGHT_GRAY,
     COLOR_RED,
     COLOR_TRANSPARENT,
-    COLOR_WHITE,
     COLOR_YELLOW,
 } from '../../constants';
 import type {
