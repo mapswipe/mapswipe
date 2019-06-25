@@ -46,6 +46,7 @@
 		B15BEE5B9DE16769017FE3C8 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B80A323A64B3D449577DD80 /* libPods-mapswipe.a */; };
 		C9E66B42799EEB9A8D8C781F /* libPods-mapswipe-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */; };
 		EA14168951F2446643781FD2 /* libPods-mapswipeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A0E8A60355A1A570941ABE /* libPods-mapswipeTests.a */; };
+		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -372,7 +373,6 @@
 		7458B98F18CB2FD970F42815 /* Pods-mapswipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe/Pods-mapswipe.debug.xcconfig"; sourceTree = "<group>"; };
 		76FDFD0E9C0E3BC32A011524 /* libPods-mapswipe-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipe-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		81EF88BDD62288D8EDFDF33E /* Pods-mapswipe-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOS/Pods-mapswipe-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		91449E5226D3C367CD2E5E7F /* Pods-mapswipe-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOS/Pods-mapswipe-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		AB02778A21D7E68B00F713BA /* mapswipeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mapswipeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -388,6 +388,7 @@
 		C9E8B7CB818144B286E4344D /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		D82BBAD0C4FF4E439964417D /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		E74AD7AFE4F2093C718B1051 /* Pods-mapswipe-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOSTests/Pods-mapswipe-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +405,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -578,6 +580,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				1B80A323A64B3D449577DD80 /* libPods-mapswipe.a */,
 				5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */,
@@ -694,6 +698,7 @@
 			isa = PBXGroup;
 			children = (
 				510AD77F86E44DB8A8188003 /* libRNFirebase.a */,
+				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -858,6 +863,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
