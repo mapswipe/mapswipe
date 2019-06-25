@@ -295,7 +295,7 @@ class _CardBody extends React.Component<Props, State> {
             tutorial,
         } = this.props;
 
-        let tutorialText;
+        let tutorialText: string = '';
 
         if (tutorial && group.tasks) {
             if (currentX === group.xMax) {

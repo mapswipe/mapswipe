@@ -156,6 +156,7 @@ export default {
      * Whether we should open the popup
      */
     openPopup() {
+        // $FlowFixMe
         return new Promise(((resolve, reject) => {
             // this will throw, x does not exist
 

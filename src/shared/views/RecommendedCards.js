@@ -92,6 +92,8 @@ class _RecommendedCards extends React.Component<Props> {
     openModal3 = () => {
         const parent = this;
 
+        // FIXME: remove this call
+        // we don't want this popup anymore?
         GLOBAL.DB.openPopup().then(() => {
             console.log('No need to open new tut window');
         }).catch(() => {
