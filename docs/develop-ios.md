@@ -44,6 +44,8 @@ Install steps
 10. Build & run the target mapswipe in debug.
 11. Check that the tests are passing locally: Run `fastlane ios test`
 
+If you get errors while installing pods (glog specifically), you might want to try this: https://github.com/facebook/react-native/issues/18408#issuecomment-386696744
+
 ### Version numbering
 
 See [the android page](develop-android.md#version-numbering) for details.
