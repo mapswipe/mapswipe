@@ -1,0 +1,12 @@
+#!/bin/bash
+
+################################################################################
+#
+#  To automate this as a pre-commit hook, run the following
+#  command from the top-level repository directory:
+#
+#  $ ln -fs ../../pre-commit-hook .git/hooks/pre-commit
+#
+################################################################################
+
+yarn lint && yarn flow
