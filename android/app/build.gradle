@@ -197,9 +197,6 @@ dependencies {
     implementation project(':react-native-sentry')
     implementation project(':react-native-firebase')
     implementation project(':react-native-splash-screen')
-    implementation(project(":react-native-device-info"),  {
-      exclude group: "com.google.android.gms"
-    })
     implementation "com.google.android.gms:play-services-gcm:16.0.0"
     implementation project(':react-native-linear-gradient')
     implementation fileTree(dir: "libs", include: ["*.jar"])

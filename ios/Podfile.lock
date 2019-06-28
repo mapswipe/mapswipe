@@ -131,8 +131,6 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNDeviceInfo (0.21.5):
-    - React
   - Sentry (4.1.3):
     - Sentry/Core (= 4.1.3)
   - Sentry/Core (4.1.3)
@@ -166,7 +164,6 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
-  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -200,8 +197,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
-  RNDeviceInfo:
-    :path: "../node_modules/react-native-device-info"
   SentryReactNative:
     :path: "../node_modules/react-native-sentry"
   yoga:
@@ -227,11 +222,10 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   React: 466fd4ed76b09452bacab56b48bc122b3b094ba0
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 2c3cc5e3417a4e2cb3b9449f3ea99ac021fe6575
   yoga: 00e4390d4d6282e07b3b8276c94703bd66428119
 
-PODFILE CHECKSUM: 4982eb5a7737ba22f914bf44d9bbd3a65ada5cc7
+PODFILE CHECKSUM: 8a9b212de80a1ef3c2bccfe927501b0be234413e
 
 COCOAPODS: 1.7.2
