@@ -122,6 +122,13 @@ When user testing, you probably want to use `DevRelease` so that your users don'
 
 `ProductionDebug` should in practice not be used.
 
+## Testing
+
+There are 2 sets of tests setup:
+
+- *unit tests* using `jest`, they are very basic at the moment, but should be enriched as we go. Run them with `yarn test`.
+- *end-to-end tests` using [detox](https://github.com/wix/Detox). Run them with `yarn detoxTests`. They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected.
+
 ## Version numbering
 
 It should all be set automatically from `package.json`. When you need to release a new version, just run:

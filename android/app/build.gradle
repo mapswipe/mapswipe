@@ -85,7 +85,7 @@ apply from: "../../node_modules/react-native/react.gradle"
 // prevent sentry upload of sourcemaps in debug build
 // https://github.com/getsentry/react-native-sentry/issues/539#issuecomment-461972163
 if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
-    apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+    // apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 }
 
 // generate apk version numbers from package.json
@@ -133,6 +133,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode googleVersion
         versionName userVersion
+        testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     splits {
         abi {
@@ -206,6 +208,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:16.0.4"
     implementation "com.google.firebase:firebase-database:16.0.4"
     implementation "com.google.firebase:firebase-auth:16.0.5"
+    androidTestImplementation('com.wix:detox:+') { transitive = true }
+    androidTestImplementation 'junit:junit:4.12'
 }
 
 // Run this once to be able to run the application with BUCK
@@ -213,6 +217,27 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+task copyGoogleFirebaseSettingsForDetox(type: Copy) {
+    // detox doesn't seem to find google-services.json because it does not seem aware
+    // of the build flavor. So we copy the file to app/src where it will be found
+    // and modify its content because we're running on the "default" flavour
+    // TODO: there is probably a better way to do this, but in the meantime...
+    description = 'Copying google-services.json from dev flavor'
+    from file('src/dev/google-services.json')
+    into file('.')
+}
+
+task modifyPackageNameForDetox(type: Exec) {
+    workingDir '.'
+    commandLine 'bash', '-c', 'sed -i "s:org.missingmaps.mapswipe.dev:org.missingmaps.mapswipe:" google-services.json'
+}
+
+afterEvaluate {
+    processDevDebugGoogleServices.dependsOn copyGoogleFirebaseSettingsForDetox
+    processDevDebugGoogleServices.dependsOn modifyPackageNameForDetox
+    // processReleaseGoogleServices.dependsOn switchToRelease
 }
 
 apply plugin: 'com.google.gms.google-services'
