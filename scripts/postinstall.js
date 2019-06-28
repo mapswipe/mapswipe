@@ -6,9 +6,7 @@ function fixXcodeSimulatorSearchString() {
             return console.log(err);
         }
 
-
-        let result = data.replace(/!version.startsWith('iOS')/g, "!version.includes('iOS')");
-        result = result.replace(/!version.startsWith('tvOS')/g, "!version.includes('tvOS')");
+        let result = data.replace(/startsWith/g, "includes");
         fs.writeFile(filePath, result, 'utf8', function (error) {
             if (error) return console.log(error);
         });
