@@ -19,6 +19,7 @@ matrix:
         - node --version
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
         - export PATH="$HOME/.yarn/bin:$PATH"
+        - yes | sdkmanager 'system-images;android-28;google_apis;x86'
       before_deploy:
         - find . -name *.apk
       deploy:
@@ -41,14 +42,12 @@ matrix:
           - extra-android-m2repository
           - extra-google-google_play_services
           - extra-google-m2repository
-          - addon-google_apis-google-27
-          - sys-img-armeabi-v7a-android-28
       before_script:
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
         - android list targets
         - sdkmanager --list
-        - echo no | android create avd --force -n ci_avd -t android-26 --abi armeabi-v7a -c 100M
+        - echo no | android create avd --force -n ci_avd -t android-28 --abi x86 -c 100M
         - emulator -avd ci_avd -no-audio -no-window &
         - android-wait-for-emulator
         - adb shell input keyevent 82 &
