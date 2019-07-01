@@ -50,6 +50,7 @@ describe('Example', () => {
         await expect(element(by.id('recommended_cards_view')).atIndex(1)).toBeVisible();
     };
 
+    // eslint-disable-next-line no-unused-vars
     const login = async (email, password) => {
         // fill in the signup form and tap "sign up"
         await expect(element(by.id('signup_screen'))).toBeVisible();
@@ -61,15 +62,17 @@ describe('Example', () => {
         await element(by.id('login_password')).tapReturnKey();
         await element(by.id('login_screen')).scrollTo('bottom');
         await element(by.id('login_button')).tap();
-        await waitFor(element(by.id('recommended_cards_view'))).toBeVisible().withTimeout(15000);
+        await expect(element(by.id('recommended_cards_view'))).toBeVisible();
     };
 
     it('should create an account', async () => {
         await signup(ciUsername, ciEmail, ciPassword);
     });
 
-    it('should login and see list of projects', async () => {
-        await login(ciEmail, ciPassword);
+    // once signed in, the app will go straight to the main menu
+    // so there is no need to call login() before running the rest of tests
+    it('should automatically login and see list of projects', async () => {
+        await expect(element(by.id('recommended_cards_view')).atIndex(1)).toBeVisible();
     });
 
     afterAll(async () => {
