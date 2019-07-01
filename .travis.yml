@@ -19,8 +19,6 @@ matrix:
         - node --version
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
         - export PATH="$HOME/.yarn/bin:$PATH"
-      install:
-        - yarn install --frozen-lockfile
       before_deploy:
         - find . -name *.apk
       deploy:
@@ -44,6 +42,7 @@ matrix:
           - extra-google-google_play_services
           - extra-google-m2repository
           - addon-google_apis-google-27
+          - sys-img-armeabi-v7a-android-28
       before_script:
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
