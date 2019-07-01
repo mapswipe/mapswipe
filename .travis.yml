@@ -45,11 +45,10 @@ matrix:
           - extra-google-m2repository
           - addon-google_apis-google-27
       before_script:
-        - yarn lint
-        - yarn flow
-        - yarn test
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
+        - android list targets
+        - sdkmanager --list
         - echo no | android create avd --force -n ci_avd -t android-26 --abi armeabi-v7a -c 100M
         - emulator -avd ci_avd -no-audio -no-window &
         - android-wait-for-emulator
