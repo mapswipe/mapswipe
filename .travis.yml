@@ -57,7 +57,8 @@ matrix:
         - echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-28;google_apis;x86' --abi x86 -c 100M
         - $ANDROID_HOME/tools/bin/avdmanager list avd
         - export ANDROID_EMULATOR_DEBUG=1
-        - $ANDROID_HOME/emulator/emulator -debug -avd ci_avd -no-audio -no-window &
+        - $ANDROID_HOME/emulator/emulator -version
+        - $ANDROID_HOME/emulator/emulator @ci_avd -no-audio -no-window -verbose &
         - android-wait-for-emulator
         - adb shell input keyevent 82 &
         - detox build -c ci_avd
