@@ -333,6 +333,7 @@ class _Login extends React.Component<Props, State> {
         return (
             <ScrollView
                 style={styles.container}
+                testID="signup_screen"
                 contentContainerStyle={{
                     alignItems: 'center',
                     width: GLOBAL.SCREEN_WIDTH,
@@ -344,6 +345,7 @@ class _Login extends React.Component<Props, State> {
                 <Text style={styles.text4}>{t('login:enterUsername')}</Text>
 
                 <TextInput
+                    testID="signup_username"
                     autoCorrect={false}
                     style={styles.textInput}
                     onChangeText={text => this.setState({ username: text })}
@@ -353,6 +355,7 @@ class _Login extends React.Component<Props, State> {
                 <Text style={styles.text4}>Enter your email</Text>
 
                 <TextInput
+                    testID="signup_email"
                     autoCorrect={false}
                     secureTextEntry={false}
                     style={styles.textInput}
@@ -362,6 +365,7 @@ class _Login extends React.Component<Props, State> {
                 <Text style={styles.text4}>Enter your password (More than 6 characters)</Text>
 
                 <TextInput
+                    testID="signup_password"
                     autoCorrect={false}
                     secureTextEntry
                     style={styles.textInput}
@@ -373,6 +377,7 @@ class _Login extends React.Component<Props, State> {
                     shared with anyone.
                 </Text>
                 <Button
+                    testID="signup_button"
                     style={styles.otherButton}
                     onPress={this.handleSignUp}
                     textStyle={styles.buttonText}
@@ -380,6 +385,7 @@ class _Login extends React.Component<Props, State> {
                     Sign Up
                 </Button>
                 <Button
+                    testID="signup_to_login_button"
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_LOGIN)}
                     textStyle={styles.buttonText}
@@ -396,6 +402,7 @@ class _Login extends React.Component<Props, State> {
         } = this.state;
         return (
             <ScrollView
+                testID="login_screen"
                 style={styles.container}
                 contentContainerStyle={{
                     alignItems: 'center',
@@ -408,6 +415,7 @@ class _Login extends React.Component<Props, State> {
 
                 <Text style={styles.text4}>Enter your email</Text>
                 <TextInput
+                    testID="login_email"
                     autoCorrect={false}
                     style={styles.textInput}
                     secureTextEntry={false}
@@ -417,6 +425,7 @@ class _Login extends React.Component<Props, State> {
                 <Text style={styles.text4}>Enter your password</Text>
 
                 <TextInput
+                    testID="login_password"
                     autoCorrect={false}
                     secureTextEntry
                     style={styles.textInput}
@@ -429,6 +438,7 @@ class _Login extends React.Component<Props, State> {
                     {' '}
                 </Text>
                 <Button
+                    testID="login_button"
                     style={styles.otherButton}
                     onPress={this.handleLogin}
                     textStyle={styles.buttonText}
@@ -436,6 +446,7 @@ class _Login extends React.Component<Props, State> {
                     Log in
                 </Button>
                 <Button
+                    testID="login_to_password_button"
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_FORGOT_PASSWORD)}
                     textStyle={styles.buttonText}
@@ -459,6 +470,7 @@ class _Login extends React.Component<Props, State> {
         } = this.state;
         return (
             <ScrollView
+                testID="forgot_password_screen"
                 style={styles.container}
                 contentContainerStyle={{
                     alignItems: 'center',
