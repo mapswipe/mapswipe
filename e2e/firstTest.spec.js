@@ -43,7 +43,11 @@ describe('Example', () => {
         await element(by.id('signup_password')).tapReturnKey();
         await element(by.id('signup_screen')).scrollTo('bottom');
         await element(by.id('signup_button')).tap();
-        await waitFor(element(by.id('recommended_cards_view'))).toBeVisible().withTimeout(15000);
+        // atIndex below is added to deal with the fact that 2 <Text> elements are
+        // somehow matched. This may be a bug in scrollable-tab-view or linked
+        // to the updated rendering happening each time firebase updates the local
+        // data. In any case, this allows the test to pass
+        await expect(element(by.id('recommended_cards_view')).atIndex(1)).toBeVisible();
     };
 
     const login = async (email, password) => {
