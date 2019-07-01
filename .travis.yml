@@ -20,7 +20,8 @@ matrix:
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
         - export PATH="$HOME/.yarn/bin:$PATH"
         - touch $HOME/.android/repositories.cfg
-        - yes | sdkmanager 'system-images;android-28;google_apis;x86'
+        # yes | sdkmanager 'system-images;android-28;google_apis;x86'
+        - yes | sdkmanager 'system-images;android-25;google_apis;armeabi-v7a'
       before_deploy:
         - find . -name *.apk
       deploy:
@@ -54,7 +55,7 @@ matrix:
         - android list avd
         - sdkmanager --list
         - echo $ANDROID_HOME
-        - echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-28;google_apis;x86' --abi x86 -c 100M
+        - echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-25;google_apis;armeabi-v7a' --abi armeabi-v7a -c 100M
         - $ANDROID_HOME/tools/bin/avdmanager list avd
         - export ANDROID_EMULATOR_DEBUG=1
         - $ANDROID_HOME/emulator/emulator -version
