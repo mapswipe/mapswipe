@@ -55,7 +55,8 @@ matrix:
         - sdkmanager --list
         - echo no | android create avd --force -n ci_avd -k 'system-images;android-28;google_apis;x86' --abi x86 -c 100M
         - android list avd
-        - emulator -avd ci_avd -no-audio -no-window &
+        - export ANDROID_EMULATOR_DEBUG=1
+        - emulator -debug -avd ci_avd -no-audio -no-window &
         - android-wait-for-emulator
         - adb shell input keyevent 82 &
         - detox build -c ci_avd
