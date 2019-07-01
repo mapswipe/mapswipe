@@ -35,10 +35,18 @@ describe('Example', () => {
     const signup = async (username, email, password) => {
         // fill in the signup form and tap "sign up"
         await expect(element(by.id('signup_screen'))).toBeVisible();
-        await element(by.id('signup_screen')).scroll(150, 'down');
+        // FIXME: the strange sequence of tap/type/return/scroll is there
+        // to work around varying sizes of emulator screens between platforms
+        // and https://github.com/wix/Detox/issues/1495
+        await element(by.id('signup_username')).tap();
         await element(by.id('signup_username')).typeText(username);
+        await element(by.id('signup_username')).tapReturnKey();
+        await element(by.id('signup_screen')).scrollTo('bottom');
+        await element(by.id('signup_email')).tap();
         await element(by.id('signup_email')).typeText(email);
-        await element(by.id('signup_screen')).scroll(100, 'down');
+        await element(by.id('signup_email')).tapReturnKey();
+        await element(by.id('signup_screen')).scrollTo('bottom');
+        await element(by.id('signup_password')).tap();
         await element(by.id('signup_password')).typeText(password);
         await element(by.id('signup_password')).tapReturnKey();
         await element(by.id('signup_screen')).scrollTo('bottom');
