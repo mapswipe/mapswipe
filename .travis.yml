@@ -53,7 +53,7 @@ matrix:
         - android list target
         - android list avd
         - sdkmanager --list
-        - echo no | android create avd --force -n ci_avd -t android-28 --abi x86 -c 100M
+        - echo no | android create avd --force -n ci_avd -k 'system-images;android-28;google_apis;x86' --abi x86 -c 100M
         - android list avd
         - emulator -avd ci_avd -no-audio -no-window &
         - android-wait-for-emulator
