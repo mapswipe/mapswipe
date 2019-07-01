@@ -50,6 +50,12 @@ matrix:
         - yarn test
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
+        - echo no | android create avd --force -n ci_avd -t android-28 --abi armeabi-v7a -c 100M
+        - emulator -avd ci_avd -no-audio -no-window &
+        - android-wait-for-emulator
+        - adb shell input keyevent 82 &
+        - detox build -c ci_avd
+        - detox test -c ci_avd --loglevel trace
       script:
         - yarn buildDev
     - language: objective-c
