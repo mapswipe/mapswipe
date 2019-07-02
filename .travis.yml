@@ -114,14 +114,14 @@ matrix:
       - security default-keychain -s $KEY_CHAIN
       - security unlock-keychain -p travis $KEY_CHAIN
       - security set-keychain-settings -t 3600 -u $KEY_CHAIN
+      # run the detox tests
+      - detox build --configuration ios.sim.release
+      - detox test --configuration ios.sim.release --cleanup
       - cd ios
       # get the certificates from gitlab
       - bundle exec fastlane match appstore --readonly --verbose
       # always build the app to make sure that it compiles
       - bundle exec fastlane build
-      # run the detox tests
-      - detox build --configuration ios.sim.release
-      - detox test --configuration ios.sim.release --cleanup
       before_deploy:
       deploy:
         # deploy the beta/dev build to testflight for all tagged commits
