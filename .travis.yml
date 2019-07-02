@@ -93,6 +93,11 @@ matrix:
       - bundle install
       - travis_retry gem install xcpretty cocoapods
       - travis_retry yarn install --frozen-lockfile
+      # install tooling needed for detox
+      - brew tap wix/brew
+      - brew install applesimutils
+      - yarn global add react-native-cli
+      - yarn global add detox-cli
       script:
       # calculate version numbers for fastlane
       - source ios/version-ios.sh
@@ -114,6 +119,9 @@ matrix:
       - bundle exec fastlane match appstore --readonly --verbose
       # always build the app to make sure that it compiles
       - bundle exec fastlane build
+      # run the detox tests
+      - detox build --configuration ios.sim.release
+      - detox test --configuration ios.sim.release --cleanup
       before_deploy:
       deploy:
         # deploy the beta/dev build to testflight for all tagged commits
