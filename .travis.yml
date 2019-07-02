@@ -67,8 +67,8 @@ matrix:
         - $ANDROID_HOME/emulator/emulator @ci_avd -no-audio -no-window -verbose &
         - android-wait-for-emulator
         - adb shell input keyevent 82 &
-        - detox build -c ci_avd
-        - detox test -c ci_avd --loglevel trace
+        - detox build -c android.ci.debug
+        - detox test -c android.ci.debug --loglevel trace
       script:
         - yarn buildDev
     - language: objective-c
@@ -115,8 +115,8 @@ matrix:
       - security unlock-keychain -p travis $KEY_CHAIN
       - security set-keychain-settings -t 3600 -u $KEY_CHAIN
       # run the detox tests
-      - detox build --configuration ios.sim.release
-      - detox test --configuration ios.sim.release --cleanup
+      - detox build --configuration ios.sim.debug
+      - detox test --configuration ios.sim.debug --cleanup
       - cd ios
       # get the certificates from gitlab
       - bundle exec fastlane match appstore --readonly --verbose
