@@ -56,6 +56,9 @@ matrix:
         - yarn test
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
+        # install tooling needed for detox, and run the detox tests
+        - yarn global add react-native-cli
+        - yarn global add detox-cli
         - echo $ANDROID_HOME
         - echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-25;google_apis;armeabi-v7a' --abi armeabi-v7a -c 100M
         - $ANDROID_HOME/tools/bin/avdmanager list avd
