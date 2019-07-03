@@ -62,6 +62,9 @@ matrix:
         - echo $ANDROID_HOME
         - echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-25;google_apis;armeabi-v7a' --abi armeabi-v7a -c 100M
         - $ANDROID_HOME/tools/bin/avdmanager list avd
+        # fix https://github.com/wix/Detox/issues/1157 with the next 2 lines
+        - echo 'hw.lcd.height=900' >> ~/.android/avd/ci_avd.avd/config.ini
+        - echo 'hw.lcd.width=500' >> ~/.android/avd/ci_avd.avd/config.ini
         - export ANDROID_EMULATOR_DEBUG=1
         - $ANDROID_HOME/emulator/emulator -version
         - $ANDROID_HOME/emulator/emulator @ci_avd -no-audio -no-window -verbose &
