@@ -100,6 +100,8 @@ matrix:
         # deploy the beta/dev build to testflight for all tagged commits
         - provider: script
           script:
+            - printenv MAPSWIPE_BUILD_NUMBER
+            - printenv MAPSWIPE_PACKAGE_VERSION
             - bundle exec fastlane beta --verbose
           on:
             all_branches: true
