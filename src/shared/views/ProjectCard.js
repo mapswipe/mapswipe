@@ -4,9 +4,11 @@ import React from 'react';
 import {
     ImageBackground, Text, View, Image, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import Button from 'apsl-react-native-button';
 import LinearGradient from 'react-native-linear-gradient';
 import type { NavigationProp, ProjectType } from '../flow-types';
+import {
+    COLOR_LIGHT_GRAY,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -16,7 +18,6 @@ const GLOBAL = require('../Globals');
  * The ProjectCard class represents a single card instance.
  *
  */
-
 
 const style = StyleSheet.create({
     largeCard: {
@@ -41,17 +42,6 @@ const style = StyleSheet.create({
     cardBackground: {
         flex: 1,
         overflow: 'hidden',
-    },
-    nowButton: {
-        backgroundColor: '#ffffff',
-        width: 110,
-        height: 20,
-        padding: 12,
-        borderRadius: 2,
-        borderWidth: 0.1,
-        top: 5,
-        left: 5,
-        position: 'absolute',
     },
     offlineIndicator: {
         borderWidth: 0,
@@ -100,7 +90,7 @@ const style = StyleSheet.create({
         },
     },
     teamMates: {
-        borderColor: '#e8e8e8',
+        borderColor: COLOR_LIGHT_GRAY,
         borderTopWidth: 1,
         borderLeftWidth: 0,
         borderRightWidth: 0,
@@ -135,7 +125,7 @@ const style = StyleSheet.create({
 });
 
 type Props = {
-    card: ProjectType,
+    project: ProjectType,
     cardIndex: number,
     navigation: NavigationProp,
 }
@@ -148,31 +138,13 @@ export default class ProjectCard extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.card.id}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.project.projectId}`),
         };
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    getColorForState(state: number): string {
-        switch (state) {
-        case 0: return 'red';
-        case 1: return 'orange';
-        default: return 'green';
-        }
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    getTextForState(state: number): string {
-        switch (state) {
-        case 0: return 'NEEDS MAPPING';
-        case 1: return 'ON HOLD';
-        default: return 'COMPLETE';
-        }
-    }
-
     getGradientArray() {
-        const { card } = this.props;
-        const gradientToPick = card.id % 3;
+        const { project } = this.props;
+        const gradientToPick = parseInt(project.created, 10) % 3;
         let gradientCountArray = null;
 
         const gradientOpacity = ['0.6', '0.8'];
@@ -191,25 +163,28 @@ export default class ProjectCard extends React.Component<Props, State> {
     }
 
     handlePress = () => {
-        const { card, navigation } = this.props;
-        navigation.push('ProjectView', { project: card });
+        const { navigation, project } = this.props;
+        navigation.push('ProjectView', { project });
     }
 
     render() {
         const {
-            card,
+            project,
             cardIndex,
         } = this.props;
         const { hasOfflineGroups } = this.state;
+        // show progress = 0 if we somehow get a negative value
+        const progress = Math.max(0, project.progress).toFixed(0);
+
         return (
             <TouchableOpacity onPress={this.handlePress}>
                 <View
-                    style={[(card.isFeatured ? style.largeCard : style.smallCard),
+                    style={[(project.isFeatured ? style.largeCard : style.smallCard),
                         { marginLeft: cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
                 >
                     <ImageBackground
                         style={style.cardBackground}
-                        source={{ uri: card.image }}
+                        source={{ uri: project.image }}
                     >
                         <LinearGradient
                             colors={this.getGradientArray()}
@@ -221,28 +196,17 @@ export default class ProjectCard extends React.Component<Props, State> {
                             source={require('./assets/offline_icon.png')}
                         />
 
-                        <Button
-                            style={style.nowButton}
-                            textStyle={{
-                                fontSize: 10,
-                                color: this.getColorForState(card.state),
-                                fontWeight: '600',
-                            }}
-                        >
-                            {this.getTextForState(card.state)}
-                        </Button>
-
-                        <View style={card.isFeatured
+                        <View style={project.isFeatured
                             ? style.bottomTextArea : style.bottomTextAreaSmallCard}
                         >
-                            <Text style={style.projectName}>{card.name}</Text>
+                            <Text style={style.projectName}>{project.name}</Text>
                             <View style={style.teamMates}>
                                 <Image
                                     style={style.heart}
                                     source={require('./assets/heart_icon.png')}
                                 />
                                 <Text style={style.teamMateText}>
-                                    {`${card.progress.toFixed(0)}% by ${card.contributors} mappers`}
+                                    {`${progress}% by ${project.contributorCount} mappers`}
                                 </Text>
                             </View>
                         </View>

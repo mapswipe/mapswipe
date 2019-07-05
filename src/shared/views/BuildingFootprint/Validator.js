@@ -1,5 +1,8 @@
 // @flow
 import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     StyleSheet,
     View,
@@ -7,10 +10,16 @@ import {
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
+import {
+    COLOR_GREEN,
+    COLOR_RED,
+    COLOR_YELLOW,
+} from '../../constants';
+
 import type {
-    GroupType,
+    BuildingFootprintGroupType,
     ProjectType,
-    TaskMapType,
+    BuildingFootprintTaskType,
 } from '../../flow-types';
 
 const styles = StyleSheet.create({
@@ -28,9 +37,10 @@ const FOOTPRINT_NO_BUILDING = 3;
 
 type Props = {
     commitCompletedGroup: () => void,
-    group: GroupType,
+    group: BuildingFootprintGroupType,
     project: ProjectType,
     submitFootprintResult: (number, string) => void,
+    updateProgress: (number) => void,
 };
 
 type State = {
@@ -40,35 +50,44 @@ type State = {
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
 type taskGenType = Generator<string, void, void>;
 
-export default class Validator extends React.Component<Props, State> {
+class _Validator extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
             currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
         };
+        this.tasksDone = 0;
     }
 
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
         const { group } = this.props;
-        if (prevProps.group !== group) {
+        if (prevProps.group.tasks !== group.tasks) {
             const currentTaskId = this.setupTaskIdGenerator(group.tasks);
+            this.tasksDone = 0;
             this.setState({ currentTaskId });
         }
     }
 
-    setupTaskIdGenerator = (tasks: TaskMapType) => {
-        this.taskGen = this.makeNextTaskGenerator(tasks);
-        const taskGenValue = this.taskGen.next();
-        if (!taskGenValue.done) {
-            return taskGenValue.value;
+    setupTaskIdGenerator = (tasks: Array<BuildingFootprintTaskType>) => {
+        if (isLoaded(tasks) && !isEmpty(tasks)) {
+            this.taskGen = this.makeNextTaskGenerator(tasks);
+            const taskGenValue = this.taskGen.next();
+            if (!taskGenValue.done) {
+                return taskGenValue.value;
+            }
         }
         return ''; // to keep flow and eslint happy
     }
 
 
     nextTask = (result: number) => {
-        const { commitCompletedGroup, submitFootprintResult } = this.props;
+        const {
+            commitCompletedGroup,
+            group,
+            submitFootprintResult,
+            updateProgress,
+        } = this.props;
         const { currentTaskId } = this.state;
         submitFootprintResult(result, currentTaskId);
         const { done, value } = this.taskGen.next();
@@ -76,16 +95,20 @@ export default class Validator extends React.Component<Props, State> {
             // no more tasks in the group, commit results and go back to menu
             commitCompletedGroup();
         }
+        this.tasksDone += 1;
+        updateProgress(this.tasksDone / group.numberOfTasks);
         this.setState({ currentTaskId: value });
     }
 
     taskGen: taskGenType;
 
+    tasksDone: number;
+
     // eslint-disable-next-line class-methods-use-this
-    * makeNextTaskGenerator(tasks: TaskMapType): taskGenType {
+    * makeNextTaskGenerator(tasks: Array<BuildingFootprintTaskType>): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
-        const taskIds = Object.keys(tasks);
+        const taskIds = tasks.map(t => t.taskId);
         let i;
         // eslint-disable-next-line no-plusplus
         for (i = 0; i < taskIds.length; i++) {
@@ -96,7 +119,10 @@ export default class Validator extends React.Component<Props, State> {
     render = () => {
         const { group, project } = this.props;
         const { currentTaskId } = this.state;
-        const currentTask = group.tasks[currentTaskId];
+        if (!group.tasks) {
+            return <LoadingIcon />;
+        }
+        const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
@@ -109,7 +135,7 @@ export default class Validator extends React.Component<Props, State> {
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_CORRECT)}
                     style={[
-                        { backgroundColor: 'green' },
+                        { backgroundColor: COLOR_GREEN },
                         styles.button,
                     ]}
                 >
@@ -118,7 +144,7 @@ export default class Validator extends React.Component<Props, State> {
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_NEEDS_ADJUSTMENT)}
                     style={[
-                        { backgroundColor: 'orange' },
+                        { backgroundColor: COLOR_YELLOW },
                         styles.button,
                     ]}
                 >
@@ -127,7 +153,7 @@ export default class Validator extends React.Component<Props, State> {
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
                     style={[
-                        { backgroundColor: 'red' },
+                        { backgroundColor: COLOR_RED },
                         styles.button,
                     ]}
                 >
@@ -137,3 +163,34 @@ export default class Validator extends React.Component<Props, State> {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        commitCompletedGroup: ownProps.commitCompletedGroup,
+        group: ownProps.group,
+        project: ownProps.project,
+        submitFootprintResult: ownProps.submitFootprintResult,
+    }
+);
+
+export default compose(
+    firebaseConnect((props) => {
+        if (props.group) {
+            const { groupId } = props.group;
+            const { projectId } = props.project;
+            if (groupId !== undefined) {
+                return [
+                    {
+                        type: 'once',
+                        path: `tasks/${projectId}/${groupId}`,
+                        storeAs: `projects/${projectId}/groups/${groupId}/tasks`,
+                    },
+                ];
+            }
+        }
+        return [];
+    }),
+    connect(
+        mapStateToProps,
+    ),
+)(_Validator);

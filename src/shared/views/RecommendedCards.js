@@ -13,6 +13,10 @@ import Modal from 'react-native-modalbox';
 import ProjectCard from './ProjectCard';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, ProjectType } from '../flow-types';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -32,7 +36,7 @@ const style = StyleSheet.create({
         marginTop: 20,
     },
     inModalButton: {
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -53,14 +57,14 @@ const style = StyleSheet.create({
         marginTop: 10,
         height: 300,
         width: 300,
-        backgroundColor: '#ffffff',
+        backgroundColor: COLOR_WHITE,
         borderRadius: 2,
     },
     announcementButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 40,
         marginTop: 10,
-        borderColor: '#0d1949',
+        borderColor: COLOR_DEEP_BLUE,
         borderRadius: 0,
         borderWidth: 2,
     },
@@ -88,6 +92,8 @@ class _RecommendedCards extends React.Component<Props> {
     openModal3 = () => {
         const parent = this;
 
+        // FIXME: remove this call
+        // we don't want this popup anymore?
         GLOBAL.DB.openPopup().then(() => {
             console.log('No need to open new tut window');
         }).catch(() => {
@@ -121,7 +127,7 @@ class _RecommendedCards extends React.Component<Props> {
                 key="announce"
                 style={style.announcementButton}
                 textStyle={{
-                    color: '#0d1949',
+                    color: COLOR_DEEP_BLUE,
                     fontSize: 13,
                     fontWeight: '700',
                 }}
@@ -151,14 +157,14 @@ class _RecommendedCards extends React.Component<Props> {
                             uri: GLOBAL.TUT_LINK,
                         });
                     }}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{ fontSize: 13, color: COLOR_WHITE, fontWeight: '700' }}
                 >
                     Go To Tutorial
                 </Button>
                 <Button
                     style={style.inModalButton}
                     onPress={this.closeModal3}
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{ fontSize: 13, color: COLOR_WHITE, fontWeight: '700' }}
                 >
                     No thanks
                 </Button>
@@ -178,17 +184,23 @@ class _RecommendedCards extends React.Component<Props> {
             return (<Text>Nothing to work on!</Text>);
         }
 
+        // since we can't completely filter projects by status AND projectType in firebase
+        // we add a filter here to make sure we only display project types that the app can handle
         return (
             <ScrollView
                 contentContainerStyle={style.listView}
                 removeClippedSubviews
             >
                 { this.renderAnnouncement() }
-                { projects.sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
+                { projects.filter(
+                    p => p.value && p.value.projectType
+                    && GLOBAL.SUPPORTED_PROJECT_TYPES.includes(p.value.projectType),
+                )
+                    .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
                     .map(project => (
                         <ProjectCard
                             navigation={navigation}
-                            card={project.value}
+                            project={project.value}
                             key={project.key}
                             cardIndex={project.key}
                         />
@@ -212,11 +224,12 @@ const mapStateToProps = (state, ownProps) => (
 
 export default compose(
     firebaseConnect(() => [
-        // request only active projects from firebase (state === 0)
-        // limit to 20 projects maximum
+        // request only active projects from firebase (status === 'active')
+        // firebase doesn't allow multiple query params, so for project types we filter in render()
+        // but here we can still limit to 20 projects maximum
         // `path` defines where the resulting data is copied in the redux store
         // (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
-        { path: 'projects', queryParams: ['orderByChild=state', 'equalTo=0', 'limitToFirst=20'] },
+        { path: 'projects', queryParams: ['orderByChild=status', 'equalTo=active', 'limitToFirst=20'] },
         // load any announcement data from firebase
         // (state.firebase.data.announcement here because we've not ordered the query)
         { path: 'announcement', queryParams: ['limitToLast=2'] },

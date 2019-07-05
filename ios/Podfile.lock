@@ -3,147 +3,148 @@ PODS:
   - BVLinearGradient (2.5.3):
     - React
   - DoubleConversion (1.1.6)
-  - Firebase/Auth (5.11.0):
+  - Firebase/Auth (5.14.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.0.4)
-  - Firebase/Core (5.11.0):
+    - FirebaseAuth (= 5.1.0)
+  - Firebase/Core (5.14.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.3.0)
-  - Firebase/CoreOnly (5.11.0):
-    - FirebaseCore (= 5.1.6)
-  - Firebase/Database (5.11.0):
+    - FirebaseAnalytics (= 5.4.0)
+  - Firebase/CoreOnly (5.14.0):
+    - FirebaseCore (= 5.1.9)
+  - Firebase/Database (5.14.0):
     - Firebase/CoreOnly
-    - FirebaseDatabase (= 5.0.3)
-  - FirebaseAnalytics (5.3.0):
+    - FirebaseDatabase (= 5.0.4)
+  - FirebaseAnalytics (5.4.0):
     - FirebaseCore (~> 5.1)
     - FirebaseInstanceID (~> 3.3)
-    - GoogleAppMeasurement (~> 5.3)
+    - GoogleAppMeasurement (= 5.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAuth (5.0.4):
+  - FirebaseAuth (5.1.0):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.0)
+    - FirebaseCore (~> 5.1)
     - GoogleUtilities/Environment (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (5.1.6):
+  - FirebaseCore (5.1.9):
     - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseDatabase (5.0.3):
-    - FirebaseCore (~> 5.0)
+  - FirebaseDatabase (5.0.4):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.1)
     - leveldb-library (~> 1.18)
   - FirebaseInstanceID (3.3.0):
     - FirebaseCore (~> 5.1)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
-  - Folly (2016.10.31.00):
+  - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - GoogleAppMeasurement (5.3.0):
+  - GoogleAppMeasurement (5.4.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (5.3.4):
+  - GoogleUtilities/AppDelegateSwizzler (5.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.3.4)
-  - GoogleUtilities/Logger (5.3.4):
+  - GoogleUtilities/Environment (5.8.0)
+  - GoogleUtilities/Logger (5.8.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.3.4):
+  - GoogleUtilities/MethodSwizzler (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.3.4):
+  - GoogleUtilities/Network (5.8.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.3.4)"
-  - GoogleUtilities/Reachability (5.3.4):
+  - "GoogleUtilities/NSData+zlib (5.8.0)"
+  - GoogleUtilities/Reachability (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.3.4):
+  - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.2.0)
+  - GTMSessionFetcher/Core (1.2.2)
   - leveldb-library (1.20)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - React (0.57.7):
-    - React/Core (= 0.57.7)
+  - React (0.58.0):
+    - React/Core (= 0.58.0)
   - react-native-splash-screen (3.2.0):
     - React
-  - React/Core (0.57.7):
-    - yoga (= 0.57.7.React)
-  - React/CxxBridge (0.57.7):
-    - Folly (= 2016.10.31.00)
+  - React/Core (0.58.0):
+    - yoga (= 0.58.0.React)
+  - React/CxxBridge (0.58.0):
+    - Folly (= 2018.10.22.00)
     - React/Core
     - React/cxxreact
-  - React/cxxreact (0.57.7):
+    - React/jsiexecutor
+  - React/cxxreact (0.58.0):
     - boost-for-react-native (= 1.63.0)
-    - Folly (= 2016.10.31.00)
-    - React/jschelpers
+    - Folly (= 2018.10.22.00)
     - React/jsinspector
-  - React/DevSupport (0.57.7):
+  - React/DevSupport (0.58.0):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.57.7)
-  - React/jschelpers (0.57.7):
-    - Folly (= 2016.10.31.00)
-    - React/PrivateDatabase
-  - React/jsinspector (0.57.7)
-  - React/PrivateDatabase (0.57.7)
-  - React/RCTActionSheet (0.57.7):
+  - React/fishhook (0.58.0)
+  - React/jsi (0.58.0):
+    - Folly (= 2018.10.22.00)
+  - React/jsiexecutor (0.58.0):
+    - Folly (= 2018.10.22.00)
+    - React/cxxreact
+    - React/jsi
+  - React/jsinspector (0.58.0)
+  - React/RCTActionSheet (0.58.0):
     - React/Core
-  - React/RCTAnimation (0.57.7):
+  - React/RCTAnimation (0.58.0):
     - React/Core
-  - React/RCTBlob (0.57.7):
+  - React/RCTBlob (0.58.0):
     - React/Core
-  - React/RCTCameraRoll (0.57.7):
+  - React/RCTCameraRoll (0.58.0):
     - React/Core
     - React/RCTImage
-  - React/RCTGeolocation (0.57.7):
+  - React/RCTGeolocation (0.58.0):
     - React/Core
-  - React/RCTImage (0.57.7):
+  - React/RCTImage (0.58.0):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.57.7):
+  - React/RCTLinkingIOS (0.58.0):
     - React/Core
-  - React/RCTNetwork (0.57.7):
+  - React/RCTNetwork (0.58.0):
     - React/Core
-  - React/RCTPushNotification (0.57.7):
+  - React/RCTPushNotification (0.58.0):
     - React/Core
-  - React/RCTSettings (0.57.7):
+  - React/RCTSettings (0.58.0):
     - React/Core
-  - React/RCTText (0.57.7):
+  - React/RCTText (0.58.0):
     - React/Core
-  - React/RCTVibration (0.57.7):
+  - React/RCTVibration (0.58.0):
     - React/Core
-  - React/RCTWebSocket (0.57.7):
+  - React/RCTWebSocket (0.58.0):
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNDeviceInfo (0.21.5):
-    - React
   - Sentry (4.1.3):
     - Sentry/Core (= 4.1.3)
   - Sentry/Core (4.1.3)
   - SentryReactNative (0.41.1):
     - React
     - Sentry (~> 4.1.3)
-  - yoga (0.57.7.React)
+  - yoga (0.58.0.React)
 
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - Firebase/Auth (~> 5.11.0)
-  - Firebase/Core (~> 5.11.0)
-  - Firebase/Database (~> 5.11.0)
+  - Firebase/Auth (~> 5.14.0)
+  - Firebase/Core (~> 5.14.0)
+  - Firebase/Database (~> 5.14.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -163,7 +164,6 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
-  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -197,8 +197,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
-  RNDeviceInfo:
-    :path: "../node_modules/react-native-device-info"
   SentryReactNative:
     :path: "../node_modules/react-native-sentry"
   yoga:
@@ -208,27 +206,26 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 0d985ec461359c82bc254f26d11008bdae50d17a
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
-  Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
-  FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
-  FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
+  Firebase: 963d5685fae888a56d6d4d9cfce6b9c976958798
+  FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
+  FirebaseAuth: 4a5cc5fc2d1721e509e24699b93ebc3d94b1e195
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: d16552f06821489ce1affe2e5e3e5593402ddfe3
-  FirebaseDatabase: e2bcbc106adc4b11a2da3ec2eb63c0c4a44f2f54
+  FirebaseCore: 8f49b70f57ab5cbb032ef41d64992ded21606459
+  FirebaseDatabase: 0621689f77528d62b47e1c06ca737c4c19275d1a
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
-  Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
+  Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
-  GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
-  GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
-  GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
+  GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
+  GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  React: 67899bbb285ceb9b4ee1c88b3991602ba5772ad2
+  React: 466fd4ed76b09452bacab56b48bc122b3b094ba0
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  RNDeviceInfo: e7c5fcde13d40e161d8a27f6c5dc69c638936002
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 2c3cc5e3417a4e2cb3b9449f3ea99ac021fe6575
-  yoga: 192d724e53380b783e09b7d687a55cd8ed5188be
+  yoga: 00e4390d4d6282e07b3b8276c94703bd66428119
 
-PODFILE CHECKSUM: 22fc62db87fa14eb9de84e5ba6f3c8e270239197
+PODFILE CHECKSUM: 8a9b212de80a1ef3c2bccfe927501b0be234413e
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.3

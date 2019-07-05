@@ -1,13 +1,17 @@
 // @flow
 
 import { actionTypes } from 'react-redux-firebase';
-import type { ResultType, State } from '../flow-types';
+import type { ResultMapType, ResultType, State } from '../flow-types';
+import GLOBAL from '../Globals';
 
 export const WELCOME_COMPLETED: 'WELCOME_COMPLETED' = 'WELCOME_COMPLETED';
 export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' = 'AUTH_STATUS_AVAILABLE';
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 export const TOGGLE_MAP_TILE: 'TOGGLE_MAP_TILE' = 'TOGGLE_MAP_TILE';
 export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
+export const SUBMIT_CHANGE = 'SUBMIT_CHANGE';
+export const CANCEL_GROUP = 'CANCEL_GROUP';
+export const START_GROUP = 'START_GROUP';
 export const COMMIT_GROUP = 'COMMIT_GROUP';
 export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
 export const COMMIT_GROUP_SUCCESS = 'COMMIT_GROUP_SUCCESS';
@@ -24,18 +28,58 @@ export function authStatusAvailable(user: {}): AuthStatusAvailable {
     return { type: AUTH_STATUS_AVAILABLE, user };
 }
 
-type ToggleMapTile = { type: typeof TOGGLE_MAP_TILE, tileInfo: ResultType };
-export function toggleMapTile(tileInfo: ResultType): ToggleMapTile {
+type ToggleMapTile = { type: typeof TOGGLE_MAP_TILE, resultObject: ResultType };
+export function toggleMapTile(resultObject: ResultType): ToggleMapTile {
     // dispatched every time a map tile is tapped to change its state
-    return { type: TOGGLE_MAP_TILE, tileInfo };
+    return { type: TOGGLE_MAP_TILE, resultObject };
 }
 
-export function commitGroupSuccess(taskId: string) {
-    return { type: COMMIT_GROUP_SUCCESS, taskId };
+type CancelGroup = { type: typeof CANCEL_GROUP, projectId: string, groupId: string };
+export function cancelGroup(grp: { projectId: string, groupId: string }): CancelGroup {
+    // dispatched when the user cancels work on a group midway
+    // this forces deletion of the results created so far
+    return { type: CANCEL_GROUP, projectId: grp.projectId, groupId: grp.groupId };
+}
+type StartGroup = {
+    type: typeof START_GROUP,
+    projectId: string,
+    groupId: string,
+    timestamp: number,
+};
+export function startGroup(grp: { projectId: string, groupId: string, timestamp: number }):
+StartGroup {
+    // dispatched when the user cancels work on a group midway
+    // this forces deletion of the results created so far
+    return {
+        type: START_GROUP,
+        projectId: grp.projectId,
+        groupId: grp.groupId,
+        timestamp: grp.timestamp,
+    };
 }
 
-export function commitGroupFailed(taskId: string, error: {}) {
-    return { type: COMMIT_GROUP_FAILED, taskId, error };
+type CommitGroupSuccess = { type: typeof COMMIT_GROUP_SUCCESS, projectId: string, groupId: string };
+export function commitGroupSuccess(projectId: string, groupId: string): CommitGroupSuccess {
+    return { type: COMMIT_GROUP_SUCCESS, projectId, groupId };
+}
+
+type CommitGroupFailed = {
+    type: typeof COMMIT_GROUP_SUCCESS,
+    projectId: string,
+    groupId: string,
+    error: {},
+};
+export function commitGroupFailed(
+    projectId: string,
+    groupId: string,
+    error: {},
+): CommitGroupFailed {
+    return {
+        type: COMMIT_GROUP_FAILED,
+        projectId,
+        groupId,
+        error,
+    };
 }
 
 type CommitTaskSuccess = { type: typeof COMMIT_TASK_SUCCESS, taskId: number };
@@ -48,17 +92,22 @@ export function commitTaskFailed(taskId: string, error: {}) {
     return { type: COMMIT_TASK_FAILED, taskId, error };
 }
 
-export function submitFootprint(resultObject: ResultType) {
+type SubmitChange = { type: typeof SUBMIT_CHANGE, resultObject: ResultType };
+export function submitChange(resultObject: ResultType): SubmitChange {
+    return { type: SUBMIT_CHANGE, resultObject };
+}
+
+type SubmitFootprint = { type: typeof SUBMIT_BUILDING_FOOTPRINT, resultObject: ResultType };
+export function submitFootprint(resultObject: ResultType): SubmitFootprint {
     return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
 }
 
 export type GroupInfo = {
     addedDistance: number,
-    groupId: number,
-    projectId: number,
+    groupId: string,
+    projectId: string,
     contributionsCount: number,
-    tasks: {},
-    zoomLevel: number
+    results: ResultMapType,
 }
 
 type CommitGroup = { type: typeof COMMIT_GROUP }
@@ -80,40 +129,27 @@ type ThunkAction = (dispatch: Dispatch, getState: GetState, getFirebase: GetFire
 export function commitGroup(groupInfo: GroupInfo): ThunkAction {
     // dispatched when a group is finished, when the user chooses to either
     // map another group, or complete mapping.
+    // Note that when using the app offline, this action is triggered as well,
+    // but the firebase layer will store results locally instead of uploading them
+    // to the backend. This is transparent to us, so our code will not know its
+    // online/offline status.
     return (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
-
-        // write each task result in firebase
-        Object.keys(groupInfo.tasks).forEach(taskId => firebase
-            .set(`results/${taskId}/${userId}/`, { data: groupInfo.tasks[taskId] })
-            .then(() => dispatch(commitTaskSuccess(taskId)))
-            .catch(error => dispatch(commitTaskFailed(taskId, error))));
-
-        // increase the completion count on the group so we know how many users
-        // have swiped through it
-        // FIXME: chain all the promises above so that we can throw an action
-        // once they have all completed
-        firebase.database().ref(`groups/${groupInfo.projectId}/${groupInfo.groupId}`)
-            .transaction((group) => {
-                const newGroup = group;
-                if (group) {
-                    newGroup.completedCount += 1;
-                }
-                return newGroup;
-            });
-
-        // update the user's contributions and total mapped area
-        const addedContributions = groupInfo.contributionsCount || 0;
-        const addedDistance = groupInfo.addedDistance || 0;
-        firebase.database().ref(`users/${userId}/`)
-            .transaction((user) => {
-                const newUser = user;
-                if (user) {
-                    newUser.contributions += addedContributions;
-                    newUser.distance += addedDistance;
-                }
-                return newUser;
-            });
+        // get a single timestamp upon completion of the group
+        const timestamp = GLOBAL.DB.getTimestamp();
+        const endTime = timestamp;
+        const { groupId, projectId, results } = groupInfo;
+        const { startTime, ...rest } = results[projectId][groupId];
+        const objToUpload = {
+            startTime,
+            endTime,
+            timestamp,
+            results: rest,
+        };
+        const fbPath = `results/${projectId}/${groupId}/${userId}/`;
+        firebase.set(fbPath, objToUpload)
+            .then(() => dispatch(commitGroupSuccess(projectId, groupId)))
+            .catch(error => dispatch(commitGroupFailed(projectId, groupId, error)));
     };
 }

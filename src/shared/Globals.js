@@ -17,6 +17,11 @@ import { Platform, Dimensions } from 'react-native';
 
 // const Database = require('./Database');
 import Database from './Database';
+import {
+    LEGACY_TILES,
+    BUILDING_FOOTPRINTS,
+    CHANGE_DETECTION,
+} from './constants';
 
 // FIXME: check the old calculation to include status bar and soft menu
 const screenHeight = Dimensions.get('window').height;
@@ -28,14 +33,8 @@ module.exports = {
     TOP_OFFSET: Platform.OS === 'android' ? 0 : 20,
     SCREEN_WIDTH: Dimensions.get('window').width,
     SCREEN_HEIGHT: screenHeight,
-    COLOR: {
-        ORANGE: '#C50',
-        DARKBLUE: '#0F3274',
-        LIGHTBLUE: '#6EA8DA',
-        DARKGRAY: '#999',
-    },
     TASKS_PROCESSING: 0,
-    TILE_VIEW_HEIGHT: (screenHeight - 40 - 30) / screenHeight, // 40 is top bar, 30 is bottom bar
+    TILE_VIEW_HEIGHT: (screenHeight - 40 - 30), // 40 is top bar, 30 is bottom bar
     TILES_PER_VIEW_X: 2,
     TILES_PER_VIEW_Y: 3,
     TILE_VIEW_WIDTH: 1,
@@ -44,4 +43,9 @@ module.exports = {
     GRADIENT_COUNT: 0,
     TUT_LINK: 'http://www.missingmaps.org/blog/2016/07/18/mapswipetutorial/',
     // ANALYTICS: Analytics,
+    SUPPORTED_PROJECT_TYPES: [
+        LEGACY_TILES,
+        BUILDING_FOOTPRINTS,
+        CHANGE_DETECTION,
+    ],
 };

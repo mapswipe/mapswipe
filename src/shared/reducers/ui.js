@@ -19,14 +19,14 @@ const defaultUserState = {
 
 const maxLevel = 36;
 
-const getLevelForDistance = (distance) => {
+const getLevelForContributionCount = (taskContributionCount) => {
     let toReturn = 1;
     try {
         Object.keys(Levels).forEach((level) => {
-            if (distance > Levels[maxLevel]) {
+            if (taskContributionCount > Levels[maxLevel]) {
                 toReturn = maxLevel;
-            } else if (distance > Levels[level].expRequired
-                && distance < Levels[parseInt(level, 10) + 1].expRequired) {
+            } else if (taskContributionCount > Levels[level].expRequired
+                && taskContributionCount < Levels[parseInt(level, 10) + 1].expRequired) {
                 toReturn = level;
             }
         });
@@ -41,14 +41,14 @@ const getLevelForDistance = (distance) => {
     return parseInt(toReturn, 10);
 };
 
-const getProgress = (distance, level) => {
+const getProgress = (taskContributionCount, level) => {
     if (level === maxLevel) {
         // the user has reached the end...
         return { kmTillNextLevel: 999999999, percentage: 1 };
     }
     const currentLevelExp = Levels[level].expRequired;
     const nextLevelExp = Levels[level + 1].expRequired;
-    const myExp = distance;
+    const myExp = taskContributionCount;
     const expToGainTotal = (nextLevelExp - currentLevelExp);
     const kmTillNextLevel = parseFloat(nextLevelExp - myExp);
     const percentage = 1 - (kmTillNextLevel / expToGainTotal);
@@ -70,10 +70,12 @@ export default function user(state: UIState = defaultUserState, action: Action):
             user: action.user,
         };
     case actionTypes.SET_PROFILE: {
+        // TODO: can we refactor the profile to avoid having local key names that
+        // are not in the datase?
         // $FlowFixMe
-        const distance = action.profile ? action.profile.distance : 0;
-        level = getLevelForDistance(distance);
-        const { kmTillNextLevel, percentage } = getProgress(distance, level);
+        const taskContributionCount = action.profile ? action.profile.taskContributionCount : 0;
+        level = getLevelForContributionCount(taskContributionCount);
+        const { kmTillNextLevel, percentage } = getProgress(taskContributionCount, level);
         return {
             ...state,
             kmTillNextLevel,

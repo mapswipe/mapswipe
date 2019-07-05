@@ -9,17 +9,29 @@ import {
     ScrollView,
     StyleSheet,
     Image,
+    Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
 import Levels from '../Levels';
 import type { NavigationProp } from '../flow-types';
+import {
+    COLOR_DARK_GRAY,
+    COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+    COLOR_WHITE,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
 /* eslint-disable global-require */
 
 const styles = StyleSheet.create({
+    buttonText: {
+        fontSize: 13,
+        color: COLOR_DEEP_BLUE,
+        fontWeight: '700',
+    },
     container: {
         alignItems: 'center',
         width: GLOBAL.SCREEN_WIDTH,
@@ -27,7 +39,7 @@ const styles = StyleSheet.create({
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 30,
-        padding: 12,
+        padding: Platform.OS === 'ios' ? 0 : 12,
         marginTop: 10,
         borderWidth: 0,
     },
@@ -37,8 +49,8 @@ const styles = StyleSheet.create({
         padding: 5,
         borderTopWidth: 0.5,
         borderBottomWidth: 0,
-        borderColor: '#e8e8e8',
-        backgroundColor: '#ffffff',
+        borderColor: COLOR_LIGHT_GRAY,
+        backgroundColor: COLOR_WHITE,
         width: GLOBAL.SCREEN_WIDTH,
     },
     barRow: {
@@ -46,7 +58,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderTopWidth: 0.5,
         borderBottomWidth: 0,
-        borderColor: '#e8e8e8',
+        borderColor: COLOR_LIGHT_GRAY,
         width: GLOBAL.SCREEN_WIDTH,
     },
     pic: {
@@ -128,9 +140,7 @@ class _MoreOptions extends React.Component<MOProps> {
         } = this.props;
         const levelObject = Levels[level];
         const contributions = isLoaded(profile)
-            && Object.prototype.hasOwnProperty.call(profile, 'contributions') ? profile.contributions : 0;
-        const distance = isLoaded(profile)
-            && Object.prototype.hasOwnProperty.call(profile, 'distance') ? profile.distance : 0;
+            && Object.prototype.hasOwnProperty.call(profile, 'taskContributionCount') ? profile.taskContributionCount : 0;
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <ScrollingBackground />
@@ -148,15 +158,11 @@ class _MoreOptions extends React.Component<MOProps> {
                         {levelObject.title}
                     </Text>
                     <Text style={styles.infoRight}>
-                    You&apos;ve mapped
-                        {' '}
-                        {distance.toFixed(0)}
-                        {' '}
-square kilometers and found
+                    You&apos;ve completed
                         {' '}
                         {contributions}
                         {' '}
-objects
+                        tasks!
                     </Text>
                 </View>
                 <LevelProgress
@@ -171,7 +177,7 @@ objects
                             });
                         }}
                         style={styles.otherButton}
-                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                        textStyle={styles.buttonText}
                     >
 Frequently Asked
                     Questions
@@ -185,7 +191,7 @@ Frequently Asked
                             });
                         }}
                         style={styles.otherButton}
-                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                        textStyle={styles.buttonText}
                     >
 Tutorial
                     </Button>
@@ -198,7 +204,7 @@ Tutorial
                             });
                         }}
                         style={styles.otherButton}
-                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                        textStyle={styles.buttonText}
                     >
 Contact Us
                     </Button>
@@ -211,7 +217,7 @@ Contact Us
                             });
                         }}
                         style={styles.otherButton}
-                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                        textStyle={styles.buttonText}
                     >
 Events
                     </Button>
@@ -225,7 +231,7 @@ Events
                             });
                         }}
                         style={styles.otherButton}
-                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                        textStyle={styles.buttonText}
                     >
 Blog
                     </Button>
@@ -237,7 +243,7 @@ Blog
                             navigation.navigate('Login');
                         }}
                         style={styles.otherButton}
-                        textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}
+                        textStyle={styles.buttonText}
                     >
 Sign Out
                     </Button>
@@ -302,7 +308,7 @@ class ScrollingBackground extends React.Component<{}, SBState> {
                     resizeMode: 'cover',
                     marginRight: offset,
                     height: 200,
-                    backgroundColor: '#e8e8e8',
+                    backgroundColor: COLOR_LIGHT_GRAY,
                 }}
             />
         );
@@ -327,8 +333,8 @@ class ScrollingBackground extends React.Component<{}, SBState> {
 
 const progressStyle = StyleSheet.create({
     text: {
-        color: '#ffffff',
-        borderColor: '#212121',
+        color: COLOR_WHITE,
+        borderColor: COLOR_DARK_GRAY,
         fontWeight: '500',
         position: 'absolute',
         width: GLOBAL.SCREEN_WIDTH,
@@ -349,21 +355,21 @@ const LevelProgress = (props: LPProps) => {
     if (Number.isNaN(kmTillNextLevel)) {
         kmTillNextLevel = 0;
     }
-    const swipes = Math.ceil(kmTillNextLevel / (0.0233732728 * 6));
+    const swipes = Math.ceil(kmTillNextLevel / 6);
     const sqkm = kmTillNextLevel.toFixed(0);
     return (
         <View style={styles.barRow}>
             <Progress.Bar
                 borderRadius={0}
                 borderWidth={0}
-                color="#0d1949"
+                color={COLOR_DEEP_BLUE}
                 height={30}
                 progress={Number.isNaN(progress) ? 0 : progress}
                 unfilledColor="#bbbbbb"
                 width={GLOBAL.SCREEN_WIDTH}
             />
             <Text elevation={5} style={progressStyle.text}>
-                {`${sqkm} square km (${swipes} swipes) until the next level`}
+                {`${sqkm} tasks (${swipes} swipes) until the next level`}
             </Text>
         </View>
     );

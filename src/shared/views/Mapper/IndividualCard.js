@@ -8,9 +8,13 @@ import {
     Text,
     View,
 } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type {
+    GestureState,
+    PanResponderInstance,
+} from 'react-native/Libraries/Interaction/PanResponder';
 import { toggleMapTile } from '../../actions/index';
-import type { Mapper, TaskType } from '../../flow-types';
+import type { Mapper, ResultType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
 
 const GLOBAL = require('../../Globals');
@@ -18,7 +22,7 @@ const GLOBAL = require('../../Globals');
 const styles = StyleSheet.create({
     slide: {
         width: (GLOBAL.SCREEN_WIDTH),
-        height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT),
+        height: (GLOBAL.TILE_VIEW_HEIGHT),
         flex: 1,
         borderWidth: 0,
         backgroundColor: '#212121',
@@ -45,11 +49,12 @@ const styles = StyleSheet.create({
 type TRProps = {
     mapper: Mapper,
     row: Array<Tile>,
+    tutorial: boolean,
 };
 
 const TileRow = (props: TRProps) => {
     const rows = [];
-    const { mapper, row } = props;
+    const { mapper, row, tutorial } = props;
     row.forEach((tile) => {
         // inserts empty tiles so that they are always rendered at
         // the same X coordinate on the grid.
@@ -57,7 +62,12 @@ const TileRow = (props: TRProps) => {
             if (tile === 'emptytile') {
                 rows.push(<EmptyTile key={Math.random()} />);
             } else {
-                rows.push(<Tile tile={tile} key={tile.id} mapper={mapper} />);
+                rows.push(<Tile
+                    tile={tile}
+                    key={tile.taskId}
+                    mapper={mapper}
+                    tutorial={tutorial}
+                />);
             }
         }
     });
@@ -72,16 +82,13 @@ const TileRow = (props: TRProps) => {
 type ICProps = {
     card: Object,
     mapper: Mapper,
-    onToggleTile: TaskType => void,
+    onToggleTile: ResultType => void,
+    tutorial: boolean,
 };
 
 type ICState = {
     showSwipeHelp: boolean,
 };
-
-type PressEvent = {}; // FIXME: figure out the proper type
-type PanResponderInstance = PanResponder.PanResponderInstance;
-type GestureState = PanResponder.GestureState;
 
 class _IndividualCard extends React.Component<ICProps, ICState> {
     constructor(props: ICProps) {
@@ -93,7 +100,6 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
             onMoveShouldSetPanResponderCapture: this.handleMoveShouldSetPanResponderCapture,
             onPanResponderGrant: this.handlePanResponderGrant,
-            onPanResponderMove: this.handlePanResponderMove,
             onPanResponderRelease: this.handlePanResponderEnd,
             onPanResponderTerminate: this.handlePanResponderTerminate,
         });
@@ -104,64 +110,43 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
     }
 
     handleMoveShouldSetPanResponder = (
+        // decide if we handle the move event: only if it's vertical
         event: PressEvent,
         gestureState: GestureState,
-    ): boolean => {
-        // decide if we handle the move event: only if it's vertical
-        console.log('Move', gestureState.dx, gestureState.dy, gestureState.vx, gestureState.vy);
-        return Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
-    };
+    ): boolean => Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handleMoveShouldSetPanResponderCapture = (
-        event: PressEvent,
-        gestureState: GestureState,
-    ): boolean => {
         // decide if we handle the move event: only if it's vertical
         // this captures the swipe from the ScrollView
-        console.log('MoveCapture', gestureState.dx, gestureState.dy, gestureState.vx, gestureState.vy);
-        return Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
-    };
-
-    handlePanResponderGrant = (
         event: PressEvent,
         gestureState: GestureState,
-    ) => {
-        // OK, we've been given this swipe to handle, show feedback to the user
-        console.log('Grant', gestureState.numberActiveTouches);
-        this.setState({ showSwipeHelp: true });
-    };
+    ): boolean => Math.abs(gestureState.dy) > Math.abs(gestureState.dx) * this.swipeThreshold;
 
-    handlePanResponderMove = (event: PressEvent, gestureState: GestureState) => {
-        // called on each frame while the user's finger is swiping
-        console.log('ResponderMove', gestureState.dx, gestureState.dy);
+    handlePanResponderGrant = () => {
+        // OK, we've been given this swipe to handle, show feedback to the user
+        this.setState({ showSwipeHelp: true });
     };
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
-        const { card, mapper, onToggleTile } = this.props;
-        console.log('ResponderEnd', gestureState.dx, gestureState.dy);
+        const { card, onToggleTile } = this.props;
         this.setState({ showSwipeHelp: false });
-        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 1.5) {
+        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 0.5) {
             card.tileRows.forEach((row) => {
                 row.tiles.forEach((tile) => {
                     onToggleTile({
-                        id: tile.id,
+                        groupId: tile.groupId,
+                        resultId: tile.taskId,
                         result: 3,
                         projectId: tile.projectId,
-                        wkt: tile.wkt,
-                        item: mapper.project.lookFor,
-                        device: DeviceInfo.getUniqueID(),
-                        user: GLOBAL.DB.getAuth().getUser().uid,
-                        timestamp: GLOBAL.DB.getTimestamp(),
                     });
                 });
             });
         }
     };
 
-    handlePanResponderTerminate = (event: PressEvent, gestureState: GestureState) => {
+    handlePanResponderTerminate = () => {
         // swipe cancelled, eg: some other component took over (ScrollView?)
-        console.log('ResponderTerminate', gestureState);
         this.setState({ showSwipeHelp: false });
     };
 
@@ -177,10 +162,15 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
     render() {
         const rows = [];
-        const { card, mapper } = this.props;
+        const { card, mapper, tutorial } = this.props;
         const { showSwipeHelp } = this.state;
         card.tileRows.forEach((row) => {
-            rows.unshift(<TileRow key={`${row.cardXStart}:${row.rowYStart}`} mapper={mapper} row={row.tiles} />);
+            rows.unshift(<TileRow
+                key={`${row.cardXStart}:${row.rowYStart}`}
+                mapper={mapper}
+                row={row.tiles}
+                tutorial={tutorial}
+            />);
         });
 
         return (
@@ -199,6 +189,7 @@ const mapStateToProps = (state, ownProps) => (
     {
         card: ownProps.card,
         mapper: ownProps.mapper,
+        tutorial: ownProps.tutorial,
     }
 );
 

@@ -6,12 +6,16 @@ import {
     Text,
     View,
 } from 'react-native';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+} from '../../constants';
 
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     progressBarText: {
-        color: '#e8e8e8',
+        color: COLOR_LIGHT_GRAY,
         borderColor: '#212121',
         fontWeight: '500',
         position: 'absolute',
@@ -26,7 +30,7 @@ const styles = StyleSheet.create({
         left: 0,
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: '#0d1949',
+        backgroundColor: COLOR_DEEP_BLUE,
     },
 });
 

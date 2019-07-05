@@ -42,6 +42,8 @@ Install steps
 8. Build & run the target mapswipe in debug.
 9. Check that the tests are passing locally: Run `fastlane ios test`
 
+Note: if you run into weird problems when running `yarn install` and such, and find no logical explanation, you may need to check your version of node (`node -v`). There has been a number of problems with some versions of `react-native` not working on specific versions of node. Overall, it seems that using the LTS version of node works better than the very latest builds.
+
 ### Version numbering
 
 See [the android page](develop-android.md#version-numbering) for details.
