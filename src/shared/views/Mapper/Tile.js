@@ -17,7 +17,6 @@ import {
     COLOR_LIGHT_GRAY,
     COLOR_RED,
     COLOR_TRANSPARENT,
-    COLOR_WHITE,
     COLOR_YELLOW,
 } from '../../constants';
 import type {
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
         height: tileHeight,
         width: tileWidth,
         borderWidth: 0.5,
-        borderColor: COLOR_WHITE,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     tileOverlay: {
         height: tileHeight,
@@ -65,6 +64,7 @@ type Props = {
     mapper: Mapper,
     onToggleTile: ResultType => void,
     results: number,
+    tutorial: boolean,
 };
 
 export class _Tile extends React.Component<Props> {
@@ -163,13 +163,13 @@ export class _Tile extends React.Component<Props> {
     lastReportedStatus: number;
 
     render() {
-        const { results, tile: { taskId } } = this.props;
+        const { results, tile: { taskId }, tutorial } = this.props;
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
         const animatedRows = [];
         const showAnim = Math.floor(Math.random() * 5);
 
-        if (tileStatus > 1 && showAnim === 1) {
+        if (tileStatus > 1 && showAnim === 1 && !tutorial) {
             animatedRows.push(
                 <Animatable.Text
                     key={`anim-${taskId}`}
@@ -219,6 +219,7 @@ const mapStateToProps = (state, ownProps) => {
         mapper: ownProps.mapper,
         results,
         tile: ownProps.tile,
+        tutorial: ownProps,
     };
 };
 

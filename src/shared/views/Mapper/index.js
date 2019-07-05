@@ -17,7 +17,12 @@ import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../LoadingIcon';
-import type { BuiltAreaGroupType, NavigationProp, ProjectType } from '../../flow-types';
+import type {
+    BuiltAreaGroupType,
+    CategoriesType,
+    NavigationProp,
+    ProjectType,
+} from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
 } from '../../constants';
@@ -96,6 +101,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    categories: CategoriesType,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: {} => void,
@@ -117,17 +123,14 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const { tutorial } = this.props;
-        if (!tutorial) {
-            this.openHelpModal();
-        }
+        this.openHelpModal();
         // GLOBAL.ANALYTICS.logEvent('mapping_started');
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
     componentDidUpdate(prevProps) {
         const { group, onStartGroup } = this.props;
-        if (prevProps.group !== undefined && prevProps.group !== group) {
+        if (prevProps.group !== undefined && group !== undefined && prevProps.group !== group) {
             // we just started working on a group, make a note of the time
             onStartGroup({
                 groupId: group.groupId,
@@ -153,11 +156,13 @@ class _Mapper extends React.Component<Props, State> {
 
     returnToView = () => {
         const { group, navigation, onCancelGroup } = this.props;
-        onCancelGroup({
-            groupId: group.groupId,
-            projectId: group.projectId,
-        });
-        navigation.pop();
+        if (group) {
+            onCancelGroup({
+                groupId: group.groupId,
+                projectId: group.projectId,
+            });
+            navigation.pop();
+        }
     }
 
     closeHelpModal = () => {
@@ -189,42 +194,13 @@ class _Mapper extends React.Component<Props, State> {
 
     HelpModal: ?React.ComponentType<void>;
 
-    render() {
+    renderIntroModal() {
         /* eslint-disable global-require */
-        const { group, navigation } = this.props;
-        const { poppedUpTile } = this.state;
-        let comp;
-        // only show the mapping component once we have downloaded the group data
-        if (group) {
-            comp = (
-                <CardBody
-                    group={group}
-                    mapper={this}
-                    navigation={navigation}
-                    projectId={this.project.projectId}
-                />
-            );
-        } else {
-            comp = <LoadingIcon />;
-        }
-
-        return (
-            <View style={styles.mappingContainer}>
-                <Header
-                    lookFor={this.project.lookFor}
-                    onBackPress={this.returnToView}
-                    onInfoPress={this.openHelpModal}
-                />
-
-                {comp}
-
-                <BottomProgress ref={(r) => { this.progress = r; }} />
-                <Modal
-                    style={[styles.modal, styles.HelpModal]}
-                    backdropType="blur"
-                    position="center"
-                    ref={(r) => { this.HelpModal = r; }}
-                >
+        const { tutorial } = this.props;
+        let content;
+        if (!tutorial) {
+            content = (
+                <>
                     <Text style={styles.header}>How To Contribute</Text>
                     <View style={styles.tutRow}>
                         <Image
@@ -278,14 +254,94 @@ class _Mapper extends React.Component<Props, State> {
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
-                    <Button
-                        style={styles.startButton}
-                        onPress={this.closeHelpModal}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
-                    >
-                        I understand
-                    </Button>
-                </Modal>
+                </>
+            );
+        } else {
+            content = (
+                <View>
+                    <Text style={styles.tutPar}>
+                        Welcome to the tutorial!
+                    </Text>
+                    <View style={styles.tutRow}>
+                        <Text style={styles.tutPar}>
+                            This should make you a wizard of Mapswipe
+                            in a few minutes.
+                        </Text>
+                    </View>
+                    <View style={styles.tutRow}>
+                        <Text style={styles.tutPar}>
+                            Just follow the instructions on the screen,
+                            and swipe left to continue.
+                        </Text>
+                    </View>
+                    <View style={styles.tutRow}>
+                        <Text style={styles.tutPar}>
+                            If the instructions are in your way,
+                            just tap the message box to move it.
+                        </Text>
+                    </View>
+                </View>
+            );
+        }
+
+        return (
+            <Modal
+                style={[styles.modal, styles.HelpModal]}
+                backdropType="blur"
+                position="center"
+                ref={(r) => { this.HelpModal = r; }}
+            >
+                {content}
+                <Button
+                    style={styles.startButton}
+                    onPress={this.closeHelpModal}
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
+                    I understand
+                </Button>
+            </Modal>
+        );
+        /* eslint-enable global-require */
+    }
+
+    render() {
+        const {
+            categories,
+            group,
+            navigation,
+            tutorial,
+        } = this.props;
+        const { poppedUpTile } = this.state;
+        let comp;
+        // only show the mapping component once we have downloaded the group data
+        if (group) {
+            comp = (
+                <CardBody
+                    categories={tutorial ? categories : null}
+                    group={group}
+                    mapper={this}
+                    navigation={navigation}
+                    projectId={group.projectId}
+                    tutorial={tutorial}
+                />
+            );
+        } else {
+            comp = <LoadingIcon />;
+        }
+        const introModal = this.renderIntroModal();
+
+        return (
+            <View style={styles.mappingContainer}>
+                <Header
+                    lookFor={this.project.lookFor}
+                    onBackPress={this.returnToView}
+                    onInfoPress={this.openHelpModal}
+                />
+
+                {comp}
+
+                <BottomProgress ref={(r) => { this.progress = r; }} />
+                {introModal}
                 <Modal
                     style={styles.tilePopup}
                     entry="bottom"
@@ -323,13 +379,13 @@ export default compose(
                     type: 'once',
                     path: 'projects',
                     queryParams: ['orderByChild=status', 'equalTo=build_area_tutorial', 'limitToFirst=1'],
-                    storeAs: 'projects/build_area_tutorial',
+                    storeAs: 'tutorial',
                 },
                 {
                     type: 'once',
                     path: 'groups/build_area_tutorial',
                     queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
-                    storeAs: 'projects/build_area_tutorial/groups',
+                    storeAs: 'tutorial/build_area_tutorial/groups',
                 },
             ];
         }
@@ -354,14 +410,22 @@ export default compose(
         if (tutorial) {
             projectId = 'build_area_tutorial';
         }
+        let categories = null;
         let groupId = '';
-        const { groups } = state.firebase.data.projects[projectId];
-        if (isLoaded(groups)) {
+        let groups;
+        const prefix = tutorial ? 'tutorial' : 'projects';
+        // const projectData = state.firebase.data[prefix][projectId];
+        const { data } = state.firebase;
+        if (data[prefix] && data[prefix][projectId]) {
+            ({ categories, groups } = data[prefix][projectId]);
+        }
+        if (groups && isLoaded(groups)) {
             // eslint-disable-next-line prefer-destructuring
             groupId = Object.keys(groups)[0];
         }
         return {
-            group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
+            categories,
+            group: get(state.firebase.data, `${prefix}.${projectId}.groups.${groupId}`),
             navigation: ownProps.navigation,
             tutorial,
         };

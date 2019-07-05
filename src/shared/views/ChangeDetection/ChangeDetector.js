@@ -8,6 +8,11 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
+import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type {
+    GestureState,
+    PanResponderInstance,
+} from 'react-native/Libraries/Interaction/PanResponder';
 import Button from 'apsl-react-native-button';
 import LoadingIcon from '../LoadingIcon';
 import SatImage from '../../common/SatImage';
@@ -120,9 +125,6 @@ type State = {
     rightOpacity: number,
     topOpacity: number,
 };
-
-type GestureState = PanResponder.GestureState;
-type PressEvent = PanResponder.PressEvent;
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
 type taskGenType = Generator<string, void, void>;
@@ -283,7 +285,7 @@ class _ChangeDetector extends React.Component<Props, State> {
 
     leftOpacity: number;
 
-    panResponder: PanResponder.PanResponderInstance;
+    panResponder: PanResponderInstance;
 
     taskGen: taskGenType;
 

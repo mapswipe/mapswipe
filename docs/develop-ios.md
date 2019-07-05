@@ -46,6 +46,8 @@ Install steps
 
 If you get errors while installing pods (glog specifically), you might want to try this: https://github.com/facebook/react-native/issues/18408#issuecomment-386696744
 
+Note: if you run into weird problems when running `yarn install` and such, and find no logical explanation, you may need to check your version of node (`node -v`). There has been a number of problems with some versions of `react-native` not working on specific versions of node. Overall, it seems that using the LTS version of node works better than the very latest builds.
+
 ### Version numbering
 
 See [the android page](develop-android.md#version-numbering) for details.

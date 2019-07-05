@@ -8,6 +8,11 @@ import {
     Text,
     View,
 } from 'react-native';
+import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type {
+    GestureState,
+    PanResponderInstance,
+} from 'react-native/Libraries/Interaction/PanResponder';
 import { toggleMapTile } from '../../actions/index';
 import type { Mapper, ResultType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
@@ -44,11 +49,12 @@ const styles = StyleSheet.create({
 type TRProps = {
     mapper: Mapper,
     row: Array<Tile>,
+    tutorial: boolean,
 };
 
 const TileRow = (props: TRProps) => {
     const rows = [];
-    const { mapper, row } = props;
+    const { mapper, row, tutorial } = props;
     row.forEach((tile) => {
         // inserts empty tiles so that they are always rendered at
         // the same X coordinate on the grid.
@@ -56,7 +62,12 @@ const TileRow = (props: TRProps) => {
             if (tile === 'emptytile') {
                 rows.push(<EmptyTile key={Math.random()} />);
             } else {
-                rows.push(<Tile tile={tile} key={tile.taskId} mapper={mapper} />);
+                rows.push(<Tile
+                    tile={tile}
+                    key={tile.taskId}
+                    mapper={mapper}
+                    tutorial={tutorial}
+                />);
             }
         }
     });
@@ -72,15 +83,12 @@ type ICProps = {
     card: Object,
     mapper: Mapper,
     onToggleTile: ResultType => void,
+    tutorial: boolean,
 };
 
 type ICState = {
     showSwipeHelp: boolean,
 };
-
-type PressEvent = PanResponder.PressEvent;
-type PanResponderInstance = PanResponder.PanResponderInstance;
-type GestureState = PanResponder.GestureState;
 
 class _IndividualCard extends React.Component<ICProps, ICState> {
     constructor(props: ICProps) {
@@ -154,10 +162,15 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
     render() {
         const rows = [];
-        const { card, mapper } = this.props;
+        const { card, mapper, tutorial } = this.props;
         const { showSwipeHelp } = this.state;
         card.tileRows.forEach((row) => {
-            rows.unshift(<TileRow key={`${row.cardXStart}:${row.rowYStart}`} mapper={mapper} row={row.tiles} />);
+            rows.unshift(<TileRow
+                key={`${row.cardXStart}:${row.rowYStart}`}
+                mapper={mapper}
+                row={row.tiles}
+                tutorial={tutorial}
+            />);
         });
 
         return (
@@ -176,6 +189,7 @@ const mapStateToProps = (state, ownProps) => (
     {
         card: ownProps.card,
         mapper: ownProps.mapper,
+        tutorial: ownProps.tutorial,
     }
 );
 

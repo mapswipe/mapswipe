@@ -9,6 +9,7 @@ import {
     ScrollView,
     StyleSheet,
     Image,
+    Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import * as Progress from 'react-native-progress';
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 30,
-        padding: 12,
+        padding: Platform.OS === 'ios' ? 0 : 12,
         marginTop: 10,
         borderWidth: 0,
     },
