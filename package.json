@@ -5,6 +5,8 @@
   "scripts": {
     "buildDev": "cd android && ./gradlew assembleDevRelease && cd ..",
     "buildProd": "cd android && ./gradlew assembleProductionRelease && cd ..",
+    "detoxTestAndroid": "detox build -c android.ci.debug && detox test -c android.ci.debug",
+    "detoxTestIOS": "detox build -c ios.sim.debug && detox test -c ios.sim.debug",
     "reduxDebugger": "remotedev-debugger --hostname localhost --port 5678 --injectserver",
     "lint": "node_modules/eslint_d/bin/eslint.js src __tests__ --cache",
     "postinstall": "node scripts/postinstall.js",

@@ -127,7 +127,7 @@ When user testing, you probably want to use `DevRelease` so that your users don'
 There are 2 sets of tests setup:
 
 - *unit tests* using `jest`, they are very basic at the moment, but should be enriched as we go. Run them with `yarn test`.
-- *end-to-end tests` using [detox](https://github.com/wix/Detox). Run them with `yarn detoxTests`. They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected.
+- *end-to-end tests` using [detox](https://github.com/wix/Detox). They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected. You will need to setup an android emulator, as detox doesn't seem to run on android devices at the moment. Follow the commands in `.travis.yml` at the root of this repo in the `before_script` section of the android build, unless you already have an emulator. You can then run the tests with `yarn detoxTestAndroid`. If you want more detailed output from the tests, add `--loglevel trace` to the `detox test` command.
 
 ## Version numbering
 
