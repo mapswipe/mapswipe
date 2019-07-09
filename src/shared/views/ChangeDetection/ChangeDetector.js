@@ -114,7 +114,7 @@ const minOpacity = 0;
 type Props = {
     commitCompletedGroup: () => void,
     group: ChangeDetectionGroupType,
-    submitChangeResult: (number, string) => void,
+    submitResult: (number, string) => void,
     updateProgress: (number) => void,
 };
 
@@ -266,11 +266,11 @@ class _ChangeDetector extends React.Component<Props, State> {
         const {
             commitCompletedGroup,
             group,
-            submitChangeResult,
+            submitResult,
             updateProgress,
         } = this.props;
         const { currentTaskId } = this.state;
-        submitChangeResult(result, currentTaskId);
+        submitResult(result, currentTaskId);
         const { done, value } = this.taskGen.next();
         if (done) {
             // no more tasks in the group, commit results and go back to menu
@@ -371,7 +371,7 @@ const mapStateToProps = (state, ownProps) => (
         commitCompletedGroup: ownProps.commitCompletedGroup,
         group: ownProps.group,
         project: ownProps.project,
-        submitChangeResult: ownProps.submitChangeResult,
+        submitResult: ownProps.submitResult,
     }
 );
 

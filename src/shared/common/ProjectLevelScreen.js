@@ -171,7 +171,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
                     project={this.project}
-                    submitFootprintResult={this.submitResult}
+                    submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
                 />
                 <BottomProgress ref={(r) => { this.progress = r; }} />
