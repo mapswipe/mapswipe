@@ -60,18 +60,18 @@ matrix:
         - yarn global add react-native-cli
         - yarn global add detox-cli
         - echo $ANDROID_HOME
-        - echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-25;google_apis;armeabi-v7a' --abi armeabi-v7a -c 100M
-        - $ANDROID_HOME/tools/bin/avdmanager list avd
+        # echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-25;google_apis;armeabi-v7a' --abi armeabi-v7a -c 100M
+        #- $ANDROID_HOME/tools/bin/avdmanager list avd
         # fix https://github.com/wix/Detox/issues/1157 with the next 2 lines
-        - echo 'hw.lcd.height=900' >> ~/.android/avd/ci_avd.avd/config.ini
-        - echo 'hw.lcd.width=500' >> ~/.android/avd/ci_avd.avd/config.ini
-        - export ANDROID_EMULATOR_DEBUG=1
-        - $ANDROID_HOME/emulator/emulator -version
-        - $ANDROID_HOME/emulator/emulator @ci_avd -no-audio -no-window -verbose &
-        - android-wait-for-emulator
-        - adb shell input keyevent 82 &
-        - detox build -c android.ci.debug
-        - detox test -c android.ci.debug --loglevel trace
+        # echo 'hw.lcd.height=900' >> ~/.android/avd/ci_avd.avd/config.ini
+        # echo 'hw.lcd.width=500' >> ~/.android/avd/ci_avd.avd/config.ini
+        # export ANDROID_EMULATOR_DEBUG=1
+        # $ANDROID_HOME/emulator/emulator -version
+        # $ANDROID_HOME/emulator/emulator @ci_avd -no-audio -no-window -verbose &
+        # android-wait-for-emulator
+        # adb shell input keyevent 82 &
+        # detox build -c android.ci.debug
+        # detox test -c android.ci.debug --loglevel trace
       script:
         - yarn buildDev
     - language: objective-c
@@ -118,8 +118,8 @@ matrix:
       - security unlock-keychain -p travis $KEY_CHAIN
       - security set-keychain-settings -t 3600 -u $KEY_CHAIN
       # run the detox tests
-      - detox build --configuration ios.sim.debug
-      - detox test --configuration ios.sim.debug --cleanup
+      # detox build --configuration ios.sim.debug
+      # detox test --configuration ios.sim.debug --cleanup
       - cd ios
       # get the certificates from gitlab
       - bundle exec fastlane match appstore --readonly --verbose
