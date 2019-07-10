@@ -181,13 +181,14 @@ class _RecommendedCards extends React.Component<Props> {
             return (<LoadingIcon key="icon" />);
         }
         if (isLoaded(projects) && isEmpty(projects)) {
-            return (<Text>Nothing to work on!</Text>);
+            return (<Text testID="recommended_cards_view">Nothing to work on!</Text>);
         }
 
         // since we can't completely filter projects by status AND projectType in firebase
         // we add a filter here to make sure we only display project types that the app can handle
         return (
             <ScrollView
+                testID="recommended_cards_view"
                 contentContainerStyle={style.listView}
                 removeClippedSubviews
             >

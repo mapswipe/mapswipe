@@ -5,6 +5,8 @@
   "scripts": {
     "buildDev": "cd android && ./gradlew assembleDevRelease && cd ..",
     "buildProd": "cd android && ./gradlew assembleProductionRelease && cd ..",
+    "detoxTestAndroid": "detox build -c android.ci.debug && detox test -c android.ci.debug",
+    "detoxTestIOS": "detox build -c ios.sim.debug && detox test -c ios.sim.debug",
     "reduxDebugger": "remotedev-debugger --hostname localhost --port 5678 --injectserver",
     "lint": "node_modules/eslint_d/bin/eslint.js src __tests__ --cache",
     "postinstall": "node scripts/postinstall.js",
@@ -42,14 +44,17 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.4.5",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "24.7.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
+    "detox": "^13.0.2",
     "eslint": "^5.7.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-flowtype": "^3.0.0",
     "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^22.7.1",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-native": "^3.6.0",
@@ -66,11 +71,41 @@
   "jest": {
     "preset": "native-testing-library",
     "testPathIgnorePatterns": [
+      "e2e",
       "/node_modules/",
       "__tests__/fixtures"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(react-native|apsl-react-native-button|react-native-firebase|react-native-message-bar|react-native-modalbox|react-native-linear-gradient)/)"
     ]
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/mapswipe.app",
+        "build": "xcodebuild -workspace ios/mapswipe.xcworkspace -scheme mapswipe -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      },
+      "android.ci.debug": {
+        "binaryPath": "android/app/build/outputs/apk/dev/debug/app-dev-debug.apk",
+        "build": "cd android && ./gradlew assembleDevDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "type": "android.emulator",
+        "name": "ci_avd"
+      },
+      "android.emuandroid26.debug": {
+        "binaryPath": "android/app/build/outputs/apk/dev/debug/app-dev-debug.apk",
+        "build": "cd android && ./gradlew assembleDevDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "type": "android.emulator",
+        "name": "android26"
+      },
+      "android.emu.release": {
+        "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
+        "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=DevRelease && cd ..",
+        "type": "android.emulator",
+        "name": "Nexus_5X_API_26"
+      }
+    },
+    "test-runner": "jest"
   }
 }
