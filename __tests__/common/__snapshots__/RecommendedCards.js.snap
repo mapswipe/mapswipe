@@ -25,6 +25,7 @@ exports[`Renders RecommendedCards screen 1`] = `
   >
     <TouchableOpacity
       activeOpacity={0.2}
+      testID="projectCardType1"
     >
       <View
         style={
@@ -219,6 +220,7 @@ exports[`Renders RecommendedCards screen 1`] = `
     </TouchableOpacity>
     <TouchableOpacity
       activeOpacity={0.2}
+      testID="projectCardType1"
     >
       <View
         style={
@@ -414,6 +416,7 @@ exports[`Renders RecommendedCards screen 1`] = `
     </TouchableOpacity>
     <TouchableOpacity
       activeOpacity={0.2}
+      testID="projectCardType2"
     >
       <View
         style={
