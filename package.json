@@ -44,8 +44,8 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.4.5",
     "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.5",
     "@babel/runtime": "^7.4.3",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
