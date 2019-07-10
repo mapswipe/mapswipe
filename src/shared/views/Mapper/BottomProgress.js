@@ -68,7 +68,7 @@ export default class BottomProgress extends React.Component<{}, BPState> {
                     unfilledColor="#ffffff"
                     progress={progress}
                 />
-                <Text elevation={5} style={styles.progressBarText}>{text}</Text>
+                <Text style={styles.progressBarText}>{text}</Text>
             </View>
         );
     }

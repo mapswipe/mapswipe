@@ -368,7 +368,7 @@ const LevelProgress = (props: LPProps) => {
                 unfilledColor="#bbbbbb"
                 width={GLOBAL.SCREEN_WIDTH}
             />
-            <Text elevation={5} style={progressStyle.text}>
+            <Text style={progressStyle.text}>
                 {`${sqkm} tasks (${swipes} swipes) until the next level`}
             </Text>
         </View>
