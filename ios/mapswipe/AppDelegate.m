@@ -24,8 +24,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+
+  [FIRApp configure];
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"RnDiffApp"
+                                                   moduleName:@"mapswipe"
                                             initialProperties:nil];
 
   [RNSentry installWithRootView:rootView];
