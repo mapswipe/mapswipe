@@ -1,5 +1,5 @@
-/* global by, device, element, waitFor */
-describe('Example', () => {
+/* global by, device, element */
+describe('Signup | Login screens', () => {
     let ciUsername;
     let ciEmail;
     let ciPassword;
@@ -81,6 +81,24 @@ describe('Example', () => {
     // so there is no need to call login() before running the rest of tests
     it('should automatically login and see list of projects', async () => {
         await expect(element(by.id('recommended_cards_view')).atIndex(1)).toBeVisible();
+    });
+
+    it('should open a project card and the project screen (BuiltArea)', async () => {
+        await expect(element(by.id('recommended_cards_view')).atIndex(1)).toBeVisible();
+        await element(by.id('projectCardType1')).atIndex(0).tap();
+        await expect(element(by.id('projectView'))).toBeVisible();
+        await element(by.id('mapNowButton')).tap();
+        // wait for the mapper to load, it will show the intro modal at first
+        await expect(element(by.id('closeIntroModalBoxButton'))).toBeVisible();
+        await element(by.id('closeIntroModalBoxButton')).tap();
+        // we're now ready to map
+        // switch one tile to green
+        await element(by.id('tile')).atIndex(2).tap();
+        await element(by.id('individualCard')).atIndex(0).swipe('left');
+        await expect(element(by.id('individualCard')).atIndex(1)).toBeVisible();
+        // tap twice on a tile on the second screen
+        await element(by.id('tile')).atIndex(7).tap();
+        await element(by.id('tile')).atIndex(7).tap();
     });
 
     afterAll(async () => {

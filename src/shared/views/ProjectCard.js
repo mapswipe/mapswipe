@@ -177,7 +177,10 @@ export default class ProjectCard extends React.Component<Props, State> {
         const progress = Math.max(0, project.progress).toFixed(0);
 
         return (
-            <TouchableOpacity onPress={this.handlePress}>
+            <TouchableOpacity
+                onPress={this.handlePress}
+                testID={`projectCardType${project.projectType}`}
+            >
                 <View
                     style={[(project.isFeatured ? style.largeCard : style.smallCard),
                         { marginLeft: cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}

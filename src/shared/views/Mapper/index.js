@@ -295,6 +295,7 @@ class _Mapper extends React.Component<Props, State> {
                 <Button
                     style={styles.startButton}
                     onPress={this.closeHelpModal}
+                    testID="closeIntroModalBoxButton"
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
                     I understand

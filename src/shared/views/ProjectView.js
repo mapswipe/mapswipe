@@ -466,7 +466,10 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         const projectProgress = Math.max(0, project.progress).toFixed(0);
 
         return (
-            <ScrollView style={style.projectViewContainer}>
+            <ScrollView
+                style={style.projectViewContainer}
+                testID="projectView"
+            >
                 <ImageBackground
 
                     style={style.backgroundImage}
@@ -527,6 +530,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     <Button
                         style={style.startButton}
                         onPress={this.handlePress}
+                        testID="mapNowButton"
                         textStyle={style.buttonText}
                     >
                     Map Now (
