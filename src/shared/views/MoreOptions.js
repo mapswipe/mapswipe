@@ -12,6 +12,7 @@ import {
     Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import { MessageBarManager } from 'react-native-message-bar';
 import * as Progress from 'react-native-progress';
 import Levels from '../Levels';
 import type { NavigationProp } from '../flow-types';
@@ -19,6 +20,7 @@ import {
     COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
+    COLOR_RED_OVERLAY,
     COLOR_WHITE,
 } from '../constants';
 
@@ -245,11 +247,42 @@ Blog
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-Sign Out
+                        Sign Out
                     </Button>
                 </View>
-
-
+                <View style={[styles.row, { backgroundColor: COLOR_RED_OVERLAY }]}>
+                    <Button
+                        onPress={() => {
+                            const user = firebase.auth().currentUser;
+                            // stop listening for changes on the user's profile
+                            // as this causes a crash when the profile is deleted
+                            firebase.database().ref().child(`users/${user.uid}`).off('value');
+                            user.delete().then(() => {
+                                // account deleted
+                                MessageBarManager.showAlert({
+                                    title: 'Account deleted!',
+                                    message: 'Sorry to see you go...',
+                                    alertType: 'info',
+                                });
+                                navigation.navigate('Login');
+                            }).catch(() => {
+                                // the users has authenticated too long ago
+                                // ask them to reauthenticate to make sure
+                                // it's them
+                                MessageBarManager.showAlert({
+                                    title: 'Could not delete!',
+                                    message: 'Please login again to confirm you want to delete your account',
+                                    alertType: 'error',
+                                });
+                                navigation.navigate('Login');
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        Delete my account (no confirmation!)
+                    </Button>
+                </View>
             </ScrollView>
         );
     }
