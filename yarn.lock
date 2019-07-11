@@ -1305,6 +1305,11 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
+"@react-native-community/netinfo@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-3.2.1.tgz#cd073b81a4b978f7f55f1a960a0b56c462813e02"
+  integrity sha512-A2qANOnlRDVe+8kMbKMwy3/0bOlOA2+y8DyWg2Rv2KHICIfin+oxixbG0ewAOLQdLkSEyyumZXRmIVl7VI/KJg==
+
 "@sentry/cli@^1.36.1":
   version "1.39.0"
   resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.39.0.tgz#126a20ade9df90ce3e9b99f5b36c8ca6c8ee5b9d"
