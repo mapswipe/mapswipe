@@ -47,6 +47,8 @@ target 'mapswipe' do
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
+  pod 'RNCViewpager', :path => '../node_modules/@react-native-community/viewpager'
+
   target 'mapswipeTests' do
     inherit! :search_paths
     # Pods for testing
