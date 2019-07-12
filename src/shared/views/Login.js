@@ -188,8 +188,10 @@ class _Login extends React.Component<Props, State> {
             })
             .then(() => {
                 firebase.updateProfile({
-                    distance: 0,
-                    contributions: 0,
+                    created: GLOBAL.DB.getTimestamp(),
+                    groupContributionCount: 0,
+                    projectContributionCount: 0,
+                    taskContributionCount: 0,
                 });
             })
             .then(() => {
