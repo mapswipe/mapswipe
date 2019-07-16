@@ -3,8 +3,16 @@ default_platform :ios
 setup_travis
 
 platform :ios do
-  before_all do
-    cocoapods(repo_update: true, silent: true)
+  before_all do |lane|
+    if lane != :matchDev
+      cocoapods(repo_update: true, silent: true)
+    end 
+  end
+
+  desc "Update dev and prod certificates locally"
+  lane :matchDev do 
+      match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
+      match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false)
   end
 
   desc "Runs all the tests"
