@@ -827,11 +827,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = ZEK3TUVC49;
+						DevelopmentTeam = N4W28E5PA4;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = ZEK3TUVC49;
+						DevelopmentTeam = N4W28E5PA4;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -850,7 +850,7 @@
 					};
 					AB02778921D7E68B00F713BA = {
 						CreatedOnToolsVersion = 10.1;
-						DevelopmentTeam = ZEK3TUVC49;
+						DevelopmentTeam = N4W28E5PA4;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
@@ -1463,7 +1463,7 @@
 			baseConfigurationReference = 645944F9FA85C1C143E4B339 /* Pods-mapswipeTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1495,7 +1495,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1527,7 +1527,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1542,7 +1542,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.missingmaps.mapswipe-dev";
 				PRODUCT_NAME = mapswipe;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development org.missingmaps.mapswipe";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development org.missingmaps.mapswipe-dev";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1553,10 +1553,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1571,7 +1571,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.missingmaps.mapswipe-dev";
 				PRODUCT_NAME = mapswipe;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development org.missingmaps.mapswipe-dev";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1587,6 +1587,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1623,6 +1624,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1827,7 +1829,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = mapswipeUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -1836,6 +1838,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.mapswipeuitests.mapswipeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = mapswipe;
 			};
@@ -1854,7 +1857,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = mapswipeUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -1862,6 +1865,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.mapswipeuitests.mapswipeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = mapswipe;
 			};

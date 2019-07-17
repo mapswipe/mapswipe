@@ -79,6 +79,8 @@ PODS:
   - nanopb/encode (0.3.901)
   - React (0.59.10):
     - React/Core (= 0.59.10)
+  - react-native-netinfo (3.2.1):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
   - React/Core (0.59.10):
@@ -139,6 +141,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNCViewpager (1.1.7):
+    - React
   - Sentry (4.1.3):
     - Sentry/Core (= 4.1.3)
   - Sentry/Core (4.1.3)
@@ -155,6 +159,7 @@ DEPENDENCIES:
   - Firebase/Database (~> 6.2.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -172,6 +177,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - "RNCViewpager (from `../node_modules/@react-native-community/viewpager`)"
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -203,8 +209,12 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/GLog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  RNCViewpager:
+    :path: "../node_modules/@react-native-community/viewpager"
   SentryReactNative:
     :path: "../node_modules/react-native-sentry"
   yoga:
@@ -222,18 +232,20 @@ SPEC CHECKSUMS:
   FirebaseDatabase: f48e067716864be2b855cf716b927ef375d6cfa0
   FirebaseInstanceID: f20243a1d828e0e9a3798b995174dedc16f1b32a
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
-  glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
+  glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
   GoogleUtilities: c7a0b08bda3bf808be823ed151f0e28ac6866e71
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  RNCViewpager: d11d720f0c6fbd2024788d09108a9f7abb1fac5a
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 2c3cc5e3417a4e2cb3b9449f3ea99ac021fe6575
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: c908694d328ffbe43fedddf352c01c6a9add2c6f
+PODFILE CHECKSUM: 122570b05f9fe26819443e53d22ac9f913985771
 
-COCOAPODS: 1.7.2
+COCOAPODS: 1.7.3
