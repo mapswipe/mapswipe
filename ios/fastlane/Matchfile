@@ -6,5 +6,7 @@ clone_branch_directly "true"
 app_identifier("org.missingmaps.mapswipe")
 username("mapswipe.dev@gmail.com") # Your Apple Developer Portal username
 
+team_id("N4W28E5PA4")
+
 # For all available options run `fastlane match --help`
 # Remove the # in the beginning of the line to enable the other options
