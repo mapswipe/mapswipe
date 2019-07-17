@@ -7,7 +7,7 @@ platform :ios do
     cocoapods(repo_update: true, silent: true)
   end
 
-  desc "Runs the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step."
+  desc "Build the app and run the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step."
   lane :test do
     match(type: "development", readonly: is_ci)
     scan(scheme: "mapswipe",
@@ -22,12 +22,6 @@ platform :ios do
     #      test_without_building: true,
     #      derived_data_path: "build",
     #      devices:['iPhone X'])
-  end
-
-  desc "Build and discard the production version to check everything is ok. Executed on any untagged commit to any branch"
-  lane :test_build_release do
-    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: is_ci)
-    build_app(scheme: "mapswipe", configuration: "Release", clean: true, silent: true)
   end
 
   desc "Build production version and upload to appstore. This step is executed when a tag on master is created"

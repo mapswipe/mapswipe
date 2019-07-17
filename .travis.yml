@@ -92,9 +92,8 @@ matrix:
         - security unlock-keychain -p travis $KEY_CHAIN
         - security set-keychain-settings -t 3600 -u $KEY_CHAIN
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
-        # UI Tests have been disabled since Travis has issues launching the simulator.
+        # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
         - bundle exec fastlane test
-        - bundle exec fastlane test_build_release
       before_deploy:
       deploy:
         # deploy the beta/dev build to testflight for all tagged commits
