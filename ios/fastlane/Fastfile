@@ -16,7 +16,7 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    match(type: "development", readonly: is_ci)
+    match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
     scan(scheme: "mapswipe",
          configuration: "Debug",
          clean: true,
