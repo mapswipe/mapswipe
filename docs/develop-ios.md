@@ -32,15 +32,19 @@ Copy the iOS file to `ios/cfg/GoogleService-Info.plist`.
 
 Install steps
 
-1. Clone the repo
+1. Clone the repo. You will need to setup an SSH key if you want to push any code changes back to github.
 2. Run `yarn install` -> Install the React native dependencies
 3. Run `yarn start` -> Start React Native
-4. Run `cd ios && pod install` -> Install (mostly copy) the dependencies for iOS
-5. Login in Xcode as mapswipe.dev@gmail.com. Why ? This allows to share the signing certificates between developers with fastlane match.
-6. Get Access to the gitlab repo with the certificates
-7. Run `fastlane match development` -> Get the certificates from GitLab repo and add them to your keychain. A password is needed to decrypt the certificates.
-8. Build & run the target mapswipe in debug.
-9. Check that the tests are passing locally: Run `fastlane ios test`
+4. Run `sudo gem install bundler`
+5. Run `bundle install` to install fastlane and cocoapods
+6. Run `cd ios && bundle exec pod install` -> Install (mostly copy) the dependencies for iOS
+7. Login in Xcode as mapswipe.dev@gmail.com. Why ? This allows to share the signing certificates between developers with fastlane match.
+8. Get Access to the gitlab repo with the certificates
+9. Run `fastlane match development` -> Get the certificates from GitLab repo and add them to your keychain. A password is needed to decrypt the certificates.
+10. Build & run the target mapswipe in debug.
+11. Check that the tests are passing locally: Run `fastlane ios test`
+
+If you get errors while installing pods (glog specifically), you might want to try this: https://github.com/facebook/react-native/issues/18408#issuecomment-386696744
 
 Note: if you run into weird problems when running `yarn install` and such, and find no logical explanation, you may need to check your version of node (`node -v`). There has been a number of problems with some versions of `react-native` not working on specific versions of node. Overall, it seems that using the LTS version of node works better than the very latest builds.
 
