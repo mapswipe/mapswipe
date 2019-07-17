@@ -48,6 +48,21 @@ If you get errors while installing pods (glog specifically), you might want to t
 
 Note: if you run into weird problems when running `yarn install` and such, and find no logical explanation, you may need to check your version of node (`node -v`). There has been a number of problems with some versions of `react-native` not working on specific versions of node. Overall, it seems that using the LTS version of node works better than the very latest builds.
 
+### Testing
+
+There are 2 sets of tests setup:
+
+- *unit tests* using `jest`, they are very basic at the moment, but should be enriched as we go. Run them with `yarn test`.
+- *end-to-end tests` using [detox](https://github.com/wix/Detox). They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected. You can run the tests with `yarn detoxTestIOS`. If you want more detailed output from the tests, add `--loglevel trace` to the `detox test` command.
+Before running the tests, you will need to install the tooling required:
+
+```bash
+$ brew tap wix/brew
+$ brew install applesimutils
+$ yarn global add react-native-cli
+$ yarn global add detox-cli
+```
+
 ### Version numbering
 
 See [the android page](develop-android.md#version-numbering) for details.

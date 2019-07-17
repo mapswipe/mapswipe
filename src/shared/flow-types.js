@@ -43,7 +43,7 @@ export type ProjectType = {
     name: string,
     projectDetails: string,
     projectId: string,
-    projectType: ?number,
+    projectType: number,
     progress: number,
     state: number,
     tileServer: {

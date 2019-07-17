@@ -3,70 +3,72 @@ PODS:
   - BVLinearGradient (2.5.3):
     - React
   - DoubleConversion (1.1.6)
-  - Firebase/Auth (5.14.0):
+  - Firebase/Auth (6.2.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.1.0)
-  - Firebase/Core (5.14.0):
+    - FirebaseAuth (~> 6.1.1)
+  - Firebase/Core (6.2.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.4.0)
-  - Firebase/CoreOnly (5.14.0):
-    - FirebaseCore (= 5.1.9)
-  - Firebase/Database (5.14.0):
+    - FirebaseAnalytics (= 6.0.1)
+  - Firebase/CoreOnly (6.2.0):
+    - FirebaseCore (= 6.0.2)
+  - Firebase/Database (6.2.0):
     - Firebase/CoreOnly
-    - FirebaseDatabase (= 5.0.4)
-  - FirebaseAnalytics (5.4.0):
-    - FirebaseCore (~> 5.1)
-    - FirebaseInstanceID (~> 3.3)
-    - GoogleAppMeasurement (= 5.4.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
-    - GoogleUtilities/MethodSwizzler (~> 5.2)
-    - GoogleUtilities/Network (~> 5.2)
-    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - FirebaseDatabase (~> 6.0.0)
+  - FirebaseAnalytics (6.0.1):
+    - FirebaseCore (~> 6.0)
+    - FirebaseInstanceID (~> 4.1)
+    - GoogleAppMeasurement (= 6.0.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - FirebaseAuth (5.1.0):
+  - FirebaseAuth (6.1.2):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.1)
-    - GoogleUtilities/Environment (~> 5.2)
+    - FirebaseCore (~> 6.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.2)
+    - GoogleUtilities/Environment (~> 6.2)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (5.1.9):
-    - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseDatabase (5.0.4):
+  - FirebaseCore (6.0.2):
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/Logger (~> 6.0)
+  - FirebaseDatabase (6.0.0):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.1)
+    - FirebaseCore (~> 6.0)
     - leveldb-library (~> 1.18)
-  - FirebaseInstanceID (3.3.0):
-    - FirebaseCore (~> 5.1)
-    - GoogleUtilities/Environment (~> 5.3)
-    - GoogleUtilities/UserDefaults (~> 5.3)
+  - FirebaseInstanceID (4.2.0):
+    - FirebaseCore (~> 6.0)
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/UserDefaults (~> 6.0)
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - GoogleAppMeasurement (5.4.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
-    - GoogleUtilities/MethodSwizzler (~> 5.2)
-    - GoogleUtilities/Network (~> 5.2)
-    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+  - GoogleAppMeasurement (6.0.1):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (5.8.0):
+  - GoogleUtilities/AppDelegateSwizzler (6.2.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.8.0)
-  - GoogleUtilities/Logger (5.8.0):
+  - GoogleUtilities/Environment (6.2.1)
+  - GoogleUtilities/Logger (6.2.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.8.0):
+  - GoogleUtilities/MethodSwizzler (6.2.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.8.0):
+  - GoogleUtilities/Network (6.2.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.8.0)"
-  - GoogleUtilities/Reachability (5.8.0):
+  - "GoogleUtilities/NSData+zlib (6.2.1)"
+  - GoogleUtilities/Reachability (6.2.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.8.0):
+  - GoogleUtilities/UserDefaults (6.2.1):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
   - leveldb-library (1.20)
@@ -75,78 +77,89 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - React (0.58.0):
-    - React/Core (= 0.58.0)
+  - React (0.59.10):
+    - React/Core (= 0.59.10)
+  - react-native-netinfo (3.2.1):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
-  - React/Core (0.58.0):
-    - yoga (= 0.58.0.React)
-  - React/CxxBridge (0.58.0):
+  - React/Core (0.59.10):
+    - yoga (= 0.59.10.React)
+  - React/CxxBridge (0.59.10):
     - Folly (= 2018.10.22.00)
     - React/Core
     - React/cxxreact
     - React/jsiexecutor
-  - React/cxxreact (0.58.0):
+  - React/cxxreact (0.59.10):
     - boost-for-react-native (= 1.63.0)
+    - DoubleConversion
     - Folly (= 2018.10.22.00)
+    - glog
     - React/jsinspector
-  - React/DevSupport (0.58.0):
+  - React/DevSupport (0.59.10):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.58.0)
-  - React/jsi (0.58.0):
+  - React/fishhook (0.59.10)
+  - React/jsi (0.59.10):
+    - DoubleConversion
     - Folly (= 2018.10.22.00)
-  - React/jsiexecutor (0.58.0):
+    - glog
+  - React/jsiexecutor (0.59.10):
+    - DoubleConversion
     - Folly (= 2018.10.22.00)
+    - glog
     - React/cxxreact
     - React/jsi
-  - React/jsinspector (0.58.0)
-  - React/RCTActionSheet (0.58.0):
+  - React/jsinspector (0.59.10)
+  - React/RCTActionSheet (0.59.10):
     - React/Core
-  - React/RCTAnimation (0.58.0):
+  - React/RCTAnimation (0.59.10):
     - React/Core
-  - React/RCTBlob (0.58.0):
+  - React/RCTBlob (0.59.10):
     - React/Core
-  - React/RCTCameraRoll (0.58.0):
+  - React/RCTCameraRoll (0.59.10):
     - React/Core
     - React/RCTImage
-  - React/RCTGeolocation (0.58.0):
+  - React/RCTGeolocation (0.59.10):
     - React/Core
-  - React/RCTImage (0.58.0):
+  - React/RCTImage (0.59.10):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.58.0):
+  - React/RCTLinkingIOS (0.59.10):
     - React/Core
-  - React/RCTNetwork (0.58.0):
+  - React/RCTNetwork (0.59.10):
     - React/Core
-  - React/RCTPushNotification (0.58.0):
+  - React/RCTPushNotification (0.59.10):
     - React/Core
-  - React/RCTSettings (0.58.0):
+  - React/RCTSettings (0.59.10):
     - React/Core
-  - React/RCTText (0.58.0):
+  - React/RCTText (0.59.10):
     - React/Core
-  - React/RCTVibration (0.58.0):
+  - React/RCTVibration (0.59.10):
     - React/Core
-  - React/RCTWebSocket (0.58.0):
+  - React/RCTWebSocket (0.59.10):
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNCViewpager (1.1.7):
+    - React
   - Sentry (4.1.3):
     - Sentry/Core (= 4.1.3)
   - Sentry/Core (4.1.3)
   - SentryReactNative (0.41.1):
     - React
     - Sentry (~> 4.1.3)
-  - yoga (0.58.0.React)
+  - yoga (0.59.10.React)
 
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - Firebase/Auth (~> 5.14.0)
-  - Firebase/Core (~> 5.14.0)
-  - Firebase/Database (~> 5.14.0)
+  - Firebase/Auth (~> 6.2.0)
+  - Firebase/Core (~> 6.2.0)
+  - Firebase/Database (~> 6.2.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -164,6 +177,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - "RNCViewpager (from `../node_modules/@react-native-community/viewpager`)"
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -195,8 +209,12 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/GLog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  RNCViewpager:
+    :path: "../node_modules/@react-native-community/viewpager"
   SentryReactNative:
     :path: "../node_modules/react-native-sentry"
   yoga:
@@ -206,26 +224,28 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 0d985ec461359c82bc254f26d11008bdae50d17a
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
-  Firebase: 963d5685fae888a56d6d4d9cfce6b9c976958798
-  FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
-  FirebaseAuth: 4a5cc5fc2d1721e509e24699b93ebc3d94b1e195
+  Firebase: 5965bac23e7fcb5fa6d926ed429c9ecef8a2014e
+  FirebaseAnalytics: 629301c2b9925f3537d4093a17a72751ae5b7084
+  FirebaseAuth: 7fa2cc010b93770831a4e7a60651b52c3b8d111a
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: 8f49b70f57ab5cbb032ef41d64992ded21606459
-  FirebaseDatabase: 0621689f77528d62b47e1c06ca737c4c19275d1a
-  FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
+  FirebaseCore: b0f0262acebfa540e5f97b3832dbb13186980822
+  FirebaseDatabase: f48e067716864be2b855cf716b927ef375d6cfa0
+  FirebaseInstanceID: f20243a1d828e0e9a3798b995174dedc16f1b32a
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
-  GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
-  GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
+  GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
+  GoogleUtilities: c7a0b08bda3bf808be823ed151f0e28ac6866e71
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  React: 466fd4ed76b09452bacab56b48bc122b3b094ba0
+  React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  RNCViewpager: d11d720f0c6fbd2024788d09108a9f7abb1fac5a
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 2c3cc5e3417a4e2cb3b9449f3ea99ac021fe6575
-  yoga: 00e4390d4d6282e07b3b8276c94703bd66428119
+  yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 8a9b212de80a1ef3c2bccfe927501b0be234413e
+PODFILE CHECKSUM: 122570b05f9fe26819443e53d22ac9f913985771
 
 COCOAPODS: 1.7.3

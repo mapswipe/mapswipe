@@ -6,11 +6,11 @@ target 'mapswipe' do
   # use_frameworks!
 
   # Pods for mapswipe
-  pod 'Firebase/Core', '~> 5.14.0'
+  pod 'Firebase/Core', '~> 6.2.0'
 
-  pod 'Firebase/Auth', '~> 5.14.0'
-  pod 'Firebase/Core', '~> 5.14.0'
-  pod 'Firebase/Database', '~> 5.14.0'
+  pod 'Firebase/Auth', '~> 6.2.0'
+  pod 'Firebase/Core', '~> 6.2.0'
+  pod 'Firebase/Database', '~> 6.2.0'
   # pod 'Fabric', '~> 1.7.13'
   # pod 'Crashlytics', '~> 3.10.9'
   
@@ -44,6 +44,10 @@ target 'mapswipe' do
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
+  pod 'RNCViewpager', :path => '../node_modules/@react-native-community/viewpager'
 
   target 'mapswipeTests' do
     inherit! :search_paths

@@ -17,10 +17,13 @@ matrix:
         - tar xvf secrets.tar
         - nvm install node
         - node --version
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.17.3
         - export PATH="$HOME/.yarn/bin:$PATH"
       install:
         - yarn install --frozen-lockfile
+        - touch $HOME/.android/repositories.cfg
+        - yes | sdkmanager 'system-images;android-28;google_apis;x86'
+        - yes | sdkmanager 'system-images;android-25;google_apis;armeabi-v7a'
       before_deploy:
         - find . -name *.apk
       deploy:
@@ -43,13 +46,32 @@ matrix:
           - extra-android-m2repository
           - extra-google-google_play_services
           - extra-google-m2repository
-          - addon-google_apis-google-27
+        licenses:
+          - "android-sdk-preview-license-52d11cd2"
+          - "android-sdk-license-.+"
+          - "google-gdk-license-.+"
       before_script:
         - yarn lint
         - yarn flow
         - yarn test
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
+        # install tooling needed for detox, and run the detox tests
+        - yarn global add react-native-cli
+        - yarn global add detox-cli
+        - echo $ANDROID_HOME
+        # echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-25;google_apis;armeabi-v7a' --abi armeabi-v7a -c 100M
+        #- $ANDROID_HOME/tools/bin/avdmanager list avd
+        # fix https://github.com/wix/Detox/issues/1157 with the next 2 lines
+        # echo 'hw.lcd.height=900' >> ~/.android/avd/ci_avd.avd/config.ini
+        # echo 'hw.lcd.width=500' >> ~/.android/avd/ci_avd.avd/config.ini
+        # export ANDROID_EMULATOR_DEBUG=1
+        # $ANDROID_HOME/emulator/emulator -version
+        # $ANDROID_HOME/emulator/emulator @ci_avd -no-audio -no-window -verbose &
+        # android-wait-for-emulator
+        # adb shell input keyevent 82 &
+        # detox build -c android.ci.debug
+        # detox test -c android.ci.debug --loglevel trace
       script:
         - yarn buildDev
     - language: objective-c
@@ -74,6 +96,11 @@ matrix:
         - bundle install
         - travis_retry gem install xcpretty cocoapods
         - travis_retry yarn install --frozen-lockfile
+        # install tooling needed for detox
+        - brew tap wix/brew
+        - brew install applesimutils
+        - yarn global add react-native-cli
+        - yarn global add detox-cli
       script:
         # calculate version numbers for fastlane
         - cd ios
@@ -91,6 +118,9 @@ matrix:
         - security default-keychain -s $KEY_CHAIN
         - security unlock-keychain -p travis $KEY_CHAIN
         - security set-keychain-settings -t 3600 -u $KEY_CHAIN
+        # run the detox tests
+        # detox build --configuration ios.sim.debug
+        # detox test --configuration ios.sim.debug --cleanup
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
         - bundle exec fastlane test

@@ -1,5 +1,5 @@
 // @flow
-import { NetInfo } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 
 class ConnectionManager {
     constructor() {
@@ -8,14 +8,9 @@ class ConnectionManager {
 
         console.log('Connection manager initialized');
 
-        const handler = (connectionInfo) => {
-            parent.networkState = connectionInfo.type;
-        };
-
-        NetInfo.addEventListener(
-            'connectionChange',
-            handler,
-        );
+        NetInfo.addEventListener((state) => {
+            parent.networkState = state.type;
+        });
     }
 
     networkState: string;

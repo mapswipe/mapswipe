@@ -39,7 +39,7 @@ type Props = {
     commitCompletedGroup: () => void,
     group: BuildingFootprintGroupType,
     project: ProjectType,
-    submitFootprintResult: (number, string) => void,
+    submitResult: (number, string) => void,
     updateProgress: (number) => void,
 };
 
@@ -85,11 +85,11 @@ class _Validator extends React.Component<Props, State> {
         const {
             commitCompletedGroup,
             group,
-            submitFootprintResult,
+            submitResult,
             updateProgress,
         } = this.props;
         const { currentTaskId } = this.state;
-        submitFootprintResult(result, currentTaskId);
+        submitResult(result, currentTaskId);
         const { done, value } = this.taskGen.next();
         if (done) {
             // no more tasks in the group, commit results and go back to menu
@@ -169,7 +169,7 @@ const mapStateToProps = (state, ownProps) => (
         commitCompletedGroup: ownProps.commitCompletedGroup,
         group: ownProps.group,
         project: ownProps.project,
-        submitFootprintResult: ownProps.submitFootprintResult,
+        submitResult: ownProps.submitResult,
     }
 );
 

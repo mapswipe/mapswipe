@@ -40,7 +40,7 @@ export default class LoadingComponent extends React.Component<{}, State> {
                     animOpacity,
                     {
                         toValue: 1,
-                        duration: 500,
+                        duration: 3000,
                         easing: Easing.in(Easing.sin),
                     },
                 ),
@@ -48,7 +48,7 @@ export default class LoadingComponent extends React.Component<{}, State> {
                     animOpacity,
                     {
                         toValue: 0,
-                        duration: 500,
+                        duration: 3000,
                         easing: Easing.in(Easing.sin),
                     },
                 ),

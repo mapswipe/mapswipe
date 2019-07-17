@@ -13,5 +13,5 @@ function fixXcodeSimulatorSearchString() {
     });
 }
 
-
-fixXcodeSimulatorSearchString();
+console.log('Remove scripts/postinstall.js if the iOS simulator works');
+// fixXcodeSimulatorSearchString();

@@ -9,6 +9,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { get } from 'lodash';
+import Button from 'apsl-react-native-button';
+import Modal from 'react-native-modalbox';
 import {
     cancelGroup,
     commitGroup,
@@ -39,16 +41,40 @@ const styles = StyleSheet.create({
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
     },
+    startButton: {
+        backgroundColor: COLOR_DEEP_BLUE,
+        alignItems: 'stretch',
+        height: 50,
+        padding: 12,
+        borderRadius: 5,
+        borderWidth: 0.1,
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        width: 260,
+    },
+    modal: {
+        padding: 20,
+    },
+    HelpModal: {
+        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
+        width: 300,
+        backgroundColor: '#ffffff',
+        borderRadius: 2,
+    },
 });
 
 type Props = {
     Component: React.ComponentType<any>,
     group: { [group_id: string]: GroupType },
     navigation: NavigationProp,
+    normalHelpContent: React.ComponentType<any>,
     onCancelGroup: {} => void,
     onStartGroup: {} => void,
     onSubmitResult: (Object) => void,
     screenName: string,
+    tutorial: boolean,
+    tutorialHelpContent: React.ComponentType<any>,
 };
 
 type State = {
@@ -119,6 +145,16 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         onSubmitResult(resultObject);
     }
 
+    closeHelpModal = () => {
+        // $FlowFixMe
+        this.HelpModal.close();
+    }
+
+    onInfoPress = () => {
+        // $FlowFixMe
+        this.HelpModal.open();
+    }
+
     commitCompletedGroup = () => {
         this.setState({ groupCompleted: true });
     }
@@ -140,12 +176,47 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         }
     }
 
+    HelpModal: ?React.ComponentType<void>;
+
     progress: ?BottomProgress;
 
     project: ProjectType;
 
+    renderHelpModal() {
+        const { normalHelpContent, tutorial, tutorialHelpContent } = this.props;
+        let content = '';
+        if (!tutorial) {
+            content = normalHelpContent;
+        } else {
+            content = tutorialHelpContent;
+        }
+
+        return (
+            <Modal
+                style={[styles.modal, styles.HelpModal]}
+                backdropType="blur"
+                position="center"
+                ref={(r) => { this.HelpModal = r; }}
+            >
+                {content}
+                <Button
+                    style={styles.startButton}
+                    onPress={this.closeHelpModal}
+                    testID="closeIntroModalBoxButton"
+                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                >
+                    I understand
+                </Button>
+            </Modal>
+        );
+    }
+
     render = () => {
-        const { Component, group, navigation } = this.props;
+        const {
+            Component,
+            group,
+            navigation,
+        } = this.props;
         const { groupCompleted } = this.state;
         if (!group) {
             return <LoadingIcon />;
@@ -161,17 +232,20 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 />
             );
         }
+        const helpModal = this.renderHelpModal();
         return (
             <View style={styles.mappingContainer}>
                 <Header
                     lookFor={this.project.lookFor}
                     onBackPress={this.returnToView}
+                    onInfoPress={this.onInfoPress}
                 />
+                {helpModal}
                 <Component
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
                     project={this.project}
-                    submitFootprintResult={this.submitResult}
+                    submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
                 />
                 <BottomProgress ref={(r) => { this.progress = r; }} />
@@ -193,6 +267,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
         navigation: ownProps.navigation,
+        onInfoPress: ownProps.onInfoPress,
         results: state.results,
     };
 };

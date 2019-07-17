@@ -3,13 +3,20 @@ default_platform :ios
 setup_travis
 
 platform :ios do
-  before_all do
-    cocoapods(repo_update: true, silent: true)
+  before_all do |lane|
+    if lane != :matchDev
+      cocoapods(repo_update: true, silent: true)
+    end 
+  end
+
+  desc "Update dev certificates locally"
+  lane :matchDev do 
+      match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: true)
   end
 
   desc "Build the app and run the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step."
   lane :test do
-    match(type: "development", readonly: is_ci)
+    match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
     scan(scheme: "mapswipe",
          configuration: "Debug",
          clean: true,

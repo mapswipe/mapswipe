@@ -10,6 +10,7 @@
     "react",
     "react-native",
     "flowtype",
+    "jest",
     "jsx-a11y",
     "import"
   ],
@@ -42,6 +43,7 @@
   },
   "env": {
     "jest": true,
+    "jest/globals": true,
     "react-native/react-native": true
   }
 }

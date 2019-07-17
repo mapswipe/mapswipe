@@ -9,6 +9,6 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-PRODUCT_BUNDLE_IDENTIFIER=org.missingmaps.beta.mapswipe
+PRODUCT_BUNDLE_IDENTIFIER=org.missingmaps.mapswipe-dev
 BUNDLE_DISPLAY_NAME=mapswipe-Beta
 FIREBASE_CONFIG_EXTENSION=dev

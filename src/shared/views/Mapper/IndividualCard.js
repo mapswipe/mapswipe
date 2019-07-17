@@ -177,6 +177,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
             <View
                 style={styles.slide}
                 {...this.panResponder.panHandlers}
+                testID="individualCard"
             >
                 { showSwipeHelp && this.renderSwipeHelp() }
                 {rows}

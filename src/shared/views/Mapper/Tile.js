@@ -186,6 +186,7 @@ export class _Tile extends React.Component<Props> {
             <TouchableHighlight
                 onPress={this.onPressButton}
                 onLongPress={this.onLongPress}
+                testID="tile"
             >
                 <ImageBackground
                     style={styles.tileStyle}
