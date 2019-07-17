@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '8.12'
+  - "8.12"
 sudo: false
 env:
   - NODE_ENV='test'
@@ -47,9 +47,9 @@ matrix:
           - extra-google-google_play_services
           - extra-google-m2repository
         licenses:
-            - 'android-sdk-preview-license-52d11cd2'
-            - 'android-sdk-license-.+'
-            - 'google-gdk-license-.+'
+          - "android-sdk-preview-license-52d11cd2"
+          - "android-sdk-license-.+"
+          - "google-gdk-license-.+"
       before_script:
         - yarn lint
         - yarn flow
@@ -79,59 +79,56 @@ matrix:
       osx_image: xcode10.2
       node_js: false
       env:
-      - FASTLANE_DISABLE_COLORS=1
+        - FASTLANE_DISABLE_COLORS=1
       addons:
         ssh_known_hosts: gitlab.com
       before_install:
-      - set -o pipefail
-      - gem install bundler --pre
-      - nvm install node
-      - node --version
-      - travis_retry npm install -g yarn
-      - yarn -version
-      # open the secret box with passwords and API keys
-      - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
-      - tar -xvf secrets.tar
+        - set -o pipefail
+        - gem install bundler --pre
+        - nvm install node
+        - node --version
+        - travis_retry npm install -g yarn
+        - yarn -version
+        # open the secret box with passwords and API keys
+        - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
+        - tar -xvf secrets.tar
       install:
-      - bundle install
-      - travis_retry gem install xcpretty cocoapods
-      - travis_retry yarn install --frozen-lockfile
-      # install tooling needed for detox
-      - brew tap wix/brew
-      - brew install applesimutils
-      - yarn global add react-native-cli
-      - yarn global add detox-cli
+        - bundle install
+        - travis_retry gem install xcpretty cocoapods
+        - travis_retry yarn install --frozen-lockfile
+        # install tooling needed for detox
+        - brew tap wix/brew
+        - brew install applesimutils
+        - yarn global add react-native-cli
+        - yarn global add detox-cli
       script:
-      # calculate version numbers for fastlane
-      - source ios/version-ios.sh
-      # try to hide some build warnings
-      - export CLANG_WARN_COMMA=NO
-      - export CLANG_WARN_DOCUMENTATION=NO
-      # setup RSA key so we can clone the certificate repo in gitlab
-      - eval "$(ssh-agent -s)"
-      - chmod 600 ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
-      - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
-      # define a custom keychain for fastlane to use
-      - export KEY_CHAIN=ios-build.keychain
-      - security create-keychain -p travis $KEY_CHAIN
-      - security default-keychain -s $KEY_CHAIN
-      - security unlock-keychain -p travis $KEY_CHAIN
-      - security set-keychain-settings -t 3600 -u $KEY_CHAIN
-      # run the detox tests
-      # detox build --configuration ios.sim.debug
-      # detox test --configuration ios.sim.debug --cleanup
-      - cd ios
-      # get the certificates from gitlab
-      - bundle exec fastlane match appstore --readonly --verbose
-      # always build the app to make sure that it compiles
-      - bundle exec fastlane build
+        # calculate version numbers for fastlane
+        - source ios/version-ios.sh
+        # try to hide some build warnings
+        - export CLANG_WARN_COMMA=NO
+        - export CLANG_WARN_DOCUMENTATION=NO
+        # setup RSA key so we can clone the certificate repo in gitlab
+        - eval "$(ssh-agent -s)"
+        - chmod 600 ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+        - ssh-add ./mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+        # define a custom keychain for fastlane to use
+        - export KEY_CHAIN=ios-build.keychain
+        - security create-keychain -p travis $KEY_CHAIN
+        - security default-keychain -s $KEY_CHAIN
+        - security unlock-keychain -p travis $KEY_CHAIN
+        - security set-keychain-settings -t 3600 -u $KEY_CHAIN
+        # run the detox tests
+        # detox build --configuration ios.sim.debug
+        # detox test --configuration ios.sim.debug --cleanup
+        - cd ios
+        - bundle exec fastlane test
       before_deploy:
       deploy:
         # deploy the beta/dev build to testflight for all tagged commits
         - provider: script
           skip_cleanup: true
           script:
-          - bundle exec fastlane beta --verbose
+            - bundle exec fastlane beta --verbose
           on:
             all_branches: true
             tags: true
@@ -139,7 +136,7 @@ matrix:
         # FIXME: this probably does not work yet
         - provider: script
           script:
-          - fastlane release
+            - fastlane release
           on:
             branch: master
             tags: true
