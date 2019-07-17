@@ -16,6 +16,11 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
+### ios matchDev
+```
+fastlane ios matchDev
+```
+Update dev certificates locally
 ### ios test
 ```
 fastlane ios test
@@ -24,6 +29,11 @@ Runs all the tests
 ### ios release
 ```
 fastlane ios release
+```
+
+### ios build
+```
+fastlane ios build
 ```
 
 ### ios beta
