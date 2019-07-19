@@ -384,6 +384,7 @@
 		AB02782821DFD2AC00F713BA /* prod.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = prod.xcconfig; path = cfg/prod.xcconfig; sourceTree = "<group>"; };
 		AB02782921DFD2AC00F713BA /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = cfg/debug.xcconfig; sourceTree = "<group>"; };
 		AB02785F21DFD50000F713BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "cfg/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AB405D6022E20EFD00D8C7A8 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABBFFD3E2284DCD800E4F21E /* beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = beta.xcconfig; path = cfg/beta.xcconfig; sourceTree = "<group>"; };
 		ABDD495922036AE60025486F /* mapswipe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mapswipe.entitlements; path = mapswipe/mapswipe.entitlements; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -584,6 +585,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB405D6022E20EFD00D8C7A8 /* libBVLinearGradient.a */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				1B80A323A64B3D449577DD80 /* libPods-mapswipe.a */,
 				5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */,
@@ -1565,13 +1567,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				INFOPLIST_FILE = mapswipe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1581,9 +1584,10 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.missingmaps.mapswipe-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe;
 				PRODUCT_NAME = mapswipe;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development org.missingmaps.mapswipe-dev";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe";
+				USER_HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1822,9 +1826,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1883,8 +1890,9 @@
 			};
 			name = Release;
 		};
-		ABBFFD052284D28900E4F21E /* Beta */ = {
+		AB62ECD022E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB02782821DFD2AC00F713BA /* prod.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1922,23 +1930,26 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Beta;
 		};
-		ABBFFD062284D28900E4F21E /* Beta */ = {
+		AB62ECD122E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B834AF9018442F4BFC5A22A9 /* Pods-mapswipe.beta.xcconfig */;
+			baseConfigurationReference = 1E0592B88B5096FD530933DC /* Pods-mapswipe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconBeta;
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1951,20 +1962,21 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.missingmaps.mapswipe-dev";
 				PRODUCT_NAME = mapswipe;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe";
+				USER_HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Beta;
 		};
-		ABBFFD072284D28900E4F21E /* Beta */ = {
+		AB62ECD222E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D64A0588D797D7B27D92976 /* Pods-mapswipeTests.beta.xcconfig */;
+			baseConfigurationReference = 208781C3CAD92C4F7970C829 /* Pods-mapswipeTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1979,7 +1991,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
-					"-ObjC",
+					"-objC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1987,9 +1999,9 @@
 			};
 			name = Beta;
 		};
-		ABBFFD082284D28900E4F21E /* Beta */ = {
+		AB62ECD322E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A11F63107AA459D382D586AC /* Pods-mapswipe-tvOS.beta.xcconfig */;
+			baseConfigurationReference = 91449E5226D3C367CD2E5E7F /* Pods-mapswipe-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1999,6 +2011,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2022,9 +2035,9 @@
 			};
 			name = Beta;
 		};
-		ABBFFD092284D28900E4F21E /* Beta */ = {
+		AB62ECD422E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 539D046D9E5D469CCA16398E /* Pods-mapswipe-tvOSTests.beta.xcconfig */;
+			baseConfigurationReference = BD0EB54425EF296572FE69B0 /* Pods-mapswipe-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2056,7 +2069,7 @@
 			};
 			name = Beta;
 		};
-		ABBFFD0A2284D28900E4F21E /* Beta */ = {
+		AB62ECD522E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2069,7 +2082,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = ZEK3TUVC49;
+				DEVELOPMENT_TEAM = N4W28E5PA4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = mapswipeUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -2077,6 +2090,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.mapswipeuitests.mapswipeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = mapswipe;
 			};
@@ -2090,7 +2104,7 @@
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
 				00E356F71AD99517003FC87E /* Release */,
-				ABBFFD072284D28900E4F21E /* Beta */,
+				AB62ECD222E10F54009AF2EE /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2100,7 +2114,7 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
-				ABBFFD062284D28900E4F21E /* Beta */,
+				AB62ECD122E10F54009AF2EE /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2110,7 +2124,7 @@
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
 				2D02E4981E0B4A5E006451C7 /* Release */,
-				ABBFFD082284D28900E4F21E /* Beta */,
+				AB62ECD322E10F54009AF2EE /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2120,7 +2134,7 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
-				ABBFFD092284D28900E4F21E /* Beta */,
+				AB62ECD422E10F54009AF2EE /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2130,7 +2144,7 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
-				ABBFFD052284D28900E4F21E /* Beta */,
+				AB62ECD022E10F54009AF2EE /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2140,7 +2154,7 @@
 			buildConfigurations = (
 				AB02779221D7E68B00F713BA /* Debug */,
 				AB02779321D7E68B00F713BA /* Release */,
-				ABBFFD0A2284D28900E4F21E /* Beta */,
+				AB62ECD522E10F54009AF2EE /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

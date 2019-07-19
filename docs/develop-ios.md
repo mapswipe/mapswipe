@@ -40,7 +40,7 @@ Install steps
 6. Run `cd ios && bundle exec pod install` -> Install (mostly copy) the dependencies for iOS
 7. Login in Xcode as mapswipe.dev@gmail.com. Why ? This allows to share the signing certificates between developers with fastlane match.
 8. Get Access to the gitlab repo with the certificates
-9. Run `fastlane match development` -> Get the certificates from GitLab repo and add them to your keychain. A password is needed to decrypt the certificates.
+9. Run `fastlane ios matchDev` -> Get the certificates from GitLab repo and add them to your keychain. A password is needed to decrypt the certificates.
 10. Build & run the target mapswipe in debug.
 11. Check that the tests are passing locally: Run `fastlane ios test`
 
@@ -52,9 +52,9 @@ Note: if you run into weird problems when running `yarn install` and such, and f
 
 There are 2 sets of tests setup:
 
-- *unit tests* using `jest`, they are very basic at the moment, but should be enriched as we go. Run them with `yarn test`.
-- *end-to-end tests` using [detox](https://github.com/wix/Detox). They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected. You can run the tests with `yarn detoxTestIOS`. If you want more detailed output from the tests, add `--loglevel trace` to the `detox test` command.
-Before running the tests, you will need to install the tooling required:
+- _unit tests_ using `jest`, they are very basic at the moment, but should be enriched as we go. Run them with `yarn test`.
+- \*end-to-end tests`using [detox](https://github.com/wix/Detox). They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected. You can run the tests with`yarn detoxTestIOS`. If you want more detailed output from the tests, add`--loglevel trace`to the`detox test` command.
+  Before running the tests, you will need to install the tooling required:
 
 ```bash
 $ brew tap wix/brew

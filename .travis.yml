@@ -103,8 +103,8 @@ matrix:
         - yarn global add detox-cli
       script:
         # calculate version numbers for fastlane
+        - source ios/version-ios.sh
         - cd ios
-        - source version-ios.sh
         # try to hide some build warnings
         - export CLANG_WARN_COMMA=NO
         - export CLANG_WARN_DOCUMENTATION=NO
@@ -130,7 +130,6 @@ matrix:
         - provider: script
           skip_cleanup: true
           script:
-            - printenv MAPSWIPE_BUILD_NUMBER
             - printenv MAPSWIPE_PACKAGE_VERSION
             - bundle exec fastlane beta --verbose
           on:
