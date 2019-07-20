@@ -10,7 +10,14 @@ import Main from './src/shared/Main';
 import { name as appName } from './app';
 import setupStore from './src/shared/store';
 
-Sentry.config('https://b5a9356c68a4484c9891484f8a12d016@sentry.io/1326755').install();
+Sentry.config(
+    'https://b5a9356c68a4484c9891484f8a12d016@sentry.io/1326755',
+).install();
+
+// TODO: Set the context to differentiate between prod and dev environnments for crash reports
+// Sentry.setTagsContext({
+//     "environment": "production",
+//   });
 
 type Props = {};
 
@@ -24,6 +31,5 @@ class ConnectedApp extends React.Component<Props> {
         );
     }
 }
-
 
 AppRegistry.registerComponent(appName, () => ConnectedApp);
