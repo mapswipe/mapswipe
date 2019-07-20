@@ -1942,14 +1942,16 @@
 		};
 		AB62ECD122E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E0592B88B5096FD530933DC /* Pods-mapswipe.release.xcconfig */;
+			baseConfigurationReference = B834AF9018442F4BFC5A22A9 /* Pods-mapswipe.beta.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconBeta;
+				BUNDLE_DISPLAY_NAME = "mapswipe-beta";
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
+				FIREBASE_CONFIG_EXTENSION = dev;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1964,7 +1966,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.missingmaps.mapswipe-dev";
 				PRODUCT_NAME = mapswipe;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe-dev";
 				USER_HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1972,7 +1974,7 @@
 		};
 		AB62ECD222E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 208781C3CAD92C4F7970C829 /* Pods-mapswipeTests.release.xcconfig */;
+			baseConfigurationReference = 3D64A0588D797D7B27D92976 /* Pods-mapswipeTests.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -2001,7 +2003,7 @@
 		};
 		AB62ECD322E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91449E5226D3C367CD2E5E7F /* Pods-mapswipe-tvOS.release.xcconfig */;
+			baseConfigurationReference = A11F63107AA459D382D586AC /* Pods-mapswipe-tvOS.beta.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -2037,7 +2039,7 @@
 		};
 		AB62ECD422E10F54009AF2EE /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD0EB54425EF296572FE69B0 /* Pods-mapswipe-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 539D046D9E5D469CCA16398E /* Pods-mapswipe-tvOSTests.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
