@@ -129,9 +129,7 @@ matrix:
         # deploy the beta/dev build to testflight for all tagged commits
         - provider: script
           skip_cleanup: true
-          script:
-            - printenv MAPSWIPE_PACKAGE_VERSION
-            - bundle exec fastlane beta --verbose
+          script: bundle exec fastlane beta --verbose
           on:
             all_branches: true
             tags: true
@@ -140,8 +138,7 @@ matrix:
         # TODO: copy the GoogleService-Info.prd.plist to replace GoogleService-Info.plist
         # TODO: Do the same for the sentry.properties
         - provider: script
-          script:
-            - fastlane release
+          script: fastlane release
           on:
             branch: master
             tags: true
