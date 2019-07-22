@@ -50,7 +50,7 @@ All of the ios secrets are located in /ios/cfg.
 
 So far, to regenerate the tar you can run:
 
-`tar cvf secrets.tar GoogleService-Info.plist GoogleService-Info.prd.plist sentry.properties sentry.prod.properties mapswipe.dev_at_gmail_rsa_key_for_travis_ci`
+`tar cvf secrets.tar GoogleService-Info.dev.plist GoogleService-Info.prd.plist sentry.properties sentry.prod.properties mapswipe.dev_at_gmail_rsa_key_for_travis_ci`
 
 If you need to add a file containing sensitive info, you will need to rebuild the `secrets.tar` file by gathering these files from firebase and sentry, then add them to the file with
 

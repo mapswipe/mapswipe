@@ -82,7 +82,7 @@ At this point, the fastlane setup is built around the premise that you won't be 
 There are 2 different apps:
 
 - mapswipe, which talks to the the main `msf-mapswipe` firebase instance. It is the one pushed to public users.
-- mapswipe-dev has the exact same code base, but points to the `dev-mapswipe` firebase instance. It is the version used in development, and is shared with beta-testers via `testflight`. It never goes to the appstore, so general users will never see it.
+- mapswipe-dev has the exact same code base, but points to the `dev-mapswipe` firebase instance. It is the version used in development, and is shared with beta-testers via `testflight`. It never goes to the appstore, so general users will never see it. This variant has a sepia icon to spot the difference easily.
 
 Travis runs like this:
 
