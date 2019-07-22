@@ -14,11 +14,6 @@ Sentry.config(
     'https://b5a9356c68a4484c9891484f8a12d016@sentry.io/1326755',
 ).install();
 
-// TODO: Set the context to differentiate between prod and dev environnments for crash reports
-// Sentry.setTagsContext({
-//     "environment": "production",
-//   });
-
 type Props = {};
 
 // eslint-disable-next-line react/prefer-stateless-function
