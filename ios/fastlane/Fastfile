@@ -41,7 +41,7 @@ platform :ios do
     increment_version_number(version_number: ENV['MAPSWIPE_PACKAGE_VERSION'])
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Release", clean: true)
-    upload_to_app_store(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe")
+    upload_to_app_store(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe", force: is_ci)
   end
 
   desc "Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created"
