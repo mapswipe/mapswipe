@@ -101,7 +101,6 @@ matrix:
         - brew install applesimutils
         - yarn global add react-native-cli
         - yarn global add detox-cli
-        - source ios/bootSimulator.sh
       script:
         - cd ios
         # try to hide some build warnings
