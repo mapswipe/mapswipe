@@ -103,8 +103,6 @@ matrix:
         - yarn global add detox-cli
         - source ios/bootSimulator.sh
       script:
-        # calculate version numbers for fastlane
-        - source ios/version-ios.sh
         - cd ios
         # try to hide some build warnings
         - export CLANG_WARN_COMMA=NO
@@ -135,6 +133,7 @@ matrix:
             all_branches: true
             repo: mapswipe/mapswipe
             tags: true
+            condition: $TRAVIS_TAG == *"beta"*
         # and for tagged commits to master, deploy to production
         - provider: script
           script: fastlane release
@@ -142,3 +141,4 @@ matrix:
             branch: master
             repo: mapswipe/mapswipe
             tags: true
+            condition: $TRAVIS_TAG != *"beta"*
