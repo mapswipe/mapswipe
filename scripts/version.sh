@@ -19,8 +19,8 @@ echo "Release version in beta or Prod ?"
 
 yarn version --new-version $versionNumber --no-git-tag-version
 
-bundle exec fastlane run increment_build_number build_number:$buildNumber
-bundle exec fastlane run increment_version_number version_number:$versionNumber
+bundle exec fastlane run increment_build_number build_number:$buildNumber xcodeproj:ios/mapswipe.xcodeproj
+bundle exec fastlane run increment_version_number version_number:$versionNumber xcodeproj:ios/mapswipe.xcodeproj
 
 git commit -a -m $tag
 git tag $tag
