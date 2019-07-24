@@ -30,15 +30,31 @@ Copy the iOS file to `ios/cfg/GoogleService-Info.plist`.
 
 ### Running the app and developing
 
+Install steps
+
+1. Clone the repo. You will need to setup an SSH key if you want to push any code changes back to github.
+2. Run `yarn install` -> Install the React native dependencies
+3. Run `yarn start` -> Start React Native
+4. Run `sudo gem install bundler`
+5. Run `bundle install` to install fastlane and cocoapods
+6. Run `cd ios && bundle exec pod install` -> Install (mostly copy) the dependencies for iOS
+7. Login in Xcode as mapswipe.dev@gmail.com. Why ? This allows to share the signing certificates between developers with fastlane match.
+8. Get Access to the gitlab repo with the certificates
+9. Run `fastlane ios matchDev` -> Get the certificates from GitLab repo and add them to your keychain. A password is needed to decrypt the certificates.
+10. Build & run the target mapswipe in debug.
+11. Check that the tests are passing locally: Run `fastlane ios test`
+
+If you get errors while installing pods (glog specifically), you might want to try this: https://github.com/facebook/react-native/issues/18408#issuecomment-386696744
+
 Note: if you run into weird problems when running `yarn install` and such, and find no logical explanation, you may need to check your version of node (`node -v`). There has been a number of problems with some versions of `react-native` not working on specific versions of node. Overall, it seems that using the LTS version of node works better than the very latest builds.
 
 ### Testing
 
 There are 2 sets of tests setup:
 
-- *unit tests* using `jest`, they are very basic at the moment, but should be enriched as we go. Run them with `yarn test`.
-- *end-to-end tests` using [detox](https://github.com/wix/Detox). They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected. You can run the tests with `yarn detoxTestIOS`. If you want more detailed output from the tests, add `--loglevel trace` to the `detox test` command.
-Before running the tests, you will need to install the tooling required:
+- _unit tests_ using `jest`, they are very basic at the moment, but should be enriched as we go. Run them with `yarn test`.
+- \*end-to-end tests`using [detox](https://github.com/wix/Detox). They aim at reproducing the user's behaviour, like tapping on various components, and allow to check that the app responds as expected. You can run the tests with`yarn detoxTestIOS`. If you want more detailed output from the tests, add`--loglevel trace`to the`detox test` command.
+  Before running the tests, you will need to install the tooling required:
 
 ```bash
 $ brew tap wix/brew
@@ -64,8 +80,9 @@ At this point, the fastlane setup is built around the premise that you won't be 
 ### Build variants
 
 There are 2 different apps:
+
 - mapswipe, which talks to the the main `msf-mapswipe` firebase instance. It is the one pushed to public users.
-- mapswipe-dev has the exact same code base, but points to the `dev-mapswipe` firebase instance. It is the version used in development, and is shared with beta-testers via `testflight`. It never goes to the appstore, so general users will never see it.
+- mapswipe-dev has the exact same code base, but points to the `dev-mapswipe` firebase instance. It is the version used in development, and is shared with beta-testers via `testflight`. It never goes to the appstore, so general users will never see it. This variant has a sepia icon to spot the difference easily.
 
 Travis runs like this:
 
@@ -76,6 +93,7 @@ Travis runs like this:
 ### Getting users to test the beta version
 
 There are 2 ways to test a beta build:
+
 - inside the mapswipe core team: the users who are registered on the AppStore Connect can see and test all builds without approval from Apple. This is limited to 25 users who we trust enough to add to the organization.
 - outside the mapswipe core team (public testing): we can share selected builds with up to 1000 users. These builds must be reviewed by Apple, which can take up to 24 hours. The AppStore Connect page will give you a link you can share with testers for them to get access (they need to install the testflight app)
 

@@ -3,10 +3,10 @@
 We want to invite the vast community of developers to contribute to our mission and improve MapSwipe.
 
 ## Contributions
+
 We welcome any contributions that help improve the application. Before you start hacking, please read through [README](README.md) and the issues on GitHub to find the best fit for your skills. If you find a task that you confortable working on, simply fork the repo and submit a PR when you are ready!
 
 We also suggest you get in touch with the developers to find out what the current progress is on the project, as the repository may not always reflect everything that is going on.
-
 
 ## Developing - Android
 
@@ -30,6 +30,8 @@ When creating a new release for the Play store, you'll need to increment the `ve
 
 ### Encrypted api keys, passwords, etc...
 
+#### Android
+
 The `secrets.tar.enc` file is the encrypted version of `secrets.tar`, which contains the following files:
 
 ```
@@ -37,10 +39,18 @@ $ tar tvf secrets.tar
 -rw-r--r-- username/username 1026 2018-11-01 00:23 android/app/src/dev/google-services.json
 -rw-r--r-- username/username 2281 2018-10-31 15:14 android/app/mapswipe-dev-release-key.keystore
 -rw-r--r-- username/username 1052 2018-11-06 16:49 android/gradle.properties
--rw-r--r-- username/username 1382 2018-11-12 09:46 ios/cfg/GoogleService-Info.plist
 -rw-r--r-- username/username  214 2018-11-21 15:38 android/sentry.properties
--rw-r--r-- username/username  214 2018-11-21 15:38 ios/sentry.properties
 ```
+
+#### ios
+
+Each version of the app contains a secrets.tar.enc file which contains the relevant configurations files. They are separated between iOS and Android so that each of the tar can be encrypted independently.
+
+All of the ios secrets are located in /ios/cfg.
+
+So far, to regenerate the tar you can run:
+
+`tar cvf secrets.tar GoogleService-Info.dev.plist GoogleService-Info.prd.plist sentry.properties sentry.prod.properties mapswipe.dev_at_gmail_rsa_key_for_travis_ci`
 
 If you need to add a file containing sensitive info, you will need to rebuild the `secrets.tar` file by gathering these files from firebase and sentry, then add them to the file with
 
@@ -59,6 +69,7 @@ See the travis logs for a list of files, in case this doc becomes out of date.
 ### Deployment to github releases
 
 See https://docs.travis-ci.com/user/deployment/releases/. To pick the right repo to deploy to, use:
+
 ```
 travis setup releases --org -r mapswipe/mapswipe
 ```

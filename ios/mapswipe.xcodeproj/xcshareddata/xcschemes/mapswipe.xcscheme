@@ -31,7 +31,7 @@
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "mapswipe.app"
                BlueprintName = "mapswipe"
-               ReferencedContainer = "container:mapswipe.xcodeproj">
+               ReferencedContainer = "container:mapswipe.temp_caseinsensitive_rename.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
                BuildableName = "mapswipeTests.xctest"
                BlueprintName = "mapswipeTests"
-               ReferencedContainer = "container:mapswipe.xcodeproj">
+               ReferencedContainer = "container:mapswipe.temp_caseinsensitive_rename.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -67,7 +67,7 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AB02778921D7E68B00F713BA"
@@ -90,7 +90,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -125,7 +125,7 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "mapswipe.app"
             BlueprintName = "mapswipe"
-            ReferencedContainer = "container:mapswipe.xcodeproj">
+            ReferencedContainer = "container:mapswipe.temp_caseinsensitive_rename.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

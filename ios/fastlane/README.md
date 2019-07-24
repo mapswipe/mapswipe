@@ -21,26 +21,26 @@ or alternatively using `brew cask install fastlane`
 fastlane ios matchDev
 ```
 Update dev certificates locally
+### ios matchProd
+```
+fastlane ios matchProd
+```
+
 ### ios test
 ```
 fastlane ios test
 ```
-Runs all the tests
+Build the app and run the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step.
 ### ios release
 ```
 fastlane ios release
 ```
-
-### ios build
-```
-fastlane ios build
-```
-
+Build production version and upload to appstore. This step is executed when a tag on master is created
 ### ios beta
 ```
 fastlane ios beta
 ```
-
+Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created
 
 ----
 
