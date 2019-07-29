@@ -99,14 +99,29 @@ def getNpmVersion() {
     return packageJson["version"]
 }
 
-// build an integer number to keep google happy
-def getGoogleVersion() {
-    def (major, minor, patch) = getNpmVersion().tokenize('.')
-    return Integer.parseInt(major) * 10000 + Integer.parseInt(minor) * 100 + Integer.parseInt(patch)
+def getNpmBuildNumber() {
+    def inputFile = new File("../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["build"]
 }
 
-def userVersion = getNpmVersion()
-def googleVersion = getGoogleVersion()
+// build an integer number to keep google happy
+def setGoogleVersion() {
+    def (major, minor, patch) = getNpmVersion().tokenize('.')
+    def build = getNpmBuildNumber()
+    return Integer.parseInt(major) * 1000000 + Integer.parseInt(minor) * 10000 + Integer.parseInt(patch) * 100 + Integer.parseInt(build)
+}
+
+// build a version name to show to the user
+// in the format "1.3.37 (4)"
+def setVersionName() {
+    def version = getNpmVersion()
+    def build = getNpmBuildNumber()
+    return version + " (" + build + ")"
+}
+
+def userVersion = setVersionName()
+def googleVersion = setGoogleVersion()
 
 /**
  * Set this to true to create two separate APKs instead of one:
