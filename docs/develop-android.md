@@ -134,8 +134,9 @@ There are 2 sets of tests setup:
 It should all be set automatically from `package.json`. When you need to release a new version, just run:
 
 ```
-yarn version
+bash scripts/version.sh
 ```
-and input the new version number (in semantic version format). A new commit will be produced with the version number changed in `package.json`. The build scripts will take care of adjusting the builds based on this. The `yarn postversion` script will run automatically, and push the commit and new tag to github, which in turn will trigger a build on travis and deployment to github releases. (TODO: add deployment to google playstore for `ProductionRelease` version)
+and input the new version number (in semantic version format) and build number (0-99). A new commit will be produced with the version number changed in `package.json`. The build scripts will take care of adjusting the builds based on this. The script will then push the commit and new tag to github, which in turn will trigger a build on travis and deployment to github releases for android, and to testflight for iOS.
 
 For android, gradle will pull the version number from package.json when building.
+For iOS, the version numbers are in the iOS project file.

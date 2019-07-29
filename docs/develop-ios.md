@@ -67,8 +67,6 @@ $ yarn global add detox-cli
 
 See [the android page](develop-android.md#version-numbering) for details.
 
-On the iOS side, the version number is not written in files, but passed to fastlane via environment variables during the build. The variables are set from `package.json` to ensure a single source of truth, so android and iOS builds will have matching version and build numbers. See `.travis.yml` and `fastlane` files (under `ios/fastlane/`) for details.
-
 ## CI build process
 
 **Warning**: this is written as I discover the process, it may not be fully accurate, correct or optimal.
