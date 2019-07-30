@@ -66,6 +66,7 @@ matrix:
         - echo 'hw.lcd.height=900' >> ~/.android/avd/ci_avd.avd/config.ini
         - echo 'hw.lcd.width=500' >> ~/.android/avd/ci_avd.avd/config.ini
         - export ANDROID_EMULATOR_DEBUG=1
+        - export ADB_INSTALL_TIMEOUT=10
         - $ANDROID_HOME/emulator/emulator -version
         - $ANDROID_HOME/emulator/emulator @ci_avd -no-audio -no-window -verbose &
         - android-wait-for-emulator
@@ -117,8 +118,10 @@ matrix:
         - security unlock-keychain -p travis $KEY_CHAIN
         - security set-keychain-settings -t 3600 -u $KEY_CHAIN
         # run the detox tests
+        - cd ..
         - detox build --configuration ios.sim.debug
         - detox test --configuration ios.sim.debug --cleanup
+        - cd ios
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
         - bundle exec fastlane test
