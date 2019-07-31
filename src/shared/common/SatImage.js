@@ -31,11 +31,20 @@ export default class SatImage extends React.Component<Props, State> {
         }
     }
 
-    onError = () => {
+    onError = (evt) => {
         const { source } = this.state;
-        Sentry.captureMessage(`Cannot load: ${source.uri}`, {
+        const { nativeEvent: { error } } = evt;
+        Sentry.captureBreadcrumb({
+            message: 'Image not loading',
+            data: {
+                url: source.uri,
+                error,
+            },
+        });
+        Sentry.captureMessage('Cannot load sat imagery', {
             level: SentrySeverity.Warning,
         });
+        console.log(error);
         // eslint-disable-next-line global-require
         this.setState({ source: require('../../../assets/noImageAvailable.png') });
     }
