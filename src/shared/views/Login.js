@@ -284,7 +284,7 @@ class _Login extends React.Component<Props, State> {
         });
     }
 
-    handlePassReset() {
+    handlePassReset = () => {
         const {
             email,
         } = this.state;
@@ -293,7 +293,7 @@ class _Login extends React.Component<Props, State> {
             loading: true,
         });
         const parent = this;
-        firebase.sendPasswordResetEmail(email).then(() => {
+        firebase.auth().sendPasswordResetEmail(email).then(() => {
             MessageBarManager.showAlert({
                 title: 'Success',
                 message: 'Check your email',
