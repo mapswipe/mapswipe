@@ -232,12 +232,13 @@ export default compose(
         // (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
         {
             type: 'once',
-            path: 'projects',
+            path: 'v2/projects',
             queryParams: ['orderByChild=status', 'equalTo=active', 'limitToFirst=20'],
+            storeAs: 'projects',
         },
         // load any announcement data from firebase
         // (state.firebase.data.announcement here because we've not ordered the query)
-        { path: 'announcement', queryParams: ['limitToLast=2'] },
+        { path: 'v2/announcement', queryParams: ['limitToLast=2'] },
     ]),
     // connect to redux store
     connect(

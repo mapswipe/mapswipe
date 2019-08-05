@@ -378,13 +378,13 @@ export default compose(
             return [
                 {
                     type: 'once',
-                    path: 'projects',
+                    path: 'v2/projects',
                     queryParams: ['orderByChild=status', 'equalTo=build_area_tutorial', 'limitToFirst=1'],
                     storeAs: 'tutorial',
                 },
                 {
                     type: 'once',
-                    path: 'groups/build_area_tutorial',
+                    path: 'v2/groups/build_area_tutorial',
                     queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
                     storeAs: 'tutorial/build_area_tutorial/groups',
                 },
@@ -395,7 +395,7 @@ export default compose(
             return [
                 {
                     type: 'once',
-                    path: `groups/${projectId}`,
+                    path: `v2/groups/${projectId}`,
                     queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
                     storeAs: `projects/${projectId}/groups`,
                 },

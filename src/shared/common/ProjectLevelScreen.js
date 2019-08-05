@@ -296,7 +296,7 @@ export default compose(
             return [
                 {
                     type: 'once',
-                    path: `groups/${projectId}`,
+                    path: `v2/groups/${projectId}`,
                     queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
                     storeAs: `projects/${projectId}/groups`,
                 },

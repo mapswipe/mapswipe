@@ -384,7 +384,7 @@ export default compose(
                 return [
                     {
                         type: 'once',
-                        path: `tasks/${projectId}/${groupId}`,
+                        path: `v2/tasks/${projectId}/${groupId}`,
                         storeAs: `projects/${projectId}/groups/${groupId}/tasks`,
                     },
                 ];
