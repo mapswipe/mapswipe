@@ -2,8 +2,6 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect, isLoaded } from 'react-redux-firebase';
-import { get } from 'lodash';
 import {
     BackHandler,
     Text,
@@ -13,6 +11,10 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { cancelGroup, startGroup } from '../../actions';
+import {
+    firebaseConnectGroup,
+    mapStateToPropsForGroups,
+} from '../../common/firebaseFunctions';
 import Header from '../Header';
 import CardBody from './CardBody';
 import BottomProgress from './BottomProgress';
@@ -368,73 +370,12 @@ const mapDispatchToProps = dispatch => (
     }
 );
 
-// Mapper
+const tutorialName = 'build_area_tutorial';
+
 export default compose(
-    firebaseConnect((props) => {
-        const tutorial = props.navigation.getParam('tutorial', false);
-        if (tutorial) {
-            // we're running the tutorial: we need to load the correct tutorial
-            // project instead of the one we were showing in the menu
-            return [
-                {
-                    type: 'once',
-                    path: 'v2/projects',
-                    queryParams: ['orderByChild=status', 'equalTo=build_area_tutorial', 'limitToFirst=1'],
-                    storeAs: 'tutorial',
-                },
-                {
-                    type: 'once',
-                    path: 'v2/groups/build_area_tutorial',
-                    queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
-                    storeAs: 'tutorial/build_area_tutorial/groups',
-                },
-            ];
-        }
-        const { projectId } = props.navigation.getParam('project', null);
-        if (projectId) {
-            return [
-                {
-                    type: 'once',
-                    path: `v2/groups/${projectId}`,
-                    queryParams: ['limitToLast=15', 'orderByChild=requiredCount'],
-                    storeAs: `projects/${projectId}/groups`,
-                },
-            ];
-        }
-        return [];
-    }),
-    connect((state, ownProps) => {
-        // if we're offline, there might be more than 1 group in the local
-        // firebase data, for now, we just pick the first one
-        const tutorial = ownProps.navigation.getParam('tutorial', false);
-        let { projectId } = ownProps.navigation.getParam('project', null);
-        const { contributions } = state.firebase.profile;
-        const groupsMapped = Object.keys(contributions[projectId]);
-        if (tutorial) {
-            projectId = 'build_area_tutorial';
-        }
-        let categories = null;
-        let groupId = '';
-        let groups;
-        const prefix = tutorial ? 'tutorial' : 'projects';
-        // const projectData = state.firebase.data[prefix][projectId];
-        const { data } = state.firebase;
-        if (data[prefix] && data[prefix][projectId]) {
-            ({ categories, groups } = data[prefix][projectId]);
-        }
-        if (groups && isLoaded(groups)) {
-            // we have a few groups to choose from, remove the ones the user has already worked on
-            // and pick the first one left, as we now know the user hasn't already worked on it
-            const groupsAvailable = Object.keys(groups);
-            // eslint-disable-next-line prefer-destructuring
-            groupId = groupsAvailable.filter(g => !groupsMapped.includes(g))[0];
-        }
-        return {
-            categories,
-            group: get(state.firebase.data, `${prefix}.${projectId}.groups.${groupId}`),
-            navigation: ownProps.navigation,
-            tutorial,
-        };
-    },
-    mapDispatchToProps),
+    firebaseConnectGroup(tutorialName),
+    connect(
+        mapStateToPropsForGroups(tutorialName),
+        mapDispatchToProps,
+    ),
 )(_Mapper);

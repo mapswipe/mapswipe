@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { get } from 'lodash';
+import { isEmpty, isLoaded } from 'react-redux-firebase';
 import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
 import {
@@ -16,6 +15,10 @@ import {
     commitGroup,
     startGroup,
 } from '../actions/index';
+import {
+    firebaseConnectGroup,
+    mapStateToPropsForGroups,
+} from './firebaseFunctions';
 import Header from '../views/Header';
 import BottomProgress from '../views/Mapper/BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
@@ -254,24 +257,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    // if we're offline, there might be more than 1 group in the local
-    // firebase data, for now, we just pick the first one
-    const { projectId } = ownProps.navigation.getParam('project', null);
-    let groupId = '';
-    const { groups } = state.firebase.data.projects[projectId];
-    if (isLoaded(groups)) {
-        // eslint-disable-next-line prefer-destructuring
-        groupId = Object.keys(groups)[0];
-    }
-    return {
-        group: get(state.firebase.data, `projects.${projectId}.groups.${groupId}`),
-        navigation: ownProps.navigation,
-        onInfoPress: ownProps.onInfoPress,
-        results: state.results,
-    };
-};
-
 const mapDispatchToProps = (dispatch, ownProps) => (
     {
         onCancelGroup(groupDetails) {
@@ -289,23 +274,11 @@ const mapDispatchToProps = (dispatch, ownProps) => (
     }
 );
 
+const tutorialName = 'change_detection_tutorial';
 export default compose(
-    firebaseConnect((props) => {
-        const { projectId } = props.navigation.getParam('project', null);
-        if (projectId) {
-            return [
-                {
-                    type: 'once',
-                    path: `v2/groups/${projectId}`,
-                    queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
-                    storeAs: `projects/${projectId}/groups`,
-                },
-            ];
-        }
-        return [];
-    }),
+    firebaseConnectGroup(tutorialName),
     connect(
-        mapStateToProps,
+        mapStateToPropsForGroups(tutorialName),
         mapDispatchToProps,
     ),
 )(ProjectLevelScreen);
