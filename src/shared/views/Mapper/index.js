@@ -396,7 +396,7 @@ export default compose(
                 {
                     type: 'once',
                     path: `v2/groups/${projectId}`,
-                    queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
+                    queryParams: ['limitToLast=15', 'orderByChild=requiredCount'],
                     storeAs: `projects/${projectId}/groups`,
                 },
             ];
@@ -408,6 +408,8 @@ export default compose(
         // firebase data, for now, we just pick the first one
         const tutorial = ownProps.navigation.getParam('tutorial', false);
         let { projectId } = ownProps.navigation.getParam('project', null);
+        const { contributions } = state.firebase.profile;
+        const groupsMapped = Object.keys(contributions[projectId]);
         if (tutorial) {
             projectId = 'build_area_tutorial';
         }
@@ -421,8 +423,11 @@ export default compose(
             ({ categories, groups } = data[prefix][projectId]);
         }
         if (groups && isLoaded(groups)) {
+            // we have a few groups to choose from, remove the ones the user has already worked on
+            // and pick the first one left, as we now know the user hasn't already worked on it
+            const groupsAvailable = Object.keys(groups);
             // eslint-disable-next-line prefer-destructuring
-            groupId = Object.keys(groups)[0];
+            groupId = groupsAvailable.filter(g => !groupsMapped.includes(g))[0];
         }
         return {
             categories,
