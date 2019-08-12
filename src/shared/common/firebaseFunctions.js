@@ -6,9 +6,16 @@
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { get } from 'lodash';
 
-export const firebaseConnectGroup = (tutorialProjectName: string) => (
+export const firebaseConnectGroup = (tutorialName?: string) => (
     firebaseConnect((props) => {
         const tutorial = props.navigation.getParam('tutorial', false);
+        let tutorialProjectName;
+        console.log('fbc', tutorialName, props);
+        if (tutorialName === undefined) {
+            tutorialProjectName = props.tutorialName;
+        } else {
+            tutorialProjectName = tutorialName;
+        }
         if (tutorial) {
             // we're running the tutorial: we need to load the correct tutorial
             // project instead of the one we were showing in the menu
@@ -42,9 +49,16 @@ export const firebaseConnectGroup = (tutorialProjectName: string) => (
     })
 );
 
-export const mapStateToPropsForGroups = (tutorialProjectName: string) => (
+export const mapStateToPropsForGroups = (tutorialName?: string) => (
     // $FlowFixMe
     (state, ownProps) => {
+        let tutorialProjectName;
+        console.log('mstp', tutorialName, ownProps);
+        if (tutorialName === undefined) {
+            tutorialProjectName = ownProps.tutorialName;
+        } else {
+            tutorialProjectName = tutorialName;
+        }
         // if we're offline, there might be more than 1 group in the local
         // firebase data, for now, we just pick the first one
         const tutorial = ownProps.navigation.getParam('tutorial', false);

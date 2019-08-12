@@ -274,11 +274,10 @@ const mapDispatchToProps = (dispatch, ownProps) => (
     }
 );
 
-const tutorialName = 'change_detection_tutorial';
 export default compose(
-    firebaseConnectGroup(tutorialName),
+    firebaseConnectGroup(),
     connect(
-        mapStateToPropsForGroups(tutorialName),
+        mapStateToPropsForGroups(),
         mapDispatchToProps,
     ),
 )(ProjectLevelScreen);
