@@ -256,7 +256,7 @@ Blog
                             const user = firebase.auth().currentUser;
                             // stop listening for changes on the user's profile
                             // as this causes a crash when the profile is deleted
-                            firebase.database().ref().child(`users/${user.uid}`).off('value');
+                            firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
                             user.delete().then(() => {
                                 // account deleted
                                 MessageBarManager.showAlert({

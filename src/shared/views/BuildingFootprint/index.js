@@ -94,6 +94,7 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
                 normalHelpContent={this.normalHelpContent}
                 screenName="BuildingFootprintValidator"
                 submitResultFunction={submitFootprint}
+                tutorialName="building_footprint_tutorial"
             />
         );
     }

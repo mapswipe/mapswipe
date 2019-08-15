@@ -10,7 +10,7 @@ import reducers from './reducers/index';
 const reactFirebaseConfig = {
     attachAuthIsReady: true,
     enableRedirectHandling: false,
-    userProfile: 'users',
+    userProfile: 'v2/users',
 };
 
 let composeEnhancers;

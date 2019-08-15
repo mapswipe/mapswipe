@@ -31,7 +31,6 @@
     "react-native": "0.59.10",
     "react-native-animatable": "^1.3.0",
     "react-native-firebase": "~5.5.4",
-    "react-native-linear-gradient": "^2.4.2",
     "react-native-message-bar": "^2.0.10",
     "react-native-modalbox": "^1.6.0",
     "react-native-progress": "^3.5.0",
@@ -81,7 +80,7 @@
       "__tests__/fixtures"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|apsl-react-native-button|react-native-firebase|react-native-message-bar|react-native-modalbox|react-native-linear-gradient)/)"
+      "node_modules/(?!(react-native|apsl-react-native-button|react-native-firebase|react-native-message-bar|react-native-modalbox)/)"
     ]
   },
   "detox": {

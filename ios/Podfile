@@ -41,8 +41,6 @@ target 'mapswipe' do
   
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
-  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
-
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'

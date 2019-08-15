@@ -145,6 +145,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
                 screenName="_ChangeDetectionScreen"
                 submitResultFunction={submitChange}
                 tutorialHelpContent={this.tutorialHelpContent}
+                tutorialName="change_detection_tutorial"
             />
         );
     }
