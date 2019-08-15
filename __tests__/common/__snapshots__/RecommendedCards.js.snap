@@ -80,127 +80,63 @@ exports[`Renders RecommendedCards screen 1`] = `
               ]
             }
           />
-          <BVLinearGradient
-            colors={
-              Array [
-                2567706953,
-                3422552064,
-              ]
-            }
-            endPoint={
-              Object {
-                "x": 0.5,
-                "y": 1,
-              }
-            }
-            locations={null}
-            startPoint={
-              Object {
-                "x": 0.5,
-                "y": 0,
-              }
-            }
-            style={
-              Object {
-                "flex": 1,
-                "paddingLeft": 15,
-                "paddingRight": 15,
-              }
-            }
-          />
-          <Image
-            source={
-              Object {
-                "testUri": "../../../src/shared/views/assets/offline_icon.png",
-              }
-            }
-            style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                  "position": "absolute",
-                  "resizeMode": "contain",
-                  "right": 5,
-                  "top": -10,
-                  "width": 20,
-                },
-                Object {
-                  "opacity": 0.3,
-                },
-              ]
-            }
-          />
           <View
             style={
               Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
+                "alignItems": "center",
+                "backgroundColor": "rgba(52,52,52,0.7)",
                 "flex": 1,
-                "height": 75,
-                "left": 0,
-                "marginLeft": 5,
-                "marginRight": 5,
-                "padding": 10,
-                "position": "absolute",
-                "right": 0,
+                "height": 250,
+                "justifyContent": "center",
               }
             }
           >
-            <Text
-              style={
+            <Image
+              source={
                 Object {
-                  "color": "#ffffff",
-                  "fontSize": 15,
-                  "fontWeight": "600",
-                  "marginBottom": 3,
-                  "shadowColor": "#000000",
-                  "shadowOffset": Object {
-                    "height": 1,
-                    "width": 0,
-                  },
-                  "shadowOpacity": 0.8,
-                  "shadowRadius": 2,
+                  "testUri": "../../../src/shared/views/assets/offline_icon.png",
                 }
               }
-            >
-              BuildArea Default with Bing Sample Project
-            </Text>
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                    "position": "absolute",
+                    "resizeMode": "contain",
+                    "right": 5,
+                    "top": -10,
+                    "width": 20,
+                  },
+                  Object {
+                    "opacity": 0.3,
+                  },
+                ]
+              }
+            />
             <View
               style={
                 Object {
-                  "borderBottomWidth": 0,
-                  "borderColor": "#e8e8e8",
-                  "borderLeftWidth": 0,
-                  "borderRightWidth": 0,
-                  "borderTopWidth": 1,
+                  "backgroundColor": "transparent",
+                  "bottom": 0,
                   "flex": 1,
-                  "flexDirection": "row",
+                  "height": 75,
+                  "left": 0,
+                  "marginLeft": 5,
+                  "marginRight": 5,
+                  "padding": 10,
+                  "position": "absolute",
+                  "right": 0,
                 }
               }
             >
-              <Image
-                source={
-                  Object {
-                    "testUri": "../../../src/shared/views/assets/heart_icon.png",
-                  }
-                }
-                style={
-                  Object {
-                    "height": 13,
-                    "marginTop": 5,
-                    "resizeMode": "contain",
-                    "width": 13,
-                  }
-                }
-              />
               <Text
                 style={
                   Object {
                     "color": "#ffffff",
-                    "fontSize": 13,
-                    "marginLeft": 10,
-                    "marginTop": 5,
+                    "fontSize": 15,
+                    "fontWeight": "600",
+                    "marginBottom": 3,
                     "shadowColor": "#000000",
                     "shadowOffset": Object {
                       "height": 1,
@@ -211,8 +147,56 @@ exports[`Renders RecommendedCards screen 1`] = `
                   }
                 }
               >
-                0% by 0 mappers
+                BuildArea Default with Bing Sample Project
               </Text>
+              <View
+                style={
+                  Object {
+                    "borderBottomWidth": 0,
+                    "borderColor": "#e8e8e8",
+                    "borderLeftWidth": 0,
+                    "borderRightWidth": 0,
+                    "borderTopWidth": 1,
+                    "flex": 1,
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../src/shared/views/assets/heart_icon.png",
+                    }
+                  }
+                  style={
+                    Object {
+                      "height": 13,
+                      "marginTop": 5,
+                      "resizeMode": "contain",
+                      "width": 13,
+                    }
+                  }
+                />
+                <Text
+                  style={
+                    Object {
+                      "color": "#ffffff",
+                      "fontSize": 13,
+                      "marginLeft": 10,
+                      "marginTop": 5,
+                      "shadowColor": "#000000",
+                      "shadowOffset": Object {
+                        "height": 1,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.8,
+                      "shadowRadius": 2,
+                    }
+                  }
+                >
+                  0% by 0 mappers
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -276,127 +260,63 @@ exports[`Renders RecommendedCards screen 1`] = `
               ]
             }
           />
-          <BVLinearGradient
-            colors={
-              Array [
-                2579508011,
-                3422552064,
-              ]
-            }
-            endPoint={
-              Object {
-                "x": 0.5,
-                "y": 1,
-              }
-            }
-            locations={null}
-            startPoint={
-              Object {
-                "x": 0.5,
-                "y": 0,
-              }
-            }
-            style={
-              Object {
-                "flex": 1,
-                "paddingLeft": 15,
-                "paddingRight": 15,
-              }
-            }
-          />
-          <Image
-            source={
-              Object {
-                "testUri": "../../../src/shared/views/assets/offline_icon.png",
-              }
-            }
-            style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                  "position": "absolute",
-                  "resizeMode": "contain",
-                  "right": 5,
-                  "top": -10,
-                  "width": 20,
-                },
-                Object {
-                  "opacity": 0.3,
-                },
-              ]
-            }
-          />
           <View
             style={
               Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
+                "alignItems": "center",
+                "backgroundColor": "rgba(52,52,52,0.7)",
                 "flex": 1,
-                "height": 100,
-                "left": 0,
-                "marginLeft": 5,
-                "marginRight": 5,
-                "padding": 10,
-                "position": "absolute",
-                "right": 0,
+                "height": 250,
+                "justifyContent": "center",
               }
             }
           >
-            <Text
-              style={
+            <Image
+              source={
                 Object {
-                  "color": "#ffffff",
-                  "fontSize": 15,
-                  "fontWeight": "600",
-                  "marginBottom": 3,
-                  "shadowColor": "#000000",
-                  "shadowOffset": Object {
-                    "height": 1,
-                    "width": 0,
-                  },
-                  "shadowOpacity": 0.8,
-                  "shadowRadius": 2,
+                  "testUri": "../../../src/shared/views/assets/offline_icon.png",
                 }
               }
-            >
-              BuildArea Sentinel Sample Project
-            </Text>
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                    "position": "absolute",
+                    "resizeMode": "contain",
+                    "right": 5,
+                    "top": -10,
+                    "width": 20,
+                  },
+                  Object {
+                    "opacity": 0.3,
+                  },
+                ]
+              }
+            />
             <View
               style={
                 Object {
-                  "borderBottomWidth": 0,
-                  "borderColor": "#e8e8e8",
-                  "borderLeftWidth": 0,
-                  "borderRightWidth": 0,
-                  "borderTopWidth": 1,
+                  "backgroundColor": "transparent",
+                  "bottom": 0,
                   "flex": 1,
-                  "flexDirection": "row",
+                  "height": 100,
+                  "left": 0,
+                  "marginLeft": 5,
+                  "marginRight": 5,
+                  "padding": 10,
+                  "position": "absolute",
+                  "right": 0,
                 }
               }
             >
-              <Image
-                source={
-                  Object {
-                    "testUri": "../../../src/shared/views/assets/heart_icon.png",
-                  }
-                }
-                style={
-                  Object {
-                    "height": 13,
-                    "marginTop": 5,
-                    "resizeMode": "contain",
-                    "width": 13,
-                  }
-                }
-              />
               <Text
                 style={
                   Object {
                     "color": "#ffffff",
-                    "fontSize": 13,
-                    "marginLeft": 10,
-                    "marginTop": 5,
+                    "fontSize": 15,
+                    "fontWeight": "600",
+                    "marginBottom": 3,
                     "shadowColor": "#000000",
                     "shadowOffset": Object {
                       "height": 1,
@@ -407,8 +327,56 @@ exports[`Renders RecommendedCards screen 1`] = `
                   }
                 }
               >
-                10% by 0 mappers
+                BuildArea Sentinel Sample Project
               </Text>
+              <View
+                style={
+                  Object {
+                    "borderBottomWidth": 0,
+                    "borderColor": "#e8e8e8",
+                    "borderLeftWidth": 0,
+                    "borderRightWidth": 0,
+                    "borderTopWidth": 1,
+                    "flex": 1,
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../src/shared/views/assets/heart_icon.png",
+                    }
+                  }
+                  style={
+                    Object {
+                      "height": 13,
+                      "marginTop": 5,
+                      "resizeMode": "contain",
+                      "width": 13,
+                    }
+                  }
+                />
+                <Text
+                  style={
+                    Object {
+                      "color": "#ffffff",
+                      "fontSize": 13,
+                      "marginLeft": 10,
+                      "marginTop": 5,
+                      "shadowColor": "#000000",
+                      "shadowOffset": Object {
+                        "height": 1,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.8,
+                      "shadowRadius": 2,
+                    }
+                  }
+                >
+                  10% by 0 mappers
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -472,127 +440,63 @@ exports[`Renders RecommendedCards screen 1`] = `
               ]
             }
           />
-          <BVLinearGradient
-            colors={
-              Array [
-                2577147069,
-                3422552064,
-              ]
-            }
-            endPoint={
-              Object {
-                "x": 0.5,
-                "y": 1,
-              }
-            }
-            locations={null}
-            startPoint={
-              Object {
-                "x": 0.5,
-                "y": 0,
-              }
-            }
-            style={
-              Object {
-                "flex": 1,
-                "paddingLeft": 15,
-                "paddingRight": 15,
-              }
-            }
-          />
-          <Image
-            source={
-              Object {
-                "testUri": "../../../src/shared/views/assets/offline_icon.png",
-              }
-            }
-            style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                  "borderWidth": 0,
-                  "position": "absolute",
-                  "resizeMode": "contain",
-                  "right": 5,
-                  "top": -10,
-                  "width": 20,
-                },
-                Object {
-                  "opacity": 0.3,
-                },
-              ]
-            }
-          />
           <View
             style={
               Object {
-                "backgroundColor": "transparent",
-                "bottom": 0,
+                "alignItems": "center",
+                "backgroundColor": "rgba(52,52,52,0.7)",
                 "flex": 1,
-                "height": 100,
-                "left": 0,
-                "marginLeft": 5,
-                "marginRight": 5,
-                "padding": 10,
-                "position": "absolute",
-                "right": 0,
+                "height": 250,
+                "justifyContent": "center",
               }
             }
           >
-            <Text
-              style={
+            <Image
+              source={
                 Object {
-                  "color": "#ffffff",
-                  "fontSize": 15,
-                  "fontWeight": "600",
-                  "marginBottom": 3,
-                  "shadowColor": "#000000",
-                  "shadowOffset": Object {
-                    "height": 1,
-                    "width": 0,
-                  },
-                  "shadowOpacity": 0.8,
-                  "shadowRadius": 2,
+                  "testUri": "../../../src/shared/views/assets/offline_icon.png",
                 }
               }
-            >
-              Validate OSM Aweil 1
-            </Text>
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderWidth": 0,
+                    "position": "absolute",
+                    "resizeMode": "contain",
+                    "right": 5,
+                    "top": -10,
+                    "width": 20,
+                  },
+                  Object {
+                    "opacity": 0.3,
+                  },
+                ]
+              }
+            />
             <View
               style={
                 Object {
-                  "borderBottomWidth": 0,
-                  "borderColor": "#e8e8e8",
-                  "borderLeftWidth": 0,
-                  "borderRightWidth": 0,
-                  "borderTopWidth": 1,
+                  "backgroundColor": "transparent",
+                  "bottom": 0,
                   "flex": 1,
-                  "flexDirection": "row",
+                  "height": 100,
+                  "left": 0,
+                  "marginLeft": 5,
+                  "marginRight": 5,
+                  "padding": 10,
+                  "position": "absolute",
+                  "right": 0,
                 }
               }
             >
-              <Image
-                source={
-                  Object {
-                    "testUri": "../../../src/shared/views/assets/heart_icon.png",
-                  }
-                }
-                style={
-                  Object {
-                    "height": 13,
-                    "marginTop": 5,
-                    "resizeMode": "contain",
-                    "width": 13,
-                  }
-                }
-              />
               <Text
                 style={
                   Object {
                     "color": "#ffffff",
-                    "fontSize": 13,
-                    "marginLeft": 10,
-                    "marginTop": 5,
+                    "fontSize": 15,
+                    "fontWeight": "600",
+                    "marginBottom": 3,
                     "shadowColor": "#000000",
                     "shadowOffset": Object {
                       "height": 1,
@@ -603,8 +507,56 @@ exports[`Renders RecommendedCards screen 1`] = `
                   }
                 }
               >
-                0% by 0 mappers
+                Validate OSM Aweil 1
               </Text>
+              <View
+                style={
+                  Object {
+                    "borderBottomWidth": 0,
+                    "borderColor": "#e8e8e8",
+                    "borderLeftWidth": 0,
+                    "borderRightWidth": 0,
+                    "borderTopWidth": 1,
+                    "flex": 1,
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../src/shared/views/assets/heart_icon.png",
+                    }
+                  }
+                  style={
+                    Object {
+                      "height": 13,
+                      "marginTop": 5,
+                      "resizeMode": "contain",
+                      "width": 13,
+                    }
+                  }
+                />
+                <Text
+                  style={
+                    Object {
+                      "color": "#ffffff",
+                      "fontSize": 13,
+                      "marginLeft": 10,
+                      "marginTop": 5,
+                      "shadowColor": "#000000",
+                      "shadowOffset": Object {
+                        "height": 1,
+                        "width": 0,
+                      },
+                      "shadowOpacity": 0.8,
+                      "shadowRadius": 2,
+                    }
+                  }
+                >
+                  0% by 0 mappers
+                </Text>
+              </View>
             </View>
           </View>
         </View>

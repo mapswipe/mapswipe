@@ -4,7 +4,6 @@ import React from 'react';
 import {
     ImageBackground, Text, View, Image, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import type { NavigationProp, ProjectType } from '../flow-types';
 import {
     COLOR_LIGHT_GRAY,
@@ -117,10 +116,12 @@ const style = StyleSheet.create({
         resizeMode: 'contain',
         marginTop: 5,
     },
-    linearGradient: {
+    overlay: {
+        backgroundColor: 'rgba(52,52,52,0.7)',
         flex: 1,
-        paddingLeft: 15,
-        paddingRight: 15,
+        height: 250,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
@@ -189,28 +190,26 @@ export default class ProjectCard extends React.Component<Props, State> {
                         style={style.cardBackground}
                         source={{ uri: project.image }}
                     >
-                        <LinearGradient
-                            colors={this.getGradientArray()}
-                            style={style.linearGradient}
-                        />
-                        <Image
-                            style={[style.offlineIndicator,
+                        <View style={style.overlay}>
+                            <Image
+                                style={[style.offlineIndicator,
                                 { opacity: hasOfflineGroups ? 1 : 0.30 }]}
-                            source={require('./assets/offline_icon.png')}
-                        />
+                                source={require('./assets/offline_icon.png')}
+                            />
 
-                        <View style={project.isFeatured
-                            ? style.bottomTextArea : style.bottomTextAreaSmallCard}
-                        >
-                            <Text style={style.projectName}>{project.name}</Text>
-                            <View style={style.teamMates}>
-                                <Image
-                                    style={style.heart}
-                                    source={require('./assets/heart_icon.png')}
-                                />
-                                <Text style={style.teamMateText}>
-                                    {`${progress}% by ${project.contributorCount} mappers`}
-                                </Text>
+                            <View style={project.isFeatured
+                                ? style.bottomTextArea : style.bottomTextAreaSmallCard}
+                            >
+                                <Text style={style.projectName}>{project.name}</Text>
+                                <View style={style.teamMates}>
+                                    <Image
+                                        style={style.heart}
+                                        source={require('./assets/heart_icon.png')}
+                                    />
+                                    <Text style={style.teamMateText}>
+                                        {`${progress}% by ${project.contributorCount} mappers`}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
                     </ImageBackground>
