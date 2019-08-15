@@ -193,7 +193,7 @@ export default class ProjectCard extends React.Component<Props, State> {
                         <View style={style.overlay}>
                             <Image
                                 style={[style.offlineIndicator,
-                                { opacity: hasOfflineGroups ? 1 : 0.30 }]}
+                                    { opacity: hasOfflineGroups ? 1 : 0.30 }]}
                                 source={require('./assets/offline_icon.png')}
                             />
 
