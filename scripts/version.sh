@@ -57,8 +57,13 @@ echo "Release version in beta or Prod ?"
     esac
   done
 
+# run checks before creating the new version
+yarn lint
+yarn flow
+yarn test
+
 # update package.json with the new version and build numbers
-yarn version --new-version $versionNumber --no-git-tag-version
+sed -i -e "s/^\ *\"version\": \"[0-9]\.[0-9]*\.[0-9]*\"\,$/  \"version\": \"${versionNumber}\"\,/" package.json
 sed -i -e "s/^\ *\"build\": \"[0-9]\"\,$/  \"build\": \"${buildNumber}\"\,/" package.json
 
 # update iOS specific files with the new numbers
