@@ -16,6 +16,13 @@
 # the playstore's requirements.
 # This script must be run locally (not on travis) to release a new version.
 
+# Prevent accidentally pushing random changes
+diff=`git diff-index HEAD | wc -l`
+if [[ $diff -gt 0 ]]; then
+    echo "There are modified files in your working copy (or staged in the index). Please commit or stash them and rerun this command."
+    exit 1
+fi
+
 # get current version/build from package.json
 current_version_number=`grep '^\ *"version":' package.json | sed 's/.*"\(.*\)",/\1/g'`
 current_build_number=`grep '^\ *"build": "[0-9]",' package.json | sed 's/.*"\(.*\)",/\1/g'`
