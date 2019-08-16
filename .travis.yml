@@ -136,6 +136,7 @@ matrix:
             condition: $TRAVIS_TAG == *"beta"*
         # and for tagged commits to master, deploy to production
         - provider: script
+          skip_cleanup: true
           script: fastlane release
           on:
             branch: master
