@@ -398,6 +398,8 @@
 		AB02778E21D7E68B00F713BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB02782821DFD2AC00F713BA /* prod.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = prod.xcconfig; path = cfg/prod.xcconfig; sourceTree = "<group>"; };
 		AB02782921DFD2AC00F713BA /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = cfg/debug.xcconfig; sourceTree = "<group>"; };
+		AB34E1C722E868F500EFEAEF /* sentry.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = sentry.properties; sourceTree = "<group>"; };
+		AB34E1EE22E868F500EFEAEF /* sentry.prod.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = sentry.prod.properties; sourceTree = "<group>"; };
 		AB405D6022E20EFD00D8C7A8 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB405E4722E5FB5A00D8C7A8 /* GoogleService-Info.prd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.prd.plist"; sourceTree = "<group>"; };
 		AB405E4822E5FB5A00D8C7A8 /* GoogleService-Info.dev.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.dev.plist"; sourceTree = "<group>"; };
@@ -750,6 +752,8 @@
 		AB405E4222E5FB5A00D8C7A8 /* cfg */ = {
 			isa = PBXGroup;
 			children = (
+				AB34E1EE22E868F500EFEAEF /* sentry.prod.properties */,
+				AB34E1C722E868F500EFEAEF /* sentry.properties */,
 				AB405E4722E5FB5A00D8C7A8 /* GoogleService-Info.prd.plist */,
 				AB405E4822E5FB5A00D8C7A8 /* GoogleService-Info.dev.plist */,
 			);
@@ -1611,7 +1615,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
@@ -1641,7 +1645,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2018,7 +2022,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				FIREBASE_CONFIG_EXTENSION = dev;
 				HEADER_SEARCH_PATHS = (

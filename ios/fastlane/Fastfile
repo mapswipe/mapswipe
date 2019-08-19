@@ -27,7 +27,6 @@ platform :ios do
          derived_data_path: "build",
          build_for_testing: true,
          devices:['iPhone X'])
-    # For now travis is not able to launch the simulator so the tests are not working
     # scan(scheme: "mapswipe",
     #      configuration: "Debug",
     #      test_without_building: true,
@@ -37,8 +36,6 @@ platform :ios do
 
   desc "Build production version and upload to appstore. This step is executed when a tag on master is created"
   lane :release do
-    # More of a set build number than increment
-    increment_version_number(version_number: ENV['MAPSWIPE_PACKAGE_VERSION'])
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Release", clean: true)
     upload_to_app_store(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe", force: is_ci)
@@ -46,8 +43,6 @@ platform :ios do
 
   desc "Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created"
   lane :beta do
-    # More of a set build number than increment
-    increment_version_number(version_number: ENV['MAPSWIPE_PACKAGE_VERSION'])
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Beta", clean: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe-dev")

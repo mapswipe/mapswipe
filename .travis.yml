@@ -103,8 +103,6 @@ matrix:
         - yarn global add react-native-cli
         - yarn global add detox-cli
       script:
-        # calculate version numbers for fastlane
-        - source ios/version-ios.sh
         - cd ios
         # try to hide some build warnings
         - export CLANG_WARN_COMMA=NO
@@ -135,10 +133,13 @@ matrix:
             all_branches: true
             repo: mapswipe/mapswipe
             tags: true
+            condition: $TRAVIS_TAG == *"beta"*
         # and for tagged commits to master, deploy to production
         - provider: script
+          skip_cleanup: true
           script: fastlane release
           on:
             branch: master
             repo: mapswipe/mapswipe
             tags: true
+            condition: $TRAVIS_TAG != *"beta"*
