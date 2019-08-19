@@ -16,6 +16,12 @@
 # the playstore's requirements.
 # This script must be run locally (not on travis) to release a new version.
 
+# Make sure we run from the root of the repo to prevent broken paths
+if [[ ! -d ".git" ]]; then
+    echo "Please run this script from the root directory of the project, like: bash scripts/version.sh"
+    exit 1
+fi
+
 # Prevent accidentally pushing random changes
 diff=`git diff-index HEAD | wc -l`
 if [[ $diff -gt 0 ]]; then
