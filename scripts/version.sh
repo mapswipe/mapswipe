@@ -82,13 +82,11 @@ else
     plistFiles="ios/mapswipe-tvOS/Info.plist ios/mapswipe-tvOSTests/Info.plist ios/mapswipe/Info.plist ios/mapswipeTests/Info.plist ios/mapswipeUITests/Info.plist"
     for f in $plistFiles
     do
-        echo $f
         sed -i -e "/CFBundleShortVersionString<\/key>$/{n;s/\(.*\)<string>.*<\/string>/\1<string>$versionNumber<\/string>/}" $f
         sed -i -e "/CFBundleVersion<\/key>$/{n;s/\(.*\)<string>.*<\/string>/\1<string>$buildNumber<\/string>/}" $f
     done
     sed -i -e "s/CURRENT_PROJECT_VERSION = .*;/CURRENT_PROJECT_VERSION = $buildNumber;/" ios/mapswipe.xcodeproj/project.pbxproj
 fi
-exit 1
 
 git commit -a -m $tag
 git tag $tag
