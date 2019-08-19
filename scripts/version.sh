@@ -67,8 +67,22 @@ sed -i -e "s/^\ *\"version\": \"[0-9]\.[0-9]*\.[0-9]*\"\,$/  \"version\": \"${ve
 sed -i -e "s/^\ *\"build\": \"[0-9]\"\,$/  \"build\": \"${buildNumber}\"\,/" package.json
 
 # update iOS specific files with the new numbers
-bundle exec fastlane run increment_build_number build_number:$buildNumber xcodeproj:ios/mapswipe.xcodeproj
-bundle exec fastlane run increment_version_number version_number:$versionNumber xcodeproj:ios/mapswipe.xcodeproj
+if [[ "$OSTYPE" =~ "darwin*" ]]; then
+    bundle exec fastlane run increment_build_number build_number:$buildNumber xcodeproj:ios/mapswipe.xcodeproj
+    bundle exec fastlane run increment_version_number version_number:$versionNumber xcodeproj:ios/mapswipe.xcodeproj
+else
+  # update the various ios files from linux. There is no native tool there to do this,
+  # so we rely on sed...
+    plistFiles="ios/mapswipe-tvOS/Info.plist ios/mapswipe-tvOSTests/Info.plist ios/mapswipe/Info.plist ios/mapswipeTests/Info.plist ios/mapswipeUITests/Info.plist"
+    for f in $plistFiles
+    do
+        echo $f
+        sed -i -e "/CFBundleShortVersionString<\/key>$/{n;s/\(.*\)<string>.*<\/string>/\1<string>$versionNumber<\/string>/}" $f
+        sed -i -e "/CFBundleVersion<\/key>$/{n;s/\(.*\)<string>.*<\/string>/\1<string>$buildNumber<\/string>/}" $f
+    done
+    sed -i -e "s/CURRENT_PROJECT_VERSION = .*;/CURRENT_PROJECT_VERSION = $buildNumber;/" ios/mapswipe.xcodeproj/project.pbxproj
+fi
+exit 1
 
 git commit -a -m $tag
 git tag $tag
