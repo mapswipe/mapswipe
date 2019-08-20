@@ -18,6 +18,7 @@ import LoadingIcon from '../LoadingIcon';
 import SatImage from '../../common/SatImage';
 import GLOBAL from '../../Globals';
 import {
+    COLOR_DARK_GRAY,
     COLOR_GREEN,
     COLOR_LIGHT_GRAY,
     COLOR_RED,
@@ -89,6 +90,13 @@ const styles = StyleSheet.create({
     topImage: {
         aspectRatio: 1,
         height: '49%',
+    },
+    overlayText: {
+        color: COLOR_LIGHT_GRAY,
+        fontSize: 20,
+        paddingLeft: 5,
+        textShadowColor: COLOR_DARK_GRAY,
+        textShadowRadius: 30,
     },
 });
 
@@ -342,10 +350,14 @@ class _ChangeDetector extends React.Component<Props, State> {
                     Bad imagery
                 </Button>
                 <SatImage
+                    overlayText="Before"
+                    overlayTextStyle={styles.overlayText}
                     source={{ uri: currentTask.urlA }}
                     style={styles.topImage}
                 />
                 <SatImage
+                    overlayText="After"
+                    overlayTextStyle={styles.overlayText}
                     source={{ uri: currentTask.urlB }}
                     style={styles.bottomImage}
                 />

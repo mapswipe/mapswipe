@@ -1,10 +1,29 @@
 import * as React from 'react';
-import { Image } from 'react-native';
+import {
+    Image,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
+import type {
+    ImageStyleProp,
+    TextStyleProp,
+} from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { Sentry, SentrySeverity } from 'react-native-sentry';
 
+const styles = StyleSheet.create({
+    imageBackground: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+    },
+});
+
 type Props = {
+    overlayText: string,
+    overlayTextStyle: TextStyleProp,
     source: Image.ImageSourcePropType,
-    style: {},
+    style: ImageStyleProp,
 };
 
 type State = {
@@ -51,13 +70,22 @@ export default class SatImage extends React.Component<Props, State> {
 
     render() {
         const { source } = this.state;
-        const { style } = this.props;
+        const { overlayText, overlayTextStyle, style } = this.props;
         return (
-            <Image
-                onError={this.onError}
-                source={source}
+            <View
                 style={style}
-            />
+            >
+                <Image
+                    onError={this.onError}
+                    source={source}
+                    style={styles.imageBackground}
+                />
+                <Text
+                    style={overlayTextStyle}
+                >
+                    {overlayText}
+                </Text>
+            </View>
         );
     }
 }
