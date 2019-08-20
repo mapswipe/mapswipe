@@ -372,10 +372,30 @@ const mapDispatchToProps = dispatch => (
 
 const tutorialName = 'build_area_tutorial';
 
-export default compose(
+const Mapper = compose(
     firebaseConnectGroup(tutorialName),
     connect(
         mapStateToPropsForGroups(tutorialName),
         mapDispatchToProps,
     ),
 )(_Mapper);
+
+// eslint-disable-next-line react/no-multi-comp
+export default class MapperScreen extends React.Component<Props> {
+    constructor(props: Props) {
+        super(props);
+        this.randomSeed = Math.random();
+    }
+
+    randomSeed: number;
+
+    render() {
+        const { ...otherProps } = this.props;
+        return (
+            <Mapper
+                randomSeed={this.randomSeed}
+                {...otherProps}
+            />
+        );
+    }
+}

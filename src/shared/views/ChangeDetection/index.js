@@ -135,6 +135,18 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
         </View>
     );
 
+    constructor(props: Object) {
+        super(props);
+        // this random value is used to pick a group when mapping starts,
+        // it cannot be picked within mapStateToProps, as the latter must be
+        // a pure function (adding randomness in it causes an infinite loop
+        // of rendering). Here seems like a good place, as it is set once
+        // for the lifetime of the component.
+        this.randomSeed = Math.random();
+    }
+
+    randomSeed: number;
+
     render() {
         const { navigation } = this.props;
         return (
@@ -142,6 +154,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
                 Component={ChangeDetector}
                 navigation={navigation}
                 normalHelpContent={this.normalHelpContent}
+                randomSeed={this.randomSeed}
                 screenName="_ChangeDetectionScreen"
                 submitResultFunction={submitChange}
                 tutorialHelpContent={this.tutorialHelpContent}

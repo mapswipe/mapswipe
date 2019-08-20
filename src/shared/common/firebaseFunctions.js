@@ -10,7 +10,6 @@ export const firebaseConnectGroup = (tutorialName?: string) => (
     firebaseConnect((props) => {
         const tutorial = props.navigation.getParam('tutorial', false);
         let tutorialProjectName;
-        console.log('fbc', tutorialName, props);
         if (tutorialName === undefined) {
             tutorialProjectName = props.tutorialName;
         } else {
@@ -53,7 +52,6 @@ export const mapStateToPropsForGroups = (tutorialName?: string) => (
     // $FlowFixMe
     (state, ownProps) => {
         let tutorialProjectName;
-        console.log('mstp', tutorialName, ownProps);
         if (tutorialName === undefined) {
             tutorialProjectName = ownProps.tutorialName;
         } else {
@@ -88,7 +86,8 @@ export const mapStateToPropsForGroups = (tutorialName?: string) => (
             // we'll quietly ignore it for now :)
             const groupsAvailable = Object.keys(groups);
             // eslint-disable-next-line prefer-destructuring
-            groupId = groupsAvailable.filter(g => !groupsMapped.includes(g))[0];
+            const groupsToPickFrom = groupsAvailable.filter(g => !groupsMapped.includes(g));
+            groupId = groupsToPickFrom[Math.floor(ownProps.randomSeed * groupsToPickFrom.length)];
         }
         return {
             categories,
