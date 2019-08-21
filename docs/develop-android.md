@@ -145,3 +145,7 @@ The git tags will look like:
 
 For android, gradle will pull the version number from package.json when building.
 For iOS, the version numbers are in the iOS project files.
+
+## Deployment
+
+See [the page on deployment](deployment).

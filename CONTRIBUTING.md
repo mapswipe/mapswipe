@@ -28,43 +28,7 @@ When creating a new release for the Play store, you'll need to increment the `ve
 
 ## Travis setup
 
-### Encrypted api keys, passwords, etc...
-
-#### Android
-
-The `secrets.tar.enc` file is the encrypted version of `secrets.tar`, which contains the following files:
-
-```
-$ tar tvf secrets.tar
--rw-r--r-- username/username 1026 2018-11-01 00:23 android/app/src/dev/google-services.json
--rw-r--r-- username/username 2281 2018-10-31 15:14 android/app/mapswipe-dev-release-key.keystore
--rw-r--r-- username/username 1052 2018-11-06 16:49 android/gradle.properties
--rw-r--r-- username/username  214 2018-11-21 15:38 android/sentry.properties
-```
-
-#### ios
-
-Each version of the app contains a secrets.tar.enc file which contains the relevant configurations files. They are separated between iOS and Android so that each of the tar can be encrypted independently.
-
-All of the ios secrets are located in /ios/cfg.
-
-So far, to regenerate the tar you can run:
-
-`tar cvf secrets.tar GoogleService-Info.dev.plist GoogleService-Info.prd.plist sentry.properties sentry.prod.properties mapswipe.dev_at_gmail_rsa_key_for_travis_ci`
-
-If you need to add a file containing sensitive info, you will need to rebuild the `secrets.tar` file by gathering these files from firebase and sentry, then add them to the file with
-
-```
-tar xvf secrets.tar file1 file2...
-```
-
-and then encrypt the file as detailed in https://docs.travis-ci.com/user/encrypting-files/. Make sure to use the following command line, so that it uses the main `mapswipe/mapswipe` repo when encrypting:
-
-```
-travis encrypt-file secrets.tar --org -r mapswipe/mapswipe
-```
-
-See the travis logs for a list of files, in case this doc becomes out of date.
+See the [deployment page](docs/deployment).
 
 ### Deployment to github releases
 

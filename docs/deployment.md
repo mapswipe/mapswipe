@@ -9,13 +9,20 @@ Passwords, API keys and logins come from a variety of sources, but we've tried h
 From a developer perspective, you will sometimes need to update the `secrets.tar.enc` files which contains sensitive values (passwords, API keys) required to deploy the app. There is one file for android, one for iOS. You do not need most of these for local development!
 Look in the travis logs for the content of the secrets.tar files. The extraction commands are both verbose, so that we always see an up-to-date list of files included in them.
 
+The files are:
+```
+`./secrets.tar.enc` for android
+`./ios/cfg/secrets.tar.enc` for ios
+```
+
 ## Updating secrets.tar
 
 The workflow is simple, but not very convenient, as you cannot extract the content of the encrypted `secrets.tar.enc`, so you need to rebuild the archive from scratch, even if you're only adding or changing one file. The recommended way is to setup all the required files locally, where they should be (see the tar content for this) then:
 
 ```bash
+`tar cvf secrets.tar GoogleService-Info.dev.plist GoogleService-Info.prd.plist sentry.properties sentry.prod.properties mapswipe.dev_at_gmail_rsa_key_for_travis_ci`  # this is for ios, adjust paths for android
 $ tar -rf secrets.tar relative/path/to/the/file/you/want/to/add # to add them to the archive
-$ travis login # to login with the travis CLI, see travis docs for help
+$ travis login --org # to login with the travis CLI, see travis docs for help
 $ travis encrypt-file -r mapswipe/mapswipe secrets.tar
 ```
 
