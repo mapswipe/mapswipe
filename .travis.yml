@@ -66,6 +66,7 @@ matrix:
         - yarn buildDev
       before_deploy:
         - find . -name *.apk
+        - cd android
       deploy:
         - provider: releases
           # upload apk to github releases page
