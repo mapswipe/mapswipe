@@ -63,7 +63,7 @@ matrix:
         # detox build -c android.ci.debug
         # detox test -c android.ci.debug --loglevel trace
       script:
-        - yarn buildDev
+        # yarn buildDev
         - cd android
       before_deploy:
         - find . -name *.apk
@@ -83,9 +83,9 @@ matrix:
           script: bundle exec fastlane deploy
           on:
             repo: mapswipe/mapswipe
-            tags: true
+            #tags: false
             branch: playstore_deployment # TODO: replace with master before merging
-            condition: $TRAVIS_TAG != *"beta"*
+            #condition: $TRAVIS_TAG != *"beta"*
 
     - language: objective-c
       os: osx
