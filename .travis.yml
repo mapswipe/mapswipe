@@ -81,6 +81,7 @@ matrix:
             tags: true
         - provider: script
           script: bundle exec fastlane deploy
+          skip_cleanup: true
           on:
             repo: mapswipe/mapswipe
             #tags: false
