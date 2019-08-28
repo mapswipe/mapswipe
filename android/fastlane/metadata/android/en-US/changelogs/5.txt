@@ -1,0 +1,4 @@
+- Fixes duplicate tiles
+- Fixes infinite loading issue
+- Fixes item featuring
+- Basic optimizations

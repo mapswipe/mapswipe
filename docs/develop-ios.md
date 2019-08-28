@@ -75,6 +75,10 @@ The CI build process relies on [fastlane](https://docs.fastlane.tools) tools to 
 
 At this point, the fastlane setup is built around the premise that you won't be deploying app updates from your computer, but only via travis. The docs below may not make sense for your own laptop.
 
+### Deployment
+
+See [the page on deployment](deployment).
+
 ### Build variants
 
 There are 2 different apps:
