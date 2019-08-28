@@ -338,13 +338,11 @@ class _ChangeDetector extends React.Component<Props, State> {
                 }}
             >
                 <Button
-                    onPress={() => this.nextTask(CHANGES_NO_CHANGES_DETECTED)}
                     style={[{ opacity: leftOpacity }, styles.leftButton]}
                 >
                     No
                 </Button>
                 <Button
-                    onPress={() => this.nextTask(CHANGES_BAD_IMAGERY)}
                     style={[{ opacity: topOpacity }, styles.topButton]}
                 >
                     Bad imagery
@@ -362,13 +360,11 @@ class _ChangeDetector extends React.Component<Props, State> {
                     style={styles.bottomImage}
                 />
                 <Button
-                    onPress={() => this.nextTask(CHANGES_UNSURE)}
                     style={[{ opacity: bottomOpacity }, styles.bottomButton]}
                 >
                     Not sure
                 </Button>
                 <Button
-                    onPress={() => this.nextTask(CHANGES_CHANGES_DETECTED)}
                     style={[{ opacity: rightOpacity }, styles.rightButton]}
                 >
                     Yes
