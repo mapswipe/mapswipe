@@ -1,7 +1,7 @@
 // @flow
 // type definitions. This should be safe to import everywhere
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
-import BottomProgress from './views/Mapper/BottomProgress';
+import BottomProgress from './common/BottomProgress';
 
 // geographic types
 

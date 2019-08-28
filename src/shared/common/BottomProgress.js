@@ -9,9 +9,9 @@ import {
 import {
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
-} from '../../constants';
+} from '../constants';
 
-const GLOBAL = require('../../Globals');
+const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
     progressBarText: {

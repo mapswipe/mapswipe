@@ -22,7 +22,7 @@ import {
 } from './firebaseFunctions';
 import Header from '../views/Header';
 import BackConfirmationModal from './ConfirmationModal';
-import BottomProgress from '../views/Mapper/BottomProgress';
+import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
 import { getSqKmForZoomLevelPerTile } from '../Database';

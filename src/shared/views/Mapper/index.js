@@ -17,7 +17,7 @@ import {
 } from '../../common/firebaseFunctions';
 import Header from '../Header';
 import CardBody from './CardBody';
-import BottomProgress from './BottomProgress';
+import BottomProgress from '../../common/BottomProgress';
 import LoadingIcon from '../LoadingIcon';
 import type {
     BuiltAreaGroupType,
