@@ -3,6 +3,7 @@ import * as React from 'react';
 import {
     BackHandler,
     StyleSheet,
+    Text,
     View,
 } from 'react-native';
 import { compose } from 'redux';
@@ -20,6 +21,7 @@ import {
     mapStateToPropsForGroups,
 } from './firebaseFunctions';
 import Header from '../views/Header';
+import BackConfirmationModal from './ConfirmationModal';
 import BottomProgress from '../views/Mapper/BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
@@ -121,8 +123,9 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     }
 
     handleBackPress = () => {
-        this.returnToView();
-        return true;
+        // $FlowFixMe
+        this.backConfirmationModal.open();
+        return true; // prevents the navigator from jumping back
     }
 
     returnToView = () => {
@@ -179,11 +182,31 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         }
     }
 
+    backConfirmationModal: ?React.ComponentType<void>;
+
     HelpModal: ?React.ComponentType<void>;
 
     progress: ?BottomProgress;
 
     project: ProjectType;
+
+    renderBackConfirmationModal() {
+        const content = (
+            <Text>
+                Stop mapping and return to the menu?
+            </Text>
+        );
+
+        return (
+            <BackConfirmationModal
+                // $FlowFixMe
+                cancelButtonCallback={() => { this.backConfirmationModal.close(); }}
+                content={content}
+                exitButtonCallback={this.returnToView}
+                getRef={(r) => { this.backConfirmationModal = r; }}
+            />
+        );
+    }
 
     renderHelpModal() {
         const { normalHelpContent, tutorial, tutorialHelpContent } = this.props;
@@ -235,14 +258,17 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 />
             );
         }
+        const backConfirmationModal = this.renderBackConfirmationModal();
         const helpModal = this.renderHelpModal();
         return (
             <View style={styles.mappingContainer}>
                 <Header
                     lookFor={this.project.lookFor}
-                    onBackPress={this.returnToView}
+                    // $FlowFixMe
+                    onBackPress={() => { this.backConfirmationModal.open(); }}
                     onInfoPress={this.onInfoPress}
                 />
+                {backConfirmationModal}
                 {helpModal}
                 <Component
                     commitCompletedGroup={this.commitCompletedGroup}
