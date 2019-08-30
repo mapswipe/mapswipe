@@ -20,6 +20,7 @@ import {
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import reduxStore from '../store';
+import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp } from '../flow-types';
 import {
@@ -254,6 +255,7 @@ class _Login extends React.Component<Props, State> {
                 alertType: 'info',
             });
             // GLOBAL.ANALYTICS.logEvent('account_login');
+            convertProfileToV2Format(firebase);
             parent.props.navigation.push('ProjectNav');
         }).catch((error) => {
             let errorMessage;
