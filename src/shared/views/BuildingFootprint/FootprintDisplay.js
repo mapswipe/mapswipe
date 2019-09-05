@@ -95,8 +95,10 @@ export default class FootprintDisplay extends React.Component<Props> {
     getTileUrl = (tile: Tile) => {
         const { project } = this.props;
         const quadKey = tilebelt.tileToQuadkey(tile);
+        // $FlowFixMe
         const url = project.tileServer.url
             .replace('{quad_key}', quadKey)
+            // $FlowFixMe
             .replace('{key}', project.tileServer.apiKey);
         return url;
     }

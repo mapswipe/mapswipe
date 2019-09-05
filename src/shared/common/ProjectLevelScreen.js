@@ -34,6 +34,8 @@ import type {
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
+    BUILDING_FOOTPRINTS,
+    // CHANGE_DETECTION,
 } from '../constants';
 
 const GLOBAL = require('../Globals');
@@ -73,7 +75,7 @@ type Props = {
     Component: React.ComponentType<any>,
     group: { [group_id: string]: GroupType },
     navigation: NavigationProp,
-    normalHelpContent: React.ComponentType<any>,
+    getNormalHelpContent: (string) => React.ComponentType<any>,
     onCancelGroup: {} => void,
     onStartGroup: {} => void,
     onSubmitResult: (Object) => void,
@@ -171,6 +173,28 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         return { contributionsCount, addedDistance };
     }
 
+    getCreditString = (): string => {
+        let result = '';
+        const defaultCredits = 'Unknown imagery source';
+        switch (this.project.projectType) {
+        // FIXME: for some reason, flow doesn't like the constant being used here
+        case 3: { // CHANGE_DETECTION
+            // we have 2 sets of imagery
+            const creditsA = this.project.tileServerA.credits || defaultCredits;
+            const creditsB = this.project.tileServerB.credits || defaultCredits;
+            result = `Before: ${creditsA}\nAfter: ${creditsB}`;
+            break;
+        }
+        case BUILDING_FOOTPRINTS: {
+            result = this.project.tileServer.credits || defaultCredits;
+            break;
+        }
+        default:
+            result = defaultCredits;
+        }
+        return result;
+    }
+
     toNextGroup = () => {
         const { navigation, screenName } = this.props;
         navigation.navigate(screenName, { project: this.project });
@@ -209,10 +233,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     }
 
     renderHelpModal() {
-        const { normalHelpContent, tutorial, tutorialHelpContent } = this.props;
+        const { getNormalHelpContent, tutorial, tutorialHelpContent } = this.props;
         let content = '';
         if (!tutorial) {
-            content = normalHelpContent;
+            const creditString = this.getCreditString();
+            content = getNormalHelpContent(creditString);
         } else {
             content = tutorialHelpContent;
         }

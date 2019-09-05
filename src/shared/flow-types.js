@@ -32,8 +32,15 @@ export type CategoriesType = {
         post_wrong: string,
     }
 };
-// projects all have the same structure
-export type ProjectType = {
+
+type TileServerType = {
+    apiKey: string,
+    credits: string,
+    name: string,
+    url: string,
+};
+
+export type SingleImageryProjectType = {
     categories: ?CategoriesType,
     contributorCount: number,
     created: number,
@@ -43,15 +50,32 @@ export type ProjectType = {
     name: string,
     projectDetails: string,
     projectId: string,
-    projectType: number,
+    // FIXME: we should use constants here, somehow flow is not happy with them
+    projectType: 1 | 2,
     progress: number,
     state: number,
-    tileServer: {
-        apiKey: string,
-        name: string,
-        url: string,
-    },
+    tileServer: TileServerType,
 };
+
+export type ChangeDetectionProjectType = {
+    categories: ?CategoriesType,
+    contributorCount: number,
+    created: number,
+    image: string,
+    isFeatured: boolean,
+    lookFor: string,
+    name: string,
+    projectDetails: string,
+    projectId: string,
+    projectType: 3,
+    progress: number,
+    state: number,
+    tileServerA: TileServerType,
+    tileServerB: TileServerType,
+};
+
+// projects all have the same structure
+export type ProjectType = SingleImageryProjectType | ChangeDetectionProjectType;
 
 export type ProjectMapType = { [project_id: string]: ProjectType };
 

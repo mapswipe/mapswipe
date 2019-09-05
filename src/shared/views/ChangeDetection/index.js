@@ -57,8 +57,44 @@ type Props = {
 
 /* eslint-disable react/destructuring-assignment */
 export default class ChangeDetectionScreen extends React.Component<Props> {
+    tutorialHelpContent = (
+        <View>
+            <Text style={styles.tutPar}>
+                Welcome to the tutorial!
+            </Text>
+            <View style={styles.tutRow}>
+                <Text style={styles.tutPar}>
+                    This should make you a wizard of Mapswipe
+                    in a few minutes.
+                </Text>
+            </View>
+            <View style={styles.tutRow}>
+                <Text style={styles.tutPar}>
+                    Just follow the instructions on the screen,
+                    and swipe left to continue.
+                </Text>
+            </View>
+            <View style={styles.tutRow}>
+                <Text style={styles.tutPar}>
+                    If the instructions are in your way,
+                    just tap the message box to move it.
+                </Text>
+            </View>
+        </View>
+    );
+
+    constructor(props: Object) {
+        super(props);
+        // this random value is used to pick a group when mapping starts,
+        // it cannot be picked within mapStateToProps, as the latter must be
+        // a pure function (adding randomness in it causes an infinite loop
+        // of rendering). Here seems like a good place, as it is set once
+        // for the lifetime of the component.
+        this.randomSeed = Math.random();
+    }
+
     /* eslint-disable global-require */
-    normalHelpContent = (
+    getNormalHelpContent = (creditString: string) => (
         <>
             <Text style={styles.header}>How To Contribute</Text>
             <View style={styles.tutRow}>
@@ -105,46 +141,14 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
                     Up if there is no image, or it&apos;s cloudy
                 </Text>
             </View>
+            <Text style={styles.header}>Credits</Text>
+            <Text style={styles.tutPar}>
+                {creditString}
+            </Text>
         </>
     );
+
     /* eslint-enable global-require */
-
-    tutorialHelpContent = (
-        <View>
-            <Text style={styles.tutPar}>
-                Welcome to the tutorial!
-            </Text>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    This should make you a wizard of Mapswipe
-                    in a few minutes.
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    Just follow the instructions on the screen,
-                    and swipe left to continue.
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    If the instructions are in your way,
-                    just tap the message box to move it.
-                </Text>
-            </View>
-        </View>
-    );
-
-    constructor(props: Object) {
-        super(props);
-        // this random value is used to pick a group when mapping starts,
-        // it cannot be picked within mapStateToProps, as the latter must be
-        // a pure function (adding randomness in it causes an infinite loop
-        // of rendering). Here seems like a good place, as it is set once
-        // for the lifetime of the component.
-        this.randomSeed = Math.random();
-    }
-
     randomSeed: number;
 
     render() {
@@ -153,7 +157,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
             <ProjectLevelScreen
                 Component={ChangeDetector}
                 navigation={navigation}
-                normalHelpContent={this.normalHelpContent}
+                getNormalHelpContent={this.getNormalHelpContent}
                 randomSeed={this.randomSeed}
                 screenName="_ChangeDetectionScreen"
                 submitResultFunction={submitChange}

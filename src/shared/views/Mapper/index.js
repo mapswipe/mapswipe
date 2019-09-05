@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: '#212121',
         fontSize: 18,
+        marginTop: 5,
     },
     tutRow: {
-        marginTop: 20,
+        marginTop: 15,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        height: 40,
     },
     tutPar: {
         fontSize: 14,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '600',
         color: '#50acd4',
-        marginTop: 10,
+        marginTop: 7,
         marginLeft: 5,
     },
     tutImage: {
@@ -196,7 +196,7 @@ class _Mapper extends React.Component<Props, State> {
 
     HelpModal: ?React.ComponentType<void>;
 
-    renderIntroModal() {
+    renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
         const { tutorial } = this.props;
         let content;
@@ -215,17 +215,17 @@ class _Mapper extends React.Component<Props, State> {
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>
-                        Search the image for features listed in your mission brief.
+                        Look for features listed in your mission brief.
                         Tap each tile where you find what you&apos;re looking for.
-                        Tap once for
+                        Tap once for&nbsp;
                         <Text style={{ color: 'rgb(36, 219, 26)' }}>
                             YES
                         </Text>
-                        , twice for
+                        , twice for&nbsp;
                         <Text style={{ color: 'rgb(237, 209, 28)' }}>
                             MAYBE
                         </Text>
-                        , and three times for
+                        , and three times for&nbsp;
                         <Text style={{ color: 'rgb(230, 28, 28)' }}>
                             BAD IMAGERY (such as clouds)
                         </Text>
@@ -237,13 +237,12 @@ class _Mapper extends React.Component<Props, State> {
                             style={styles.tutImage2}
                         />
                         <Text style={styles.tutText}>
-                            SWIPE TO
-                            NAVIGATE
+                            SWIPE TO NAVIGATE
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>
-                        When you feel confident you are done with a piece of the map,
-                        scroll to the next one by simply swiping.
+                        When you are done with a piece of the map,
+                        scroll to the next one by swiping.
                     </Text>
                     <View style={styles.tutRow}>
                         <Image
@@ -251,11 +250,12 @@ class _Mapper extends React.Component<Props, State> {
                             style={styles.tutImage2}
                         />
                         <Text style={styles.tutText}>
-                            HOLD TO
-                            ZOOM
+                            HOLD TO ZOOM
                         </Text>
                     </View>
                     <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
+                    <Text style={styles.header}>Credits</Text>
+                    <Text style={styles.tutPar}>{creditString}</Text>
                 </>
             );
         } else {
@@ -331,7 +331,9 @@ class _Mapper extends React.Component<Props, State> {
         } else {
             comp = <LoadingIcon />;
         }
-        const introModal = this.renderIntroModal();
+        // $FlowFixMe
+        const creditString = this.project.tileServer.credits || 'Unknown imagery source';
+        const introModal = this.renderIntroModal(creditString);
 
         return (
             <View style={styles.mappingContainer}>
