@@ -39,13 +39,14 @@ target 'mapswipe' do
   ]
 
   
-  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
   pod 'RNCViewpager', :path => '../node_modules/@react-native-community/viewpager'
+
+  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
 
   target 'mapswipeTests' do
     inherit! :search_paths

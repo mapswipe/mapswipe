@@ -3,9 +3,9 @@ package org.missingmaps.mapswipe;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.sentry.RNSentryPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-import io.sentry.RNSentryPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
@@ -30,9 +30,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSentryPackage(),
             new RNCViewPagerPackage(),
             new NetInfoPackage(),
-            new RNSentryPackage(),
             new RNFirebasePackage(),
             new RNFirebaseDatabasePackage(),
             new RNFirebaseAuthPackage(),

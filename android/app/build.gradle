@@ -81,6 +81,7 @@ project.ext.sentryCli = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 
 // prevent sentry upload of sourcemaps in debug build
 // https://github.com/getsentry/react-native-sentry/issues/539#issuecomment-461972163
@@ -215,9 +216,9 @@ android {
 }
 
 dependencies {
+    implementation project(':@sentry_react-native')
     implementation project(':@react-native-community_viewpager')
     implementation project(':@react-native-community_netinfo')
-    implementation project(':react-native-sentry')
     implementation project(':react-native-firebase')
     implementation project(':react-native-splash-screen')
     implementation "com.google.android.gms:play-services-gcm:16.1.0"
