@@ -5,6 +5,7 @@ android/app/google-services.json
 android/app/src/dev/google-services.json
 android/app/src/production/google-services.json
 android/gradle.properties
+android/sentry.properties
 secrets.tar
 
 # Configs iOS
@@ -14,6 +15,7 @@ ios/cfg/secrets.tar
 ios/cfg/sentry.properties
 ios/cfg/sentry.*.properties
 ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+ios/sentry.properties
 
 # OSX
 #
