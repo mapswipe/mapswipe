@@ -361,6 +361,7 @@ class _Login extends React.Component<Props, State> {
                 <TextInput
                     testID="signup_email"
                     autoCorrect={false}
+                    keyboardType="email-address"
                     secureTextEntry={false}
                     style={styles.textInput}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
@@ -421,6 +422,7 @@ class _Login extends React.Component<Props, State> {
                 <TextInput
                     testID="login_email"
                     autoCorrect={false}
+                    keyboardType="email-address"
                     style={styles.textInput}
                     secureTextEntry={false}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
@@ -488,6 +490,7 @@ class _Login extends React.Component<Props, State> {
                 <Text style={styles.text4}>Enter your email</Text>
                 <TextInput
                     autoCorrect={false}
+                    keyboardType="email-address"
                     style={styles.textInput}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={email}
