@@ -9,7 +9,7 @@ import type {
     ImageStyleProp,
     TextStyleProp,
 } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import { Sentry, SentrySeverity } from 'react-native-sentry';
+import * as Sentry from '@sentry/react-native';
 
 const styles = StyleSheet.create({
     imageBackground: {
@@ -53,16 +53,14 @@ export default class SatImage extends React.Component<Props, State> {
     onError = (evt) => {
         const { source } = this.state;
         const { nativeEvent: { error } } = evt;
-        Sentry.captureBreadcrumb({
+        Sentry.addBreadcrumb({
             message: 'Image not loading',
             data: {
                 url: source.uri,
                 error,
             },
         });
-        Sentry.captureMessage('Cannot load sat imagery', {
-            level: SentrySeverity.Warning,
-        });
+        Sentry.captureMessage('Cannot load sat imagery', 'warning');
         console.log(error);
         // eslint-disable-next-line global-require
         this.setState({ source: require('../../../assets/noImageAvailable.png') });
