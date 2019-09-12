@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
+    Image,
     PanResponder,
     StyleSheet,
     View,
@@ -164,6 +165,7 @@ class _ChangeDetector extends React.Component<Props, State> {
         const { group } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
             const currentTaskId = this.setupTaskIdGenerator(group.tasks);
+            this.prefetchImages(group.tasks);
             this.tasksDone = 0;
             this.setState({ currentTaskId });
         }
@@ -248,6 +250,15 @@ class _ChangeDetector extends React.Component<Props, State> {
     handlePanResponderTerminate = () => {
         // swipe cancelled, eg: some other component took over (ScrollView?)
         this.resetOpacities();
+    };
+
+    prefetchImages = (tasks) => {
+        const prefetchIds = [];
+        tasks.forEach((task) => {
+            prefetchIds.push(Image.prefetch(task.urlA));
+            prefetchIds.push(Image.prefetch(task.urlB));
+        });
+        return prefetchIds;
     };
 
     resetOpacities = () => {
