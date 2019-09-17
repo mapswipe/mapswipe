@@ -45,6 +45,9 @@ platform :ios do
   lane :beta do
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Beta", clean: true)
-    upload_to_testflight(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe-dev")
+    upload_to_testflight(username: "mapswipe.dev@gmail.com",
+                         app_identifier: "org.missingmaps.mapswipe-dev",
+                         skip_waiting_for_build_processing: true
+                         )
   end
 end
