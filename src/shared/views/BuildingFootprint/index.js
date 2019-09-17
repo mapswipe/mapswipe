@@ -50,8 +50,18 @@ type Props = {
 
 /* eslint-disable react/destructuring-assignment */
 export default class BuildingFootprintScreen extends React.Component<Props> {
+    constructor(props: Object) {
+        super(props);
+        // this random value is used to pick a group when mapping starts,
+        // it cannot be picked within mapStateToProps, as the latter must be
+        // a pure function (adding randomness in it causes an infinite loop
+        // of rendering). Here seems like a good place, as it is set once
+        // for the lifetime of the component.
+        this.randomSeed = Math.random();
+    }
+
     /* eslint-disable global-require */
-    normalHelpContent = (
+    getNormalHelpContent = () => (
         <>
             <Text style={styles.header}>How To Contribute</Text>
             <View style={styles.tutRow}>
@@ -83,18 +93,8 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
             </View>
         </>
     );
+
     /* eslint-enable global-require */
-
-    constructor(props: Object) {
-        super(props);
-        // this random value is used to pick a group when mapping starts,
-        // it cannot be picked within mapStateToProps, as the latter must be
-        // a pure function (adding randomness in it causes an infinite loop
-        // of rendering). Here seems like a good place, as it is set once
-        // for the lifetime of the component.
-        this.randomSeed = Math.random();
-    }
-
     randomSeed: number;
 
     render() {
@@ -103,7 +103,7 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
             <ProjectLevelScreen
                 Component={Validator}
                 navigation={navigation}
-                normalHelpContent={this.normalHelpContent}
+                getNormalHelpContent={this.getNormalHelpContent}
                 randomSeed={this.randomSeed}
                 screenName="BuildingFootprintValidator"
                 submitResultFunction={submitFootprint}

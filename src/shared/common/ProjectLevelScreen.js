@@ -214,7 +214,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     project: ProjectType;
 
-    renderBackConfirmationModal() {
+    renderBackConfirmationModal = () => {
         const content = (
             <Text>
                 Stop mapping and return to the menu?
@@ -232,7 +232,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         );
     }
 
-    renderHelpModal() {
+    renderHelpModal = () => {
         const { getNormalHelpContent, tutorial, tutorialHelpContent } = this.props;
         let content = '';
         if (!tutorial) {
