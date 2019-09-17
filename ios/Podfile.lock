@@ -139,6 +139,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNCAsyncStorage (1.6.1):
+    - React
   - RNCViewpager (1.1.7):
     - React
   - RNSentry (1.0.4):
@@ -174,6 +176,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCViewpager (from `../node_modules/@react-native-community/viewpager`)"
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -208,6 +211,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNCViewpager:
     :path: "../node_modules/@react-native-community/viewpager"
   RNSentry:
@@ -235,11 +240,12 @@ SPEC CHECKSUMS:
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
   RNCViewpager: d11d720f0c6fbd2024788d09108a9f7abb1fac5a
   RNSentry: 8d2b90f29054794a8b508362e5831ef7aaf781c9
   Sentry: 26650184fe71eb7476dfd2737acb5ea6cc64b4b1
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: fb77585df81f747c06122b0edddb64c9ce782f23
+PODFILE CHECKSUM: 796a136f7e8f001fe44a9187b53eb8f2d351da2e
 
 COCOAPODS: 1.7.5

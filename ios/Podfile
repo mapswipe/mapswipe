@@ -48,6 +48,8 @@ target 'mapswipe' do
 
   pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'mapswipeTests' do
     inherit! :search_paths
     # Pods for testing

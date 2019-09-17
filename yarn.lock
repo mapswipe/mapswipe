@@ -1265,6 +1265,11 @@
   resolved "https://registry.yarnpkg.com/@mapbox/tilebelt/-/tilebelt-1.0.1.tgz#d57a1c4a5445e928dad720a828389a0a69db8818"
   integrity sha1-1XocSlRF6Sja1yCoKDiaCmnbiBg=
 
+"@react-native-community/async-storage@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.6.1.tgz#19be07fc1d65c77bdeb20f46108ba12076aad1c5"
+  integrity sha512-1WA28xfdhG+unkTEk/lXnqI2izv6belo0CYw7UdvaeHm8TIYT6eTmIIdGR7oiCa2xSKEnaPQqRMH6h7gyLNbww==
+
 "@react-native-community/cli@^1.10.0", "@react-native-community/cli@^1.2.1":
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli/-/cli-1.10.0.tgz#66e3c9f407763281f7060c034145650bf0d6786c"
