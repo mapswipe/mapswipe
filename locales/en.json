@@ -1,5 +1,10 @@
 {
+  "signup": {
+    "enterUsername": "Choose your username",
+    "passwordError": "(More than 6 characters)",
+    "usernameError": "(More than 4 characters)"
+  },
   "login": {
-    "enterUsername": "Enter your username (More than 4 characters)"
+    "enterUsername": "Enter your username",
   }
 }

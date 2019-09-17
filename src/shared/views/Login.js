@@ -25,6 +25,7 @@ import LoadingIcon from './LoadingIcon';
 import type { NavigationProp } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
+    COLOR_RED,
     COLOR_WHITE,
 } from '../constants';
 
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DEEP_BLUE,
         flex: 1,
     },
-    text4: {
+    inputLabel: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         marginTop: 10,
         textAlign: 'left',
@@ -109,7 +110,9 @@ type State = {
     password: string,
     email: string,
     loading: boolean,
-    screen: number
+    screen: number,
+    showPasswordError: boolean,
+    showUsernameError: boolean,
 }
 
 class _Login extends React.Component<Props, State> {
@@ -121,6 +124,8 @@ class _Login extends React.Component<Props, State> {
             email: '',
             loading: true,
             screen: SCREEN_SIGNUP,
+            showPasswordError: false,
+            showUsernameError: false,
         };
         const that = this;
         reduxStore().firebaseAuthIsReady.then(() => that.setState({ loading: false }));
@@ -332,6 +337,9 @@ class _Login extends React.Component<Props, State> {
         const { t } = this.props;
         const {
             email,
+            password,
+            showPasswordError,
+            showUsernameError,
             username,
         } = this.state;
         return (
@@ -346,35 +354,54 @@ class _Login extends React.Component<Props, State> {
                 }}
             >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
-                <Text style={styles.text4}>{t('login:enterUsername')}</Text>
 
+                <Text style={styles.inputLabel}>
+                    {t('signup:enterUsername')}
+                    <Text style={{ color: (showUsernameError ? COLOR_RED : COLOR_DEEP_BLUE) }}>
+                        &nbsp;
+                        {t('signup:usernameError')}
+                    </Text>
+                </Text>
                 <TextInput
                     testID="signup_username"
                     autoCorrect={false}
                     style={styles.textInput}
-                    onChangeText={text => this.setState({ username: text })}
+                    onChangeText={text => this.setState({
+                        showUsernameError: text.length < 4,
+                        username: text,
+                    })}
                     value={username}
                 />
 
-                <Text style={styles.text4}>Enter your email</Text>
+                <Text style={styles.inputLabel}>Enter your email</Text>
 
                 <TextInput
                     testID="signup_email"
                     autoCorrect={false}
+                    autoCompleteType="email"
                     keyboardType="email-address"
                     secureTextEntry={false}
                     style={styles.textInput}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
-                <Text style={styles.text4}>Enter your password (More than 6 characters)</Text>
+                <Text style={styles.inputLabel}>
+                    Enter your password
+                    <Text style={{ color: (showPasswordError ? COLOR_RED : COLOR_DEEP_BLUE) }}>
+                        &nbsp;
+                        {t('login:passwordError')}
+                    </Text>
+                </Text>
 
                 <TextInput
                     testID="signup_password"
                     autoCorrect={false}
                     secureTextEntry
                     style={styles.textInput}
-                    onChangeText={text => this.setState({ password: text })}
+                    onChangeText={text => this.setState({
+                        password: text,
+                        showPasswordError: text.length < 6,
+                    })}
                 />
                 <Text style={styles.text5}>
                     * All the mapping you contribute to mapswipe is open and available to anyone.
@@ -382,6 +409,7 @@ class _Login extends React.Component<Props, State> {
                     shared with anyone.
                 </Text>
                 <Button
+                    isDisabled={email.length < 6 || username.length < 4 || password.length < 6}
                     testID="signup_button"
                     style={styles.otherButton}
                     onPress={this.handleSignUp}
@@ -404,6 +432,7 @@ class _Login extends React.Component<Props, State> {
     renderLoginScreen = () => {
         const {
             email,
+            password,
         } = this.state;
         return (
             <ScrollView
@@ -418,7 +447,7 @@ class _Login extends React.Component<Props, State> {
             >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
-                <Text style={styles.text4}>Enter your email</Text>
+                <Text style={styles.inputLabel}>Enter your email</Text>
                 <TextInput
                     testID="login_email"
                     autoCorrect={false}
@@ -428,7 +457,7 @@ class _Login extends React.Component<Props, State> {
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
-                <Text style={styles.text4}>Enter your password</Text>
+                <Text style={styles.inputLabel}>Enter your password</Text>
 
                 <TextInput
                     testID="login_password"
@@ -444,6 +473,7 @@ class _Login extends React.Component<Props, State> {
                     {' '}
                 </Text>
                 <Button
+                    isDisabled={email.length < 6 || password.length < 6}
                     testID="login_button"
                     style={styles.otherButton}
                     onPress={this.handleLogin}
@@ -487,7 +517,7 @@ class _Login extends React.Component<Props, State> {
             >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
-                <Text style={styles.text4}>Enter your email</Text>
+                <Text style={styles.inputLabel}>Enter your email</Text>
                 <TextInput
                     autoCorrect={false}
                     keyboardType="email-address"
@@ -497,6 +527,7 @@ class _Login extends React.Component<Props, State> {
                 />
                 <Text style={styles.text5}>* We will send you an email to reset your password</Text>
                 <Button
+                    isDisabled={email.length < 6}
                     style={styles.otherButton}
                     onPress={this.handlePassReset}
                     textStyle={styles.buttonText}
