@@ -22,7 +22,7 @@ import BuildingFootprintValidator from './views/BuildingFootprint';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
-import Tutorial from './views/Tutorial';
+import WelcomeScreen from './views/Welcome';
 import WebviewWindow from './views/WebviewWindow';
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
@@ -166,7 +166,7 @@ const RootStack = createStackNavigator(
     {
         BuildingFootprintValidator,
         ChangeDetectionScreen,
-        Tutorial,
+        WelcomeScreen,
         ProjectNav,
         ProjectView,
         Mapper,
@@ -174,7 +174,7 @@ const RootStack = createStackNavigator(
         WebviewWindow,
     },
     {
-        initialRouteName: 'Tutorial',
+        initialRouteName: 'WelcomeScreen',
         headerMode: 'none',
         navigationOptions: {
             gesturesEnabled: false,

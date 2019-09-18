@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
+import Swiper from 'react-native-swiper';
 import type { NavigationProp } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 import {
     COLOR_DEEP_BLUE,
 } from '../constants';
 
-const Swiper = require('react-native-swiper');
 const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
 
     },
-    tutIcon: {
+    welcomeIcon: {
         resizeMode: 'contain',
         width: GLOBAL.SCREEN_WIDTH,
         height: GLOBAL.SCREEN_HEIGHT * 0.5,
@@ -82,7 +82,7 @@ type Props = {
     welcomeCompleted: boolean,
 };
 
-class _Tutorial extends React.Component<Props> {
+class _WelcomeScreen extends React.Component<Props, State> {
     componentDidMount() {
         const { welcomeCompleted } = this.props;
         SplashScreen.hide();
@@ -94,7 +94,7 @@ class _Tutorial extends React.Component<Props> {
     finishWelcomeScreens = () => {
         const { navigation, onWelcomeComplete } = this.props;
         onWelcomeComplete();
-        // GLOBAL.ANALYTICS.logEvent('completed_tutorial');
+        // GLOBAL.ANALYTICS.logEvent('completed_welcome');
         navigation.navigate('Login');
     }
 
@@ -102,7 +102,7 @@ class _Tutorial extends React.Component<Props> {
         const { welcomeCompleted } = this.props;
         return (welcomeCompleted
             ? <View style={{ flex: 1 }}><Text /></View>
-            : <TutCardView onCompletion={this.finishWelcomeScreens} />
+            : <WelcomeCardView onCompletion={this.finishWelcomeScreens} />
         );
     }
 }
@@ -122,22 +122,22 @@ const mapDispatchToProps = dispatch => (
     }
 );
 
-// Tutorial
+// WelcomeScreen
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(_Tutorial);
+)(_WelcomeScreen);
 
-type TutCardProps = {
+type WelcomeCardProps = {
     onCompletion: any => any,
 };
 
-type TutCardState = {
+type WelcomeCardState = {
     newIndex: number,
 };
 
 // eslint-disable-next-line react/no-multi-comp
-class TutCardView extends React.Component<TutCardProps, TutCardState> {
+class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -149,7 +149,7 @@ class TutCardView extends React.Component<TutCardProps, TutCardState> {
     render() {
         const { onCompletion } = this.props;
         const { newIndex } = this.state;
-        // GLOBAL.ANALYTICS.logEvent('starting_tutorial');
+        // GLOBAL.ANALYTICS.logEvent('starting_welcome');
         return (
             <Swiper
                 showsButtons={false}
@@ -158,7 +158,7 @@ class TutCardView extends React.Component<TutCardProps, TutCardState> {
             >
                 <View style={styles.slide1}>
 
-                    <Image style={styles.tutIcon} source={require('./assets/tut1.png')} />
+                    <Image style={styles.welcomeIcon} source={require('./assets/tut1.png')} />
                     <Text style={styles.text}>
                         You receive groups of satellite images from vulnerable areas.
                     </Text>
@@ -172,7 +172,7 @@ class TutCardView extends React.Component<TutCardProps, TutCardState> {
                 </View>
                 <View style={styles.slide2}>
 
-                    <Image style={styles.tutIcon} source={require('./assets/tut2.png')} />
+                    <Image style={styles.welcomeIcon} source={require('./assets/tut2.png')} />
                     <Text style={styles.text}>
 The data helps organisations coordinate humanitarian efforts in the places you
                     map
@@ -187,7 +187,7 @@ The data helps organisations coordinate humanitarian efforts in the places you
                 </View>
                 <View style={styles.slide3}>
 
-                    <Image style={styles.tutIcon} source={require('./assets/tut3.png')} />
+                    <Image style={styles.welcomeIcon} source={require('./assets/tut3.png')} />
                     <Text style={styles.text}>
 Mapping has already helped save lives. Are you ready to become a mobile
                     volunteer?
