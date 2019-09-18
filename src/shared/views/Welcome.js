@@ -82,10 +82,9 @@ type Props = {
     welcomeCompleted: boolean,
 };
 
-class _WelcomeScreen extends React.Component<Props, State> {
+class _WelcomeScreen extends React.Component<Props> {
     componentDidMount() {
         const { welcomeCompleted } = this.props;
-        SplashScreen.hide();
         if (welcomeCompleted) {
             this.finishWelcomeScreens();
         }
@@ -93,6 +92,7 @@ class _WelcomeScreen extends React.Component<Props, State> {
 
     finishWelcomeScreens = () => {
         const { navigation, onWelcomeComplete } = this.props;
+        // remember that we saw the welcome screens (in redux state)
         onWelcomeComplete();
         // GLOBAL.ANALYTICS.logEvent('completed_welcome');
         navigation.navigate('Login');
@@ -100,6 +100,9 @@ class _WelcomeScreen extends React.Component<Props, State> {
 
     render() {
         const { welcomeCompleted } = this.props;
+        if (welcomeCompleted !== undefined) {
+            SplashScreen.hide();
+        }
         return (welcomeCompleted
             ? <View style={{ flex: 1 }}><Text /></View>
             : <WelcomeCardView onCompletion={this.finishWelcomeScreens} />
@@ -138,23 +141,17 @@ type WelcomeCardState = {
 
 // eslint-disable-next-line react/no-multi-comp
 class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            newIndex: 0,
-        };
-    }
+    swiper: ?Swiper;
 
     /* eslint-disable global-require */
     render() {
         const { onCompletion } = this.props;
-        const { newIndex } = this.state;
         // GLOBAL.ANALYTICS.logEvent('starting_welcome');
         return (
             <Swiper
                 showsButtons={false}
                 loop={false}
-                yourNewPageIndex={newIndex}
+                ref={(r) => { this.swiper = r; }}
             >
                 <View style={styles.slide1}>
 
@@ -164,7 +161,7 @@ class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState
                     </Text>
                     <Button
                         style={styles.nextButton}
-                        onPress={() => this.setState({ newIndex: 1 })}
+                        onPress={() => this.swiper && this.swiper.scrollBy(1)}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     Next
@@ -179,7 +176,7 @@ The data helps organisations coordinate humanitarian efforts in the places you
                     </Text>
                     <Button
                         style={styles.nextButton}
-                        onPress={() => this.setState({ newIndex: 1 })}
+                        onPress={() => this.swiper && this.swiper.scrollBy(1)}
                         textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                     >
                     Next
