@@ -5,6 +5,8 @@ import thunkMiddleware from 'redux-thunk';
 import firebase from 'react-native-firebase';
 import { getFirebase, reactReduxFirebase } from 'react-redux-firebase';
 import { composeWithDevTools } from 'remote-redux-devtools';
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
 
 const reactFirebaseConfig = {
@@ -27,10 +29,17 @@ if (process.env.NODE_ENV === 'test') {
     });
 }
 
+const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+};
+
+const persistedReducers = persistReducer(persistConfig, reducers);
+
 // the initial state argument is only used for jest
 // direct imports of createNewStore should only happen in tests
 export const createNewStore = (initialState?: {} = {}) => createStore(
-    reducers,
+    persistedReducers,
     initialState,
     composeEnhancers(
         applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
@@ -40,7 +49,8 @@ export const createNewStore = (initialState?: {} = {}) => createStore(
 
 // this is the main store used by the app
 const store = createNewStore();
+const persistor = persistStore(store);
 
 export default function setupStore() {
-    return store;
+    return { store, persistor };
 }

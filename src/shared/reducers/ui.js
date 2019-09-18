@@ -13,7 +13,7 @@ const defaultUserState = {
     level: 1,
     progress: 0,
     username: '',
-    welcomeCompleted: true,
+    welcomeCompleted: false,
     user: null,
 };
 

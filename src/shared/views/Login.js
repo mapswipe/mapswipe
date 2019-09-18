@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
-import reduxStore from '../store';
+import getReduxStore from '../store';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp } from '../flow-types';
@@ -128,7 +128,8 @@ class _Login extends React.Component<Props, State> {
             showUsernameError: false,
         };
         const that = this;
-        reduxStore().firebaseAuthIsReady.then(() => that.setState({ loading: false }));
+        const { store } = getReduxStore();
+        store.firebaseAuthIsReady.then(() => that.setState({ loading: false }));
     }
 
     componentDidMount() {
