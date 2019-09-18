@@ -329,9 +329,9 @@ class ScrollingBackground extends React.Component<{}, SBState> {
 
     backgroundImage = () => {
         const { offset } = this.state;
-        if (offset > 1500) {
+        if (offset > 950) {
             this.nextOffset = -1;
-        } else if (offset < -1500) {
+        } else if (offset < -950) {
             this.nextOffset = 1;
         }
         return (
