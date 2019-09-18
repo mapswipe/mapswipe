@@ -11,6 +11,7 @@
 import * as React from 'react';
 import {
     Image,
+    SafeAreaView,
     StyleSheet,
     Text,
     View,
@@ -24,6 +25,9 @@ import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
 import WebviewWindow from './views/WebviewWindow';
+import {
+    COLOR_DEEP_BLUE,
+} from './constants';
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
 const { MessageBarManager } = require('react-native-message-bar');
@@ -45,6 +49,10 @@ const style = StyleSheet.create({
         bottom: 20,
         left: 20,
         width: 260,
+    },
+    safeArea: {
+        flex: 1,
+        backgroundColor: COLOR_DEEP_BLUE,
     },
     pic: {
         height: 150,
@@ -135,6 +143,7 @@ class Main extends React.Component<{}, State> {
     render() {
         const { isDisabled, level, levelObject } = this.state;
         return (
+        <SafeAreaView style={style.safeArea}>
             <View style={style.mainContainer}>
                 <RootStack />
                 <Modal
@@ -158,6 +167,7 @@ class Main extends React.Component<{}, State> {
                 </Modal>
                 <MessageBarAlert ref={(r) => { this.alert = r; }} />
             </View>
+            </SafeAreaView>
         );
     }
 }
