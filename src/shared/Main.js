@@ -12,6 +12,7 @@ import * as React from 'react';
 import {
     Image,
     SafeAreaView,
+    StatusBar,
     StyleSheet,
     Text,
     View,
@@ -144,6 +145,10 @@ class Main extends React.Component<{}, State> {
         const { isDisabled, level, levelObject } = this.state;
         return (
             <SafeAreaView style={style.safeArea}>
+                <StatusBar
+                    backgroundColor={COLOR_DEEP_BLUE}
+                    barStyle="light-content"
+                />
                 <View style={style.mainContainer}>
                     <RootStack />
                     <Modal
