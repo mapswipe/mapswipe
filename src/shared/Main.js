@@ -143,30 +143,30 @@ class Main extends React.Component<{}, State> {
     render() {
         const { isDisabled, level, levelObject } = this.state;
         return (
-        <SafeAreaView style={style.safeArea}>
-            <View style={style.mainContainer}>
-                <RootStack />
-                <Modal
-                    style={[style.modal, style.modal3]}
-                    backdropType="blur"
-                    position="center"
-                    ref={(r) => { this.modal3 = r; }}
-                    isDisabled={isDisabled}
-                >
-                    <Text style={style.header}>
-                        {`You are now level ${level}`}
-                    </Text>
-                    <Image style={style.pic} key={level} source={levelObject.badge} />
-                    <Button
-                        style={style.startButton}
-                        onPress={this.closeModal3}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+            <SafeAreaView style={style.safeArea}>
+                <View style={style.mainContainer}>
+                    <RootStack />
+                    <Modal
+                        style={[style.modal, style.modal3]}
+                        backdropType="blur"
+                        position="center"
+                        ref={(r) => { this.modal3 = r; }}
+                        isDisabled={isDisabled}
                     >
-                    Close
-                    </Button>
-                </Modal>
-                <MessageBarAlert ref={(r) => { this.alert = r; }} />
-            </View>
+                        <Text style={style.header}>
+                            {`You are now level ${level}`}
+                        </Text>
+                        <Image style={style.pic} key={level} source={levelObject.badge} />
+                        <Button
+                            style={style.startButton}
+                            onPress={this.closeModal3}
+                            textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        >
+                            Close
+                        </Button>
+                    </Modal>
+                    <MessageBarAlert ref={(r) => { this.alert = r; }} />
+                </View>
             </SafeAreaView>
         );
     }
