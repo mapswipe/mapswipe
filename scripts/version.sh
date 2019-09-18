@@ -16,6 +16,9 @@
 # the playstore's requirements.
 # This script must be run locally (not on travis) to release a new version.
 
+# stop immediately if we encounter any error
+set -e
+
 # Make sure we run from the root of the repo to prevent broken paths
 if [[ ! -d ".git" ]]; then
     echo "Please run this script from the root directory of the project, like: bash scripts/version.sh"
