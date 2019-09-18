@@ -109,7 +109,8 @@ type State = {
     username: string,
     password: string,
     email: string,
-    loading: boolean,
+    loadingAuth: boolean,
+    loadingNext: boolean,
     screen: number,
     showPasswordError: boolean,
     showUsernameError: boolean,
@@ -122,20 +123,23 @@ class _Login extends React.Component<Props, State> {
             username: '',
             password: '',
             email: '',
-            loading: true,
+            loadingAuth: true, // whether the authentication info is loaded from firebase yet
+            loadingNext: false, // whether we're waiting for the next screen to load
+            // loadingNext prevents showing the login screen when already authenticated
             screen: SCREEN_SIGNUP,
             showPasswordError: false,
             showUsernameError: false,
         };
         const that = this;
         const { store } = getReduxStore();
-        store.firebaseAuthIsReady.then(() => that.setState({ loading: false }));
+        store.firebaseAuthIsReady.then(() => that.setState({ loadingAuth: false }));
     }
 
     componentDidMount() {
         const { auth, navigation } = this.props;
         if (isLoaded(auth) && !isEmpty(auth)) {
-            navigation.push('ProjectNav');
+            this.setState({ loadingNext: true });
+            navigation.navigate('ProjectNav');
         }
     }
 
@@ -143,7 +147,7 @@ class _Login extends React.Component<Props, State> {
         const { auth, navigation } = this.props;
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
-                navigation.push('ProjectNav');
+                navigation.navigate('ProjectNav');
             }
         }
     }
@@ -180,7 +184,7 @@ class _Login extends React.Component<Props, State> {
             return;
         }
         this.setState({
-            loading: true,
+            loadingNext: true,
         });
 
         firebase.createUser({ email, password }, { username })
@@ -207,11 +211,8 @@ class _Login extends React.Component<Props, State> {
                     message: `Welcome to Mapswipe, ${username}`,
                     alertType: 'info',
                 });
-                parent.setState({
-                    loading: false,
-                });
                 // GLOBAL.ANALYTICS.logEvent('account_created');
-                navigation.push('ProjectNav');
+                navigation.navigate('ProjectNav');
             })
             .catch((error) => {
                 // GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
@@ -233,7 +234,7 @@ class _Login extends React.Component<Props, State> {
                     alertType: 'error',
                 });
                 parent.setState({
-                    loading: false,
+                    loadingNext: false,
                 });
             });
     }
@@ -251,7 +252,7 @@ class _Login extends React.Component<Props, State> {
         } = this.state;
         const { firebase } = this.props;
         this.setState({
-            loading: true,
+            loadingNext: true,
         });
         const parent = this;
         firebase.login({ email, password }).then((userCredentials) => {
@@ -262,7 +263,7 @@ class _Login extends React.Component<Props, State> {
             });
             // GLOBAL.ANALYTICS.logEvent('account_login');
             convertProfileToV2Format(firebase);
-            parent.props.navigation.push('ProjectNav');
+            parent.props.navigation.navigate('ProjectNav');
         }).catch((error) => {
             let errorMessage;
             // error codes from
@@ -287,7 +288,7 @@ class _Login extends React.Component<Props, State> {
                 alertType: 'error',
             });
             parent.setState({
-                loading: false,
+                loadingNext: false,
             });
         });
     }
@@ -298,7 +299,7 @@ class _Login extends React.Component<Props, State> {
         } = this.state;
         const { firebase } = this.props;
         this.setState({
-            loading: true,
+            loadingNext: true,
         });
         const parent = this;
         firebase.auth().sendPasswordResetEmail(email).then(() => {
@@ -308,7 +309,7 @@ class _Login extends React.Component<Props, State> {
                 alertType: 'info',
             });
             parent.setState({
-                loading: false,
+                loadingNext: false,
             });
             // GLOBAL.ANALYTICS.logEvent('pass_reset_request');
         }).catch((error) => {
@@ -329,7 +330,7 @@ class _Login extends React.Component<Props, State> {
                 alertType: 'error',
             });
             parent.setState({
-                loading: false,
+                loadingNext: false,
             });
         });
     }
@@ -549,23 +550,28 @@ class _Login extends React.Component<Props, State> {
     render() {
         const { auth } = this.props;
         const {
-            loading,
+            loadingAuth,
+            loadingNext,
             screen,
         } = this.state;
-        let content;
+        let content = null;
 
-        if (screen === SCREEN_SIGNUP) {
-            content = this.renderSignupScreen();
-        } else if (screen === SCREEN_LOGIN) {
-            content = this.renderLoginScreen();
-        } else if (screen === SCREEN_FORGOT_PASSWORD) {
-            content = this.renderForgotPasswordScreen();
+        const showLoader = !isLoaded(auth) || loadingAuth || loadingNext;
+
+        if (!showLoader) {
+            if (screen === SCREEN_SIGNUP) {
+                content = this.renderSignupScreen();
+            } else if (screen === SCREEN_LOGIN) {
+                content = this.renderLoginScreen();
+            } else if (screen === SCREEN_FORGOT_PASSWORD) {
+                content = this.renderForgotPasswordScreen();
+            }
         }
 
         return (
             <View style={styles.container}>
                 {
-                    !isLoaded(auth) || loading
+                    !isLoaded(auth) || loadingAuth || loadingNext
                         ? <LoadingIcon />
                         : content
                 }
