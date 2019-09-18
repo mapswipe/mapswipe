@@ -5,7 +5,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
-  android:padding="25sp"
+  android:padding="100sp"
 >
   <ImageView
     android:src="@drawable/splashscreen"
