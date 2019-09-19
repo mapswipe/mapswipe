@@ -18,6 +18,7 @@ import {
     TextInput,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+import CheckBox from 'react-native-check-box';
 import { MessageBarManager } from 'react-native-message-bar';
 import getReduxStore from '../store';
 import convertProfileToV2Format from '../common/ProfileConversion';
@@ -60,6 +61,16 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DEEP_BLUE,
         flex: 1,
     },
+    checkboxLabel: {
+        flex: 1,
+        textAlign: 'left',
+        fontSize: 13,
+        marginBottom: 5,
+        marginLeft: 10,
+        marginTop: 8,
+        color: COLOR_WHITE,
+        width: 250,
+    },
     inputLabel: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         marginTop: 10,
@@ -75,6 +86,11 @@ const styles = StyleSheet.create({
         fontSize: 10,
         marginBottom: 10,
         color: COLOR_WHITE,
+    },
+    policyLink: {
+        color: COLOR_WHITE,
+        fontSize: 13,
+        textDecorationLine: 'underline',
     },
     tutIcon2: {
         resizeMode: 'contain',
@@ -114,6 +130,7 @@ type State = {
     screen: number,
     showPasswordError: boolean,
     showUsernameError: boolean,
+    signupPPChecked: boolean,
 }
 
 class _Login extends React.Component<Props, State> {
@@ -129,6 +146,7 @@ class _Login extends React.Component<Props, State> {
             screen: SCREEN_SIGNUP,
             showPasswordError: false,
             showUsernameError: false,
+            signupPPChecked: false,
         };
         const that = this;
         const { store } = getReduxStore();
@@ -336,14 +354,20 @@ class _Login extends React.Component<Props, State> {
     }
 
     renderSignupScreen = () => {
-        const { t } = this.props;
+        const { navigation, t } = this.props;
         const {
             email,
             password,
             showPasswordError,
             showUsernameError,
+            signupPPChecked,
             username,
         } = this.state;
+        const signupButtonDisabled = email.length < 6
+            || username.length < 4
+            || password.length < 6
+            || !signupPPChecked;
+
         return (
             <ScrollView
                 style={styles.container}
@@ -406,12 +430,41 @@ class _Login extends React.Component<Props, State> {
                     })}
                 />
                 <Text style={styles.text5}>
+                <Text style={[styles.inputLabel,
+                    { color: (showPasswordError ? COLOR_RED : COLOR_DEEP_BLUE) }]}
+                >
+                    {t('signup:passwordError')}
+                </Text>
+
+                <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
+                    <CheckBox
+                        style={{ flex: 1, padding: 5, maxWidth: 30 }}
+                        checkedCheckBoxColor={COLOR_WHITE}
+                        uncheckedCheckBoxColor={COLOR_WHITE}
+                        isChecked={signupPPChecked}
+                        onClick={() => this.setState({ signupPPChecked: !signupPPChecked })}
+                    />
+                    <Text style={styles.checkboxLabel}>
+                        I agree to the&nbsp;
+                        <Text
+                            style={styles.policyLink}
+                            onPress={() => {
+                                navigation.push('WebviewWindow', {
+                                    uri: 'https://mapswipe.org/privacy',
+                                });
+                            }}
+                        >
+                            Privacy Policy
+                        </Text>
+                    </Text>
+                </View>
+
                     * All the mapping you contribute to mapswipe is open and available to anyone.
                     Your username is public, but your email and password will never be
                     shared with anyone.
                 </Text>
                 <Button
-                    isDisabled={email.length < 6 || username.length < 4 || password.length < 6}
+                    isDisabled={signupButtonDisabled}
                     testID="signup_button"
                     style={styles.otherButton}
                     onPress={this.handleSignUp}

@@ -1,8 +1,9 @@
 {
   "signup": {
-    "enterUsername": "Choose your username",
-    "passwordError": "(More than 6 characters)",
-    "usernameError": "(More than 4 characters)"
+    "chooseUsername": "Choose your username",
+    "passwordError": "Password must be more than 6 characters",
+    "usernameError": "Username must be more than 4 characters",
+    "usernamePublic": "Your username will be publicly visible"
   },
   "login": {
     "enterUsername": "Enter your username",
