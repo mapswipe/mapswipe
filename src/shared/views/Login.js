@@ -511,23 +511,25 @@ class _Login extends React.Component<Props, State> {
             >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
-                <Text style={styles.inputLabel}>Enter your email</Text>
                 <TextInput
                     testID="login_email"
                     autoCorrect={false}
                     keyboardType="email-address"
-                    style={styles.textInput}
+                    placeholder="Enter your email"
+                    placeholderTextColor={COLOR_WHITE}
+                    style={[styles.textInput, { marginBottom: 28 }]}
                     secureTextEntry={false}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
-                <Text style={styles.inputLabel}>Enter your password</Text>
 
                 <TextInput
                     testID="login_password"
                     autoCorrect={false}
+                    placeholder="Choose your password"
+                    placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
-                    style={styles.textInput}
+                    style={[styles.textInput, { marginBottom: 30 }]}
                     onChangeText={text => this.setState({ password: text })}
                 />
                 <Text style={styles.legalText}>
@@ -581,10 +583,11 @@ class _Login extends React.Component<Props, State> {
             >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
-                <Text style={styles.inputLabel}>Enter your email</Text>
                 <TextInput
                     autoCorrect={false}
                     keyboardType="email-address"
+                    placeholder="Enter your email"
+                    placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={email}
