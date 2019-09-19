@@ -18,6 +18,7 @@ import {
     TextInput,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
+// $FlowFixMe
 import CheckBox from 'react-native-check-box';
 import { MessageBarManager } from 'react-native-message-bar';
 import getReduxStore from '../store';

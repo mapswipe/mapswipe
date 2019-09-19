@@ -21,6 +21,7 @@
 
 ; ignore react-native-simple-markdown which is all broken
 .*/node_modules/react-native-simple-markdown/.*
+.*/node_modules/react-native-check-box/.*
 
 [include]
 
