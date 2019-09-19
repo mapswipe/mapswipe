@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
     },
     inputLabel: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
-        marginTop: 10,
+        marginTop: 5,
         textAlign: 'left',
         fontSize: 13,
-        marginBottom: 10,
+        marginBottom: 5,
         color: COLOR_WHITE,
     },
-    text5: {
+    legalText: {
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         marginTop: 10,
         textAlign: 'left',
@@ -381,16 +381,11 @@ class _Login extends React.Component<Props, State> {
             >
                 <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
 
-                <Text style={styles.inputLabel}>
-                    {t('signup:enterUsername')}
-                    <Text style={{ color: (showUsernameError ? COLOR_RED : COLOR_DEEP_BLUE) }}>
-                        &nbsp;
-                        {t('signup:usernameError')}
-                    </Text>
-                </Text>
                 <TextInput
                     testID="signup_username"
                     autoCorrect={false}
+                    placeholder={t('signup:chooseUsername')}
+                    placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
                     onChangeText={text => this.setState({
                         showUsernameError: text.length < 4,
@@ -398,30 +393,44 @@ class _Login extends React.Component<Props, State> {
                     })}
                     value={username}
                 />
-
-                <Text style={styles.inputLabel}>Enter your email</Text>
+                {showUsernameError
+                    ? (
+                        <Text
+                            style={[styles.inputLabel,
+                                { color: (showUsernameError ? COLOR_RED : COLOR_DEEP_BLUE) }]}
+                        >
+                            {t('signup:usernameError')}
+                        </Text>
+                    ) : (
+                        <Text style={styles.inputLabel}>
+                            {t('signup:usernamePublic')}
+                        </Text>
+                    )
+                }
 
                 <TextInput
                     testID="signup_email"
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
+                    placeholder="Enter your email"
+                    placeholderTextColor={COLOR_WHITE}
                     secureTextEntry={false}
                     style={styles.textInput}
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
-                <Text style={styles.inputLabel}>
-                    Enter your password
-                    <Text style={{ color: (showPasswordError ? COLOR_RED : COLOR_DEEP_BLUE) }}>
-                        &nbsp;
-                        {t('login:passwordError')}
-                    </Text>
+                <Text
+                    style={[styles.inputLabel, { color: COLOR_DEEP_BLUE }]}
+                >
+                    &nbsp;
                 </Text>
 
                 <TextInput
                     testID="signup_password"
                     autoCorrect={false}
+                    placeholder="Choose your password"
+                    placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={styles.textInput}
                     onChangeText={text => this.setState({
@@ -429,7 +438,6 @@ class _Login extends React.Component<Props, State> {
                         showPasswordError: text.length < 6,
                     })}
                 />
-                <Text style={styles.text5}>
                 <Text style={[styles.inputLabel,
                     { color: (showPasswordError ? COLOR_RED : COLOR_DEEP_BLUE) }]}
                 >
@@ -459,6 +467,7 @@ class _Login extends React.Component<Props, State> {
                     </Text>
                 </View>
 
+                <Text style={styles.legalText}>
                     * All the mapping you contribute to mapswipe is open and available to anyone.
                     Your username is public, but your email and password will never be
                     shared with anyone.
@@ -521,7 +530,7 @@ class _Login extends React.Component<Props, State> {
                     style={styles.textInput}
                     onChangeText={text => this.setState({ password: text })}
                 />
-                <Text style={styles.text5}>
+                <Text style={styles.legalText}>
                     * All the data you contribute to mapswipe is open and available to anyone.
                     Your username is public, but your email and password will never be
                     shared with anyone.
@@ -580,7 +589,9 @@ class _Login extends React.Component<Props, State> {
                     onChangeText={text => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
-                <Text style={styles.text5}>* We will send you an email to reset your password</Text>
+                <Text style={styles.legalText}>
+                    * We will send you an email to reset your password
+                </Text>
                 <Button
                     isDisabled={email.length < 6}
                     style={styles.otherButton}
