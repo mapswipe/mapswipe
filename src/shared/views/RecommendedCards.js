@@ -90,24 +90,16 @@ type Props = {
 
 class _RecommendedCards extends React.Component<Props> {
     openModal3 = () => {
-        const parent = this;
-
-        // FIXME: remove this call
-        // we don't want this popup anymore?
-        GLOBAL.DB.openPopup().then(() => {
-            console.log('No need to open new tut window');
-        }).catch(() => {
-            if (parent.tutorialModal) {
-                parent.tutorialModal.open();
-            }
-        });
+        // TODO: check if we need to display this modal with redux
+        if (this.tutorialModal) {
+            this.tutorialModal.open();
+        }
     }
 
     closeModal3 = () => {
         if (this.tutorialModal) {
             this.tutorialModal.close();
         }
-        GLOBAL.DB.stopPopup();
     }
 
     tutorialModal: ?Modal;

@@ -9,7 +9,6 @@
 import firebase from 'react-native-firebase';
 import levels from './Levels';
 
-const store = require('react-native-simple-store');
 const AuthManager = require('./AuthManager');
 
 
@@ -152,30 +151,6 @@ export default {
         return firebase.database().getServerTime();
     },
 
-    /**
-     * Whether we should open the popup
-     */
-    openPopup() {
-        // $FlowFixMe
-        return new Promise(((resolve, reject) => {
-            // this will throw, x does not exist
-
-
-            store.get('popupWatched').then((result) => {
-                if (result !== null && result !== undefined) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-        }));
-    },
-
-    stopPopup() {
-        store.update('popupWatched', {
-            watched: true,
-        });
-    },
     /**
      * Handles the initial loading of the app (what we consider login)
      * to see if the user has already used Mapswipe before.

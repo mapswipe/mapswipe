@@ -138,7 +138,6 @@ class Main extends React.Component<{}, State> {
     closeModal3() {
         // $FlowFixMe
         this.modal3.close();
-        GLOBAL.DB.stopPopup();
     }
 
     render() {
