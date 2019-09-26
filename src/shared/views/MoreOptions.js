@@ -247,19 +247,6 @@ Frequently Asked
                     <Button
                         onPress={() => {
                             navigation.push('WebviewWindow', {
-                                uri: GLOBAL.TUT_LINK,
-                            });
-                        }}
-                        style={styles.otherButton}
-                        textStyle={styles.buttonText}
-                    >
-Tutorial
-                    </Button>
-                </View>
-                <View style={styles.row}>
-                    <Button
-                        onPress={() => {
-                            navigation.push('WebviewWindow', {
                                 uri: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
                             });
                         }}
