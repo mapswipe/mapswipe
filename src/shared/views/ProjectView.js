@@ -533,9 +533,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         testID="mapNowButton"
                         textStyle={style.buttonText}
                     >
-                    Map Now (
-                        {hasOfflineGroups === false ? 'requires network' : 'available offline'}
-)
+                    Map Now
                     </Button>
                     <Button
                         style={downloadProgress === 0 || downloadProgress === 100
