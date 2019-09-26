@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
@@ -14,6 +14,7 @@ import {
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import * as Progress from 'react-native-progress';
+import ConfirmationModal from '../common/ConfirmationModal';
 import Levels from '../Levels';
 import type { NavigationProp } from '../flow-types';
 import {
@@ -130,6 +131,60 @@ type MOProps = {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class _MoreOptions extends React.Component<MOProps> {
+    deleteUserAccount = () => {
+        const { firebase, navigation } = this.props;
+
+        const user = firebase.auth().currentUser;
+        // stop listening for changes on the user's profile
+        // as this causes a crash when the profile is deleted
+        firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
+        user.delete().then(() => {
+            // account deleted
+            MessageBarManager.showAlert({
+                title: 'Account deleted!',
+                message: 'Sorry to see you go...',
+                alertType: 'info',
+            });
+            navigation.navigate('Login');
+        }).catch(() => {
+            // the users has authenticated too long ago
+            // ask them to reauthenticate to make sure
+            // it's them
+            MessageBarManager.showAlert({
+                title: 'Could not delete!',
+                message: 'Please login again to confirm you want to delete your account',
+                alertType: 'error',
+            });
+            navigation.navigate('Login');
+        });
+    }
+
+    deleteAccountConfirmationModal: ?React.ComponentType<ConfirmationModal>;
+
+    renderDeleteAccountConfirmationModal = () => {
+        const content = (
+            <Text>
+                This will delete your account, and all your statistics.
+                Your contributions will remain public and attached to your username
+                (but not to your email).
+                Are you sure?
+            </Text>
+        );
+
+        return (
+            <ConfirmationModal
+                // $FlowFixMe
+                cancelButtonCallback={() => { this.deleteAccountConfirmationModal.close(); }}
+                cancelButtonText="No, Keep my account"
+                content={content}
+                // $FlowFixMe
+                exitButtonCallback={this.deleteUserAccount}
+                exitButtonText="Yes, delete it!"
+                getRef={(r) => { this.deleteAccountConfirmationModal = r; }}
+            />
+        );
+    }
+
     render() {
         const {
             auth,
@@ -143,8 +198,11 @@ class _MoreOptions extends React.Component<MOProps> {
         const levelObject = Levels[level];
         const contributions = isLoaded(profile)
             && Object.prototype.hasOwnProperty.call(profile, 'taskContributionCount') ? profile.taskContributionCount : 0;
+        const deleteAccountConfirmationModal = this.renderDeleteAccountConfirmationModal();
+
         return (
             <ScrollView contentContainerStyle={styles.container}>
+                {deleteAccountConfirmationModal}
                 <ScrollingBackground />
                 <Image style={styles.pic} key={level} source={levelObject.badge} />
                 <View style={styles.info}>
@@ -252,31 +310,8 @@ Blog
                 </View>
                 <View style={[styles.row, { backgroundColor: COLOR_RED_OVERLAY }]}>
                     <Button
-                        onPress={() => {
-                            const user = firebase.auth().currentUser;
-                            // stop listening for changes on the user's profile
-                            // as this causes a crash when the profile is deleted
-                            firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
-                            user.delete().then(() => {
-                                // account deleted
-                                MessageBarManager.showAlert({
-                                    title: 'Account deleted!',
-                                    message: 'Sorry to see you go...',
-                                    alertType: 'info',
-                                });
-                                navigation.navigate('Login');
-                            }).catch(() => {
-                                // the users has authenticated too long ago
-                                // ask them to reauthenticate to make sure
-                                // it's them
-                                MessageBarManager.showAlert({
-                                    title: 'Could not delete!',
-                                    message: 'Please login again to confirm you want to delete your account',
-                                    alertType: 'error',
-                                });
-                                navigation.navigate('Login');
-                            });
-                        }}
+                        // $FlowFixMe
+                        onPress={() => { this.deleteAccountConfirmationModal.open(); }}
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
