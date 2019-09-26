@@ -201,6 +201,7 @@ class _Login extends React.Component<Props, State> {
                 title: 'Error on sign up',
                 message: 'Your username must be 4 characters or more',
                 alertType: 'error',
+                shouldHideAfterDelay: false,
             });
             return;
         }
@@ -211,6 +212,7 @@ class _Login extends React.Component<Props, State> {
                 title: 'Error on sign up',
                 message: 'Your username can not be an email',
                 alertType: 'error',
+                shouldHideAfterDelay: false,
             });
             return;
         }
@@ -263,6 +265,7 @@ class _Login extends React.Component<Props, State> {
                     title: 'Error on sign up',
                     message: errorMsg,
                     alertType: 'error',
+                    shouldHideAfterDelay: false,
                 });
                 parent.setState({
                     loadingNext: false,
@@ -317,6 +320,7 @@ class _Login extends React.Component<Props, State> {
                 title: 'Error on log in',
                 message: errorMessage,
                 alertType: 'error',
+                shouldHideAfterDelay: false,
             });
             parent.setState({
                 loadingNext: false,
@@ -359,6 +363,7 @@ class _Login extends React.Component<Props, State> {
                 title: 'Error on reset pass',
                 message: errorMessage,
                 alertType: 'error',
+                shouldHideAfterDelay: false,
             });
             parent.setState({
                 loadingNext: false,
