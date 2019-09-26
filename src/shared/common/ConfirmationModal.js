@@ -32,7 +32,9 @@ const styles = StyleSheet.create({
 type Props = {
     content: React.Element<any>,
     exitButtonCallback: () => void,
+    exitButtonText: string,
     cancelButtonCallback: () => void,
+    cancelButtonText: string,
     getRef: (any) => void,
 };
 
@@ -43,8 +45,10 @@ export default class ConfirmationModal extends React.Component<Props> {
     render() {
         const {
             cancelButtonCallback,
+            cancelButtonText,
             content,
             exitButtonCallback,
+            exitButtonText,
             getRef,
         } = this.props;
         return (
@@ -62,7 +66,7 @@ export default class ConfirmationModal extends React.Component<Props> {
                     testID="closeIntroModalBoxButton"
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
-                    Continue mapping
+                    {cancelButtonText}
                 </Button>
                 <Button
                     style={styles.startButton}
@@ -70,7 +74,7 @@ export default class ConfirmationModal extends React.Component<Props> {
                     testID="closeIntroModalBoxButton"
                     textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
                 >
-                    Back to menu
+                    {exitButtonText}
                 </Button>
             </Modal>
         );
