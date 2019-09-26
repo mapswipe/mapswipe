@@ -25,18 +25,29 @@ import {
 
 // FIXME: check the old calculation to include status bar and soft menu
 const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
+
+const tilesPerViewX = 2;
+const tilesPerViewY = 3;
+const tileViewHeight = screenHeight - 40 - 30; // 40 is top bar, 30 is bottom bar
+
+// determine the size of a tile for built area projects
+const tileHeight = tileViewHeight / tilesPerViewY;
+const tileWidth = screenWidth / tilesPerViewX;
+const tileSize = Math.min(tileHeight, tileWidth);
 
 module.exports = {
     STORE_KEY: 'a56z0fzrNpl^2',
     BASE_URL: 'http://api.mapswipe.org:3000',
     FILE_PATH: '',
     TOP_OFFSET: Platform.OS === 'android' ? 0 : 20,
-    SCREEN_WIDTH: Dimensions.get('window').width,
+    SCREEN_WIDTH: screenWidth,
     SCREEN_HEIGHT: screenHeight,
     TASKS_PROCESSING: 0,
-    TILE_VIEW_HEIGHT: (screenHeight - 40 - 30), // 40 is top bar, 30 is bottom bar
-    TILES_PER_VIEW_X: 2,
-    TILES_PER_VIEW_Y: 3,
+    TILE_VIEW_HEIGHT: tileViewHeight,
+    TILES_PER_VIEW_X: tilesPerViewX,
+    TILES_PER_VIEW_Y: tilesPerViewY,
+    TILE_SIZE: tileSize,
     TILE_VIEW_WIDTH: 1,
     // AUTH_MANAGER: authManager,
     DB: Database,

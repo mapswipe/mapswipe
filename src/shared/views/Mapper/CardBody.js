@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
     ScrollView,
-    StyleSheet,
 } from 'react-native';
 import { get } from 'lodash';
 import { getSqKmForZoomLevelPerTile } from '../../Database';
@@ -23,21 +22,8 @@ import type {
     ResultMapType,
     ResultType,
 } from '../../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-} from '../../constants';
 
 const GLOBAL = require('../../Globals');
-
-const styles = StyleSheet.create({
-    wrapper: {
-        flex: 1,
-        backgroundColor: COLOR_DEEP_BLUE,
-        position: 'absolute',
-        left: 0,
-        bottom: 30,
-    },
-});
 
 type CardToPushType = {
     cardX: number,
@@ -59,7 +45,6 @@ type Props = {
 type State = {
     cardsInView: Array<CardToPushType>,
     currentX: string,
-    marginXOffset: number,
     tutorialMode: string,
 };
 
@@ -76,7 +61,6 @@ class _CardBody extends React.Component<Props, State> {
         this.state = {
             cardsInView: [],
             currentX: props.group.xMin,
-            marginXOffset: 0,
             tutorialMode: tutorialModes.pre,
         };
     }
@@ -283,7 +267,6 @@ class _CardBody extends React.Component<Props, State> {
         const {
             cardsInView,
             currentX,
-            marginXOffset,
             tutorialMode,
         } = this.state;
         const {
@@ -341,10 +324,11 @@ class _CardBody extends React.Component<Props, State> {
                     automaticallyAdjustContentInsets={false}
                     horizontal
                     ref={(r) => { this.scrollView = r; }}
-                    pagingEnabled
                     removeClippedSubviews
                     scrollEnabled={this.scrollEnabled}
-                    contentContainerStyle={[styles.wrapper, { paddingHorizontal: marginXOffset }]}
+                    decelerationRate="fast"
+                    snapToAlignment="center"
+                    snapToInterval={GLOBAL.TILE_SIZE * 2}
                 >
                     {rows}
                 </ScrollView>

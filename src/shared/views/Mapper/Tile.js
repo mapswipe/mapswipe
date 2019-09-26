@@ -27,9 +27,6 @@ import type {
 
 const GLOBAL = require('../../Globals');
 
-const tileHeight = GLOBAL.TILE_VIEW_HEIGHT * (1 / GLOBAL.TILES_PER_VIEW_Y);
-const tileWidth = GLOBAL.SCREEN_WIDTH * (1 / GLOBAL.TILES_PER_VIEW_X);
-
 const styles = StyleSheet.create({
     animatedText: {
         fontWeight: '900',
@@ -40,22 +37,22 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_TRANSPARENT,
     },
     emptyTile: {
-        width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
+        width: GLOBAL.TILE_SIZE,
         backgroundColor: COLOR_LIGHT_GRAY,
         borderWidth: 1,
         borderTopWidth: 1,
         borderColor: COLOR_DARK_GRAY,
     },
     tileStyle: {
-        height: tileHeight,
-        width: tileWidth,
+        height: GLOBAL.TILE_SIZE,
+        width: GLOBAL.TILE_SIZE,
         borderWidth: 0.5,
         borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     tileOverlay: {
-        height: tileHeight,
+        height: GLOBAL.TILE_SIZE,
         opacity: 0.2,
-        width: tileWidth,
+        width: GLOBAL.TILE_SIZE,
     },
 });
 

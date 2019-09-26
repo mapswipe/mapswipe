@@ -16,19 +16,20 @@ import type {
 import { toggleMapTile } from '../../actions/index';
 import type { Mapper, ResultType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
+import {
+    COLOR_DEEP_BLUE,
+} from '../../constants';
 
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     slide: {
-        width: (GLOBAL.SCREEN_WIDTH),
-        height: (GLOBAL.TILE_VIEW_HEIGHT),
         flex: 1,
         borderWidth: 0,
-        backgroundColor: '#212121',
-        justifyContent: 'flex-start',
+        backgroundColor: COLOR_DEEP_BLUE,
+        justifyContent: 'center',
         flexDirection: 'column',
-        alignItems: 'flex-start',
+        alignItems: 'center',
     },
     swipeHelp: {
         color: 'white',
@@ -41,8 +42,8 @@ const styles = StyleSheet.create({
     },
     tileRow: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
-        flex: 1,
+        alignItems: 'center',
+        flex: 0,
     },
 });
 
