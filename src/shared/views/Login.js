@@ -539,11 +539,12 @@ class _Login extends React.Component<Props, State> {
                 <TextInput
                     testID="login_password"
                     autoCorrect={false}
-                    placeholder="Choose your password"
+                    placeholder="Enter your password"
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={[styles.textInput, { marginBottom: 30 }]}
                     onChangeText={text => this.setState({ password: text })}
+                    value={password}
                 />
                 <Text style={styles.legalText}>
                     * All the data you contribute to mapswipe is open and available to anyone.
