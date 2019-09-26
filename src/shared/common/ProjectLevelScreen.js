@@ -13,7 +13,6 @@ import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
 import {
     cancelGroup,
-    commitGroup,
     startGroup,
 } from '../actions/index';
 import {
@@ -312,9 +311,6 @@ const mapDispatchToProps = (dispatch, ownProps) => (
     {
         onCancelGroup(groupDetails) {
             dispatch(cancelGroup(groupDetails));
-        },
-        onCommitGroup(groupInfo) {
-            dispatch(commitGroup(groupInfo));
         },
         onStartGroup(groupDetails) {
             dispatch(startGroup(groupDetails));

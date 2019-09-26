@@ -83,13 +83,16 @@ class _LoadMoreCard extends React.Component<Props> {
             results,
         } = this.props;
         const { contributionsCount, addedDistance } = getContributions(group, results);
-        onCommitGroup({
-            addedDistance,
-            groupId: group.groupId,
-            projectId,
-            contributionsCount,
-            results,
-        });
+        // do not upload results for tutorial groups
+        if (!projectId.includes('tutorial')) {
+            onCommitGroup({
+                addedDistance,
+                groupId: group.groupId,
+                projectId,
+                contributionsCount,
+                results,
+            });
+        }
     }
 
     onMore = () => {
