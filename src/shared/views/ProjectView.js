@@ -503,10 +503,17 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     <Button
                         style={style.startButtonTutorial}
                         onPress={() => {
-                            navigation.push('Mapper', {
-                                project,
-                                tutorial: true,
-                            });
+                            if (project.projectType === LEGACY_TILES) {
+                                navigation.push('Mapper', {
+                                    project,
+                                    tutorial: true,
+                                });
+                            } else {
+                                Alert.alert(
+                                    'Coming soon!',
+                                    'The tutorial is not ready yet for this type of projects.',
+                                );
+                            }
                         }}
                         textStyle={style.buttonText}
                     >
