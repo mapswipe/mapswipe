@@ -264,7 +264,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 
     componentDidMount() {
         const { project } = this.props;
-        GLOBAL.GRADIENT_COUNT = 0;
         this.mounted = true;
         // FIXME see below :)
         // GLOBAL.ANALYTICS.logEvent('project_view_opened');
