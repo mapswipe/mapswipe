@@ -534,6 +534,7 @@ class _Login extends React.Component<Props, State> {
                 <TextInput
                     testID="login_email"
                     autoCorrect={false}
+                    autoCompleteType="email"
                     keyboardType="email-address"
                     placeholder="Enter your email"
                     placeholderTextColor={COLOR_WHITE}
