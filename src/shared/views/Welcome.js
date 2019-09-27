@@ -14,65 +14,50 @@ import type { NavigationProp } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 import {
     COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+    COLOR_RED,
 } from '../constants';
 
 const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
     startButton: {
-        backgroundColor: '#ee0000',
+        alignSelf: 'center',
+        backgroundColor: COLOR_RED,
         width: GLOBAL.SCREEN_WIDTH * 0.90,
         height: 50,
         padding: 12,
         borderRadius: 5,
         borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 50,
-        left: GLOBAL.SCREEN_WIDTH * 0.05,
+        marginTop: 50,
     },
-    nextButton: {
-        backgroundColor: COLOR_DEEP_BLUE,
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 50,
-        left: GLOBAL.SCREEN_WIDTH * 0.05,
-    },
-    slide1: {
+    slide: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(230,239,198)',
+        backgroundColor: COLOR_LIGHT_GRAY,
         flexDirection: 'column',
     },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        backgroundColor: 'rgb(199,231,224)',
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgb(247,232,172)',
-        flexDirection: 'column',
+    heading: {
+        color: COLOR_DEEP_BLUE,
+        marginBottom: 30,
+        textAlign: 'center',
+        fontSize: 36,
+        fontWeight: 'bold',
+        width: GLOBAL.SCREEN_WIDTH * 0.75,
     },
     text: {
+        color: COLOR_DEEP_BLUE,
         width: GLOBAL.SCREEN_WIDTH * 0.8,
-        height: GLOBAL.SCREEN_HEIGHT * 0.5,
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18,
 
     },
     welcomeIcon: {
+        marginBottom: 30,
         resizeMode: 'contain',
-        width: GLOBAL.SCREEN_WIDTH,
-        height: GLOBAL.SCREEN_HEIGHT * 0.5,
+        height: GLOBAL.SCREEN_HEIGHT * 0.3,
+        maxWidth: GLOBAL.SCREEN_WIDTH * 0.8,
     },
 });
 
@@ -149,50 +134,67 @@ class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState
         // GLOBAL.ANALYTICS.logEvent('starting_welcome');
         return (
             <Swiper
+                activeDotColor={COLOR_DEEP_BLUE}
                 showsButtons={false}
                 loop={false}
                 ref={(r) => { this.swiper = r; }}
             >
-                <View style={styles.slide1}>
-
-                    <Image style={styles.welcomeIcon} source={require('./assets/tut1.png')} />
-                    <Text style={styles.text}>
-                        You receive groups of satellite images from vulnerable areas.
+                <View style={styles.slide}>
+                    <Image style={styles.welcomeIcon} source={require('./assets/welcome1.png')} />
+                    <Text style={styles.heading}>
+                        Welcome to MapSwipe
                     </Text>
-                    <Button
-                        style={styles.nextButton}
-                        onPress={() => this.swiper && this.swiper.scrollBy(1)}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
-                    >
-                    Next
-                    </Button>
-                </View>
-                <View style={styles.slide2}>
-
-                    <Image style={styles.welcomeIcon} source={require('./assets/tut2.png')} />
                     <Text style={styles.text}>
-The data helps organisations coordinate humanitarian efforts in the places you
-                    map
+                        Help improve humanitarian responses from the comfort of your phone
                     </Text>
-                    <Button
-                        style={styles.nextButton}
-                        onPress={() => this.swiper && this.swiper.scrollBy(1)}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
-                    >
-                    Next
-                    </Button>
                 </View>
-                <View style={styles.slide3}>
 
-                    <Image style={styles.welcomeIcon} source={require('./assets/tut3.png')} />
+                <View style={styles.slide}>
+                    <Image style={styles.welcomeIcon} source={require('./assets/welcome2.png')} />
+                    <Text style={styles.heading}>
+                        Part of Missing Maps
+                    </Text>
                     <Text style={styles.text}>
-Mapping has already helped save lives. Are you ready to become a mobile
-                    volunteer?
+                        With Missing Maps, we aim to put the world&apos;s
+                        vulnerable communities on the map
+                    </Text>
+                </View>
+
+                <View style={styles.slide}>
+                    <Image style={styles.welcomeIcon} source={require('./assets/welcome3.png')} />
+                    <Text style={styles.heading}>
+                        Swipe
+                    </Text>
+                    <Text style={styles.text}>
+                        Complete tasks by swiping through satellite imagery
+                        of areas that need mapping
+                    </Text>
+                </View>
+
+                <View style={styles.slide}>
+                    <Image style={styles.welcomeIcon} source={require('./assets/welcome4.png')} />
+                    <Text style={styles.heading}>
+                        Create meaningful data
+                    </Text>
+                    <Text style={styles.text}>
+                        The data is used to focus the efforts of Missing Maps volunteers
+                        to add detail to OpenStreetMap
+                    </Text>
+                </View>
+
+                <View style={styles.slide}>
+                    <Image style={styles.welcomeIcon} source={require('./assets/welcome5.png')} />
+                    <Text style={styles.heading}>
+                        Save lives
+                    </Text>
+                    <Text style={styles.text}>
+                        The map helps organisations coordinate humanitarian
+                        efforts and save lives
                     </Text>
                     <Button
                         style={styles.startButton}
                         onPress={() => onCompletion()}
-                        textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                        textStyle={{ fontSize: 18, color: COLOR_LIGHT_GRAY, fontWeight: '700' }}
                     >
                     Sign Up
                     </Button>
