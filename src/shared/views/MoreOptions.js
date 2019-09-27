@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import {
+    Linking,
     Text,
     View,
     ScrollView,
@@ -236,56 +237,40 @@ class _MoreOptions extends React.Component<MOProps> {
                     <Button
                         onPress={() => {
                             navigation.push('WebviewWindow', {
-                                uri: 'http://mapswipe.org/faq',
+                                uri: 'https://mapswipe.org/',
                             });
                         }}
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-Frequently Asked
-                    Questions
+                        MapSwipe website
                     </Button>
                 </View>
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
                             navigation.push('WebviewWindow', {
-                                uri: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
+                                uri: 'https://www.missingmaps.org',
                             });
                         }}
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-Contact Us
+                        MissingMaps website
                     </Button>
                 </View>
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
-                            navigation.push('WebviewWindow', {
-                                uri: 'http://missingmaps.org/events',
-                            });
+                            Linking.openURL('mailto:info@mapswipe.org');
                         }}
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-Events
+                        Email us
                     </Button>
                 </View>
 
-                <View style={styles.row}>
-                    <Button
-                        onPress={() => {
-                            navigation.push('WebviewWindow', {
-                                uri: 'http://missingmaps.org/blog',
-                            });
-                        }}
-                        style={styles.otherButton}
-                        textStyle={styles.buttonText}
-                    >
-Blog
-                    </Button>
-                </View>
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
