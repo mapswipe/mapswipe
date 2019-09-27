@@ -34,7 +34,7 @@ fi
 
 # get current version/build from package.json
 current_version_number=`grep '^\ *"version":' package.json | sed 's/.*"\(.*\)",/\1/g'`
-current_build_number=`grep '^\ *"build": "[0-9]",' package.json | sed 's/.*"\(.*\)",/\1/g'`
+current_build_number=`grep '^\ *"build": "[0-9]\{1,2\}",' package.json | sed 's/.*"\(.*\)",/\1/g'`
 
 # ask for new version number, and check it's valid
 echo -n "Current version is $current_version_number. Input new version number: "
@@ -48,7 +48,7 @@ fi
 # ask and validate build number
 echo -n "Current build is $current_build_number. Input new build number: "
 read buildNumber;
-build_check="[0-9]"
+build_check="[0-9][0-9]?"
 if [[ ! "$buildNumber" =~ $build_check ]]; then
     echo "Build number must be a number. Exiting."
     exit 1
