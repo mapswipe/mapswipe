@@ -175,15 +175,6 @@ const style = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.1,
     },
-    inProgressButton: {
-        marginTop: 10,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        flex: 1,
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-    },
     downloadButton: {
         backgroundColor: COLOR_DEEP_BLUE,
         height: 50,
@@ -247,7 +238,6 @@ type HeaderProps = {
 }
 
 type HeaderState = {
-    downloadProgress: number,
     hasOfflineGroups: boolean,
     isDisabled: boolean,
 }
@@ -256,7 +246,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     constructor(props) {
         super(props);
         this.state = {
-            downloadProgress: 0,
             hasOfflineGroups: false,
             isDisabled: true,
         };
@@ -275,10 +264,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             if (!parent.mounted) {
                 return;
             }
-            // FIXME: calculate progress once we rebuild offline
-            const downloadProgress = 0;
             parent.setState({
-                downloadProgress,
                 hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.projectId}`),
             });
         }, 300);
@@ -454,7 +440,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 
     render() {
         const { navigation, project } = this.props;
-        const { downloadProgress, hasOfflineGroups, isDisabled } = this.state;
+        const { hasOfflineGroups, isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
         chunks.forEach((chunk) => {
@@ -533,15 +519,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         textStyle={style.buttonText}
                     >
                     Map Now
-                    </Button>
-                    <Button
-                        style={downloadProgress === 0 || downloadProgress === 100
-                            ? style.startButton : style.inProgressButton}
-                        onPress={downloadProgress === 0
-                            ? this.handleLater : this.handleInProgress}
-                        textStyle={style.buttonText}
-                    >
-                        {downloadProgress === 0 || downloadProgress === 100 || !downloadProgress ? 'Download For Later' : `Downloading (${downloadProgress}%)`}
                     </Button>
 
                     <Button
