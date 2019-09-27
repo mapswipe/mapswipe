@@ -24,7 +24,7 @@ exports[`Renders RecommendedCards screen 1`] = `
     testID="recommended_cards_view"
   >
     <TouchableOpacity
-      activeOpacity={0.2}
+      activeOpacity={0.5}
       testID="projectCardType1"
     >
       <View
@@ -153,7 +153,7 @@ exports[`Renders RecommendedCards screen 1`] = `
                 style={
                   Object {
                     "borderBottomWidth": 0,
-                    "borderColor": "#e8e8e8",
+                    "borderColor": "#eef2fb",
                     "borderLeftWidth": 0,
                     "borderRightWidth": 0,
                     "borderTopWidth": 1,
@@ -203,7 +203,7 @@ exports[`Renders RecommendedCards screen 1`] = `
       </View>
     </TouchableOpacity>
     <TouchableOpacity
-      activeOpacity={0.2}
+      activeOpacity={0.5}
       testID="projectCardType1"
     >
       <View
@@ -333,7 +333,7 @@ exports[`Renders RecommendedCards screen 1`] = `
                 style={
                   Object {
                     "borderBottomWidth": 0,
-                    "borderColor": "#e8e8e8",
+                    "borderColor": "#eef2fb",
                     "borderLeftWidth": 0,
                     "borderRightWidth": 0,
                     "borderTopWidth": 1,
@@ -383,7 +383,7 @@ exports[`Renders RecommendedCards screen 1`] = `
       </View>
     </TouchableOpacity>
     <TouchableOpacity
-      activeOpacity={0.2}
+      activeOpacity={0.5}
       testID="projectCardType2"
     >
       <View
@@ -513,7 +513,7 @@ exports[`Renders RecommendedCards screen 1`] = `
                 style={
                   Object {
                     "borderBottomWidth": 0,
-                    "borderColor": "#e8e8e8",
+                    "borderColor": "#eef2fb",
                     "borderLeftWidth": 0,
                     "borderRightWidth": 0,
                     "borderTopWidth": 1,
