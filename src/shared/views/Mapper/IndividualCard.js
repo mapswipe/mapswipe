@@ -128,21 +128,28 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         this.setState({ showSwipeHelp: true });
     };
 
-    handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
-        // swipe completed, decide what to do
+    setAllTilesTo = (value) => {
         const { card, onToggleTile } = this.props;
-        this.setState({ showSwipeHelp: false });
-        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * 0.5) {
-            card.tileRows.forEach((row) => {
-                row.tiles.forEach((tile) => {
-                    onToggleTile({
-                        groupId: tile.groupId,
-                        resultId: tile.taskId,
-                        result: 3,
-                        projectId: tile.projectId,
-                    });
+        card.tileRows.forEach((row) => {
+            row.tiles.forEach((tile) => {
+                onToggleTile({
+                    groupId: tile.groupId,
+                    resultId: tile.taskId,
+                    result: value,
+                    projectId: tile.projectId,
                 });
             });
+        });
+    }
+
+    handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
+        // swipe completed, decide what to do
+        this.setState({ showSwipeHelp: false });
+        const swipeMinLength = 0.35;
+        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+            this.setAllTilesTo(3);
+        } else if (gestureState.dy < -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+            this.setAllTilesTo(0);
         }
     };
 
@@ -157,7 +164,9 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
     renderSwipeHelp = () => (
         <Text style={styles.swipeHelp}>
-            Swipe down to mark all 6 tiles RED
+            Swipe DOWN to mark all 6 tiles RED.
+            {'\n'}
+            Swipe UP to undo.
         </Text>
     )
 
