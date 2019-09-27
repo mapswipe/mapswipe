@@ -482,7 +482,7 @@ class _Login extends React.Component<Props, State> {
                                 });
                             }}
                         >
-                            Privacy Policy
+                            Privacy Notice
                         </Text>
                     </Text>
                 </View>
