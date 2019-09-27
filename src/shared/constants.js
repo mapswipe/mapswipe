@@ -17,4 +17,4 @@ export const COLOR_YELLOW_OVERLAY = 'rgba(237, 209, 28, 0.2)';
 export const COLOR_TRANSPARENT = 'transparent';
 export const COLOR_WHITE = 'white';
 export const COLOR_DARK_GRAY = '#212121';
-export const COLOR_LIGHT_GRAY = '#e8e8e8';
+export const COLOR_LIGHT_GRAY = '#eef2fb';
