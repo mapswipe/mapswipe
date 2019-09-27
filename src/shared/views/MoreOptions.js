@@ -164,10 +164,13 @@ class _MoreOptions extends React.Component<MOProps> {
     renderDeleteAccountConfirmationModal = () => {
         const content = (
             <Text>
-                This will delete your account, and all your statistics.
-                Your contributions will remain public and attached to your username
-                (but not to your email).
-                Are you sure?
+                Are you sure you want to delete your account?
+                {'\n'}
+                You will lose all of your progress and badges.
+                Your contributions will remain public but no longer tied to your account.
+                You will receive no confirmation email of account deletion.
+                {'\n'}
+                Would you like to continue?
             </Text>
         );
 
@@ -302,7 +305,7 @@ Blog
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        Delete my account (no confirmation!)
+                        Delete my account
                     </Button>
                 </View>
             </ScrollView>
