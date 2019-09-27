@@ -179,6 +179,7 @@ export default class ProjectCard extends React.Component<Props, State> {
 
         return (
             <TouchableOpacity
+                activeOpacity={0.5}
                 onPress={this.handlePress}
                 testID={`projectCardType${project.projectType}`}
             >
