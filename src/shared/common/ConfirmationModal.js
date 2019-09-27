@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     modal: {
         backgroundColor: '#ffffff',
         borderRadius: 2,
-        height: 250,
+        height: null,
         padding: 20,
         width: 300,
     },
