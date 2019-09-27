@@ -1,13 +1,4 @@
-/**
- * @author Pim de Witte (pimdewitte.me/pimdewitte95@gmail.com). Copyright MSF UK 2016.
- *
- * Main is the main class that is called from both Android and iOS on application startup.
- * It initializes the application and controls which scene is rendered to the end user through
- * the Navigator component.
- */
-
 // @flow
-
 import * as React from 'react';
 import {
     Image,

@@ -1,16 +1,6 @@
-/**
- * @author Pim de Witte (pimdewitte.me/pimdewitte95@gmail.com). Copyright MSF UK 2016.
- *
- * Database is the main class for communicating with firebase and AsyncStorage.
- */
-
 // @flow
-
 import firebase from 'react-native-firebase';
 import levels from './Levels';
-
-const AuthManager = require('./AuthManager');
-
 
 /* var PushNotification = require('react-native-push-notification');
 PushNotification.configure({
@@ -47,8 +37,6 @@ PushNotification.configure({
     requestPermissions: true,
 }); */
 
-const auth = new AuthManager(firebase);
-
 export default {
 
     /**
@@ -63,14 +51,6 @@ export default {
 
     taskResults: [],
     groupCompletes: [],
-
-    /**
-     * Returns the auth manager
-     * @returns {AuthManager|exports|module.exports}
-     */
-    getAuth() {
-        return auth;
-    },
 
     /**
      * These functions determine whether there is a level up that needs to be popped up.
