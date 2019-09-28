@@ -158,6 +158,12 @@ class _Login extends React.Component<Props, State> {
         const { auth, navigation } = this.props;
         if (navigation) {
             this.didBlurSubscription = navigation.addListener(
+                'didFocus',
+                () => {
+                    this.setState({ loadingNext: false });
+                },
+            );
+            this.didBlurSubscription = navigation.addListener(
                 'didBlur',
                 () => {
                     this.setState({ loadingNext: false });
