@@ -256,7 +256,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        MissingMaps website
+                        Missing Maps website
                     </Button>
                 </View>
                 <View style={styles.row}>
