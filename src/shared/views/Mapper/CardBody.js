@@ -320,6 +320,13 @@ class _CardBody extends React.Component<Props, State> {
                 <ScrollView
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     onScroll={this.handleScroll}
+                    onScrollEndDrag={(e) => {
+                        if (e.nativeEvent.velocity.x < 0) {
+                            this.scrollView.scrollTo({ x: 2 * GLOBAL.TILE_SIZE * Math.ceil(e.nativeEvent.contentOffset.x / (2 * GLOBAL.TILE_SIZE)) });
+                        } else {
+                            this.scrollView.scrollTo({ x: 2 * GLOBAL.TILE_SIZE * Math.floor(e.nativeEvent.contentOffset.x / (2 * GLOBAL.TILE_SIZE)) });
+                        }
+                    }}
                     onMoveShouldSetResponderCapture={this.handleTutorialScrollCapture}
                     automaticallyAdjustContentInsets={false}
                     horizontal
