@@ -6,6 +6,7 @@ import {
     View,
 } from 'react-native';
 import {
+    COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
 } from '../constants';
@@ -49,7 +50,9 @@ export default class BottomProgress extends React.Component<{}, BPState> {
                     width={GLOBAL.SCREEN_WIDTH * 0.98}
                     marginBottom={2}
                     borderRadius={0}
-                    unfilledColor={COLOR_LIGHT_GRAY}
+                    unfilledColor={COLOR_DARK_GRAY}
+                    color={COLOR_LIGHT_GRAY}
+                    borderColor={COLOR_DEEP_BLUE}
                     progress={progress}
                 />
             </View>
