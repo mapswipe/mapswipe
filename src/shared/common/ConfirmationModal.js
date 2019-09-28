@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         width: 300,
     },
     startButton: {
-        alignItems: 'stretch',
+        alignItems: 'center',
         backgroundColor: COLOR_DEEP_BLUE,
         borderRadius: 5,
         borderWidth: 0.1,
