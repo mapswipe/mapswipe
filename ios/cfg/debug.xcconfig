@@ -1,0 +1,15 @@
+//
+//  debug.xcconfig
+//  mapswipe
+//
+//  Created by Henry Huck on 04/01/2019.
+//  Copyright © 2019 Facebook. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+PRODUCT_BUNDLE_IDENTIFIER=org.missingmaps.mapswipe-dev
+BUNDLE_DISPLAY_NAME=mapswipe-dev
+FIREBASE_CONFIG_EXTENSION=dev
+

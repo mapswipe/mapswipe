@@ -1,12 +1,26 @@
-
-# Configs
+# Configs Android
 config.json*
+android/google_play_api_key.json
 android/app/google-services.json
+android/app/src/dev/google-services.json
+android/app/src/production/google-services.json
+android/gradle.properties
+android/sentry.properties
+secrets.tar
+
+# Configs iOS
+ios/cfg/GoogleService-Info.*.plist
 ios/cfg/GoogleService-Info.plist
+ios/cfg/secrets.tar
+ios/cfg/sentry.properties
+ios/cfg/sentry.*.properties
+ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+ios/sentry.properties
 
 # OSX
 #
 .DS_Store
+ios/Pods/
 
 # Xcode
 #
@@ -27,9 +41,11 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+*.dSYM.zip
 
-# Android/IJ
+# Android/IntelliJ
 #
+build/
 .idea
 .gradle
 local.properties
@@ -40,10 +56,27 @@ local.properties
 node_modules/
 npm-debug.log
 *.keystore
+yarn-error.log
 
 # BUCK
 buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+*.keystore
 
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
+*/fastlane/test_output/report.html
+*/fastlane/test_output/report.junit
+
+# Bundle artifact
+*.jsbundle

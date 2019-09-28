@@ -1,0 +1,53 @@
+# fastlane/Fastfile
+default_platform :ios
+setup_travis
+
+platform :ios do
+  before_all do |lane|
+    if lane != :matchDev && lane != :matchProd
+      cocoapods(repo_update: true, silent: true)
+    end 
+  end
+
+  desc "Update dev certificates locally"
+  lane :matchDev do 
+      match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
+  end
+
+  lane :matchProd do
+    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: is_ci)
+  end
+
+  desc "Build the app and run the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step."
+  lane :test do
+    match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
+    scan(scheme: "mapswipe",
+         configuration: "Debug",
+         clean: true,
+         derived_data_path: "build",
+         build_for_testing: true,
+         devices:['iPhone X'])
+    # scan(scheme: "mapswipe",
+    #      configuration: "Debug",
+    #      test_without_building: true,
+    #      derived_data_path: "build",
+    #      devices:['iPhone X'])
+  end
+
+  desc "Build production version and upload to appstore. This step is executed when a tag on master is created"
+  lane :release do
+    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false)
+    build_app(scheme: "mapswipe", configuration: "Release", clean: true)
+    upload_to_app_store(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe", force: is_ci)
+  end
+
+  desc "Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created"
+  lane :beta do
+    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
+    build_app(scheme: "mapswipe", configuration: "Beta", clean: true)
+    upload_to_testflight(username: "mapswipe.dev@gmail.com",
+                         app_identifier: "org.missingmaps.mapswipe-dev",
+                         skip_waiting_for_build_processing: true
+                         )
+  end
+end

@@ -1,0 +1,6 @@
+Hi there! Please run through the tutorial and create an account. If you can not create an account, please use the one provided in the details. 
+
+This application is a platform that allows humanitarian organisations to crowdsource mapping data. It is very simple - users classify satellite images and search for the object listed in the mission brief. Our release is on the 15th of July, and the Android app is already released, so a quick process is appreciated. If further info is required, please reach out. 
+
+Thank you,
+Pim

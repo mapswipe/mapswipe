@@ -1,47 +1,42 @@
-/**
- * @author Pim de Witte (pimdewitte.me/pimdewitte95@gmail.com). Copyright MSF UK 2016.
- *
- * Globals is a class that stores static variables throughout the application. This include things such as the AuthenticationManager, the Model, and the Database connection.
- * It also stores stuff such as the screen dimentions and server variables.
- */
+// @flow
+import { Platform, Dimensions } from 'react-native';
 
+// var Analytics = require('react-native-firebase-analytics');
 
-import React from "react";
-import { Platform, Dimensions } from "react-native";
-var ExtraDimensions = require('react-native-extra-dimensions-android');
-var AuthManager = require('./AuthManager');
+import Database from './Database';
+import {
+    LEGACY_TILES,
+    BUILDING_FOOTPRINTS,
+    CHANGE_DETECTION,
+} from './constants';
 
-var authManager = new AuthManager();
+// FIXME: check the old calculation to include status bar and soft menu
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
-var Analytics = require('react-native-firebase-analytics');
+const tilesPerViewX = 2;
+const tilesPerViewY = 3;
+const tileViewHeight = screenHeight - 40 - 30; // 40 is top bar, 30 is bottom bar
 
-var Database = require('./Database');
-
-var screenHeight = (Platform.OS === 'android' ? ExtraDimensions.get('REAL_WINDOW_HEIGHT') : Dimensions.get('window').height)
-    - (Platform.OS === 'android' ? ExtraDimensions.get("STATUS_BAR_HEIGHT") : 20) - (Platform.OS === 'android' ? ExtraDimensions.get("SOFT_MENU_BAR_HEIGHT") : 0);
+// determine the size of a tile for built area projects
+const tileHeight = tileViewHeight / tilesPerViewY;
+const tileWidth = screenWidth / tilesPerViewX;
+const tileSize = Math.min(tileHeight, tileWidth);
 
 module.exports = {
-    STORE_KEY: 'a56z0fzrNpl^2',
-    BASE_URL: 'http://api.mapswipe.org:3000',
-    FILE_PATH: '',
     TOP_OFFSET: Platform.OS === 'android' ? 0 : 20,
-    SCREEN_WIDTH: Platform.OS === 'android' ? ExtraDimensions.get('REAL_WINDOW_WIDTH') : Dimensions.get('window').width,
-    SCREEN_HEIGHT: screenHeight
-    ,
-    COLOR: {
-        ORANGE: '#C50',
-        DARKBLUE: '#0F3274',
-        LIGHTBLUE: '#6EA8DA',
-        DARKGRAY: '#999',
-    },
-    TASKS_PROCESSING: 0,
-    TILE_VIEW_HEIGHT: (screenHeight - 40 - 30) / screenHeight, // 40 is top bar, 30 is bottom bar
-    TILES_PER_VIEW_X: 2,
-    TILES_PER_VIEW_Y: 3,
-    TILE_VIEW_WIDTH: 1,
-    AUTH_MANAGER: authManager,
+    SCREEN_WIDTH: screenWidth,
+    SCREEN_HEIGHT: screenHeight,
+    TILE_VIEW_HEIGHT: tileViewHeight,
+    TILES_PER_VIEW_X: tilesPerViewX,
+    TILES_PER_VIEW_Y: tilesPerViewY,
+    TILE_SIZE: tileSize,
     DB: Database,
-    GRADIENT_COUNT: 0,
     TUT_LINK: 'http://www.missingmaps.org/blog/2016/07/18/mapswipetutorial/',
-    ANALYTICS: Analytics,
+    // ANALYTICS: Analytics,
+    SUPPORTED_PROJECT_TYPES: [
+        LEGACY_TILES,
+        BUILDING_FOOTPRINTS,
+        CHANGE_DETECTION,
+    ],
 };

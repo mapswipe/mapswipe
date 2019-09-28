@@ -1,0 +1,49 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+      "ecmaFeatures": {
+          "jsx": true
+      }
+  },
+  "extends": "airbnb",
+  "plugins": [
+    "react",
+    "react-native",
+    "flowtype",
+    "jest",
+    "jsx-a11y",
+    "import"
+  ],
+  "rules": {
+    "no-console": "off",
+    "indent": ["error", 4],
+    "react/jsx-indent": ["error", 4],
+    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-filename-extension": [
+      1, { "extensions": [".js", ".jsx"] }
+    ],
+    "react/prefer-stateless-function": [
+      2, { "ignorePureComponents": true }
+    ],
+    "react/forbid-prop-types": [0, { "forbid": [] }],
+    "react-native/no-unused-styles": 2,
+    "import/extensions": [1, "never", { "svg": "always" }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ]
+  },
+  "globals": {
+      "Generator": true,
+      "IntervalID": true
+  },
+  "env": {
+    "jest": true,
+    "jest/globals": true,
+    "react-native/react-native": true
+  }
+}

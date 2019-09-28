@@ -1,65 +1,46 @@
-import React from "react";
-import {Text, View, Image, StyleSheet, Dimensions, TouchableOpacity} from "react-native";
-import Button from "apsl-react-native-button";
-import LinearGradient from "react-native-linear-gradient";
+// @flow
 
-var GLOBAL = require('../Globals');
+import React from 'react';
+import {
+    ImageBackground, Text, View, Image, StyleSheet, TouchableOpacity,
+} from 'react-native';
+import type { NavigationProp, ProjectType } from '../flow-types';
+import {
+    COLOR_LIGHT_GRAY,
+} from '../constants';
 
+const GLOBAL = require('../Globals');
+
+/* eslint-disable global-require */
 
 /**
  * The ProjectCard class represents a single card instance.
  *
  */
 
-
-var style = StyleSheet.create({
+const style = StyleSheet.create({
     largeCard: {
         height: 250,
         width: GLOBAL.SCREEN_WIDTH,
         shadowColor: '#ccc',
-        shadowOffset: {width: 2, height: 2},
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
         marginTop: 5,
-    },
-    groupAvatarBorderRadiusFix: {
-        position: 'absolute',
-        top: -10,
-        right: -10,
-        bottom: -10,
-        left: -10,
-        borderRadius: 29,
-        borderWidth: 10,
-        borderColor: '#212121',
+        flex: 1,
     },
     smallCard: {
         height: 250,
         width: GLOBAL.SCREEN_WIDTH * 0.49,
         shadowColor: '#ccc',
-        shadowOffset: {width: 2, height: 2},
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
         marginTop: 5,
+        flex: 1,
     },
     cardBackground: {
         flex: 1,
-        overflow: 'hidden'
-    },
-    circle: {
-        width: 5,
-        height: 5,
-        borderRadius: 100 / 2,
-        backgroundColor: '#ee0000'
-    },
-    nowButton: {
-        backgroundColor: '#ffffff',
-        width: 110,
-        height: 20,
-        padding: 12,
-        borderRadius: 2,
-        borderWidth: 0.1,
-        top: 5,
-        left: 5,
-        position: 'absolute'
+        overflow: 'hidden',
     },
     offlineIndicator: {
         borderWidth: 0,
@@ -85,7 +66,7 @@ var style = StyleSheet.create({
     bottomTextAreaSmallCard: {
         position: 'absolute',
         flex: 1,
-        height: 90,
+        height: 100,
         bottom: 0,
         right: 0,
         left: 0,
@@ -99,17 +80,16 @@ var style = StyleSheet.create({
         fontSize: 15,
         fontWeight: '600',
         color: '#ffffff',
-        shadowColor: "#000000",
+        shadowColor: '#000000',
         shadowOpacity: 0.8,
         shadowRadius: 2,
         shadowOffset: {
             height: 1,
-            width: 0
+            width: 0,
         },
-
     },
     teamMates: {
-        borderColor: '#e8e8e8',
+        borderColor: COLOR_LIGHT_GRAY,
         borderTopWidth: 1,
         borderLeftWidth: 0,
         borderRightWidth: 0,
@@ -119,139 +99,123 @@ var style = StyleSheet.create({
     },
     teamMateText: {
         color: '#ffffff',
-        shadowColor: "#000000",
+        shadowColor: '#000000',
         shadowOpacity: 0.8,
         shadowRadius: 2,
         shadowOffset: {
             height: 1,
-            width: 0
+            width: 0,
         },
         fontSize: 13,
         marginLeft: 10,
-        marginTop: 5
-
+        marginTop: 5,
     },
     heart: {
         width: 13,
         height: 13,
         resizeMode: 'contain',
-        marginTop: 5
+        marginTop: 5,
+    },
+    overlay: {
+        backgroundColor: 'rgba(52,52,52,0.7)',
+        flex: 1,
+        height: 250,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
 
+type Props = {
+    project: ProjectType,
+    cardIndex: number,
+    navigation: NavigationProp,
+}
+
+type State = {
+    hasOfflineGroups: boolean,
+}
+
+export default class ProjectCard extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.project.projectId}`),
+        };
     }
 
-});
-
-// Later on in your styles..
-var styles = StyleSheet.create({
-    linearGradient: {
-        flex: 1,
-        paddingLeft: 15,
-        paddingRight: 15,
-    },
-    buttonText: {
-        fontSize: 18,
-        fontFamily: 'Gill Sans',
-        textAlign: 'center',
-        margin: 10,
-        color: '#ffffff',
-        backgroundColor: 'transparent',
-    },
-});
-
-var ProjectCard = React.createClass({
-
-    getInitialState() {
-        return {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups('project-' + this.props.card.id)
-        }
-    },
-
-    _getColorForState(state) {
-        if (state === 0) {
-            return 'red';
-        } else if (state === 1) {
-            return 'orange';
-        } else if (state === 2) { //complete
-            return 'green';
-        }
-    },
-    _getTextForState(state) {
-
-        if (state === 2) {
-            return 'COMPLETE';
-        }
-        if (state === 1) {
-            return 'ON HOLD';
-        }
-
-        // if the state is not any of these,
-
-        if (state === 0) {
-            return 'NEEDS MAPPING';
-        }
-    },
-    _handlePress() {
-        this.props.navigator.push({id: 2, data: this.props.card});
-        //console.log(event);
-    },
-
     getGradientArray() {
+        const { project } = this.props;
+        const gradientToPick = parseInt(project.created, 10) % 3;
+        let gradientCountArray = null;
 
-        var gradientToPick = this.props.card.id % 3;
-        var gradientCountArray = null;
-
-        var gradientOpacity = ["0.6", "0.8"];
+        const gradientOpacity = ['0.6', '0.8'];
         switch (gradientToPick) {
-
-            case 0:
-                gradientCountArray = ['rgba(12,25,73,' + gradientOpacity[0] + ')', 'rgba(0,0,0,' + gradientOpacity[1] + ')'];
-                break;
-            case 1:
-                gradientCountArray = ['rgba(192,43,43,' + gradientOpacity[0] + ')', 'rgba(0,0,0,' + gradientOpacity[1] + ')'];
-                break;
-            case 2:
-                gradientCountArray = ['rgba(156,36,189,' + gradientOpacity[0] + ')', 'rgba(0,0,0,' + gradientOpacity[1] + ')'];
-                break;
+        case 0:
+            gradientCountArray = [`rgba(12,25,73,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
+            break;
+        case 1:
+            gradientCountArray = [`rgba(192,43,43,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
+            break;
+        default:
+            gradientCountArray = [`rgba(156,36,189,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
+            break;
         }
-
-
         return gradientCountArray;
-    },
+    }
+
+    handlePress = () => {
+        const { navigation, project } = this.props;
+        navigation.push('ProjectView', { project });
+    }
+
     render() {
-        return <TouchableOpacity onPress={this._handlePress}>
-            <View
-                style={[(this.props.featured === true ? style.largeCard : style.smallCard), {marginLeft: this.props.cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0}]}>
-                <Image
-                    style={style.cardBackground}
-                    source={{uri: this.props.card.image}}
+        const {
+            project,
+            cardIndex,
+        } = this.props;
+        const { hasOfflineGroups } = this.state;
+        // show progress = 0 if we somehow get a negative value
+        const progress = Math.max(0, project.progress).toFixed(0);
+
+        return (
+            <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={this.handlePress}
+                testID={`projectCardType${project.projectType}`}
+            >
+                <View
+                    style={[(project.isFeatured ? style.largeCard : style.smallCard),
+                        { marginLeft: cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
                 >
-                    <LinearGradient
-                        colors={this.getGradientArray()}
-                        style={styles.linearGradient}>
-                    </LinearGradient>
-                    <Image style={[style.offlineIndicator, {opacity: this.state.hasOfflineGroups ? 1 : 0.30}]}
-                           source={require('./assets/offline_icon.png')}/>
+                    <ImageBackground
+                        style={style.cardBackground}
+                        source={{ uri: project.image }}
+                    >
+                        <View style={style.overlay}>
+                            <Image
+                                style={[style.offlineIndicator,
+                                    { opacity: hasOfflineGroups ? 1 : 0.30 }]}
+                                source={require('./assets/offline_icon.png')}
+                            />
 
-                    <Button style={style.nowButton} textStyle={{
-                        fontSize: 10,
-                        color: this._getColorForState(this.props.card.state),
-                        fontWeight: '600'
-                    }}>
-                        {this._getTextForState(this.props.card.state)}
-                    </Button>
-                    <View style={this.props.featured === true ? style.bottomTextArea : style.bottomTextAreaSmallCard}>
-                        <Text style={style.projectName}>{this.props.card.name}</Text>
-                        <View style={style.teamMates}><Image style={style.heart}
-                                                             source={require('./assets/heart_icon.png')}/><Text
-                            style={style.teamMateText}>{this.props.card.progress}% by {this.props.card.contributors}
-                            mappers </Text></View>
-                    </View>
-                </Image
-                >
-            </View>
-        </TouchableOpacity>;
-    },
-});
-
-
-module.exports = ProjectCard;
+                            <View style={project.isFeatured
+                                ? style.bottomTextArea : style.bottomTextAreaSmallCard}
+                            >
+                                <Text style={style.projectName}>{project.name}</Text>
+                                <View style={style.teamMates}>
+                                    <Image
+                                        style={style.heart}
+                                        source={require('./assets/heart_icon.png')}
+                                    />
+                                    <Text style={style.teamMateText}>
+                                        {`${progress}% by ${project.contributorCount} mappers`}
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+                    </ImageBackground>
+                </View>
+            </TouchableOpacity>
+        );
+    }
+}

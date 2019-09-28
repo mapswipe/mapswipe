@@ -1,17 +1,90 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '8.0'
-# Uncomment this line if you're using Swift
-# use_frameworks!
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
 
-target 'Mapswipe' do
-pod 'Firebase'
-pod 'Firebase/Auth'
-pod 'Firebase/Database'
-pod 'Firebase/Storage'
-pod 'Firebase/Messaging'
+target 'mapswipe' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for mapswipe
+  pod 'Firebase/Core', '~> 6.2.0'
+
+  pod 'Firebase/Auth', '~> 6.2.0'
+  pod 'Firebase/Core', '~> 6.2.0'
+  pod 'Firebase/Database', '~> 6.2.0'
+  # pod 'Fabric', '~> 1.7.13'
+  # pod 'Crashlytics', '~> 3.10.9'
+  
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'DoubleConversion', :podspec => "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  pod 'Folly', :podspec => "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  pod 'glog', :podspec => "../node_modules/react-native/third-party-podspecs/GLog.podspec"
+  pod 'React', path: '../node_modules/react-native', subspecs: [
+  'Core',
+  'CxxBridge',
+  'RCTAnimation',
+  'RCTActionSheet',
+  'RCTImage',
+  'RCTLinkingIOS',
+  'RCTNetwork',
+  'RCTSettings',
+  'RCTText',
+  'RCTVibration',
+  'RCTWebSocket',
+  'RCTPushNotification',
+  'RCTCameraRoll',
+  'RCTSettings',
+  'RCTBlob',
+  'RCTGeolocation',
+  'DevSupport'
+  ]
+
+  
+
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
+  pod 'RNCViewpager', :path => '../node_modules/@react-native-community/viewpager'
+
+  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
+  target 'mapswipeTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
 end
 
-target 'MapswipeTests' do
+target 'mapswipe-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for mapswipe-tvOS
+
+  target 'mapswipe-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
 
 end
 
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        
+        # The following is needed to ensure the "archive" step works in XCode.
+        # It removes React & Yoga from the Pods project, as it is already included in the main project.
+        # Without this, you'd see errors when you archive like:
+        # "Multiple commands produce ... libReact.a"
+        # "Multiple commands produce ... libyoga.a"
+        
+        targets_to_ignore = %w(React yoga)
+        
+        if targets_to_ignore.include? target.name
+            target.remove_from_project
+        end
+        
+    end
+end

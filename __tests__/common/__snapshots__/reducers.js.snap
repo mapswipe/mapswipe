@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Results reducers for BuiltArea projects: 2 groups in the same project 1`] = `
+Object {
+  "-Lg2Yu6BeIlb1NWeHHhZ": Object {
+    "145": Object {
+      "18-156433-143796": 1,
+    },
+    "157": Object {
+      "18-156597-142796": 1,
+    },
+  },
+}
+`;
+
+exports[`Results reducers for BuiltArea projects: 2 taps on different tiles in the same group 1`] = `
+Object {
+  "-Lg2Yu6BeIlb1NWeHHhZ": Object {
+    "157": Object {
+      "18-156597-142795": 1,
+      "18-156597-142796": 1,
+    },
+  },
+}
+`;
+
+exports[`Results reducers for BuiltArea projects: 2 taps on the same tile 1`] = `
+Object {
+  "-Lg2Yu6BeIlb1NWeHHhZ": Object {
+    "157": Object {
+      "18-156597-142796": 2,
+    },
+  },
+}
+`;

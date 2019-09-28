@@ -1,42 +1,49 @@
-import React from "react";
+// @flow
+import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import {
+    Linking,
     Text,
     View,
-    Platform,
     ScrollView,
-    ListView,
     StyleSheet,
     Image,
-    TouchableOpacity,
-    Dimensions,
-    TimerMixin,
-    Linking
-} from "react-native";
-import { DefaultTabBar } from "react-native-scrollable-tab-view";
-import Button from "apsl-react-native-button";
-var ProgressBar = require('react-native-progress-bar');
-var GLOBAL = require('../Globals');
+    Platform,
+} from 'react-native';
+import Button from 'apsl-react-native-button';
+import { MessageBarManager } from 'react-native-message-bar';
+import * as Progress from 'react-native-progress';
+import ConfirmationModal from '../common/ConfirmationModal';
+import Levels from '../Levels';
+import type { NavigationProp } from '../flow-types';
+import {
+    COLOR_DARK_GRAY,
+    COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+    COLOR_RED_OVERLAY,
+    COLOR_WHITE,
+} from '../constants';
 
+const GLOBAL = require('../Globals');
 
-/**
- * Import the project card component
- * @type {ProjectCard|exports|module.exports}
- */
-var ProjectCard = require('./ProjectCard');
+/* eslint-disable global-require */
 
-
-var styles = StyleSheet.create({
-
+const styles = StyleSheet.create({
+    buttonText: {
+        fontSize: 13,
+        color: COLOR_DEEP_BLUE,
+        fontWeight: '700',
+    },
     container: {
         alignItems: 'center',
         width: GLOBAL.SCREEN_WIDTH,
     },
-
-
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 30,
-        padding: 12,
+        padding: Platform.OS === 'ios' ? 0 : 12,
         marginTop: 10,
         borderWidth: 0,
     },
@@ -46,8 +53,8 @@ var styles = StyleSheet.create({
         padding: 5,
         borderTopWidth: 0.5,
         borderBottomWidth: 0,
-        borderColor: '#e8e8e8',
-        backgroundColor: '#ffffff',
+        borderColor: COLOR_LIGHT_GRAY,
+        backgroundColor: COLOR_WHITE,
         width: GLOBAL.SCREEN_WIDTH,
     },
     barRow: {
@@ -55,33 +62,13 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         borderTopWidth: 0.5,
         borderBottomWidth: 0,
-        borderColor: '#e8e8e8',
+        borderColor: COLOR_LIGHT_GRAY,
         width: GLOBAL.SCREEN_WIDTH,
-    },
-    lastRow: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        padding: 5,
-        borderTopWidth: 0,
-        borderBottomWidth: 0.5,
-        borderColor: '#e8e8e8',
-        backgroundColor: '#ffffff',
-        width: GLOBAL.SCREEN_WIDTH,
-    },
-    thumb: {
-        width: 40,
-        height: 40,
-        padding: 20
-    },
-    text: {
-        flex: 1,
-        padding: 10,
-        marginLeft: 10
     },
     pic: {
         height: 150,
         width: 150,
-        marginTop: -75
+        marginTop: -75,
     },
     info: {
         width: GLOBAL.SCREEN_WIDTH > 400 ? 400 : GLOBAL.SCREEN_WIDTH,
@@ -89,10 +76,8 @@ var styles = StyleSheet.create({
         height: 100,
         marginTop: -40,
         marginBottom: -30,
-        backgroundColor: 'transparent'
-
+        backgroundColor: 'transparent',
     },
-
     infoLeft: {
         width: 100,
         height: 50,
@@ -101,10 +86,8 @@ var styles = StyleSheet.create({
         left: 0,
         fontSize: 10,
         textAlign: 'center',
-        backgroundColor: 'transparent'
-
+        backgroundColor: 'transparent',
     },
-
     infoRight: {
         width: 100,
         height: 50,
@@ -113,9 +96,8 @@ var styles = StyleSheet.create({
         fontSize: 10,
         right: 20,
         textAlign: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
-
     infoLeftTitle: {
         width: 100,
         height: 50,
@@ -124,10 +106,8 @@ var styles = StyleSheet.create({
         left: 0,
         textAlign: 'center',
         fontWeight: 'bold',
-        backgroundColor: 'transparent'
-
+        backgroundColor: 'transparent',
     },
-
     infoRightTitle: {
         width: 100,
         height: 50,
@@ -136,240 +116,306 @@ var styles = StyleSheet.create({
         right: 20,
         textAlign: 'center',
         fontWeight: 'bold',
-        backgroundColor: 'transparent'
-    }
-
+        backgroundColor: 'transparent',
+    },
 });
 
-var MoreOptions = React.createClass({
+type MOProps = {
+    auth: Object,
+    firebase: Object,
+    kmTillNextLevel: number,
+    level: number,
+    navigation: NavigationProp,
+    profile: Object,
+    progress: number,
+}
 
-    refreshStats() {
-        var parent = this;
-        setInterval(function () {
-            if (parent.state.distance !== GLOBAL.DB.getDistance() || parent.state.contributions !== GLOBAL.DB.getContributions() || parent.state.name === "") {
-                parent.setState({
-                    distance: GLOBAL.DB.getDistance(),
-                    contributions: GLOBAL.DB.getContributions(),
-                    levelObject: GLOBAL.DB.getLevelObject(),
-                    level: GLOBAL.DB.getLevel(),
-                    name: GLOBAL.DB.getAuth().getUser().displayName,
-                    progress: GLOBAL.DB.getToNextLevelPercentage(),
-                })
+// eslint-disable-next-line react/prefer-stateless-function
+class _MoreOptions extends React.Component<MOProps> {
+    deleteUserAccount = () => {
+        const { firebase, navigation } = this.props;
 
-            }
-        }, 500);
-    },
+        const user = firebase.auth().currentUser;
+        // stop listening for changes on the user's profile
+        // as this causes a crash when the profile is deleted
+        firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
+        user.delete().then(() => {
+            // account deleted
+            MessageBarManager.showAlert({
+                title: 'Account deleted!',
+                message: 'Sorry to see you go...',
+                alertType: 'info',
+            });
+            navigation.navigate('Login');
+        }).catch(() => {
+            // the users has authenticated too long ago
+            // ask them to reauthenticate to make sure
+            // it's them
+            MessageBarManager.showAlert({
+                title: 'Could not delete!',
+                message: 'Please login again to confirm you want to delete your account',
+                alertType: 'error',
+            });
+            navigation.navigate('Login');
+        });
+    }
 
-    componentDidMount() {
-        this.refreshStats()
-    },
+    deleteAccountConfirmationModal: ?React.ComponentType<ConfirmationModal>;
 
-    getInitialState() {
-        return {
-            name: "",
-            distance: GLOBAL.DB.getDistance(),
-            contributions: GLOBAL.DB.getContributions(),
-            progress: GLOBAL.DB.getToNextLevelPercentage(),
-            level: GLOBAL.DB.getLevel(),
-            levelObject: GLOBAL.DB.getLevelObject()
-        };
-    },
+    renderDeleteAccountConfirmationModal = () => {
+        const content = (
+            <>
+                <Text style={{ fontSize: 28 }}>
+                    Delete account?
+                </Text>
+                <Text>
+                    You will lose all of your progress and badges.
+                    Your contributions will remain public but no longer tied to your account.
+                    {'\n'}
+                    Would you like to continue?
+                </Text>
+            </>
+        );
 
+        return (
+            <ConfirmationModal
+                // $FlowFixMe
+                cancelButtonCallback={() => { this.deleteAccountConfirmationModal.close(); }}
+                cancelButtonText="No, keep my account"
+                content={content}
+                // $FlowFixMe
+                exitButtonCallback={this.deleteUserAccount}
+                exitButtonText="Yes, delete it!"
+                getRef={(r) => { this.deleteAccountConfirmationModal = r; }}
+            />
+        );
+    }
 
     render() {
+        const {
+            auth,
+            firebase,
+            kmTillNextLevel,
+            level,
+            navigation,
+            profile,
+            progress,
+        } = this.props;
+        const levelObject = Levels[level];
+        const contributions = isLoaded(profile)
+            && Object.prototype.hasOwnProperty.call(profile, 'taskContributionCount') ? profile.taskContributionCount : 0;
+        const deleteAccountConfirmationModal = this.renderDeleteAccountConfirmationModal();
 
-        console.log()
+        return (
+            <ScrollView contentContainerStyle={styles.container}>
+                {deleteAccountConfirmationModal}
+                <ScrollingBackground />
+                <Image style={styles.pic} key={level} source={levelObject.badge} />
+                <View style={styles.info}>
+                    <Text style={styles.infoLeftTitle}>
+                    Level
+                        {' '}
+                        {level}
+                    </Text>
+                    <Text style={styles.infoRightTitle}>
+                        {auth.displayName}
+                    </Text>
+                    <Text style={styles.infoLeft}>
+                        {levelObject.title}
+                    </Text>
+                    <Text style={styles.infoRight}>
+                    You&apos;ve completed
+                        {' '}
+                        {contributions}
+                        {' '}
+                        tasks!
+                    </Text>
+                </View>
+                <LevelProgress
+                    kmTillNextLevel={kmTillNextLevel}
+                    progress={progress}
+                />
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            navigation.push('WebviewWindow', {
+                                uri: 'https://mapswipe.org/',
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        MapSwipe website
+                    </Button>
+                </View>
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            navigation.push('WebviewWindow', {
+                                uri: 'https://www.missingmaps.org',
+                            });
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        Missing Maps website
+                    </Button>
+                </View>
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            Linking.openURL('mailto:info@mapswipe.org');
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        Email us
+                    </Button>
+                </View>
 
-        return <ScrollView contentContainerStyle={styles.container}>
-            <ScrollingBackground />
-            <Image style={styles.pic} key={this.state.level} source={this.state.levelObject.badge}>
-            </Image>
-            <View style={styles.info}>
-                <Text style={styles.infoLeftTitle}>
-                    Level {this.state.level}
-                </Text>
-                <Text style={styles.infoRightTitle}>
-                    {this.state.name}
-                </Text>
-                <Text style={styles.infoLeft}>
-                    {this.state.levelObject.title}
-                </Text>
-                <Text style={styles.infoRight}>
-                    You've mapped {this.state.distance} square kilometers and found {this.state.contributions} objects
-                </Text>
-            </View>
-            <LevelProgress progress={this.state.progress} />
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigator.push({ id: 5, data: 'http://mapswipe.org/faq', paging: true })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Frequently Asked
-                    Questions</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigator.push({
-                        id: 5,
-                        data: GLOBAL.TUT_LINK,
-                        paging: true
-                    })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Tutorial</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigator.push({
-                        id: 5,
-                        data: 'https://docs.google.com/forms/d/e/1FAIpQLSepCAnr7Jzwc77NsJYjdl4wBOSl8A9J3k-uJUPPuGpHP50LnA/viewform',
-                        paging: true
-                    })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Contact Us</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigator.push({ id: 5, data: 'http://missingmaps.org/events', paging: true })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Events</Button>
-            </View>
-
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    this.props.navigator.push({ id: 5, data: 'http://missingmaps.org/blog', paging: true })
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Blog</Button>
-            </View>
-            <View style={styles.row}>
-                <Button onPress={() => {
-                    GLOBAL.DB.getAuth().logOut();
-                    this.props.navigator.push({ id: 4, data: 'http://missingmaps.org/events', paging: true });
-                }} style={styles.otherButton}
-                    textStyle={{ fontSize: 13, color: '#0d1949', fontWeight: '700' }}>Sign Out</Button>
-            </View>
-
-
-        </ScrollView>;
-    },
-});
-
-var SetIntervalMixin = {
-    componentWillMount: function () {
-        this.intervals = [];
-    },
-    setInterval: function () {
-        this.intervals.push(setInterval.apply(null, arguments));
-    },
-    componentWillUnmount: function () {
-        this.intervals.forEach(clearInterval);
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            firebase.logout();
+                            navigation.navigate('Login');
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        Sign Out
+                    </Button>
+                </View>
+                <View style={[styles.row, { backgroundColor: COLOR_RED_OVERLAY }]}>
+                    <Button
+                        // $FlowFixMe
+                        onPress={() => { this.deleteAccountConfirmationModal.open(); }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        Delete my account
+                    </Button>
+                </View>
+            </ScrollView>
+        );
     }
+}
+
+const mapStateToProps = (state, ownProps) => (
+    {
+        auth: state.firebase.auth,
+        kmTillNextLevel: state.ui.user.kmTillNextLevel,
+        level: state.ui.user.level,
+        navigation: ownProps.navigation,
+        profile: state.firebase.profile,
+        progress: state.ui.user.progress,
+    }
+);
+
+const enhance = compose(
+    firebaseConnect(),
+    connect(mapStateToProps),
+);
+
+export default enhance(_MoreOptions);
+
+type SBState = {
+    offset: number,
 };
 
-var ScrollingBackground = React.createClass({
+// eslint-disable-next-line react/no-multi-comp
+class ScrollingBackground extends React.Component<{}, SBState> {
+    constructor(props: {}) {
+        super(props);
+        this.state = { offset: 0 };
+        this.nextOffset = 2;
+    }
 
+    componentDidMount() {
+        const self = this;
+        this.bgInterval = setInterval(self.tick, 1000 / 50);
+    }
 
-    mixins: [SetIntervalMixin], // Use the mixin
-    getInitialState: function () {
-        return { offset: 0 };
-    },
+    componentWillUnmount() {
+        clearInterval(this.bgInterval);
+    }
 
-    nextOffset: 2,
-
-    backgroundImage: function () {
-        if (this.state.offset > 1500) {
+    backgroundImage = () => {
+        const { offset } = this.state;
+        if (offset > 950) {
             this.nextOffset = -1;
-        } else if (this.state.offset < -1500) {
+        } else if (offset < -950) {
             this.nextOffset = 1;
         }
         return (
-            <Image source={require('./assets/map_new.jpg')} style={{
-                resizeMode: 'cover',
-                marginRight: this.state.offset,
-                height: 200,
-                backgroundColor: '#e8e8e8',
-            }} />
+            <Image
+                source={require('./assets/map_new.jpg')}
+                style={{
+                    resizeMode: 'cover',
+                    marginRight: offset,
+                    height: 200,
+                    backgroundColor: COLOR_LIGHT_GRAY,
+                }}
+            />
         );
-    },
+    }
 
-    tick: function () {
-        this.setState({ offset: this.state.offset + this.nextOffset });
-    },
+    tick = () => {
+        let { offset } = this.state;
+        offset += this.nextOffset;
+        this.setState({ offset });
+    }
 
-    componentDidMount: function () {
-        var self = this;
-        this.setInterval(self.tick, 1000 / 50); // Call a method on the mixin
-    },
+    bgInterval: IntervalID;
 
-    render: function () {
+    nextOffset: number;
+
+    render() {
         return (
             this.backgroundImage()
         );
     }
+}
+
+const progressStyle = StyleSheet.create({
+    text: {
+        color: COLOR_WHITE,
+        borderColor: COLOR_DARK_GRAY,
+        fontWeight: '500',
+        position: 'absolute',
+        width: GLOBAL.SCREEN_WIDTH,
+        left: 0,
+        textAlign: 'center',
+        paddingTop: 5,
+    },
 });
 
+type LPProps = {
+    kmTillNextLevel: number,
+    progress: number,
+};
 
-var LevelProgress = React.createClass({
-
-    getBarStyle(progress) {
-        return {
-            height: 30,
-            width: GLOBAL.SCREEN_WIDTH,
-            borderRadius: 0,
-
-        }
-    },
-
-    getBarTextStyle(progress) {
-        return {
-            color: '#ffffff',
-            borderColor: '#212121',
-            fontWeight: '500',
-            position: 'absolute',
-            width: GLOBAL.SCREEN_WIDTH,
-            left: 0,
-            textAlign: 'center',
-            paddingTop: 5,
-
-
-        }
-    },
-    getInitialState: function () {
-        var parent = this;
-        setInterval(function () {
-            var newVal = GLOBAL.DB.getKmTilNextLevel();
-            parent.setState({
-                text: newVal + " square km (" + Math.ceil((newVal / GLOBAL.DB.getSquareKilometersForZoomLevelPerTile(18)) / 6) + " swipes) until the next level"
-            })
-        }, 500);
-        return {
-            barStyle: this.getBarStyle(0),
-            textStyle: this.getBarTextStyle(0),
-            text: GLOBAL.DB.getKmTilNextLevel() + " square km until the next level"
-
-        };
-    },
-
-    updateProgress(event, cardsLength) {
-
-    },
-
-
-    render() {
-        return <View style={styles.barRow}>
-            <ProgressBar
-                fillStyle={{
-                    height: 30,
-                    borderRadius: 0,
-                    backgroundColor: '#0d1949',
-                }}
-                backgroundStyle={{}}
-                style={this.state.barStyle}
-                progress={this.props.progress}
-            />
-            <Text elevation={5} style={this.state.textStyle}>{this.state.text}</Text>
-        </View>
+const LevelProgress = (props: LPProps) => {
+    let { kmTillNextLevel } = props;
+    const { progress } = props;
+    if (Number.isNaN(kmTillNextLevel)) {
+        kmTillNextLevel = 0;
     }
-});
-
-
-module.exports = MoreOptions;
-
+    const swipes = Math.ceil(kmTillNextLevel / 6);
+    const sqkm = kmTillNextLevel.toFixed(0);
+    return (
+        <View style={styles.barRow}>
+            <Progress.Bar
+                borderRadius={0}
+                borderWidth={0}
+                color={COLOR_DEEP_BLUE}
+                height={30}
+                progress={Number.isNaN(progress) ? 0 : progress}
+                unfilledColor="#bbbbbb"
+                width={GLOBAL.SCREEN_WIDTH}
+            />
+            <Text style={progressStyle.text}>
+                {`${sqkm} tasks (${swipes} swipes) until the next level`}
+            </Text>
+        </View>
+    );
+};

@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[mapswipe-app.main]
+file_filter = locales/<lang>.json
+minimum_perc = 0
+source_file = locales/en.json
+source_lang = en
+type = KEYVALUEJSON
+

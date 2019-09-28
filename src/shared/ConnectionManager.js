@@ -1,15 +1,27 @@
-import React from "react";
-import {Platform, Dimensions, NetInfo} from "react-native";
+// @flow
+import NetInfo from '@react-native-community/netinfo';
 
 class ConnectionManager {
+    constructor() {
+        this.networkState = 'unknown';
+        const parent = this;
 
+        console.log('Connection manager initialized');
+
+        NetInfo.addEventListener((state) => {
+            parent.networkState = state.type;
+        });
+    }
+
+    networkState: string;
 
     /**
-     * Whether the user is online or not, currently does not take into account bad cellphone receiption
+     * Whether the user is online or not,
+     * currently does not take into account bad cellphone receiption
      * @returns {boolean}
      */
     isOnline() {
-        return this.networkState.indexOf('none') === -1 && this.networkState.indexOf('NONE') === -1;
+        return this.networkState !== 'none';
     }
 
     /**
@@ -17,34 +29,10 @@ class ConnectionManager {
      * @returns {boolean}
      */
     isOnWifi() {
-        return this.networkState.toLowerCase().indexOf('wifi') !== -1;
+        return this.networkState === 'wifi';
     }
-
-    /**
-     * Constructor is called when the class is initialized
-     */
-    constructor() {
-        console.log("Initialized connection manager");
-    }
-
-    initializeWithState(networkState) {
-
-        this.networkState = networkState;
-        var parent = this;
-
-        console.log("Connection manager initialized");
-
-        var handler = function (reach) {
-            parent.networkState = reach;
-
-        };
-
-        NetInfo.addEventListener(
-            'change',
-            handler
-        );
-    }
-
 }
 
-module.exports = ConnectionManager;
+const cm = new ConnectionManager();
+
+export default cm;

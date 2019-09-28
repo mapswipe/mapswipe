@@ -1,9 +1,17 @@
-import React from "react";
-import {Text, View, Platform, StyleSheet, Image, Dimensions, TimerMixin} from "react-native";
-import {DefaultTabBar} from "react-native-scrollable-tab-view";
-var GLOBAL = require('../Globals');
+// @flow
+import * as React from 'react';
+import {
+    Animated,
+    Easing,
+    Image,
+    Text,
+} from 'react-native';
 
-var styles = {
+const GLOBAL = require('../Globals');
+
+/* eslint-disable global-require */
+
+const styles = {
     loadingText: {
         color: '#ffffff',
         fontWeight: '300',
@@ -12,62 +20,60 @@ var styles = {
     },
 };
 
-var SetIntervalMixin = {
-    componentWillMount: function () {
-        this.intervals = [];
-    },
-    setInterval: function () {
-        this.intervals.push(setInterval.apply(null, arguments));
-    },
-    componentWillUnmount: function () {
-        this.intervals.forEach(clearInterval);
-    }
+type State = {
+    animOpacity: Animated.Value,
 };
 
-var LoadingComponent = React.createClass({
+export default class LoadingComponent extends React.Component<{}, State> {
+    constructor(props: {}) {
+        super(props);
+        this.state = {
+            animOpacity: new Animated.Value(0),
+        };
+    }
 
-    mixins: [SetIntervalMixin], // Use the mixin
-    getInitialState: function () {
-        return {offset: 0};
-    },
+    componentDidMount() {
+        const { animOpacity } = this.state;
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(
+                    animOpacity,
+                    {
+                        toValue: 1,
+                        duration: 3000,
+                        easing: Easing.in(Easing.sin),
+                    },
+                ),
+                Animated.timing(
+                    animOpacity,
+                    {
+                        toValue: 0,
+                        duration: 3000,
+                        easing: Easing.in(Easing.sin),
+                    },
+                ),
+            ]),
+        ).start();
+    }
 
-    nextOffset: 2,
-
-    loadingImage: function () {
-        if (this.state.offset >= 0.8) {
-            this.nextOffset = -0.04;
-        } else if (this.state.offset <= 0.3) {
-            this.nextOffset = 0.02;
-        }
+    render() {
+        const { animOpacity } = this.state;
         return (
-            <View style={{
-                opacity: this.state.offset,
+            <Animated.View style={{
+                opacity: animOpacity,
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: GLOBAL.SCREEN_WIDTH,
-                height: (GLOBAL.SCREEN_HEIGHT * GLOBAL.TILE_VIEW_HEIGHT)
-            }}>
-                <Image style={{width: 100, height: 100}} source={require('./assets/loadinganimation.gif')}/>
-                <Text style={styles.loadingText}>Loading...</Text>
-            </View>
-        );
-    },
-
-    tick: function () {
-        this.setState({offset: this.state.offset + this.nextOffset});
-    },
-
-    componentDidMount: function () {
-        var self = this;
-        this.setInterval(self.tick, 1000 / 50); // Call a method on the mixin
-    },
-
-    render: function () {
-        return (
-            this.loadingImage()
+                height: (GLOBAL.TILE_VIEW_HEIGHT),
+            }}
+            >
+                <Image
+                    style={{ width: 100, height: 100 }}
+                    source={require('./assets/loadinganimation.gif')}
+                />
+                <Text style={styles.loadingText} testID="loading-icon">Loading...</Text>
+            </Animated.View>
         );
     }
-});
-
-module.exports = LoadingComponent;
+}

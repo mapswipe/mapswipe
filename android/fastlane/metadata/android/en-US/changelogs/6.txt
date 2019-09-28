@@ -1,0 +1,1 @@
+Renames the application from Mapswipe to MapSwipe
