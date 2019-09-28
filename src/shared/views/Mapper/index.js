@@ -96,6 +96,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     mappingContainer: {
+        flex: 1,
+        flexDirection: 'column',
         backgroundColor: COLOR_DEEP_BLUE,
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,

@@ -15,9 +15,6 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     swipeNavBottom: {
         width: (GLOBAL.SCREEN_WIDTH),
-        bottom: 3,
-        position: 'absolute',
-        left: 0,
         flexDirection: 'row',
         justifyContent: 'center',
         backgroundColor: COLOR_DEEP_BLUE,
@@ -48,7 +45,7 @@ export default class BottomProgress extends React.Component<{}, BPState> {
             <View style={styles.swipeNavBottom}>
                 <Progress.Bar
                     animated={false}
-                    height={20}
+                    height={2}
                     width={GLOBAL.SCREEN_WIDTH * 0.98}
                     marginBottom={2}
                     borderRadius={0}
