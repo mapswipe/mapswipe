@@ -164,22 +164,24 @@ class _MoreOptions extends React.Component<MOProps> {
 
     renderDeleteAccountConfirmationModal = () => {
         const content = (
-            <Text>
-                Are you sure you want to delete your account?
-                {'\n'}
-                You will lose all of your progress and badges.
-                Your contributions will remain public but no longer tied to your account.
-                You will receive no confirmation email of account deletion.
-                {'\n'}
-                Would you like to continue?
-            </Text>
+            <>
+                <Text style={{ fontSize: 28 }}>
+                    Delete account?
+                </Text>
+                <Text>
+                    You will lose all of your progress and badges.
+                    Your contributions will remain public but no longer tied to your account.
+                    {'\n'}
+                    Would you like to continue?
+                </Text>
+            </>
         );
 
         return (
             <ConfirmationModal
                 // $FlowFixMe
                 cancelButtonCallback={() => { this.deleteAccountConfirmationModal.close(); }}
-                cancelButtonText="No, Keep my account"
+                cancelButtonText="No, keep my account"
                 content={content}
                 // $FlowFixMe
                 exitButtonCallback={this.deleteUserAccount}
