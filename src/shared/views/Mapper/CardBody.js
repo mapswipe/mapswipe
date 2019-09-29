@@ -324,11 +324,17 @@ class _CardBody extends React.Component<Props, State> {
                     onScroll={this.handleScroll}
                     onScrollEndDrag={(e) => {
                         if (this.scrollView) {
-                            let targetX = 0;
-                            const pageX = e.nativeEvent.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
+                            let targetX: number = 0;
+                            let direction: string;
+                            const evt = e.nativeEvent;
+                            const pageX: number = evt.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
                             if (Platform.OS === 'ios') {
-                                targetX = e.nativeEvent.targetContentOffset.x;
-                            } else if (e.nativeEvent.velocity.x < 0) {
+                                direction = evt.targetContentOffset.x > evt.contentOffset.x
+                                    ? 'forward' : 'backward';
+                            } else {
+                                direction = evt.velocity.x < 0 ? 'forward' : 'backward';
+                            }
+                            if (direction === 'forward') {
                                 targetX = 2 * GLOBAL.TILE_SIZE * Math.ceil(pageX);
                             } else {
                                 targetX = 2 * GLOBAL.TILE_SIZE * Math.floor(pageX);
