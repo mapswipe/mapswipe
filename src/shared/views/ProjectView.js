@@ -3,6 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import fb from 'react-native-firebase';
 import {
     Text,
     View,
@@ -254,8 +255,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     componentDidMount() {
         const { project } = this.props;
         this.mounted = true;
-        // FIXME see below :)
-        // GLOBAL.ANALYTICS.logEvent('project_view_opened');
+        fb.analytics().logEvent('project_view_opened');
         const parent = this;
         parent.setState({
             hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.projectId}`),
@@ -326,6 +326,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             // force a project type on the old ones
             project.projectType = LEGACY_TILES;
         }
+        fb.analytics().logEvent('mapping_started', {
+            projectType: project.projectType,
+        });
         switch (project.projectType) {
         case LEGACY_TILES:
             // this is the original project type
@@ -503,6 +506,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     <Button
                         style={style.startButtonTutorial}
                         onPress={() => {
+                            fb.analytics().logEvent('starting_tutorial', {
+                                projectType: project.projectType,
+                            });
                             if (project.projectType === LEGACY_TILES) {
                                 navigation.push('Mapper', {
                                     project,

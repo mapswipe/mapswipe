@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import fb from 'react-native-firebase';
 import { firebaseConnect } from 'react-redux-firebase';
 import {
     StyleSheet,
@@ -85,6 +86,7 @@ class _LoadMoreCard extends React.Component<Props> {
         const { contributionsCount, addedDistance } = getContributions(group, results);
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
+            fb.analytics().logEvent('complete_group');
             onCommitGroup({
                 addedDistance,
                 groupId: group.groupId,
@@ -92,19 +94,19 @@ class _LoadMoreCard extends React.Component<Props> {
                 contributionsCount,
                 results,
             });
+        } else {
+            fb.analytics().logEvent('finish_tutorial');
         }
     }
 
     onMore = () => {
         const { toNextGroup } = this.props;
-        // GLOBAL.ANALYTICS.logEvent('complete_group');
         this.showSyncProgress();
         this.commitCompletedGroup();
         toNextGroup();
     }
 
     onComplete = () => {
-        // GLOBAL.ANALYTICS.logEvent('complete_group');
         const { navigation } = this.props;
         this.showSyncProgress();
         this.commitCompletedGroup();

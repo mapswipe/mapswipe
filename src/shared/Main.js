@@ -8,6 +8,7 @@ import {
     Text,
     View,
 } from 'react-native';
+import fb from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
 import { createStackNavigator } from 'react-navigation';
 import Login from './views/Login';
@@ -95,7 +96,7 @@ class Main extends React.Component<{}, State> {
      */
     componentDidMount() {
         const parent = this;
-        // GLOBAL.ANALYTICS.logEvent('mapswipe_open');
+        fb.analytics().logEvent('mapswipe_open');
         MessageBarManager.registerMessageBar(parent.alert);
 
         parent.checkInterval = setInterval(() => {

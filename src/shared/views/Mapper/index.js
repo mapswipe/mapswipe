@@ -128,7 +128,6 @@ class _Mapper extends React.Component<Props, State> {
 
     componentDidMount() {
         this.openHelpModal();
-        // GLOBAL.ANALYTICS.logEvent('mapping_started');
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 

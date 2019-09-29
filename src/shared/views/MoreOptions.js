@@ -3,6 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import fb from 'react-native-firebase';
 import {
     Linking,
     Text,
@@ -132,10 +133,15 @@ type MOProps = {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class _MoreOptions extends React.Component<MOProps> {
+    componentDidMount() {
+        fb.analytics().logEvent('screen_account');
+    }
+
     deleteUserAccount = () => {
         const { firebase, navigation } = this.props;
 
         const user = firebase.auth().currentUser;
+        fb.analytics().logEvent('delete_account');
         // stop listening for changes on the user's profile
         // as this causes a crash when the profile is deleted
         firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
@@ -276,6 +282,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
+                            fb.analytics().logEvent('sign_out');
                             firebase.logout();
                             navigation.navigate('Login');
                         }}

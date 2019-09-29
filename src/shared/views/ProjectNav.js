@@ -4,6 +4,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import fb from 'react-native-firebase';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
 import RecommendedCards from './RecommendedCards';
@@ -23,7 +24,7 @@ type Props = {
 
 class _ProjectNav extends React.Component<Props> {
     componentDidMount() {
-        // GLOBAL.ANALYTICS.logEvent('app_home_seen');
+        fb.analytics().logEvent('app_home_seen');
         const { firebase } = this.props;
         firebase.updateProfile({ lastAppUse: GLOBAL.DB.getTimestamp() });
     }

@@ -7,6 +7,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import fb from 'react-native-firebase';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { withNamespaces } from 'react-i18next';
 import {
@@ -190,7 +191,6 @@ class _Login extends React.Component<Props, State> {
     }
 
     handleSignUp = () => {
-        // GLOBAL.ANALYTICS.logEvent('account_screen_seen');
         const {
             firebase,
             navigation,
@@ -202,7 +202,6 @@ class _Login extends React.Component<Props, State> {
         } = this.state;
         const parent = this;
         if (username !== null && username.length < 3) {
-            // GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             MessageBarManager.showAlert({
                 title: 'Error on sign up',
                 message: 'Your username must be 4 characters or more',
@@ -213,7 +212,6 @@ class _Login extends React.Component<Props, State> {
         }
 
         if (username !== null && username.indexOf('@') !== -1) {
-            // GLOBAL.ANALYTICS.logEvent('account_creation_error_username');
             MessageBarManager.showAlert({
                 title: 'Error on sign up',
                 message: 'Your username can not be an email',
@@ -250,11 +248,10 @@ class _Login extends React.Component<Props, State> {
                     message: `Welcome to Mapswipe, ${username}`,
                     alertType: 'info',
                 });
-                // GLOBAL.ANALYTICS.logEvent('account_created');
+                fb.analytics().logEvent('account_created');
                 navigation.navigate('ProjectNav');
             })
             .catch((error) => {
-                // GLOBAL.ANALYTICS.logEvent('account_creation_error_db');
                 let errorMsg;
                 // error codes from https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#createUserWithEmailAndPassword
                 switch (error.code) {
@@ -301,7 +298,7 @@ class _Login extends React.Component<Props, State> {
                 message: `Welcome to Mapswipe, ${userCredentials.user.user.displayName}`,
                 alertType: 'info',
             });
-            // GLOBAL.ANALYTICS.logEvent('account_login');
+            fb.analytics().logEvent('account_login');
             convertProfileToV2Format(firebase);
             parent.props.navigation.navigate('ProjectNav');
         }).catch((error) => {
@@ -352,7 +349,7 @@ class _Login extends React.Component<Props, State> {
             parent.setState({
                 loadingNext: false,
             });
-            // GLOBAL.ANALYTICS.logEvent('pass_reset_request');
+            fb.analytics().logEvent('pass_reset_request');
         }).catch((error) => {
             let errorMessage;
             switch (error.code) {
