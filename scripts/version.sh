@@ -73,7 +73,7 @@ yarn test
 
 # update package.json with the new version and build numbers
 sed -i -e "s/^\ *\"version\": \"[0-9]\.[0-9]*\.[0-9]*\"\,$/  \"version\": \"${versionNumber}\"\,/" package.json
-sed -i -e "s/^\ *\"build\": \"[0-9]\"\,$/  \"build\": \"${buildNumber}\"\,/" package.json
+sed -i -e "s/^\ *\"build\": \"[0-9]\{1,2\}\"\,$/  \"build\": \"${buildNumber}\"\,/" package.json
 
 # update iOS specific files with the new numbers
 if [[ "$OSTYPE" =~ "darwin*" ]]; then
