@@ -14,17 +14,18 @@ import {
     COLOR_LIGHT_GRAY,
 } from '../constants';
 
-/**
- * This is the base view for the project navigation, the individual tabs are rendered within here.
- */
+const GLOBAL = require('../Globals');
 
 type Props = {
+    firebase: Object,
     navigation: NavigationProp,
 }
 
 class _ProjectNav extends React.Component<Props> {
     componentDidMount() {
         // GLOBAL.ANALYTICS.logEvent('app_home_seen');
+        const { firebase } = this.props;
+        firebase.updateProfile({ lastAppUse: GLOBAL.DB.getTimestamp() });
     }
 
     render() {
