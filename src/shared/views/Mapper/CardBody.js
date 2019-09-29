@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
+    Platform,
     ScrollView,
 } from 'react-native';
 import { get } from 'lodash';
@@ -319,19 +320,20 @@ class _CardBody extends React.Component<Props, State> {
             <>
                 <ScrollView
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
+                    scrollEventThrottle={64}
                     onScroll={this.handleScroll}
                     onScrollEndDrag={(e) => {
                         if (this.scrollView) {
+                            let targetX = 0;
                             const pageX = e.nativeEvent.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
-                            if (e.nativeEvent.velocity.x < 0) {
-                                this.scrollView.scrollTo({
-                                    x: 2 * GLOBAL.TILE_SIZE * Math.ceil(pageX),
-                                });
+                            if (Platform.OS === 'ios') {
+                                targetX = e.nativeEvent.targetContentOffset.x;
+                            } else if (e.nativeEvent.velocity.x < 0) {
+                                targetX = 2 * GLOBAL.TILE_SIZE * Math.ceil(pageX);
                             } else {
-                                this.scrollView.scrollTo({
-                                    x: 2 * GLOBAL.TILE_SIZE * Math.floor(pageX),
-                                });
+                                targetX = 2 * GLOBAL.TILE_SIZE * Math.floor(pageX);
                             }
+                            this.scrollView.scrollTo({ x: targetX });
                         }
                     }}
                     onMoveShouldSetResponderCapture={this.handleTutorialScrollCapture}
