@@ -10,6 +10,7 @@ import com.reactnativecommunity.netinfo.NetInfoPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -38,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebasePackage(),
             new RNFirebaseDatabasePackage(),
             new RNFirebaseAuthPackage(),
+            new RNFirebaseAnalyticsPackage(),
             new SplashScreenReactPackage()
       );
     }
