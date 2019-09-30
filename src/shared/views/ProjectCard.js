@@ -54,7 +54,6 @@ const style = StyleSheet.create({
     bottomTextArea: {
         position: 'absolute',
         flex: 1,
-        height: 75,
         bottom: 0,
         right: 0,
         left: 0,
@@ -66,7 +65,6 @@ const style = StyleSheet.create({
     bottomTextAreaSmallCard: {
         position: 'absolute',
         flex: 1,
-        height: 100,
         bottom: 0,
         right: 0,
         left: 0,
