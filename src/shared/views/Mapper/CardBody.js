@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import {
+    Platform,
     ScrollView,
 } from 'react-native';
 import { get } from 'lodash';
@@ -319,19 +320,26 @@ class _CardBody extends React.Component<Props, State> {
             <>
                 <ScrollView
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
+                    scrollEventThrottle={64}
                     onScroll={this.handleScroll}
                     onScrollEndDrag={(e) => {
                         if (this.scrollView) {
-                            const pageX = e.nativeEvent.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
-                            if (e.nativeEvent.velocity.x < 0) {
-                                this.scrollView.scrollTo({
-                                    x: 2 * GLOBAL.TILE_SIZE * Math.ceil(pageX),
-                                });
+                            let targetX: number = 0;
+                            let direction: string;
+                            const evt = e.nativeEvent;
+                            const pageX: number = evt.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
+                            if (Platform.OS === 'ios') {
+                                direction = evt.targetContentOffset.x > evt.contentOffset.x
+                                    ? 'forward' : 'backward';
                             } else {
-                                this.scrollView.scrollTo({
-                                    x: 2 * GLOBAL.TILE_SIZE * Math.floor(pageX),
-                                });
+                                direction = evt.velocity.x < 0 ? 'forward' : 'backward';
                             }
+                            if (direction === 'forward') {
+                                targetX = 2 * GLOBAL.TILE_SIZE * Math.ceil(pageX);
+                            } else {
+                                targetX = 2 * GLOBAL.TILE_SIZE * Math.floor(pageX);
+                            }
+                            this.scrollView.scrollTo({ x: targetX });
                         }
                     }}
                     onMoveShouldSetResponderCapture={this.handleTutorialScrollCapture}

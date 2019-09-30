@@ -1,8 +1,5 @@
 // @flow
 import { Platform, Dimensions } from 'react-native';
-
-// var Analytics = require('react-native-firebase-analytics');
-
 import Database from './Database';
 import {
     LEGACY_TILES,
@@ -33,7 +30,6 @@ module.exports = {
     TILE_SIZE: tileSize,
     DB: Database,
     TUT_LINK: 'http://www.missingmaps.org/blog/2016/07/18/mapswipetutorial/',
-    // ANALYTICS: Analytics,
     SUPPORTED_PROJECT_TYPES: [
         LEGACY_TILES,
         BUILDING_FOOTPRINTS,

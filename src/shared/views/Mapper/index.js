@@ -35,7 +35,7 @@ const GLOBAL = require('../../Globals');
 const styles = StyleSheet.create({
     startButton: {
         backgroundColor: COLOR_DEEP_BLUE,
-        alignItems: 'stretch',
+        alignItems: 'center',
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -128,7 +128,6 @@ class _Mapper extends React.Component<Props, State> {
 
     componentDidMount() {
         this.openHelpModal();
-        // GLOBAL.ANALYTICS.logEvent('mapping_started');
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 

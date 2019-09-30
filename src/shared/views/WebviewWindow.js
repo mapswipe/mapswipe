@@ -10,6 +10,7 @@ import React from 'react';
 import {
     View, Image, WebView, TouchableHighlight,
 } from 'react-native';
+import fb from 'react-native-firebase';
 import type { NavigationProp } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -46,6 +47,7 @@ type Props = {
 export default (props: Props) => {
     const { navigation } = props;
     const uri = navigation.getParam('uri', 'https://www.mapswipe.org/');
+    fb.analytics().logEvent('link_click', { uri });
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.swipeNavTop}>

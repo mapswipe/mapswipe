@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Image,
 } from 'react-native';
+import fb from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
 import Swiper from 'react-native-swiper';
@@ -79,8 +80,12 @@ class _WelcomeScreen extends React.Component<Props> {
         const { navigation, onWelcomeComplete } = this.props;
         // remember that we saw the welcome screens (in redux state)
         onWelcomeComplete();
-        // GLOBAL.ANALYTICS.logEvent('completed_welcome');
         navigation.navigate('Login');
+    }
+
+    handleButtonPress = () => {
+        fb.analytics().logEvent('complete_onboarding');
+        this.finishWelcomeScreens();
     }
 
     render() {
@@ -90,7 +95,7 @@ class _WelcomeScreen extends React.Component<Props> {
         }
         return (welcomeCompleted
             ? <View style={{ flex: 1 }}><Text /></View>
-            : <WelcomeCardView onCompletion={this.finishWelcomeScreens} />
+            : <WelcomeCardView onCompletion={this.handleButtonPress} />
         );
     }
 }
@@ -131,7 +136,7 @@ class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState
     /* eslint-disable global-require */
     render() {
         const { onCompletion } = this.props;
-        // GLOBAL.ANALYTICS.logEvent('starting_welcome');
+        fb.analytics().logEvent('starting_onboarding');
         return (
             <Swiper
                 activeDotColor={COLOR_DEEP_BLUE}
