@@ -406,6 +406,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="signup_username"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
@@ -433,6 +434,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="signup_email"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
@@ -451,6 +453,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="signup_password"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     placeholder="Choose your password"
                     placeholderTextColor={COLOR_WHITE}
@@ -536,6 +539,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="login_email"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
@@ -549,6 +553,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="login_password"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     placeholder="Enter your password"
                     placeholderTextColor={COLOR_WHITE}
