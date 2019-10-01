@@ -87,7 +87,7 @@ class _CardBody extends React.Component<Props, State> {
         // iterate over all the tasksI with an interval of the tilesPerRow variable
         const minX = parseFloat(group.xMin);
         const maxX = parseFloat(group.xMax);
-        for (let cardX = minX; cardX < maxX; cardX += tilesPerRow) {
+        for (let cardX = minX; cardX <= maxX; cardX += tilesPerRow) {
             const cardToPush: CardToPushType = {
                 cardX,
                 tileRows: [],
@@ -126,15 +126,6 @@ class _CardBody extends React.Component<Props, State> {
                     } else {
                         // no task: insert an empty tile marker
                         tileRowObject.tiles.push('emptytile');
-                        const tile = group.tasks[taskIdx];
-                        // store a BAD_IMAGERY result for tile without image
-                        // as it will save the user a few taps
-                        onToggleTile({
-                            resultId: tile.taskId,
-                            result: 3,
-                            groupId: tile.groupId,
-                            projectId: tile.projectId,
-                        });
                     }
 
                     if (tileY > tileRowObject.rowYEnd) {
