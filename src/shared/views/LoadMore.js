@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     moreButton: {
         backgroundColor: COLOR_DEEP_BLUE,
         marginTop: 20,
-        width: (GLOBAL.SCREEN_WIDTH * (1 / 2)),
-        marginLeft: (GLOBAL.SCREEN_WIDTH * (1 / 4)),
+        width: (GLOBAL.SCREEN_WIDTH * 0.7),
+        marginLeft: (GLOBAL.SCREEN_WIDTH * 0.15),
         height: 50,
         padding: 12,
         borderRadius: 5,
