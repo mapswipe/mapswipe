@@ -2,6 +2,7 @@
 import { actionTypes } from 'react-redux-firebase';
 import {
     AUTH_STATUS_AVAILABLE,
+    SEEN_HELPBOX_TYPE_1,
     WELCOME_COMPLETED,
 } from '../actions/index';
 import Levels from '../Levels';
@@ -9,6 +10,7 @@ import type { Action } from '../actions';
 import type { UIState } from '../flow-types';
 
 const defaultUserState = {
+    hasSeenHelpBoxType1: false,
     kmTillNextLevel: 0,
     level: 1,
     progress: 0,
@@ -58,6 +60,11 @@ const getProgress = (taskContributionCount, level) => {
 export default function user(state: UIState = defaultUserState, action: Action): UIState {
     let level = 1;
     switch (action.type) {
+    case SEEN_HELPBOX_TYPE_1:
+        return {
+            ...state,
+            hasSeenHelpBoxType1: true,
+        };
     case WELCOME_COMPLETED:
         return {
             ...state,

@@ -10,7 +10,7 @@ import {
     Image,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
-import { cancelGroup, startGroup } from '../../actions';
+import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
     firebaseConnectGroup,
     mapStateToPropsForGroups,
@@ -109,7 +109,9 @@ type Props = {
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: {} => void,
+    onMarkHelpBoxSeen: void => void,
     onStartGroup: {} => void,
+    hasSeenHelpBoxType1: boolean,
     tutorial: boolean,
 }
 
@@ -127,7 +129,10 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        this.openHelpModal();
+        const { hasSeenHelpBoxType1 } = this.props;
+        if (hasSeenHelpBoxType1 === undefined) {
+            this.openHelpModal();
+        }
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
@@ -169,6 +174,10 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     closeHelpModal = () => {
+        const { hasSeenHelpBoxType1, onMarkHelpBoxSeen } = this.props;
+        if (hasSeenHelpBoxType1 === undefined) {
+            onMarkHelpBoxSeen();
+        }
         // $FlowFixMe
         this.HelpModal.close();
     }
@@ -367,6 +376,9 @@ const mapDispatchToProps = dispatch => (
         onCancelGroup(groupDetails) {
             dispatch(cancelGroup(groupDetails));
         },
+        onMarkHelpBoxSeen() {
+            dispatch(seenHelpBoxType1());
+        },
         onStartGroup(groupDetails) {
             dispatch(startGroup(groupDetails));
         },
@@ -377,6 +389,9 @@ const tutorialName = 'build_area_tutorial';
 
 const Mapper = compose(
     firebaseConnectGroup(tutorialName),
+    connect(
+        state => ({ hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1 }),
+    ),
     connect(
         mapStateToPropsForGroups(tutorialName),
         mapDispatchToProps,
