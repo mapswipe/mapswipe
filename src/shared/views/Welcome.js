@@ -74,6 +74,15 @@ class _WelcomeScreen extends React.Component<Props> {
         const { welcomeCompleted } = this.props;
         if (welcomeCompleted) {
             this.finishWelcomeScreens();
+        } else {
+            SplashScreen.hide();
+        }
+    }
+
+    componentDidUpdate() {
+        const { welcomeCompleted } = this.props;
+        if (welcomeCompleted === undefined) {
+            SplashScreen.hide();
         }
     }
 
@@ -91,9 +100,6 @@ class _WelcomeScreen extends React.Component<Props> {
 
     render() {
         const { welcomeCompleted } = this.props;
-        if (welcomeCompleted !== undefined) {
-            SplashScreen.hide();
-        }
         return (welcomeCompleted
             ? <View style={{ flex: 1 }}><Text /></View>
             : <WelcomeCardView onCompletion={this.handleButtonPress} />
