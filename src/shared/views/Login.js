@@ -1,7 +1,3 @@
-/**
- * Created by wwadewitte on 7/11/16.
- */
-
 // @flow
 
 import React from 'react';
@@ -22,7 +18,6 @@ import Button from 'apsl-react-native-button';
 // $FlowFixMe
 import CheckBox from 'react-native-check-box';
 import { MessageBarManager } from 'react-native-message-bar';
-import getReduxStore from '../store';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp } from '../flow-types';
@@ -150,30 +145,18 @@ class _Login extends React.Component<Props, State> {
             showUsernameError: false,
             signupPPChecked: false,
         };
-        const that = this;
-        const { store } = getReduxStore();
-        store.firebaseAuthIsReady.then(() => that.setState({ loadingAuth: false }));
     }
 
     componentDidMount() {
         const { auth, navigation } = this.props;
-        if (navigation) {
-            this.didBlurSubscription = navigation.addListener(
-                'didFocus',
-                () => {
-                    this.setState({ loadingNext: false });
-                },
-            );
-            this.didBlurSubscription = navigation.addListener(
-                'didBlur',
-                () => {
-                    this.setState({ loadingNext: false });
-                },
-            );
-        }
-        if (isLoaded(auth) && !isEmpty(auth)) {
-            this.setState({ loadingNext: true });
-            navigation.navigate('ProjectNav');
+        if (isLoaded(auth)) {
+            if (!isEmpty(auth)) {
+                this.setState({ loadingNext: true });
+                navigation.navigate('MainNavigator');
+            } else {
+                // auth is loaded, but we're not logged in
+                this.setState({ loadingAuth: false });
+            }
         }
     }
 
@@ -181,13 +164,9 @@ class _Login extends React.Component<Props, State> {
         const { auth, navigation } = this.props;
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
-                navigation.navigate('ProjectNav');
+                navigation.navigate('MainNavigator');
             }
         }
-    }
-
-    componentWillUnmount() {
-        this.didBlurSubscription.remove();
     }
 
     handleSignUp = () => {
@@ -249,7 +228,7 @@ class _Login extends React.Component<Props, State> {
                     alertType: 'info',
                 });
                 fb.analytics().logEvent('account_created');
-                navigation.navigate('ProjectNav');
+                navigation.navigate('MainNavigator');
             })
             .catch((error) => {
                 let errorMsg;
@@ -300,7 +279,7 @@ class _Login extends React.Component<Props, State> {
             });
             fb.analytics().logEvent('account_login');
             convertProfileToV2Format(firebase);
-            parent.props.navigation.navigate('ProjectNav');
+            parent.props.navigation.navigate('MainNavigator');
         }).catch((error) => {
             let errorMessage;
             // error codes from

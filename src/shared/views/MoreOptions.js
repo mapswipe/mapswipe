@@ -152,7 +152,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 message: 'Sorry to see you go...',
                 alertType: 'info',
             });
-            navigation.navigate('Login');
+            navigation.navigate('LoginNavigator');
         }).catch(() => {
             // the users has authenticated too long ago
             // ask them to reauthenticate to make sure
@@ -162,7 +162,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 message: 'Please login again to confirm you want to delete your account',
                 alertType: 'error',
             });
-            navigation.navigate('Login');
+            navigation.navigate('LoginNavigator');
         });
     }
 
@@ -283,8 +283,9 @@ class _MoreOptions extends React.Component<MOProps> {
                     <Button
                         onPress={() => {
                             fb.analytics().logEvent('sign_out');
-                            firebase.logout();
-                            navigation.navigate('Login');
+                            firebase.logout().then(() => {
+                                navigation.navigate('LoginNavigator');
+                            });
                         }}
                         style={styles.otherButton}
                         textStyle={styles.buttonText}

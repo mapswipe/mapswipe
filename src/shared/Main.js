@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import fb from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import Login from './views/Login';
-import BuildingFootprintValidator from './views/BuildingFootprint';
+import AppLoadingScreen from './views/AppLoadingScreen';
+import BuildingFootprintScreen from './views/BuildingFootprint';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
@@ -141,7 +142,7 @@ class Main extends React.Component<{}, State> {
                     barStyle="light-content"
                 />
                 <View style={style.mainContainer}>
-                    <RootStack />
+                    <StartNavigator />
                     <Modal
                         style={[style.modal, style.modal3]}
                         backdropType="blur"
@@ -168,23 +169,55 @@ class Main extends React.Component<{}, State> {
     }
 }
 
-const RootStack = createStackNavigator(
+/*
+ * We use 3 navigators for the app:
+ * StartNavigator just loads the AppLoadingScreen that shows nothing
+ * but loads firebase auth and the redux store, while being hidden behind
+ * the splashscreen. Once ready, it hands over to one of the other two,
+ * depending on the auth status:
+ * - LoginNavigator is not logged in (it first tries the WelcomeScreen if it's the
+ *   first time we're using the app, otherwise --> Login
+ * - MainNavigator if logged in, and the rest of the app happens in there.
+ */
+
+const LoginNavigator = createStackNavigator(
     {
-        BuildingFootprintValidator,
-        ChangeDetectionScreen,
-        WelcomeScreen,
-        ProjectNav,
-        ProjectView,
-        Mapper,
         Login,
         WebviewWindow,
+        WelcomeScreen,
     },
     {
         initialRouteName: 'WelcomeScreen',
         headerMode: 'none',
+    },
+);
+
+const MainNavigator = createStackNavigator(
+    {
+        BuildingFootprintScreen,
+        ChangeDetectionScreen,
+        ProjectNav,
+        ProjectView,
+        Mapper,
+        WebviewWindow,
+    },
+    {
+        initialRouteName: 'ProjectNav',
+        headerMode: 'none',
         navigationOptions: {
             gesturesEnabled: false,
         },
+    },
+);
+
+const StartNavigator = createSwitchNavigator(
+    {
+        AppLoadingScreen,
+        LoginNavigator,
+        MainNavigator,
+    },
+    {
+        initialRouteName: 'AppLoadingScreen',
     },
 );
 
