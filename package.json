@@ -81,7 +81,7 @@
       "__tests__/fixtures"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|apsl-react-native-button|react-native-firebase|react-native-message-bar|react-native-modalbox|@react-native-community|react-native-check-box)/)"
+      "node_modules/(?!(react-native|apsl-react-native-button|react-native-firebase|react-native-message-bar|react-native-modalbox|@react-native-community|react-native-check-box|react-native-splash-screen)/)"
     ]
   },
   "detox": {
