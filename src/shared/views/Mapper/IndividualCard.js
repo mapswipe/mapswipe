@@ -146,9 +146,9 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         // swipe completed, decide what to do
         this.setState({ showSwipeHelp: false });
         const swipeMinLength = 0.35;
-        if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+        if (gestureState.dy > GLOBAL.TILE_SIZE * swipeMinLength) {
             this.setAllTilesTo(3);
-        } else if (gestureState.dy < -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+        } else if (gestureState.dy < -GLOBAL.TILE_SIZE * swipeMinLength) {
             this.setAllTilesTo(0);
         }
     };
