@@ -40,4 +40,4 @@ This numbering logic should make it clear which version is the latest, both in `
 Below is an example of workflow in git (simplified for the docs):
 ![Git workflow example](git_workflow_example.png)
 
-Source for the graph: http://jsfiddle.net/w5ugatmq/
+Source for the graph: http://jsfiddle.net/w5ugatmq/2/
