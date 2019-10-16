@@ -10,6 +10,8 @@
 
 To build the application locally, you need to install Android Studio in order to build the app in Android. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/getting-started.html) for this setup under the section "Building Projects with Native Code" that you can follow. Do that first. (Ignore the parts about `Expo CLI Quickstart`, you need to use the `React Native CLI Quickstart`).
 
+If you want to use Android Studio to develop, you should open the `mapswipe/android` folder when first asked what to open.
+
 You should now have:
 - the android SDK installed (from https://developer.android.com/studio), make sure that you have a working `sdkmanager` under `<SDK_home>/tools/`,
 - the android platform tools, including a functioning `adb`. Run
@@ -18,6 +20,8 @@ You should now have:
 adb devices
 ```
 with your android phone setup for development (again, follow the `getting started` instructions to make this work) and check that it finds your phone (or your android emulator). You might need to add the path to `adb` to your `$PATH` environment variable to make this work.
+
+If you want to use an emulator instead of a physical phone for testing, see [this page](https://developer.android.com/studio/run/managing-avds.html) on how to create a new AVD. There are instructions for react-native under the ["using a virtual device" section on this page](http://facebook.github.io/react-native/docs/getting-started.html).
 
 Set `ANDROID_HOME` env var to where you extracted the android SDK (to make this permanent, add this line to your `~/.bashrc` or equivalent):
 ```
@@ -58,9 +62,9 @@ yarn install
 
 MapSwipe uses Firebase to handle data transfers. The project won't run unless you create your own Firebase configuration.
 
-You should request access to the `dev-mapswipe` firebase instance, on which there are real test projects to test against. Contact one of the project admins for this (see https://www.mapswipe.org/ for contacts).
+You should request access to the `dev-mapswipe` firebase instance, on which there are real test projects to test against. Contact one of the project admins for this (see https://www.mapswipe.org/ for contacts), and request the "google services JSON file" that will allow your copy of the app to contact the development firebase.
 
-Next, download the Firebase Google Services files from Firebase > Settings > Add App > Download files.
+If you have created your own firebase instance (we do not recommend this, but strongly suggest you contact us to get access to our development instance), download the Firebase Google Services files from Firebase > Settings > Add App > Download files.
 
 Copy the Android file to `android/app/src/dev/google-services.json` or `android/app/src/production/google-services.json` (depending on the variant you're using. For local development, you will be using `dev`).
 
