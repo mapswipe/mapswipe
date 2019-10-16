@@ -10,7 +10,17 @@ If you don't know what to pick, we recommend you look for issues labelled [help 
 
 As usual with github repositories, fork the repo, setup your developer environment as described in the following links for [android](develop-android) or [iOS](develop-ios). Then hack away!
 
-When you're done, please [submit a PR](https://github.com/mapswipe/mapswipe/compare). Make sure to do it against the `dev` branch.
+Make sure you open a feature branch in your repo from the `dev` branch. You can do this with:
+
+```bash
+git checkout dev
+# if the dev branch in your forked repository is not in sync with the main mapswipe repo's dev branch
+# please sync it as explained here: https://help.github.com/en/articles/syncing-a-fork
+# do it for the dev branch, not just master
+git checkout -b new-feature-branch-name
+```
+
+When you're done, commit in your feature branch, then [submit a PR](https://github.com/mapswipe/mapswipe/compare). Make sure to do it against the `dev` branch. (Each feature branch should contain changes related to one ticket only. If you work on two different features, make sure you create two feature branches, and two PRs.)
 
 We will get notified, and review your changes. We might ask you to modify certain bits of your code before everything gets merged, to make sure that the code base remains fairly consistent and clean.
 
