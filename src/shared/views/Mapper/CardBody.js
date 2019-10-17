@@ -13,6 +13,7 @@ import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
+import ScaleBar from '../../common/ScaleBar';
 import { Tile } from './Tile';
 import IndividualCard from './IndividualCard';
 import type {
@@ -41,11 +42,13 @@ type Props = {
     projectId: number,
     results: ResultMapType,
     tutorial: boolean,
+    zoomLevel: number,
 };
 
 type State = {
     cardsInView: Array<CardToPushType>,
     currentX: number,
+    showScaleBar: boolean,
     tutorialMode: string,
 };
 
@@ -62,6 +65,7 @@ class _CardBody extends React.Component<Props, State> {
         this.state = {
             cardsInView: [],
             currentX: parseInt(props.group.xMin, 10),
+            showScaleBar: true,
             tutorialMode: tutorialModes.pre,
         };
     }
@@ -231,8 +235,8 @@ class _CardBody extends React.Component<Props, State> {
         // triggers dozens of these events, whereas this happens
         // only once per page
         const { group: { xMax, xMin }, tutorial } = this.props;
+        const progress = this.handleScroll(event);
         if (tutorial) {
-            const progress = this.handleScroll(event);
             // determine current taskX for tutorial
             const min = parseInt(xMin, 10);
             const max = parseInt(xMax, 10);
@@ -241,6 +245,7 @@ class _CardBody extends React.Component<Props, State> {
             this.scrollEnabled = false;
             this.setState({ tutorialMode: tutorialModes.pre });
         }
+        this.setState({ showScaleBar: (progress < 0.95) });
     }
 
     firstTouch: Object;
@@ -256,6 +261,7 @@ class _CardBody extends React.Component<Props, State> {
         const {
             cardsInView,
             currentX,
+            showScaleBar,
             tutorialMode,
         } = this.state;
         const {
@@ -265,6 +271,7 @@ class _CardBody extends React.Component<Props, State> {
             navigation,
             projectId,
             tutorial,
+            zoomLevel,
         } = this.props;
 
         let tutorialText: string = '';
@@ -304,6 +311,12 @@ class _CardBody extends React.Component<Props, State> {
             rows.push(<LoadingIcon key="loadingicon" />);
         }
 
+        // calculate the latitude of the top row of the group for the scalebar
+        // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+        // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
+        // lat_deg = lat_rad * 180.0 / π
+        const latitude = Math.atan(Math.sinh(Math.PI
+            * (1 - 2 * group.yMin / (2 ** zoomLevel)))) * 180 / Math.PI;
         return (
             <>
                 <ScrollView
@@ -342,6 +355,11 @@ class _CardBody extends React.Component<Props, State> {
                 >
                     {rows}
                 </ScrollView>
+                <ScaleBar
+                    latitude={latitude}
+                    visible={showScaleBar}
+                    zoomLevel={zoomLevel}
+                />
                 { tutorial && tutorialText !== ''
                 && (
                     <TutorialBox>
@@ -371,6 +389,7 @@ const mapStateToProps = (state, ownProps) => (
         projectId: ownProps.projectId,
         results: get(state.results.build_area_tutorial, ownProps.group.groupId, null),
         tutorial: ownProps.tutorial,
+        zoomLevel: ownProps.zoomLevel,
     }
 );
 
