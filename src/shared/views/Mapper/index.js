@@ -276,7 +276,7 @@ class _Mapper extends React.Component<Props, State> {
                     </Text>
                     <View style={styles.tutRow}>
                         <Text style={styles.tutPar}>
-                            This should make you a wizard of Mapswipe
+                            This should make you a wizard of MapSwipe
                             in a few minutes.
                         </Text>
                     </View>

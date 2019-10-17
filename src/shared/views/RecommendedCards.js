@@ -140,7 +140,7 @@ class _RecommendedCards extends React.Component<Props> {
                 ref={(r) => { this.tutorialModal = r; }}
             >
                 <Text style={style.header}>Tutorial</Text>
-                <Text style={style.tutPar}>Learn more about how to use Mapswipe!</Text>
+                <Text style={style.tutPar}>Learn more about how to use MapSwipe!</Text>
                 <Button
                     style={style.inModalButton2}
                     onPress={() => {

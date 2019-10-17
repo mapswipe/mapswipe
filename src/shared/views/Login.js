@@ -226,7 +226,7 @@ class _Login extends React.Component<Props, State> {
             .then(() => {
                 MessageBarManager.showAlert({
                     title: 'Success',
-                    message: `Welcome to Mapswipe, ${username}`,
+                    message: `Welcome to MapSwipe, ${username}`,
                     alertType: 'info',
                 });
                 fb.analytics().logEvent('account_created');
@@ -276,7 +276,7 @@ class _Login extends React.Component<Props, State> {
         firebase.login({ email, password }).then((userCredentials) => {
             MessageBarManager.showAlert({
                 title: 'Success',
-                message: `Welcome to Mapswipe, ${userCredentials.user.user.displayName}`,
+                message: `Welcome to MapSwipe, ${userCredentials.user.user.displayName}`,
                 alertType: 'info',
             });
             fb.analytics().logEvent('account_login');
@@ -475,7 +475,7 @@ class _Login extends React.Component<Props, State> {
                 </View>
 
                 <Text style={styles.legalText}>
-                    * All the mapping you contribute to mapswipe is open and available to anyone.
+                    * All the mapping you contribute to MapSwipe is open and available to anyone.
                     Your username is public, but your email and password will never be
                     shared with anyone.
                 </Text>
@@ -544,7 +544,7 @@ class _Login extends React.Component<Props, State> {
                     value={password}
                 />
                 <Text style={styles.legalText}>
-                    * All the data you contribute to mapswipe is open and available to anyone.
+                    * All the data you contribute to MapSwipe is open and available to anyone.
                     Your username is public, but your email and password will never be
                     shared with anyone.
                     {' '}

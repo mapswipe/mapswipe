@@ -133,7 +133,7 @@ export default {
 
     /**
      * Handles the initial loading of the app (what we consider login)
-     * to see if the user has already used Mapswipe before.
+     * to see if the user has already used MapSwipe before.
      * @returns {Promise}
      */
     offlineGroups: [],
