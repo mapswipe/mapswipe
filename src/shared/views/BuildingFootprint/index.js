@@ -105,7 +105,7 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
                 navigation={navigation}
                 getNormalHelpContent={this.getNormalHelpContent}
                 randomSeed={this.randomSeed}
-                screenName="BuildingFootprintValidator"
+                screenName="BuildingFootprintScreen"
                 submitResultFunction={submitFootprint}
                 tutorialName="building_footprint_tutorial"
             />

@@ -13,8 +13,8 @@ import * as Animatable from 'react-native-animatable';
 import { toggleMapTile } from '../../actions/index';
 import {
     COLOR_DARK_GRAY,
+    COLOR_DEEP_BLUE,
     COLOR_GREEN,
-    COLOR_LIGHT_GRAY,
     COLOR_RED,
     COLOR_TRANSPARENT,
     COLOR_YELLOW,
@@ -37,10 +37,11 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_TRANSPARENT,
     },
     emptyTile: {
+        height: GLOBAL.TILE_SIZE,
         width: GLOBAL.TILE_SIZE,
-        backgroundColor: COLOR_LIGHT_GRAY,
-        borderWidth: 1,
-        borderTopWidth: 1,
+        backgroundColor: COLOR_DEEP_BLUE,
+        borderWidth: 0.5,
+        borderTopWidth: 0.5,
         borderColor: COLOR_DARK_GRAY,
     },
     tileStyle: {

@@ -10,6 +10,6 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 PRODUCT_BUNDLE_IDENTIFIER=org.missingmaps.mapswipe-dev
-BUNDLE_DISPLAY_NAME=mapswipe-dev
+BUNDLE_DISPLAY_NAME=MapSwipe-dev
 FIREBASE_CONFIG_EXTENSION=dev
 

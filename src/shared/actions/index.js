@@ -4,6 +4,7 @@ import { actionTypes } from 'react-redux-firebase';
 import type { ResultMapType, ResultType, State } from '../flow-types';
 import GLOBAL from '../Globals';
 
+export const SEEN_HELPBOX_TYPE_1: 'SEEN_HELPBOX_TYPE_1' = 'SEEN_HELPBOX_TYPE_1';
 export const WELCOME_COMPLETED: 'WELCOME_COMPLETED' = 'WELCOME_COMPLETED';
 export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' = 'AUTH_STATUS_AVAILABLE';
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
@@ -17,6 +18,11 @@ export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
 export const COMMIT_GROUP_SUCCESS = 'COMMIT_GROUP_SUCCESS';
 export const COMMIT_TASK_FAILED = 'COMMIT_TASK_FAILED';
 export const COMMIT_TASK_SUCCESS = 'COMMIT_TASK_SUCCESS';
+
+type SeenHelpBoxType1 = { type: typeof SEEN_HELPBOX_TYPE_1 };
+export function seenHelpBoxType1(): SeenHelpBoxType1 {
+    return { type: SEEN_HELPBOX_TYPE_1 };
+}
 
 type CompleteWelcome = { type: typeof WELCOME_COMPLETED };
 export function completeWelcome(): CompleteWelcome {

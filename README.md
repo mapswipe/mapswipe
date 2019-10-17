@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mapswipe/mapswipe.svg?branch=ios-build)](https://travis-ci.org/mapswipe/mapswipe)
 
-Welcome to the Mapswipe app. This is the app that is distributed through [mapswipe.org](http://mapswipe.org) as well as through the Google Play and Apple stores. It was initially developed by Doctors without Borders as part of the Missing Maps project.
+Welcome to the MapSwipe app. This is the app that is distributed through [mapswipe.org](http://mapswipe.org) as well as through the Google Play and Apple stores. It was initially developed by Doctors without Borders as part of the Missing Maps project.
 
 ## Main Overview
 
@@ -26,7 +26,7 @@ This application encompasses only the mobile Android & iOS clients. The role of 
 
 ## Developing, Building, and Contributing to MapSwipe
 
-If you'd like to modify and improve Mapswipe, read through the following to get familiar with the project. Please also read [CONTRIBUTING](CONTRIBUTING.md).
+If you'd like to modify and improve MapSwipe, read through the following to get familiar with the project. Please also read [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Technology Used
 

@@ -1,7 +1,3 @@
-/**
- * Created by wwadewitte on 7/11/16.
- */
-
 // @flow
 
 import React from 'react';
@@ -21,8 +17,8 @@ import {
 import Button from 'apsl-react-native-button';
 // $FlowFixMe
 import CheckBox from 'react-native-check-box';
+import SplashScreen from 'react-native-splash-screen';
 import { MessageBarManager } from 'react-native-message-bar';
-import getReduxStore from '../store';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp } from '../flow-types';
@@ -150,30 +146,19 @@ class _Login extends React.Component<Props, State> {
             showUsernameError: false,
             signupPPChecked: false,
         };
-        const that = this;
-        const { store } = getReduxStore();
-        store.firebaseAuthIsReady.then(() => that.setState({ loadingAuth: false }));
     }
 
     componentDidMount() {
         const { auth, navigation } = this.props;
-        if (navigation) {
-            this.didBlurSubscription = navigation.addListener(
-                'didFocus',
-                () => {
-                    this.setState({ loadingNext: false });
-                },
-            );
-            this.didBlurSubscription = navigation.addListener(
-                'didBlur',
-                () => {
-                    this.setState({ loadingNext: false });
-                },
-            );
-        }
-        if (isLoaded(auth) && !isEmpty(auth)) {
-            this.setState({ loadingNext: true });
-            navigation.navigate('ProjectNav');
+        SplashScreen.hide();
+        if (isLoaded(auth)) {
+            if (!isEmpty(auth)) {
+                this.setState({ loadingNext: true });
+                navigation.navigate('MainNavigator');
+            } else {
+                // auth is loaded, but we're not logged in
+                this.setState({ loadingAuth: false });
+            }
         }
     }
 
@@ -181,13 +166,9 @@ class _Login extends React.Component<Props, State> {
         const { auth, navigation } = this.props;
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
-                navigation.navigate('ProjectNav');
+                navigation.navigate('MainNavigator');
             }
         }
-    }
-
-    componentWillUnmount() {
-        this.didBlurSubscription.remove();
     }
 
     handleSignUp = () => {
@@ -245,11 +226,11 @@ class _Login extends React.Component<Props, State> {
             .then(() => {
                 MessageBarManager.showAlert({
                     title: 'Success',
-                    message: `Welcome to Mapswipe, ${username}`,
+                    message: `Welcome to MapSwipe, ${username}`,
                     alertType: 'info',
                 });
                 fb.analytics().logEvent('account_created');
-                navigation.navigate('ProjectNav');
+                navigation.navigate('MainNavigator');
             })
             .catch((error) => {
                 let errorMsg;
@@ -295,12 +276,12 @@ class _Login extends React.Component<Props, State> {
         firebase.login({ email, password }).then((userCredentials) => {
             MessageBarManager.showAlert({
                 title: 'Success',
-                message: `Welcome to Mapswipe, ${userCredentials.user.user.displayName}`,
+                message: `Welcome to MapSwipe, ${userCredentials.user.user.displayName}`,
                 alertType: 'info',
             });
             fb.analytics().logEvent('account_login');
             convertProfileToV2Format(firebase);
-            parent.props.navigation.navigate('ProjectNav');
+            parent.props.navigation.navigate('MainNavigator');
         }).catch((error) => {
             let errorMessage;
             // error codes from
@@ -406,6 +387,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="signup_username"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
@@ -433,6 +415,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="signup_email"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
@@ -451,6 +434,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="signup_password"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     placeholder="Choose your password"
                     placeholderTextColor={COLOR_WHITE}
@@ -491,7 +475,7 @@ class _Login extends React.Component<Props, State> {
                 </View>
 
                 <Text style={styles.legalText}>
-                    * All the mapping you contribute to mapswipe is open and available to anyone.
+                    * All the mapping you contribute to MapSwipe is open and available to anyone.
                     Your username is public, but your email and password will never be
                     shared with anyone.
                 </Text>
@@ -536,6 +520,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="login_email"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
@@ -549,6 +534,7 @@ class _Login extends React.Component<Props, State> {
 
                 <TextInput
                     testID="login_password"
+                    autoCapitalize="none"
                     autoCorrect={false}
                     placeholder="Enter your password"
                     placeholderTextColor={COLOR_WHITE}
@@ -558,7 +544,7 @@ class _Login extends React.Component<Props, State> {
                     value={password}
                 />
                 <Text style={styles.legalText}>
-                    * All the data you contribute to mapswipe is open and available to anyone.
+                    * All the data you contribute to MapSwipe is open and available to anyone.
                     Your username is public, but your email and password will never be
                     shared with anyone.
                     {' '}

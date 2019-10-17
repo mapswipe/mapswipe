@@ -45,7 +45,7 @@ type Props = {
 
 type State = {
     cardsInView: Array<CardToPushType>,
-    currentX: string,
+    currentX: number,
     tutorialMode: string,
 };
 
@@ -56,17 +56,17 @@ const tutorialModes = {
 };
 
 class _CardBody extends React.Component<Props, State> {
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.scrollEnabled = !props.tutorial;
         this.state = {
             cardsInView: [],
-            currentX: props.group.xMin,
+            currentX: parseInt(props.group.xMin, 10),
             tutorialMode: tutorialModes.pre,
         };
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = (prevProps: Props) => {
         const { group, mapper } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
             if (isLoaded(group.tasks) && !isEmpty(group.tasks)) {
@@ -87,7 +87,7 @@ class _CardBody extends React.Component<Props, State> {
         // iterate over all the tasksI with an interval of the tilesPerRow variable
         const minX = parseFloat(group.xMin);
         const maxX = parseFloat(group.xMax);
-        for (let cardX = minX; cardX < maxX; cardX += tilesPerRow) {
+        for (let cardX = minX; cardX <= maxX; cardX += tilesPerRow) {
             const cardToPush: CardToPushType = {
                 cardX,
                 tileRows: [],
@@ -126,15 +126,6 @@ class _CardBody extends React.Component<Props, State> {
                     } else {
                         // no task: insert an empty tile marker
                         tileRowObject.tiles.push('emptytile');
-                        const tile = group.tasks[taskIdx];
-                        // store a BAD_IMAGERY result for tile without image
-                        // as it will save the user a few taps
-                        onToggleTile({
-                            resultId: tile.taskId,
-                            result: 3,
-                            groupId: tile.groupId,
-                            projectId: tile.projectId,
-                        });
                     }
 
                     if (tileY > tileRowObject.rowYEnd) {
@@ -155,9 +146,9 @@ class _CardBody extends React.Component<Props, State> {
         });
     }
 
-    getContributions = (group, results) => {
+    getContributions = (group: BuiltAreaGroupType, results: ResultMapType) => {
         const contributionsCount = Object.keys(results).length;
-        const addedDistance = group.count * getSqKmForZoomLevelPerTile(group.zoomLevel);
+        const addedDistance = group.numberOfTasks * getSqKmForZoomLevelPerTile(group.zoomLevel);
         return { contributionsCount, addedDistance };
     }
 
@@ -187,10 +178,9 @@ class _CardBody extends React.Component<Props, State> {
         // appropriate feedback
         const { group, results } = this.props;
         const { currentX } = this.state;
-        const x = parseInt(currentX, 10);
-        const Xs = [x, x + 1].map(n => n.toString());
+        const Xs = [currentX, currentX + 1];
         const tilesToCheck = group.tasks.filter(
-            t => Xs.includes(t.taskX),
+            t => Xs.includes(parseInt(t.taskX, 10)),
         );
         const allCorrect = tilesToCheck.reduce(
             (ok, t) => ok && t.referenceAnswer === results[t.taskId].toString(),
@@ -246,14 +236,12 @@ class _CardBody extends React.Component<Props, State> {
             // determine current taskX for tutorial
             const min = parseInt(xMin, 10);
             const max = parseInt(xMax, 10);
-            this.setState({ currentX: Math.ceil(min + (max - min) * progress).toString() });
+            this.setState({ currentX: Math.ceil(min + (max - min) * progress) });
             // we changed page, reset state variables
             this.scrollEnabled = false;
             this.setState({ tutorialMode: tutorialModes.pre });
         }
     }
-
-    currentX: number;
 
     firstTouch: Object;
 
@@ -286,7 +274,7 @@ class _CardBody extends React.Component<Props, State> {
                 // we've reached the end, hide the tutorial text
                 tutorialText = '';
             } else {
-                const { category } = group.tasks.filter(t => t.taskX === currentX)[0];
+                const { category } = group.tasks.filter(t => parseInt(t.taskX, 10) === currentX)[0];
                 // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
                 tutorialText = categories[category][tutorialMode];
             }

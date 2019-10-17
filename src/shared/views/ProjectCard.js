@@ -174,6 +174,7 @@ export default class ProjectCard extends React.Component<Props, State> {
         const { hasOfflineGroups } = this.state;
         // show progress = 0 if we somehow get a negative value
         const progress = Math.max(0, project.progress).toFixed(0);
+        const mappersCount = project.contributorCount || 0;
 
         return (
             <TouchableOpacity
@@ -206,7 +207,7 @@ export default class ProjectCard extends React.Component<Props, State> {
                                         source={require('./assets/heart_icon.png')}
                                     />
                                     <Text style={style.teamMateText}>
-                                        {`${progress}% by ${project.contributorCount} mappers`}
+                                        {`${progress}% by ${mappersCount} mappers`}
                                     </Text>
                                 </View>
                             </View>

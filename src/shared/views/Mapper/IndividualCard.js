@@ -95,7 +95,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
     constructor(props: ICProps) {
         super(props);
         // vertical swipe handlers
-        this.swipeThreshold = 3;
+        this.swipeThreshold = 2;
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
@@ -145,7 +145,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         this.setState({ showSwipeHelp: false });
-        const swipeMinLength = 0.35;
+        const swipeMinLength = 0.2;
         if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
             this.setAllTilesTo(3);
         } else if (gestureState.dy < -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {

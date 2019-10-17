@@ -563,7 +563,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     <Text style={style.header}>Download Options</Text>
                     <Text style={style.tutPar}>
 We will let you know when your download ends, it will be auto-deleted after
-                    completion. Do not close the Mapswipe app.
+                    completion. Do not close the MapSwipe app.
                     </Text>
                     <View style={style.tutRow}>
                         <Text style={style.tutText}>About 10 min of mapping</Text>

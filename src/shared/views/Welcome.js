@@ -11,6 +11,7 @@ import fb from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
 import Swiper from 'react-native-swiper';
+import { NavigationActions } from 'react-navigation';
 import type { NavigationProp } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 import {
@@ -73,6 +74,15 @@ class _WelcomeScreen extends React.Component<Props> {
         const { welcomeCompleted } = this.props;
         if (welcomeCompleted) {
             this.finishWelcomeScreens();
+        } else {
+            SplashScreen.hide();
+        }
+    }
+
+    componentDidUpdate() {
+        const { welcomeCompleted } = this.props;
+        if (welcomeCompleted === undefined) {
+            SplashScreen.hide();
         }
     }
 
@@ -80,7 +90,7 @@ class _WelcomeScreen extends React.Component<Props> {
         const { navigation, onWelcomeComplete } = this.props;
         // remember that we saw the welcome screens (in redux state)
         onWelcomeComplete();
-        navigation.navigate('Login');
+        navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0);
     }
 
     handleButtonPress = () => {
@@ -90,9 +100,6 @@ class _WelcomeScreen extends React.Component<Props> {
 
     render() {
         const { welcomeCompleted } = this.props;
-        if (welcomeCompleted !== undefined) {
-            SplashScreen.hide();
-        }
         return (welcomeCompleted
             ? <View style={{ flex: 1 }}><Text /></View>
             : <WelcomeCardView onCompletion={this.handleButtonPress} />
