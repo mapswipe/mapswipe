@@ -514,6 +514,11 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                     project,
                                     tutorial: true,
                                 });
+                            } else if (project.projectType === CHANGE_DETECTION) {
+                                navigation.push('ChangeDetectionScreen', {
+                                    project,
+                                    tutorial: true,
+                                });
                             } else {
                                 Alert.alert(
                                     'Coming soon!',

@@ -105,8 +105,10 @@ export type BuildingFootprintTaskType = {
 
 // used only by projects of type CHANGE_DETECTION
 export type ChangeDetectionTaskType = {
+    category: ?string,
     groupId: string,
     projectId: string,
+    referenceAnswer: ?number,
     taskId: string,
     taskX: number,
     taskY: number,

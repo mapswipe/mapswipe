@@ -25,6 +25,7 @@ import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
 import type {
+    CategoriesType,
     GroupType,
     NavigationProp,
     ProjectType,
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    categories: CategoriesType,
     Component: React.ComponentType<any>,
     group: { [group_id: string]: GroupType },
     navigation: NavigationProp,
@@ -257,9 +259,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     render = () => {
         const {
+            categories,
             Component,
             group,
             navigation,
+            tutorial,
         } = this.props;
         const { groupCompleted } = this.state;
         if (!group) {
@@ -270,7 +274,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 <LoadMoreCard
                     group={group}
                     navigation={navigation}
-                    projectId={this.project.projectId}
+                    projectId={group.projectId}
                     toNextGroup={this.toNextGroup}
                 />
             );
@@ -288,11 +292,13 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 {backConfirmationModal}
                 {helpModal}
                 <Component
+                    categories={tutorial ? categories : null}
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
                     project={this.project}
                     submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
+                    tutorial={tutorial}
                 />
                 <BottomProgress ref={(r) => { this.progress = r; }} />
             </View>

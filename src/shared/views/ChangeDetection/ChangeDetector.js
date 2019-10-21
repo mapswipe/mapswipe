@@ -16,6 +16,7 @@ import type {
 } from 'react-native/Libraries/Interaction/PanResponder';
 import Button from 'apsl-react-native-button';
 import LoadingIcon from '../LoadingIcon';
+import TutorialBox from '../../common/Tutorial';
 import SatImage from '../../common/SatImage';
 import GLOBAL from '../../Globals';
 import {
@@ -27,6 +28,7 @@ import {
 } from '../../constants';
 
 import type {
+    CategoriesType,
     ChangeDetectionGroupType,
     ChangeDetectionTaskType,
 } from '../../flow-types';
@@ -121,10 +123,18 @@ const minSwipeLength = 0.2;
 const minOpacity = 0;
 
 type Props = {
+    categories: CategoriesType,
     commitCompletedGroup: () => void,
     group: ChangeDetectionGroupType,
     submitResult: (number, string) => void,
+    tutorial: boolean,
     updateProgress: (number) => void,
+};
+
+const tutorialModes = {
+    pre: 'pre',
+    post_correct: 'post_correct',
+    post_wrong: 'post_wrong',
 };
 
 type State = {
@@ -133,6 +143,7 @@ type State = {
     leftOpacity: number,
     rightOpacity: number,
     topOpacity: number,
+    tutorialMode: $Keys<typeof tutorialModes>,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -147,6 +158,7 @@ class _ChangeDetector extends React.Component<Props, State> {
             leftOpacity: minOpacity,
             rightOpacity: minOpacity,
             topOpacity: minOpacity,
+            tutorialMode: tutorialModes.pre,
         };
         this.tasksDone = 0;
         this.imageSize = 250;
@@ -186,6 +198,12 @@ class _ChangeDetector extends React.Component<Props, State> {
         // screen, show a visual hint that something is happening:
         // we increase the opacity of the side that we think the finger is
         // aiming towards.
+        const { tutorial } = this.props;
+        const { tutorialMode } = this.state;
+        if (tutorial && tutorialMode === tutorialModes.post_correct) {
+            return; // disable side animations once we have a correct answer
+        }
+
         const { dx, dy } = gestureState;
         const D = this.imageSize * minSwipeLength;
         const absX = Math.abs(dx);
@@ -223,9 +241,30 @@ class _ChangeDetector extends React.Component<Props, State> {
         }
     };
 
+    checkTutorialAnswers = (answer: number) => {
+        const {
+            group,
+        } = this.props;
+        const { currentTaskId } = this.state;
+        const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
+        // $FlowFixMe
+        if (currentTask.referenceAnswer === answer) {
+            this.setState({ tutorialMode: tutorialModes.post_correct });
+        } else {
+            this.setState({ tutorialMode: tutorialModes.post_wrong });
+        }
+    };
+
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         const { dx, dy } = gestureState;
+        const {
+            commitCompletedGroup,
+            group,
+            tutorial,
+            updateProgress,
+        } = this.props;
+        const { tutorialMode } = this.state;
 
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
@@ -234,15 +273,33 @@ class _ChangeDetector extends React.Component<Props, State> {
         if (absX + absY < this.imageSize * minSwipeLength) {
             return false;
         }
+
+        if (tutorial && tutorialMode === tutorialModes.post_correct) {
+            // we ignore "normal" swipes, we now expect a simple left swipe
+            if (dx < 0 && absX > 5) {
+                const { done, value } = this.taskGen.next();
+                if (done) {
+                    // no more tasks in the group, commit results and go back to menu
+                    commitCompletedGroup();
+                }
+                this.tasksDone += 1;
+                updateProgress(this.tasksDone / group.numberOfTasks);
+                this.setState({ currentTaskId: value, tutorialMode: tutorialModes.pre });
+            }
+            return false;
+        }
+
+        const f = tutorial ? this.checkTutorialAnswers : this.nextTask;
+
         // determine the direction of the swipe
         if (dx < 0 && absX > absY * swipeRatio) {
-            this.nextTask(CHANGES_NO_CHANGES_DETECTED);
+            f(CHANGES_NO_CHANGES_DETECTED);
         } else if (dx > 0 && absX > absY * swipeRatio) {
-            this.nextTask(CHANGES_CHANGES_DETECTED);
+            f(CHANGES_CHANGES_DETECTED);
         } else if (dy < 0 && absY > absX * swipeRatio) {
-            this.nextTask(CHANGES_BAD_IMAGERY);
+            f(CHANGES_BAD_IMAGERY);
         } else if (dy > 0 && absY > absX * swipeRatio) {
-            this.nextTask(CHANGES_UNSURE);
+            f(CHANGES_UNSURE);
         }
         return false;
     };
@@ -323,64 +380,84 @@ class _ChangeDetector extends React.Component<Props, State> {
     }
 
     render = () => {
-        const { group } = this.props;
+        const { categories, group, tutorial } = this.props;
         const {
             bottomOpacity,
             currentTaskId,
             leftOpacity,
             rightOpacity,
             topOpacity,
+            tutorialMode,
         } = this.state;
         if (!group.tasks) {
             return <LoadingIcon />;
         }
         const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
+
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
+
+        let tutorialText: string = '';
+
+        if (tutorial && group.tasks) {
+            const { category } = currentTask;
+            // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
+            tutorialText = categories[category][tutorialMode];
+        }
+
         return (
-            <View
-                {...this.panResponder.panHandlers}
-                style={{
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    height: GLOBAL.TILE_VIEW_HEIGHT,
-                    justifyContent: 'space-between',
-                }}
-            >
-                <Button
-                    style={[{ opacity: leftOpacity }, styles.leftButton]}
+            <>
+                <View
+                    {...this.panResponder.panHandlers}
+                    style={{
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        height: GLOBAL.TILE_VIEW_HEIGHT,
+                        justifyContent: 'space-between',
+                    }}
                 >
-                    No
-                </Button>
-                <Button
-                    style={[{ opacity: topOpacity }, styles.topButton]}
-                >
-                    Bad imagery
-                </Button>
-                <SatImage
-                    overlayText="Before"
-                    overlayTextStyle={styles.overlayText}
-                    source={{ uri: currentTask.urlA }}
-                    style={styles.topImage}
-                />
-                <SatImage
-                    overlayText="After"
-                    overlayTextStyle={styles.overlayText}
-                    source={{ uri: currentTask.urlB }}
-                    style={styles.bottomImage}
-                />
-                <Button
-                    style={[{ opacity: bottomOpacity }, styles.bottomButton]}
-                >
-                    Not sure
-                </Button>
-                <Button
-                    style={[{ opacity: rightOpacity }, styles.rightButton]}
-                >
-                    Yes
-                </Button>
-            </View>
+                    <Button
+                        style={[{ opacity: leftOpacity }, styles.leftButton]}
+                    >
+                        No
+                    </Button>
+                    <Button
+                        style={[{ opacity: topOpacity }, styles.topButton]}
+                    >
+                        Bad imagery
+                    </Button>
+                    <SatImage
+                        overlayText="Before"
+                        overlayTextStyle={styles.overlayText}
+                        source={{ uri: currentTask.urlA }}
+                        style={styles.topImage}
+                    />
+                    <SatImage
+                        overlayText="After"
+                        overlayTextStyle={styles.overlayText}
+                        source={{ uri: currentTask.urlB }}
+                        style={styles.bottomImage}
+                    />
+                    <Button
+                        style={[{ opacity: bottomOpacity }, styles.bottomButton]}
+                    >
+                        Not sure
+                    </Button>
+                    <Button
+                        style={[{ opacity: rightOpacity }, styles.rightButton]}
+                    >
+                        Yes
+                    </Button>
+                </View>
+                { tutorial && tutorialText !== ''
+                && (
+                    <TutorialBox>
+                        { tutorialText }
+                    </TutorialBox>
+                )
+                }
+            </>
         );
     }
 }
@@ -389,7 +466,6 @@ const mapStateToProps = (state, ownProps) => (
     {
         commitCompletedGroup: ownProps.commitCompletedGroup,
         group: ownProps.group,
-        project: ownProps.project,
         submitResult: ownProps.submitResult,
     }
 );
@@ -397,14 +473,14 @@ const mapStateToProps = (state, ownProps) => (
 export default compose(
     firebaseConnect((props) => {
         if (props.group) {
-            const { groupId } = props.group;
-            const { projectId } = props.project;
+            const { groupId, projectId } = props.group;
+            const prefix = props.tutorial ? 'tutorial' : 'projects';
             if (groupId !== undefined) {
                 return [
                     {
                         type: 'once',
                         path: `v2/tasks/${projectId}/${groupId}`,
-                        storeAs: `projects/${projectId}/groups/${groupId}/tasks`,
+                        storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
                     },
                 ];
             }

@@ -39,7 +39,8 @@
   },
   "globals": {
       "Generator": true,
-      "IntervalID": true
+      "IntervalID": true,
+      "$Keys": true
   },
   "env": {
     "jest": true,
