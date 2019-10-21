@@ -24,12 +24,10 @@ import BackConfirmationModal from './ConfirmationModal';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
-import { getSqKmForZoomLevelPerTile } from '../Database';
 import type {
     GroupType,
     NavigationProp,
     ProjectType,
-    ResultMapType,
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -166,12 +164,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         this.setState({ groupCompleted: true });
     }
 
-    getContributions = (group: GroupType, results: ResultMapType) => {
-        const contributionsCount = Object.keys(results).length;
-        const addedDistance = group.numberOfTasks * getSqKmForZoomLevelPerTile(19);
-        return { contributionsCount, addedDistance };
-    }
-
     getCreditString = (): string => {
         let result = '';
         const defaultCredits = 'Unknown imagery source';
@@ -276,7 +268,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         if (groupCompleted) {
             return (
                 <LoadMoreCard
-                    getContributions={this.getContributions}
                     group={group}
                     navigation={navigation}
                     projectId={this.project.projectId}

@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    getContributions: (GroupType, ResultMapType) => Object,
     group: GroupType,
     navigation: NavigationProp,
     onCommitGroup: GroupInfo => void,
@@ -77,21 +76,17 @@ class _LoadMoreCard extends React.Component<Props> {
     commitCompletedGroup = () => {
         // user completed the group: let's commit it to firebase
         const {
-            getContributions,
             group,
             onCommitGroup,
             projectId,
             results,
         } = this.props;
-        const { contributionsCount, addedDistance } = getContributions(group, results);
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
             fb.analytics().logEvent('complete_group');
             onCommitGroup({
-                addedDistance,
                 groupId: group.groupId,
                 projectId,
-                contributionsCount,
                 results,
             });
         } else {

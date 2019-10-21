@@ -8,7 +8,6 @@ import {
     ScrollView,
 } from 'react-native';
 import { get } from 'lodash';
-import { getSqKmForZoomLevelPerTile } from '../../Database';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
@@ -144,12 +143,6 @@ class _CardBody extends React.Component<Props, State> {
         this.setState({
             cardsInView: cards,
         });
-    }
-
-    getContributions = (group: BuiltAreaGroupType, results: ResultMapType) => {
-        const contributionsCount = Object.keys(results).length;
-        const addedDistance = group.numberOfTasks * getSqKmForZoomLevelPerTile(group.zoomLevel);
-        return { contributionsCount, addedDistance };
     }
 
     toNextGroup = () => {
@@ -294,7 +287,6 @@ class _CardBody extends React.Component<Props, State> {
 
             rows.push(<LoadMoreCard
                 key={lastCard ? lastCard.id / 2 : 0}
-                getContributions={this.getContributions}
                 group={group}
                 navigation={navigation}
                 projectId={projectId}
