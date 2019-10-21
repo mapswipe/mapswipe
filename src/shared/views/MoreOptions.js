@@ -223,7 +223,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         {' '}
                         {level}
                     </Text>
-                    <Text style={styles.infoRightTitle}>
+                    <Text style={styles.infoRightTitle} numberOfLines={1}>
                         {auth.displayName}
                     </Text>
                     <Text style={styles.infoLeft}>
