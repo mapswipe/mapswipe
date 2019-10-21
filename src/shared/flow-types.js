@@ -55,6 +55,7 @@ export type SingleImageryProjectType = {
     progress: number,
     state: number,
     tileServer: TileServerType,
+    zoomLevel: number,
 };
 
 export type ChangeDetectionProjectType = {
