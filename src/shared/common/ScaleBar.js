@@ -12,7 +12,7 @@ type Props = {
     zoomLevel: number,
 };
 
-const getScaleBar = (meters, feet) => {
+const getScaleBar = (meters, feet, tileWidth) => {
     /*
      * produce a shape like
      * |       |
@@ -21,15 +21,18 @@ const getScaleBar = (meters, feet) => {
      */
     const top = 0;
     const mid = 16;
+    // convert meters and feet into "pixels" so that we draw at the correct scale!
+    const metersPx = meters / tileWidth * GLOBAL.TILE_SIZE;
+    const feetPx = feet / tileWidth * GLOBAL.TILE_SIZE;
     const bottom = top + 2 * (mid - top);
     const p = ART.Path().moveTo(0, top);
     p.lineTo(0, bottom);
     p.moveTo(0, mid);
-    p.lineTo(meters, mid);
-    p.lineTo(meters, top);
-    p.moveTo(meters, mid);
-    p.lineTo(feet * 0.3048, mid);
-    p.lineTo(feet * 0.3048, bottom);
+    p.lineTo(metersPx, mid);
+    p.lineTo(metersPx, top);
+    p.moveTo(metersPx, mid);
+    p.lineTo(feetPx * 0.3048, mid);
+    p.lineTo(feetPx * 0.3048, bottom);
     return p;
 };
 
@@ -64,7 +67,7 @@ export default (props: Props) => {
         break;
     }
 
-    const p = getScaleBar(meters, feet);
+    const p = getScaleBar(meters, feet, tileWidth);
     return (
         <View style={{
             height: GLOBAL.TILE_SIZE / 5,
