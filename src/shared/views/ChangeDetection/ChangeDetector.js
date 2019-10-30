@@ -33,6 +33,8 @@ import type {
     ChangeDetectionTaskType,
 } from '../../flow-types';
 
+const tileSize = Math.min(GLOBAL.TILE_VIEW_HEIGHT / 2.05, GLOBAL.SCREEN_WIDTH);
+
 const styles = StyleSheet.create({
     leftButton: {
         backgroundColor: COLOR_RED,
@@ -87,12 +89,14 @@ const styles = StyleSheet.create({
         // only a couple of phones fall into that group, so we
         // ignore them for now)
         // see https://stackoverflow.com/a/23009368/1138710
-        aspectRatio: 1,
-        height: '49%',
+        // aspectRatio: 1,
+        height: tileSize,
+        width: tileSize,
     },
     topImage: {
-        aspectRatio: 1,
-        height: '49%',
+        // aspectRatio: 1,
+        height: tileSize,
+        width: tileSize,
     },
     overlayText: {
         color: COLOR_LIGHT_GRAY,
