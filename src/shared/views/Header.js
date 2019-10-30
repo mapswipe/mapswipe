@@ -1,11 +1,13 @@
 // @flow
 import * as React from 'react';
 import {
+    Alert,
     Text,
     View,
     StyleSheet,
     Image,
     TouchableHighlight,
+    TouchableWithoutFeedback,
 } from 'react-native';
 
 const GLOBAL = require('../Globals');
@@ -64,17 +66,33 @@ type Props = {
     onInfoPress?: () => void,
 }
 
+const onPressDebugBox = () => {
+    Alert.alert('Debug Info',
+        `TILE_VIEW_HEIGHT: ${GLOBAL.TILE_VIEW_HEIGHT}
+         SCREEN_WIDTH: ${GLOBAL.SCREEN_WIDTH}
+         SCREEN_HEIGHT: ${GLOBAL.SCREEN_HEIGHT}
+         TOP_OFFSET: ${GLOBAL.TOP_OFFSET}
+         TILE_SIZE: ${GLOBAL.TILE_SIZE}
+         `);
+};
+
 /* eslint-disable global-require */
 const Header = (props:Props) => {
     const { lookFor, onBackPress, onInfoPress } = props;
     return (
         <View style={styles.swipeNavTop}>
-            <Text style={styles.topText}>
-                You are looking for:
-            </Text>
-            <Text style={styles.elementText}>
-                {lookFor}
-            </Text>
+            <TouchableWithoutFeedback
+                onLongPress={onPressDebugBox}
+            >
+                <View>
+                    <Text style={styles.topText}>
+                        You are looking for:
+                    </Text>
+                    <Text style={styles.elementText}>
+                        {lookFor}
+                    </Text>
+                </View>
+            </TouchableWithoutFeedback>
             <TouchableHighlight
                 style={styles.backButtonContainer}
                 onPress={onBackPress}
