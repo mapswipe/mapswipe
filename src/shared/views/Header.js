@@ -71,7 +71,6 @@ const onPressDebugBox = () => {
         `TILE_VIEW_HEIGHT: ${GLOBAL.TILE_VIEW_HEIGHT}
          SCREEN_WIDTH: ${GLOBAL.SCREEN_WIDTH}
          SCREEN_HEIGHT: ${GLOBAL.SCREEN_HEIGHT}
-         TOP_OFFSET: ${GLOBAL.TOP_OFFSET}
          TILE_SIZE: ${GLOBAL.TILE_SIZE}
          `);
 };

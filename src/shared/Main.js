@@ -56,7 +56,6 @@ const style = StyleSheet.create({
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
         flex: 1,
-        marginTop: GLOBAL.TOP_OFFSET,
     },
     header: {
         fontWeight: '700',

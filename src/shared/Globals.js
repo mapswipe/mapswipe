@@ -1,5 +1,5 @@
 // @flow
-import { Platform, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 import Database from './Database';
 import {
     LEGACY_TILES,
@@ -21,7 +21,6 @@ const tileWidth = screenWidth / tilesPerViewX;
 const tileSize = Math.min(tileHeight, tileWidth);
 
 module.exports = {
-    TOP_OFFSET: Platform.OS === 'android' ? 0 : 20,
     SCREEN_WIDTH: screenWidth,
     SCREEN_HEIGHT: screenHeight,
     TILE_VIEW_HEIGHT: tileViewHeight,
