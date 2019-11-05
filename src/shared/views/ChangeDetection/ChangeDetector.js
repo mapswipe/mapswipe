@@ -7,6 +7,7 @@ import {
     Image,
     PanResponder,
     StyleSheet,
+    Text,
     View,
 } from 'react-native';
 import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
@@ -14,7 +15,6 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
-import Button from 'apsl-react-native-button';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
 import SatImage from '../../common/SatImage';
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
+        justifyContent: 'center',
         left: 0,
         position: 'absolute',
         top: 0,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         bottom: 0,
         height: '10%',
+        justifyContent: 'center',
         left: '15%',
         marginBottom: 0,
         marginTop: 0,
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
+        justifyContent: 'center',
         right: 0,
         position: 'absolute',
         top: 0,
@@ -73,6 +76,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 0,
         height: '10%',
+        justifyContent: 'center',
         left: '15%',
         position: 'absolute',
         top: 0,
@@ -92,6 +96,10 @@ const styles = StyleSheet.create({
     topImage: {
         aspectRatio: 1,
         height: '49%',
+    },
+    sideText: {
+        fontSize: 13,
+        textAlign: 'center',
     },
     overlayText: {
         color: COLOR_LIGHT_GRAY,
@@ -417,16 +425,16 @@ class _ChangeDetector extends React.Component<Props, State> {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Button
+                    <View
                         style={[{ opacity: leftOpacity }, styles.leftButton]}
                     >
-                        No
-                    </Button>
-                    <Button
+                        <Text style={styles.sideText}>No</Text>
+                    </View>
+                    <View
                         style={[{ opacity: topOpacity }, styles.topButton]}
                     >
-                        Bad imagery
-                    </Button>
+                        <Text style={styles.sideText}>Bad imagery</Text>
+                    </View>
                     <SatImage
                         overlayText="Before"
                         overlayTextStyle={styles.overlayText}
@@ -439,16 +447,16 @@ class _ChangeDetector extends React.Component<Props, State> {
                         source={{ uri: currentTask.urlB }}
                         style={styles.bottomImage}
                     />
-                    <Button
+                    <View
                         style={[{ opacity: bottomOpacity }, styles.bottomButton]}
                     >
-                        Not sure
-                    </Button>
-                    <Button
+                        <Text style={styles.sideText}>Not sure</Text>
+                    </View>
+                    <View
                         style={[{ opacity: rightOpacity }, styles.rightButton]}
                     >
-                        Yes
-                    </Button>
+                        <Text style={styles.sideText}>Yes</Text>
+                    </View>
                 </View>
                 { tutorial && tutorialText !== ''
                 && (
