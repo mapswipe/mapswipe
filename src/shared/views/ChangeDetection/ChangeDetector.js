@@ -248,6 +248,10 @@ class _ChangeDetector extends React.Component<Props, State> {
         }
     };
 
+    getViewSize = ({ nativeEvent: { layout: { height } } }) => {
+        this.imageSize = height * 0.49;
+    };
+
     checkTutorialAnswers = (answer: number) => {
         const {
             group,
@@ -417,6 +421,7 @@ class _ChangeDetector extends React.Component<Props, State> {
             <>
                 <View
                     {...this.panResponder.panHandlers}
+                    onLayout={this.getViewSize}
                     style={{
                         alignItems: 'center',
                         flex: 1,
