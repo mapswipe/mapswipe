@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     },
     swipeNavTop: {
         width: (GLOBAL.SCREEN_WIDTH),
+        flexShrink: 1,
         height: 40,
     },
     topText: {

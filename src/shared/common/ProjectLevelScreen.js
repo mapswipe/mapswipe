@@ -43,7 +43,7 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     mappingContainer: {
         backgroundColor: COLOR_DEEP_BLUE,
-        height: GLOBAL.SCREEN_HEIGHT,
+        flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
     startButton: {
