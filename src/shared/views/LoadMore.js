@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
     finishedText: {
         textAlign: 'center',
         color: COLOR_WHITE,
+        marginBottom: 10,
+        width: '70%',
     },
 });
 
@@ -54,6 +56,7 @@ type Props = {
     projectId: string,
     results: ResultMapType,
     toNextGroup: void => void,
+    tutorial: boolean,
 };
 
 class _LoadMoreCard extends React.Component<Props> {
@@ -114,11 +117,14 @@ class _LoadMoreCard extends React.Component<Props> {
     }
 
     render() {
+        const { tutorial } = this.props;
         return (
             <View style={styles.congratulationsSlide}>
                 <Text style={styles.finishedText}>
-Great job! You finished this group.
-                    {' '}
+                    { tutorial
+                        ? 'Good. You have completed the tutorial. You are ready to do some mapping!'
+                        : 'Great job! You finished this group.'
+                    }
                 </Text>
 
                 <Button
@@ -126,7 +132,10 @@ Great job! You finished this group.
                     onPress={this.onComplete}
                     textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                 >
-                    Complete Session
+                    { tutorial
+                        ? 'Let\'s go!'
+                        : 'Complete Session'
+                    }
                 </Button>
             </View>
         );

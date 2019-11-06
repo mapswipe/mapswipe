@@ -298,6 +298,7 @@ class _CardBody extends React.Component<Props, State> {
                 navigation={navigation}
                 projectId={projectId}
                 toNextGroup={this.toNextGroup}
+                tutorial={tutorial}
             />); // lastCard.id/2 is random so that it never is the same number
         } else {
             rows.push(<LoadingIcon key="loadingicon" />);
