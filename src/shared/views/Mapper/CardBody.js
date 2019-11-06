@@ -270,7 +270,7 @@ class _CardBody extends React.Component<Props, State> {
         let tutorialText: string = '';
 
         if (tutorial && group.tasks) {
-            if (currentX === group.xMax) {
+            if (currentX >= group.xMax) {
                 // we've reached the end, hide the tutorial text
                 tutorialText = '';
             } else {
