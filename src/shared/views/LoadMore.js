@@ -24,7 +24,7 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     congratulationsSlide: {
         width: (GLOBAL.SCREEN_WIDTH),
-        height: (GLOBAL.TILE_VIEW_HEIGHT),
+        height: '100%',
         borderWidth: 0,
         backgroundColor: COLOR_DARK_GRAY,
         justifyContent: 'center',
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     moreButton: {
         backgroundColor: COLOR_DEEP_BLUE,
         marginTop: 20,
-        width: (GLOBAL.SCREEN_WIDTH * 0.7),
-        marginLeft: (GLOBAL.SCREEN_WIDTH * 0.15),
+        width: '70%',
+        marginLeft: '15%',
         height: 50,
         padding: 12,
         borderRadius: 5,
