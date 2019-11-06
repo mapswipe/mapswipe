@@ -34,20 +34,23 @@ type State = {
     position: string;
 };
 
+const topOffset = '15%';
+const bottomOffset = '80%';
+
 export default class TutorialBox extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            position: '10%',
+            position: topOffset,
         };
     }
 
     moveBox = () => {
         let { position } = this.state;
-        if (position === '10%') {
-            position = '80%';
+        if (position === topOffset) {
+            position = bottomOffset;
         } else {
-            position = '10%';
+            position = topOffset;
         }
         this.setState({ position });
     }
