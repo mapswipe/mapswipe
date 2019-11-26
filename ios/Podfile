@@ -51,6 +51,8 @@ target 'mapswipe' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'mapswipeTests' do
     inherit! :search_paths
     # Pods for testing

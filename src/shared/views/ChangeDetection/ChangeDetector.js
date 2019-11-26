@@ -15,6 +15,7 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
+import LinearGradient from 'react-native-linear-gradient';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
 import SatImage from '../../common/SatImage';
@@ -23,6 +24,11 @@ import {
     COLOR_GREEN,
     COLOR_LIGHT_GRAY,
     COLOR_RED,
+    COLOR_TRANSPARENT_LIGHT_GRAY,
+    COLOR_TRANSPARENT_GREEN,
+    COLOR_TRANSPARENT_RED,
+    COLOR_TRANSPARENT_YELLOW,
+    COLOR_WHITE,
     COLOR_YELLOW,
 } from '../../constants';
 
@@ -34,7 +40,6 @@ import type {
 
 const styles = StyleSheet.create({
     leftButton: {
-        backgroundColor: COLOR_RED,
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
@@ -42,25 +47,21 @@ const styles = StyleSheet.create({
         left: 0,
         position: 'absolute',
         top: 0,
-        width: '15%',
         zIndex: 1,
     },
     bottomButton: {
-        backgroundColor: COLOR_YELLOW,
         borderRadius: 0,
         borderWidth: 0,
         bottom: 0,
-        height: '10%',
         justifyContent: 'center',
-        left: '15%',
+        // left: '15%',
         marginBottom: 0,
         marginTop: 0,
         position: 'absolute',
-        width: '70%',
+        width: '100%',
         zIndex: 1,
     },
     rightButton: {
-        backgroundColor: COLOR_GREEN,
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
@@ -68,19 +69,16 @@ const styles = StyleSheet.create({
         right: 0,
         position: 'absolute',
         top: 0,
-        width: '15%',
         zIndex: 1,
     },
     topButton: {
-        backgroundColor: COLOR_LIGHT_GRAY,
         borderRadius: 0,
         borderWidth: 0,
-        height: '10%',
         justifyContent: 'center',
-        left: '15%',
+        // left: '15%',
         position: 'absolute',
         top: 0,
-        width: '70%',
+        width: '100%',
         zIndex: 1,
     },
     bottomImage: {
@@ -126,8 +124,10 @@ const swipeRatio = 3;
 // Minimum distance to be travelled for the swipe to be considered. It is expressed as
 // a ratio of the image width (or height, as they are squares).
 const minSwipeLength = 0.2;
+// The ratio between distance swiped and the size of the side button
+const swipeToSizeRatio = 2;
 
-const minOpacity = 0;
+const minSize = 0;
 
 type Props = {
     categories: CategoriesType,
@@ -146,10 +146,10 @@ const tutorialModes = {
 
 type State = {
     currentTaskId: string,
-    bottomOpacity: number,
-    leftOpacity: number,
-    rightOpacity: number,
-    topOpacity: number,
+    bottomSize: number,
+    leftSize: number,
+    rightSize: number,
+    topSize: number,
     tutorialMode: $Keys<typeof tutorialModes>,
 };
 
@@ -161,14 +161,16 @@ class _ChangeDetector extends React.Component<Props, State> {
         super(props);
         this.state = {
             currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
-            bottomOpacity: minOpacity,
-            leftOpacity: minOpacity,
-            rightOpacity: minOpacity,
-            topOpacity: minOpacity,
+            bottomSize: minSize,
+            leftSize: minSize,
+            rightSize: minSize,
+            topSize: minSize,
             tutorialMode: tutorialModes.pre,
         };
         this.tasksDone = 0;
         this.imageSize = 250;
+        this.swipeThreshold = this.imageSize * minSwipeLength;
+        this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
@@ -203,7 +205,7 @@ class _ChangeDetector extends React.Component<Props, State> {
     handlePanResponderMove = (event: PressEvent, gestureState: GestureState) => {
         // we have captured the swipe, now the user's finger is moving on the
         // screen, show a visual hint that something is happening:
-        // we increase the opacity of the side that we think the finger is
+        // we increase the size of the side that we think the finger is
         // aiming towards.
         const { tutorial } = this.props;
         const { tutorialMode } = this.state;
@@ -212,44 +214,47 @@ class _ChangeDetector extends React.Component<Props, State> {
         }
 
         const { dx, dy } = gestureState;
-        const D = this.imageSize * minSwipeLength;
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
+        const sizeX = absX > this.swipeThreshold ? this.lockedSize : absX * swipeToSizeRatio;
+        const sizeY = absY > this.swipeThreshold ? this.lockedSize : absY * swipeToSizeRatio;
 
         if (dx < 0 && absX > absY * swipeRatio) {
             // we're headed for a no
             this.setState({
-                bottomOpacity: minOpacity,
-                leftOpacity: minOpacity + 0.1 + (absX / D) * 0.9,
-                rightOpacity: minOpacity,
-                topOpacity: minOpacity,
+                bottomSize: minSize,
+                leftSize: sizeX,
+                rightSize: minSize,
+                topSize: minSize,
             });
         } else if (dx > 0 && absX > absY * swipeRatio) {
             this.setState({
-                bottomOpacity: minOpacity,
-                leftOpacity: minOpacity,
-                rightOpacity: minOpacity + 0.1 + (absX / D) * 0.9,
-                topOpacity: minOpacity,
+                bottomSize: minSize,
+                leftSize: minSize,
+                rightSize: sizeX,
+                topSize: minSize,
             });
         } else if (dy < 0 && absY > absX * swipeRatio) {
             this.setState({
-                bottomOpacity: minOpacity,
-                leftOpacity: minOpacity,
-                rightOpacity: minOpacity,
-                topOpacity: minOpacity + 0.1 + (absY / D) * 0.9,
+                bottomSize: minSize,
+                leftSize: minSize,
+                rightSize: minSize,
+                topSize: sizeY,
             });
         } else if (dy > 0 && absY > absX * swipeRatio) {
             this.setState({
-                bottomOpacity: minOpacity + 0.1 + (absY / D) * 0.9,
-                leftOpacity: minOpacity,
-                rightOpacity: minOpacity,
-                topOpacity: minOpacity,
+                bottomSize: sizeY,
+                leftSize: minSize,
+                rightSize: minSize,
+                topSize: minSize,
             });
         }
     };
 
     getViewSize = ({ nativeEvent: { layout: { height } } }) => {
         this.imageSize = height * 0.49;
+        this.swipeThreshold = this.imageSize * minSwipeLength;
+        this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     };
 
     checkTutorialAnswers = (answer: number) => {
@@ -281,7 +286,7 @@ class _ChangeDetector extends React.Component<Props, State> {
         const absY = Math.abs(dy);
         this.resetOpacities();
         // discard very short swipes
-        if (absX + absY < this.imageSize * minSwipeLength) {
+        if (absX + absY < this.swipeThreshold) {
             return false;
         }
 
@@ -303,13 +308,13 @@ class _ChangeDetector extends React.Component<Props, State> {
         const f = tutorial ? this.checkTutorialAnswers : this.nextTask;
 
         // determine the direction of the swipe
-        if (dx < 0 && absX > absY * swipeRatio) {
+        if (dx < 0 && absX > absY * swipeRatio && absX > this.swipeThreshold) {
             f(CHANGES_NO_CHANGES_DETECTED);
-        } else if (dx > 0 && absX > absY * swipeRatio) {
+        } else if (dx > 0 && absX > absY * swipeRatio && absX > this.swipeThreshold) {
             f(CHANGES_CHANGES_DETECTED);
-        } else if (dy < 0 && absY > absX * swipeRatio) {
+        } else if (dy < 0 && absY > absX * swipeRatio && absY > this.swipeThreshold) {
             f(CHANGES_BAD_IMAGERY);
-        } else if (dy > 0 && absY > absX * swipeRatio) {
+        } else if (dy > 0 && absY > absX * swipeRatio && absY > this.swipeThreshold) {
             f(CHANGES_UNSURE);
         }
         return false;
@@ -331,10 +336,10 @@ class _ChangeDetector extends React.Component<Props, State> {
 
     resetOpacities = () => {
         this.setState({
-            bottomOpacity: minOpacity,
-            leftOpacity: minOpacity,
-            rightOpacity: minOpacity,
-            topOpacity: minOpacity,
+            bottomSize: minSize,
+            leftSize: minSize,
+            rightSize: minSize,
+            topSize: minSize,
         });
     };
 
@@ -370,9 +375,11 @@ class _ChangeDetector extends React.Component<Props, State> {
 
     imageSize: number;
 
-    leftOpacity: number;
+    lockedSize: number;
 
     panResponder: PanResponderInstance;
+
+    swipeThreshold: number;
 
     taskGen: taskGenType;
 
@@ -393,11 +400,11 @@ class _ChangeDetector extends React.Component<Props, State> {
     render = () => {
         const { categories, group, tutorial } = this.props;
         const {
-            bottomOpacity,
+            bottomSize,
             currentTaskId,
-            leftOpacity,
-            rightOpacity,
-            topOpacity,
+            leftSize,
+            rightSize,
+            topSize,
             tutorialMode,
         } = this.state;
         if (!group.tasks) {
@@ -417,6 +424,11 @@ class _ChangeDetector extends React.Component<Props, State> {
             tutorialText = categories[category][tutorialMode];
         }
 
+        let sideTextColor = COLOR_DARK_GRAY;
+        if (leftSize + rightSize + topSize + bottomSize >= this.lockedSize) {
+            sideTextColor = COLOR_WHITE;
+        }
+
         return (
             <>
                 <View
@@ -430,16 +442,26 @@ class _ChangeDetector extends React.Component<Props, State> {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <View
-                        style={[{ opacity: leftOpacity }, styles.leftButton]}
+                    <LinearGradient
+                        colors={[COLOR_RED, COLOR_TRANSPARENT_RED]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={[{ width: leftSize }, styles.leftButton]}
                     >
-                        <Text style={styles.sideText}>No</Text>
-                    </View>
-                    <View
-                        style={[{ opacity: topOpacity }, styles.topButton]}
+                        <Text style={[{ color: sideTextColor }, styles.sideText]}>No</Text>
+                    </LinearGradient>
+                    <LinearGradient
+                        colors={[COLOR_LIGHT_GRAY, COLOR_TRANSPARENT_LIGHT_GRAY]}
+                        style={[{ height: topSize }, styles.topButton]}
                     >
-                        <Text style={styles.sideText}>Bad imagery</Text>
-                    </View>
+                        {topSize > 0
+                            && (
+                                <Text style={[{ color: sideTextColor }, styles.sideText]}>
+                                    Bad imagery
+                                </Text>
+                            )
+                        }
+                    </LinearGradient>
                     <SatImage
                         overlayText="Before"
                         overlayTextStyle={styles.overlayText}
@@ -452,16 +474,26 @@ class _ChangeDetector extends React.Component<Props, State> {
                         source={{ uri: currentTask.urlB }}
                         style={styles.bottomImage}
                     />
-                    <View
-                        style={[{ opacity: bottomOpacity }, styles.bottomButton]}
+                    <LinearGradient
+                        colors={[COLOR_TRANSPARENT_YELLOW, COLOR_YELLOW]}
+                        style={[{ height: bottomSize }, styles.bottomButton]}
                     >
-                        <Text style={styles.sideText}>Not sure</Text>
-                    </View>
-                    <View
-                        style={[{ opacity: rightOpacity }, styles.rightButton]}
+                        {bottomSize > 0
+                            && (
+                                <Text style={[{ color: sideTextColor }, styles.sideText]}>
+                                    Not sure
+                                </Text>
+                            )
+                        }
+                    </LinearGradient>
+                    <LinearGradient
+                        colors={[COLOR_GREEN, COLOR_TRANSPARENT_GREEN]}
+                        start={{ x: 1, y: 0 }}
+                        end={{ x: 0, y: 0 }}
+                        style={[{ width: rightSize }, styles.rightButton]}
                     >
-                        <Text style={styles.sideText}>Yes</Text>
-                    </View>
+                        <Text style={[{ color: sideTextColor }, styles.sideText]}>Yes</Text>
+                    </LinearGradient>
                 </View>
                 { tutorial && tutorialText !== ''
                 && (
