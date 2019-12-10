@@ -173,6 +173,21 @@ export default {
 };
 
 /**
+ * Format the project progress for display
+ */
+export function getProjectProgressForDisplay(progress: number): string {
+    let r;
+    if (progress < 99) {
+        r = Math.max(0, progress).toFixed(0);
+    } else if (progress < 100) {
+        r = '99';
+    } else {
+        r = '100';
+    }
+    return r;
+}
+
+/**
  * Calculate how much 1 tile is in square kilometers
  * @param zoomLevel
  * @returns {number}
