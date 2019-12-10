@@ -4,7 +4,7 @@
 // that can be reused across all project types, as they all share the same
 // data structure. This should prevent too much code reuse, and variety of bugs...
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 export const firebaseConnectGroup = (tutorialName?: string) => (
     firebaseConnect((props) => {
