@@ -7,7 +7,7 @@ import {
     Platform,
     ScrollView,
 } from 'react-native';
-import get from 'lodash/get';
+import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
