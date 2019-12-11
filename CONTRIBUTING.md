@@ -4,9 +4,9 @@ We want to invite the vast community of developers to contribute to our mission 
 
 ## Contributions
 
-We welcome any contributions that help improve the application. Before you start hacking, please read through [README](README.md) and the issues on GitHub to find the best fit for your skills. If you find a task that you confortable working on, simply fork the repo and submit a PR when you are ready!
+We welcome any contributions that help improve the application. Before you start hacking, please read through [README](README.md) and the issues on GitHub to find the best fit for your skills. If you find a task that you confortable working on, simply fork the repo and submit a PR (to the `dev` branch) when you are ready!
 
-We also suggest you get in touch with the developers to find out what the current progress is on the project, as the repository may not always reflect everything that is going on.
+If you are thinking of a change that is not trivial, we suggest you first [open an issue](https://github.com/mapswipe/mapswipe/issues) to discuss your proposed changes. This may save you a lot of time, as other people may be working on similar (or conflicting) changes.
 
 ## Developing - Android
 
