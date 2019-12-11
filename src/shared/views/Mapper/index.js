@@ -23,7 +23,7 @@ import type {
     BuiltAreaGroupType,
     CategoriesType,
     NavigationProp,
-    ProjectType,
+    SingleImageryProjectType,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -200,7 +200,7 @@ class _Mapper extends React.Component<Props, State> {
 
     progress: ?BottomProgress;
 
-    project: ProjectType;
+    project: SingleImageryProjectType;
 
     tilePopup: ?React.ComponentType<void>;
 
@@ -336,6 +336,7 @@ class _Mapper extends React.Component<Props, State> {
                     navigation={navigation}
                     projectId={group.projectId}
                     tutorial={tutorial}
+                    zoomLevel={this.project.zoomLevel}
                 />
             );
         } else {

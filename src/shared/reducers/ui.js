@@ -21,17 +21,19 @@ const defaultUserState = {
 
 const maxLevel = 36;
 
-const getLevelForContributionCount = (taskContributionCount) => {
+export const getLevelForContributionCount = (count: number) => {
     let toReturn = 1;
     try {
-        Object.keys(Levels).forEach((level) => {
-            if (taskContributionCount > Levels[maxLevel]) {
-                toReturn = maxLevel;
-            } else if (taskContributionCount > Levels[level].expRequired
-                && taskContributionCount < Levels[parseInt(level, 10) + 1].expRequired) {
-                toReturn = level;
-            }
-        });
+        if (count > Levels[maxLevel].expRequired) {
+            toReturn = maxLevel;
+        } else {
+            Object.keys(Levels).slice(0, 35).forEach((level) => {
+                if (count >= Levels[level].expRequired
+                    && count < Levels[parseInt(level, 10) + 1].expRequired) {
+                    toReturn = level;
+                }
+            });
+        }
         if (toReturn > maxLevel) {
             toReturn = maxLevel;
         } else if (toReturn < 1) {
@@ -43,7 +45,7 @@ const getLevelForContributionCount = (taskContributionCount) => {
     return parseInt(toReturn, 10);
 };
 
-const getProgress = (taskContributionCount, level) => {
+const getProgress = (taskContributionCount: number, level: number) => {
     if (level === maxLevel) {
         // the user has reached the end...
         return { kmTillNextLevel: 999999999, percentage: 1 };

@@ -7,6 +7,7 @@ import {
     Image,
     PanResponder,
     StyleSheet,
+    Text,
     View,
 } from 'react-native';
 import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
@@ -14,68 +15,70 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
-import Button from 'apsl-react-native-button';
+import LinearGradient from 'react-native-linear-gradient';
 import LoadingIcon from '../LoadingIcon';
+import TutorialBox from '../../common/Tutorial';
 import SatImage from '../../common/SatImage';
-import GLOBAL from '../../Globals';
 import {
     COLOR_DARK_GRAY,
     COLOR_GREEN,
     COLOR_LIGHT_GRAY,
     COLOR_RED,
+    COLOR_TRANSPARENT_LIGHT_GRAY,
+    COLOR_TRANSPARENT_GREEN,
+    COLOR_TRANSPARENT_RED,
+    COLOR_TRANSPARENT_YELLOW,
+    COLOR_WHITE,
     COLOR_YELLOW,
 } from '../../constants';
 
 import type {
+    CategoriesType,
     ChangeDetectionGroupType,
     ChangeDetectionTaskType,
 } from '../../flow-types';
 
 const styles = StyleSheet.create({
     leftButton: {
-        backgroundColor: COLOR_RED,
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
+        justifyContent: 'center',
         left: 0,
         position: 'absolute',
         top: 0,
-        width: '15%',
         zIndex: 1,
     },
     bottomButton: {
-        backgroundColor: COLOR_YELLOW,
         borderRadius: 0,
         borderWidth: 0,
         bottom: 0,
-        height: '10%',
-        left: '15%',
+        justifyContent: 'center',
+        // left: '15%',
         marginBottom: 0,
         marginTop: 0,
         position: 'absolute',
-        width: '70%',
+        width: '100%',
         zIndex: 1,
     },
     rightButton: {
-        backgroundColor: COLOR_GREEN,
         borderRadius: 0,
         borderWidth: 0,
         height: '100%',
+        justifyContent: 'center',
         right: 0,
         position: 'absolute',
         top: 0,
-        width: '15%',
         zIndex: 1,
     },
     topButton: {
-        backgroundColor: COLOR_LIGHT_GRAY,
         borderRadius: 0,
         borderWidth: 0,
-        height: '10%',
-        left: '15%',
+        justifyContent: 'center',
+        // left: '15%',
         position: 'absolute',
         top: 0,
-        width: '70%',
+        width: '100%',
         zIndex: 1,
     },
     bottomImage: {
@@ -91,6 +94,10 @@ const styles = StyleSheet.create({
     topImage: {
         aspectRatio: 1,
         height: '49%',
+    },
+    sideText: {
+        fontSize: 13,
+        textAlign: 'center',
     },
     overlayText: {
         color: COLOR_LIGHT_GRAY,
@@ -117,22 +124,33 @@ const swipeRatio = 3;
 // Minimum distance to be travelled for the swipe to be considered. It is expressed as
 // a ratio of the image width (or height, as they are squares).
 const minSwipeLength = 0.2;
+// The ratio between distance swiped and the size of the side button
+const swipeToSizeRatio = 2;
 
-const minOpacity = 0;
+const minSize = 0;
 
 type Props = {
+    categories: CategoriesType,
     commitCompletedGroup: () => void,
     group: ChangeDetectionGroupType,
     submitResult: (number, string) => void,
+    tutorial: boolean,
     updateProgress: (number) => void,
+};
+
+const tutorialModes = {
+    pre: 'pre',
+    post_correct: 'post_correct',
+    post_wrong: 'post_wrong',
 };
 
 type State = {
     currentTaskId: string,
-    bottomOpacity: number,
-    leftOpacity: number,
-    rightOpacity: number,
-    topOpacity: number,
+    bottomSize: number,
+    leftSize: number,
+    rightSize: number,
+    topSize: number,
+    tutorialMode: $Keys<typeof tutorialModes>,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -143,13 +161,16 @@ class _ChangeDetector extends React.Component<Props, State> {
         super(props);
         this.state = {
             currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
-            bottomOpacity: minOpacity,
-            leftOpacity: minOpacity,
-            rightOpacity: minOpacity,
-            topOpacity: minOpacity,
+            bottomSize: minSize,
+            leftSize: minSize,
+            rightSize: minSize,
+            topSize: minSize,
+            tutorialMode: tutorialModes.pre,
         };
         this.tasksDone = 0;
         this.imageSize = 250;
+        this.swipeThreshold = this.imageSize * minSwipeLength;
+        this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
@@ -184,65 +205,117 @@ class _ChangeDetector extends React.Component<Props, State> {
     handlePanResponderMove = (event: PressEvent, gestureState: GestureState) => {
         // we have captured the swipe, now the user's finger is moving on the
         // screen, show a visual hint that something is happening:
-        // we increase the opacity of the side that we think the finger is
+        // we increase the size of the side that we think the finger is
         // aiming towards.
+        const { tutorial } = this.props;
+        const { tutorialMode } = this.state;
+        if (tutorial && tutorialMode === tutorialModes.post_correct) {
+            return; // disable side animations once we have a correct answer
+        }
+
         const { dx, dy } = gestureState;
-        const D = this.imageSize * minSwipeLength;
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
+        const sizeX = absX > this.swipeThreshold ? this.lockedSize : absX * swipeToSizeRatio;
+        const sizeY = absY > this.swipeThreshold ? this.lockedSize : absY * swipeToSizeRatio;
 
         if (dx < 0 && absX > absY * swipeRatio) {
             // we're headed for a no
             this.setState({
-                bottomOpacity: minOpacity,
-                leftOpacity: minOpacity + 0.1 + (absX / D) * 0.9,
-                rightOpacity: minOpacity,
-                topOpacity: minOpacity,
+                bottomSize: minSize,
+                leftSize: sizeX,
+                rightSize: minSize,
+                topSize: minSize,
             });
         } else if (dx > 0 && absX > absY * swipeRatio) {
             this.setState({
-                bottomOpacity: minOpacity,
-                leftOpacity: minOpacity,
-                rightOpacity: minOpacity + 0.1 + (absX / D) * 0.9,
-                topOpacity: minOpacity,
+                bottomSize: minSize,
+                leftSize: minSize,
+                rightSize: sizeX,
+                topSize: minSize,
             });
         } else if (dy < 0 && absY > absX * swipeRatio) {
             this.setState({
-                bottomOpacity: minOpacity,
-                leftOpacity: minOpacity,
-                rightOpacity: minOpacity,
-                topOpacity: minOpacity + 0.1 + (absY / D) * 0.9,
+                bottomSize: minSize,
+                leftSize: minSize,
+                rightSize: minSize,
+                topSize: sizeY,
             });
         } else if (dy > 0 && absY > absX * swipeRatio) {
             this.setState({
-                bottomOpacity: minOpacity + 0.1 + (absY / D) * 0.9,
-                leftOpacity: minOpacity,
-                rightOpacity: minOpacity,
-                topOpacity: minOpacity,
+                bottomSize: sizeY,
+                leftSize: minSize,
+                rightSize: minSize,
+                topSize: minSize,
             });
+        }
+    };
+
+    getViewSize = ({ nativeEvent: { layout: { height } } }) => {
+        this.imageSize = height * 0.49;
+        this.swipeThreshold = this.imageSize * minSwipeLength;
+        this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
+    };
+
+    checkTutorialAnswers = (answer: number) => {
+        const {
+            group,
+        } = this.props;
+        const { currentTaskId } = this.state;
+        const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
+        // $FlowFixMe
+        if (currentTask.referenceAnswer === answer) {
+            this.setState({ tutorialMode: tutorialModes.post_correct });
+        } else {
+            this.setState({ tutorialMode: tutorialModes.post_wrong });
         }
     };
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         const { dx, dy } = gestureState;
+        const {
+            commitCompletedGroup,
+            group,
+            tutorial,
+            updateProgress,
+        } = this.props;
+        const { tutorialMode } = this.state;
 
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
         this.resetOpacities();
         // discard very short swipes
-        if (absX + absY < this.imageSize * minSwipeLength) {
+        if (absX + absY < this.swipeThreshold) {
             return false;
         }
+
+        if (tutorial && tutorialMode === tutorialModes.post_correct) {
+            // we ignore "normal" swipes, we now expect a simple left swipe
+            if (dx < 0 && absX > 5) {
+                const { done, value } = this.taskGen.next();
+                if (done) {
+                    // no more tasks in the group, commit results and go back to menu
+                    commitCompletedGroup();
+                }
+                this.tasksDone += 1;
+                updateProgress(this.tasksDone / group.numberOfTasks);
+                this.setState({ currentTaskId: value, tutorialMode: tutorialModes.pre });
+            }
+            return false;
+        }
+
+        const f = tutorial ? this.checkTutorialAnswers : this.nextTask;
+
         // determine the direction of the swipe
-        if (dx < 0 && absX > absY * swipeRatio) {
-            this.nextTask(CHANGES_NO_CHANGES_DETECTED);
-        } else if (dx > 0 && absX > absY * swipeRatio) {
-            this.nextTask(CHANGES_CHANGES_DETECTED);
-        } else if (dy < 0 && absY > absX * swipeRatio) {
-            this.nextTask(CHANGES_BAD_IMAGERY);
-        } else if (dy > 0 && absY > absX * swipeRatio) {
-            this.nextTask(CHANGES_UNSURE);
+        if (dx < 0 && absX > absY * swipeRatio && absX > this.swipeThreshold) {
+            f(CHANGES_NO_CHANGES_DETECTED);
+        } else if (dx > 0 && absX > absY * swipeRatio && absX > this.swipeThreshold) {
+            f(CHANGES_CHANGES_DETECTED);
+        } else if (dy < 0 && absY > absX * swipeRatio && absY > this.swipeThreshold) {
+            f(CHANGES_BAD_IMAGERY);
+        } else if (dy > 0 && absY > absX * swipeRatio && absY > this.swipeThreshold) {
+            f(CHANGES_UNSURE);
         }
         return false;
     };
@@ -263,10 +336,10 @@ class _ChangeDetector extends React.Component<Props, State> {
 
     resetOpacities = () => {
         this.setState({
-            bottomOpacity: minOpacity,
-            leftOpacity: minOpacity,
-            rightOpacity: minOpacity,
-            topOpacity: minOpacity,
+            bottomSize: minSize,
+            leftSize: minSize,
+            rightSize: minSize,
+            topSize: minSize,
         });
     };
 
@@ -302,9 +375,11 @@ class _ChangeDetector extends React.Component<Props, State> {
 
     imageSize: number;
 
-    leftOpacity: number;
+    lockedSize: number;
 
     panResponder: PanResponderInstance;
+
+    swipeThreshold: number;
 
     taskGen: taskGenType;
 
@@ -323,64 +398,111 @@ class _ChangeDetector extends React.Component<Props, State> {
     }
 
     render = () => {
-        const { group } = this.props;
+        const { categories, group, tutorial } = this.props;
         const {
-            bottomOpacity,
+            bottomSize,
             currentTaskId,
-            leftOpacity,
-            rightOpacity,
-            topOpacity,
+            leftSize,
+            rightSize,
+            topSize,
+            tutorialMode,
         } = this.state;
         if (!group.tasks) {
             return <LoadingIcon />;
         }
         const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
+
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
+
+        let tutorialText: string = '';
+
+        if (tutorial && group.tasks) {
+            const { category } = currentTask;
+            // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
+            tutorialText = categories[category][tutorialMode];
+        }
+
+        let sideTextColor = COLOR_DARK_GRAY;
+        if (leftSize + rightSize + topSize + bottomSize >= this.lockedSize) {
+            sideTextColor = COLOR_WHITE;
+        }
+
         return (
-            <View
-                {...this.panResponder.panHandlers}
-                style={{
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    height: GLOBAL.TILE_VIEW_HEIGHT,
-                    justifyContent: 'space-between',
-                }}
-            >
-                <Button
-                    style={[{ opacity: leftOpacity }, styles.leftButton]}
+            <>
+                <View
+                    {...this.panResponder.panHandlers}
+                    onLayout={this.getViewSize}
+                    style={{
+                        alignItems: 'center',
+                        flex: 1,
+                        flexGrow: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
                 >
-                    No
-                </Button>
-                <Button
-                    style={[{ opacity: topOpacity }, styles.topButton]}
-                >
-                    Bad imagery
-                </Button>
-                <SatImage
-                    overlayText="Before"
-                    overlayTextStyle={styles.overlayText}
-                    source={{ uri: currentTask.urlA }}
-                    style={styles.topImage}
-                />
-                <SatImage
-                    overlayText="After"
-                    overlayTextStyle={styles.overlayText}
-                    source={{ uri: currentTask.urlB }}
-                    style={styles.bottomImage}
-                />
-                <Button
-                    style={[{ opacity: bottomOpacity }, styles.bottomButton]}
-                >
-                    Not sure
-                </Button>
-                <Button
-                    style={[{ opacity: rightOpacity }, styles.rightButton]}
-                >
-                    Yes
-                </Button>
-            </View>
+                    <LinearGradient
+                        colors={[COLOR_RED, COLOR_TRANSPARENT_RED]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={[{ width: leftSize }, styles.leftButton]}
+                    >
+                        <Text style={[{ color: sideTextColor }, styles.sideText]}>No</Text>
+                    </LinearGradient>
+                    <LinearGradient
+                        colors={[COLOR_LIGHT_GRAY, COLOR_TRANSPARENT_LIGHT_GRAY]}
+                        style={[{ height: topSize }, styles.topButton]}
+                    >
+                        {topSize > 0
+                            && (
+                                <Text style={[{ color: sideTextColor }, styles.sideText]}>
+                                    Bad imagery
+                                </Text>
+                            )
+                        }
+                    </LinearGradient>
+                    <SatImage
+                        overlayText="Before"
+                        overlayTextStyle={styles.overlayText}
+                        source={{ uri: currentTask.urlA }}
+                        style={styles.topImage}
+                    />
+                    <SatImage
+                        overlayText="After"
+                        overlayTextStyle={styles.overlayText}
+                        source={{ uri: currentTask.urlB }}
+                        style={styles.bottomImage}
+                    />
+                    <LinearGradient
+                        colors={[COLOR_TRANSPARENT_YELLOW, COLOR_YELLOW]}
+                        style={[{ height: bottomSize }, styles.bottomButton]}
+                    >
+                        {bottomSize > 0
+                            && (
+                                <Text style={[{ color: sideTextColor }, styles.sideText]}>
+                                    Not sure
+                                </Text>
+                            )
+                        }
+                    </LinearGradient>
+                    <LinearGradient
+                        colors={[COLOR_GREEN, COLOR_TRANSPARENT_GREEN]}
+                        start={{ x: 1, y: 0 }}
+                        end={{ x: 0, y: 0 }}
+                        style={[{ width: rightSize }, styles.rightButton]}
+                    >
+                        <Text style={[{ color: sideTextColor }, styles.sideText]}>Yes</Text>
+                    </LinearGradient>
+                </View>
+                { tutorial && tutorialText !== ''
+                && (
+                    <TutorialBox>
+                        { tutorialText }
+                    </TutorialBox>
+                )
+                }
+            </>
         );
     }
 }
@@ -389,7 +511,6 @@ const mapStateToProps = (state, ownProps) => (
     {
         commitCompletedGroup: ownProps.commitCompletedGroup,
         group: ownProps.group,
-        project: ownProps.project,
         submitResult: ownProps.submitResult,
     }
 );
@@ -397,14 +518,14 @@ const mapStateToProps = (state, ownProps) => (
 export default compose(
     firebaseConnect((props) => {
         if (props.group) {
-            const { groupId } = props.group;
-            const { projectId } = props.project;
+            const { groupId, projectId } = props.group;
+            const prefix = props.tutorial ? 'tutorial' : 'projects';
             if (groupId !== undefined) {
                 return [
                     {
                         type: 'once',
                         path: `v2/tasks/${projectId}/${groupId}`,
-                        storeAs: `projects/${projectId}/groups/${groupId}/tasks`,
+                        storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
                     },
                 ];
             }

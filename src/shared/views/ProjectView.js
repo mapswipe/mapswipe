@@ -28,6 +28,7 @@ import {
     COLOR_WHITE,
     LEGACY_TILES,
 } from '../constants';
+import { getProjectProgressForDisplay } from '../Database';
 import type { NavigationProp, ProjectType } from '../flow-types';
 
 const Modal = require('react-native-modalbox');
@@ -451,7 +452,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         });
 
         // show progress = 0 if we somehow get a negative value
-        const projectProgress = Math.max(0, project.progress).toFixed(0);
+        const projectProgress = getProjectProgressForDisplay(project.progress);
 
         return (
             <ScrollView
@@ -511,6 +512,11 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                             });
                             if (project.projectType === LEGACY_TILES) {
                                 navigation.push('Mapper', {
+                                    project,
+                                    tutorial: true,
+                                });
+                            } else if (project.projectType === CHANGE_DETECTION) {
+                                navigation.push('ChangeDetectionScreen', {
                                     project,
                                     tutorial: true,
                                 });

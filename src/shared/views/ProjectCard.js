@@ -8,6 +8,7 @@ import type { NavigationProp, ProjectType } from '../flow-types';
 import {
     COLOR_LIGHT_GRAY,
 } from '../constants';
+import { getProjectProgressForDisplay } from '../Database';
 
 const GLOBAL = require('../Globals');
 
@@ -173,7 +174,7 @@ export default class ProjectCard extends React.Component<Props, State> {
         } = this.props;
         const { hasOfflineGroups } = this.state;
         // show progress = 0 if we somehow get a negative value
-        const progress = Math.max(0, project.progress).toFixed(0);
+        const progress = getProjectProgressForDisplay(project.progress);
         const mappersCount = project.contributorCount || 0;
 
         return (

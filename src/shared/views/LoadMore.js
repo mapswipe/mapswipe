@@ -24,7 +24,7 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     congratulationsSlide: {
         width: (GLOBAL.SCREEN_WIDTH),
-        height: (GLOBAL.TILE_VIEW_HEIGHT),
+        height: '100%',
         borderWidth: 0,
         backgroundColor: COLOR_DARK_GRAY,
         justifyContent: 'center',
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     moreButton: {
         backgroundColor: COLOR_DEEP_BLUE,
         marginTop: 20,
-        width: (GLOBAL.SCREEN_WIDTH * 0.7),
-        marginLeft: (GLOBAL.SCREEN_WIDTH * 0.15),
+        width: '70%',
+        marginLeft: '15%',
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -44,17 +44,19 @@ const styles = StyleSheet.create({
     finishedText: {
         textAlign: 'center',
         color: COLOR_WHITE,
+        marginBottom: 10,
+        width: '70%',
     },
 });
 
 type Props = {
-    getContributions: (GroupType, ResultMapType) => Object,
     group: GroupType,
     navigation: NavigationProp,
     onCommitGroup: GroupInfo => void,
     projectId: string,
     results: ResultMapType,
     toNextGroup: void => void,
+    tutorial: boolean,
 };
 
 class _LoadMoreCard extends React.Component<Props> {
@@ -77,21 +79,17 @@ class _LoadMoreCard extends React.Component<Props> {
     commitCompletedGroup = () => {
         // user completed the group: let's commit it to firebase
         const {
-            getContributions,
             group,
             onCommitGroup,
             projectId,
             results,
         } = this.props;
-        const { contributionsCount, addedDistance } = getContributions(group, results);
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
             fb.analytics().logEvent('complete_group');
             onCommitGroup({
-                addedDistance,
                 groupId: group.groupId,
                 projectId,
-                contributionsCount,
                 results,
             });
         } else {
@@ -119,11 +117,14 @@ class _LoadMoreCard extends React.Component<Props> {
     }
 
     render() {
+        const { tutorial } = this.props;
         return (
             <View style={styles.congratulationsSlide}>
                 <Text style={styles.finishedText}>
-Great job! You finished this group.
-                    {' '}
+                    { tutorial
+                        ? 'Good. You have completed the tutorial. You are ready to do some mapping!'
+                        : 'Great job! You finished this group.'
+                    }
                 </Text>
 
                 <Button
@@ -131,7 +132,10 @@ Great job! You finished this group.
                     onPress={this.onComplete}
                     textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                 >
-                    Complete Session
+                    { tutorial
+                        ? 'Let\'s go!'
+                        : 'Complete Session'
+                    }
                 </Button>
             </View>
         );

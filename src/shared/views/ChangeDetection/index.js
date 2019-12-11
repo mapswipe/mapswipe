@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     navigation: NavigationProp,
+    tutorial: boolean,
 };
 
 /* eslint-disable react/destructuring-assignment */
@@ -83,7 +84,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
         </View>
     );
 
-    constructor(props: Object) {
+    constructor(props: Props) {
         super(props);
         // this random value is used to pick a group when mapping starts,
         // it cannot be picked within mapStateToProps, as the latter must be
@@ -152,7 +153,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     randomSeed: number;
 
     render() {
-        const { navigation } = this.props;
+        const { navigation, tutorial } = this.props;
         return (
             <ProjectLevelScreen
                 Component={ChangeDetector}
@@ -161,6 +162,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
                 randomSeed={this.randomSeed}
                 screenName="_ChangeDetectionScreen"
                 submitResultFunction={submitChange}
+                tutorial={tutorial}
                 tutorialHelpContent={this.tutorialHelpContent}
                 tutorialName="change_detection_tutorial"
             />

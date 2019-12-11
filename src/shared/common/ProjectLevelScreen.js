@@ -24,12 +24,11 @@ import BackConfirmationModal from './ConfirmationModal';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
-import { getSqKmForZoomLevelPerTile } from '../Database';
 import type {
+    CategoriesType,
     GroupType,
     NavigationProp,
     ProjectType,
-    ResultMapType,
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -44,7 +43,7 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     mappingContainer: {
         backgroundColor: COLOR_DEEP_BLUE,
-        height: GLOBAL.SCREEN_HEIGHT,
+        flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
     startButton: {
@@ -71,6 +70,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    categories: CategoriesType,
     Component: React.ComponentType<any>,
     group: { [group_id: string]: GroupType },
     navigation: NavigationProp,
@@ -166,12 +166,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         this.setState({ groupCompleted: true });
     }
 
-    getContributions = (group: GroupType, results: ResultMapType) => {
-        const contributionsCount = Object.keys(results).length;
-        const addedDistance = group.numberOfTasks * getSqKmForZoomLevelPerTile(19);
-        return { contributionsCount, addedDistance };
-    }
-
     getCreditString = (): string => {
         let result = '';
         const defaultCredits = 'Unknown imagery source';
@@ -265,9 +259,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     render = () => {
         const {
+            categories,
             Component,
             group,
             navigation,
+            tutorial,
         } = this.props;
         const { groupCompleted } = this.state;
         if (!group) {
@@ -276,11 +272,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         if (groupCompleted) {
             return (
                 <LoadMoreCard
-                    getContributions={this.getContributions}
                     group={group}
                     navigation={navigation}
-                    projectId={this.project.projectId}
+                    projectId={group.projectId}
                     toNextGroup={this.toNextGroup}
+                    tutorial={tutorial}
                 />
             );
         }
@@ -297,11 +293,13 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 {backConfirmationModal}
                 {helpModal}
                 <Component
+                    categories={tutorial ? categories : null}
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
                     project={this.project}
                     submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
+                    tutorial={tutorial}
                 />
                 <BottomProgress ref={(r) => { this.progress = r; }} />
             </View>
