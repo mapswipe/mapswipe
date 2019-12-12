@@ -63,10 +63,9 @@ matrix:
         # detox build -c android.ci.debug
         # detox test -c android.ci.debug --loglevel trace
       script:
-        # yarn buildDev
+        - yarn buildDev
         - yarn buildProd
         - cd android
-        - find . -name *.apk
       before_deploy:
         - find . -name *.apk
       deploy:
