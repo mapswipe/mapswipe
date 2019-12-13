@@ -6,6 +6,11 @@ env:
   - NODE_ENV='test'
 git:
   depth: 5
+cache:
+  bundler: true
+  cocoapods: true
+  directories
+  - $HOME/.cache/yarn
 matrix:
   # this matrix runs two processes in parallel, one for android, one for iOS
   include:
@@ -15,9 +20,6 @@ matrix:
       jdk: oraclejdk8
       sudo: required
       node_js: false
-      cache:
-        directories
-        - $HOME/.cache/yarn
       before_install:
         - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
         - tar xvf secrets.tar
@@ -116,11 +118,6 @@ matrix:
       env:
         - FASTLANE_DISABLE_COLORS=1
       podfile: ios/Podfile
-      cache:
-        bundler: true
-        cocoapods: true
-        directories
-        - $HOME/.cache/yarn
       addons:
         ssh_known_hosts: gitlab.com
       before_install:
