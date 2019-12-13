@@ -9,7 +9,7 @@ git:
 cache:
   bundler: true
   cocoapods: true
-  directories
+  directories:
   - $HOME/.cache/yarn
 matrix:
   # this matrix runs two processes in parallel, one for android, one for iOS
