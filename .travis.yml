@@ -4,6 +4,8 @@ node_js:
 sudo: false
 env:
   - NODE_ENV='test'
+git:
+  depth: 5
 matrix:
   # this matrix runs two processes in parallel, one for android, one for iOS
   include:
