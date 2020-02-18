@@ -238,7 +238,7 @@ class _CardBody extends React.Component<Props, State> {
             this.scrollEnabled = false;
             this.setState({ tutorialMode: tutorialModes.pre });
         }
-        this.setState({ showScaleBar: (progress < 0.95) });
+        this.setState({ showScaleBar: (progress < 0.99) });
     }
 
     firstTouch: Object;
