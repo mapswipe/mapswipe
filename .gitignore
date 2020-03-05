@@ -4,7 +4,6 @@ android/google_play_api_key.json
 android/app/google-services.json
 android/app/src/dev/google-services.json
 android/app/src/production/google-services.json
-android/gradle.properties
 android/sentry.properties
 secrets.tar
 
