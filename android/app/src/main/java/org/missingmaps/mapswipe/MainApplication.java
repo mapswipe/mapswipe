@@ -1,6 +1,6 @@
 package org.missingmaps.mapswipe;
 
-import android.app.Application;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.facebook.react.PackageList;
@@ -26,7 +26,7 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override

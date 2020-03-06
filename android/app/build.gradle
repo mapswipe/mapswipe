@@ -178,6 +178,7 @@ android {
         versionName userVersion
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -258,6 +259,7 @@ dependencies {
     implementation "com.google.firebase:firebase-database:17.0.0"
     implementation "com.google.firebase:firebase-auth:17.0.0"
     implementation "com.google.firebase:firebase-messaging:18.0.0"
+    implementation "androidx.multidex:multidex:2.0.1"
     androidTestImplementation('com.wix:detox:+') { transitive = true }
     androidTestImplementation 'junit:junit:4.12'
 
