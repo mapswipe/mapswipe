@@ -8,8 +8,9 @@
 
 import React from 'react';
 import {
-    View, Image, WebView, TouchableHighlight,
+    View, Image, TouchableHighlight,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import fb from 'react-native-firebase';
 import type { NavigationProp } from '../flow-types';
 import {

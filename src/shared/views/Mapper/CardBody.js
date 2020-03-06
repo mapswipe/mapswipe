@@ -314,6 +314,7 @@ class _CardBody extends React.Component<Props, State> {
             * (1 - (2 * group.yMin) / (2 ** zoomLevel)))) * (180 / Math.PI);
         return (
             <>
+                {/* $FlowFixMe */}
                 <ScrollView
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     scrollEventThrottle={64}
@@ -324,10 +325,11 @@ class _CardBody extends React.Component<Props, State> {
                             let direction: string;
                             const evt = e.nativeEvent;
                             const pageX: number = evt.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
-                            if (Platform.OS === 'ios') {
+                            if (Platform.OS === 'ios' && evt.targetContentOffset !== undefined) {
                                 direction = evt.targetContentOffset.x > evt.contentOffset.x
                                     ? 'forward' : 'backward';
                             } else {
+                                // $FlowFixMe
                                 direction = evt.velocity.x < 0 ? 'forward' : 'backward';
                             }
                             if (direction === 'forward') {
