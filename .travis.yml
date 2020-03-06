@@ -70,6 +70,9 @@ matrix:
         # detox build -c android.ci.debug
         # detox test -c android.ci.debug --loglevel trace
       script:
+        # the following line is theoretically run by react-native cli > 0.60 but since we've
+        # created custom build scripts, we still need it
+        - yarn jetifier
         - yarn buildDev
         - yarn buildProd
         - cd android
