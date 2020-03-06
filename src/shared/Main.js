@@ -82,6 +82,12 @@ type State = {
 };
 
 class Main extends React.Component<{}, State> {
+    alert: ?React.ComponentType<{}>;
+
+    checkInterval: IntervalID;
+
+    modal3: ?Modal;
+
     constructor(props: {}) {
         super(props);
         this.state = {
@@ -110,12 +116,6 @@ class Main extends React.Component<{}, State> {
     componentWillUnmount() {
         clearInterval(this.checkInterval);
     }
-
-    alert: ?React.ComponentType<{}>;
-
-    checkInterval: IntervalID;
-
-    modal3: ?Modal;
 
     openModal3(level: number) {
         this.setState({

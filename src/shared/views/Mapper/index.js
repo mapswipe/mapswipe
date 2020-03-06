@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable max-classes-per-file */
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -120,6 +121,15 @@ type State = {
 }
 
 class _Mapper extends React.Component<Props, State> {
+    progress: ?BottomProgress;
+
+    project: SingleImageryProjectType;
+
+    tilePopup: ?React.ComponentType<void>;
+
+    HelpModal: ?React.ComponentType<void>;
+
+
     constructor(props:Props) {
         super(props);
         this.project = props.navigation.getParam('project', null);
@@ -197,14 +207,6 @@ class _Mapper extends React.Component<Props, State> {
         // $FlowFixMe
         this.tilePopup.close();
     }
-
-    progress: ?BottomProgress;
-
-    project: SingleImageryProjectType;
-
-    tilePopup: ?React.ComponentType<void>;
-
-    HelpModal: ?React.ComponentType<void>;
 
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
@@ -372,7 +374,7 @@ class _Mapper extends React.Component<Props, State> {
     /* eslint-enable global-require */
 }
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onCancelGroup(groupDetails) {
             dispatch(cancelGroup(groupDetails));
@@ -391,7 +393,7 @@ const tutorialName = 'build_area_tutorial';
 const Mapper = compose(
     firebaseConnectGroup(tutorialName),
     connect(
-        state => ({ hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1 }),
+        (state) => ({ hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1 }),
     ),
     connect(
         mapStateToPropsForGroups(tutorialName),
@@ -401,12 +403,12 @@ const Mapper = compose(
 
 // eslint-disable-next-line react/no-multi-comp
 export default class MapperScreen extends React.Component<Props> {
+    randomSeed: number;
+
     constructor(props: Props) {
         super(props);
         this.randomSeed = Math.random();
     }
-
-    randomSeed: number;
 
     render() {
         const { ...otherProps } = this.props;

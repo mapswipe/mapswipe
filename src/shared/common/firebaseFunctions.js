@@ -86,7 +86,7 @@ export const mapStateToPropsForGroups = (tutorialName?: string) => (
             // we'll quietly ignore it for now :)
             const groupsAvailable = Object.keys(groups);
             // eslint-disable-next-line prefer-destructuring
-            const groupsToPickFrom = groupsAvailable.filter(g => !groupsMapped.includes(g));
+            const groupsToPickFrom = groupsAvailable.filter((g) => !groupsMapped.includes(g));
             groupId = groupsToPickFrom[Math.floor(ownProps.randomSeed * groupsToPickFrom.length)];
         }
         return {

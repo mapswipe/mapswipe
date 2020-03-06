@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable max-classes-per-file */
 import * as React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -114,7 +115,7 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onWelcomeComplete: () => {
             dispatch(completeWelcome());
@@ -208,7 +209,7 @@ class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState
                         onPress={() => onCompletion()}
                         textStyle={{ fontSize: 18, color: COLOR_LIGHT_GRAY, fontWeight: '700' }}
                     >
-                    Sign Up
+                        Sign Up
                     </Button>
                 </View>
             </Swiper>

@@ -39,8 +39,8 @@ export default class FootprintDisplay extends React.Component<Props> {
      */
     getPolygon = (coords: Polygon, screenBBox: BBOX) => {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
-        const lon2x = lon => ((lon - minLon) / (maxLon - minLon)) * tileSize;
-        const lat2y = lat => (1 - (lat - minLat) / (maxLat - minLat)) * tileSize;
+        const lon2x = (lon) => ((lon - minLon) / (maxLon - minLon)) * tileSize;
+        const lat2y = (lat) => (1 - (lat - minLat) / (maxLat - minLat)) * tileSize;
         const p = ART.Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
         coords.forEach((corner) => {
             p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
@@ -53,8 +53,8 @@ export default class FootprintDisplay extends React.Component<Props> {
      * Get the building bounding box (in real coordinates)
      */
     getBuildingBBox = (coords: Polygon): BBOX => {
-        const lons = coords.map(p => p[0]).sort();
-        const lats = coords.map(p => p[1]).sort();
+        const lons = coords.map((p) => p[0]).sort();
+        const lats = coords.map((p) => p[1]).sort();
         return [lons[0], lats[0], lons[lons.length - 1], lats[lats.length - 1]];
     }
 
@@ -63,7 +63,7 @@ export default class FootprintDisplay extends React.Component<Props> {
         const centroid: Point = coords.slice(0, -1)
             .reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
         // $FlowFixMe
-        return centroid.map(c => c / (coords.length - 1));
+        return centroid.map((c) => c / (coords.length - 1));
     }
 
     // return a bouding box to zoom to as [W, S, E, N]

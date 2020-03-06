@@ -92,6 +92,10 @@ type ICState = {
 };
 
 class _IndividualCard extends React.Component<ICProps, ICState> {
+    panResponder: PanResponderInstance;
+
+    swipeThreshold: number;
+
     constructor(props: ICProps) {
         super(props);
         // vertical swipe handlers
@@ -164,10 +168,6 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         this.setState({ showSwipeHelp: false });
     };
 
-    panResponder: PanResponderInstance;
-
-    swipeThreshold: number;
-
     renderSwipeHelp = () => (
         <Text style={styles.swipeHelp}>
             Swipe DOWN to mark all 6 tiles RED.
@@ -210,7 +210,7 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onToggleTile: (tileInfo) => {
             dispatch(toggleMapTile(tileInfo));

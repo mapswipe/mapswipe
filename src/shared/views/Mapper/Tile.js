@@ -66,6 +66,10 @@ type Props = {
 };
 
 export class _Tile extends React.Component<Props> {
+    tileStatus: number;
+
+    lastReportedStatus: number;
+
     constructor(props: Props) {
         super(props);
         this.tileStatus = 0;
@@ -156,10 +160,6 @@ export class _Tile extends React.Component<Props> {
         );
     }
 
-    tileStatus: number;
-
-    lastReportedStatus: number;
-
     render() {
         const { results, tile: { taskId }, tutorial } = this.props;
         const tileStatus = results;
@@ -222,7 +222,7 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onToggleTile: (tileInfo) => {
             dispatch(toggleMapTile(tileInfo));

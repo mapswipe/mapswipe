@@ -58,6 +58,14 @@ const tutorialModes = {
 };
 
 class _CardBody extends React.Component<Props, State> {
+    firstTouch: Object;
+
+    previousTouch: Object;
+
+    scrollEnabled: boolean;
+
+    scrollView: ?ScrollView;
+
     constructor(props: Props) {
         super(props);
         this.scrollEnabled = !props.tutorial;
@@ -112,7 +120,7 @@ class _CardBody extends React.Component<Props, State> {
                 const tileMaxX = tileMinX + tilesPerRow;
                 for (let tileX = tileMinX; tileX < tileMaxX; tileX += 1) {
                     const taskIdx = group.tasks.findIndex(
-                        e => (parseInt(e.taskX, 10) === tileX && parseInt(e.taskY, 10) === tileY),
+                        (e) => (parseInt(e.taskX, 10) === tileX && parseInt(e.taskY, 10) === tileY),
                     );
                     if (taskIdx > -1) {
                         // we have a valid task for these coordinates
@@ -177,7 +185,7 @@ class _CardBody extends React.Component<Props, State> {
         const { currentX } = this.state;
         const Xs = [currentX, currentX + 1];
         const tilesToCheck = group.tasks.filter(
-            t => Xs.includes(parseInt(t.taskX, 10)),
+            (t) => Xs.includes(parseInt(t.taskX, 10)),
         );
         const allCorrect = tilesToCheck.reduce(
             (ok, t) => ok && t.referenceAnswer === results[t.taskId].toString(),
@@ -241,14 +249,6 @@ class _CardBody extends React.Component<Props, State> {
         this.setState({ showScaleBar: (progress < 0.99) });
     }
 
-    firstTouch: Object;
-
-    previousTouch: Object;
-
-    scrollEnabled: boolean;
-
-    scrollView: ?ScrollView;
-
     render() {
         const rows = [];
         const {
@@ -274,7 +274,9 @@ class _CardBody extends React.Component<Props, State> {
                 // we've reached the end, hide the tutorial text
                 tutorialText = '';
             } else {
-                const { category } = group.tasks.filter(t => parseInt(t.taskX, 10) === currentX)[0];
+                const { category } = group.tasks.filter(
+                    (t) => parseInt(t.taskX, 10) === currentX,
+                )[0];
                 // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
                 tutorialText = categories[category][tutorialMode];
             }
@@ -309,7 +311,7 @@ class _CardBody extends React.Component<Props, State> {
         // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
         // lat_deg = lat_rad * 180.0 / π
         const latitude = Math.atan(Math.sinh(Math.PI
-            * (1 - 2 * group.yMin / (2 ** zoomLevel)))) * 180 / Math.PI;
+            * (1 - (2 * group.yMin) / (2 ** zoomLevel)))) * (180 / Math.PI);
         return (
             <>
                 <ScrollView
@@ -358,14 +360,13 @@ class _CardBody extends React.Component<Props, State> {
                     <TutorialBox>
                         { tutorialText }
                     </TutorialBox>
-                )
-                }
+                )}
             </>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onToggleTile: (tileInfo) => {
             dispatch(toggleMapTile(tileInfo));
