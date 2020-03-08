@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import {
-    ART,
     View,
 } from 'react-native';
+import { Path, Shape, Surface, Text } from '@react-native-community/art';
 import GLOBAL from '../Globals';
 
 type Props = {
@@ -25,7 +25,7 @@ const getScaleBar = (meters, feet, tileWidth) => {
     const metersPx = meters / (tileWidth * GLOBAL.TILE_SIZE);
     const feetPx = feet / (tileWidth * GLOBAL.TILE_SIZE);
     const bottom = top + 2 * (mid - top);
-    const p = ART.Path().moveTo(0, top);
+    const p = Path().moveTo(0, top);
     p.lineTo(0, bottom);
     p.moveTo(0, mid);
     p.lineTo(metersPx, mid);
@@ -78,16 +78,16 @@ export default (props: Props) => {
             left: 10,
         }}
         >
-            <ART.Surface
+            <Surface
                 height={GLOBAL.TILE_SIZE / 5}
                 width={GLOBAL.TILE_SIZE}
             >
-                <ART.Shape
+                <Shape
                     d={p}
                     stroke="rgba(255, 255, 255, 0.6)"
                     strokeWidth={1}
                 />
-                <ART.Text
+                <Text
                     alignment="left"
                     fill="rgba(255, 255, 255, 0.6)"
                     font={{
@@ -98,8 +98,8 @@ export default (props: Props) => {
                     y={0}
                 >
                     {`${meters}m`}
-                </ART.Text>
-                <ART.Text
+                </Text>
+                <Text
                     alignment="left"
                     fill="rgba(255, 255, 255, 0.6)"
                     font={{
@@ -110,8 +110,8 @@ export default (props: Props) => {
                     y={17}
                 >
                     {`${feet}ft`}
-                </ART.Text>
-            </ART.Surface>
+                </Text>
+            </Surface>
         </View>
     );
 };

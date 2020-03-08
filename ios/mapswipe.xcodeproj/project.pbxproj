@@ -16,7 +16,6 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* mapswipeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mapswipeTests.m */; };
-		448E7F2022F0A48600126D47 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 448E7EF722F0A40B00126D47 /* libART.a */; };
 		702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8B7CB818144B286E4344D /* libz.tbd */; };
 		82DC3B46004B48A99CC5DA95 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 510AD77F86E44DB8A8188003 /* libRNFirebase.a */; };
 		AB02778D21D7E68B00F713BA /* mapswipeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB02778C21D7E68B00F713BA /* mapswipeUITests.m */; };
@@ -40,20 +39,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "mapswipe-tvOS";
-		};
-		448E7EF622F0A40B00126D47 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 448E7EF122F0A40B00126D47 /* ART.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
-			remoteInfo = ART;
-		};
-		448E7EF822F0A40B00126D47 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 448E7EF122F0A40B00126D47 /* ART.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 323A12871E5F266B004975B8;
-			remoteInfo = "ART-tvOS";
 		};
 		AB02778F21D7E68B00F713BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -89,7 +74,6 @@
 		2D02E47B1E0B4A5D006451C7 /* mapswipe-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mapswipe-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* mapswipe-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mapswipe-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D64A0588D797D7B27D92976 /* Pods-mapswipeTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipeTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipeTests/Pods-mapswipeTests.beta.xcconfig"; sourceTree = "<group>"; };
-		448E7EF122F0A40B00126D47 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		510AD77F86E44DB8A8188003 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		539D046D9E5D469CCA16398E /* Pods-mapswipe-tvOSTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-tvOSTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-tvOSTests/Pods-mapswipe-tvOSTests.beta.xcconfig"; sourceTree = "<group>"; };
 		5F27D7E5EE63DA0FA48918EC /* libPods-mapswipe-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipe-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,7 +116,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				448E7F2022F0A48600126D47 /* libART.a in Frameworks */,
 				B15BEE5B9DE16769017FE3C8 /* libPods-mapswipe.a in Frameworks */,
 				82DC3B46004B48A99CC5DA95 /* libRNFirebase.a in Frameworks */,
 				702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */,
@@ -229,19 +212,9 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		448E7EF222F0A40B00126D47 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				448E7EF722F0A40B00126D47 /* libART.a */,
-				448E7EF922F0A40B00126D47 /* libART-tvOS.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				448E7EF122F0A40B00126D47 /* ART.xcodeproj */,
 				D82BBAD0C4FF4E439964417D /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
@@ -488,10 +461,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 448E7EF222F0A40B00126D47 /* Products */;
-					ProjectRef = 448E7EF122F0A40B00126D47 /* ART.xcodeproj */;
-				},
-				{
 					ProductGroup = AB23935B21C32776009F10CA /* Products */;
 					ProjectRef = D82BBAD0C4FF4E439964417D /* RNFirebase.xcodeproj */;
 				},
@@ -508,20 +477,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		448E7EF722F0A40B00126D47 /* libART.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libART.a;
-			remoteRef = 448E7EF622F0A40B00126D47 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		448E7EF922F0A40B00126D47 /* libART-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libART-tvOS.a";
-			remoteRef = 448E7EF822F0A40B00126D47 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		AB23935F21C32777009F10CA /* libRNFirebase.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;

@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react';
 import {
-    ART,
     Image,
     StyleSheet,
     View,
 } from 'react-native';
+import { Path, Shape, Surface } from '@react-native-community/art';
 import tilebelt from '@mapbox/tilebelt';
 import type {
     BBOX,
@@ -41,7 +41,7 @@ export default class FootprintDisplay extends React.Component<Props> {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
         const lon2x = (lon) => ((lon - minLon) / (maxLon - minLon)) * tileSize;
         const lat2y = (lat) => (1 - (lat - minLat) / (maxLat - minLat)) * tileSize;
-        const p = ART.Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
+        const p = Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
         coords.forEach((corner) => {
             p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
         });
@@ -186,16 +186,16 @@ export default class FootprintDisplay extends React.Component<Props> {
                         source={{ uri: tileUrls[3] }}
                     />
                 </View>
-                <ART.Surface
+                <Surface
                     height={GLOBAL.SCREEN_WIDTH}
                     width={GLOBAL.SCREEN_WIDTH}
                 >
-                    <ART.Shape
+                    <Shape
                         d={p}
                         stroke="red"
                         strokeWidth={2}
                     />
-                </ART.Surface>
+                </Surface>
             </View>
         );
     }
