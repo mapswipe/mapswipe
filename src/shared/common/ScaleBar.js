@@ -3,7 +3,12 @@ import * as React from 'react';
 import {
     View,
 } from 'react-native';
-import { Path, Shape, Surface, Text } from '@react-native-community/art';
+import {
+    Path,
+    Shape,
+    Surface,
+    Text,
+} from '@react-native-community/art';
 import GLOBAL from '../Globals';
 
 type Props = {
