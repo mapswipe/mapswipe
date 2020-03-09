@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import fb from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
@@ -209,7 +210,7 @@ const MainNavigator = createStackNavigator(
     },
 );
 
-const StartNavigator = createSwitchNavigator(
+const StartNavigator = createAppContainer(createSwitchNavigator(
     {
         AppLoadingScreen,
         LoginNavigator,
@@ -218,6 +219,6 @@ const StartNavigator = createSwitchNavigator(
     {
         initialRouteName: 'AppLoadingScreen',
     },
-);
+));
 
 module.exports = Main;

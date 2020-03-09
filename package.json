@@ -49,6 +49,7 @@
     "react-native-swiper": "1.5.13",
     "react-native-webview": "^7.6.0",
     "react-navigation": "^4.1.1",
+    "react-navigation-stack": "^2.2.3",
     "react-redux": "^5.1.0",
     "react-redux-firebase": "^2.2.6",
     "redux": "^4.0.1",
