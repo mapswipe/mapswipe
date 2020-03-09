@@ -41,6 +41,12 @@ platform :ios do
     upload_to_app_store(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe", force: is_ci)
   end
 
+  desc "Build the beta version (TEMP for debugging)"
+  lane :betabuild do
+    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
+    build_app(scheme: "mapswipe", configuration: "Beta", clean: true)
+  end
+
   desc "Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created"
   lane :beta do
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
