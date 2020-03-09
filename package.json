@@ -14,6 +14,7 @@
     "runAndroid": "cd android && ./gradlew installDevDebug && adb -d shell am start -n org.missingmaps.mapswipe.dev/org.missingmaps.mapswipe.MainActivity ; cd ..",
     "start": "react-native start",
     "test": "jest --forceExit",
+    "postinstall": "jetifier",
     "preversion": "echo 'yarn version is disabled. Please use ./scripts/version.sh instead.'; exit 1"
   },
   "dependencies": {
