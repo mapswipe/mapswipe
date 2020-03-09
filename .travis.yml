@@ -140,11 +140,6 @@ matrix:
         - bundle install
         - travis_retry gem install xcpretty cocoapods
         - travis_retry yarn install --frozen-lockfile
-        - cd ios
-        # TEMP: try to debug pods setup
-        - bundle exec pod install
-        - cat Podfile
-        - cat Podfile.lock
         # install tooling needed for detox
         - brew tap wix/brew
         - brew install applesimutils
