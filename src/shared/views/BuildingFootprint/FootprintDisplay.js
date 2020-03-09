@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react';
 import {
+    ART,
     Image,
     StyleSheet,
     View,
 } from 'react-native';
-import { Path, Shape, Surface } from '@react-native-community/art';
 import tilebelt from '@mapbox/tilebelt';
 import type {
     BBOX,
@@ -17,6 +17,8 @@ import type {
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
+
+const { Path, Shape, Surface } = ART;
 
 const tileSize = GLOBAL.SCREEN_WIDTH;
 
