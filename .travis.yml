@@ -53,7 +53,6 @@ matrix:
       before_script:
         - yarn lint
         - yarn flow
-        - yarn test
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
         # install tooling needed for detox, and run the detox tests
