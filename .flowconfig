@@ -20,6 +20,7 @@ node_modules/warning/.*
 .*/node_modules/react-native-simple-markdown/.*
 .*/node_modules/react-native-check-box/.*
 .*/node_modules/redux-persist/.*
+.*/node_modules/react-native-firebase/.*
 
 [include]
 
