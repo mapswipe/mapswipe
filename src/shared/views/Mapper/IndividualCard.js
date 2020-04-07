@@ -92,6 +92,10 @@ type ICState = {
 };
 
 class _IndividualCard extends React.Component<ICProps, ICState> {
+    panResponder: PanResponderInstance;
+
+    swipeThreshold: number;
+
     constructor(props: ICProps) {
         super(props);
         // vertical swipe handlers
@@ -114,20 +118,14 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         // decide if we handle the move event: only if it's vertical
         event: PressEvent,
         gestureState: GestureState,
-    ): boolean => {
-        console.log('handleMoveShouldSetPanResponder', gestureState.dx, gestureState.dy);
-        return Math.abs(gestureState.dy) > 20 + Math.abs(gestureState.dx) * this.swipeThreshold;
-    };
+    ): boolean => Math.abs(gestureState.dy) > 20 + Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handleMoveShouldSetPanResponderCapture = (
         // decide if we handle the move event: only if it's vertical
         // this captures the swipe from the ScrollView
         event: PressEvent,
         gestureState: GestureState,
-    ): boolean => {
-        console.log('handleMoveShouldSetPanResponderCapture', gestureState.dx, gestureState.dy);
-        return Math.abs(gestureState.dy) > 20 + Math.abs(gestureState.dx) * this.swipeThreshold;
-    };
+    ): boolean => Math.abs(gestureState.dy) > 20 + Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
@@ -163,10 +161,6 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         // swipe cancelled, eg: some other component took over (ScrollView?)
         this.setState({ showSwipeHelp: false });
     };
-
-    panResponder: PanResponderInstance;
-
-    swipeThreshold: number;
 
     renderSwipeHelp = () => (
         <Text style={styles.swipeHelp}>
@@ -210,7 +204,7 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onToggleTile: (tileInfo) => {
             dispatch(toggleMapTile(tileInfo));

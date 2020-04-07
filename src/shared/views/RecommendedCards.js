@@ -89,12 +89,7 @@ type Props = {
 };
 
 class _RecommendedCards extends React.Component<Props> {
-    openModal3 = () => {
-        // TODO: check if we need to display this modal with redux
-        if (this.tutorialModal) {
-            this.tutorialModal.open();
-        }
-    }
+    tutorialModal: ?Modal;
 
     closeModal3 = () => {
         if (this.tutorialModal) {
@@ -102,7 +97,12 @@ class _RecommendedCards extends React.Component<Props> {
         }
     }
 
-    tutorialModal: ?Modal;
+    openModal3 = () => {
+        // TODO: check if we need to display this modal with redux
+        if (this.tutorialModal) {
+            this.tutorialModal.open();
+        }
+    }
 
     renderAnnouncement = () => {
         const { announcement, navigation } = this.props;
@@ -186,19 +186,18 @@ class _RecommendedCards extends React.Component<Props> {
             >
                 { this.renderAnnouncement() }
                 { projects.filter(
-                    p => p.value && p.value.projectType
+                    (p) => p.value && p.value.projectType
                     && GLOBAL.SUPPORTED_PROJECT_TYPES.includes(p.value.projectType),
                 )
                     .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
-                    .map(project => (
+                    .map((project) => (
                         <ProjectCard
                             navigation={navigation}
                             project={project.value}
                             key={project.key}
                             cardIndex={project.key}
                         />
-                    ))
-                }
+                    ))}
                 { this.renderHelpModal() }
             </ScrollView>
         );

@@ -50,6 +50,8 @@ type Props = {
 
 /* eslint-disable react/destructuring-assignment */
 export default class BuildingFootprintScreen extends React.Component<Props> {
+    randomSeed: number;
+
     constructor(props: Object) {
         super(props);
         // this random value is used to pick a group when mapping starts,
@@ -95,8 +97,6 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
     );
 
     /* eslint-enable global-require */
-    randomSeed: number;
-
     render() {
         const { navigation } = this.props;
         return (

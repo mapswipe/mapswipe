@@ -22,7 +22,10 @@ matrix:
       node_js: false
       before_install:
         - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
-        - tar xvf secrets.tar
+        - tar xvf secrets.tar --exclude android/gradle.properties
+        # to prevent overwriting gradle.properties with the file from the tarball
+        # we concatenate it to the end of the existing file (from git repo)
+        - tar xvfO secrets.tar android/gradle.properties >> android/gradle.properties
         - nvm install node
         - node --version
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.17.3
@@ -50,7 +53,6 @@ matrix:
       before_script:
         - yarn lint
         - yarn flow
-        - yarn test
         - sudo sysctl fs.inotify.max_user_watches=524288
         - sudo sysctl -p
         # install tooling needed for detox, and run the detox tests
@@ -70,6 +72,9 @@ matrix:
         # detox build -c android.ci.debug
         # detox test -c android.ci.debug --loglevel trace
       script:
+        # the following line is theoretically run by react-native cli > 0.60 but since we've
+        # created custom build scripts, we still need it
+        - yarn jetifier
         - yarn buildDev
         - yarn buildProd
         - cd android
@@ -113,7 +118,7 @@ matrix:
 
     - language: objective-c
       os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11.3
       node_js: false
       env:
         - FASTLANE_DISABLE_COLORS=1

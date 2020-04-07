@@ -2,14 +2,13 @@
 import { Platform } from 'react-native';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import firebase from 'react-native-firebase';
-import { getFirebase, reactReduxFirebase } from 'react-redux-firebase';
+import { getFirebase } from 'react-redux-firebase';
 import { composeWithDevTools } from 'remote-redux-devtools';
 import AsyncStorage from '@react-native-community/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
 
-const reactFirebaseConfig = {
+export const reactreduxFirebaseConfig = {
     attachAuthIsReady: true,
     enableRedirectHandling: false,
     userProfile: 'v2/users',
@@ -43,7 +42,6 @@ export const createNewStore = (initialState?: {} = {}) => createStore(
     initialState,
     composeEnhancers(
         applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
-        reactReduxFirebase(firebase, reactFirebaseConfig),
     ),
 );
 

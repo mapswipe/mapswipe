@@ -123,8 +123,7 @@ class _LoadMoreCard extends React.Component<Props> {
                 <Text style={styles.finishedText}>
                     { tutorial
                         ? 'Good. You have completed the tutorial. You are ready to do some mapping!'
-                        : 'Great job! You finished this group.'
-                    }
+                        : 'Great job! You finished this group.'}
                 </Text>
 
                 <Button
@@ -134,8 +133,7 @@ class _LoadMoreCard extends React.Component<Props> {
                 >
                     { tutorial
                         ? 'Let\'s go!'
-                        : 'Complete Session'
-                    }
+                        : 'Complete Session'}
                 </Button>
             </View>
         );
@@ -149,7 +147,7 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onCommitGroup(groupInfo) {
             dispatch(commitGroup(groupInfo));

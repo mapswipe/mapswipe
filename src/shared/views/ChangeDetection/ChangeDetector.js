@@ -157,6 +157,18 @@ type State = {
 type taskGenType = Generator<string, void, void>;
 
 class _ChangeDetector extends React.Component<Props, State> {
+    imageSize: number;
+
+    lockedSize: number;
+
+    panResponder: PanResponderInstance;
+
+    swipeThreshold: number;
+
+    taskGen: taskGenType;
+
+    tasksDone: number;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -188,6 +200,7 @@ class _ChangeDetector extends React.Component<Props, State> {
             const currentTaskId = this.setupTaskIdGenerator(group.tasks);
             this.prefetchImages(group.tasks);
             this.tasksDone = 0;
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskId });
         }
     }
@@ -262,7 +275,7 @@ class _ChangeDetector extends React.Component<Props, State> {
             group,
         } = this.props;
         const { currentTaskId } = this.state;
-        const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
+        const currentTask = group.tasks.find((t) => t.taskId === currentTaskId);
         // $FlowFixMe
         if (currentTask.referenceAnswer === answer) {
             this.setState({ tutorialMode: tutorialModes.post_correct });
@@ -373,23 +386,11 @@ class _ChangeDetector extends React.Component<Props, State> {
         this.setState({ currentTaskId: value });
     }
 
-    imageSize: number;
-
-    lockedSize: number;
-
-    panResponder: PanResponderInstance;
-
-    swipeThreshold: number;
-
-    taskGen: taskGenType;
-
-    tasksDone: number;
-
     // eslint-disable-next-line class-methods-use-this
     * makeNextTaskGenerator(tasks: Array<ChangeDetectionTaskType>): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
-        const taskIds = tasks.map(t => t.taskId);
+        const taskIds = tasks.map((t) => t.taskId);
         let i;
         // eslint-disable-next-line no-plusplus
         for (i = 0; i < taskIds.length; i++) {
@@ -410,7 +411,7 @@ class _ChangeDetector extends React.Component<Props, State> {
         if (!group.tasks) {
             return <LoadingIcon />;
         }
-        const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
+        const currentTask = group.tasks.find((t) => t.taskId === currentTaskId);
 
         if (currentTask === undefined) {
             return <LoadingIcon />;
@@ -459,8 +460,7 @@ class _ChangeDetector extends React.Component<Props, State> {
                                 <Text style={[{ color: sideTextColor }, styles.sideText]}>
                                     Bad imagery
                                 </Text>
-                            )
-                        }
+                            )}
                     </LinearGradient>
                     <SatImage
                         overlayText="Before"
@@ -483,8 +483,7 @@ class _ChangeDetector extends React.Component<Props, State> {
                                 <Text style={[{ color: sideTextColor }, styles.sideText]}>
                                     Not sure
                                 </Text>
-                            )
-                        }
+                            )}
                     </LinearGradient>
                     <LinearGradient
                         colors={[COLOR_GREEN, COLOR_TRANSPARENT_GREEN]}
@@ -500,8 +499,7 @@ class _ChangeDetector extends React.Component<Props, State> {
                     <TutorialBox>
                         { tutorialText }
                     </TutorialBox>
-                )
-                }
+                )}
             </>
         );
     }

@@ -58,6 +58,8 @@ type Props = {
 
 /* eslint-disable react/destructuring-assignment */
 export default class ChangeDetectionScreen extends React.Component<Props> {
+    randomSeed: number;
+
     tutorialHelpContent = (
         <View>
             <Text style={styles.tutPar}>
@@ -150,8 +152,6 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     );
 
     /* eslint-enable global-require */
-    randomSeed: number;
-
     render() {
         const { navigation, tutorial } = this.props;
         return (

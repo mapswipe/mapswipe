@@ -51,6 +51,10 @@ type State = {
 type taskGenType = Generator<string, void, void>;
 
 class _Validator extends React.Component<Props, State> {
+    taskGen: taskGenType;
+
+    tasksDone: number;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -65,6 +69,7 @@ class _Validator extends React.Component<Props, State> {
         if (prevProps.group.tasks !== group.tasks) {
             const currentTaskId = this.setupTaskIdGenerator(group.tasks);
             this.tasksDone = 0;
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskId });
         }
     }
@@ -100,15 +105,11 @@ class _Validator extends React.Component<Props, State> {
         this.setState({ currentTaskId: value });
     }
 
-    taskGen: taskGenType;
-
-    tasksDone: number;
-
     // eslint-disable-next-line class-methods-use-this
     * makeNextTaskGenerator(tasks: Array<BuildingFootprintTaskType>): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
-        const taskIds = tasks.map(t => t.taskId);
+        const taskIds = tasks.map((t) => t.taskId);
         let i;
         // eslint-disable-next-line no-plusplus
         for (i = 0; i < taskIds.length; i++) {
@@ -122,7 +123,7 @@ class _Validator extends React.Component<Props, State> {
         if (!group.tasks) {
             return <LoadingIcon />;
         }
-        const currentTask = group.tasks.find(t => t.taskId === currentTaskId);
+        const currentTask = group.tasks.find((t) => t.taskId === currentTaskId);
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }

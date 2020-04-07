@@ -4,7 +4,6 @@ android/google_play_api_key.json
 android/app/google-services.json
 android/app/src/dev/google-services.json
 android/app/src/production/google-services.json
-android/gradle.properties
 android/sentry.properties
 secrets.tar
 
@@ -40,7 +39,6 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
 *.dSYM.zip
 
 # Android/IntelliJ
@@ -62,8 +60,8 @@ yarn-error.log
 buck-out/
 \.buckd/
 android/app/libs
-android/keystores/debug.keystore
 *.keystore
+!debug.keystore
 
 # fastlane
 #
