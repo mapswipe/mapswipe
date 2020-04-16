@@ -5,6 +5,7 @@ import {
     LEGACY_TILES,
     BUILDING_FOOTPRINTS,
     CHANGE_DETECTION,
+    COMPLETENESS_PROJECT,
 } from './constants';
 
 // FIXME: check the old calculation to include status bar and soft menu
@@ -33,5 +34,6 @@ module.exports = {
         LEGACY_TILES,
         BUILDING_FOOTPRINTS,
         CHANGE_DETECTION,
+        COMPLETENESS_PROJECT,
     ],
 };
