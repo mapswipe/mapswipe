@@ -26,6 +26,7 @@ import {
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
     COLOR_WHITE,
+    COMPLETENESS_PROJECT,
     LEGACY_TILES,
 } from '../constants';
 import { getProjectProgressForDisplay } from '../Database';
@@ -331,6 +332,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             projectType: project.projectType,
         });
         switch (project.projectType) {
+        case COMPLETENESS_PROJECT:
         case LEGACY_TILES:
             // this is the original project type
             navigation.push('Mapper', {
@@ -510,7 +512,8 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                             fb.analytics().logEvent('starting_tutorial', {
                                 projectType: project.projectType,
                             });
-                            if (project.projectType === LEGACY_TILES) {
+                            if ((project.projectType === LEGACY_TILES)
+                                || (project.projectType === COMPLETENESS_PROJECT)) {
                                 navigation.push('Mapper', {
                                     project,
                                     tutorial: true,

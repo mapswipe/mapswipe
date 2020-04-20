@@ -28,6 +28,8 @@ import type {
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
+    COMPLETENESS_PROJECT,
+    LEGACY_TILES,
 } from '../../constants';
 
 const Modal = require('react-native-modalbox');
@@ -114,6 +116,7 @@ type Props = {
     onStartGroup: {} => void,
     hasSeenHelpBoxType1: boolean,
     tutorial: boolean,
+    tutorialName: string,
 }
 
 type State = {
@@ -325,6 +328,7 @@ class _Mapper extends React.Component<Props, State> {
             group,
             navigation,
             tutorial,
+            tutorialName,
         } = this.props;
         const { poppedUpTile } = this.state;
         let comp;
@@ -338,6 +342,7 @@ class _Mapper extends React.Component<Props, State> {
                     navigation={navigation}
                     projectId={group.projectId}
                     tutorial={tutorial}
+                    tutorialName={tutorialName}
                     zoomLevel={this.project.zoomLevel}
                 />
             );
@@ -388,15 +393,13 @@ const mapDispatchToProps = (dispatch) => (
     }
 );
 
-const tutorialName = 'build_area_tutorial';
-
 const Mapper = compose(
-    firebaseConnectGroup(tutorialName),
+    firebaseConnectGroup(),
     connect(
         (state) => ({ hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1 }),
     ),
     connect(
-        mapStateToPropsForGroups(tutorialName),
+        mapStateToPropsForGroups(),
         mapDispatchToProps,
     ),
 )(_Mapper);
@@ -412,9 +415,29 @@ export default class MapperScreen extends React.Component<Props> {
 
     render() {
         const { ...otherProps } = this.props;
+        const projectObj = otherProps.navigation.getParam('project', false);
+        // check if the project data has a custom tutorialName set (in firebase)
+        // in which case, we use it as the tutorial, or fallback onto the default
+        // tutorial content based on the project type
+        let tutorialName;
+        if (projectObj.tutorialName !== undefined) {
+            tutorialName = projectObj.tutorialName;
+        } else {
+            switch (projectObj.projectType) {
+            case LEGACY_TILES:
+                tutorialName = 'build_area_tutorial';
+                break;
+            case COMPLETENESS_PROJECT:
+                tutorialName = 'completeness_tutorial';
+                break;
+            default:
+                console.log('Project type not supported');
+            }
+        }
         return (
             <Mapper
                 randomSeed={this.randomSeed}
+                tutorialName={tutorialName}
                 {...otherProps}
             />
         );
