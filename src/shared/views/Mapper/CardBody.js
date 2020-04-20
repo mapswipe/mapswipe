@@ -383,7 +383,7 @@ const mapStateToProps = (state, ownProps) => (
         mapper: ownProps.mapper,
         navigation: ownProps.navigation,
         projectId: ownProps.projectId,
-        results: get(state.results.build_area_tutorial, ownProps.group.groupId, null),
+        results: get(state.results[ownProps.tutorialName], ownProps.group.groupId, null),
         tutorial: ownProps.tutorial,
         zoomLevel: ownProps.zoomLevel,
     }

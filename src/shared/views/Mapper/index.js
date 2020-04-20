@@ -116,6 +116,7 @@ type Props = {
     onStartGroup: {} => void,
     hasSeenHelpBoxType1: boolean,
     tutorial: boolean,
+    tutorialName: string,
 }
 
 type State = {
@@ -327,6 +328,7 @@ class _Mapper extends React.Component<Props, State> {
             group,
             navigation,
             tutorial,
+            tutorialName,
         } = this.props;
         const { poppedUpTile } = this.state;
         let comp;
@@ -340,6 +342,7 @@ class _Mapper extends React.Component<Props, State> {
                     navigation={navigation}
                     projectId={group.projectId}
                     tutorial={tutorial}
+                    tutorialName={tutorialName}
                     zoomLevel={this.project.zoomLevel}
                 />
             );
