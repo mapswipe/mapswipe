@@ -1,17 +1,16 @@
 // @flow
 import * as React from 'react';
 import {
-    ART,
     View,
 } from 'react-native';
-import GLOBAL from '../Globals';
-
-const {
+import {
     Path,
     Shape,
     Surface,
     Text,
-} = ART;
+} from '@react-native-community/art';
+
+import GLOBAL from '../Globals';
 
 type Props = {
     latitude: number,
