@@ -213,7 +213,7 @@ class _Mapper extends React.Component<Props, State> {
 
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
-        const { tutorial } = this.props;
+        const { tutorial, tutorialName } = this.props;
         let content;
         if (!tutorial) {
             content = (
@@ -237,9 +237,15 @@ class _Mapper extends React.Component<Props, State> {
                             YES
                         </Text>
                         , twice for&nbsp;
+
+                       {tutorialName == 'completeness_tutorial'?
+                       <Text style={{ color: 'rgb(237, 209, 28)' }}>
+                            NOT COMPLETE
+                        </Text>:
                         <Text style={{ color: 'rgb(237, 209, 28)' }}>
                             MAYBE
                         </Text>
+                        }
                         , and three times for&nbsp;
                         <Text style={{ color: 'rgb(230, 28, 28)' }}>
                             BAD IMAGERY (such as clouds)
