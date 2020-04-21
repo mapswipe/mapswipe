@@ -28,8 +28,8 @@ const getScaleBar = (meters, feet, tileWidth) => {
     const top = 0;
     const mid = 16;
     // convert meters and feet into "pixels" so that we draw at the correct scale!
-    const metersPx = meters / (tileWidth * GLOBAL.TILE_SIZE);
-    const feetPx = feet / (tileWidth * GLOBAL.TILE_SIZE);
+    const metersPx = (meters / tileWidth) * GLOBAL.TILE_SIZE;
+    const feetPx = (feet / tileWidth) * GLOBAL.TILE_SIZE;
     const bottom = top + 2 * (mid - top);
     const p = Path().moveTo(0, top);
     p.lineTo(0, bottom);
@@ -48,8 +48,11 @@ export default (props: Props) => {
     // calculate the width of one tile (in meters)
     // this magic formula comes from
     // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Resolution_and_Scale
+    // This assumes that each image is 256 pixels wide, which may not be
+    // the case for specific providers. Adjustments might be needed if
+    // this case arises.
     const tileWidth = (Math.cos(latitude * (Math.PI / 180))
-        * 2 * Math.PI * 6378137) / ((256 * (2 ** zoomLevel)) * 256);
+        * 2 * Math.PI * 6378137) / ((2 ** zoomLevel));
     let feet;
     let meters;
     // we hardcode the scale bar sizes, and pick an appropriate one
