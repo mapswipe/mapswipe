@@ -213,7 +213,21 @@ class _Mapper extends React.Component<Props, State> {
 
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
-        const { tutorial, tutorialName } = this.props;
+        const { tutorial} = this.props;
+        const { ...otherProps } = this.props;
+        const projectObj = otherProps.navigation.getParam('project', false);
+        let comp;
+
+        if (projectObj.projectType == 4) {
+            comp = (<Text style={{ color: 'rgb(237, 209, 28)' }}>
+                        INCOMPLETE
+                    </Text>)
+        } else {
+            comp = <Text style={{ color: 'rgb(237, 209, 28)' }}>
+                        MAYBE
+                    </Text>
+        }
+
         let content;
         if (!tutorial) {
             content = (
@@ -236,16 +250,10 @@ class _Mapper extends React.Component<Props, State> {
                         <Text style={{ color: 'rgb(36, 219, 26)' }}>
                             YES
                         </Text>
-                        , twice for&nbsp;
-
-                       {tutorialName == 'completeness_tutorial'?
-                       <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                            NOT COMPLETE
-                        </Text>:
-                        <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                            MAYBE
-                        </Text>
-                        }
+                        , twice for&nbsp;      
+                        
+                        {comp}
+               
                         , and three times for&nbsp;
                         <Text style={{ color: 'rgb(230, 28, 28)' }}>
                             BAD IMAGERY (such as clouds)
