@@ -9,6 +9,7 @@ git:
 cache:
   bundler: true
   cocoapods: true
+  podfile: ios/Podfile
   directories:
   - $HOME/.cache/yarn
 matrix:
