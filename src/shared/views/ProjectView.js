@@ -512,18 +512,21 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                             fb.analytics().logEvent('starting_tutorial', {
                                 projectType: project.projectType,
                             });
-                            if ((project.projectType === LEGACY_TILES)
-                                || (project.projectType === COMPLETENESS_PROJECT)) {
+                            switch (project.projectType) {
+                            case LEGACY_TILES:
+                            case COMPLETENESS_PROJECT:
                                 navigation.push('Mapper', {
                                     project,
                                     tutorial: true,
                                 });
-                            } else if (project.projectType === CHANGE_DETECTION) {
+                                break;
+                            case CHANGE_DETECTION:
                                 navigation.push('ChangeDetectionScreen', {
                                     project,
                                     tutorial: true,
                                 });
-                            } else {
+                                break;
+                            default:
                                 Alert.alert(
                                     'Coming soon!',
                                     'The tutorial is not ready yet for this type of projects.',
