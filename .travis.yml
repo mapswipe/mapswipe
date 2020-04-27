@@ -127,6 +127,7 @@ matrix:
       addons:
         ssh_known_hosts: gitlab.com
       before_install:
+        - echo "testing travis cache"
         - set -o pipefail
         - gem install bundler --pre
         - nvm install node
