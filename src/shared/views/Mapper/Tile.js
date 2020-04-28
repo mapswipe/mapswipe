@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -54,6 +53,14 @@ const styles = StyleSheet.create({
         height: GLOBAL.TILE_SIZE,
         opacity: 0.2,
         width: GLOBAL.TILE_SIZE,
+    },
+    buildingStyle: {
+        height: GLOBAL.TILE_SIZE,
+        width: GLOBAL.TILE_SIZE,
+        borderWidth: 0.5,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        opacity: 0.7,
+
     },
 });
 
@@ -143,8 +150,14 @@ export class _Tile extends React.Component<Props> {
         return { uri: tile.url };
     }
 
+    getOsmBuildingsUrl = () => {
+        const { tile } = this.props;
+        return { uri: tile.urlB };
+    }
+
     zoomRender = () => {
         const imageSource = this.getImgSource();
+        const osmBuildingsImageSource = this.getOsmBuildingsUrl();
         return (
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
@@ -155,7 +168,19 @@ export class _Tile extends React.Component<Props> {
                         borderColor: 'rgba(255,255,255,0.2)',
                     }}
                     source={imageSource}
-                />
+                >
+                    <ImageBackground
+                        style={{
+                            height: 300,
+                            width: 300,
+                            borderWidth: 0.5,
+                            borderColor: 'rgba(255,255,255,0.2)',
+                            opacity: 0.7,
+                        }}
+                        source={osmBuildingsImageSource}
+                    />
+
+                </ImageBackground>
             </TouchableHighlight>
         );
     }
@@ -179,6 +204,23 @@ export class _Tile extends React.Component<Props> {
             );
         }
         const imageSource = this.getImgSource();
+        let comp;
+
+        if (this.getOsmBuildingsUrl() !== undefined) {
+            comp = (
+                <ImageBackground style={styles.buildingStyle} source={this.getOsmBuildingsUrl()}>
+                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${taskId}`}>
+                        {animatedRows}
+                    </View>
+                </ImageBackground>
+            );
+        } else {
+            comp = (
+                <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${taskId}`}>
+                    {animatedRows}
+                </View>
+            );
+        }
 
         return (
             <TouchableHighlight
@@ -191,9 +233,9 @@ export class _Tile extends React.Component<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${taskId}`}>
-                        {animatedRows}
-                    </View>
+
+                    {comp}
+
                 </ImageBackground>
             </TouchableHighlight>
         );
