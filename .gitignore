@@ -78,3 +78,5 @@ android/app/libs
 
 # Bundle artifact
 *.jsbundle
+
+.eslintcache
