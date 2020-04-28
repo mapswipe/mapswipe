@@ -1,7 +1,7 @@
 git_url("git@gitlab.com:mapswipe/ios-certificates.git")
 
 type "development" # The default type, can be: appstore, adhoc or development
-clone_branch_directly "true"
+clone_branch_directly true
 
 app_identifier("org.missingmaps.mapswipe")
 username("mapswipe.dev@gmail.com") # Your Apple Developer Portal username
