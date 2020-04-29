@@ -26,6 +26,7 @@ import {
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
     COLOR_WHITE,
+    COMPLETENESS_PROJECT,
     LEGACY_TILES,
 } from '../constants';
 import { getProjectProgressForDisplay } from '../Database';
@@ -245,6 +246,10 @@ type HeaderState = {
 }
 
 class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
+    mounted: boolean;
+
+    offlineModal: ?Modal;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -317,10 +322,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         this.openOfflineModal();
     }
 
-    mounted: boolean;
-
-    offlineModal: ?Modal;
-
     checkWifiMapping() {
         const { navigation, project } = this.props;
         if (project.projectType === undefined) {
@@ -331,6 +332,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             projectType: project.projectType,
         });
         switch (project.projectType) {
+        case COMPLETENESS_PROJECT:
         case LEGACY_TILES:
             // this is the original project type
             navigation.push('Mapper', {
@@ -510,17 +512,21 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                             fb.analytics().logEvent('starting_tutorial', {
                                 projectType: project.projectType,
                             });
-                            if (project.projectType === LEGACY_TILES) {
+                            switch (project.projectType) {
+                            case LEGACY_TILES:
+                            case COMPLETENESS_PROJECT:
                                 navigation.push('Mapper', {
                                     project,
                                     tutorial: true,
                                 });
-                            } else if (project.projectType === CHANGE_DETECTION) {
+                                break;
+                            case CHANGE_DETECTION:
                                 navigation.push('ChangeDetectionScreen', {
                                     project,
                                     tutorial: true,
                                 });
-                            } else {
+                                break;
+                            default:
                                 Alert.alert(
                                     'Coming soon!',
                                     'The tutorial is not ready yet for this type of projects.',
@@ -529,7 +535,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         }}
                         textStyle={style.buttonText}
                     >
-                    Tutorial
+                        Tutorial
                     </Button>
                     <Button
                         style={style.startButton}
@@ -537,7 +543,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         testID="mapNowButton"
                         textStyle={style.buttonText}
                     >
-                    Map Now
+                        Map Now
                     </Button>
 
                     <Button
@@ -545,7 +551,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         onPress={this.handleProjectRemoval}
                         textStyle={style.buttonText}
                     >
-                    Bugs? Clear Project Data
+                        Bugs? Clear Project Data
                     </Button>
 
                     {hasOfflineGroups
@@ -555,7 +561,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                 onPress={this.handleRemoval}
                                 textStyle={style.buttonText}
                             >
-                        Remove Offline Data
+                                Remove Offline Data
                             </Button>
                         ) : null}
                 </View>
@@ -568,8 +574,8 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                 >
                     <Text style={style.header}>Download Options</Text>
                     <Text style={style.tutPar}>
-We will let you know when your download ends, it will be auto-deleted after
-                    completion. Do not close the MapSwipe app.
+                        We will let you know when your download ends, it will be auto-deleted after
+                        completion. Do not close the MapSwipe app.
                     </Text>
                     <View style={style.tutRow}>
                         <Text style={style.tutText}>About 10 min of mapping</Text>
@@ -579,7 +585,7 @@ We will let you know when your download ends, it will be auto-deleted after
                         onPress={this.checkWifiDownload(1000)}
                         textStyle={style.buttonText}
                     >
-                    Download 1k tiles (approx 20MB)
+                        Download 1k tiles (approx 20MB)
                     </Button>
                     <View style={style.tutRow}>
                         <Text style={style.tutText}>About 40 min of mapping </Text>
@@ -589,7 +595,7 @@ We will let you know when your download ends, it will be auto-deleted after
                         onPress={this.checkWifiDownload(4000)}
                         textStyle={style.buttonText}
                     >
-                    Download 4k tiles (approx 80MB)
+                        Download 4k tiles (approx 80MB)
                     </Button>
                     <View style={style.tutRow}>
                         <Text style={style.tutText}>About 2.5 hrs of mapping</Text>
@@ -599,14 +605,14 @@ We will let you know when your download ends, it will be auto-deleted after
                         onPress={this.checkWifiDownload(16000)}
                         textStyle={style.buttonText}
                     >
-                    Download 16k tiles (approx 320MB)
+                        Download 16k tiles (approx 320MB)
                     </Button>
                     <Button
                         style={style.closeButton}
                         onPress={this.closeOfflineModal}
                         textStyle={style.buttonText}
                     >
-                    Cancel
+                        Cancel
                     </Button>
                 </Modal>
             </ScrollView>

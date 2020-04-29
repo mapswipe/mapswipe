@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable max-classes-per-file */
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -133,6 +134,8 @@ type MOProps = {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class _MoreOptions extends React.Component<MOProps> {
+    deleteAccountConfirmationModal: ?React.ComponentType<ConfirmationModal>;
+
     componentDidMount() {
         fb.analytics().logEvent('screen_account');
     }
@@ -165,8 +168,6 @@ class _MoreOptions extends React.Component<MOProps> {
             navigation.navigate('LoginNavigator');
         });
     }
-
-    deleteAccountConfirmationModal: ?React.ComponentType<ConfirmationModal>;
 
     renderDeleteAccountConfirmationModal = () => {
         const content = (
@@ -219,7 +220,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 <Image style={styles.pic} key={level} source={levelObject.badge} />
                 <View style={styles.info}>
                     <Text style={styles.infoLeftTitle}>
-                    Level
+                        Level
                         {' '}
                         {level}
                     </Text>
@@ -230,7 +231,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         {levelObject.title}
                     </Text>
                     <Text style={styles.infoRight}>
-                    You&apos;ve completed
+                        You&apos;ve completed
                         {' '}
                         {contributions}
                         {' '}
@@ -332,6 +333,10 @@ type SBState = {
 
 // eslint-disable-next-line react/no-multi-comp
 class ScrollingBackground extends React.Component<{}, SBState> {
+    bgInterval: IntervalID;
+
+    nextOffset: number;
+
     constructor(props: {}) {
         super(props);
         this.state = { offset: 0 };
@@ -372,10 +377,6 @@ class ScrollingBackground extends React.Component<{}, SBState> {
         offset += this.nextOffset;
         this.setState({ offset });
     }
-
-    bgInterval: IntervalID;
-
-    nextOffset: number;
 
     render() {
         return (

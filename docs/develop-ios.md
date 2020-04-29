@@ -123,3 +123,7 @@ security set-keychain-settings -t 3600 -u $KEY_CHAIN
 Once the certificates are downloaded, the app can be built. See `ios/fastlane/Fastfile` for details.
 
 The whole process is performed using the `mapswipe.dev A T gmail` account.
+
+## Upgrading dependencies and tools
+
+See [this page](upgrading_dependencies.md)

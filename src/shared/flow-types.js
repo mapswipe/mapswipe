@@ -94,6 +94,7 @@ export type BuiltAreaTaskType = {
     taskX: number,
     taskY: number,
     url: string,
+    urlB: string,
 }
 
 // used only by projects of type BUILDING_FOOTPRINTS (type 2)

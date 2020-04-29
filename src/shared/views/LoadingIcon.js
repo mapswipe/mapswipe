@@ -42,6 +42,7 @@ export default class LoadingComponent extends React.Component<{}, State> {
                         toValue: 1,
                         duration: 3000,
                         easing: Easing.in(Easing.sin),
+                        useNativeDriver: false,
                     },
                 ),
                 Animated.timing(
@@ -50,6 +51,7 @@ export default class LoadingComponent extends React.Component<{}, State> {
                         toValue: 0,
                         duration: 3000,
                         easing: Easing.in(Easing.sin),
+                        useNativeDriver: false,
                     },
                 ),
             ]),

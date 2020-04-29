@@ -154,6 +154,6 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         const fbPath = `v2/results/${projectId}/${groupId}/${userId}/`;
         firebase.set(fbPath, objToUpload)
             .then(() => dispatch(commitGroupSuccess(projectId, groupId)))
-            .catch(error => dispatch(commitGroupFailed(projectId, groupId, error)));
+            .catch((error) => dispatch(commitGroupFailed(projectId, groupId, error)));
     };
 }

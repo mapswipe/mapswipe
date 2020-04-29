@@ -152,4 +152,8 @@ For iOS, the version numbers are in the iOS project files.
 
 ## Deployment
 
-See [the page on deployment](deployment).
+See [the page on deployment](deployment.md).
+
+## Upgrading dependencies and tools
+
+See [this page](upgrading_dependencies.md)

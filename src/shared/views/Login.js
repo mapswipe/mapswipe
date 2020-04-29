@@ -132,6 +132,8 @@ type State = {
 }
 
 class _Login extends React.Component<Props, State> {
+    didBlurSubscription: () => void;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -355,8 +357,6 @@ class _Login extends React.Component<Props, State> {
         });
     }
 
-    didBlurSubscription: () => void;
-
     renderSignupScreen = () => {
         const { navigation, t } = this.props;
         const {
@@ -392,7 +392,7 @@ class _Login extends React.Component<Props, State> {
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={text => this.setState({
+                    onChangeText={(text) => this.setState({
                         showUsernameError: text.length < 4,
                         username: text,
                     })}
@@ -410,8 +410,7 @@ class _Login extends React.Component<Props, State> {
                         <Text style={styles.inputLabel}>
                             {t('signup:usernamePublic')}
                         </Text>
-                    )
-                }
+                    )}
 
                 <TextInput
                     testID="signup_email"
@@ -423,7 +422,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry={false}
                     style={styles.textInput}
-                    onChangeText={text => this.setState({ email: text.replace(' ', '') })}
+                    onChangeText={(text) => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
                 <Text
@@ -440,7 +439,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={styles.textInput}
-                    onChangeText={text => this.setState({
+                    onChangeText={(text) => this.setState({
                         password: text,
                         showPasswordError: text.length < 6,
                     })}
@@ -528,7 +527,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     style={[styles.textInput, { marginBottom: 28 }]}
                     secureTextEntry={false}
-                    onChangeText={text => this.setState({ email: text.replace(' ', '') })}
+                    onChangeText={(text) => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
 
@@ -540,7 +539,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={[styles.textInput, { marginBottom: 30 }]}
-                    onChangeText={text => this.setState({ password: text })}
+                    onChangeText={(text) => this.setState({ password: text })}
                     value={password}
                 />
                 <Text style={styles.legalText}>
@@ -600,7 +599,7 @@ class _Login extends React.Component<Props, State> {
                     placeholder="Enter your email"
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={text => this.setState({ email: text.replace(' ', '') })}
+                    onChangeText={(text) => this.setState({ email: text.replace(' ', '') })}
                     value={email}
                 />
                 <Text style={styles.legalText}>

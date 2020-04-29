@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable max-classes-per-file */
 import * as React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -114,7 +115,7 @@ const mapStateToProps = (state, ownProps) => (
     }
 );
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onWelcomeComplete: () => {
             dispatch(completeWelcome());
@@ -138,17 +139,19 @@ type WelcomeCardState = {
 
 // eslint-disable-next-line react/no-multi-comp
 class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState> {
-    swiper: ?Swiper;
+    swiper: ?typeof(Swiper);
 
     /* eslint-disable global-require */
     render() {
         const { onCompletion } = this.props;
         fb.analytics().logEvent('starting_onboarding');
         return (
+            /* $FlowFixMe */
             <Swiper
                 activeDotColor={COLOR_DEEP_BLUE}
                 showsButtons={false}
                 loop={false}
+                /* $FlowFixMe */
                 ref={(r) => { this.swiper = r; }}
             >
                 <View style={styles.slide}>
@@ -208,7 +211,7 @@ class WelcomeCardView extends React.Component<WelcomeCardProps, WelcomeCardState
                         onPress={() => onCompletion()}
                         textStyle={{ fontSize: 18, color: COLOR_LIGHT_GRAY, fontWeight: '700' }}
                     >
-                    Sign Up
+                        Sign Up
                     </Button>
                 </View>
             </Swiper>

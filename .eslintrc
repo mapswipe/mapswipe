@@ -22,6 +22,7 @@
     "react/jsx-filename-extension": [
       1, { "extensions": [".js", ".jsx"] }
     ],
+    "react/jsx-props-no-spreading": "off",
     "react/prefer-stateless-function": [
       2, { "ignorePureComponents": true }
     ],

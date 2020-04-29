@@ -58,6 +58,14 @@ const tutorialModes = {
 };
 
 class _CardBody extends React.Component<Props, State> {
+    firstTouch: Object;
+
+    previousTouch: Object;
+
+    scrollEnabled: boolean;
+
+    scrollView: ?ScrollView;
+
     constructor(props: Props) {
         super(props);
         this.scrollEnabled = !props.tutorial;
@@ -112,7 +120,7 @@ class _CardBody extends React.Component<Props, State> {
                 const tileMaxX = tileMinX + tilesPerRow;
                 for (let tileX = tileMinX; tileX < tileMaxX; tileX += 1) {
                     const taskIdx = group.tasks.findIndex(
-                        e => (parseInt(e.taskX, 10) === tileX && parseInt(e.taskY, 10) === tileY),
+                        (e) => (parseInt(e.taskX, 10) === tileX && parseInt(e.taskY, 10) === tileY),
                     );
                     if (taskIdx > -1) {
                         // we have a valid task for these coordinates
@@ -177,7 +185,7 @@ class _CardBody extends React.Component<Props, State> {
         const { currentX } = this.state;
         const Xs = [currentX, currentX + 1];
         const tilesToCheck = group.tasks.filter(
-            t => Xs.includes(parseInt(t.taskX, 10)),
+            (t) => Xs.includes(parseInt(t.taskX, 10)),
         );
         const allCorrect = tilesToCheck.reduce(
             (ok, t) => ok && t.referenceAnswer === results[t.taskId].toString(),
@@ -238,16 +246,8 @@ class _CardBody extends React.Component<Props, State> {
             this.scrollEnabled = false;
             this.setState({ tutorialMode: tutorialModes.pre });
         }
-        this.setState({ showScaleBar: (progress < 0.95) });
+        this.setState({ showScaleBar: (progress < 0.99) });
     }
-
-    firstTouch: Object;
-
-    previousTouch: Object;
-
-    scrollEnabled: boolean;
-
-    scrollView: ?ScrollView;
 
     render() {
         const rows = [];
@@ -274,7 +274,9 @@ class _CardBody extends React.Component<Props, State> {
                 // we've reached the end, hide the tutorial text
                 tutorialText = '';
             } else {
-                const { category } = group.tasks.filter(t => parseInt(t.taskX, 10) === currentX)[0];
+                const { category } = group.tasks.filter(
+                    (t) => parseInt(t.taskX, 10) === currentX,
+                )[0];
                 // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
                 tutorialText = categories[category][tutorialMode];
             }
@@ -309,9 +311,10 @@ class _CardBody extends React.Component<Props, State> {
         // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
         // lat_deg = lat_rad * 180.0 / π
         const latitude = Math.atan(Math.sinh(Math.PI
-            * (1 - 2 * group.yMin / (2 ** zoomLevel)))) * 180 / Math.PI;
+            * (1 - (2 * group.yMin) / (2 ** zoomLevel)))) * (180 / Math.PI);
         return (
             <>
+                {/* $FlowFixMe */}
                 <ScrollView
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     scrollEventThrottle={64}
@@ -322,10 +325,11 @@ class _CardBody extends React.Component<Props, State> {
                             let direction: string;
                             const evt = e.nativeEvent;
                             const pageX: number = evt.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
-                            if (Platform.OS === 'ios') {
+                            if (Platform.OS === 'ios' && evt.targetContentOffset !== undefined) {
                                 direction = evt.targetContentOffset.x > evt.contentOffset.x
                                     ? 'forward' : 'backward';
                             } else {
+                                // $FlowFixMe
                                 direction = evt.velocity.x < 0 ? 'forward' : 'backward';
                             }
                             if (direction === 'forward') {
@@ -358,14 +362,13 @@ class _CardBody extends React.Component<Props, State> {
                     <TutorialBox>
                         { tutorialText }
                     </TutorialBox>
-                )
-                }
+                )}
             </>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onToggleTile: (tileInfo) => {
             dispatch(toggleMapTile(tileInfo));
@@ -380,7 +383,7 @@ const mapStateToProps = (state, ownProps) => (
         mapper: ownProps.mapper,
         navigation: ownProps.navigation,
         projectId: ownProps.projectId,
-        results: get(state.results.build_area_tutorial, ownProps.group.groupId, null),
+        results: get(state.results[ownProps.tutorialName], ownProps.group.groupId, null),
         tutorial: ownProps.tutorial,
         zoomLevel: ownProps.zoomLevel,
     }

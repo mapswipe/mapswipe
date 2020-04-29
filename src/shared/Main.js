@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import fb from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
@@ -82,6 +83,12 @@ type State = {
 };
 
 class Main extends React.Component<{}, State> {
+    alert: ?React.ComponentType<{}>;
+
+    checkInterval: IntervalID;
+
+    modal3: ?Modal;
+
     constructor(props: {}) {
         super(props);
         this.state = {
@@ -110,12 +117,6 @@ class Main extends React.Component<{}, State> {
     componentWillUnmount() {
         clearInterval(this.checkInterval);
     }
-
-    alert: ?React.ComponentType<{}>;
-
-    checkInterval: IntervalID;
-
-    modal3: ?Modal;
 
     openModal3(level: number) {
         this.setState({
@@ -209,7 +210,7 @@ const MainNavigator = createStackNavigator(
     },
 );
 
-const StartNavigator = createSwitchNavigator(
+const StartNavigator = createAppContainer(createSwitchNavigator(
     {
         AppLoadingScreen,
         LoginNavigator,
@@ -218,6 +219,6 @@ const StartNavigator = createSwitchNavigator(
     {
         initialRouteName: 'AppLoadingScreen',
     },
-);
+));
 
 module.exports = Main;

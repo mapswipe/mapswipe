@@ -49,9 +49,14 @@ export const firebaseConnectGroup = (tutorialName?: string) => (
 );
 
 export const mapStateToPropsForGroups = (tutorialName?: string) => (
+    // This function is a common mapStateToProps used to fetch groups from firebase.
+    // It looks at a few things to decide which group to fetch, based on the project
+    // object that is passed as an argument to the navigation object.
+
     // $FlowFixMe
     (state, ownProps) => {
         let tutorialProjectName;
+        // ownProps are the props passed to the Mapper or ChangeDetection component
         if (tutorialName === undefined) {
             tutorialProjectName = ownProps.tutorialName;
         } else {
@@ -86,7 +91,7 @@ export const mapStateToPropsForGroups = (tutorialName?: string) => (
             // we'll quietly ignore it for now :)
             const groupsAvailable = Object.keys(groups);
             // eslint-disable-next-line prefer-destructuring
-            const groupsToPickFrom = groupsAvailable.filter(g => !groupsMapped.includes(g));
+            const groupsToPickFrom = groupsAvailable.filter((g) => !groupsMapped.includes(g));
             groupId = groupsToPickFrom[Math.floor(ownProps.randomSeed * groupsToPickFrom.length)];
         }
         return {

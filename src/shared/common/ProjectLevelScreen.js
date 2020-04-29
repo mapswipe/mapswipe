@@ -88,6 +88,14 @@ type State = {
 };
 
 class ProjectLevelScreen extends React.Component<Props, State> {
+    backConfirmationModal: ?React.ComponentType<void>;
+
+    HelpModal: ?React.ComponentType<void>;
+
+    progress: ?BottomProgress;
+
+    project: ProjectType;
+
     constructor(props: Props) {
         super(props);
         this.project = props.navigation.getParam('project');
@@ -112,6 +120,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                         projectId: group.projectId,
                         timestamp: GLOBAL.DB.getTimestamp(),
                     });
+                    // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
                     if (this.progress) this.progress.updateProgress(0);
                 }
@@ -198,14 +207,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             this.progress.updateProgress(progress);
         }
     }
-
-    backConfirmationModal: ?React.ComponentType<void>;
-
-    HelpModal: ?React.ComponentType<void>;
-
-    progress: ?BottomProgress;
-
-    project: ProjectType;
 
     renderBackConfirmationModal = () => {
         const content = (

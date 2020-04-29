@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable max-classes-per-file */
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -27,6 +28,8 @@ import type {
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
+    COMPLETENESS_PROJECT,
+    LEGACY_TILES,
 } from '../../constants';
 
 const Modal = require('react-native-modalbox');
@@ -113,6 +116,7 @@ type Props = {
     onStartGroup: {} => void,
     hasSeenHelpBoxType1: boolean,
     tutorial: boolean,
+    tutorialName: string,
 }
 
 type State = {
@@ -120,6 +124,15 @@ type State = {
 }
 
 class _Mapper extends React.Component<Props, State> {
+    progress: ?BottomProgress;
+
+    project: SingleImageryProjectType;
+
+    tilePopup: ?React.ComponentType<void>;
+
+    HelpModal: ?React.ComponentType<void>;
+
+
     constructor(props:Props) {
         super(props);
         this.project = props.navigation.getParam('project', null);
@@ -198,17 +211,27 @@ class _Mapper extends React.Component<Props, State> {
         this.tilePopup.close();
     }
 
-    progress: ?BottomProgress;
-
-    project: SingleImageryProjectType;
-
-    tilePopup: ?React.ComponentType<void>;
-
-    HelpModal: ?React.ComponentType<void>;
-
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
         const { tutorial } = this.props;
+        const { ...otherProps } = this.props;
+        const projectObj = otherProps.navigation.getParam('project', false);
+        let comp;
+
+        if (projectObj.projectType === 4) {
+            comp = (
+                <Text style={{ color: 'rgb(237, 209, 28)' }}>
+                    INCOMPLETE
+                </Text>
+            );
+        } else {
+            comp = (
+                <Text style={{ color: 'rgb(237, 209, 28)' }}>
+                    MAYBE
+                </Text>
+            );
+        }
+
         let content;
         if (!tutorial) {
             content = (
@@ -232,9 +255,9 @@ class _Mapper extends React.Component<Props, State> {
                             YES
                         </Text>
                         , twice for&nbsp;
-                        <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                            MAYBE
-                        </Text>
+
+                        {comp}
+
                         , and three times for&nbsp;
                         <Text style={{ color: 'rgb(230, 28, 28)' }}>
                             BAD IMAGERY (such as clouds)
@@ -323,6 +346,7 @@ class _Mapper extends React.Component<Props, State> {
             group,
             navigation,
             tutorial,
+            tutorialName,
         } = this.props;
         const { poppedUpTile } = this.state;
         let comp;
@@ -336,6 +360,7 @@ class _Mapper extends React.Component<Props, State> {
                     navigation={navigation}
                     projectId={group.projectId}
                     tutorial={tutorial}
+                    tutorialName={tutorialName}
                     zoomLevel={this.project.zoomLevel}
                 />
             );
@@ -372,7 +397,7 @@ class _Mapper extends React.Component<Props, State> {
     /* eslint-enable global-require */
 }
 
-const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = (dispatch) => (
     {
         onCancelGroup(groupDetails) {
             dispatch(cancelGroup(groupDetails));
@@ -386,33 +411,51 @@ const mapDispatchToProps = dispatch => (
     }
 );
 
-const tutorialName = 'build_area_tutorial';
-
 const Mapper = compose(
-    firebaseConnectGroup(tutorialName),
+    firebaseConnectGroup(),
     connect(
-        state => ({ hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1 }),
+        (state) => ({ hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1 }),
     ),
     connect(
-        mapStateToPropsForGroups(tutorialName),
+        mapStateToPropsForGroups(),
         mapDispatchToProps,
     ),
 )(_Mapper);
 
 // eslint-disable-next-line react/no-multi-comp
 export default class MapperScreen extends React.Component<Props> {
+    randomSeed: number;
+
     constructor(props: Props) {
         super(props);
         this.randomSeed = Math.random();
     }
 
-    randomSeed: number;
-
     render() {
         const { ...otherProps } = this.props;
+        const projectObj = otherProps.navigation.getParam('project', false);
+        // check if the project data has a custom tutorialName set (in firebase)
+        // in which case, we use it as the tutorial, or fallback onto the default
+        // tutorial content based on the project type
+        let tutorialName;
+        if (projectObj.tutorialName !== undefined) {
+            tutorialName = projectObj.tutorialName;
+        } else {
+            switch (projectObj.projectType) {
+            case LEGACY_TILES:
+                tutorialName = 'build_area_tutorial';
+                break;
+            case COMPLETENESS_PROJECT:
+                tutorialName = 'completeness_tutorial';
+                break;
+            default:
+                console.log('Project type not supported');
+            }
+        }
         return (
             <Mapper
                 randomSeed={this.randomSeed}
+                tutorialName={tutorialName}
                 {...otherProps}
             />
         );
