@@ -3,13 +3,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-    BackHandler,
-    Text,
-    View,
-    StyleSheet,
-    Image,
-} from 'react-native';
+import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
@@ -111,17 +105,17 @@ type Props = {
     categories: CategoriesType,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
-    onCancelGroup: {} => void,
-    onMarkHelpBoxSeen: void => void,
-    onStartGroup: {} => void,
+    onCancelGroup: ({}) => void,
+    onMarkHelpBoxSeen: (void) => void,
+    onStartGroup: ({}) => void,
     hasSeenHelpBoxType1: boolean,
     tutorial: boolean,
     tutorialName: string,
-}
+};
 
 type State = {
     poppedUpTile: React.Node,
-}
+};
 
 class _Mapper extends React.Component<Props, State> {
     progress: ?BottomProgress;
@@ -132,8 +126,7 @@ class _Mapper extends React.Component<Props, State> {
 
     HelpModal: ?React.ComponentType<void>;
 
-
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
         this.project = props.navigation.getParam('project', null);
         this.state = {
@@ -151,8 +144,13 @@ class _Mapper extends React.Component<Props, State> {
 
     componentDidUpdate(prevProps) {
         const { group, onStartGroup } = this.props;
-        if (prevProps.group !== undefined && group !== undefined && prevProps.group !== group) {
+        if (
+            prevProps.group !== undefined &&
+            group !== undefined &&
+            prevProps.group !== group
+        ) {
             // we just started working on a group, make a note of the time
+            console.log('CDU Mapper', group.tasks && group.tasks.length);
             onStartGroup({
                 groupId: group.groupId,
                 projectId: group.projectId,
@@ -162,18 +160,21 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+        BackHandler.removeEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
     }
 
     handleBackPress = () => {
         this.returnToView();
         return true;
-    }
+    };
 
     openHelpModal = () => {
         // $FlowFixMe
         this.HelpModal.open();
-    }
+    };
 
     returnToView = () => {
         const { group, navigation, onCancelGroup } = this.props;
@@ -184,7 +185,7 @@ class _Mapper extends React.Component<Props, State> {
             });
             navigation.pop();
         }
-    }
+    };
 
     closeHelpModal = () => {
         const { hasSeenHelpBoxType1, onMarkHelpBoxSeen } = this.props;
@@ -193,7 +194,7 @@ class _Mapper extends React.Component<Props, State> {
         }
         // $FlowFixMe
         this.HelpModal.close();
-    }
+    };
 
     openTilePopup = (tile) => {
         this.setState({
@@ -201,7 +202,7 @@ class _Mapper extends React.Component<Props, State> {
         });
         // $FlowFixMe
         this.tilePopup.open();
-    }
+    };
 
     closeTilePopup = () => {
         this.setState({
@@ -209,7 +210,7 @@ class _Mapper extends React.Component<Props, State> {
         });
         // $FlowFixMe
         this.tilePopup.close();
-    }
+    };
 
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
@@ -220,16 +221,10 @@ class _Mapper extends React.Component<Props, State> {
 
         if (projectObj.projectType === 4) {
             comp = (
-                <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                    INCOMPLETE
-                </Text>
+                <Text style={{ color: 'rgb(237, 209, 28)' }}>INCOMPLETE</Text>
             );
         } else {
-            comp = (
-                <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                    MAYBE
-                </Text>
-            );
+            comp = <Text style={{ color: 'rgb(237, 209, 28)' }}>MAYBE</Text>;
         }
 
         let content;
@@ -242,23 +237,15 @@ class _Mapper extends React.Component<Props, State> {
                             source={require('../assets/tap_icon.png')}
                             style={styles.tutImage}
                         />
-                        <Text style={styles.tutText}>
-                            TAP TO
-                            SELECT
-                        </Text>
+                        <Text style={styles.tutText}>TAP TO SELECT</Text>
                     </View>
                     <Text style={styles.tutPar}>
-                        Look for features listed in your mission brief.
-                        Tap each tile where you find what you&apos;re looking for.
-                        Tap once for&nbsp;
-                        <Text style={{ color: 'rgb(36, 219, 26)' }}>
-                            YES
-                        </Text>
-                        , twice for&nbsp;
-
-                        {comp}
-
-                        , and three times for&nbsp;
+                        Look for features listed in your mission brief. Tap each
+                        tile where you find what you&apos;re looking for. Tap
+                        once for&nbsp;
+                        <Text style={{ color: 'rgb(36, 219, 26)' }}>YES</Text>,
+                        twice for&nbsp;
+                        {comp}, and three times for&nbsp;
                         <Text style={{ color: 'rgb(230, 28, 28)' }}>
                             BAD IMAGERY (such as clouds)
                         </Text>
@@ -269,24 +256,22 @@ class _Mapper extends React.Component<Props, State> {
                             source={require('../assets/swipeleft_icon.png')}
                             style={styles.tutImage2}
                         />
-                        <Text style={styles.tutText}>
-                            SWIPE TO NAVIGATE
-                        </Text>
+                        <Text style={styles.tutText}>SWIPE TO NAVIGATE</Text>
                     </View>
                     <Text style={styles.tutPar}>
-                        When you are done with a piece of the map,
-                        scroll to the next one by swiping.
+                        When you are done with a piece of the map, scroll to the
+                        next one by swiping.
                     </Text>
                     <View style={styles.tutRow}>
                         <Image
                             source={require('../assets/tap_icon.png')}
                             style={styles.tutImage2}
                         />
-                        <Text style={styles.tutText}>
-                            HOLD TO ZOOM
-                        </Text>
+                        <Text style={styles.tutText}>HOLD TO ZOOM</Text>
                     </View>
-                    <Text style={styles.tutPar}>Hold a tile to zoom in on the tile.</Text>
+                    <Text style={styles.tutPar}>
+                        Hold a tile to zoom in on the tile.
+                    </Text>
                     <Text style={styles.header}>Credits</Text>
                     <Text style={styles.tutPar}>{creditString}</Text>
                 </>
@@ -294,25 +279,23 @@ class _Mapper extends React.Component<Props, State> {
         } else {
             content = (
                 <View>
-                    <Text style={styles.tutPar}>
-                        Welcome to the tutorial!
-                    </Text>
+                    <Text style={styles.tutPar}>Welcome to the tutorial!</Text>
                     <View style={styles.tutRow}>
                         <Text style={styles.tutPar}>
-                            This should make you a wizard of MapSwipe
-                            in a few minutes.
+                            This should make you a wizard of MapSwipe in a few
+                            minutes.
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
                         <Text style={styles.tutPar}>
-                            Just follow the instructions on the screen,
-                            and swipe left to continue.
+                            Just follow the instructions on the screen, and
+                            swipe left to continue.
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
                         <Text style={styles.tutPar}>
-                            If the instructions are in your way,
-                            just tap the message box to move it.
+                            If the instructions are in your way, just tap the
+                            message box to move it.
                         </Text>
                     </View>
                 </View>
@@ -324,14 +307,20 @@ class _Mapper extends React.Component<Props, State> {
                 style={[styles.modal, styles.HelpModal]}
                 backdropType="blur"
                 position="center"
-                ref={(r) => { this.HelpModal = r; }}
+                ref={(r) => {
+                    this.HelpModal = r;
+                }}
             >
                 {content}
                 <Button
                     style={styles.startButton}
                     onPress={this.closeHelpModal}
                     testID="closeIntroModalBoxButton"
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{
+                        fontSize: 13,
+                        color: '#ffffff',
+                        fontWeight: '700',
+                    }}
                 >
                     I understand
                 </Button>
@@ -368,7 +357,8 @@ class _Mapper extends React.Component<Props, State> {
             comp = <LoadingIcon />;
         }
         // $FlowFixMe
-        const creditString = this.project.tileServer.credits || 'Unknown imagery source';
+        const creditString =
+            this.project.tileServer.credits || 'Unknown imagery source';
         const introModal = this.renderIntroModal(creditString);
 
         return (
@@ -381,13 +371,19 @@ class _Mapper extends React.Component<Props, State> {
 
                 {comp}
 
-                <BottomProgress ref={(r) => { this.progress = r; }} />
+                <BottomProgress
+                    ref={(r) => {
+                        this.progress = r;
+                    }}
+                />
                 {introModal}
                 <Modal
                     style={styles.tilePopup}
                     entry="bottom"
                     position="center"
-                    ref={(r) => { this.tilePopup = r; }}
+                    ref={(r) => {
+                        this.tilePopup = r;
+                    }}
                 >
                     {poppedUpTile}
                 </Modal>
@@ -397,29 +393,24 @@ class _Mapper extends React.Component<Props, State> {
     /* eslint-enable global-require */
 }
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        onCancelGroup(groupDetails) {
-            dispatch(cancelGroup(groupDetails));
-        },
-        onMarkHelpBoxSeen() {
-            dispatch(seenHelpBoxType1());
-        },
-        onStartGroup(groupDetails) {
-            dispatch(startGroup(groupDetails));
-        },
-    }
-);
+const mapDispatchToProps = (dispatch) => ({
+    onCancelGroup(groupDetails) {
+        dispatch(cancelGroup(groupDetails));
+    },
+    onMarkHelpBoxSeen() {
+        dispatch(seenHelpBoxType1());
+    },
+    onStartGroup(groupDetails) {
+        dispatch(startGroup(groupDetails));
+    },
+});
 
 const Mapper = compose(
     firebaseConnectGroup(),
-    connect(
-        (state) => ({ hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1 }),
-    ),
-    connect(
-        mapStateToPropsForGroups(),
-        mapDispatchToProps,
-    ),
+    connect((state) => ({
+        hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1,
+    })),
+    connect(mapStateToPropsForGroups(), mapDispatchToProps),
 )(_Mapper);
 
 // eslint-disable-next-line react/no-multi-comp
@@ -442,14 +433,14 @@ export default class MapperScreen extends React.Component<Props> {
             tutorialName = projectObj.tutorialName;
         } else {
             switch (projectObj.projectType) {
-            case LEGACY_TILES:
-                tutorialName = 'build_area_tutorial';
-                break;
-            case COMPLETENESS_PROJECT:
-                tutorialName = 'completeness_tutorial';
-                break;
-            default:
-                console.log('Project type not supported');
+                case LEGACY_TILES:
+                    tutorialName = 'build_area_tutorial';
+                    break;
+                case COMPLETENESS_PROJECT:
+                    tutorialName = 'completeness_tutorial';
+                    break;
+                default:
+                    console.log('Project type not supported');
             }
         }
         return (

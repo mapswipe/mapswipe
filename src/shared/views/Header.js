@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     swipeNavTop: {
-        width: (GLOBAL.SCREEN_WIDTH),
+        width: GLOBAL.SCREEN_WIDTH,
         flexShrink: 1,
         height: 40,
     },
@@ -65,32 +65,28 @@ type Props = {
     lookFor: string,
     onBackPress: () => void,
     onInfoPress?: () => void,
-}
+};
 
 const onPressDebugBox = () => {
-    Alert.alert('Debug Info',
+    Alert.alert(
+        'Debug Info',
         `TILE_VIEW_HEIGHT: ${GLOBAL.TILE_VIEW_HEIGHT}
          SCREEN_WIDTH: ${GLOBAL.SCREEN_WIDTH}
          SCREEN_HEIGHT: ${GLOBAL.SCREEN_HEIGHT}
          TILE_SIZE: ${GLOBAL.TILE_SIZE}
-         `);
+         `,
+    );
 };
 
 /* eslint-disable global-require */
-const Header = (props:Props) => {
+const Header = (props: Props) => {
     const { lookFor, onBackPress, onInfoPress } = props;
     return (
         <View style={styles.swipeNavTop}>
-            <TouchableWithoutFeedback
-                onLongPress={onPressDebugBox}
-            >
+            <TouchableWithoutFeedback onLongPress={onPressDebugBox}>
                 <View>
-                    <Text style={styles.topText}>
-                        You are looking for:
-                    </Text>
-                    <Text style={styles.elementText}>
-                        {lookFor}
-                    </Text>
+                    <Text style={styles.topText}>You are looking for:</Text>
+                    <Text style={styles.elementText}>{lookFor}</Text>
                 </View>
             </TouchableWithoutFeedback>
             <TouchableHighlight

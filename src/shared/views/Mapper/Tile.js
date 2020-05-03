@@ -18,11 +18,7 @@ import {
     COLOR_TRANSPARENT,
     COLOR_YELLOW,
 } from '../../constants';
-import type {
-    Mapper,
-    ResultType,
-    BuiltAreaTaskType,
-} from '../../flow-types';
+import type { Mapper, ResultType, BuiltAreaTaskType } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -60,14 +56,13 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: 'rgba(255, 255, 255, 0.2)',
         opacity: 0.7,
-
     },
 });
 
 type Props = {
     tile: BuiltAreaTaskType,
     mapper: Mapper,
-    onToggleTile: ResultType => void,
+    onToggleTile: (ResultType) => void,
     results: number,
     tutorial: boolean,
 };
@@ -85,7 +80,7 @@ export class _Tile extends React.Component<Props> {
 
     shouldComponentUpdate(nextProps: Props) {
         const { results } = this.props;
-        return (results !== nextProps.results);
+        return results !== nextProps.results;
     }
 
     getTileColor = (status: number) => {
@@ -96,7 +91,7 @@ export class _Tile extends React.Component<Props> {
             COLOR_RED,
         ];
         return colors[status];
-    }
+    };
 
     onPressButton = () => {
         // called when a tile is tapped
@@ -116,17 +111,17 @@ export class _Tile extends React.Component<Props> {
             groupId,
             projectId,
         });
-    }
+    };
 
     onDismissZoom = () => {
         const { mapper } = this.props;
         mapper.closeTilePopup();
-    }
+    };
 
     onLongPress = () => {
         const { mapper } = this.props;
         mapper.openTilePopup(this.zoomRender());
-    }
+    };
 
     /**
      * Returns the ["animation", "text", duration] for the fun text displayed when you map a tile!
@@ -135,7 +130,11 @@ export class _Tile extends React.Component<Props> {
     getFunText() {
         const texts = [
             ['bounceIn', 'Great Job!', '1000'],
-            ['bounceIn', 'With every tap you help put a family on the map', '3000'],
+            [
+                'bounceIn',
+                'With every tap you help put a family on the map',
+                '3000',
+            ],
             ['bounceIn', 'Thank you!', '1000'],
             ['bounceIn', 'Your effort is helping!', '1000'],
             ['bounceIn', 'Keep up the good work!', '1000'],
@@ -148,12 +147,12 @@ export class _Tile extends React.Component<Props> {
     getImgSource = () => {
         const { tile } = this.props;
         return { uri: tile.url };
-    }
+    };
 
     getOsmBuildingsUrl = () => {
         const { tile } = this.props;
         return { uri: tile.urlB };
-    }
+    };
 
     zoomRender = () => {
         const imageSource = this.getImgSource();
@@ -179,14 +178,17 @@ export class _Tile extends React.Component<Props> {
                         }}
                         source={osmBuildingsImageSource}
                     />
-
                 </ImageBackground>
             </TouchableHighlight>
         );
-    }
+    };
 
     render() {
-        const { results, tile: { taskId }, tutorial } = this.props;
+        const {
+            results,
+            tile: { taskId },
+            tutorial,
+        } = this.props;
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
         const animatedRows = [];
@@ -208,15 +210,30 @@ export class _Tile extends React.Component<Props> {
 
         if (this.getOsmBuildingsUrl() !== undefined) {
             comp = (
-                <ImageBackground style={styles.buildingStyle} source={this.getOsmBuildingsUrl()}>
-                    <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${taskId}`}>
+                <ImageBackground
+                    style={styles.buildingStyle}
+                    source={this.getOsmBuildingsUrl()}
+                >
+                    <View
+                        style={[
+                            styles.tileOverlay,
+                            { backgroundColor: overlayColor },
+                        ]}
+                        key={`view-${taskId}`}
+                    >
                         {animatedRows}
                     </View>
                 </ImageBackground>
             );
         } else {
             comp = (
-                <View style={[styles.tileOverlay, { backgroundColor: overlayColor }]} key={`view-${taskId}`}>
+                <View
+                    style={[
+                        styles.tileOverlay,
+                        { backgroundColor: overlayColor },
+                    ]}
+                    key={`view-${taskId}`}
+                >
                     {animatedRows}
                 </View>
             );
@@ -233,9 +250,7 @@ export class _Tile extends React.Component<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-
                     {comp}
-
                 </ImageBackground>
             </TouchableHighlight>
         );
@@ -251,9 +266,11 @@ const mapStateToProps = (state, ownProps) => {
     // we need this ugly if ()... because the first rendering of the screen
     // happens before initial results have been generated in redux by
     // generateCards
-    if (state.results[projectId]
-        && state.results[projectId][groupId]
-        && state.results[projectId][groupId][taskId]) {
+    if (
+        state.results[projectId] &&
+        state.results[projectId][groupId] &&
+        state.results[projectId][groupId][taskId]
+    ) {
         results = state.results[projectId][groupId][taskId];
     }
     return {
@@ -264,20 +281,14 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        onToggleTile: (tileInfo) => {
-            dispatch(toggleMapTile(tileInfo));
-        },
-    }
-);
+const mapDispatchToProps = (dispatch) => ({
+    onToggleTile: (tileInfo) => {
+        dispatch(toggleMapTile(tileInfo));
+    },
+});
 
 export const Tile = compose(
-    firebaseConnect(() => [
-    ]),
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    ),
+    firebaseConnect(() => []),
+    connect(mapStateToProps, mapDispatchToProps),
 )(_Tile);
-export const EmptyTile = () => (<View style={styles.emptyTile} />);
+export const EmptyTile = () => <View style={styles.emptyTile} />;

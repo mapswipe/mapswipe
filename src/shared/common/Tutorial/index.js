@@ -1,15 +1,7 @@
 // @flow
 import * as React from 'react';
-import {
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import {
-    COLOR_DARK_GRAY,
-    COLOR_LIGHT_GRAY,
-} from '../../constants';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { COLOR_DARK_GRAY, COLOR_LIGHT_GRAY } from '../../constants';
 
 const styles = StyleSheet.create({
     box: {
@@ -31,7 +23,7 @@ type Props = {
 };
 
 type State = {
-    position: string;
+    position: string,
 };
 
 const topOffset = '15%';
@@ -53,19 +45,15 @@ export default class TutorialBox extends React.Component<Props, State> {
             position = topOffset;
         }
         this.setState({ position });
-    }
+    };
 
     render() {
         const { children } = this.props;
         const { position } = this.state;
         return (
             <View style={[styles.box, { top: position }]}>
-                <TouchableOpacity
-                    onPress={this.moveBox}
-                >
-                    <Text style={styles.text}>
-                        {children}
-                    </Text>
+                <TouchableOpacity onPress={this.moveBox}>
+                    <Text style={styles.text}>{children}</Text>
                 </TouchableOpacity>
             </View>
         );

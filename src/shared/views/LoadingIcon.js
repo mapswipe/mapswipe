@@ -1,11 +1,6 @@
 // @flow
 import * as React from 'react';
-import {
-    Animated,
-    Easing,
-    Image,
-    Text,
-} from 'react-native';
+import { Animated, Easing, Image, Text } from 'react-native';
 
 const GLOBAL = require('../Globals');
 
@@ -36,24 +31,18 @@ export default class LoadingComponent extends React.Component<{}, State> {
         const { animOpacity } = this.state;
         Animated.loop(
             Animated.sequence([
-                Animated.timing(
-                    animOpacity,
-                    {
-                        toValue: 1,
-                        duration: 3000,
-                        easing: Easing.in(Easing.sin),
-                        useNativeDriver: false,
-                    },
-                ),
-                Animated.timing(
-                    animOpacity,
-                    {
-                        toValue: 0,
-                        duration: 3000,
-                        easing: Easing.in(Easing.sin),
-                        useNativeDriver: false,
-                    },
-                ),
+                Animated.timing(animOpacity, {
+                    toValue: 1,
+                    duration: 3000,
+                    easing: Easing.in(Easing.sin),
+                    useNativeDriver: false,
+                }),
+                Animated.timing(animOpacity, {
+                    toValue: 0,
+                    duration: 3000,
+                    easing: Easing.in(Easing.sin),
+                    useNativeDriver: false,
+                }),
             ]),
         ).start();
     }
@@ -61,20 +50,23 @@ export default class LoadingComponent extends React.Component<{}, State> {
     render() {
         const { animOpacity } = this.state;
         return (
-            <Animated.View style={{
-                opacity: animOpacity,
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: GLOBAL.SCREEN_WIDTH,
-                height: (GLOBAL.TILE_VIEW_HEIGHT),
-            }}
+            <Animated.View
+                style={{
+                    opacity: animOpacity,
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: GLOBAL.SCREEN_WIDTH,
+                    height: GLOBAL.TILE_VIEW_HEIGHT,
+                }}
             >
                 <Image
                     style={{ width: 100, height: 100 }}
                     source={require('./assets/loadinganimation.gif')}
                 />
-                <Text style={styles.loadingText} testID="loading-icon">Loading...</Text>
+                <Text style={styles.loadingText} testID="loading-icon">
+                    Loading...
+                </Text>
             </Animated.View>
         );
     }

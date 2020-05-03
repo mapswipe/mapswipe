@@ -3,10 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import {
-    Platform,
-    ScrollView,
-} from 'react-native';
+import { Platform, ScrollView } from 'react-native';
 import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
@@ -37,7 +34,7 @@ type Props = {
     group: BuiltAreaGroupType,
     mapper: Mapper,
     navigation: NavigationProp,
-    onToggleTile: ResultType => void,
+    onToggleTile: (ResultType) => void,
     projectId: number,
     results: ResultMapType,
     tutorial: boolean,
@@ -88,7 +85,7 @@ class _CardBody extends React.Component<Props, State> {
                 }
             }
         }
-    }
+    };
 
     generateCards = () => {
         const { group, onToggleTile } = this.props;
@@ -120,7 +117,9 @@ class _CardBody extends React.Component<Props, State> {
                 const tileMaxX = tileMinX + tilesPerRow;
                 for (let tileX = tileMinX; tileX < tileMaxX; tileX += 1) {
                     const taskIdx = group.tasks.findIndex(
-                        (e) => (parseInt(e.taskX, 10) === tileX && parseInt(e.taskY, 10) === tileY),
+                        (e) =>
+                            parseInt(e.taskX, 10) === tileX &&
+                            parseInt(e.taskY, 10) === tileY,
                     );
                     if (taskIdx > -1) {
                         // we have a valid task for these coordinates
@@ -148,19 +147,20 @@ class _CardBody extends React.Component<Props, State> {
                 }
                 cardToPush.tileRows.push(tileRowObject);
             }
-            if (cardToPush.validTiles > 0) { // ensure the card has tiles
+            if (cardToPush.validTiles > 0) {
+                // ensure the card has tiles
                 cards.push(cardToPush);
             }
         }
         this.setState({
             cardsInView: cards,
         });
-    }
+    };
 
     toNextGroup = () => {
         const { navigation } = this.props;
         navigation.navigate('Mapper');
-    }
+    };
 
     handleScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
@@ -174,7 +174,7 @@ class _CardBody extends React.Component<Props, State> {
         }
         mapper.progress.updateProgress(progress);
         return progress;
-    }
+    };
 
     checkTutorialAnswers = () => {
         // only called when running the tutorial
@@ -184,8 +184,8 @@ class _CardBody extends React.Component<Props, State> {
         const { group, results } = this.props;
         const { currentX } = this.state;
         const Xs = [currentX, currentX + 1];
-        const tilesToCheck = group.tasks.filter(
-            (t) => Xs.includes(parseInt(t.taskX, 10)),
+        const tilesToCheck = group.tasks.filter((t) =>
+            Xs.includes(parseInt(t.taskX, 10)),
         );
         const allCorrect = tilesToCheck.reduce(
             (ok, t) => ok && t.referenceAnswer === results[t.taskId].toString(),
@@ -197,7 +197,7 @@ class _CardBody extends React.Component<Props, State> {
         } else {
             this.setState({ tutorialMode: tutorialModes.post_wrong });
         }
-    }
+    };
 
     handleTutorialScrollCapture = (event: Object) => {
         // Only used when running the tutorial
@@ -206,9 +206,11 @@ class _CardBody extends React.Component<Props, State> {
         const e = event.nativeEvent;
         const { tutorial } = this.props;
         if (tutorial && !this.scrollEnabled) {
-            if (this.firstTouch === undefined
-                || (e.identifier === this.previousTouch.identifier
-                && e.timestamp - this.previousTouch.timestamp > 100)) {
+            if (
+                this.firstTouch === undefined ||
+                (e.identifier === this.previousTouch.identifier &&
+                    e.timestamp - this.previousTouch.timestamp > 100)
+            ) {
                 // during a swipe, events are fired at about 15-30ms interval
                 // so at more than 100ms interval, we probably have a new touch event
                 this.firstTouch = e;
@@ -218,8 +220,10 @@ class _CardBody extends React.Component<Props, State> {
                 const swipeX = e.pageX - this.firstTouch.pageX;
                 const swipeY = e.pageY - this.firstTouch.pageY;
                 this.previousTouch = e;
-                if (-swipeX > GLOBAL.SCREEN_WIDTH * 0.2
-                    && -swipeX > 3 * Math.abs(swipeY)) {
+                if (
+                    -swipeX > GLOBAL.SCREEN_WIDTH * 0.2 &&
+                    -swipeX > 3 * Math.abs(swipeY)
+                ) {
                     this.checkTutorialAnswers();
                     // we have a horizontal left swipe, claim this touch
                     return true;
@@ -228,26 +232,31 @@ class _CardBody extends React.Component<Props, State> {
         }
         // we're not interested in this touch, leave it to some other component
         return false;
-    }
+    };
 
     onMomentumScrollEnd = (event: Object) => {
         // update the page number for the tutorial
         // we don't do this in handleScroll as each scroll
         // triggers dozens of these events, whereas this happens
         // only once per page
-        const { group: { xMax, xMin }, tutorial } = this.props;
+        const {
+            group: { xMax, xMin },
+            tutorial,
+        } = this.props;
         const progress = this.handleScroll(event);
         if (tutorial) {
             // determine current taskX for tutorial
             const min = parseInt(xMin, 10);
             const max = parseInt(xMax, 10);
-            this.setState({ currentX: Math.ceil(min + (max - min) * progress) });
+            this.setState({
+                currentX: Math.ceil(min + (max - min) * progress),
+            });
             // we changed page, reset state variables
             this.scrollEnabled = false;
             this.setState({ tutorialMode: tutorialModes.pre });
         }
-        this.setState({ showScaleBar: (progress < 0.99) });
-    }
+        this.setState({ showScaleBar: progress < 0.99 });
+    };
 
     render() {
         const rows = [];
@@ -286,22 +295,26 @@ class _CardBody extends React.Component<Props, State> {
             let lastCard = null;
             cardsInView.forEach((card) => {
                 lastCard = card;
-                rows.push(<IndividualCard
-                    key={card.cardX}
-                    card={card}
-                    mapper={mapper}
-                    tutorial={tutorial}
-                />);
+                rows.push(
+                    <IndividualCard
+                        key={card.cardX}
+                        card={card}
+                        mapper={mapper}
+                        tutorial={tutorial}
+                    />,
+                );
             });
 
-            rows.push(<LoadMoreCard
-                key={lastCard ? lastCard.id / 2 : 0}
-                group={group}
-                navigation={navigation}
-                projectId={projectId}
-                toNextGroup={this.toNextGroup}
-                tutorial={tutorial}
-            />); // lastCard.id/2 is random so that it never is the same number
+            rows.push(
+                <LoadMoreCard
+                    key={lastCard ? lastCard.id / 2 : 0}
+                    group={group}
+                    navigation={navigation}
+                    projectId={projectId}
+                    toNextGroup={this.toNextGroup}
+                    tutorial={tutorial}
+                />,
+            ); // lastCard.id/2 is random so that it never is the same number
         } else {
             rows.push(<LoadingIcon key="loadingicon" />);
         }
@@ -310,8 +323,11 @@ class _CardBody extends React.Component<Props, State> {
         // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
         // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
         // lat_deg = lat_rad * 180.0 / π
-        const latitude = Math.atan(Math.sinh(Math.PI
-            * (1 - (2 * group.yMin) / (2 ** zoomLevel)))) * (180 / Math.PI);
+        const latitude =
+            Math.atan(
+                Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
+            ) *
+            (180 / Math.PI);
         return (
             <>
                 {/* $FlowFixMe */}
@@ -324,26 +340,40 @@ class _CardBody extends React.Component<Props, State> {
                             let targetX: number = 0;
                             let direction: string;
                             const evt = e.nativeEvent;
-                            const pageX: number = evt.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
-                            if (Platform.OS === 'ios' && evt.targetContentOffset !== undefined) {
-                                direction = evt.targetContentOffset.x > evt.contentOffset.x
-                                    ? 'forward' : 'backward';
+                            const pageX: number =
+                                evt.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
+                            if (
+                                Platform.OS === 'ios' &&
+                                evt.targetContentOffset !== undefined
+                            ) {
+                                direction =
+                                    evt.targetContentOffset.x >
+                                    evt.contentOffset.x
+                                        ? 'forward'
+                                        : 'backward';
                             } else {
-                                // $FlowFixMe
-                                direction = evt.velocity.x < 0 ? 'forward' : 'backward';
+                                direction =
+                                    // $FlowFixMe
+                                    evt.velocity.x < 0 ? 'forward' : 'backward';
                             }
                             if (direction === 'forward') {
-                                targetX = 2 * GLOBAL.TILE_SIZE * Math.ceil(pageX);
+                                targetX =
+                                    2 * GLOBAL.TILE_SIZE * Math.ceil(pageX);
                             } else {
-                                targetX = 2 * GLOBAL.TILE_SIZE * Math.floor(pageX);
+                                targetX =
+                                    2 * GLOBAL.TILE_SIZE * Math.floor(pageX);
                             }
                             this.scrollView.scrollTo({ x: targetX });
                         }
                     }}
-                    onMoveShouldSetResponderCapture={this.handleTutorialScrollCapture}
+                    onMoveShouldSetResponderCapture={
+                        this.handleTutorialScrollCapture
+                    }
                     automaticallyAdjustContentInsets={false}
                     horizontal
-                    ref={(r) => { this.scrollView = r; }}
+                    ref={(r) => {
+                        this.scrollView = r;
+                    }}
                     removeClippedSubviews
                     scrollEnabled={this.scrollEnabled}
                     decelerationRate="fast"
@@ -357,37 +387,34 @@ class _CardBody extends React.Component<Props, State> {
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
-                { tutorial && tutorialText !== ''
-                && (
-                    <TutorialBox>
-                        { tutorialText }
-                    </TutorialBox>
+                {tutorial && tutorialText !== '' && (
+                    <TutorialBox>{tutorialText}</TutorialBox>
                 )}
             </>
         );
     }
 }
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        onToggleTile: (tileInfo) => {
-            dispatch(toggleMapTile(tileInfo));
-        },
-    }
-);
+const mapDispatchToProps = (dispatch) => ({
+    onToggleTile: (tileInfo) => {
+        dispatch(toggleMapTile(tileInfo));
+    },
+});
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        categories: ownProps.categories,
-        group: ownProps.group,
-        mapper: ownProps.mapper,
-        navigation: ownProps.navigation,
-        projectId: ownProps.projectId,
-        results: get(state.results[ownProps.tutorialName], ownProps.group.groupId, null),
-        tutorial: ownProps.tutorial,
-        zoomLevel: ownProps.zoomLevel,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    categories: ownProps.categories,
+    group: ownProps.group,
+    mapper: ownProps.mapper,
+    navigation: ownProps.navigation,
+    projectId: ownProps.projectId,
+    results: get(
+        state.results[ownProps.tutorialName],
+        ownProps.group.groupId,
+        null,
+    ),
+    tutorial: ownProps.tutorial,
+    zoomLevel: ownProps.zoomLevel,
+});
 
 export default compose(
     firebaseConnect((props) => {
@@ -404,8 +431,5 @@ export default compose(
         }
         return [];
     }),
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    ),
+    connect(mapStateToProps, mapDispatchToProps),
 )(_CardBody);

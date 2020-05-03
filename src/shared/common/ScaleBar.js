@@ -1,14 +1,7 @@
 // @flow
 import * as React from 'react';
-import {
-    View,
-} from 'react-native';
-import {
-    Path,
-    Shape,
-    Surface,
-    Text,
-} from '@react-native-community/art';
+import { View } from 'react-native';
+import { Path, Shape, Surface, Text } from '@react-native-community/art';
 
 import GLOBAL from '../Globals';
 
@@ -51,46 +44,45 @@ export default (props: Props) => {
     // This assumes that each image is 256 pixels wide, which may not be
     // the case for specific providers. Adjustments might be needed if
     // this case arises.
-    const tileWidth = (Math.cos(latitude * (Math.PI / 180))
-        * 2 * Math.PI * 6378137) / ((2 ** zoomLevel));
+    const tileWidth =
+        (Math.cos(latitude * (Math.PI / 180)) * 2 * Math.PI * 6378137) /
+        2 ** zoomLevel;
     let feet;
     let meters;
     // we hardcode the scale bar sizes, and pick an appropriate one
     // for the current zoom level
     switch (true) {
-    case (tileWidth < 70):
-        meters = 30;
-        feet = 100;
-        break;
-    case (tileWidth < 110):
-        meters = 50;
-        feet = 200;
-        break;
-    case (tileWidth < 180):
-        meters = 100;
-        feet = 300;
-        break;
-    default:
-        meters = 200;
-        feet = 500;
-        break;
+        case tileWidth < 70:
+            meters = 30;
+            feet = 100;
+            break;
+        case tileWidth < 110:
+            meters = 50;
+            feet = 200;
+            break;
+        case tileWidth < 180:
+            meters = 100;
+            feet = 300;
+            break;
+        default:
+            meters = 200;
+            feet = 500;
+            break;
     }
 
     const p = getScaleBar(meters, feet, tileWidth);
     return (
-        <View style={{
-            height: GLOBAL.TILE_SIZE / 5,
-            width: GLOBAL.TILE_SIZE,
-            opacity: (visible ? 0.8 : 0),
-            position: 'absolute',
-            bottom: 20,
-            left: 10,
-        }}
+        <View
+            style={{
+                height: GLOBAL.TILE_SIZE / 5,
+                width: GLOBAL.TILE_SIZE,
+                opacity: visible ? 0.8 : 0,
+                position: 'absolute',
+                bottom: 20,
+                left: 10,
+            }}
         >
-            <Surface
-                height={GLOBAL.TILE_SIZE / 5}
-                width={GLOBAL.TILE_SIZE}
-            >
+            <Surface height={GLOBAL.TILE_SIZE / 5} width={GLOBAL.TILE_SIZE}>
                 <Shape
                     d={p}
                     stroke="rgba(255, 255, 255, 0.6)"

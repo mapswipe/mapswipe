@@ -6,7 +6,8 @@ import GLOBAL from '../Globals';
 
 export const SEEN_HELPBOX_TYPE_1: 'SEEN_HELPBOX_TYPE_1' = 'SEEN_HELPBOX_TYPE_1';
 export const WELCOME_COMPLETED: 'WELCOME_COMPLETED' = 'WELCOME_COMPLETED';
-export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' = 'AUTH_STATUS_AVAILABLE';
+export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' =
+    'AUTH_STATUS_AVAILABLE';
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 export const TOGGLE_MAP_TILE: 'TOGGLE_MAP_TILE' = 'TOGGLE_MAP_TILE';
 export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
@@ -29,7 +30,7 @@ export function completeWelcome(): CompleteWelcome {
     return { type: WELCOME_COMPLETED };
 }
 
-type AuthStatusAvailable = { type: typeof AUTH_STATUS_AVAILABLE, user?: {}};
+type AuthStatusAvailable = { type: typeof AUTH_STATUS_AVAILABLE, user?: {} };
 export function authStatusAvailable(user: {}): AuthStatusAvailable {
     return { type: AUTH_STATUS_AVAILABLE, user };
 }
@@ -40,11 +41,22 @@ export function toggleMapTile(resultObject: ResultType): ToggleMapTile {
     return { type: TOGGLE_MAP_TILE, resultObject };
 }
 
-type CancelGroup = { type: typeof CANCEL_GROUP, projectId: string, groupId: string };
-export function cancelGroup(grp: { projectId: string, groupId: string }): CancelGroup {
+type CancelGroup = {
+    type: typeof CANCEL_GROUP,
+    projectId: string,
+    groupId: string,
+};
+export function cancelGroup(grp: {
+    projectId: string,
+    groupId: string,
+}): CancelGroup {
     // dispatched when the user cancels work on a group midway
     // this forces deletion of the results created so far
-    return { type: CANCEL_GROUP, projectId: grp.projectId, groupId: grp.groupId };
+    return {
+        type: CANCEL_GROUP,
+        projectId: grp.projectId,
+        groupId: grp.groupId,
+    };
 }
 type StartGroup = {
     type: typeof START_GROUP,
@@ -52,8 +64,11 @@ type StartGroup = {
     groupId: string,
     timestamp: number,
 };
-export function startGroup(grp: { projectId: string, groupId: string, timestamp: number }):
-StartGroup {
+export function startGroup(grp: {
+    projectId: string,
+    groupId: string,
+    timestamp: number,
+}): StartGroup {
     // dispatched when the user cancels work on a group midway
     // this forces deletion of the results created so far
     return {
@@ -64,8 +79,15 @@ StartGroup {
     };
 }
 
-type CommitGroupSuccess = { type: typeof COMMIT_GROUP_SUCCESS, projectId: string, groupId: string };
-export function commitGroupSuccess(projectId: string, groupId: string): CommitGroupSuccess {
+type CommitGroupSuccess = {
+    type: typeof COMMIT_GROUP_SUCCESS,
+    projectId: string,
+    groupId: string,
+};
+export function commitGroupSuccess(
+    projectId: string,
+    groupId: string,
+): CommitGroupSuccess {
     return { type: COMMIT_GROUP_SUCCESS, projectId, groupId };
 }
 
@@ -103,7 +125,10 @@ export function submitChange(resultObject: ResultType): SubmitChange {
     return { type: SUBMIT_CHANGE, resultObject };
 }
 
-type SubmitFootprint = { type: typeof SUBMIT_BUILDING_FOOTPRINT, resultObject: ResultType };
+type SubmitFootprint = {
+    type: typeof SUBMIT_BUILDING_FOOTPRINT,
+    resultObject: ResultType,
+};
 export function submitFootprint(resultObject: ResultType): SubmitFootprint {
     return { type: SUBMIT_BUILDING_FOOTPRINT, resultObject };
 }
@@ -112,9 +137,9 @@ export type GroupInfo = {
     groupId: string,
     projectId: string,
     results: ResultMapType,
-}
+};
 
-type CommitGroup = { type: typeof COMMIT_GROUP }
+type CommitGroup = { type: typeof COMMIT_GROUP };
 export type Action =
     | actionTypes.SET_PROFILE
     | AuthStatusAvailable
@@ -122,13 +147,17 @@ export type Action =
     | CommitTaskSuccess
     | CommitTaskFailed
     | CompleteWelcome
-    | ToggleMapTile
+    | ToggleMapTile;
 
 type PromiseAction = Promise<Action>;
 type GetState = () => State;
 type GetFirebase = () => Object;
 type Dispatch = (action: Action | PromiseAction) => any;
-type ThunkAction = (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => any;
+type ThunkAction = (
+    dispatch: Dispatch,
+    getState: GetState,
+    getFirebase: GetFirebase,
+) => any;
 
 export function commitGroup(groupInfo: GroupInfo): ThunkAction {
     // dispatched when a group is finished, when the user chooses to either
@@ -137,7 +166,11 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
     // but the firebase layer will store results locally instead of uploading them
     // to the backend. This is transparent to us, so our code will not know its
     // online/offline status.
-    return (dispatch: Dispatch, getState: GetState, getFirebase: GetFirebase) => {
+    return (
+        dispatch: Dispatch,
+        getState: GetState,
+        getFirebase: GetFirebase,
+    ) => {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
         // get a single timestamp upon completion of the group
@@ -152,8 +185,11 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
             results: rest,
         };
         const fbPath = `v2/results/${projectId}/${groupId}/${userId}/`;
-        firebase.set(fbPath, objToUpload)
+        firebase
+            .set(fbPath, objToUpload)
             .then(() => dispatch(commitGroupSuccess(projectId, groupId)))
-            .catch((error) => dispatch(commitGroupFailed(projectId, groupId, error)));
+            .catch((error) =>
+                dispatch(commitGroupFailed(projectId, groupId, error)),
+            );
     };
 }

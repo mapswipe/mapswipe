@@ -22,11 +22,7 @@ import { MessageBarManager } from 'react-native-message-bar';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp } from '../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-    COLOR_RED,
-    COLOR_WHITE,
-} from '../constants';
+import { COLOR_DEEP_BLUE, COLOR_RED, COLOR_WHITE } from '../constants';
 
 /* eslint-disable global-require */
 
@@ -39,7 +35,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     switchToLogin: {
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
+        width: GLOBAL.SCREEN_WIDTH * 0.9,
         height: 50,
         padding: 12,
         borderRadius: 0,
@@ -47,7 +43,7 @@ const styles = StyleSheet.create({
     },
     otherButton: {
         backgroundColor: 'rgb(255,25,25)',
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
+        width: GLOBAL.SCREEN_WIDTH * 0.9,
         height: 50,
         padding: 12,
         borderRadius: 5,
@@ -70,7 +66,7 @@ const styles = StyleSheet.create({
         width: 250,
     },
     inputLabel: {
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
+        width: GLOBAL.SCREEN_WIDTH * 0.9,
         marginTop: 5,
         textAlign: 'left',
         fontSize: 13,
@@ -78,7 +74,7 @@ const styles = StyleSheet.create({
         color: COLOR_WHITE,
     },
     legalText: {
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
+        width: GLOBAL.SCREEN_WIDTH * 0.9,
         marginTop: 10,
         textAlign: 'left',
         fontSize: 10,
@@ -98,7 +94,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     textInput: {
-        width: GLOBAL.SCREEN_WIDTH * 0.90,
+        width: GLOBAL.SCREEN_WIDTH * 0.9,
         height: 40,
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderRadius: 5,
@@ -117,7 +113,7 @@ type Props = {
     firebase: Object,
     navigation: NavigationProp,
     t: (string) => string,
-}
+};
 
 type State = {
     username: string,
@@ -129,7 +125,7 @@ type State = {
     showPasswordError: boolean,
     showUsernameError: boolean,
     signupPPChecked: boolean,
-}
+};
 
 class _Login extends React.Component<Props, State> {
     didBlurSubscription: () => void;
@@ -174,15 +170,8 @@ class _Login extends React.Component<Props, State> {
     }
 
     handleSignUp = () => {
-        const {
-            firebase,
-            navigation,
-        } = this.props;
-        const {
-            email,
-            password,
-            username,
-        } = this.state;
+        const { firebase, navigation } = this.props;
+        const { email, password, username } = this.state;
         const parent = this;
         if (username !== null && username.length < 3) {
             MessageBarManager.showAlert({
@@ -207,7 +196,8 @@ class _Login extends React.Component<Props, State> {
             loadingNext: true,
         });
 
-        firebase.createUser({ email, password }, { username })
+        firebase
+            .createUser({ email, password }, { username })
             .then(() => {
                 // firebase doesn't record the username by default
                 firebase.updateAuth({
@@ -238,14 +228,14 @@ class _Login extends React.Component<Props, State> {
                 let errorMsg;
                 // error codes from https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#createUserWithEmailAndPassword
                 switch (error.code) {
-                case 'auth/email-already-in-use':
-                    errorMsg = 'Email already used by another account';
-                    break;
-                case 'auth/invalid-email':
-                    errorMsg = 'Email address is invalid';
-                    break;
-                default:
-                    errorMsg = 'Problem signing up';
+                    case 'auth/email-already-in-use':
+                        errorMsg = 'Email already used by another account';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMsg = 'Email address is invalid';
+                        break;
+                    default:
+                        errorMsg = 'Problem signing up';
                 }
                 MessageBarManager.showAlert({
                     title: 'Error on sign up',
@@ -257,105 +247,107 @@ class _Login extends React.Component<Props, State> {
                     loadingNext: false,
                 });
             });
-    }
+    };
 
     switchScreens = (screen: number) => {
         this.setState({
             screen,
         });
-    }
+    };
 
     handleLogin = () => {
-        const {
-            email,
-            password,
-        } = this.state;
+        const { email, password } = this.state;
         const { firebase } = this.props;
         this.setState({
             loadingNext: true,
         });
         const parent = this;
-        firebase.login({ email, password }).then((userCredentials) => {
-            MessageBarManager.showAlert({
-                title: 'Success',
-                message: `Welcome to MapSwipe, ${userCredentials.user.user.displayName}`,
-                alertType: 'info',
+        firebase
+            .login({ email, password })
+            .then((userCredentials) => {
+                MessageBarManager.showAlert({
+                    title: 'Success',
+                    message: `Welcome to MapSwipe, ${userCredentials.user.user.displayName}`,
+                    alertType: 'info',
+                });
+                fb.analytics().logEvent('account_login');
+                convertProfileToV2Format(firebase);
+                parent.props.navigation.navigate('MainNavigator');
+            })
+            .catch((error) => {
+                let errorMessage;
+                // error codes from
+                // https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#signInWithEmailAndPassword
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'No account with this email address';
+                        break;
+                    case 'auth/wrong-password':
+                    case 'auth/invalid-email':
+                        errorMessage = 'Invalid email or password';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'Account disabled';
+                        break;
+                    default:
+                        errorMessage = 'Problem logging in';
+                }
+                MessageBarManager.showAlert({
+                    title: 'Error on log in',
+                    message: errorMessage,
+                    alertType: 'error',
+                    shouldHideAfterDelay: false,
+                });
+                parent.setState({
+                    loadingNext: false,
+                });
             });
-            fb.analytics().logEvent('account_login');
-            convertProfileToV2Format(firebase);
-            parent.props.navigation.navigate('MainNavigator');
-        }).catch((error) => {
-            let errorMessage;
-            // error codes from
-            // https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#signInWithEmailAndPassword
-            switch (error.code) {
-            case 'auth/user-not-found':
-                errorMessage = 'No account with this email address';
-                break;
-            case 'auth/wrong-password':
-            case 'auth/invalid-email':
-                errorMessage = 'Invalid email or password';
-                break;
-            case 'auth/user-disabled':
-                errorMessage = 'Account disabled';
-                break;
-            default:
-                errorMessage = 'Problem logging in';
-            }
-            MessageBarManager.showAlert({
-                title: 'Error on log in',
-                message: errorMessage,
-                alertType: 'error',
-                shouldHideAfterDelay: false,
-            });
-            parent.setState({
-                loadingNext: false,
-            });
-        });
-    }
+    };
 
     handlePassReset = () => {
-        const {
-            email,
-        } = this.state;
+        const { email } = this.state;
         const { firebase } = this.props;
         this.setState({
             loadingNext: true,
         });
         const parent = this;
-        firebase.auth().sendPasswordResetEmail(email).then(() => {
-            MessageBarManager.showAlert({
-                title: 'Success',
-                message: 'Check your email',
-                alertType: 'info',
+        firebase
+            .auth()
+            .sendPasswordResetEmail(email)
+            .then(() => {
+                MessageBarManager.showAlert({
+                    title: 'Success',
+                    message: 'Check your email',
+                    alertType: 'info',
+                });
+                parent.setState({
+                    loadingNext: false,
+                });
+                fb.analytics().logEvent('pass_reset_request');
+            })
+            .catch((error) => {
+                let errorMessage;
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'No account found for this email';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Invalid email address';
+                        break;
+                    default:
+                        errorMessage = 'Problem resetting your password';
+                }
+                MessageBarManager.showAlert({
+                    title: 'Error on reset pass',
+                    message: errorMessage,
+                    alertType: 'error',
+                    shouldHideAfterDelay: false,
+                });
+                parent.setState({
+                    loadingNext: false,
+                });
             });
-            parent.setState({
-                loadingNext: false,
-            });
-            fb.analytics().logEvent('pass_reset_request');
-        }).catch((error) => {
-            let errorMessage;
-            switch (error.code) {
-            case 'auth/user-not-found':
-                errorMessage = 'No account found for this email';
-                break;
-            case 'auth/invalid-email':
-                errorMessage = 'Invalid email address';
-                break;
-            default:
-                errorMessage = 'Problem resetting your password';
-            }
-            MessageBarManager.showAlert({
-                title: 'Error on reset pass',
-                message: errorMessage,
-                alertType: 'error',
-                shouldHideAfterDelay: false,
-            });
-            parent.setState({
-                loadingNext: false,
-            });
-        });
-    }
+    };
 
     renderSignupScreen = () => {
         const { navigation, t } = this.props;
@@ -367,10 +359,11 @@ class _Login extends React.Component<Props, State> {
             signupPPChecked,
             username,
         } = this.state;
-        const signupButtonDisabled = email.length < 6
-            || username.length < 4
-            || password.length < 6
-            || !signupPPChecked;
+        const signupButtonDisabled =
+            email.length < 6 ||
+            username.length < 4 ||
+            password.length < 6 ||
+            !signupPPChecked;
 
         return (
             <ScrollView
@@ -383,7 +376,10 @@ class _Login extends React.Component<Props, State> {
                     padding: 20,
                 }}
             >
-                <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
+                <Image
+                    style={styles.tutIcon2}
+                    source={require('./assets/loadinganimation.gif')}
+                />
 
                 <TextInput
                     testID="signup_username"
@@ -392,25 +388,32 @@ class _Login extends React.Component<Props, State> {
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({
-                        showUsernameError: text.length < 4,
-                        username: text,
-                    })}
+                    onChangeText={(text) =>
+                        this.setState({
+                            showUsernameError: text.length < 4,
+                            username: text,
+                        })
+                    }
                     value={username}
                 />
-                {showUsernameError
-                    ? (
-                        <Text
-                            style={[styles.inputLabel,
-                                { color: (showUsernameError ? COLOR_RED : COLOR_DEEP_BLUE) }]}
-                        >
-                            {t('signup:usernameError')}
-                        </Text>
-                    ) : (
-                        <Text style={styles.inputLabel}>
-                            {t('signup:usernamePublic')}
-                        </Text>
-                    )}
+                {showUsernameError ? (
+                    <Text
+                        style={[
+                            styles.inputLabel,
+                            {
+                                color: showUsernameError
+                                    ? COLOR_RED
+                                    : COLOR_DEEP_BLUE,
+                            },
+                        ]}
+                    >
+                        {t('signup:usernameError')}
+                    </Text>
+                ) : (
+                    <Text style={styles.inputLabel}>
+                        {t('signup:usernamePublic')}
+                    </Text>
+                )}
 
                 <TextInput
                     testID="signup_email"
@@ -422,12 +425,12 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry={false}
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({ email: text.replace(' ', '') })}
+                    onChangeText={(text) =>
+                        this.setState({ email: text.replace(' ', '') })
+                    }
                     value={email}
                 />
-                <Text
-                    style={[styles.inputLabel, { color: COLOR_DEEP_BLUE }]}
-                >
+                <Text style={[styles.inputLabel, { color: COLOR_DEEP_BLUE }]}>
                     &nbsp;
                 </Text>
 
@@ -439,13 +442,22 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({
-                        password: text,
-                        showPasswordError: text.length < 6,
-                    })}
+                    onChangeText={(text) =>
+                        this.setState({
+                            password: text,
+                            showPasswordError: text.length < 6,
+                        })
+                    }
                 />
-                <Text style={[styles.inputLabel,
-                    { color: (showPasswordError ? COLOR_RED : COLOR_DEEP_BLUE) }]}
+                <Text
+                    style={[
+                        styles.inputLabel,
+                        {
+                            color: showPasswordError
+                                ? COLOR_RED
+                                : COLOR_DEEP_BLUE,
+                        },
+                    ]}
                 >
                     {t('signup:passwordError')}
                 </Text>
@@ -456,7 +468,9 @@ class _Login extends React.Component<Props, State> {
                         checkedCheckBoxColor={COLOR_WHITE}
                         uncheckedCheckBoxColor={COLOR_WHITE}
                         isChecked={signupPPChecked}
-                        onClick={() => this.setState({ signupPPChecked: !signupPPChecked })}
+                        onClick={() =>
+                            this.setState({ signupPPChecked: !signupPPChecked })
+                        }
                     />
                     <Text style={styles.checkboxLabel}>
                         I agree to the&nbsp;
@@ -474,9 +488,9 @@ class _Login extends React.Component<Props, State> {
                 </View>
 
                 <Text style={styles.legalText}>
-                    * All the mapping you contribute to MapSwipe is open and available to anyone.
-                    Your username is public, but your email and password will never be
-                    shared with anyone.
+                    * All the mapping you contribute to MapSwipe is open and
+                    available to anyone. Your username is public, but your email
+                    and password will never be shared with anyone.
                 </Text>
                 <Button
                     isDisabled={signupButtonDisabled}
@@ -497,13 +511,10 @@ class _Login extends React.Component<Props, State> {
                 </Button>
             </ScrollView>
         );
-    }
+    };
 
     renderLoginScreen = () => {
-        const {
-            email,
-            password,
-        } = this.state;
+        const { email, password } = this.state;
         return (
             <ScrollView
                 testID="login_screen"
@@ -515,7 +526,10 @@ class _Login extends React.Component<Props, State> {
                     padding: 20,
                 }}
             >
-                <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
+                <Image
+                    style={styles.tutIcon2}
+                    source={require('./assets/loadinganimation.gif')}
+                />
 
                 <TextInput
                     testID="login_email"
@@ -527,7 +541,9 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     style={[styles.textInput, { marginBottom: 28 }]}
                     secureTextEntry={false}
-                    onChangeText={(text) => this.setState({ email: text.replace(' ', '') })}
+                    onChangeText={(text) =>
+                        this.setState({ email: text.replace(' ', '') })
+                    }
                     value={email}
                 />
 
@@ -543,10 +559,9 @@ class _Login extends React.Component<Props, State> {
                     value={password}
                 />
                 <Text style={styles.legalText}>
-                    * All the data you contribute to MapSwipe is open and available to anyone.
-                    Your username is public, but your email and password will never be
-                    shared with anyone.
-                    {' '}
+                    * All the data you contribute to MapSwipe is open and
+                    available to anyone. Your username is public, but your email
+                    and password will never be shared with anyone.
                 </Text>
                 <Button
                     isDisabled={email.length < 6 || password.length < 6}
@@ -574,12 +589,10 @@ class _Login extends React.Component<Props, State> {
                 </Button>
             </ScrollView>
         );
-    }
+    };
 
     renderForgotPasswordScreen = () => {
-        const {
-            email,
-        } = this.state;
+        const { email } = this.state;
         return (
             <ScrollView
                 testID="forgot_password_screen"
@@ -591,7 +604,10 @@ class _Login extends React.Component<Props, State> {
                     padding: 20,
                 }}
             >
-                <Image style={styles.tutIcon2} source={require('./assets/loadinganimation.gif')} />
+                <Image
+                    style={styles.tutIcon2}
+                    source={require('./assets/loadinganimation.gif')}
+                />
 
                 <TextInput
                     autoCorrect={false}
@@ -599,7 +615,9 @@ class _Login extends React.Component<Props, State> {
                     placeholder="Enter your email"
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={(text) => this.setState({ email: text.replace(' ', '') })}
+                    onChangeText={(text) =>
+                        this.setState({ email: text.replace(' ', '') })
+                    }
                     value={email}
                 />
                 <Text style={styles.legalText}>
@@ -622,15 +640,11 @@ class _Login extends React.Component<Props, State> {
                 </Button>
             </ScrollView>
         );
-    }
+    };
 
     render() {
         const { auth } = this.props;
-        const {
-            loadingAuth,
-            loadingNext,
-            screen,
-        } = this.state;
+        const { loadingAuth, loadingNext, screen } = this.state;
         let content = null;
 
         const showLoader = !isLoaded(auth) || loadingAuth || loadingNext;
@@ -647,30 +661,26 @@ class _Login extends React.Component<Props, State> {
 
         return (
             <View style={styles.container}>
-                {
-                    !isLoaded(auth) || loadingAuth || loadingNext
-                        ? <LoadingIcon />
-                        : content
-                }
+                {!isLoaded(auth) || loadingAuth || loadingNext ? (
+                    <LoadingIcon />
+                ) : (
+                    content
+                )}
             </View>
         );
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        auth: state.firebase.auth,
-        navigation: ownProps.navigation,
-        profile: state.firebase.profile,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    auth: state.firebase.auth,
+    navigation: ownProps.navigation,
+    profile: state.firebase.profile,
+});
 
 const enhance = compose(
     withNamespaces('login'),
     firebaseConnect(),
-    connect(
-        mapStateToProps,
-    ),
+    connect(mapStateToProps),
 );
 
 export default enhance(_Login);

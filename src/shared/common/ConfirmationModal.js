@@ -1,13 +1,9 @@
 // @flow
 import * as React from 'react';
 import Modal from 'react-native-modalbox';
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Button from 'apsl-react-native-button';
-import {
-    COLOR_DEEP_BLUE,
-} from '../constants';
+import { COLOR_DEEP_BLUE } from '../constants';
 
 const styles = StyleSheet.create({
     modal: {
@@ -57,14 +53,20 @@ export default class ConfirmationModal extends React.Component<Props> {
                 style={styles.modal}
                 backdropType="blur"
                 position="center"
-                ref={(r) => { getRef(r); }}
+                ref={(r) => {
+                    getRef(r);
+                }}
             >
                 {content}
                 <Button
                     style={styles.startButton}
                     onPress={cancelButtonCallback}
                     testID="closeIntroModalBoxButton"
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{
+                        fontSize: 13,
+                        color: '#ffffff',
+                        fontWeight: '700',
+                    }}
                 >
                     {cancelButtonText}
                 </Button>
@@ -72,7 +74,11 @@ export default class ConfirmationModal extends React.Component<Props> {
                     style={styles.startButton}
                     onPress={exitButtonCallback}
                     testID="closeIntroModalBoxButton"
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{
+                        fontSize: 13,
+                        color: '#ffffff',
+                        fontWeight: '700',
+                    }}
                 >
                     {exitButtonText}
                 </Button>

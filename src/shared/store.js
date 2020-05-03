@@ -37,13 +37,14 @@ const persistedReducers = persistReducer(persistConfig, reducers);
 
 // the initial state argument is only used for jest
 // direct imports of createNewStore should only happen in tests
-export const createNewStore = (initialState?: {} = {}) => createStore(
-    persistedReducers,
-    initialState,
-    composeEnhancers(
-        applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
-    ),
-);
+export const createNewStore = (initialState?: {} = {}) =>
+    createStore(
+        persistedReducers,
+        initialState,
+        composeEnhancers(
+            applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
+        ),
+    );
 
 // this is the main store used by the app
 const store = createNewStore();
