@@ -80,7 +80,7 @@
     "metro-react-native-babel-preset": "^0.56.0",
     "native-testing-library": "^3.1.2",
     "react-test-renderer": "16.9.0",
-    "remote-redux-devtools": "^0.5.16",
+    "redux-devtools-extension": "^2.13.8",
     "remotedev-rn-debugger": "^0.8.4"
   },
   "jest": {

@@ -81,11 +81,6 @@ You will need several terminals running in parallel. With your phone (or emulato
 adb reverse tcp:8081 tcp:8081; adb reverse tcp:5678 tcp:5678
 ```
 
-- (optional) Get the redux state debugger (see https://github.com/zalmoxisus/redux-devtools-extension for docs). You'll need the chrome redux debugger or an alternative installed to use this.
-```sh
-yarn reduxDebugger
-```
-
 - Start the development server (including the javascript packager):
 ```sh
 yarn start
@@ -103,15 +98,18 @@ You can also open the developer menu on the phone by shaking it (while running t
 adb shell input keyevent 82
 ```
 
-and tap "Debug JS remotely" to use the JS engine in chrome. See https://facebook.github.io/react-native/docs/debugging#chrome-developer-tools for details about using the remote debugger.
+and tap "Debug" to use the JS engine in chrome or firefox. See https://facebook.github.io/react-native/docs/debugging#chrome-developer-tools for details about using the remote debugger.
+
+- (optional) You can connect your phone to the react-native debugger, intead of the debugger in browser. Install the external react native debugger from https://github.com/jhen0409/react-native-debugger and open the app. This extension is used to connect to the debugger: https://www.npmjs.com/package/redux-devtools-extension (it's already installed, so nothing to do).  You should now have the console messages, the redux state and the react hierarchy of components all in one place! Note that this app is a bit slower than the browser dev tools, so if you don't need the redux debugger, you might be better without it.
 
 You're all set! :tada:
 
 If none of the above makes sense, read the [react-native intro](https://facebook.github.io/react-native/docs/getting-started) again.
 
+
 ## App variants
 
-There are 4 versions of the app (for Android, this still needs setting up on iOS):
+There are 4 versions of the app for android:
 - DevDebug
 - DevRelease
 - ProductionDebug
