@@ -1,9 +1,8 @@
 // @flow
 import * as React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import ProjectLevelScreen from '../../common/ProjectLevelScreen';
 import { submitChange } from '../../actions/index';
-import ChangeDetector from './ChangeDetector';
+import ChangeDetectionBody from './Body';
 import type { NavigationProp } from '../../flow-types';
 import {
     COLOR_GREEN,
@@ -141,8 +140,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     render() {
         const { navigation, tutorial } = this.props;
         return (
-            <ProjectLevelScreen
-                Component={ChangeDetector}
+            <ChangeDetectionBody
                 navigation={navigation}
                 getNormalHelpContent={this.getNormalHelpContent}
                 randomSeed={this.randomSeed}

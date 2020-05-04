@@ -30,6 +30,9 @@
     "react/prefer-stateless-function": [
       2, { "ignorePureComponents": true }
     ],
+    "react/require-default-props": "off",
+    "react/default-props-match-prop-types": "off",
+    "react/static-property-placement": "off",
     "react/forbid-prop-types": [0, { "forbid": [] }],
     "react-native/no-unused-styles": 2,
     "import/extensions": [1, "never", { "svg": "always" }],
