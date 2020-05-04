@@ -5,7 +5,7 @@
           "jsx": true
       }
   },
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:prettier/recommended"],
   "plugins": [
     "react",
     "react-native",
@@ -16,13 +16,17 @@
   ],
   "rules": {
     "no-console": "off",
-    "indent": ["error", 4],
+    "indent": "off",
+    "spaced-comment": "off",
+    "react/jsx-curly-newline": "off",
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],
     "react/jsx-filename-extension": [
       1, { "extensions": [".js", ".jsx"] }
     ],
+    "react/jsx-one-expression-per-line": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/jsx-wrap-multilines": "off",
     "react/prefer-stateless-function": [
       2, { "ignorePureComponents": true }
     ],

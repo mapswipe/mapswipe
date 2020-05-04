@@ -27,12 +27,16 @@ export const getLevelForContributionCount = (count: number) => {
         if (count > Levels[maxLevel].expRequired) {
             toReturn = maxLevel;
         } else {
-            Object.keys(Levels).slice(0, 35).forEach((level) => {
-                if (count >= Levels[level].expRequired
-                    && count < Levels[parseInt(level, 10) + 1].expRequired) {
-                    toReturn = level;
-                }
-            });
+            Object.keys(Levels)
+                .slice(0, 35)
+                .forEach((level) => {
+                    if (
+                        count >= Levels[level].expRequired &&
+                        count < Levels[parseInt(level, 10) + 1].expRequired
+                    ) {
+                        toReturn = level;
+                    }
+                });
         }
         if (toReturn > maxLevel) {
             toReturn = maxLevel;
@@ -53,46 +57,54 @@ const getProgress = (taskContributionCount: number, level: number) => {
     const currentLevelExp = Levels[level].expRequired;
     const nextLevelExp = Levels[level + 1].expRequired;
     const myExp = taskContributionCount;
-    const expToGainTotal = (nextLevelExp - currentLevelExp);
+    const expToGainTotal = nextLevelExp - currentLevelExp;
     const kmTillNextLevel = parseFloat(nextLevelExp - myExp);
-    const percentage = 1 - (kmTillNextLevel / expToGainTotal);
+    const percentage = 1 - kmTillNextLevel / expToGainTotal;
     return { kmTillNextLevel, percentage };
 };
 
-export default function user(state: UIState = defaultUserState, action: Action): UIState {
+export default function user(
+    state: UIState = defaultUserState,
+    action: Action,
+): UIState {
     let level = 1;
     switch (action.type) {
-    case SEEN_HELPBOX_TYPE_1:
-        return {
-            ...state,
-            hasSeenHelpBoxType1: true,
-        };
-    case WELCOME_COMPLETED:
-        return {
-            ...state,
-            welcomeCompleted: true,
-        };
-    case AUTH_STATUS_AVAILABLE:
-        return {
-            ...state,
-            loggedIn: !!action.user,
-            user: action.user,
-        };
-    case actionTypes.SET_PROFILE: {
-        // TODO: can we refactor the profile to avoid having local key names that
-        // are not in the datase?
-        // $FlowFixMe
-        const taskContributionCount = action.profile ? action.profile.taskContributionCount : 0;
-        level = getLevelForContributionCount(taskContributionCount);
-        const { kmTillNextLevel, percentage } = getProgress(taskContributionCount, level);
-        return {
-            ...state,
-            kmTillNextLevel,
-            level,
-            progress: percentage,
-        };
-    }
-    default:
-        return state;
+        case SEEN_HELPBOX_TYPE_1:
+            return {
+                ...state,
+                hasSeenHelpBoxType1: true,
+            };
+        case WELCOME_COMPLETED:
+            return {
+                ...state,
+                welcomeCompleted: true,
+            };
+        case AUTH_STATUS_AVAILABLE:
+            return {
+                ...state,
+                loggedIn: !!action.user,
+                user: action.user,
+            };
+        case actionTypes.SET_PROFILE: {
+            // TODO: can we refactor the profile to avoid having local key names that
+            // are not in the datase?
+            // $FlowFixMe
+            const taskContributionCount = action.profile
+                ? action.profile.taskContributionCount
+                : 0;
+            level = getLevelForContributionCount(taskContributionCount);
+            const { kmTillNextLevel, percentage } = getProgress(
+                taskContributionCount,
+                level,
+            );
+            return {
+                ...state,
+                kmTillNextLevel,
+                level,
+                progress: percentage,
+            };
+        }
+        default:
+            return state;
     }
 }

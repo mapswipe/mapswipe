@@ -1,20 +1,12 @@
 // @flow
 import * as React from 'react';
-import {
-    BackHandler,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
-import {
-    cancelGroup,
-    startGroup,
-} from '../actions/index';
+import { cancelGroup, startGroup } from '../actions/index';
 import {
     firebaseConnectGroup,
     mapStateToPropsForGroups,
@@ -75,8 +67,8 @@ type Props = {
     group: { [group_id: string]: GroupType },
     navigation: NavigationProp,
     getNormalHelpContent: (string) => React.ComponentType<any>,
-    onCancelGroup: {} => void,
-    onStartGroup: {} => void,
+    onCancelGroup: ({}) => void,
+    onStartGroup: ({}) => void,
     onSubmitResult: (Object) => void,
     screenName: string,
     tutorial: boolean,
@@ -84,7 +76,7 @@ type Props = {
 };
 
 type State = {
-    groupCompleted: bool,
+    groupCompleted: boolean,
 };
 
 class ProjectLevelScreen extends React.Component<Props, State> {
@@ -126,17 +118,20 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 }
             }
         }
-    }
+    };
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+        BackHandler.removeEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
     }
 
     handleBackPress = () => {
         // $FlowFixMe
         this.backConfirmationModal.open();
         return true; // prevents the navigator from jumping back
-    }
+    };
 
     returnToView = () => {
         const { group, navigation, onCancelGroup } = this.props;
@@ -147,7 +142,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             projectId: group.projectId,
         });
         navigation.pop();
-    }
+    };
 
     submitResult = (result: number, taskId) => {
         const { group, onSubmitResult } = this.props;
@@ -159,77 +154,84 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             timestamp: GLOBAL.DB.getTimestamp(),
         };
         onSubmitResult(resultObject);
-    }
+    };
 
     closeHelpModal = () => {
         // $FlowFixMe
         this.HelpModal.close();
-    }
+    };
 
     onInfoPress = () => {
         // $FlowFixMe
         this.HelpModal.open();
-    }
+    };
 
     commitCompletedGroup = () => {
         this.setState({ groupCompleted: true });
-    }
+    };
 
     getCreditString = (): string => {
         let result = '';
         const defaultCredits = 'Unknown imagery source';
         switch (this.project.projectType) {
-        // FIXME: for some reason, flow doesn't like the constant being used here
-        case 3: { // CHANGE_DETECTION
-            // we have 2 sets of imagery
-            const creditsA = this.project.tileServerA.credits || defaultCredits;
-            const creditsB = this.project.tileServerB.credits || defaultCredits;
-            result = `Before: ${creditsA}\nAfter: ${creditsB}`;
-            break;
-        }
-        case BUILDING_FOOTPRINTS: {
-            result = this.project.tileServer.credits || defaultCredits;
-            break;
-        }
-        default:
-            result = defaultCredits;
+            // FIXME: for some reason, flow doesn't like the constant being used here
+            case 3: {
+                // CHANGE_DETECTION
+                // we have 2 sets of imagery
+                const creditsA =
+                    this.project.tileServerA.credits || defaultCredits;
+                const creditsB =
+                    this.project.tileServerB.credits || defaultCredits;
+                result = `Before: ${creditsA}\nAfter: ${creditsB}`;
+                break;
+            }
+            case BUILDING_FOOTPRINTS: {
+                result = this.project.tileServer.credits || defaultCredits;
+                break;
+            }
+            default:
+                result = defaultCredits;
         }
         return result;
-    }
+    };
 
     toNextGroup = () => {
         const { navigation, screenName } = this.props;
         navigation.navigate(screenName, { project: this.project });
-    }
+    };
 
     updateProgress = (progress: number) => {
         if (this.progress) {
             this.progress.updateProgress(progress);
         }
-    }
+    };
 
     renderBackConfirmationModal = () => {
-        const content = (
-            <Text>
-                Stop mapping and return to the menu?
-            </Text>
-        );
+        const content = <Text>Stop mapping and return to the menu?</Text>;
 
         return (
             <BackConfirmationModal
                 cancelButtonText="Continue mapping"
-                // $FlowFixMe
-                cancelButtonCallback={() => { this.backConfirmationModal.close(); }}
+                cancelButtonCallback={() => {
+                    // $FlowFixMe
+                    this.backConfirmationModal.close();
+                }}
                 content={content}
                 exitButtonText="Back to menu"
                 exitButtonCallback={this.returnToView}
-                getRef={(r) => { this.backConfirmationModal = r; }}
+                getRef={(r) => {
+                    this.backConfirmationModal = r;
+                }}
             />
         );
-    }
+    };
 
     renderHelpModal = () => {
-        const { getNormalHelpContent, tutorial, tutorialHelpContent } = this.props;
+        const {
+            getNormalHelpContent,
+            tutorial,
+            tutorialHelpContent,
+        } = this.props;
         let content = '';
         if (!tutorial) {
             const creditString = this.getCreditString();
@@ -243,20 +245,26 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 style={[styles.modal, styles.HelpModal]}
                 backdropType="blur"
                 position="center"
-                ref={(r) => { this.HelpModal = r; }}
+                ref={(r) => {
+                    this.HelpModal = r;
+                }}
             >
                 {content}
                 <Button
                     style={styles.startButton}
                     onPress={this.closeHelpModal}
                     testID="closeIntroModalBoxButton"
-                    textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                    textStyle={{
+                        fontSize: 13,
+                        color: '#ffffff',
+                        fontWeight: '700',
+                    }}
                 >
                     I understand
                 </Button>
             </Modal>
         );
-    }
+    };
 
     render = () => {
         const {
@@ -287,8 +295,10 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             <View style={styles.mappingContainer}>
                 <Header
                     lookFor={this.project.lookFor}
-                    // $FlowFixMe
-                    onBackPress={() => { this.backConfirmationModal.open(); }}
+                    onBackPress={() => {
+                        // $FlowFixMe
+                        this.backConfirmationModal.open();
+                    }}
                     onInfoPress={this.onInfoPress}
                 />
                 {backConfirmationModal}
@@ -302,30 +312,29 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
                 />
-                <BottomProgress ref={(r) => { this.progress = r; }} />
+                <BottomProgress
+                    ref={(r) => {
+                        this.progress = r;
+                    }}
+                />
             </View>
         );
-    }
+    };
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => (
-    {
-        onCancelGroup(groupDetails) {
-            dispatch(cancelGroup(groupDetails));
-        },
-        onStartGroup(groupDetails) {
-            dispatch(startGroup(groupDetails));
-        },
-        onSubmitResult(resultObject) {
-            dispatch(ownProps.submitResultFunction(resultObject));
-        },
-    }
-);
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onCancelGroup(groupDetails) {
+        dispatch(cancelGroup(groupDetails));
+    },
+    onStartGroup(groupDetails) {
+        dispatch(startGroup(groupDetails));
+    },
+    onSubmitResult(resultObject) {
+        dispatch(ownProps.submitResultFunction(resultObject));
+    },
+});
 
 export default compose(
     firebaseConnectGroup(),
-    connect(
-        mapStateToPropsForGroups(),
-        mapDispatchToProps,
-    ),
+    connect(mapStateToPropsForGroups(), mapDispatchToProps),
 )(ProjectLevelScreen);

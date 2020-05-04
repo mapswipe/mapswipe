@@ -38,7 +38,6 @@ PushNotification.configure({
 }); */
 
 export default {
-
     /**
      * Variable to access internal functions through promises.
      */
@@ -77,7 +76,6 @@ export default {
         return this.getLevelForExp(this.distance);
     },
 
-
     /**
      * Returns the entire level object, mainly for showing the badge
      * @returns {*}
@@ -108,8 +106,10 @@ export default {
             Object.keys(levels).forEach((level) => {
                 if (exp > levels[parent.maxLevel]) {
                     toReturn = parent.maxLevel;
-                } else if (exp > levels[level].expRequired
-                    && exp < levels[parseInt(level, 10) + 1].expRequired) {
+                } else if (
+                    exp > levels[level].expRequired &&
+                    exp < levels[parseInt(level, 10) + 1].expRequired
+                ) {
                     toReturn = level;
                 }
             });
@@ -169,7 +169,6 @@ export default {
         console.log(project);
         return false;
     },
-
 };
 
 /**
@@ -195,27 +194,38 @@ export function getProjectProgressForDisplay(progress: number): string {
 export function getSqKmForZoomLevelPerTile(zoomLevel: number): number {
     if (zoomLevel === 23) {
         return 2.29172838e-5;
-    } if (zoomLevel === 22) {
+    }
+    if (zoomLevel === 22) {
         return 9.11795814e-5;
-    } if (zoomLevel === 21) {
+    }
+    if (zoomLevel === 21) {
         return 0.000364718326;
-    } if (zoomLevel === 20) {
+    }
+    if (zoomLevel === 20) {
         return 0.00146082955;
-    } if (zoomLevel === 19) {
+    }
+    if (zoomLevel === 19) {
         return 0.00584331821;
-    } if (zoomLevel === 18) {
+    }
+    if (zoomLevel === 18) {
         return 0.0233732728; // (((0.5972 * 256) ^ 2) / (1000 ^ 2))
-    } if (zoomLevel === 17) {
+    }
+    if (zoomLevel === 17) {
         return 0.0934774368;
-    } if (zoomLevel === 16) {
+    }
+    if (zoomLevel === 16) {
         return 0.373941056;
-    } if (zoomLevel === 15) {
+    }
+    if (zoomLevel === 15) {
         return 1.4957016;
-    } if (zoomLevel === 14) {
+    }
+    if (zoomLevel === 14) {
         return 5.98280642;
-    } if (zoomLevel === 13) {
+    }
+    if (zoomLevel === 13) {
         return 23.9314761;
-    } if (zoomLevel === 12) {
+    }
+    if (zoomLevel === 12) {
         return 95.7254037;
     }
     return 95.72;

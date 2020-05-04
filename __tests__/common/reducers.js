@@ -75,16 +75,19 @@ describe('CANCEL_GROUP reducer', () => {
             projectId: '-Lg2iUikAAYgdwMFJpH4',
             groupId: '118',
         };
-        const state = resultsReducer({
-            '-Lg2iUikAAYgdwMFJpH4': {
-                118: {
-                    917: 2,
-                    918: 1,
-                    919: 3,
-                    920: 1,
+        const state = resultsReducer(
+            {
+                '-Lg2iUikAAYgdwMFJpH4': {
+                    118: {
+                        917: 2,
+                        918: 1,
+                        919: 3,
+                        920: 1,
+                    },
                 },
             },
-        }, cancelAction);
+            cancelAction,
+        );
 
         expect(state).toEqual({
             '-Lg2iUikAAYgdwMFJpH4': {},

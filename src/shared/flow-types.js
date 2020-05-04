@@ -30,7 +30,7 @@ export type CategoriesType = {
         pre: string,
         post_correct: string,
         post_wrong: string,
-    }
+    },
 };
 
 type TileServerType = {
@@ -95,15 +95,15 @@ export type BuiltAreaTaskType = {
     taskY: number,
     url: string,
     urlB: string,
-}
+};
 
 // used only by projects of type BUILDING_FOOTPRINTS (type 2)
 export type BuildingFootprintTaskType = {
     groupId: string,
-    geojson: { type: string, coordinates: { [number]: Polygon }},
+    geojson: { type: string, coordinates: { [number]: Polygon } },
     projectId: string,
     taskId: string,
-}
+};
 
 // used only by projects of type CHANGE_DETECTION
 export type ChangeDetectionTaskType = {
@@ -116,12 +116,12 @@ export type ChangeDetectionTaskType = {
     taskY: number,
     urlA: string,
     urlB: string,
-}
+};
 
 export type TaskType =
     | BuiltAreaTaskType
     | BuildingFootprintTaskType
-    | ChangeDetectionTaskType
+    | ChangeDetectionTaskType;
 
 export type TaskMapType = { [task_id: string]: TaskType };
 
@@ -134,11 +134,11 @@ type GenericGroupType<T> = {
     projectId: string,
     tasks: Array<T>,
     zoomLevel: number,
-    xMax: number;
-    xMin: number;
-    yMax: number;
-    yMin: number;
-}
+    xMax: number,
+    xMin: number,
+    yMax: number,
+    yMin: number,
+};
 
 export type BuiltAreaGroupType = GenericGroupType<BuiltAreaTaskType>;
 export type BuildingFootprintGroupType = GenericGroupType<BuildingFootprintTaskType>;
@@ -147,7 +147,7 @@ export type ChangeDetectionGroupType = GenericGroupType<ChangeDetectionTaskType>
 export type GroupType =
     | BuiltAreaGroupType
     | BuildingFootprintGroupType
-    | ChangeDetectionGroupType
+    | ChangeDetectionGroupType;
 
 export type GroupMapType = { [group_id: string]: GroupType };
 
@@ -158,7 +158,7 @@ export type ResultType = {
     projectId: string,
     resultId: string,
     result: number,
-}
+};
 
 export type ResultMapType = { [string]: ResultType };
 
@@ -169,7 +169,7 @@ export type Mapper = {
     openTilePopup: (any) => void,
     progress: BottomProgress,
     project: ProjectType,
-}
+};
 
 // redux types
 

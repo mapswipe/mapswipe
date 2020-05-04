@@ -2,12 +2,7 @@
 
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {
-    PanResponder,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { PanResponder, StyleSheet, Text, View } from 'react-native';
 import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import type {
     GestureState,
@@ -16,9 +11,7 @@ import type {
 import { toggleMapTile } from '../../actions/index';
 import type { Mapper, ResultType } from '../../flow-types';
 import { EmptyTile, Tile } from './Tile';
-import {
-    COLOR_DEEP_BLUE,
-} from '../../constants';
+import { COLOR_DEEP_BLUE } from '../../constants';
 
 const GLOBAL = require('../../Globals');
 
@@ -63,27 +56,24 @@ const TileRow = (props: TRProps) => {
             if (tile === 'emptytile') {
                 rows.push(<EmptyTile key={Math.random()} />);
             } else {
-                rows.push(<Tile
-                    tile={tile}
-                    key={tile.taskId}
-                    mapper={mapper}
-                    tutorial={tutorial}
-                />);
+                rows.push(
+                    <Tile
+                        tile={tile}
+                        key={tile.taskId}
+                        mapper={mapper}
+                        tutorial={tutorial}
+                    />,
+                );
             }
         }
     });
-    return (
-        <View style={styles.tileRow}>
-            {rows}
-        </View>
-    );
+    return <View style={styles.tileRow}>{rows}</View>;
 };
-
 
 type ICProps = {
     card: Object,
     mapper: Mapper,
-    onToggleTile: ResultType => void,
+    onToggleTile: (ResultType) => void,
     tutorial: boolean,
 };
 
@@ -103,7 +93,8 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
-            onMoveShouldSetPanResponderCapture: this.handleMoveShouldSetPanResponderCapture,
+            onMoveShouldSetPanResponderCapture: this
+                .handleMoveShouldSetPanResponderCapture,
             onPanResponderGrant: this.handlePanResponderGrant,
             onPanResponderRelease: this.handlePanResponderEnd,
             onPanResponderTerminate: this.handlePanResponderTerminate,
@@ -118,14 +109,18 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         // decide if we handle the move event: only if it's vertical
         event: PressEvent,
         gestureState: GestureState,
-    ): boolean => Math.abs(gestureState.dy) > 20 + Math.abs(gestureState.dx) * this.swipeThreshold;
+    ): boolean =>
+        Math.abs(gestureState.dy) >
+        20 + Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handleMoveShouldSetPanResponderCapture = (
         // decide if we handle the move event: only if it's vertical
         // this captures the swipe from the ScrollView
         event: PressEvent,
         gestureState: GestureState,
-    ): boolean => Math.abs(gestureState.dy) > 20 + Math.abs(gestureState.dx) * this.swipeThreshold;
+    ): boolean =>
+        Math.abs(gestureState.dy) >
+        20 + Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
@@ -144,7 +139,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
                 });
             });
         });
-    }
+    };
 
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
@@ -152,7 +147,10 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         const swipeMinLength = 0.2;
         if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
             this.setAllTilesTo(3);
-        } else if (gestureState.dy < -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+        } else if (
+            gestureState.dy <
+            -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength
+        ) {
             this.setAllTilesTo(0);
         }
     };
@@ -168,19 +166,21 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
             {'\n'}
             Swipe UP to undo.
         </Text>
-    )
+    );
 
     render() {
         const rows = [];
         const { card, mapper, tutorial } = this.props;
         const { showSwipeHelp } = this.state;
         card.tileRows.forEach((row) => {
-            rows.unshift(<TileRow
-                key={`${row.cardXStart}:${row.rowYStart}`}
-                mapper={mapper}
-                row={row.tiles}
-                tutorial={tutorial}
-            />);
+            rows.unshift(
+                <TileRow
+                    key={`${row.cardXStart}:${row.rowYStart}`}
+                    mapper={mapper}
+                    row={row.tiles}
+                    tutorial={tutorial}
+                />,
+            );
         });
 
         return (
@@ -189,31 +189,24 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
                 {...this.panResponder.panHandlers}
                 testID="individualCard"
             >
-                { showSwipeHelp && this.renderSwipeHelp() }
+                {showSwipeHelp && this.renderSwipeHelp()}
                 {rows}
             </View>
         );
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        card: ownProps.card,
-        mapper: ownProps.mapper,
-        tutorial: ownProps.tutorial,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    card: ownProps.card,
+    mapper: ownProps.mapper,
+    tutorial: ownProps.tutorial,
+});
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        onToggleTile: (tileInfo) => {
-            dispatch(toggleMapTile(tileInfo));
-        },
-    }
-);
+const mapDispatchToProps = (dispatch) => ({
+    onToggleTile: (tileInfo) => {
+        dispatch(toggleMapTile(tileInfo));
+    },
+});
 
 // IndividualCard
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(_IndividualCard);
+export default connect(mapStateToProps, mapDispatchToProps)(_IndividualCard);

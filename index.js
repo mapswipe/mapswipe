@@ -11,7 +11,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import './src/shared/i18n';
 import Main from './src/shared/Main';
 import { name as appName } from './app';
-import setupStore, { reactreduxFirebaseConfig as rrfConfig } from './src/shared/store';
+import setupStore, {
+    reactreduxFirebaseConfig as rrfConfig,
+} from './src/shared/store';
 
 if (!__DEV__) {
     Sentry.init({

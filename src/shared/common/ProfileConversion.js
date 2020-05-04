@@ -9,7 +9,10 @@ export default (firebase: Object) => {
     const { currentUser } = firebase.auth();
     // get the old profile
     const userRef = `users/${currentUser.uid}`;
-    firebase.database().ref(userRef).once('value')
+    firebase
+        .database()
+        .ref(userRef)
+        .once('value')
         .then((snapshot) => {
             const prof = snapshot.val();
             if (prof === null) {
@@ -22,7 +25,10 @@ export default (firebase: Object) => {
                 created: new Date(currentUser._user.metadata.creationTime),
                 groupContributionCount: 0,
                 projectContributionCount: 0,
-                taskContributionCount: parseInt(prof.distance / 0.0233732728, 10),
+                taskContributionCount: parseInt(
+                    prof.distance / 0.0233732728,
+                    10,
+                ),
                 updateNeeded: true, // used by backend profile update script
                 username: prof.username,
             });

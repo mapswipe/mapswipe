@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-    Image,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import type {
     ImageStyleProp,
     TextStyleProp,
@@ -52,7 +47,9 @@ export default class SatImage extends React.Component<Props, State> {
 
     onError = (evt) => {
         const { source } = this.state;
-        const { nativeEvent: { error } } = evt;
+        const {
+            nativeEvent: { error },
+        } = evt;
         Sentry.addBreadcrumb({
             message: 'Image not loading',
             data: {
@@ -62,27 +59,23 @@ export default class SatImage extends React.Component<Props, State> {
         });
         Sentry.captureMessage('Cannot load sat imagery', 'warning');
         console.log(error);
-        // eslint-disable-next-line global-require
-        this.setState({ source: require('../../../assets/noImageAvailable.png') });
-    }
+        this.setState({
+            // eslint-disable-next-line global-require
+            source: require('../../../assets/noImageAvailable.png'),
+        });
+    };
 
     render() {
         const { source } = this.state;
         const { overlayText, overlayTextStyle, style } = this.props;
         return (
-            <View
-                style={style}
-            >
+            <View style={style}>
                 <Image
                     onError={this.onError}
                     source={source}
                     style={styles.imageBackground}
                 />
-                <Text
-                    style={overlayTextStyle}
-                >
-                    {overlayText}
-                </Text>
+                <Text style={overlayTextStyle}>{overlayText}</Text>
             </View>
         );
     }

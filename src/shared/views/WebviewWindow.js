@@ -7,15 +7,11 @@
 /* eslint-disable global-require */
 
 import React from 'react';
-import {
-    View, Image, TouchableHighlight,
-} from 'react-native';
+import { View, Image, TouchableHighlight } from 'react-native';
 import { WebView } from 'react-native-webview';
 import fb from 'react-native-firebase';
 import type { NavigationProp } from '../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-} from '../constants';
+import { COLOR_DEEP_BLUE } from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -33,10 +29,9 @@ const styles = {
         position: 'absolute',
     },
     swipeNavTop: {
-        width: (GLOBAL.SCREEN_WIDTH),
+        width: GLOBAL.SCREEN_WIDTH,
         height: 60,
         backgroundColor: COLOR_DEEP_BLUE,
-
     },
 };
 
@@ -52,7 +47,6 @@ export default (props: Props) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.swipeNavTop}>
-
                 <TouchableHighlight
                     style={styles.backButtonContainer}
                     onPress={() => navigation.pop()}
@@ -62,13 +56,8 @@ export default (props: Props) => {
                         source={require('./assets/backarrow_icon.png')}
                     />
                 </TouchableHighlight>
-
             </View>
-            <WebView
-                style={{ flex: 1 }}
-                javaScriptEnabled
-                source={{ uri }}
-            />
+            <WebView style={{ flex: 1 }} javaScriptEnabled source={{ uri }} />
         </View>
     );
 };

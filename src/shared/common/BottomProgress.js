@@ -1,10 +1,7 @@
 // @flow
 import * as React from 'react';
 import * as Progress from 'react-native-progress';
-import {
-    StyleSheet,
-    View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
     COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
@@ -15,7 +12,7 @@ const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
     swipeNavBottom: {
-        width: (GLOBAL.SCREEN_WIDTH),
+        width: GLOBAL.SCREEN_WIDTH,
         flexDirection: 'row',
         justifyContent: 'center',
         backgroundColor: COLOR_DEEP_BLUE,
@@ -38,7 +35,7 @@ export default class BottomProgress extends React.Component<{}, BPState> {
         this.setState({
             progress,
         });
-    }
+    };
 
     render() {
         const { progress } = this.state;

@@ -20,9 +20,7 @@ import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
 import WebviewWindow from './views/WebviewWindow';
-import {
-    COLOR_DEEP_BLUE,
-} from './constants';
+import { COLOR_DEEP_BLUE } from './constants';
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
 const { MessageBarManager } = require('react-native-message-bar');
@@ -30,7 +28,6 @@ const Modal = require('react-native-modalbox');
 
 const ProjectView = require('./views/ProjectView');
 const GLOBAL = require('./Globals');
-
 
 const style = StyleSheet.create({
     startButton: {
@@ -77,7 +74,7 @@ const style = StyleSheet.create({
 });
 
 type State = {
-    isDisabled: bool,
+    isDisabled: boolean,
     level: number,
     levelObject: Object,
 };
@@ -147,22 +144,36 @@ class Main extends React.Component<{}, State> {
                         style={[style.modal, style.modal3]}
                         backdropType="blur"
                         position="center"
-                        ref={(r) => { this.modal3 = r; }}
+                        ref={(r) => {
+                            this.modal3 = r;
+                        }}
                         isDisabled={isDisabled}
                     >
                         <Text style={style.header}>
                             {`You are now level ${level}`}
                         </Text>
-                        <Image style={style.pic} key={level} source={levelObject.badge} />
+                        <Image
+                            style={style.pic}
+                            key={level}
+                            source={levelObject.badge}
+                        />
                         <Button
                             style={style.startButton}
                             onPress={this.closeModal3}
-                            textStyle={{ fontSize: 13, color: '#ffffff', fontWeight: '700' }}
+                            textStyle={{
+                                fontSize: 13,
+                                color: '#ffffff',
+                                fontWeight: '700',
+                            }}
                         >
                             Close
                         </Button>
                     </Modal>
-                    <MessageBarAlert ref={(r) => { this.alert = r; }} />
+                    <MessageBarAlert
+                        ref={(r) => {
+                            this.alert = r;
+                        }}
+                    />
                 </View>
             </SafeAreaView>
         );
@@ -210,15 +221,17 @@ const MainNavigator = createStackNavigator(
     },
 );
 
-const StartNavigator = createAppContainer(createSwitchNavigator(
-    {
-        AppLoadingScreen,
-        LoginNavigator,
-        MainNavigator,
-    },
-    {
-        initialRouteName: 'AppLoadingScreen',
-    },
-));
+const StartNavigator = createAppContainer(
+    createSwitchNavigator(
+        {
+            AppLoadingScreen,
+            LoginNavigator,
+            MainNavigator,
+        },
+        {
+            initialRouteName: 'AppLoadingScreen',
+        },
+    ),
+);
 
 module.exports = Main;

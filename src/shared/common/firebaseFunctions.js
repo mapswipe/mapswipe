@@ -6,7 +6,7 @@
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import get from 'lodash.get';
 
-export const firebaseConnectGroup = (tutorialName?: string) => (
+export const firebaseConnectGroup = (tutorialName?: string) =>
     firebaseConnect((props) => {
         const tutorial = props.navigation.getParam('tutorial', false);
         let tutorialProjectName;
@@ -22,13 +22,20 @@ export const firebaseConnectGroup = (tutorialName?: string) => (
                 {
                     type: 'once',
                     path: 'v2/projects',
-                    queryParams: ['orderByChild=status', `equalTo=${tutorialProjectName}`, 'limitToFirst=1'],
+                    queryParams: [
+                        'orderByChild=status',
+                        `equalTo=${tutorialProjectName}`,
+                        'limitToFirst=1',
+                    ],
                     storeAs: 'tutorial',
                 },
                 {
                     type: 'once',
                     path: `v2/groups/${tutorialProjectName}`,
-                    queryParams: ['limitToLast=1', 'orderByChild=requiredCount'],
+                    queryParams: [
+                        'limitToLast=1',
+                        'orderByChild=requiredCount',
+                    ],
                     storeAs: `tutorial/${tutorialProjectName}/groups`,
                 },
             ];
@@ -39,16 +46,18 @@ export const firebaseConnectGroup = (tutorialName?: string) => (
                 {
                     type: 'once',
                     path: `v2/groups/${projectId}`,
-                    queryParams: ['limitToLast=15', 'orderByChild=requiredCount'],
+                    queryParams: [
+                        'limitToLast=15',
+                        'orderByChild=requiredCount',
+                    ],
                     storeAs: `projects/${projectId}/groups`,
                 },
             ];
         }
         return [];
-    })
-);
+    });
 
-export const mapStateToPropsForGroups = (tutorialName?: string) => (
+export const mapStateToPropsForGroups = (tutorialName?: string) =>
     // This function is a common mapStateToProps used to fetch groups from firebase.
     // It looks at a few things to decide which group to fetch, based on the project
     // object that is passed as an argument to the navigation object.
@@ -91,18 +100,25 @@ export const mapStateToPropsForGroups = (tutorialName?: string) => (
             // we'll quietly ignore it for now :)
             const groupsAvailable = Object.keys(groups);
             // eslint-disable-next-line prefer-destructuring
-            const groupsToPickFrom = groupsAvailable.filter((g) => !groupsMapped.includes(g));
-            groupId = groupsToPickFrom[Math.floor(ownProps.randomSeed * groupsToPickFrom.length)];
+            const groupsToPickFrom = groupsAvailable.filter(
+                (g) => !groupsMapped.includes(g),
+            );
+            groupId =
+                groupsToPickFrom[
+                    Math.floor(ownProps.randomSeed * groupsToPickFrom.length)
+                ];
         }
         return {
             categories,
-            group: get(state.firebase.data, `${prefix}.${projectId}.groups.${groupId}`),
+            group: get(
+                state.firebase.data,
+                `${prefix}.${projectId}.groups.${groupId}`,
+            ),
             navigation: ownProps.navigation,
             onInfoPress: ownProps.onInfoPress,
             results: state.results,
             tutorial,
         };
-    }
-);
+    };
 
 export default null;

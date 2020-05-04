@@ -3,20 +3,13 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
-import {
-    ScrollView,
-    StyleSheet,
-    Text,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
 import ProjectCard from './ProjectCard';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, ProjectType } from '../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-    COLOR_WHITE,
-} from '../constants';
+import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -95,14 +88,14 @@ class _RecommendedCards extends React.Component<Props> {
         if (this.tutorialModal) {
             this.tutorialModal.close();
         }
-    }
+    };
 
     openModal3 = () => {
         // TODO: check if we need to display this modal with redux
         if (this.tutorialModal) {
             this.tutorialModal.open();
         }
-    }
+    };
 
     renderAnnouncement = () => {
         const { announcement, navigation } = this.props;
@@ -127,7 +120,7 @@ class _RecommendedCards extends React.Component<Props> {
                 {announcement.text}
             </Button>
         );
-    }
+    };
 
     renderHelpModal = () => {
         const { navigation } = this.props;
@@ -137,10 +130,14 @@ class _RecommendedCards extends React.Component<Props> {
                 style={[style.modal, style.modal3]}
                 backdropType="blur"
                 position="top"
-                ref={(r) => { this.tutorialModal = r; }}
+                ref={(r) => {
+                    this.tutorialModal = r;
+                }}
             >
                 <Text style={style.header}>Tutorial</Text>
-                <Text style={style.tutPar}>Learn more about how to use MapSwipe!</Text>
+                <Text style={style.tutPar}>
+                    Learn more about how to use MapSwipe!
+                </Text>
                 <Button
                     style={style.inModalButton2}
                     onPress={() => {
@@ -149,31 +146,38 @@ class _RecommendedCards extends React.Component<Props> {
                             uri: GLOBAL.TUT_LINK,
                         });
                     }}
-                    textStyle={{ fontSize: 13, color: COLOR_WHITE, fontWeight: '700' }}
+                    textStyle={{
+                        fontSize: 13,
+                        color: COLOR_WHITE,
+                        fontWeight: '700',
+                    }}
                 >
                     Go To Tutorial
                 </Button>
                 <Button
                     style={style.inModalButton}
                     onPress={this.closeModal3}
-                    textStyle={{ fontSize: 13, color: COLOR_WHITE, fontWeight: '700' }}
+                    textStyle={{
+                        fontSize: 13,
+                        color: COLOR_WHITE,
+                        fontWeight: '700',
+                    }}
                 >
                     No thanks
                 </Button>
             </Modal>
         );
-    }
+    };
 
     render() {
-        const {
-            navigation,
-            projects,
-        } = this.props;
+        const { navigation, projects } = this.props;
         if (!isLoaded(projects)) {
-            return (<LoadingIcon key="icon" />);
+            return <LoadingIcon key="icon" />;
         }
         if (isLoaded(projects) && isEmpty(projects)) {
-            return (<Text testID="recommended_cards_view">Nothing to work on!</Text>);
+            return (
+                <Text testID="recommended_cards_view">Nothing to work on!</Text>
+            );
         }
 
         // since we can't completely filter projects by status AND projectType in firebase
@@ -184,11 +188,16 @@ class _RecommendedCards extends React.Component<Props> {
                 contentContainerStyle={style.listView}
                 removeClippedSubviews
             >
-                { this.renderAnnouncement() }
-                { projects.filter(
-                    (p) => p.value && p.value.projectType
-                    && GLOBAL.SUPPORTED_PROJECT_TYPES.includes(p.value.projectType),
-                )
+                {this.renderAnnouncement()}
+                {projects
+                    .filter(
+                        (p) =>
+                            p.value &&
+                            p.value.projectType &&
+                            GLOBAL.SUPPORTED_PROJECT_TYPES.includes(
+                                p.value.projectType,
+                            ),
+                    )
                     .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
                     .map((project) => (
                         <ProjectCard
@@ -198,21 +207,19 @@ class _RecommendedCards extends React.Component<Props> {
                             cardIndex={project.key}
                         />
                     ))}
-                { this.renderHelpModal() }
+                {this.renderHelpModal()}
             </ScrollView>
         );
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        // define where the props (left of the colon) are coming from in the redux store (right)
-        // the right side must match the definitions "path" under firebaseConnect below
-        announcement: state.firebase.data.announcement,
-        navigation: ownProps.navigation,
-        projects: state.firebase.ordered.projects,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    // define where the props (left of the colon) are coming from in the redux store (right)
+    // the right side must match the definitions "path" under firebaseConnect below
+    announcement: state.firebase.data.announcement,
+    navigation: ownProps.navigation,
+    projects: state.firebase.ordered.projects,
+});
 
 export default compose(
     firebaseConnect(() => [
@@ -224,7 +231,11 @@ export default compose(
         {
             type: 'once',
             path: 'v2/projects',
-            queryParams: ['orderByChild=status', 'equalTo=active', 'limitToFirst=20'],
+            queryParams: [
+                'orderByChild=status',
+                'equalTo=active',
+                'limitToFirst=20',
+            ],
             storeAs: 'projects',
         },
         // load any announcement data from firebase
@@ -232,7 +243,5 @@ export default compose(
         { path: 'v2/announcement', queryParams: ['limitToLast=2'] },
     ]),
     // connect to redux store
-    connect(
-        mapStateToProps,
-    ),
+    connect(mapStateToProps),
 )(_RecommendedCards);

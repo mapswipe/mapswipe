@@ -3,13 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import {
-    Image,
-    PanResponder,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { Image, PanResponder, StyleSheet, Text, View } from 'react-native';
 import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import type {
     GestureState,
@@ -203,7 +197,7 @@ class _ChangeDetector extends React.Component<Props, State> {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskId });
         }
-    }
+    };
 
     // decide if we handle the move event: only if it has moved a little
     handleMoveShouldSetPanResponder = (
@@ -215,7 +209,10 @@ class _ChangeDetector extends React.Component<Props, State> {
         // OK, we've been given this swipe to handle, show feedback to the user
     };
 
-    handlePanResponderMove = (event: PressEvent, gestureState: GestureState) => {
+    handlePanResponderMove = (
+        event: PressEvent,
+        gestureState: GestureState,
+    ) => {
         // we have captured the swipe, now the user's finger is moving on the
         // screen, show a visual hint that something is happening:
         // we increase the size of the side that we think the finger is
@@ -229,8 +226,14 @@ class _ChangeDetector extends React.Component<Props, State> {
         const { dx, dy } = gestureState;
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
-        const sizeX = absX > this.swipeThreshold ? this.lockedSize : absX * swipeToSizeRatio;
-        const sizeY = absY > this.swipeThreshold ? this.lockedSize : absY * swipeToSizeRatio;
+        const sizeX =
+            absX > this.swipeThreshold
+                ? this.lockedSize
+                : absX * swipeToSizeRatio;
+        const sizeY =
+            absY > this.swipeThreshold
+                ? this.lockedSize
+                : absY * swipeToSizeRatio;
 
         if (dx < 0 && absX > absY * swipeRatio) {
             // we're headed for a no
@@ -264,16 +267,18 @@ class _ChangeDetector extends React.Component<Props, State> {
         }
     };
 
-    getViewSize = ({ nativeEvent: { layout: { height } } }) => {
+    getViewSize = ({
+        nativeEvent: {
+            layout: { height },
+        },
+    }) => {
         this.imageSize = height * 0.49;
         this.swipeThreshold = this.imageSize * minSwipeLength;
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     };
 
     checkTutorialAnswers = (answer: number) => {
-        const {
-            group,
-        } = this.props;
+        const { group } = this.props;
         const { currentTaskId } = this.state;
         const currentTask = group.tasks.find((t) => t.taskId === currentTaskId);
         // $FlowFixMe
@@ -313,7 +318,10 @@ class _ChangeDetector extends React.Component<Props, State> {
                 }
                 this.tasksDone += 1;
                 updateProgress(this.tasksDone / group.numberOfTasks);
-                this.setState({ currentTaskId: value, tutorialMode: tutorialModes.pre });
+                this.setState({
+                    currentTaskId: value,
+                    tutorialMode: tutorialModes.pre,
+                });
             }
             return false;
         }
@@ -323,11 +331,23 @@ class _ChangeDetector extends React.Component<Props, State> {
         // determine the direction of the swipe
         if (dx < 0 && absX > absY * swipeRatio && absX > this.swipeThreshold) {
             f(CHANGES_NO_CHANGES_DETECTED);
-        } else if (dx > 0 && absX > absY * swipeRatio && absX > this.swipeThreshold) {
+        } else if (
+            dx > 0 &&
+            absX > absY * swipeRatio &&
+            absX > this.swipeThreshold
+        ) {
             f(CHANGES_CHANGES_DETECTED);
-        } else if (dy < 0 && absY > absX * swipeRatio && absY > this.swipeThreshold) {
+        } else if (
+            dy < 0 &&
+            absY > absX * swipeRatio &&
+            absY > this.swipeThreshold
+        ) {
             f(CHANGES_BAD_IMAGERY);
-        } else if (dy > 0 && absY > absX * swipeRatio && absY > this.swipeThreshold) {
+        } else if (
+            dy > 0 &&
+            absY > absX * swipeRatio &&
+            absY > this.swipeThreshold
+        ) {
             f(CHANGES_UNSURE);
         }
         return false;
@@ -365,7 +385,7 @@ class _ChangeDetector extends React.Component<Props, State> {
             }
         }
         return ''; // to keep flow and eslint happy
-    }
+    };
 
     nextTask = (result: number) => {
         const {
@@ -384,10 +404,10 @@ class _ChangeDetector extends React.Component<Props, State> {
         this.tasksDone += 1;
         updateProgress(this.tasksDone / group.numberOfTasks);
         this.setState({ currentTaskId: value });
-    }
+    };
 
     // eslint-disable-next-line class-methods-use-this
-    * makeNextTaskGenerator(tasks: Array<ChangeDetectionTaskType>): taskGenType {
+    *makeNextTaskGenerator(tasks: Array<ChangeDetectionTaskType>): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
         const taskIds = tasks.map((t) => t.taskId);
@@ -449,18 +469,29 @@ class _ChangeDetector extends React.Component<Props, State> {
                         end={{ x: 1, y: 0 }}
                         style={[{ width: leftSize }, styles.leftButton]}
                     >
-                        <Text style={[{ color: sideTextColor }, styles.sideText]}>No</Text>
+                        <Text
+                            style={[{ color: sideTextColor }, styles.sideText]}
+                        >
+                            No
+                        </Text>
                     </LinearGradient>
                     <LinearGradient
-                        colors={[COLOR_LIGHT_GRAY, COLOR_TRANSPARENT_LIGHT_GRAY]}
+                        colors={[
+                            COLOR_LIGHT_GRAY,
+                            COLOR_TRANSPARENT_LIGHT_GRAY,
+                        ]}
                         style={[{ height: topSize }, styles.topButton]}
                     >
-                        {topSize > 0
-                            && (
-                                <Text style={[{ color: sideTextColor }, styles.sideText]}>
-                                    Bad imagery
-                                </Text>
-                            )}
+                        {topSize > 0 && (
+                            <Text
+                                style={[
+                                    { color: sideTextColor },
+                                    styles.sideText,
+                                ]}
+                            >
+                                Bad imagery
+                            </Text>
+                        )}
                     </LinearGradient>
                     <SatImage
                         overlayText="Before"
@@ -478,12 +509,16 @@ class _ChangeDetector extends React.Component<Props, State> {
                         colors={[COLOR_TRANSPARENT_YELLOW, COLOR_YELLOW]}
                         style={[{ height: bottomSize }, styles.bottomButton]}
                     >
-                        {bottomSize > 0
-                            && (
-                                <Text style={[{ color: sideTextColor }, styles.sideText]}>
-                                    Not sure
-                                </Text>
-                            )}
+                        {bottomSize > 0 && (
+                            <Text
+                                style={[
+                                    { color: sideTextColor },
+                                    styles.sideText,
+                                ]}
+                            >
+                                Not sure
+                            </Text>
+                        )}
                     </LinearGradient>
                     <LinearGradient
                         colors={[COLOR_GREEN, COLOR_TRANSPARENT_GREEN]}
@@ -491,27 +526,26 @@ class _ChangeDetector extends React.Component<Props, State> {
                         end={{ x: 0, y: 0 }}
                         style={[{ width: rightSize }, styles.rightButton]}
                     >
-                        <Text style={[{ color: sideTextColor }, styles.sideText]}>Yes</Text>
+                        <Text
+                            style={[{ color: sideTextColor }, styles.sideText]}
+                        >
+                            Yes
+                        </Text>
                     </LinearGradient>
                 </View>
-                { tutorial && tutorialText !== ''
-                && (
-                    <TutorialBox>
-                        { tutorialText }
-                    </TutorialBox>
+                {tutorial && tutorialText !== '' && (
+                    <TutorialBox>{tutorialText}</TutorialBox>
                 )}
             </>
         );
-    }
+    };
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        commitCompletedGroup: ownProps.commitCompletedGroup,
-        group: ownProps.group,
-        submitResult: ownProps.submitResult,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    commitCompletedGroup: ownProps.commitCompletedGroup,
+    group: ownProps.group,
+    submitResult: ownProps.submitResult,
+});
 
 export default compose(
     firebaseConnect((props) => {
@@ -530,7 +564,5 @@ export default compose(
         }
         return [];
     }),
-    connect(
-        mapStateToProps,
-    ),
+    connect(mapStateToProps),
 )(_ChangeDetector);
