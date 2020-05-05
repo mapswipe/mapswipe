@@ -9,8 +9,8 @@ import type {
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
 import { toggleMapTile } from '../../actions/index';
-import type { Mapper, ResultType } from '../../flow-types';
-import { EmptyTile, Tile } from './Tile';
+import type { BuiltAreaTaskType, ResultType } from '../../flow-types';
+import { Tile } from './Tile';
 import { COLOR_DEEP_BLUE } from '../../constants';
 
 const GLOBAL = require('../../Globals');
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DEEP_BLUE,
         justifyContent: 'center',
         flexDirection: 'column',
+        flexWrap: 'wrap',
         alignItems: 'center',
     },
     swipeHelp: {
@@ -33,47 +34,13 @@ const styles = StyleSheet.create({
         left: 30,
         zIndex: 100,
     },
-    tileRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 0,
-    },
 });
 
-type TRProps = {
-    mapper: Mapper,
-    row: Array<Tile>,
-    tutorial: boolean,
-};
-
-const TileRow = (props: TRProps) => {
-    const rows = [];
-    const { mapper, row, tutorial } = props;
-    row.forEach((tile) => {
-        // inserts empty tiles so that they are always rendered at
-        // the same X coordinate on the grid.
-        if (tile !== undefined) {
-            if (tile === 'emptytile') {
-                rows.push(<EmptyTile key={Math.random()} />);
-            } else {
-                rows.push(
-                    <Tile
-                        tile={tile}
-                        key={tile.taskId}
-                        mapper={mapper}
-                        tutorial={tutorial}
-                    />,
-                );
-            }
-        }
-    });
-    return <View style={styles.tileRow}>{rows}</View>;
-};
-
 type ICProps = {
-    card: Object,
-    mapper: Mapper,
+    card: Array<BuiltAreaTaskType>,
+    closeTilePopup: () => void,
     onToggleTile: (ResultType) => void,
+    openTilePopup: () => void,
     tutorial: boolean,
 };
 
@@ -129,14 +96,12 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
     setAllTilesTo = (value) => {
         const { card, onToggleTile } = this.props;
-        card.tileRows.forEach((row) => {
-            row.tiles.forEach((tile) => {
-                onToggleTile({
-                    groupId: tile.groupId,
-                    resultId: tile.taskId,
-                    result: value,
-                    projectId: tile.projectId,
-                });
+        card.forEach((tile) => {
+            onToggleTile({
+                groupId: tile.groupId,
+                resultId: tile.taskId,
+                result: value,
+                projectId: tile.projectId,
             });
         });
     };
@@ -169,20 +134,27 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
     );
 
     render() {
-        const rows = [];
-        const { card, mapper, tutorial } = this.props;
+        const {
+            card,
+            closeTilePopup,
+            // index,
+            openTilePopup,
+            tutorial,
+        } = this.props;
         const { showSwipeHelp } = this.state;
-        card.tileRows.forEach((row) => {
-            rows.unshift(
-                <TileRow
-                    key={`${row.cardXStart}:${row.rowYStart}`}
-                    mapper={mapper}
-                    row={row.tiles}
+
+        const tiles = [];
+        card.forEach((tile) => {
+            tiles.push(
+                <Tile
+                    closeTilePopup={closeTilePopup}
+                    key={tile.taskId}
+                    openTilePopup={openTilePopup}
+                    tile={tile}
                     tutorial={tutorial}
                 />,
             );
         });
-
         return (
             <View
                 style={styles.slide}
@@ -190,7 +162,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
                 testID="individualCard"
             >
                 {showSwipeHelp && this.renderSwipeHelp()}
-                {rows}
+                {tiles}
             </View>
         );
     }
@@ -198,7 +170,6 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
 const mapStateToProps = (state, ownProps) => ({
     card: ownProps.card,
-    mapper: ownProps.mapper,
     tutorial: ownProps.tutorial,
 });
 

@@ -18,7 +18,7 @@ import {
     COLOR_TRANSPARENT,
     COLOR_YELLOW,
 } from '../../constants';
-import type { Mapper, ResultType, BuiltAreaTaskType } from '../../flow-types';
+import type { ResultType, BuiltAreaTaskType } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -60,14 +60,15 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
     tile: BuiltAreaTaskType,
-    mapper: Mapper,
     onToggleTile: (ResultType) => void,
     results: number,
     tutorial: boolean,
 };
 
-export class _Tile extends React.Component<Props> {
+export class _Tile extends React.PureComponent<Props> {
     tileStatus: number;
 
     lastReportedStatus: number;
@@ -76,11 +77,7 @@ export class _Tile extends React.Component<Props> {
         super(props);
         this.tileStatus = 0;
         this.lastReportedStatus = -1;
-    }
-
-    shouldComponentUpdate(nextProps: Props) {
-        const { results } = this.props;
-        return results !== nextProps.results;
+        this.storeResult(props.results);
     }
 
     getTileColor = (status: number) => {
@@ -95,32 +92,22 @@ export class _Tile extends React.Component<Props> {
 
     onPressButton = () => {
         // called when a tile is tapped
-        const {
-            mapper,
-            onToggleTile,
-            results,
-            tile: { taskId, projectId, groupId },
-        } = this.props;
-        mapper.closeTilePopup();
+        const { closeTilePopup, results } = this.props;
+        closeTilePopup();
         // find the tile status from redux results
         let tileStatus = results;
         tileStatus = (tileStatus + 1) % 4;
-        onToggleTile({
-            resultId: taskId,
-            result: tileStatus,
-            groupId,
-            projectId,
-        });
+        this.storeResult(tileStatus);
     };
 
     onDismissZoom = () => {
-        const { mapper } = this.props;
-        mapper.closeTilePopup();
+        const { closeTilePopup } = this.props;
+        closeTilePopup();
     };
 
     onLongPress = () => {
-        const { mapper } = this.props;
-        mapper.openTilePopup(this.zoomRender());
+        const { openTilePopup } = this.props;
+        openTilePopup(this.zoomRender());
     };
 
     /**
@@ -143,6 +130,19 @@ export class _Tile extends React.Component<Props> {
         const random = Math.floor(Math.random() * texts.length);
         return texts[random];
     }
+
+    storeResult = (result) => {
+        const {
+            onToggleTile,
+            tile: { taskId, projectId, groupId },
+        } = this.props;
+        onToggleTile({
+            resultId: taskId,
+            result,
+            groupId,
+            projectId,
+        });
+    };
 
     getImgSource = () => {
         const { tile } = this.props;
@@ -274,7 +274,8 @@ const mapStateToProps = (state, ownProps) => {
         results = state.results[projectId][groupId][taskId];
     }
     return {
-        mapper: ownProps.mapper,
+        closeTilePopup: ownProps.closeTilePopup,
+        openTilePopup: ownProps.openTilePopup,
         results,
         tile: ownProps.tile,
         tutorial: ownProps,

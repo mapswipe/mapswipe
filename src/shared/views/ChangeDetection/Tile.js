@@ -89,7 +89,6 @@ export class _Tile extends React.PureComponent<Props> {
         // find the tile status from redux results
         let tileStatus = results;
         tileStatus = (tileStatus + 1) % 4;
-        console.log('tap', tileStatus);
         this.storeResult(tileStatus);
     };
 

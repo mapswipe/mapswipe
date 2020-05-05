@@ -18,6 +18,7 @@ import type {
     BuiltAreaGroupType,
     CategoriesType,
     NavigationProp,
+    ResultMapType,
     SingleImageryProjectType,
 } from '../../flow-types';
 import {
@@ -108,6 +109,7 @@ type Props = {
     onCancelGroup: ({}) => void,
     onMarkHelpBoxSeen: (void) => void,
     onStartGroup: ({}) => void,
+    results: ResultMapType,
     hasSeenHelpBoxType1: boolean,
     tutorial: boolean,
     tutorialName: string,
@@ -144,11 +146,7 @@ class _Mapper extends React.Component<Props, State> {
 
     componentDidUpdate(prevProps) {
         const { group, onStartGroup } = this.props;
-        if (
-            prevProps.group !== undefined &&
-            group !== undefined &&
-            prevProps.group !== group
-        ) {
+        if (group !== undefined && prevProps.group !== group) {
             // we just started working on a group, make a note of the time
             console.log('CDU Mapper', group.tasks && group.tasks.length);
             onStartGroup({
@@ -210,6 +208,12 @@ class _Mapper extends React.Component<Props, State> {
         });
         // $FlowFixMe
         this.tilePopup.close();
+    };
+
+    updateProgress = (progress: number) => {
+        if (this.progress) {
+            this.progress.updateProgress(progress);
+        }
     };
 
     renderIntroModal(creditString: string) {
@@ -334,28 +338,17 @@ class _Mapper extends React.Component<Props, State> {
             categories,
             group,
             navigation,
+            results,
             tutorial,
             tutorialName,
         } = this.props;
         const { poppedUpTile } = this.state;
-        let comp;
+
         // only show the mapping component once we have downloaded the group data
-        if (group) {
-            comp = (
-                <CardBody
-                    categories={tutorial ? categories : null}
-                    group={group}
-                    mapper={this}
-                    navigation={navigation}
-                    projectId={group.projectId}
-                    tutorial={tutorial}
-                    tutorialName={tutorialName}
-                    zoomLevel={this.project.zoomLevel}
-                />
-            );
-        } else {
-            comp = <LoadingIcon />;
+        if (!group) {
+            return <LoadingIcon />;
         }
+
         // $FlowFixMe
         const creditString =
             this.project.tileServer.credits || 'Unknown imagery source';
@@ -368,9 +361,19 @@ class _Mapper extends React.Component<Props, State> {
                     onBackPress={this.returnToView}
                     onInfoPress={this.openHelpModal}
                 />
-
-                {comp}
-
+                <CardBody
+                    categories={tutorial ? categories : null}
+                    closeTilePopup={this.closeTilePopup}
+                    group={group}
+                    navigation={navigation}
+                    openTilePopup={this.openTilePopup}
+                    projectId={group.projectId}
+                    results={results}
+                    tutorial={tutorial}
+                    tutorialName={tutorialName}
+                    updateProgress={this.updateProgress}
+                    zoomLevel={this.project.zoomLevel}
+                />
                 <BottomProgress
                     ref={(r) => {
                         this.progress = r;

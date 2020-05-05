@@ -3,46 +3,38 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { Platform, ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
 import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
 import ScaleBar from '../../common/ScaleBar';
-import { Tile } from './Tile';
 import IndividualCard from './IndividualCard';
 import type {
     BuiltAreaGroupType,
     CategoriesType,
-    Mapper,
     NavigationProp,
     ResultMapType,
-    ResultType,
+    TaskType,
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
-type CardToPushType = {
-    cardX: number,
-    tileRows: Array<Tile>,
-    validTiles: number,
-};
-
 type Props = {
     categories: CategoriesType,
+    closeTilePopup: () => void,
     group: BuiltAreaGroupType,
-    mapper: Mapper,
     navigation: NavigationProp,
-    onToggleTile: (ResultType) => void,
+    openTilePopup: () => void,
     projectId: number,
     results: ResultMapType,
     tutorial: boolean,
+    updateProgress: (number) => void,
     zoomLevel: number,
 };
 
 type State = {
-    cardsInView: Array<CardToPushType>,
     currentX: number,
     showScaleBar: boolean,
     tutorialMode: string,
@@ -61,13 +53,13 @@ class _CardBody extends React.Component<Props, State> {
 
     scrollEnabled: boolean;
 
-    scrollView: ?ScrollView;
+    tasksPerScreen: ?Array<Array<TaskType>>;
 
     constructor(props: Props) {
         super(props);
         this.scrollEnabled = !props.tutorial;
+        this.tasksPerScreen = undefined;
         this.state = {
-            cardsInView: [],
             currentX: parseInt(props.group.xMin, 10),
             showScaleBar: true,
             tutorialMode: tutorialModes.pre,
@@ -75,86 +67,42 @@ class _CardBody extends React.Component<Props, State> {
     }
 
     componentDidUpdate = (prevProps: Props) => {
-        const { group, mapper } = this.props;
+        const { group, updateProgress } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
             if (isLoaded(group.tasks) && !isEmpty(group.tasks)) {
-                this.generateCards();
-                if (mapper.progress) mapper.progress.updateProgress(0);
-                if (this.scrollView) {
-                    this.scrollView.scrollTo({ x: 0, animated: false });
-                }
+                //this.tasksPerScreen = this.orderTasks();
+                updateProgress(0);
             }
         }
     };
 
-    generateCards = () => {
-        const { group, onToggleTile } = this.props;
-        const tilesPerRow = GLOBAL.TILES_PER_VIEW_X;
-        const cards = [];
+    orderTasks = () => {
+        // build an array of tasks grouped by 6 so that each
+        // item in the array holds all the info for 1 screen
+        // this array will then be passed to the FlatList.data prop
+        // and each item will be passed to FlatList.renderItem()
 
-        // iterate over all the tasksI with an interval of the tilesPerRow variable
-        const minX = parseFloat(group.xMin);
-        const maxX = parseFloat(group.xMax);
-        for (let cardX = minX; cardX <= maxX; cardX += tilesPerRow) {
-            const cardToPush: CardToPushType = {
-                cardX,
-                tileRows: [],
-                validTiles: 0,
-            };
+        const {
+            group: { xMax, xMin, yMin, tasks },
+        } = this.props;
+        const minx = parseInt(xMin, 10);
+        const maxx = parseInt(xMax, 10);
+        const miny = parseInt(yMin, 10);
+        // screens contains items of 6 elements, organized in columns,
+        // sorted by X then Y, so that the first 3 items are 1 column, the
+        // next 3 are the next column to the right of it, etc...
+        const numScreens = Math.ceil((1 + maxx - minx) / 2);
+        const screens = [...Array(numScreens)].map(() => Array(6));
 
-            // iterate over Y once and place all X tiles for this Y coordinate in the tile cache.
-            const yMin = parseInt(group.yMin, 10);
-            const yMax = parseInt(group.yMax, 10);
-            for (let tileY = yMax; tileY >= yMin; tileY -= 1) {
-                const tileRowObject = {
-                    rowYStart: tileY,
-                    rowYEnd: tileY,
-                    cardXStart: cardX,
-                    cardXEnd: cardX,
-                    tiles: [],
-                };
-                const tileMinX = parseInt(cardX, 10);
-                const tileMaxX = tileMinX + tilesPerRow;
-                for (let tileX = tileMinX; tileX < tileMaxX; tileX += 1) {
-                    const taskIdx = group.tasks.findIndex(
-                        (e) =>
-                            parseInt(e.taskX, 10) === tileX &&
-                            parseInt(e.taskY, 10) === tileY,
-                    );
-                    if (taskIdx > -1) {
-                        // we have a valid task for these coordinates
-                        cardToPush.validTiles += 1;
-                        const tile = group.tasks[taskIdx];
-                        tileRowObject.tiles.push(tile);
-                        // store a 0 result for each tile
-                        onToggleTile({
-                            resultId: tile.taskId,
-                            result: 0,
-                            groupId: tile.groupId,
-                            projectId: tile.projectId,
-                        });
-                    } else {
-                        // no task: insert an empty tile marker
-                        tileRowObject.tiles.push('emptytile');
-                    }
-
-                    if (tileY > tileRowObject.rowYEnd) {
-                        tileRowObject.rowYEnd = tileY;
-                    }
-                    if (tileX > tileRowObject.cardXEnd) {
-                        tileRowObject.cardXEnd = tileX;
-                    }
-                }
-                cardToPush.tileRows.push(tileRowObject);
-            }
-            if (cardToPush.validTiles > 0) {
-                // ensure the card has tiles
-                cards.push(cardToPush);
-            }
-        }
-        this.setState({
-            cardsInView: cards,
+        tasks.forEach((task) => {
+            // place the task in the screens array
+            const dX = parseInt(task.taskX, 10) - minx;
+            const screen = Math.floor(dX / 2);
+            const column = dX % 2;
+            const row = parseInt(task.taskY, 10) - miny;
+            screens[screen][row + 3 * column] = task;
         });
+        return screens;
     };
 
     toNextGroup = () => {
@@ -165,14 +113,15 @@ class _CardBody extends React.Component<Props, State> {
     handleScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
-        const { x } = event.nativeEvent.contentOffset;
-        const { cardsInView } = this.state;
-        const { mapper } = this.props;
-        let progress = 0;
-        if (cardsInView.length > 0) {
-            progress = x / (GLOBAL.SCREEN_WIDTH * cardsInView.length);
-        }
-        mapper.progress.updateProgress(progress);
+        const {
+            contentOffset: { x },
+            contentSize: { width },
+        } = event.nativeEvent;
+        const { updateProgress } = this.props;
+        // FlatList includes the "Load More" screen in the width
+        // which we don't want for progress calculation
+        const progress = width === 0 ? 0 : x / (width - GLOBAL.SCREEN_WIDTH);
+        updateProgress(progress);
         return progress;
     };
 
@@ -259,18 +208,13 @@ class _CardBody extends React.Component<Props, State> {
     };
 
     render() {
-        const rows = [];
-        const {
-            cardsInView,
-            currentX,
-            showScaleBar,
-            tutorialMode,
-        } = this.state;
+        const { currentX, showScaleBar, tutorialMode } = this.state;
         const {
             categories,
+            closeTilePopup,
             group,
-            mapper,
             navigation,
+            openTilePopup,
             projectId,
             tutorial,
             zoomLevel,
@@ -291,34 +235,11 @@ class _CardBody extends React.Component<Props, State> {
             }
         }
 
-        if (cardsInView.length > 0) {
-            let lastCard = null;
-            cardsInView.forEach((card) => {
-                lastCard = card;
-                rows.push(
-                    <IndividualCard
-                        key={card.cardX}
-                        card={card}
-                        mapper={mapper}
-                        tutorial={tutorial}
-                    />,
-                );
-            });
-
-            rows.push(
-                <LoadMoreCard
-                    key={lastCard ? lastCard.id / 2 : 0}
-                    group={group}
-                    navigation={navigation}
-                    projectId={projectId}
-                    toNextGroup={this.toNextGroup}
-                    tutorial={tutorial}
-                />,
-            ); // lastCard.id/2 is random so that it never is the same number
-        } else {
-            rows.push(<LoadingIcon key="loadingicon" />);
+        if (group.tasks === undefined) {
+            return <LoadingIcon key="loadingicon" />;
         }
 
+        this.tasksPerScreen = this.orderTasks();
         // calculate the latitude of the top row of the group for the scalebar
         // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
         // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
@@ -331,57 +252,40 @@ class _CardBody extends React.Component<Props, State> {
         return (
             <>
                 {/* $FlowFixMe */}
-                <ScrollView
+                <FlatList
+                    data={this.tasksPerScreen}
+                    disableIntervalMomentum
+                    keyExtractor={(screen) => screen[0].taskId}
+                    horizontal
+                    initialNumToRender={1}
+                    ListFooterComponent={
+                        <LoadMoreCard
+                            group={group}
+                            navigation={navigation}
+                            projectId={projectId}
+                            toNextGroup={this.toNextGroup}
+                            tutorial={tutorial}
+                        />
+                    }
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
-                    scrollEventThrottle={64}
                     onScroll={this.handleScroll}
-                    onScrollEndDrag={(e) => {
-                        if (this.scrollView) {
-                            let targetX: number = 0;
-                            let direction: string;
-                            const evt = e.nativeEvent;
-                            const pageX: number =
-                                evt.contentOffset.x / (2 * GLOBAL.TILE_SIZE);
-                            if (
-                                Platform.OS === 'ios' &&
-                                evt.targetContentOffset !== undefined
-                            ) {
-                                direction =
-                                    evt.targetContentOffset.x >
-                                    evt.contentOffset.x
-                                        ? 'forward'
-                                        : 'backward';
-                            } else {
-                                direction =
-                                    // $FlowFixMe
-                                    evt.velocity.x < 0 ? 'forward' : 'backward';
-                            }
-                            if (direction === 'forward') {
-                                targetX =
-                                    2 * GLOBAL.TILE_SIZE * Math.ceil(pageX);
-                            } else {
-                                targetX =
-                                    2 * GLOBAL.TILE_SIZE * Math.floor(pageX);
-                            }
-                            this.scrollView.scrollTo({ x: targetX });
-                        }
-                    }}
                     onMoveShouldSetResponderCapture={
                         this.handleTutorialScrollCapture
                     }
-                    automaticallyAdjustContentInsets={false}
-                    horizontal
-                    ref={(r) => {
-                        this.scrollView = r;
-                    }}
-                    removeClippedSubviews
+                    pagingEnabled
+                    renderItem={({ item, index }) => (
+                        <IndividualCard
+                            card={item}
+                            closeTilePopup={closeTilePopup}
+                            index={index}
+                            openTilePopup={openTilePopup}
+                            tutorial={tutorial}
+                        />
+                    )}
                     scrollEnabled={this.scrollEnabled}
-                    decelerationRate="fast"
-                    snapToAlignment="center"
-                    snapToInterval={GLOBAL.TILE_SIZE * 2}
-                >
-                    {rows}
-                </ScrollView>
+                    snapToInterval={GLOBAL.SCREEN_WIDTH}
+                    showsHorizontalScrollIndicator={false}
+                />
                 <ScaleBar
                     latitude={latitude}
                     visible={showScaleBar}
@@ -404,7 +308,6 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state, ownProps) => ({
     categories: ownProps.categories,
     group: ownProps.group,
-    mapper: ownProps.mapper,
     navigation: ownProps.navigation,
     projectId: ownProps.projectId,
     results: get(
@@ -419,15 +322,32 @@ const mapStateToProps = (state, ownProps) => ({
 export default compose(
     firebaseConnect((props) => {
         if (props.group) {
-            const { groupId } = props.group;
+            const { groupId, projectId } = props.group;
             const prefix = props.tutorial ? 'tutorial' : 'projects';
-            return [
-                {
-                    type: 'once',
-                    path: `v2/tasks/${props.projectId}/${groupId}`,
-                    storeAs: `${prefix}/${props.projectId}/groups/${groupId}/tasks`,
-                },
-            ];
+            if (groupId !== undefined) {
+                const r = props.results;
+                // also wait for the startTime timestamp to be set (by START_GROUP)
+                // if we don't wait, when opening a project for the second time
+                // group is already set from before, so the tasks listener is often
+                // set before the groups one, which results in tasks being received
+                // before the group. The groups then remove the tasks list from
+                // redux, and we end up not being able to show anything.
+                // This is a bit hackish, and may not work in all situations, like
+                // on slow networks.
+                if (
+                    r[projectId] &&
+                    r[projectId][groupId] &&
+                    r[projectId][groupId].startTime
+                ) {
+                    return [
+                        {
+                            type: 'once',
+                            path: `v2/tasks/${props.projectId}/${groupId}`,
+                            storeAs: `${prefix}/${props.projectId}/groups/${groupId}/tasks`,
+                        },
+                    ];
+                }
+            }
         }
         return [];
     }),

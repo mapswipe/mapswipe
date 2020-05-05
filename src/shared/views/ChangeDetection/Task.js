@@ -104,7 +104,6 @@ export default class ChangeDetectionTask extends React.PureComponent<
     render = () => {
         const { categories, index, onToggleTile, task, tutorial } = this.props;
         const { tutorialMode } = this.state;
-        //console.log('render Task', index, task);
         if (!task) {
             return <LoadingIcon />;
         }
