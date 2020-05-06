@@ -35,8 +35,8 @@ matrix:
       install:
         - yarn install --frozen-lockfile
         - touch $HOME/.android/repositories.cfg
-        - yes | sdkmanager 'system-images;android-28;google_apis;x86'
-        - yes | sdkmanager 'system-images;android-25;google_apis;armeabi-v7a'
+        # yes | sdkmanager 'system-images;android-28;google_apis;x86'
+        # yes | sdkmanager 'system-images;android-25;google_apis;armeabi-v7a'
         - bundle install
       android:
         components:
