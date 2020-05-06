@@ -254,6 +254,7 @@ class _CardBody extends React.Component<Props, State> {
                 {/* $FlowFixMe */}
                 <FlatList
                     data={this.tasksPerScreen}
+                    decelerationRate="fast"
                     disableIntervalMomentum
                     keyExtractor={(screen) => screen[0].taskId}
                     horizontal
