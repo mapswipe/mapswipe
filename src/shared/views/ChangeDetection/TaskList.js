@@ -75,7 +75,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 disableIntervalMomentum
                 keyExtractor={(task) => task.taskId}
                 horizontal
-                initialNumToRender={4}
+                initialNumToRender={1}
                 ListFooterComponent={
                     <LoadMoreCard
                         group={group}
