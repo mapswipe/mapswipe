@@ -56,7 +56,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
     constructor(props: ICProps) {
         super(props);
         // vertical swipe handlers
-        this.swipeThreshold = 2;
+        this.swipeThreshold = 0.5;
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
@@ -78,16 +78,16 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         gestureState: GestureState,
     ): boolean =>
         Math.abs(gestureState.dy) >
-        20 + Math.abs(gestureState.dx) * this.swipeThreshold;
+        Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handleMoveShouldSetPanResponderCapture = (
         // decide if we handle the move event: only if it's vertical
-        // this captures the swipe from the ScrollView
+        // this captures the swipe from the FlatList
         event: PressEvent,
         gestureState: GestureState,
     ): boolean =>
         Math.abs(gestureState.dy) >
-        20 + Math.abs(gestureState.dx) * this.swipeThreshold;
+        Math.abs(gestureState.dx) * this.swipeThreshold;
 
     handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
