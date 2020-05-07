@@ -222,6 +222,10 @@ class _CardBody extends React.Component<Props, State> {
 
         let tutorialText: string = '';
 
+        if (group.tasks === undefined) {
+            return <LoadingIcon key="loadingicon" />;
+        }
+
         if (tutorial && group.tasks) {
             if (currentX >= group.xMax) {
                 // we've reached the end, hide the tutorial text
@@ -233,10 +237,6 @@ class _CardBody extends React.Component<Props, State> {
                 // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
                 tutorialText = categories[category][tutorialMode];
             }
-        }
-
-        if (group.tasks === undefined) {
-            return <LoadingIcon key="loadingicon" />;
         }
 
         this.tasksPerScreen = this.orderTasks();
