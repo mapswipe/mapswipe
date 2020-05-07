@@ -16,19 +16,11 @@ See [Setting up a development environment for Android](docs/develop-android.md) 
 
 See [Setting up a developer environment for iOS](docs/develop-ios.md).
 
-### Assembling a Release
-
-Note: this section is mostly for reference, as releases are automatically produced by travis CI. You can safely ignore this section for now.
-
-To assemble a release for Android, you'll have to set up your Android development environment to generate a signed APK. The React Native docs have [instructions](https://facebook.github.io/react-native/docs/signed-apk-android.html) on this to follow. To generate a signed release, you'll need to obtain the release keystore file from a MapSwipe developer as well as the credentials for it. Note, generating a signed release is only necessary for updating the app on the Google Play store.
-
-When creating a new release for the Play store, you'll need to increment the `versionCode` and the `versionName` so that they don't clash with existing versions. See [Version numbering](#version-numbering) below on how to do this.
-
 ## Developping and debugging
 
 ## Travis setup
 
-See the [deployment page](docs/deployment).
+See the [deployment page](docs/deployment.md).
 
 ### Deployment to github releases
 
@@ -37,6 +29,10 @@ See https://docs.travis-ci.com/user/deployment/releases/. To pick the right repo
 ```
 travis setup releases --org -r mapswipe/mapswipe
 ```
+
+## Testing the development app
+
+Find out how to install the latest test version of MapSwipe [on this page](docs/test_dev_version.md).
 
 ## Translating the app
 
