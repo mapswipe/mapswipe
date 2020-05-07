@@ -284,7 +284,7 @@ class _CardBody extends React.Component<Props, State> {
                         />
                     )}
                     scrollEnabled={this.scrollEnabled}
-                    snapToInterval={GLOBAL.SCREEN_WIDTH}
+                    snapToInterval={GLOBAL.TILE_SIZE * 2}
                     showsHorizontalScrollIndicator={false}
                 />
                 <ScaleBar
