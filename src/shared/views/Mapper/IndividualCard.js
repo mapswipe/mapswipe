@@ -51,17 +51,26 @@ type ICState = {
 class _IndividualCard extends React.Component<ICProps, ICState> {
     panResponder: PanResponderInstance;
 
+    swipeAngle: number;
+
     swipeThreshold: number;
 
     constructor(props: ICProps) {
         super(props);
-        // vertical swipe handlers
-        this.swipeThreshold = 0.5;
+        // swipeThreshold defines how much movement is needed to start considering the event
+        // as a swipe. This used to be a fixed value, we now link it to screen size (through the tile size)
+        // so that it should work across screen densities.
+        this.swipeThreshold = GLOBAL.TILE_SIZE * 0.02;
+        // swipeAngle is not exactly correctly named. It refers to how wide the cone is from starting
+        // the swipe, which allows it to be considered a vertical swipe. Higher numbers mean the swipe
+        // must be more "vertical", and lower ones are more tolerant, so make it easier to activate the
+        // vertical swipe move.
+        this.swipeAngle = 0.5;
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
             onMoveShouldSetPanResponderCapture: this
-                .handleMoveShouldSetPanResponderCapture,
+                .handleMoveShouldSetPanResponder,
             onPanResponderGrant: this.handlePanResponderGrant,
             onPanResponderRelease: this.handlePanResponderEnd,
             onPanResponderTerminate: this.handlePanResponderTerminate,
@@ -78,16 +87,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         gestureState: GestureState,
     ): boolean =>
         Math.abs(gestureState.dy) >
-        Math.abs(gestureState.dx) * this.swipeThreshold;
-
-    handleMoveShouldSetPanResponderCapture = (
-        // decide if we handle the move event: only if it's vertical
-        // this captures the swipe from the FlatList
-        event: PressEvent,
-        gestureState: GestureState,
-    ): boolean =>
-        Math.abs(gestureState.dy) >
-        Math.abs(gestureState.dx) * this.swipeThreshold;
+        this.swipeThreshold + Math.abs(gestureState.dx) * this.swipeAngle;
 
     handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
