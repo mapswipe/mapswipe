@@ -35,7 +35,7 @@ cd <path_to_android_sdk_tools>/tools/bin/ && yes | sudo sdkmanager --licenses
 ```
 
 Make sure you have followed instructions in there to install:
-- `node.js` (as I write this, node 8.x is known to work, and we've seen issues with node 10.x)
+- `node.js` (install node 12.x)
 - `yarn`
 
 Install React Native globally with:
@@ -151,6 +151,10 @@ For iOS, the version numbers are in the iOS project files.
 ## Deployment
 
 See [the page on deployment](deployment.md).
+
+## Build DevRelease locally
+
+see [the page on setting up a dev-release locally](devRelease.md).
 
 ## Upgrading dependencies and tools
 
