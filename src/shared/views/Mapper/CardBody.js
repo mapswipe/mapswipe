@@ -11,12 +11,14 @@ import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
 import ScaleBar from '../../common/ScaleBar';
 import IndividualCard from './IndividualCard';
+import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import type {
     BuiltAreaGroupType,
     CategoriesType,
     NavigationProp,
     ResultMapType,
     TaskType,
+    TileServerType,
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
@@ -29,6 +31,8 @@ type Props = {
     openTilePopup: () => void,
     projectId: number,
     results: ResultMapType,
+    tileServer: TileServerType,
+    tileServerB: TileServerType,
     tutorial: boolean,
     updateProgress: (number) => void,
     zoomLevel: number,
@@ -46,7 +50,7 @@ const tutorialModes = {
     post_wrong: 'post_wrong',
 };
 
-class _CardBody extends React.Component<Props, State> {
+class _CardBody extends React.PureComponent<Props, State> {
     firstTouch: Object;
 
     previousTouch: Object;
@@ -76,32 +80,79 @@ class _CardBody extends React.Component<Props, State> {
         }
     };
 
-    orderTasks = () => {
+    generateTasks = () => {
         // build an array of tasks grouped by 6 so that each
         // item in the array holds all the info for 1 screen
         // this array will then be passed to the FlatList.data prop
         // and each item will be passed to FlatList.renderItem()
-
         const {
-            group: { xMax, xMin, yMin, tasks },
+            group: { groupId, projectId, xMax, xMin, yMax, yMin, tasks },
+            tileServer,
+            tileServerB,
+            tutorial,
+            zoomLevel,
         } = this.props;
         const minx = parseInt(xMin, 10);
         const maxx = parseInt(xMax, 10);
         const miny = parseInt(yMin, 10);
+        const maxy = parseInt(yMax, 10);
         // screens contains items of 6 elements, organized in columns,
         // sorted by X then Y, so that the first 3 items are 1 column, the
         // next 3 are the next column to the right of it, etc...
         const numScreens = Math.ceil((1 + maxx - minx) / 2);
         const screens = [...Array(numScreens)].map(() => Array(6));
 
-        tasks.forEach((task) => {
-            // place the task in the screens array
-            const dX = parseInt(task.taskX, 10) - minx;
-            const screen = Math.floor(dX / 2);
-            const column = dX % 2;
-            const row = parseInt(task.taskY, 10) - miny;
-            screens[screen][row + 3 * column] = task;
-        });
+        if (!tutorial) {
+            // in "real" mapping sessions, we don't download tasks from the server,
+            // instead we create them from data in the group object here
+            for (let x = minx; x <= maxx; x += 1) {
+                for (let y = miny; y <= maxy; y += 1) {
+                    const dX = x - minx;
+                    const screen = Math.floor(dX / 2);
+                    const column = dX % 2;
+                    const row = y - miny;
+                    const urlB = tileServerB
+                        ? getTileUrlFromCoordsAndTileserver(
+                              x,
+                              y,
+                              zoomLevel,
+                              tileServerB.url,
+                              tileServerB.name,
+                              tileServerB.apiKey,
+                              tileServerB.wmtsLayerName,
+                          )
+                        : undefined;
+                    const task = {
+                        groupId,
+                        projectId,
+                        taskId: `${zoomLevel}-${x}-${y}`,
+                        url: getTileUrlFromCoordsAndTileserver(
+                            x,
+                            y,
+                            zoomLevel,
+                            tileServer.url,
+                            tileServer.name,
+                            tileServer.apiKey,
+                            tileServer.wmtsLayerName,
+                        ),
+                        urlB,
+                    };
+                    // $FlowFixMe
+                    screens[screen][row + 3 * column] = task;
+                }
+            }
+        } else {
+            // in tutorial mode, the tasks are loaded from firebase, as there is extra data
+            // we cannot interpolate from the group level info
+            tasks.forEach((task) => {
+                // place the task in the screens array
+                const dX = parseInt(task.taskX, 10) - minx;
+                const screen = Math.floor(dX / 2);
+                const column = dX % 2;
+                const row = parseInt(task.taskY, 10) - miny;
+                screens[screen][row + 3 * column] = task;
+            });
+        }
         return screens;
     };
 
@@ -222,7 +273,7 @@ class _CardBody extends React.Component<Props, State> {
 
         let tutorialText: string = '';
 
-        if (group.tasks === undefined) {
+        if (tutorial && group.tasks === undefined) {
             return <LoadingIcon key="loadingicon" />;
         }
 
@@ -239,7 +290,7 @@ class _CardBody extends React.Component<Props, State> {
             }
         }
 
-        this.tasksPerScreen = this.orderTasks();
+        this.tasksPerScreen = this.generateTasks();
         // calculate the latitude of the top row of the group for the scalebar
         // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
         // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
@@ -325,7 +376,9 @@ export default compose(
         if (props.group) {
             const { groupId, projectId } = props.group;
             const prefix = props.tutorial ? 'tutorial' : 'projects';
-            if (groupId !== undefined) {
+            // we only load tasks for tutorial mode, otherwise we can just interpolate them
+            // from the group info
+            if (groupId !== undefined && props.tutorial) {
                 const r = props.results;
                 // also wait for the startTime timestamp to be set (by START_GROUP)
                 // if we don't wait, when opening a project for the second time

@@ -134,13 +134,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
     );
 
     render() {
-        const {
-            card,
-            closeTilePopup,
-            // index,
-            openTilePopup,
-            tutorial,
-        } = this.props;
+        const { card, closeTilePopup, openTilePopup, tutorial } = this.props;
         const { showSwipeHelp } = this.state;
 
         const tiles = [];

@@ -369,6 +369,8 @@ class _Mapper extends React.Component<Props, State> {
                     openTilePopup={this.openTilePopup}
                     projectId={group.projectId}
                     results={results}
+                    tileServer={this.project.tileServer}
+                    tileServerB={this.project.tileServerB}
                     tutorial={tutorial}
                     tutorialName={tutorialName}
                     updateProgress={this.updateProgress}

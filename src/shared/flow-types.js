@@ -33,11 +33,12 @@ export type CategoriesType = {
     },
 };
 
-type TileServerType = {
+export type TileServerType = {
     apiKey: string,
     credits: string,
     name: string,
     url: string,
+    wmtsLayerName: ?string,
 };
 
 export type SingleImageryProjectType = {
@@ -51,10 +52,11 @@ export type SingleImageryProjectType = {
     projectDetails: string,
     projectId: string,
     // FIXME: we should use constants here, somehow flow is not happy with them
-    projectType: 1 | 2,
+    projectType: 1 | 2 | 4,
     progress: number,
     state: number,
     tileServer: TileServerType,
+    tileServerB: ?TileServerType,
     zoomLevel: number,
 };
 
@@ -112,8 +114,6 @@ export type ChangeDetectionTaskType = {
     projectId: string,
     referenceAnswer: ?number,
     taskId: string,
-    taskX: number,
-    taskY: number,
     urlA: string,
     urlB: string,
 };
