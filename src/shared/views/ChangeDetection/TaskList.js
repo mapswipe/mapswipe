@@ -47,6 +47,11 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         return progress;
     };
 
+    toNextGroup = () => {
+        const { navigation } = this.props;
+        navigation.navigate('ChangeDetectionScreen');
+    };
+
     render = () => {
         const {
             categories,
@@ -80,6 +85,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     <LoadMoreCard
                         group={group}
                         navigation={navigation}
+                        toNextGroup={this.toNextGroup}
                         projectId={group.projectId}
                         tutorial={tutorial}
                     />

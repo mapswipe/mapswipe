@@ -120,6 +120,15 @@ class _LoadMoreCard extends React.Component<Props> {
                 >
                     {tutorial ? "Let's go!" : 'Complete Session'}
                 </Button>
+                {tutorial || (
+                    <Button
+                        style={styles.moreButton}
+                        onPress={this.onMore}
+                        textStyle={{ fontSize: 18, color: COLOR_WHITE }}
+                    >
+                        Continue mapping
+                    </Button>
+                )}
             </View>
         );
     }
