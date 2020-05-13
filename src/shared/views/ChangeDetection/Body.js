@@ -32,6 +32,7 @@ import type {
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
+    COLOR_WHITE,
     BUILDING_FOOTPRINTS,
     // CHANGE_DETECTION,
 } from '../../constants';
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     HelpModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
         width: 300,
-        backgroundColor: '#ffffff',
+        backgroundColor: COLOR_WHITE,
         borderRadius: 2,
     },
 });
