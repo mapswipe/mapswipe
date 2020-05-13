@@ -61,11 +61,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             submitResult,
             tutorial,
         } = this.props;
-        console.log(
-            'render FLCDTasks',
-            group,
-            group.tasks && group.tasks.length,
-        );
         if (!group || !group.tasks) {
             return <LoadingIcon />;
         }

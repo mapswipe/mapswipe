@@ -182,7 +182,6 @@ export class _Tile extends React.PureComponent<Props> {
             tile: { taskId },
             tutorial,
         } = this.props;
-        console.log('render tile');
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
         const animatedRows = [];
