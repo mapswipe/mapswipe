@@ -16,6 +16,7 @@ import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
 import ChangeDetectionScreen from './views/ChangeDetection';
+import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
@@ -207,6 +208,7 @@ const MainNavigator = createStackNavigator(
     {
         BuildingFootprintScreen,
         ChangeDetectionScreen,
+        CDInstructionsScreen,
         ProjectNav,
         ProjectView,
         Mapper,

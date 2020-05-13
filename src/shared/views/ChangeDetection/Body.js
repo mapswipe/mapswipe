@@ -1,6 +1,12 @@
 // @flow
 import * as React from 'react';
-import { BackHandler, StyleSheet, Text, View } from 'react-native';
+import {
+    BackHandler,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
+    View,
+} from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
@@ -167,8 +173,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        // $FlowFixMe
-        this.HelpModal.open();
+        const { navigation } = this.props;
+        navigation.push('CDInstructionsScreen');
     };
 
     commitCompletedGroup = () => {
@@ -315,16 +321,22 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     tutorial={tutorial}
                 />
                 <View>
-                    <Text
-                        style={{
-                            alignSelf: 'center',
-                            color: 'white',
-                            marginTop: 2,
-                            marginBottom: 2,
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            navigation.push('CDInstructionsScreen');
                         }}
                     >
-                        View instructions
-                    </Text>
+                        <Text
+                            style={{
+                                alignSelf: 'center',
+                                color: 'white',
+                                marginTop: 2,
+                                marginBottom: 2,
+                            }}
+                        >
+                            View instructions
+                        </Text>
+                    </TouchableWithoutFeedback>
                 </View>
                 <BottomProgress
                     ref={(r) => {
