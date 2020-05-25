@@ -208,7 +208,9 @@ class _CardBody extends React.PureComponent<Props, State> {
             Xs.includes(parseInt(t.taskX, 10)),
         );
         const allCorrect = tilesToCheck.reduce(
-            (ok, t) => ok && t.referenceAnswer === results[t.taskId].toString(),
+            (ok, t) =>
+                ok &&
+                t.referenceAnswer.toString() === results[t.taskId].toString(),
             true,
         );
         if (allCorrect) {
