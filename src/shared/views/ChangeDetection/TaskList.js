@@ -41,11 +41,16 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     onScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
-        const { updateProgress } = this.props;
+        const { group, updateProgress } = this.props;
         const {
             contentOffset: { x },
-            contentSize: { width },
         } = event.nativeEvent;
+        // we don't use the content width from the event as it changes
+        // over the lifetime of the FlatList (because it gets updated
+        // when the list is rerendered).
+        const width = group.tasks
+            ? group.tasks.length * GLOBAL.SCREEN_WIDTH * 0.8
+            : 0;
         const progress = width === 0 ? 0 : x / width;
         updateProgress(progress);
         return progress;

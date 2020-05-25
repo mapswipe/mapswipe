@@ -174,12 +174,24 @@ class _CardBody extends React.PureComponent<Props, State> {
         // Updating the progress bar here allows a smooth transition
         const {
             contentOffset: { x },
-            contentSize: { width },
         } = event.nativeEvent;
-        const { updateProgress } = this.props;
+        const { group, tutorial, updateProgress } = this.props;
+        // we don't use the content width from the event as it changes
+        // over the lifetime of the FlatList (because it gets updated
+        // when the list is rerendered).
+        let width;
+        if (tutorial) {
+            width = group.tasks
+                ? (group.tasks.length / 6) * GLOBAL.SCREEN_WIDTH
+                : 0;
+        } else {
+            width = this.tasksPerScreen
+                ? this.tasksPerScreen.length * GLOBAL.SCREEN_WIDTH
+                : 0;
+        }
         // FlatList includes the "Load More" screen in the width
         // which we don't want for progress calculation
-        const progress = width === 0 ? 0 : x / (width - GLOBAL.SCREEN_WIDTH);
+        const progress = width === 0 ? 0 : x / width;
         updateProgress(progress);
         return progress;
     };
