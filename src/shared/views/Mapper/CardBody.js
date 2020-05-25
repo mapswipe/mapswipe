@@ -200,6 +200,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         const allCorrect = tilesToCheck.reduce(
             (ok, t) =>
                 ok &&
+                // $FlowFixMe
                 t.referenceAnswer.toString() === results[t.taskId].toString(),
             true,
         );
