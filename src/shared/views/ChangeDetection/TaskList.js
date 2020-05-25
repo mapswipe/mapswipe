@@ -13,6 +13,7 @@ import { toggleMapTile } from '../../actions/index';
 import type {
     CategoriesType,
     ChangeDetectionGroupType,
+    ChangeDetectionTaskType,
     NavigationProp,
     ResultType,
 } from '../../flow-types';
@@ -22,6 +23,7 @@ const GLOBAL = require('../../Globals');
 type Props = {
     categories: CategoriesType,
     group: ChangeDetectionGroupType,
+    isSendingResults: boolean,
     navigation: NavigationProp,
     onToggleTile: (ResultType) => void,
     submitResult: (number, string) => void,
@@ -34,6 +36,8 @@ type State = {
 };
 
 class _ChangeDetectionTaskList extends React.Component<Props, State> {
+    flatlist: ?FlatList<ChangeDetectionTaskType>;
+
     onScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
@@ -48,20 +52,25 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     };
 
     toNextGroup = () => {
-        const { navigation } = this.props;
+        const { navigation, updateProgress } = this.props;
         navigation.navigate('ChangeDetectionScreen');
+        if (this.flatlist) {
+            this.flatlist.scrollToIndex({ animated: false, index: 0 });
+        }
+        updateProgress(0);
     };
 
     render = () => {
         const {
             categories,
             group,
+            isSendingResults,
             navigation,
             onToggleTile,
             submitResult,
             tutorial,
         } = this.props;
-        if (!group || !group.tasks) {
+        if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }
 
@@ -87,6 +96,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 }
                 onScroll={this.onScroll}
                 pagingEnabled
+                // eslint-disable-next-line no-return-assign
+                ref={(r) => (this.flatlist = r)}
                 renderItem={({ item, index }) => (
                     <ChangeDetectionTask
                         categories={categories}
@@ -107,6 +118,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 const mapStateToProps = (state, ownProps) => ({
     commitCompletedGroup: ownProps.commitCompletedGroup,
     group: ownProps.group,
+    isSendingResults: state.ui.user.isSendingResults,
     submitResult: ownProps.submitResult,
 });
 

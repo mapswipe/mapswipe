@@ -14,6 +14,7 @@ export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
 export const SUBMIT_CHANGE = 'SUBMIT_CHANGE';
 export const CANCEL_GROUP = 'CANCEL_GROUP';
 export const START_GROUP = 'START_GROUP';
+export const START_SENDING_RESULTS = 'START_SENDING_RESULTS';
 export const COMMIT_GROUP = 'COMMIT_GROUP';
 export const COMMIT_GROUP_FAILED = 'COMMIT_GROUP_FAILED';
 export const COMMIT_GROUP_SUCCESS = 'COMMIT_GROUP_SUCCESS';
@@ -77,6 +78,22 @@ export function startGroup(grp: {
         groupId: grp.groupId,
         timestamp: grp.timestamp,
     };
+}
+
+type StartSendingResults = {
+    type: typeof START_SENDING_RESULTS,
+    projectId: string,
+    groupId: string,
+};
+export function startSendingResults(
+    // dispatched when the app starts uploading results to firebase
+    // this is mostly used to set UI state in redux, so that we can show
+    // a loading spinner to avoid showing artifacts due to resetting
+    // the mapping lists, etc...
+    projectId: string,
+    groupId: string,
+): StartSendingResults {
+    return { type: START_SENDING_RESULTS, projectId, groupId };
 }
 
 type CommitGroupSuccess = {
@@ -177,6 +194,7 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         const timestamp = GLOBAL.DB.getTimestamp();
         const endTime = timestamp;
         const { groupId, projectId, results } = groupInfo;
+        dispatch(startSendingResults(projectId, groupId));
         const { startTime, ...rest } = results[projectId][groupId];
         const objToUpload = {
             startTime,

@@ -27,6 +27,7 @@ type Props = {
     categories: CategoriesType,
     closeTilePopup: () => void,
     group: BuiltAreaGroupType,
+    isSendingResults: boolean,
     navigation: NavigationProp,
     openTilePopup: () => void,
     projectId: number,
@@ -53,6 +54,8 @@ const tutorialModes = {
 class _CardBody extends React.PureComponent<Props, State> {
     firstTouch: Object;
 
+    flatlist: ?FlatList<IndividualCard>;
+
     previousTouch: Object;
 
     scrollEnabled: boolean;
@@ -61,6 +64,7 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
+        this.flatlist = null;
         this.scrollEnabled = !props.tutorial;
         this.tasksPerScreen = undefined;
         this.state = {
@@ -157,8 +161,12 @@ class _CardBody extends React.PureComponent<Props, State> {
     };
 
     toNextGroup = () => {
-        const { navigation } = this.props;
+        const { navigation, updateProgress } = this.props;
         navigation.navigate('Mapper');
+        if (this.flatlist) {
+            this.flatlist.scrollToIndex({ animated: false, index: 0 });
+        }
+        updateProgress(0);
     };
 
     handleScroll = (event: Object) => {
@@ -264,6 +272,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             categories,
             closeTilePopup,
             group,
+            isSendingResults,
             navigation,
             openTilePopup,
             projectId,
@@ -273,7 +282,7 @@ class _CardBody extends React.PureComponent<Props, State> {
 
         let tutorialText: string = '';
 
-        if (tutorial && group.tasks === undefined) {
+        if ((tutorial && group.tasks === undefined) || isSendingResults) {
             return <LoadingIcon key="loadingicon" />;
         }
 
@@ -325,6 +334,8 @@ class _CardBody extends React.PureComponent<Props, State> {
                         this.handleTutorialScrollCapture
                     }
                     pagingEnabled
+                    // eslint-disable-next-line no-return-assign
+                    ref={(r) => (this.flatlist = r)}
                     renderItem={({ item, index }) => (
                         <IndividualCard
                             card={item}
@@ -360,6 +371,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state, ownProps) => ({
     categories: ownProps.categories,
     group: ownProps.group,
+    isSendingResults: state.ui.user.isSendingResults,
     navigation: ownProps.navigation,
     projectId: ownProps.projectId,
     results: get(
