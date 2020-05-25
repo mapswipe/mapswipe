@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
+import { firebaseConnect } from 'react-redux-firebase';
 import { FlatList } from 'react-native';
 import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
@@ -73,16 +73,6 @@ class _CardBody extends React.PureComponent<Props, State> {
             tutorialMode: tutorialModes.pre,
         };
     }
-
-    componentDidUpdate = (prevProps: Props) => {
-        const { group, updateProgress } = this.props;
-        if (prevProps.group.tasks !== group.tasks) {
-            if (isLoaded(group.tasks) && !isEmpty(group.tasks)) {
-                //this.tasksPerScreen = this.orderTasks();
-                updateProgress(0);
-            }
-        }
-    };
 
     generateTasks = () => {
         // build an array of tasks grouped by 6 so that each
