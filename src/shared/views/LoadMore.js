@@ -7,7 +7,7 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
-import { commitGroup, type GroupInfo } from '../actions/index';
+import { cancelGroup, commitGroup, type GroupInfo } from '../actions/index';
 import type { GroupType, NavigationProp, ResultMapType } from '../flow-types';
 import { COLOR_DARK_GRAY, COLOR_DEEP_BLUE, COLOR_WHITE } from '../constants';
 
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
 type Props = {
     group: GroupType,
     navigation: NavigationProp,
+    onCancelGroup: ({}) => void,
     onCommitGroup: (GroupInfo) => void,
     projectId: string,
     results: ResultMapType,
@@ -79,12 +80,13 @@ class _LoadMoreCard extends React.Component<Props> {
                 projectId,
                 results,
             });
-        } else {
-            fb.analytics().logEvent('finish_tutorial');
         }
     };
 
     onMore = () => {
+        // handle "continue mapping" button press
+        // this should never be called in tutorial mode
+        // as the button is not visible
         const { toNextGroup } = this.props;
         this.showSyncProgress();
         this.commitCompletedGroup();
@@ -92,9 +94,20 @@ class _LoadMoreCard extends React.Component<Props> {
     };
 
     onComplete = () => {
-        const { navigation } = this.props;
-        this.showSyncProgress();
-        this.commitCompletedGroup();
+        const { group, navigation, onCancelGroup, tutorial } = this.props;
+        if (tutorial) {
+            fb.analytics().logEvent('finish_tutorial');
+            // this prevents the tutorial from showing
+            // results from a previous run
+            onCancelGroup({
+                groupId: group.groupId,
+                projectId: group.projectId,
+            });
+        } else {
+            // in tutorial mode, we don't need to save anything
+            this.showSyncProgress();
+            this.commitCompletedGroup();
+        }
         navigation.pop();
     };
 
@@ -140,6 +153,9 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    onCancelGroup(groupDetails) {
+        dispatch(cancelGroup(groupDetails));
+    },
     onCommitGroup(groupInfo) {
         dispatch(commitGroup(groupInfo));
     },
