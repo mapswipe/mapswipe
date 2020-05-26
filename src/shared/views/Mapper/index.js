@@ -148,7 +148,6 @@ class _Mapper extends React.Component<Props, State> {
         const { group, onStartGroup } = this.props;
         if (group !== undefined && prevProps.group !== group) {
             // we just started working on a group, make a note of the time
-            console.log('CDU Mapper', group.tasks && group.tasks.length);
             onStartGroup({
                 groupId: group.groupId,
                 projectId: group.projectId,
