@@ -213,6 +213,7 @@ class _Login extends React.Component<Props, State> {
                     groupContributionCount: 0,
                     projectContributionCount: 0,
                     taskContributionCount: 0,
+                    username,
                 });
             })
             .then(() => {
