@@ -60,6 +60,9 @@ matrix:
         - yarn global add react-native-cli
         - yarn global add detox-cli
         - echo $ANDROID_HOME
+        # save git version so the app can show it to users
+        - sed -ri "s/TRAVIS_COMMIT/$TRAVIS_COMMIT/" debugInfo.json
+        - sed -ri "s/TRAVIS_TAG/$TRAVIS_TAG/" debugInfo.json
         # echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --force -n ci_avd -k 'system-images;android-25;google_apis;armeabi-v7a' --abi armeabi-v7a -c 100M
         #- $ANDROID_HOME/tools/bin/avdmanager list avd
         # fix https://github.com/wix/Detox/issues/1157 with the next 2 lines
@@ -145,6 +148,9 @@ matrix:
         - brew install applesimutils
         - yarn global add react-native-cli
         - yarn global add detox-cli
+        # save git version so the app can show it to users
+        - sed -i '' "s/TRAVIS_COMMIT/$TRAVIS_COMMIT/" debugInfo.json
+        - sed -i '' "s/TRAVIS_TAG/$TRAVIS_TAG/" debugInfo.json
       script:
         - cd ios
         # try to hide some build warnings
