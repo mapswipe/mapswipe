@@ -172,11 +172,11 @@ class _CardBody extends React.PureComponent<Props, State> {
         let width;
         if (tutorial) {
             width = group.tasks
-                ? (group.tasks.length / 6) * GLOBAL.SCREEN_WIDTH
+                ? (group.tasks.length / 6) * GLOBAL.TILE_SIZE * 2
                 : 0;
         } else {
             width = this.tasksPerScreen
-                ? this.tasksPerScreen.length * GLOBAL.SCREEN_WIDTH
+                ? this.tasksPerScreen.length * GLOBAL.TILE_SIZE * 2
                 : 0;
         }
         // FlatList includes the "Load More" screen in the width
