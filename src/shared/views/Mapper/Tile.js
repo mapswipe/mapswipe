@@ -197,18 +197,18 @@ export class _Tile extends React.Component<Props> {
         } = this.props;
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
-        const animatedRows = [];
+        let animatedRows = null;
         const showAnim = Math.floor(Math.random() * 5);
 
         if (tileStatus > 1 && showAnim === 1 && !tutorial) {
-            animatedRows.push(
+            animatedRows = (
                 <Animatable.Text
                     key={`anim-${taskId}`}
                     animation={this.getFunText()[0]}
                     style={styles.animatedText}
                 >
                     {this.getFunText()[1]}
-                </Animatable.Text>,
+                </Animatable.Text>
             );
         }
         const imageSource = this.getImgSource();
