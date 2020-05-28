@@ -68,13 +68,22 @@ type Props = {
     tutorial: boolean,
 };
 
-export class _Tile extends React.PureComponent<Props> {
+export class _Tile extends React.Component<Props> {
     tileStatus: number;
 
     constructor(props: Props) {
         super(props);
         this.tileStatus = 0;
         this.storeResult(props.results);
+    }
+
+    shouldComponentUpdate(nextProps) {
+        // the only time the tile needs to be rerendered is when
+        // its result has changed (after tapping it). All other props
+        // are fixed for the lifetime of the tile, so we don't need
+        // to compare them every time RN wants to rerender
+        const { results } = this.props;
+        return nextProps.results !== results;
     }
 
     getTileColor = (status: number) => {
