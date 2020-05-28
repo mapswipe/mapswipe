@@ -71,12 +71,9 @@ type Props = {
 export class _Tile extends React.PureComponent<Props> {
     tileStatus: number;
 
-    lastReportedStatus: number;
-
     constructor(props: Props) {
         super(props);
         this.tileStatus = 0;
-        this.lastReportedStatus = -1;
         this.storeResult(props.results);
     }
 
