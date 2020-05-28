@@ -321,6 +321,11 @@ class _CardBody extends React.PureComponent<Props, State> {
                     data={this.tasksPerScreen}
                     decelerationRate="fast"
                     disableIntervalMomentum
+                    getItemLayout={(data, index) => ({
+                        length: GLOBAL.TILE_SIZE * 2,
+                        offset: GLOBAL.TILE_SIZE * 2 * index,
+                        index,
+                    })}
                     keyExtractor={(screen) => screen[0].taskId}
                     horizontal
                     initialNumToRender={1}
@@ -333,6 +338,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                             tutorial={tutorial}
                         />
                     }
+                    maxToRenderPerBatch={3}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     onScroll={this.handleScroll}
                     onMoveShouldSetResponderCapture={
@@ -353,6 +359,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     scrollEnabled={this.scrollEnabled}
                     snapToInterval={GLOBAL.TILE_SIZE * 2}
                     showsHorizontalScrollIndicator={false}
+                    windowSize={5}
                 />
                 <ScaleBar
                     latitude={latitude}
