@@ -23,6 +23,8 @@
 
   [FIRApp configure];
 
+  [RNFirebaseNotifications configure];
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"mapswipe"
                                             initialProperties:nil];
@@ -34,8 +36,6 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [RNSplashScreen show];
-
-  [RNFirebaseNotifications configure];
 
   return YES;
 }
