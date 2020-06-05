@@ -139,6 +139,8 @@ export function commitTaskFailed(taskId: string, error: {}) {
 
 type SubmitChange = { type: typeof SUBMIT_CHANGE, resultObject: ResultType };
 export function submitChange(resultObject: ResultType): SubmitChange {
+    // dispatched when a result for ChangeDetection projects is submitted,
+    // ie: when the user taps the image
     return { type: SUBMIT_CHANGE, resultObject };
 }
 
