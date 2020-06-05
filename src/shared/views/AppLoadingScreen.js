@@ -9,13 +9,15 @@ import type { NavigationProp } from '../flow-types';
 type Props = {
     auth: {},
     navigation: NavigationProp,
-}
+};
 
 class _AppLoadingScreen extends React.Component<Props> {
     componentDidMount() {
         const { auth, navigation } = this.props;
         if (isLoaded(auth)) {
-            navigation.navigate(isEmpty(auth) ? 'LoginNavigator' : 'MainNavigator');
+            navigation.navigate(
+                isEmpty(auth) ? 'LoginNavigator' : 'MainNavigator',
+            );
         }
     }
 
@@ -23,7 +25,9 @@ class _AppLoadingScreen extends React.Component<Props> {
         const { auth, navigation } = this.props;
         if (auth !== prevProps.auth) {
             if (isLoaded(auth)) {
-                navigation.navigate(isEmpty(auth) ? 'LoginNavigator' : 'MainNavigator');
+                navigation.navigate(
+                    isEmpty(auth) ? 'LoginNavigator' : 'MainNavigator',
+                );
             }
         }
     }
@@ -35,18 +39,11 @@ class _AppLoadingScreen extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        auth: state.firebase.auth,
-        navigation: ownProps.navigation,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    auth: state.firebase.auth,
+    navigation: ownProps.navigation,
+});
 
-const enhance = compose(
-    firebaseConnect(),
-    connect(
-        mapStateToProps,
-    ),
-);
+const enhance = compose(firebaseConnect(), connect(mapStateToProps));
 
 export default enhance(_AppLoadingScreen);

@@ -1,34 +1,40 @@
 // @flow
 import * as React from 'react';
-import { BackHandler, StyleSheet, Text, View } from 'react-native';
+import {
+    BackHandler,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
+    View,
+} from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
-import Button from 'apsl-react-native-button';
-import Modal from 'react-native-modalbox';
-import { cancelGroup, startGroup } from '../actions/index';
+import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
     mapStateToPropsForGroups,
-} from './firebaseFunctions';
-import Header from '../views/Header';
-import BackConfirmationModal from './ConfirmationModal';
-import BottomProgress from './BottomProgress';
-import LoadingIcon from '../views/LoadingIcon';
-import LoadMoreCard from '../views/LoadMore';
+} from '../../common/firebaseFunctions';
+import Header from '../Header';
+import BackConfirmationModal from '../../common/ConfirmationModal';
+import BottomProgress from '../../common/BottomProgress';
+import LoadingIcon from '../LoadingIcon';
+import LoadMoreCard from '../LoadMore';
+import TaskList from './TaskList';
 import type {
     CategoriesType,
-    GroupType,
+    ChangeDetectionGroupType,
     NavigationProp,
     ProjectType,
-} from '../flow-types';
+    ResultMapType,
+} from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
     BUILDING_FOOTPRINTS,
     // CHANGE_DETECTION,
-} from '../constants';
+} from '../../constants';
 
-const GLOBAL = require('../Globals');
+const GLOBAL = require('../../Globals');
 
 /* eslint-disable global-require */
 
@@ -38,48 +44,25 @@ const styles = StyleSheet.create({
         flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
-    startButton: {
-        backgroundColor: COLOR_DEEP_BLUE,
-        alignItems: 'center',
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 20,
-        left: 20,
-        width: 260,
-    },
-    modal: {
-        padding: 20,
-    },
-    HelpModal: {
-        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
-        width: 300,
-        backgroundColor: '#ffffff',
-        borderRadius: 2,
-    },
 });
 
 type Props = {
     categories: CategoriesType,
-    Component: React.ComponentType<any>,
-    group: { [group_id: string]: GroupType },
+    group: { [group_id: string]: ChangeDetectionGroupType },
     navigation: NavigationProp,
-    getNormalHelpContent: (string) => React.ComponentType<any>,
     onCancelGroup: ({}) => void,
     onStartGroup: ({}) => void,
     onSubmitResult: (Object) => void,
+    results: ResultMapType,
     screenName: string,
     tutorial: boolean,
-    tutorialHelpContent: React.ComponentType<any>,
 };
 
 type State = {
     groupCompleted: boolean,
 };
 
-class ProjectLevelScreen extends React.Component<Props, State> {
+class _ChangeDetectionBody extends React.Component<Props, State> {
     backConfirmationModal: ?React.ComponentType<void>;
 
     HelpModal: ?React.ComponentType<void>;
@@ -106,12 +89,15 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             if (isLoaded(group) && !isEmpty(group)) {
                 // the component props are updated when group is received
                 // and then when tasks are received
+                // we run the START_GROUP event before receiving the tasks
+                // to prevent a weird bug where the tasks are received before
+                // the group when reopening the project
+                onStartGroup({
+                    groupId: group.groupId,
+                    projectId: group.projectId,
+                    timestamp: GLOBAL.DB.getTimestamp(),
+                });
                 if (group.tasks !== undefined) {
-                    onStartGroup({
-                        groupId: group.groupId,
-                        projectId: group.projectId,
-                        timestamp: GLOBAL.DB.getTimestamp(),
-                    });
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
                     if (this.progress) this.progress.updateProgress(0);
@@ -156,14 +142,9 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         onSubmitResult(resultObject);
     };
 
-    closeHelpModal = () => {
-        // $FlowFixMe
-        this.HelpModal.close();
-    };
-
     onInfoPress = () => {
-        // $FlowFixMe
-        this.HelpModal.open();
+        const { navigation } = this.props;
+        navigation.push('CDInstructionsScreen');
     };
 
     commitCompletedGroup = () => {
@@ -226,58 +207,13 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         );
     };
 
-    renderHelpModal = () => {
-        const {
-            getNormalHelpContent,
-            tutorial,
-            tutorialHelpContent,
-        } = this.props;
-        let content = '';
-        if (!tutorial) {
-            const creditString = this.getCreditString();
-            content = getNormalHelpContent(creditString);
-        } else {
-            content = tutorialHelpContent;
-        }
-
-        return (
-            <Modal
-                style={[styles.modal, styles.HelpModal]}
-                backdropType="blur"
-                position="center"
-                ref={(r) => {
-                    this.HelpModal = r;
-                }}
-            >
-                {content}
-                <Button
-                    style={styles.startButton}
-                    onPress={this.closeHelpModal}
-                    testID="closeIntroModalBoxButton"
-                    textStyle={{
-                        fontSize: 13,
-                        color: '#ffffff',
-                        fontWeight: '700',
-                    }}
-                >
-                    I understand
-                </Button>
-            </Modal>
-        );
-    };
-
     render = () => {
-        const {
-            categories,
-            Component,
-            group,
-            navigation,
-            tutorial,
-        } = this.props;
+        const { categories, group, navigation, results, tutorial } = this.props;
         const { groupCompleted } = this.state;
         if (!group) {
             return <LoadingIcon />;
         }
+
         if (groupCompleted) {
             return (
                 <LoadMoreCard
@@ -290,7 +226,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
-        const helpModal = this.renderHelpModal();
         return (
             <View style={styles.mappingContainer}>
                 <Header
@@ -302,16 +237,35 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     onInfoPress={this.onInfoPress}
                 />
                 {backConfirmationModal}
-                {helpModal}
-                <Component
+                <TaskList
                     categories={tutorial ? categories : null}
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
+                    navigation={navigation}
                     project={this.project}
+                    results={results}
                     submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
                 />
+                <View>
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            navigation.push('CDInstructionsScreen');
+                        }}
+                    >
+                        <Text
+                            style={{
+                                alignSelf: 'center',
+                                color: 'white',
+                                marginTop: 2,
+                                marginBottom: 2,
+                            }}
+                        >
+                            View instructions
+                        </Text>
+                    </TouchableWithoutFeedback>
+                </View>
                 <BottomProgress
                     ref={(r) => {
                         this.progress = r;
@@ -337,4 +291,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
-)(ProjectLevelScreen);
+)(_ChangeDetectionBody);

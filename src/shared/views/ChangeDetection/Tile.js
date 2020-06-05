@@ -9,6 +9,7 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { toggleMapTile } from '../../actions/index';
 import {
     COLOR_DARK_GRAY,
@@ -18,9 +19,7 @@ import {
     COLOR_TRANSPARENT,
     COLOR_YELLOW,
 } from '../../constants';
-import type { ResultType, BuiltAreaTaskType } from '../../flow-types';
-
-const GLOBAL = require('../../Globals');
+import type { Mapper, ResultType, BuiltAreaTaskType } from '../../flow-types';
 
 const styles = StyleSheet.create({
     animatedText: {
@@ -32,27 +31,20 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_TRANSPARENT,
     },
     emptyTile: {
-        height: GLOBAL.TILE_SIZE,
-        width: GLOBAL.TILE_SIZE,
         backgroundColor: COLOR_DEEP_BLUE,
         borderWidth: 0.5,
         borderTopWidth: 0.5,
         borderColor: COLOR_DARK_GRAY,
     },
     tileStyle: {
-        height: GLOBAL.TILE_SIZE,
-        width: GLOBAL.TILE_SIZE,
         borderWidth: 0.5,
         borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     tileOverlay: {
-        height: GLOBAL.TILE_SIZE,
-        opacity: 0.2,
-        width: GLOBAL.TILE_SIZE,
+        opacity: 0.3,
+        aspectRatio: 1,
     },
     buildingStyle: {
-        height: GLOBAL.TILE_SIZE,
-        width: GLOBAL.TILE_SIZE,
         borderWidth: 0.5,
         borderColor: 'rgba(255, 255, 255, 0.2)',
         opacity: 0.7,
@@ -60,30 +52,24 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    closeTilePopup: () => void,
-    openTilePopup: () => void,
     tile: BuiltAreaTaskType,
+    mapper: Mapper,
     onToggleTile: (ResultType) => void,
     results: number,
+    style: ViewStyleProp,
     tutorial: boolean,
 };
 
-export class _Tile extends React.Component<Props> {
+export class _Tile extends React.PureComponent<Props> {
     tileStatus: number;
+
+    lastReportedStatus: number;
 
     constructor(props: Props) {
         super(props);
         this.tileStatus = 0;
+        this.lastReportedStatus = -1;
         this.storeResult(props.results);
-    }
-
-    shouldComponentUpdate(nextProps) {
-        // the only time the tile needs to be rerendered is when
-        // its result has changed (after tapping it). All other props
-        // are fixed for the lifetime of the tile, so we don't need
-        // to compare them every time RN wants to rerender
-        const { results } = this.props;
-        return nextProps.results !== results;
     }
 
     getTileColor = (status: number) => {
@@ -98,8 +84,8 @@ export class _Tile extends React.Component<Props> {
 
     onPressButton = () => {
         // called when a tile is tapped
-        const { closeTilePopup, results } = this.props;
-        closeTilePopup();
+        const { mapper, results } = this.props;
+        mapper.closeTilePopup();
         // find the tile status from redux results
         let tileStatus = results;
         tileStatus = (tileStatus + 1) % 4;
@@ -107,13 +93,13 @@ export class _Tile extends React.Component<Props> {
     };
 
     onDismissZoom = () => {
-        const { closeTilePopup } = this.props;
-        closeTilePopup();
+        const { mapper } = this.props;
+        mapper.closeTilePopup();
     };
 
     onLongPress = () => {
-        const { openTilePopup } = this.props;
-        openTilePopup(this.zoomRender());
+        const { mapper } = this.props;
+        mapper.openTilePopup(this.zoomRender());
     };
 
     /**
@@ -192,23 +178,24 @@ export class _Tile extends React.Component<Props> {
     render() {
         const {
             results,
+            style,
             tile: { taskId },
             tutorial,
         } = this.props;
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
-        let animatedRows = null;
+        const animatedRows = [];
         const showAnim = Math.floor(Math.random() * 5);
 
         if (tileStatus > 1 && showAnim === 1 && !tutorial) {
-            animatedRows = (
+            animatedRows.push(
                 <Animatable.Text
                     key={`anim-${taskId}`}
                     animation={this.getFunText()[0]}
                     style={styles.animatedText}
                 >
                     {this.getFunText()[1]}
-                </Animatable.Text>
+                </Animatable.Text>,
             );
         }
         const imageSource = this.getImgSource();
@@ -250,6 +237,7 @@ export class _Tile extends React.Component<Props> {
                 onPress={this.onPressButton}
                 onLongPress={this.onLongPress}
                 testID="tile"
+                style={style}
             >
                 <ImageBackground
                     style={styles.tileStyle}
@@ -280,8 +268,7 @@ const mapStateToProps = (state, ownProps) => {
         results = state.results[projectId][groupId][taskId];
     }
     return {
-        closeTilePopup: ownProps.closeTilePopup,
-        openTilePopup: ownProps.openTilePopup,
+        mapper: ownProps.mapper,
         results,
         tile: ownProps.tile,
         tutorial: ownProps,

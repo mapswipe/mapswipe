@@ -12,14 +12,10 @@ test('Renders projects screen while loading', async () => {
 
     const l = (
         <Provider store={createNewStore()}>
-            <RecommendedCards
-                navigation={navigation}
-            />
+            <RecommendedCards navigation={navigation} />
         </Provider>
     );
-    const {
-        baseElement, queryByTestId, asJSON,
-    } = render(l);
+    const { baseElement, queryByTestId, asJSON } = render(l);
     await wait(() => queryByTestId('loading-icon'));
     // first we check that the loading icon is shown
     expect(queryByTestId('loading-icon')).toBeTruthy();
@@ -40,9 +36,7 @@ test('Renders RecommendedCards screen', async () => {
     const loadedStore = createNewStore(reduxState);
     const l = (
         <Provider store={loadedStore}>
-            <RecommendedCards
-                navigation={navigation}
-            />
+            <RecommendedCards navigation={navigation} />
         </Provider>
     );
     const { baseElement, getByText, asJSON } = render(l);

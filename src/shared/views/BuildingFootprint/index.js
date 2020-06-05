@@ -1,23 +1,11 @@
 // @flow
 import * as React from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import ProjectLevelScreen from '../../common/ProjectLevelScreen';
-import {
-    submitFootprint,
-} from '../../actions/index';
+import { submitFootprint } from '../../actions/index';
 import Validator from './Validator';
-import type {
-    NavigationProp,
-} from '../../flow-types';
-import {
-    COLOR_GREEN,
-    COLOR_RED,
-    COLOR_YELLOW,
-} from '../../constants';
+import type { NavigationProp } from '../../flow-types';
+import { COLOR_GREEN, COLOR_RED, COLOR_YELLOW } from '../../constants';
 
 const styles = StyleSheet.create({
     header: {
@@ -68,9 +56,9 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
             <Text style={styles.header}>How To Contribute</Text>
             <View style={styles.tutRow}>
                 <Text style={styles.tutPar}>
-                    Look at the red shape on top of the imagery and
-                    decide if it matches the building underneath it.
-                    Tap one of the 3 buttons to answer:
+                    Look at the red shape on top of the imagery and decide if it
+                    matches the building underneath it. Tap one of the 3 buttons
+                    to answer:
                 </Text>
             </View>
             <View style={styles.tutRow}>
@@ -85,7 +73,8 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
             </View>
             <View style={styles.tutRow}>
                 <Text style={[styles.tutText, { color: COLOR_RED }]}>
-                    No building if the shape doesn&apos;t overlap with any building
+                    No building if the shape doesn&apos;t overlap with any
+                    building
                 </Text>
             </View>
             <View style={styles.tutRow}>

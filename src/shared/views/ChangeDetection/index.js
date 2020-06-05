@@ -1,19 +1,9 @@
 // @flow
 import * as React from 'react';
-import {
-    Image,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
-import ProjectLevelScreen from '../../common/ProjectLevelScreen';
-import {
-    submitChange,
-} from '../../actions/index';
-import ChangeDetector from './ChangeDetector';
-import type {
-    NavigationProp,
-} from '../../flow-types';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { submitChange } from '../../actions/index';
+import ChangeDetectionBody from './Body';
+import type { NavigationProp } from '../../flow-types';
 import {
     COLOR_GREEN,
     COLOR_DARK_GRAY,
@@ -62,25 +52,22 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
 
     tutorialHelpContent = (
         <View>
-            <Text style={styles.tutPar}>
-                Welcome to the tutorial!
-            </Text>
+            <Text style={styles.tutPar}>Welcome to the tutorial!</Text>
             <View style={styles.tutRow}>
                 <Text style={styles.tutPar}>
-                    This should make you a wizard of MapSwipe
-                    in a few minutes.
+                    This should make you a wizard of MapSwipe in a few minutes.
                 </Text>
             </View>
             <View style={styles.tutRow}>
                 <Text style={styles.tutPar}>
-                    Just follow the instructions on the screen,
-                    and swipe left to continue.
+                    Just follow the instructions on the screen, and swipe left
+                    to continue.
                 </Text>
             </View>
             <View style={styles.tutRow}>
                 <Text style={styles.tutPar}>
-                    If the instructions are in your way,
-                    just tap the message box to move it.
+                    If the instructions are in your way, just tap the message
+                    box to move it.
                 </Text>
             </View>
         </View>
@@ -102,10 +89,10 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
             <Text style={styles.header}>How To Contribute</Text>
             <View style={styles.tutRow}>
                 <Text style={styles.tutPar}>
-                    Look at the images before (top) and after (bottom)
-                    and decide whether you see any of the changes mentioned
-                    in the brief at the top of the screen.
-                    Swipe anywhere on the screen to answer:
+                    Look at the images before (top) and after (bottom) and
+                    decide whether you see any of the changes mentioned in the
+                    brief at the top of the screen. Swipe anywhere on the screen
+                    to answer:
                 </Text>
             </View>
             <View style={styles.tutRow}>
@@ -145,9 +132,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
                 </Text>
             </View>
             <Text style={styles.header}>Credits</Text>
-            <Text style={styles.tutPar}>
-                {creditString}
-            </Text>
+            <Text style={styles.tutPar}>{creditString}</Text>
         </>
     );
 
@@ -155,8 +140,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     render() {
         const { navigation, tutorial } = this.props;
         return (
-            <ProjectLevelScreen
-                Component={ChangeDetector}
+            <ChangeDetectionBody
                 navigation={navigation}
                 getNormalHelpContent={this.getNormalHelpContent}
                 randomSeed={this.randomSeed}

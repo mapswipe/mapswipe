@@ -6,17 +6,20 @@ import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import fb from 'react-native-firebase';
 import {
+    Alert,
     Linking,
     Text,
     View,
     ScrollView,
     StyleSheet,
     Image,
+    TouchableWithoutFeedback,
     Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import * as Progress from 'react-native-progress';
+import debugInfo from '../../../debugInfo';
 import ConfirmationModal from '../common/ConfirmationModal';
 import Levels from '../Levels';
 import type { NavigationProp } from '../flow-types';
@@ -130,7 +133,7 @@ type MOProps = {
     navigation: NavigationProp,
     profile: Object,
     progress: number,
-}
+};
 
 // eslint-disable-next-line react/prefer-stateless-function
 class _MoreOptions extends React.Component<MOProps> {
@@ -148,36 +151,48 @@ class _MoreOptions extends React.Component<MOProps> {
         // stop listening for changes on the user's profile
         // as this causes a crash when the profile is deleted
         firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
-        user.delete().then(() => {
-            // account deleted
-            MessageBarManager.showAlert({
-                title: 'Account deleted!',
-                message: 'Sorry to see you go...',
-                alertType: 'info',
+        user.delete()
+            .then(() => {
+                // account deleted
+                MessageBarManager.showAlert({
+                    title: 'Account deleted!',
+                    message: 'Sorry to see you go...',
+                    alertType: 'info',
+                });
+                navigation.navigate('LoginNavigator');
+            })
+            .catch(() => {
+                // the users has authenticated too long ago
+                // ask them to reauthenticate to make sure
+                // it's them
+                MessageBarManager.showAlert({
+                    title: 'Could not delete!',
+                    message:
+                        'Please login again to confirm you want to delete your account',
+                    alertType: 'error',
+                });
+                navigation.navigate('LoginNavigator');
             });
-            navigation.navigate('LoginNavigator');
-        }).catch(() => {
-            // the users has authenticated too long ago
-            // ask them to reauthenticate to make sure
-            // it's them
-            MessageBarManager.showAlert({
-                title: 'Could not delete!',
-                message: 'Please login again to confirm you want to delete your account',
-                alertType: 'error',
-            });
-            navigation.navigate('LoginNavigator');
-        });
-    }
+    };
+
+    showDebugInfo = () => {
+        // a simple alert box that shows the git tag and hash to help
+        // with bug reporting
+        // The values are written to a JSON file at build time in travis
+        Alert.alert(
+            'Debugging info',
+            `Version: ${debugInfo.gitTag}\nRevision: ${debugInfo.gitHash}`,
+        );
+    };
 
     renderDeleteAccountConfirmationModal = () => {
         const content = (
             <>
-                <Text style={{ fontSize: 28 }}>
-                    Delete account?
-                </Text>
+                <Text style={{ fontSize: 28 }}>Delete account?</Text>
                 <Text>
-                    You will lose all of your progress and badges.
-                    Your contributions will remain public but no longer tied to your account.
+                    You will lose all of your progress and badges. Your
+                    contributions will remain public but no longer tied to your
+                    account.
                     {'\n'}
                     Would you like to continue?
                 </Text>
@@ -186,17 +201,21 @@ class _MoreOptions extends React.Component<MOProps> {
 
         return (
             <ConfirmationModal
-                // $FlowFixMe
-                cancelButtonCallback={() => { this.deleteAccountConfirmationModal.close(); }}
+                cancelButtonCallback={() => {
+                    // $FlowFixMe
+                    this.deleteAccountConfirmationModal.close();
+                }}
                 cancelButtonText="No, keep my account"
                 content={content}
                 // $FlowFixMe
                 exitButtonCallback={this.deleteUserAccount}
                 exitButtonText="Yes, delete it!"
-                getRef={(r) => { this.deleteAccountConfirmationModal = r; }}
+                getRef={(r) => {
+                    this.deleteAccountConfirmationModal = r;
+                }}
             />
         );
-    }
+    };
 
     render() {
         const {
@@ -209,33 +228,38 @@ class _MoreOptions extends React.Component<MOProps> {
             progress,
         } = this.props;
         const levelObject = Levels[level];
-        const contributions = isLoaded(profile)
-            && Object.prototype.hasOwnProperty.call(profile, 'taskContributionCount') ? profile.taskContributionCount : 0;
+        const contributions =
+            isLoaded(profile) &&
+            Object.prototype.hasOwnProperty.call(
+                profile,
+                'taskContributionCount',
+            )
+                ? profile.taskContributionCount
+                : 0;
         const deleteAccountConfirmationModal = this.renderDeleteAccountConfirmationModal();
 
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 {deleteAccountConfirmationModal}
                 <ScrollingBackground />
-                <Image style={styles.pic} key={level} source={levelObject.badge} />
+                <TouchableWithoutFeedback onLongPress={this.showDebugInfo}>
+                    <Image
+                        style={styles.pic}
+                        key={level}
+                        source={levelObject.badge}
+                    />
+                </TouchableWithoutFeedback>
                 <View style={styles.info}>
                     <Text style={styles.infoLeftTitle}>
                         Level
-                        {' '}
                         {level}
                     </Text>
                     <Text style={styles.infoRightTitle} numberOfLines={1}>
                         {auth.displayName}
                     </Text>
-                    <Text style={styles.infoLeft}>
-                        {levelObject.title}
-                    </Text>
+                    <Text style={styles.infoLeft}>{levelObject.title}</Text>
                     <Text style={styles.infoRight}>
-                        You&apos;ve completed
-                        {' '}
-                        {contributions}
-                        {' '}
-                        tasks!
+                        You&apos;ve completed {contributions} tasks!
                     </Text>
                 </View>
                 <LevelProgress
@@ -294,10 +318,14 @@ class _MoreOptions extends React.Component<MOProps> {
                         Sign Out
                     </Button>
                 </View>
-                <View style={[styles.row, { backgroundColor: COLOR_RED_OVERLAY }]}>
+                <View
+                    style={[styles.row, { backgroundColor: COLOR_RED_OVERLAY }]}
+                >
                     <Button
-                        // $FlowFixMe
-                        onPress={() => { this.deleteAccountConfirmationModal.open(); }}
+                        onPress={() => {
+                            // $FlowFixMe
+                            this.deleteAccountConfirmationModal.open();
+                        }}
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
@@ -309,21 +337,16 @@ class _MoreOptions extends React.Component<MOProps> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        auth: state.firebase.auth,
-        kmTillNextLevel: state.ui.user.kmTillNextLevel,
-        level: state.ui.user.level,
-        navigation: ownProps.navigation,
-        profile: state.firebase.profile,
-        progress: state.ui.user.progress,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    auth: state.firebase.auth,
+    kmTillNextLevel: state.ui.user.kmTillNextLevel,
+    level: state.ui.user.level,
+    navigation: ownProps.navigation,
+    profile: state.firebase.profile,
+    progress: state.ui.user.progress,
+});
 
-const enhance = compose(
-    firebaseConnect(),
-    connect(mapStateToProps),
-);
+const enhance = compose(firebaseConnect(), connect(mapStateToProps));
 
 export default enhance(_MoreOptions);
 
@@ -370,18 +393,16 @@ class ScrollingBackground extends React.Component<{}, SBState> {
                 }}
             />
         );
-    }
+    };
 
     tick = () => {
         let { offset } = this.state;
         offset += this.nextOffset;
         this.setState({ offset });
-    }
+    };
 
     render() {
-        return (
-            this.backgroundImage()
-        );
+        return this.backgroundImage();
     }
 }
 

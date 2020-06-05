@@ -5,22 +5,21 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import fb from 'react-native-firebase';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import ScrollableTabView, {
+    DefaultTabBar,
+} from 'react-native-scrollable-tab-view';
 import SplashScreen from 'react-native-splash-screen';
 import RecommendedCards from './RecommendedCards';
 import MoreOptions from './MoreOptions';
 import type { NavigationProp } from '../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-    COLOR_LIGHT_GRAY,
-} from '../constants';
+import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY } from '../constants';
 
 const GLOBAL = require('../Globals');
 
 type Props = {
     firebase: Object,
     navigation: NavigationProp,
-}
+};
 
 class _ProjectNav extends React.Component<Props> {
     componentDidMount() {
@@ -51,16 +50,12 @@ class _ProjectNav extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        navigation: ownProps.navigation,
-        auth: state.firebase.auth,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    navigation: ownProps.navigation,
+    auth: state.firebase.auth,
+});
 
 export default compose(
-    connect(
-        mapStateToProps,
-    ),
+    connect(mapStateToProps),
     firebaseConnect(),
 )(_ProjectNav);

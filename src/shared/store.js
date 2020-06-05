@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { getFirebase } from 'react-redux-firebase';
-import { composeWithDevTools } from 'remote-redux-devtools';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import AsyncStorage from '@react-native-community/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
@@ -23,8 +23,8 @@ if (process.env.NODE_ENV === 'test') {
     composeEnhancers = composeWithDevTools({
         name: Platform.OS,
         hostname: 'localhost',
-        port: 5678,
-        realtime: false,
+        port: 8081,
+        realtime: true,
     });
 }
 
@@ -37,13 +37,14 @@ const persistedReducers = persistReducer(persistConfig, reducers);
 
 // the initial state argument is only used for jest
 // direct imports of createNewStore should only happen in tests
-export const createNewStore = (initialState?: {} = {}) => createStore(
-    persistedReducers,
-    initialState,
-    composeEnhancers(
-        applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
-    ),
-);
+export const createNewStore = (initialState?: {} = {}) =>
+    createStore(
+        persistedReducers,
+        initialState,
+        composeEnhancers(
+            applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
+        ),
+    );
 
 // this is the main store used by the app
 const store = createNewStore();

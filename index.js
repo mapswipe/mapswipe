@@ -11,11 +11,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 import './src/shared/i18n';
 import Main from './src/shared/Main';
 import { name as appName } from './app';
-import setupStore, { reactreduxFirebaseConfig as rrfConfig } from './src/shared/store';
+import setupStore, {
+    reactreduxFirebaseConfig as rrfConfig,
+} from './src/shared/store';
 
-Sentry.init({
-    dsn: 'https://b5a9356c68a4484c9891484f8a12d016@sentry.io/1326755',
-});
+if (!__DEV__) {
+    Sentry.init({
+        dsn: 'https://b5a9356c68a4484c9891484f8a12d016@sentry.io/1326755',
+    });
+}
 
 type Props = {};
 

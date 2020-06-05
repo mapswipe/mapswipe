@@ -2,12 +2,15 @@
 
 import React from 'react';
 import {
-    ImageBackground, Text, View, Image, StyleSheet, TouchableOpacity,
+    ImageBackground,
+    Text,
+    View,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
 } from 'react-native';
 import type { NavigationProp, ProjectType } from '../flow-types';
-import {
-    COLOR_LIGHT_GRAY,
-} from '../constants';
+import { COLOR_LIGHT_GRAY } from '../constants';
 import { getProjectProgressForDisplay } from '../Database';
 
 const GLOBAL = require('../Globals');
@@ -128,17 +131,19 @@ type Props = {
     project: ProjectType,
     cardIndex: number,
     navigation: NavigationProp,
-}
+};
 
 type State = {
     hasOfflineGroups: boolean,
-}
+};
 
 export default class ProjectCard extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${props.project.projectId}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
+                `project-${props.project.projectId}`,
+            ),
         };
     }
 
@@ -149,15 +154,24 @@ export default class ProjectCard extends React.Component<Props, State> {
 
         const gradientOpacity = ['0.6', '0.8'];
         switch (gradientToPick) {
-        case 0:
-            gradientCountArray = [`rgba(12,25,73,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
-            break;
-        case 1:
-            gradientCountArray = [`rgba(192,43,43,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
-            break;
-        default:
-            gradientCountArray = [`rgba(156,36,189,${gradientOpacity[0]})`, `rgba(0,0,0,${gradientOpacity[1]})`];
-            break;
+            case 0:
+                gradientCountArray = [
+                    `rgba(12,25,73,${gradientOpacity[0]})`,
+                    `rgba(0,0,0,${gradientOpacity[1]})`,
+                ];
+                break;
+            case 1:
+                gradientCountArray = [
+                    `rgba(192,43,43,${gradientOpacity[0]})`,
+                    `rgba(0,0,0,${gradientOpacity[1]})`,
+                ];
+                break;
+            default:
+                gradientCountArray = [
+                    `rgba(156,36,189,${gradientOpacity[0]})`,
+                    `rgba(0,0,0,${gradientOpacity[1]})`,
+                ];
+                break;
         }
         return gradientCountArray;
     }
@@ -165,13 +179,10 @@ export default class ProjectCard extends React.Component<Props, State> {
     handlePress = () => {
         const { navigation, project } = this.props;
         navigation.push('ProjectView', { project });
-    }
+    };
 
     render() {
-        const {
-            project,
-            cardIndex,
-        } = this.props;
+        const { project, cardIndex } = this.props;
         const { hasOfflineGroups } = this.state;
         // show progress = 0 if we somehow get a negative value
         const progress = getProjectProgressForDisplay(project.progress);
@@ -184,8 +195,15 @@ export default class ProjectCard extends React.Component<Props, State> {
                 testID={`projectCardType${project.projectType}`}
             >
                 <View
-                    style={[(project.isFeatured ? style.largeCard : style.smallCard),
-                        { marginLeft: cardIndex === 1 ? GLOBAL.SCREEN_WIDTH * 0.02 : 0 }]}
+                    style={[
+                        project.isFeatured ? style.largeCard : style.smallCard,
+                        {
+                            marginLeft:
+                                cardIndex === 1
+                                    ? GLOBAL.SCREEN_WIDTH * 0.02
+                                    : 0,
+                        },
+                    ]}
                 >
                     <ImageBackground
                         style={style.cardBackground}
@@ -193,15 +211,23 @@ export default class ProjectCard extends React.Component<Props, State> {
                     >
                         <View style={style.overlay}>
                             <Image
-                                style={[style.offlineIndicator,
-                                    { opacity: hasOfflineGroups ? 1 : 0.30 }]}
+                                style={[
+                                    style.offlineIndicator,
+                                    { opacity: hasOfflineGroups ? 1 : 0.3 },
+                                ]}
                                 source={require('./assets/offline_icon.png')}
                             />
 
-                            <View style={project.isFeatured
-                                ? style.bottomTextArea : style.bottomTextAreaSmallCard}
+                            <View
+                                style={
+                                    project.isFeatured
+                                        ? style.bottomTextArea
+                                        : style.bottomTextAreaSmallCard
+                                }
                             >
-                                <Text style={style.projectName}>{project.name}</Text>
+                                <Text style={style.projectName}>
+                                    {project.name}
+                                </Text>
                                 <View style={style.teamMates}>
                                     <Image
                                         style={style.heart}

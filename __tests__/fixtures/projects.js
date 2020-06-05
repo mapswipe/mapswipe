@@ -17,17 +17,20 @@ export default {
             contributorCount: 0,
             created: 1557402812.975345,
             tileServer: {
-                url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                url:
+                    'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                 name: 'bing',
                 apiKey: 'someapikey',
             },
-            projectDetails: 'This is a template for a building by building project. We use Bing as the tile server.',
+            projectDetails:
+                'This is a template for a building by building project. We use Bing as the tile server.',
             name: 'Validate OSM Aweil 1',
             lookFor: 'Buildings',
             numberOfTasks: 6255,
             groupSize: 20,
             groupMaxSize: 0,
-            image: 'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
+            image:
+                'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
             isFeatured: false,
         },
         '-LeHBeL2stS355zoovrJ': {
@@ -43,17 +46,20 @@ export default {
             zoomLevel: 14,
             tileServer: {
                 wmtsLayerName: 'FALSE_COLOR',
-                url: 'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
+                url:
+                    'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
                 name: 'sinergise',
                 apiKey: 'someapikey',
             },
-            projectDetails: 'This project uses tiles based on Sentinel data provided by sinergise. We need to define a layer name for the WMTS, zoom level is set to 14',
+            projectDetails:
+                'This project uses tiles based on Sentinel data provided by sinergise. We need to define a layer name for the WMTS, zoom level is set to 14',
             name: 'BuildArea Sentinel Sample Project',
             lookFor: 'VEGETATION',
             numberOfTasks: 108,
             groupSize: 50,
             groupMaxSize: 0,
-            image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+            image:
+                'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
             isFeatured: false,
         },
         '-LeHBeH7KCvowivQWxy-': {
@@ -68,17 +74,20 @@ export default {
             created: 1557230970.982896,
             zoomLevel: 18,
             tileServer: {
-                url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                url:
+                    'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                 name: 'bing',
                 apiKey: 'someapikey',
             },
-            projectDetails: 'This project uses Bing as the tile server and zoom level 18. This is the setup most MapSwipe projects used so far.',
+            projectDetails:
+                'This project uses Bing as the tile server and zoom level 18. This is the setup most MapSwipe projects used so far.',
             name: 'BuildArea Default with Bing Sample Project',
             lookFor: 'BUILDINGS',
             numberOfTasks: 15120,
             groupSize: 50,
             groupMaxSize: 0,
-            image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+            image:
+                'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
             isFeatured: true,
         },
     },
@@ -97,17 +106,20 @@ export default {
                 created: 1557230970.982896,
                 zoomLevel: 18,
                 tileServer: {
-                    url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                    url:
+                        'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                     name: 'bing',
                     apiKey: 'someapikey',
                 },
-                projectDetails: 'This project uses Bing as the tile server and zoom level 18. This is the setup most MapSwipe projects used so far.',
+                projectDetails:
+                    'This project uses Bing as the tile server and zoom level 18. This is the setup most MapSwipe projects used so far.',
                 name: 'BuildArea Default with Bing Sample Project',
                 lookFor: 'BUILDINGS',
                 numberOfTasks: 15120,
                 groupSize: 50,
                 groupMaxSize: 0,
-                image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+                image:
+                    'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
                 isFeatured: true,
             },
         },
@@ -126,17 +138,20 @@ export default {
                 zoomLevel: 14,
                 tileServer: {
                     wmtsLayerName: 'FALSE_COLOR',
-                    url: 'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
+                    url:
+                        'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
                     name: 'sinergise',
                     apiKey: 'someapikey',
                 },
-                projectDetails: 'This project uses tiles based on Sentinel data provided by sinergise. We need to define a layer name for the WMTS, zoom level is set to 14',
+                projectDetails:
+                    'This project uses tiles based on Sentinel data provided by sinergise. We need to define a layer name for the WMTS, zoom level is set to 14',
                 name: 'BuildArea Sentinel Sample Project',
                 lookFor: 'VEGETATION',
                 numberOfTasks: 108,
                 groupSize: 50,
                 groupMaxSize: 0,
-                image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+                image:
+                    'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
                 isFeatured: false,
             },
         },
@@ -154,17 +169,20 @@ export default {
                 contributorCount: 0,
                 created: 1557402812.975345,
                 tileServer: {
-                    url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                    url:
+                        'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                     name: 'bing',
                     apiKey: 'someapikey',
                 },
-                projectDetails: 'This is a template for a building by building project. We use Bing as the tile server.',
+                projectDetails:
+                    'This is a template for a building by building project. We use Bing as the tile server.',
                 name: 'Validate OSM Aweil 1',
                 lookFor: 'Buildings',
                 numberOfTasks: 6255,
                 groupSize: 20,
                 groupMaxSize: 0,
-                image: 'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
+                image:
+                    'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
                 isFeatured: false,
             },
         },

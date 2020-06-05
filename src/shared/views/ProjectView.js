@@ -223,7 +223,7 @@ const style = StyleSheet.create({
 
 type Props = {
     navigation: NavigationProp,
-}
+};
 
 /* eslint-disable react/destructuring-assignment */
 const ProjectView = (props: Props) => (
@@ -238,12 +238,12 @@ const ProjectView = (props: Props) => (
 type HeaderProps = {
     navigation: NavigationProp,
     project: ProjectType,
-}
+};
 
 type HeaderState = {
     hasOfflineGroups: boolean,
     isDisabled: boolean,
-}
+};
 
 class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     mounted: boolean;
@@ -264,14 +264,18 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         fb.analytics().logEvent('project_view_opened');
         const parent = this;
         parent.setState({
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.projectId}`),
+            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
+                `project-${project.projectId}`,
+            ),
         });
         setInterval(() => {
             if (!parent.mounted) {
                 return;
             }
             parent.setState({
-                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(`project-${project.projectId}`),
+                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
+                    `project-${project.projectId}`,
+                ),
             });
         }, 300);
     }
@@ -283,7 +287,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     returnToView = () => {
         const { navigation } = this.props;
         navigation.pop();
-    }
+    };
 
     handlePress = () => {
         const { navigation, project } = this.props;
@@ -296,31 +300,32 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                 [
                     {
                         text: 'Okay',
-                        onPress: () => navigation.push('ProjectNav', {
-                            uri: project,
-                        }),
+                        onPress: () =>
+                            navigation.push('ProjectNav', {
+                                uri: project,
+                            }),
                     },
                     { text: 'Close', onPress: () => console.log('closed') },
                 ],
             );
         }
-    }
+    };
 
     openOfflineModal = () => {
         if (this.offlineModal) {
             this.offlineModal.open();
         }
-    }
+    };
 
     closeOfflineModal = () => {
         if (this.offlineModal) {
             this.offlineModal.close();
         }
-    }
+    };
 
     handleLater = () => {
         this.openOfflineModal();
-    }
+    };
 
     checkWifiMapping() {
         const { navigation, project } = this.props;
@@ -332,25 +337,25 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             projectType: project.projectType,
         });
         switch (project.projectType) {
-        case COMPLETENESS_PROJECT:
-        case LEGACY_TILES:
-            // this is the original project type
-            navigation.push('Mapper', {
-                project,
-            });
-            break;
-        case BUILDING_FOOTPRINTS:
-            navigation.push('BuildingFootprintValidator', {
-                project,
-            });
-            break;
-        case CHANGE_DETECTION:
-            navigation.push('ChangeDetectionScreen', {
-                project,
-            });
-            break;
-        default:
-            console.log('Unsupported project', project);
+            case COMPLETENESS_PROJECT:
+            case LEGACY_TILES:
+                // this is the original project type
+                navigation.push('Mapper', {
+                    project,
+                });
+                break;
+            case BUILDING_FOOTPRINTS:
+                navigation.push('BuildingFootprintValidator', {
+                    project,
+                });
+                break;
+            case CHANGE_DETECTION:
+                navigation.push('ChangeDetectionScreen', {
+                    project,
+                });
+                break;
+            default:
+                console.log('Unsupported project', project);
         }
     }
 
@@ -371,11 +376,12 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                 parent.closeOfflineModal();
                             },
                         },
-
                     ],
                 );
             } else if (ConnectionManager.isOnWifi()) {
-                console.log(`We're headed to download${originalTaskAmount} tasks!`);
+                console.log(
+                    `We're headed to download${originalTaskAmount} tasks!`,
+                );
                 Alert.alert(
                     'Be patient!',
                     'It might take a while for your download to start. ',
@@ -405,7 +411,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         {
                             text: 'Continue',
                             onPress: () => {
-                                console.log(`We're headed to download${originalTaskAmount} tasks!`);
+                                console.log(
+                                    `We're headed to download${originalTaskAmount} tasks!`,
+                                );
                                 // TODO: load data for offline work here
                                 parent.closeOfflineModal();
                             },
@@ -417,9 +425,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    handleInProgress() {
-
-    }
+    handleInProgress() {}
 
     // eslint-disable-next-line class-methods-use-this
     handleRemoval() {
@@ -438,9 +444,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         Alert.alert(
             'Project Reset Complete',
             'Your progress will still be synced! Try Now!',
-            [
-                { text: 'Okay', onPress: () => console.log('closed') },
-            ],
+            [{ text: 'Okay', onPress: () => console.log('closed') }],
         );
     }
 
@@ -457,29 +461,23 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         const projectProgress = getProjectProgressForDisplay(project.progress);
 
         return (
-            <ScrollView
-                style={style.projectViewContainer}
-                testID="projectView"
-            >
+            <ScrollView style={style.projectViewContainer} testID="projectView">
                 <ImageBackground
-
                     style={style.backgroundImage}
                     source={{ uri: project.image }}
                 >
                     <View style={style.overlay}>
-
-                        <Text style={style.overlayProjectName}>{project.name.toUpperCase()}</Text>
+                        <Text style={style.overlayProjectName}>
+                            {project.name.toUpperCase()}
+                        </Text>
                         <View style={style.bottomTextArea}>
-
                             <View style={style.infoArea}>
                                 <View style={style.infoBlock}>
                                     <Image
                                         style={style.infoIcon}
                                         source={require('./assets/heart_icon.png')}
                                     />
-                                    <Text
-                                        style={style.infoBlockText}
-                                    >
+                                    <Text style={style.infoBlockText}>
                                         {`${projectProgress}% GLOBAL PROGRESS BY `}
                                         {`${project.contributorCount} MAPPERS JUST LIKE YOU.`}
                                     </Text>
@@ -491,7 +489,10 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity style={style.backButtonContainer} onPress={this.returnToView}>
+                    <TouchableOpacity
+                        style={style.backButtonContainer}
+                        onPress={this.returnToView}
+                    >
                         <Image
                             style={style.backButton}
                             source={require('./assets/backarrow_icon.png')}
@@ -501,7 +502,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 
                 {/* $FlowFixMe */}
                 <View style={style.detailContainer}>
-
                     {/* $FlowFixMe */}
                     <Markdown style={style.projectDetails}>
                         {renderQueue}
@@ -513,24 +513,24 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                 projectType: project.projectType,
                             });
                             switch (project.projectType) {
-                            case LEGACY_TILES:
-                            case COMPLETENESS_PROJECT:
-                                navigation.push('Mapper', {
-                                    project,
-                                    tutorial: true,
-                                });
-                                break;
-                            case CHANGE_DETECTION:
-                                navigation.push('ChangeDetectionScreen', {
-                                    project,
-                                    tutorial: true,
-                                });
-                                break;
-                            default:
-                                Alert.alert(
-                                    'Coming soon!',
-                                    'The tutorial is not ready yet for this type of projects.',
-                                );
+                                case LEGACY_TILES:
+                                case COMPLETENESS_PROJECT:
+                                    navigation.push('Mapper', {
+                                        project,
+                                        tutorial: true,
+                                    });
+                                    break;
+                                case CHANGE_DETECTION:
+                                    navigation.push('ChangeDetectionScreen', {
+                                        project,
+                                        tutorial: true,
+                                    });
+                                    break;
+                                default:
+                                    Alert.alert(
+                                        'Coming soon!',
+                                        'The tutorial is not ready yet for this type of projects.',
+                                    );
                             }
                         }}
                         textStyle={style.buttonText}
@@ -554,31 +554,35 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         Bugs? Clear Project Data
                     </Button>
 
-                    {hasOfflineGroups
-                        ? (
-                            <Button
-                                style={style.startButton2}
-                                onPress={this.handleRemoval}
-                                textStyle={style.buttonText}
-                            >
-                                Remove Offline Data
-                            </Button>
-                        ) : null}
+                    {hasOfflineGroups ? (
+                        <Button
+                            style={style.startButton2}
+                            onPress={this.handleRemoval}
+                            textStyle={style.buttonText}
+                        >
+                            Remove Offline Data
+                        </Button>
+                    ) : null}
                 </View>
                 <Modal
                     style={[style.modal, style.offlineModal]}
                     backdropType="blur"
                     position="center"
-                    ref={(r) => { this.offlineModal = r; }}
+                    ref={(r) => {
+                        this.offlineModal = r;
+                    }}
                     isDisabled={isDisabled}
                 >
                     <Text style={style.header}>Download Options</Text>
                     <Text style={style.tutPar}>
-                        We will let you know when your download ends, it will be auto-deleted after
-                        completion. Do not close the MapSwipe app.
+                        We will let you know when your download ends, it will be
+                        auto-deleted after completion. Do not close the MapSwipe
+                        app.
                     </Text>
                     <View style={style.tutRow}>
-                        <Text style={style.tutText}>About 10 min of mapping</Text>
+                        <Text style={style.tutText}>
+                            About 10 min of mapping
+                        </Text>
                     </View>
                     <Button
                         style={style.downloadButton}
@@ -588,7 +592,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         Download 1k tiles (approx 20MB)
                     </Button>
                     <View style={style.tutRow}>
-                        <Text style={style.tutText}>About 40 min of mapping </Text>
+                        <Text style={style.tutText}>
+                            About 40 min of mapping{' '}
+                        </Text>
                     </View>
                     <Button
                         style={style.downloadButton}
@@ -598,7 +604,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         Download 4k tiles (approx 80MB)
                     </Button>
                     <View style={style.tutRow}>
-                        <Text style={style.tutText}>About 2.5 hrs of mapping</Text>
+                        <Text style={style.tutText}>
+                            About 2.5 hrs of mapping
+                        </Text>
                     </View>
                     <Button
                         style={style.downloadButton}
@@ -620,19 +628,14 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        navigation: ownProps.navigation,
-        project: ownProps.project,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    navigation: ownProps.navigation,
+    project: ownProps.project,
+});
 
 const ProjectHeader = compose(
-    firebaseConnect(() => [
-    ]),
-    connect(
-        mapStateToProps,
-    ),
+    firebaseConnect(() => []),
+    connect(mapStateToProps),
 )(_ProjectHeader);
 
 module.exports = ProjectView;

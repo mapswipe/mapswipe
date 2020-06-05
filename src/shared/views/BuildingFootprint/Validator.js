@@ -3,18 +3,11 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import {
-    StyleSheet,
-    View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
-import {
-    COLOR_GREEN,
-    COLOR_RED,
-    COLOR_YELLOW,
-} from '../../constants';
+import { COLOR_GREEN, COLOR_RED, COLOR_YELLOW } from '../../constants';
 
 import type {
     BuildingFootprintGroupType,
@@ -72,7 +65,7 @@ class _Validator extends React.Component<Props, State> {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskId });
         }
-    }
+    };
 
     setupTaskIdGenerator = (tasks: Array<BuildingFootprintTaskType>) => {
         if (isLoaded(tasks) && !isEmpty(tasks)) {
@@ -83,8 +76,7 @@ class _Validator extends React.Component<Props, State> {
             }
         }
         return ''; // to keep flow and eslint happy
-    }
-
+    };
 
     nextTask = (result: number) => {
         const {
@@ -103,10 +95,12 @@ class _Validator extends React.Component<Props, State> {
         this.tasksDone += 1;
         updateProgress(this.tasksDone / group.numberOfTasks);
         this.setState({ currentTaskId: value });
-    }
+    };
 
     // eslint-disable-next-line class-methods-use-this
-    * makeNextTaskGenerator(tasks: Array<BuildingFootprintTaskType>): taskGenType {
+    *makeNextTaskGenerator(
+        tasks: Array<BuildingFootprintTaskType>,
+    ): taskGenType {
         // generator function that picks the next task to work on
         // we cannot assume any specific order of taskId in the group
         const taskIds = tasks.map((t) => t.taskId);
@@ -129,50 +123,36 @@ class _Validator extends React.Component<Props, State> {
         }
         return (
             <View>
-                <FootprintDisplay
-                    project={project}
-                    task={currentTask}
-                />
+                <FootprintDisplay project={project} task={currentTask} />
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_CORRECT)}
-                    style={[
-                        { backgroundColor: COLOR_GREEN },
-                        styles.button,
-                    ]}
+                    style={[{ backgroundColor: COLOR_GREEN }, styles.button]}
                 >
                     Looks good
                 </Button>
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_NEEDS_ADJUSTMENT)}
-                    style={[
-                        { backgroundColor: COLOR_YELLOW },
-                        styles.button,
-                    ]}
+                    style={[{ backgroundColor: COLOR_YELLOW }, styles.button]}
                 >
                     Needs adjustment
                 </Button>
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
-                    style={[
-                        { backgroundColor: COLOR_RED },
-                        styles.button,
-                    ]}
+                    style={[{ backgroundColor: COLOR_RED }, styles.button]}
                 >
                     No building
                 </Button>
             </View>
         );
-    }
+    };
 }
 
-const mapStateToProps = (state, ownProps) => (
-    {
-        commitCompletedGroup: ownProps.commitCompletedGroup,
-        group: ownProps.group,
-        project: ownProps.project,
-        submitResult: ownProps.submitResult,
-    }
-);
+const mapStateToProps = (state, ownProps) => ({
+    commitCompletedGroup: ownProps.commitCompletedGroup,
+    group: ownProps.group,
+    project: ownProps.project,
+    submitResult: ownProps.submitResult,
+});
 
 export default compose(
     firebaseConnect((props) => {
@@ -191,7 +171,5 @@ export default compose(
         }
         return [];
     }),
-    connect(
-        mapStateToProps,
-    ),
+    connect(mapStateToProps),
 )(_Validator);
