@@ -10,8 +10,6 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
-import Button from 'apsl-react-native-button';
-import Modal from 'react-native-modalbox';
 import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
@@ -32,7 +30,6 @@ import type {
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
-    COLOR_WHITE,
     BUILDING_FOOTPRINTS,
     // CHANGE_DETECTION,
 } from '../../constants';
@@ -47,41 +44,18 @@ const styles = StyleSheet.create({
         flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
-    startButton: {
-        backgroundColor: COLOR_DEEP_BLUE,
-        alignItems: 'center',
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 20,
-        left: 20,
-        width: 260,
-    },
-    modal: {
-        padding: 20,
-    },
-    HelpModal: {
-        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
-        width: 300,
-        backgroundColor: COLOR_WHITE,
-        borderRadius: 2,
-    },
 });
 
 type Props = {
     categories: CategoriesType,
     group: { [group_id: string]: ChangeDetectionGroupType },
     navigation: NavigationProp,
-    getNormalHelpContent: (string) => React.ComponentType<any>,
     onCancelGroup: ({}) => void,
     onStartGroup: ({}) => void,
     onSubmitResult: (Object) => void,
     results: ResultMapType,
     screenName: string,
     tutorial: boolean,
-    tutorialHelpContent: React.ComponentType<any>,
 };
 
 type State = {
@@ -168,11 +142,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         onSubmitResult(resultObject);
     };
 
-    closeHelpModal = () => {
-        // $FlowFixMe
-        this.HelpModal.close();
-    };
-
     onInfoPress = () => {
         const { navigation } = this.props;
         navigation.push('CDInstructionsScreen');
@@ -238,46 +207,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         );
     };
 
-    renderHelpModal = () => {
-        const {
-            getNormalHelpContent,
-            tutorial,
-            tutorialHelpContent,
-        } = this.props;
-        let content = '';
-        if (!tutorial) {
-            const creditString = this.getCreditString();
-            content = getNormalHelpContent(creditString);
-        } else {
-            content = tutorialHelpContent;
-        }
-
-        return (
-            <Modal
-                style={[styles.modal, styles.HelpModal]}
-                backdropType="blur"
-                position="center"
-                ref={(r) => {
-                    this.HelpModal = r;
-                }}
-            >
-                {content}
-                <Button
-                    style={styles.startButton}
-                    onPress={this.closeHelpModal}
-                    testID="closeIntroModalBoxButton"
-                    textStyle={{
-                        fontSize: 13,
-                        color: '#ffffff',
-                        fontWeight: '700',
-                    }}
-                >
-                    I understand
-                </Button>
-            </Modal>
-        );
-    };
-
     render = () => {
         const { categories, group, navigation, results, tutorial } = this.props;
         const { groupCompleted } = this.state;
@@ -297,7 +226,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
-        const helpModal = this.renderHelpModal();
         return (
             <View style={styles.mappingContainer}>
                 <Header
@@ -309,7 +237,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     onInfoPress={this.onInfoPress}
                 />
                 {backConfirmationModal}
-                {helpModal}
                 <TaskList
                     categories={tutorial ? categories : null}
                     commitCompletedGroup={this.commitCompletedGroup}
