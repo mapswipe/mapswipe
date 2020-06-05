@@ -2,7 +2,11 @@
 import * as React from 'react';
 import * as Progress from 'react-native-progress';
 import { StyleSheet, View } from 'react-native';
-import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY } from '../constants';
+import {
+    COLOR_DARK_GRAY,
+    COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -45,8 +49,8 @@ export default class BottomProgress extends React.Component<{}, BPState> {
                     width={GLOBAL.SCREEN_WIDTH * 0.98}
                     marginBottom={2}
                     borderRadius={2}
-                    unfilledColor={COLOR_LIGHT_GRAY}
-                    color="#fbda37"
+                    unfilledColor={COLOR_DARK_GRAY}
+                    color={COLOR_LIGHT_GRAY}
                     borderColor={COLOR_DEEP_BLUE}
                     progress={progress}
                 />
