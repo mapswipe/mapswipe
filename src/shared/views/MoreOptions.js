@@ -6,17 +6,20 @@ import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import fb from 'react-native-firebase';
 import {
+    Alert,
     Linking,
     Text,
     View,
     ScrollView,
     StyleSheet,
     Image,
+    TouchableWithoutFeedback,
     Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import * as Progress from 'react-native-progress';
+import debugInfo from '../../../debugInfo';
 import ConfirmationModal from '../common/ConfirmationModal';
 import Levels from '../Levels';
 import type { NavigationProp } from '../flow-types';
@@ -172,6 +175,16 @@ class _MoreOptions extends React.Component<MOProps> {
             });
     };
 
+    showDebugInfo = () => {
+        // a simple alert box that shows the git tag and hash to help
+        // with bug reporting
+        // The values are written to a JSON file at build time in travis
+        Alert.alert(
+            'Debugging info',
+            `Version: ${debugInfo.gitTag}\nRevision: ${debugInfo.gitHash}`,
+        );
+    };
+
     renderDeleteAccountConfirmationModal = () => {
         const content = (
             <>
@@ -229,11 +242,13 @@ class _MoreOptions extends React.Component<MOProps> {
             <ScrollView contentContainerStyle={styles.container}>
                 {deleteAccountConfirmationModal}
                 <ScrollingBackground />
-                <Image
-                    style={styles.pic}
-                    key={level}
-                    source={levelObject.badge}
-                />
+                <TouchableWithoutFeedback onLongPress={this.showDebugInfo}>
+                    <Image
+                        style={styles.pic}
+                        key={level}
+                        source={levelObject.badge}
+                    />
+                </TouchableWithoutFeedback>
                 <View style={styles.info}>
                     <Text style={styles.infoLeftTitle}>
                         Level

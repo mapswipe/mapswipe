@@ -3,6 +3,8 @@ import { actionTypes } from 'react-redux-firebase';
 import {
     AUTH_STATUS_AVAILABLE,
     SEEN_HELPBOX_TYPE_1,
+    START_GROUP,
+    START_SENDING_RESULTS,
     WELCOME_COMPLETED,
 } from '../actions/index';
 import Levels from '../Levels';
@@ -84,6 +86,17 @@ export default function user(
                 ...state,
                 loggedIn: !!action.user,
                 user: action.user,
+            };
+        case START_SENDING_RESULTS:
+            return {
+                ...state,
+                // useful to prevent weird visual glitches while sending results
+                isSendingResults: true,
+            };
+        case START_GROUP:
+            return {
+                ...state,
+                isSendingResults: false,
             };
         case actionTypes.SET_PROFILE: {
             // TODO: can we refactor the profile to avoid having local key names that

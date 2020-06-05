@@ -9,6 +9,7 @@ import {
     View,
 } from 'react-native';
 import fb from 'react-native-firebase';
+import type { Notification } from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -16,6 +17,7 @@ import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
 import ChangeDetectionScreen from './views/ChangeDetection';
+import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
@@ -86,6 +88,8 @@ class Main extends React.Component<{}, State> {
 
     modal3: ?Modal;
 
+    removeNotificationListener: any;
+
     constructor(props: {}) {
         super(props);
         this.state = {
@@ -98,8 +102,36 @@ class Main extends React.Component<{}, State> {
     /**
      * Starts the level up timer and register the notification bar
      */
-    componentDidMount() {
+    async componentDidMount() {
         const parent = this;
+        // setup Firebase Notifications so we can receive them
+        // A channel is required for android 8+
+        const channel = new fb.notifications.Android.Channel(
+            'main_channel',
+            'mapswipe main channel',
+            fb.notifications.Android.Importance.Max,
+        ).setDescription('MapSwipe Notifications');
+        fb.notifications().android.createChannel(channel);
+        // check if the user has allowed receiving notifications
+        fb.messaging()
+            .hasPermission()
+            .then((enabled) => {
+                if (enabled) {
+                    // user has already given permission to notifications
+                    parent.getNotificationToken();
+                } else {
+                    // user hasn't granted permission yet, let's request it
+                    parent.requestNotificationsPermission();
+                }
+            });
+
+        this.removeNotificationListener = fb
+            .notifications()
+            .onNotification((notif: Notification) => {
+                console.log('notif received', notif);
+                notif.android.setChannelId('main_channel').setSound('default');
+                fb.notifications().displayNotification(notif);
+            });
         fb.analytics().logEvent('mapswipe_open');
         MessageBarManager.registerMessageBar(parent.alert);
 
@@ -113,6 +145,22 @@ class Main extends React.Component<{}, State> {
 
     componentWillUnmount() {
         clearInterval(this.checkInterval);
+        this.removeNotificationListener();
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    async getNotificationToken() {
+        const fcmToken = await fb.messaging().getToken();
+        console.log('FCM token', fcmToken);
+    }
+
+    async requestNotificationsPermission() {
+        try {
+            await fb.messaging().requestPermission();
+            this.getNotificationToken();
+        } catch (error) {
+            console.log('permission to receive notifications rejected');
+        }
     }
 
     openModal3(level: number) {
@@ -207,6 +255,7 @@ const MainNavigator = createStackNavigator(
     {
         BuildingFootprintScreen,
         ChangeDetectionScreen,
+        CDInstructionsScreen,
         ProjectNav,
         ProjectView,
         Mapper,

@@ -16,7 +16,6 @@ export default function results(
     state: ResultMapType = defaultResultsState,
     action: Action,
 ) {
-    console.log('ACTION', action);
     switch (action.type) {
         case SUBMIT_BUILDING_FOOTPRINT:
         case SUBMIT_CHANGE:

@@ -11,11 +11,11 @@ target 'mapswipe' do
   # use_frameworks!
 
   # Pods for mapswipe
-  pod 'Firebase/Core', '~> 6.2.0'
+  pod 'Firebase/Core', '~> 6.21.0'
 
-  pod 'Firebase/Auth', '~> 6.2.0'
-  pod 'Firebase/Core', '~> 6.2.0'
-  pod 'Firebase/Database', '~> 6.2.0'
+  pod 'Firebase/Auth', '~> 6.21.0'
+  pod 'Firebase/Database', '~> 6.21.0'
+  pod 'Firebase/Messaging', '~> 6.21.0'
   pod 'GoogleIDFASupport', '~> 3.14.0'
   # pod 'Fabric', '~> 1.7.13'
   # pod 'Crashlytics', '~> 3.10.9'
