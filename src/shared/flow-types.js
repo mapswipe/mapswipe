@@ -171,6 +171,11 @@ export type Mapper = {
     project: ProjectType,
 };
 
+export type LanguageData = {
+    code: string, // two letter code, like 'en', 'de', etc...
+    name: string, // the name of the language in itself 'english', 'Français', 'Español'...
+};
+
 // redux types
 
 export type UIState = {

@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fb from 'react-native-firebase';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import {
     Text,
     View,
@@ -679,7 +679,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const enhance = compose(
-    withNamespaces('login'),
+    withTranslation('login'),
     firebaseConnect(),
     connect(mapStateToProps),
 );

@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import fb from 'react-native-firebase';
+import { withTranslation } from 'react-i18next';
 import {
     Alert,
     Linking,
@@ -133,6 +134,7 @@ type MOProps = {
     navigation: NavigationProp,
     profile: Object,
     progress: number,
+    t: (string) => string,
 };
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -226,6 +228,7 @@ class _MoreOptions extends React.Component<MOProps> {
             navigation,
             profile,
             progress,
+            t,
         } = this.props;
         const levelObject = Levels[level];
         const contributions =
@@ -266,6 +269,17 @@ class _MoreOptions extends React.Component<MOProps> {
                     kmTillNextLevel={kmTillNextLevel}
                     progress={progress}
                 />
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            navigation.push('LanguageSelectionScreen');
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        {t('changeLanguage')}
+                    </Button>
+                </View>
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
@@ -346,7 +360,11 @@ const mapStateToProps = (state, ownProps) => ({
     progress: state.ui.user.progress,
 });
 
-const enhance = compose(firebaseConnect(), connect(mapStateToProps));
+const enhance = compose(
+    withTranslation('profileScreen'),
+    firebaseConnect(),
+    connect(mapStateToProps),
+);
 
 export default enhance(_MoreOptions);
 

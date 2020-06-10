@@ -3,6 +3,7 @@ import { actionTypes } from 'react-redux-firebase';
 import {
     AUTH_STATUS_AVAILABLE,
     SEEN_HELPBOX_TYPE_1,
+    SELECT_LANGUAGE,
     START_GROUP,
     START_SENDING_RESULTS,
     WELCOME_COMPLETED,
@@ -80,6 +81,11 @@ export default function user(
             return {
                 ...state,
                 welcomeCompleted: true,
+            };
+        case SELECT_LANGUAGE:
+            return {
+                ...state,
+                languageCode: action.languageCode,
             };
         case AUTH_STATUS_AVAILABLE:
             return {
