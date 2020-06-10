@@ -1,5 +1,23 @@
 {
+  "mainHeader": {
+    "missions": "Missions",
+    "more": "Profil"
+  },
+  "signup": {
+    "chooseUsername": "Choisis ton nom d'utilisateur",
+    "passwordError": "Le mot de passe doit contenir au moins 6 caractères",
+    "usernameError": "Le nom d'utilisateur doit contenir au moins 4 caractères",
+    "usernamePublic": "Ton nom d'utilisateur sera visible publiquement"
+  },
   "login": {
-    "enterUsername": "Choisis ton nom d'utillisateur (au moins 4 caractères)"
+    "enterUsername": "Saisis ton nom d'utilisateur"
+  },
+  "profileScreen": {
+    "changeLanguage": "Choisir la langue",
+    "mapswipe website": "Site web de MapSwipe",
+    "missingmaps website": "Site web de Missing Maps",
+    "email us": "Nous écrire",
+    "sign out": "Se déconnecter",
+    "delete my account": "Supprimer mon compte"
   }
 }
