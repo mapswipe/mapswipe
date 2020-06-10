@@ -1,4 +1,8 @@
 {
+  "mainHeader": {
+    "missions": "Missions",
+    "more": "More"
+  },
   "signup": {
     "chooseUsername": "Choose your username",
     "passwordError": "Password must be more than 6 characters",
@@ -6,6 +10,14 @@
     "usernamePublic": "Your username will be publicly visible"
   },
   "login": {
-    "enterUsername": "Enter your username",
+    "enterUsername": "Enter your username"
+  },
+  "profileScreen": {
+    "changeLanguage": "Change Language",
+    "mapswipe website": "MapSwipe website",
+    "missingmaps website": "Missing Maps website",
+    "email us": "Email us",
+    "sign out": "Sign out",
+    "delete my account": "Delete my account"
   }
 }
