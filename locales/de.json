@@ -1,0 +1,23 @@
+{
+  "mainHeader": {
+    "missions": "Missionen",
+    "more": "Mehr"
+  },
+  "signup": {
+    "chooseUsername": "Wähle deinen Nutzernamen",
+    "passwordError": "Das Passwort muss aus mindestens 6 Zeichen bestehen",
+    "usernameError": "Dein Nutzername muss aus mindestens 4 Zeichen bestehen",
+    "usernamePublic": "Dein Nutzername ist öffentlich sichtbar"
+  },
+  "login": {
+    "enterUsername": "Gib deinen Nutzernamen ein"
+  },
+  "profileScreen": {
+    "changeLanguage": "Sprache wechseln",
+    "mapswipe website": "MapSwipe Webseite",
+    "missingmaps website": "Missing Maps Webseite",
+    "email us": "Schreib uns eine E-Mail",
+    "sign out": "Abmelden",
+    "delete my account": "Account löschen"
+  }
+}
