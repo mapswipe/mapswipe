@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import fb from 'react-native-firebase';
+import { withTranslation } from 'react-i18next';
 import ScrollableTabView, {
     DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
@@ -19,6 +20,7 @@ const GLOBAL = require('../Globals');
 type Props = {
     firebase: Object,
     navigation: NavigationProp,
+    t: (string) => string,
 };
 
 class _ProjectNav extends React.Component<Props> {
@@ -30,7 +32,7 @@ class _ProjectNav extends React.Component<Props> {
     }
 
     render() {
-        const { navigation } = this.props;
+        const { navigation, t } = this.props;
         return (
             <ScrollableTabView
                 tabBarActiveTextColor="#ffffff"
@@ -43,8 +45,11 @@ class _ProjectNav extends React.Component<Props> {
                     />
                 )}
             >
-                <RecommendedCards navigation={navigation} tabLabel="Missions" />
-                <MoreOptions navigation={navigation} tabLabel="More" />
+                <RecommendedCards
+                    navigation={navigation}
+                    tabLabel={t('Missions')}
+                />
+                <MoreOptions navigation={navigation} tabLabel={t('more')} />
             </ScrollableTabView>
         );
     }
@@ -56,6 +61,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(
+    withTranslation('mainHeader'),
     connect(mapStateToProps),
     firebaseConnect(),
 )(_ProjectNav);
