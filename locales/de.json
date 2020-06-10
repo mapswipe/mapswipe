@@ -5,7 +5,7 @@
   },
   "signup": {
     "chooseUsername": "Wähle deinen Nutzernamen",
-    "passwordError": "Das Passwort muss aus mindestens 6 Zeichen bestehen",
+    "passwordError": "Dein Passwort muss aus mindestens 6 Zeichen bestehen",
     "usernameError": "Dein Nutzername muss aus mindestens 4 Zeichen bestehen",
     "usernamePublic": "Dein Nutzername ist öffentlich sichtbar"
   },
