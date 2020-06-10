@@ -13,11 +13,18 @@
     "enterUsername": "Enter your username"
   },
   "profileScreen": {
+    "Level X": "Level {{level}}",
+    "youve completed x tasks": "You've completed {{contributions}} tasks!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tasks ({{swipes}} swipes) until the next level",
     "changeLanguage": "Change Language",
     "mapswipe website": "MapSwipe website",
     "missingmaps website": "Missing Maps website",
     "email us": "Email us",
     "sign out": "Sign out",
-    "delete my account": "Delete my account"
+    "delete my account": "Delete my account",
+    "delete account question": "Delete account?",
+    "delete account warning": "You will lose all of your progress and badges. Your contributions will remain public but no longer tied to your account.\nWould you like to continue?",
+    "no keep my account": "No, keep my account",
+    "yes delete it": "Yes, delete it!"
   }
 }

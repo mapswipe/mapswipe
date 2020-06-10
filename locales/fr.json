@@ -13,6 +13,9 @@
     "enterUsername": "Saisis ton nom d'utilisateur"
   },
   "profileScreen": {
+    "Level X": "Niveau {{level}}",
+    "youve completed x tasks": "Tu as effectué {{contributions}} tâches!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} swipes) avant le prochain niveau",
     "changeLanguage": "Choisir la langue",
     "mapswipe website": "Site web de MapSwipe",
     "missingmaps website": "Site web de Missing Maps",
