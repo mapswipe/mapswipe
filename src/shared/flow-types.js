@@ -176,6 +176,8 @@ export type LanguageData = {
     name: string, // the name of the language in itself 'english', 'Français', 'Español'...
 };
 
+export type TranslationFunction = (string, ?Object) => string;
+
 // redux types
 
 export type UIState = {
