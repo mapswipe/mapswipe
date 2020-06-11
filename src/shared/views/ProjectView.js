@@ -14,6 +14,7 @@ import {
     TouchableOpacity,
     Alert,
 } from 'react-native';
+import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
 
 // $FlowFixMe
@@ -30,7 +31,11 @@ import {
     LEGACY_TILES,
 } from '../constants';
 import { getProjectProgressForDisplay } from '../Database';
-import type { NavigationProp, ProjectType } from '../flow-types';
+import type {
+    NavigationProp,
+    ProjectType,
+    TranslationFunction,
+} from '../flow-types';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
@@ -238,6 +243,7 @@ const ProjectView = (props: Props) => (
 type HeaderProps = {
     navigation: NavigationProp,
     project: ProjectType,
+    t: TranslationFunction,
 };
 
 type HeaderState = {
@@ -449,8 +455,8 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     }
 
     render() {
-        const { navigation, project } = this.props;
         const { hasOfflineGroups, isDisabled } = this.state;
+        const { navigation, project, t } = this.props;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
         chunks.forEach((chunk) => {
@@ -458,6 +464,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         });
 
         // show progress = 0 if we somehow get a negative value
+        // eslint-disable-next-line no-unused-vars
         const projectProgress = getProjectProgressForDisplay(project.progress);
 
         return (
@@ -478,8 +485,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                         source={require('./assets/heart_icon.png')}
                                     />
                                     <Text style={style.infoBlockText}>
-                                        {`${projectProgress}% GLOBAL PROGRESS BY `}
-                                        {`${project.contributorCount} MAPPERS JUST LIKE YOU.`}
+                                        {t('x pc global progress by n mappers')}
                                     </Text>
                                     <Image
                                         style={style.mmLogo}
@@ -535,7 +541,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         }}
                         textStyle={style.buttonText}
                     >
-                        Tutorial
+                        {t('tutorial')}
                     </Button>
                     <Button
                         style={style.startButton}
@@ -543,7 +549,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         testID="mapNowButton"
                         textStyle={style.buttonText}
                     >
-                        Map Now
+                        {t('map now')}
                     </Button>
 
                     <Button
@@ -634,6 +640,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const ProjectHeader = compose(
+    withTranslation(),
     firebaseConnect(() => []),
     connect(mapStateToProps),
 )(_ProjectHeader);

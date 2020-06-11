@@ -21,7 +21,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { MessageBarManager } from 'react-native-message-bar';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
-import type { NavigationProp } from '../flow-types';
+import type { NavigationProp, TranslationFunction } from '../flow-types';
 import { COLOR_DEEP_BLUE, COLOR_RED, COLOR_WHITE } from '../constants';
 
 /* eslint-disable global-require */
@@ -112,7 +112,7 @@ type Props = {
     auth: {},
     firebase: Object,
     navigation: NavigationProp,
-    t: (string) => string,
+    t: TranslationFunction,
 };
 
 type State = {
@@ -170,13 +170,13 @@ class _Login extends React.Component<Props, State> {
     }
 
     handleSignUp = () => {
-        const { firebase, navigation } = this.props;
+        const { firebase, navigation, t } = this.props;
         const { email, password, username } = this.state;
         const parent = this;
         if (username !== null && username.length < 3) {
             MessageBarManager.showAlert({
-                title: 'Error on sign up',
-                message: 'Your username must be 4 characters or more',
+                title: t('errorOnSignup'),
+                message: t('usernameErrorMessage'),
                 alertType: 'error',
                 shouldHideAfterDelay: false,
             });
@@ -185,8 +185,8 @@ class _Login extends React.Component<Props, State> {
 
         if (username !== null && username.indexOf('@') !== -1) {
             MessageBarManager.showAlert({
-                title: 'Error on sign up',
-                message: 'Your username can not be an email',
+                title: t('errorOnSignup'),
+                message: t('usernameNotEmail'),
                 alertType: 'error',
                 shouldHideAfterDelay: false,
             });
@@ -218,8 +218,8 @@ class _Login extends React.Component<Props, State> {
             })
             .then(() => {
                 MessageBarManager.showAlert({
-                    title: 'Success',
-                    message: `Welcome to MapSwipe, ${username}`,
+                    title: t('success'),
+                    message: t('welcomeToMapSwipe', { username }),
                     alertType: 'info',
                 });
                 fb.analytics().logEvent('account_created');
@@ -230,16 +230,16 @@ class _Login extends React.Component<Props, State> {
                 // error codes from https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#createUserWithEmailAndPassword
                 switch (error.code) {
                     case 'auth/email-already-in-use':
-                        errorMsg = 'Email already used by another account';
+                        errorMsg = t('emailAlreadyUsed');
                         break;
                     case 'auth/invalid-email':
-                        errorMsg = 'Email address is invalid';
+                        errorMsg = t('emailInvalid');
                         break;
                     default:
-                        errorMsg = 'Problem signing up';
+                        errorMsg = t('problemSigningUp');
                 }
                 MessageBarManager.showAlert({
-                    title: 'Error on sign up',
+                    title: t('errorOnSignup'),
                     message: errorMsg,
                     alertType: 'error',
                     shouldHideAfterDelay: false,
@@ -258,7 +258,7 @@ class _Login extends React.Component<Props, State> {
 
     handleLogin = () => {
         const { email, password } = this.state;
-        const { firebase } = this.props;
+        const { firebase, t } = this.props;
         this.setState({
             loadingNext: true,
         });
@@ -266,9 +266,10 @@ class _Login extends React.Component<Props, State> {
         firebase
             .login({ email, password })
             .then((userCredentials) => {
+                const username = userCredentials.user.user.displayName;
                 MessageBarManager.showAlert({
-                    title: 'Success',
-                    message: `Welcome to MapSwipe, ${userCredentials.user.user.displayName}`,
+                    title: t('success'),
+                    message: t('welcomeToMapSwipe', { username }),
                     alertType: 'info',
                 });
                 fb.analytics().logEvent('account_login');
@@ -281,20 +282,20 @@ class _Login extends React.Component<Props, State> {
                 // https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#signInWithEmailAndPassword
                 switch (error.code) {
                     case 'auth/user-not-found':
-                        errorMessage = 'No account with this email address';
+                        errorMessage = t('noAccountFoundForEmail');
                         break;
                     case 'auth/wrong-password':
                     case 'auth/invalid-email':
-                        errorMessage = 'Invalid email or password';
+                        errorMessage = t('invalidEmailPassword');
                         break;
                     case 'auth/user-disabled':
-                        errorMessage = 'Account disabled';
+                        errorMessage = t('accountDisabled');
                         break;
                     default:
-                        errorMessage = 'Problem logging in';
+                        errorMessage = t('problemLoggingIn');
                 }
                 MessageBarManager.showAlert({
-                    title: 'Error on log in',
+                    title: t('errorLogIn'),
                     message: errorMessage,
                     alertType: 'error',
                     shouldHideAfterDelay: false,
@@ -307,7 +308,7 @@ class _Login extends React.Component<Props, State> {
 
     handlePassReset = () => {
         const { email } = this.state;
-        const { firebase } = this.props;
+        const { firebase, t } = this.props;
         this.setState({
             loadingNext: true,
         });
@@ -317,8 +318,8 @@ class _Login extends React.Component<Props, State> {
             .sendPasswordResetEmail(email)
             .then(() => {
                 MessageBarManager.showAlert({
-                    title: 'Success',
-                    message: 'Check your email',
+                    title: t('success'),
+                    message: t('checkYourEmail'),
                     alertType: 'info',
                 });
                 parent.setState({
@@ -330,16 +331,16 @@ class _Login extends React.Component<Props, State> {
                 let errorMessage;
                 switch (error.code) {
                     case 'auth/user-not-found':
-                        errorMessage = 'No account found for this email';
+                        errorMessage = t('noAccountFoundForEmail');
                         break;
                     case 'auth/invalid-email':
-                        errorMessage = 'Invalid email address';
+                        errorMessage = t('emailInvalid');
                         break;
                     default:
-                        errorMessage = 'Problem resetting your password';
+                        errorMessage = t('problemResettingPassword');
                 }
                 MessageBarManager.showAlert({
-                    title: 'Error on reset pass',
+                    title: t('errorResetPass'),
                     message: errorMessage,
                     alertType: 'error',
                     shouldHideAfterDelay: false,
@@ -422,7 +423,7 @@ class _Login extends React.Component<Props, State> {
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
-                    placeholder="Enter your email"
+                    placeholder={t('enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry={false}
                     style={styles.textInput}
@@ -439,7 +440,7 @@ class _Login extends React.Component<Props, State> {
                     testID="signup_password"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder="Choose your password"
+                    placeholder={t('choosePassword')}
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={styles.textInput}
@@ -489,9 +490,7 @@ class _Login extends React.Component<Props, State> {
                 </View>
 
                 <Text style={styles.legalText}>
-                    * All the mapping you contribute to MapSwipe is open and
-                    available to anyone. Your username is public, but your email
-                    and password will never be shared with anyone.
+                    {t('contributionWarningOnSignup')}
                 </Text>
                 <Button
                     isDisabled={signupButtonDisabled}
@@ -500,7 +499,7 @@ class _Login extends React.Component<Props, State> {
                     onPress={this.handleSignUp}
                     textStyle={styles.buttonText}
                 >
-                    Sign Up
+                    {t('signUp')}
                 </Button>
                 <Button
                     testID="signup_to_login_button"
@@ -508,13 +507,14 @@ class _Login extends React.Component<Props, State> {
                     onPress={() => this.switchScreens(SCREEN_LOGIN)}
                     textStyle={styles.buttonText}
                 >
-                    Log in to an existing account
+                    {t('loginExistingAccount')}
                 </Button>
             </ScrollView>
         );
     };
 
     renderLoginScreen = () => {
+        const { t } = this.props;
         const { email, password } = this.state;
         return (
             <ScrollView
@@ -538,7 +538,7 @@ class _Login extends React.Component<Props, State> {
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
-                    placeholder="Enter your email"
+                    placeholder={t('enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
                     style={[styles.textInput, { marginBottom: 28 }]}
                     secureTextEntry={false}
@@ -552,7 +552,7 @@ class _Login extends React.Component<Props, State> {
                     testID="login_password"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder="Enter your password"
+                    placeholder={t('enterYourPassword')}
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={[styles.textInput, { marginBottom: 30 }]}
@@ -560,9 +560,7 @@ class _Login extends React.Component<Props, State> {
                     value={password}
                 />
                 <Text style={styles.legalText}>
-                    * All the data you contribute to MapSwipe is open and
-                    available to anyone. Your username is public, but your email
-                    and password will never be shared with anyone.
+                    {t('contributionWarningSignup')}
                 </Text>
                 <Button
                     isDisabled={email.length < 6 || password.length < 6}
@@ -571,7 +569,7 @@ class _Login extends React.Component<Props, State> {
                     onPress={this.handleLogin}
                     textStyle={styles.buttonText}
                 >
-                    Log in
+                    {t('login')}
                 </Button>
                 <Button
                     testID="login_to_password_button"
@@ -579,14 +577,14 @@ class _Login extends React.Component<Props, State> {
                     onPress={() => this.switchScreens(SCREEN_FORGOT_PASSWORD)}
                     textStyle={styles.buttonText}
                 >
-                    Forgot your password?
+                    {t('forgotPassword')}
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_SIGNUP)}
                     textStyle={styles.buttonText}
                 >
-                    Create New Account
+                    {t('createNewAccount')}
                 </Button>
             </ScrollView>
         );
@@ -594,6 +592,7 @@ class _Login extends React.Component<Props, State> {
 
     renderForgotPasswordScreen = () => {
         const { email } = this.state;
+        const { t } = this.props;
         return (
             <ScrollView
                 testID="forgot_password_screen"
@@ -622,7 +621,7 @@ class _Login extends React.Component<Props, State> {
                     value={email}
                 />
                 <Text style={styles.legalText}>
-                    * We will send you an email to reset your password
+                    {t('sendResetEmailWarning')}
                 </Text>
                 <Button
                     isDisabled={email.length < 6}
@@ -631,13 +630,14 @@ class _Login extends React.Component<Props, State> {
                     textStyle={styles.buttonText}
                 >
                     Send Reset Email
+                    {t('sendResetEmail')}
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_LOGIN)}
                     textStyle={styles.buttonText}
                 >
-                    Back to login
+                    {t('backToLogin')}
                 </Button>
             </ScrollView>
         );

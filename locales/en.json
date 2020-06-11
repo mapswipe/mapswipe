@@ -7,7 +7,36 @@
     "chooseUsername": "Choose your username",
     "passwordError": "Password must be more than 6 characters",
     "usernameError": "Username must be more than 4 characters",
-    "usernamePublic": "Your username will be publicly visible"
+    "errorOnSignup": "Error on sign up",
+    "usernameErrorMessage": "Your username must be 4 characters or more",
+    "usernameNotEmail": "Your username can not be an email",
+    "usernamePublic": "Your username will be publicly visible",
+    "success": "Success",
+    "welcomeToMapSwipe": "Welcome to MapSwipe, {{username}}",
+    "emailAlreadyUsed": "Email already used by another account",
+    "emailInvalid": "Email address is invalid",
+    "problemSigningUp": "Problem signing up",
+    "errorOnSignUp": "Error on sign up",
+    "checkYourEmail": "Check your mailbox",
+    "noAccountFoundForEmail": "No account found for this email",
+    "problemResettingPassword": "Problem resetting your password",
+    "errorLogIn": "Error on login",
+    "invalidEmailPassword": "Invalid email or password",
+    "accountDisabled": "Account disabled",
+    "problemLoggingIn": "Problem logging in",
+    "errorResetPass": "Error resetting password",
+    "enterYourEmail": "Enter your email",
+    "choosePassword": "Choose your password",
+    "enterYourPassword": "Enter your password",
+    "contributionWarningOnSignup": "* All the data you contribute to MapSwipe is open and available to anyone. Your username is public, but your email and password will never be shared with anyone.",
+    "signUp": "Sign up",
+    "loginExistingAccount": "Log in to an existing account",
+    "login": "Login",
+    "forgotPassword": "Forgot your password?",
+    "createNewAccount": "Create New Account",
+    "sendResetEmailWarning": "* We will send you an email to reset your password",
+    "sendResetEmail": "Send Reset Email",
+    "backToLogin": "Back to login"
   },
   "login": {
     "enterUsername": "Enter your username"
@@ -26,5 +55,10 @@
     "delete account warning": "You will lose all of your progress and badges. Your contributions will remain public but no longer tied to your account.\nWould you like to continue?",
     "no keep my account": "No, keep my account",
     "yes delete it": "Yes, delete it!"
+  },
+  "projectview": {
+    "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{project.contributorCount}} MAPPERS JUST LIKE YOU.",
+    "map now": "Map now",
+    "tutorial": "Tutorial"
   }
 }
