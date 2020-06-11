@@ -28,6 +28,7 @@
     "enterYourEmail": "Enter your email",
     "choosePassword": "Choose your password",
     "enterYourPassword": "Enter your password",
+    "IagreeToPrivacyNotice": "I agree to the <1>Privacy Notice</1>",
     "contributionWarningOnSignup": "* All the data you contribute to MapSwipe is open and available to anyone. Your username is public, but your email and password will never be shared with anyone.",
     "signUp": "Sign up",
     "loginExistingAccount": "Log in to an existing account",

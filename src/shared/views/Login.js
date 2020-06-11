@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fb from 'react-native-firebase';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { withTranslation } from 'react-i18next';
+import { Trans, withTranslation } from 'react-i18next';
 import {
     Text,
     View,
@@ -475,17 +475,19 @@ class _Login extends React.Component<Props, State> {
                         }
                     />
                     <Text style={styles.checkboxLabel}>
-                        I agree to the&nbsp;
-                        <Text
-                            style={styles.policyLink}
-                            onPress={() => {
-                                navigation.push('WebviewWindow', {
-                                    uri: 'https://mapswipe.org/privacy',
-                                });
-                            }}
-                        >
-                            Privacy Notice
-                        </Text>
+                        <Trans i18nKey="signup:IagreeToPrivacyNotice">
+                            I agree to the bal
+                            <Text
+                                style={styles.policyLink}
+                                onPress={() => {
+                                    navigation.push('WebviewWindow', {
+                                        uri: 'https://mapswipe.org/privacy',
+                                    });
+                                }}
+                            >
+                                Privacy Notice
+                            </Text>
+                        </Trans>
                     </Text>
                 </View>
 
@@ -629,7 +631,6 @@ class _Login extends React.Component<Props, State> {
                     onPress={this.handlePassReset}
                     textStyle={styles.buttonText}
                 >
-                    Send Reset Email
                     {t('sendResetEmail')}
                 </Button>
                 <Button
