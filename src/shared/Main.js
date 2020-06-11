@@ -20,7 +20,7 @@ import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
-import LanguageSelectionScreen from './common/LanguageSelector';
+import LanguageSelectionScreen from './common/LanguageSelectionScreen';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
