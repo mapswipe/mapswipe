@@ -165,15 +165,6 @@ const style = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.1,
     },
-    startButton2: {
-        marginTop: 10,
-        backgroundColor: '#e61c1c',
-        flex: 1,
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-    },
     startButtonTutorial: {
         marginTop: 10,
         backgroundColor: '#33A929',
@@ -247,47 +238,21 @@ type HeaderProps = {
 };
 
 type HeaderState = {
-    hasOfflineGroups: boolean,
     isDisabled: boolean,
 };
 
 class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
-    mounted: boolean;
-
     offlineModal: ?Modal;
 
     constructor(props) {
         super(props);
         this.state = {
-            hasOfflineGroups: false,
             isDisabled: true,
         };
     }
 
     componentDidMount() {
-        const { project } = this.props;
-        this.mounted = true;
         fb.analytics().logEvent('project_view_opened');
-        const parent = this;
-        parent.setState({
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
-                `project-${project.projectId}`,
-            ),
-        });
-        setInterval(() => {
-            if (!parent.mounted) {
-                return;
-            }
-            parent.setState({
-                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
-                    `project-${project.projectId}`,
-                ),
-            });
-        }, 300);
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
     }
 
     returnToView = () => {
@@ -455,8 +420,8 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     }
 
     render() {
-        const { hasOfflineGroups, isDisabled } = this.state;
         const { navigation, project, t } = this.props;
+        const { isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
         chunks.forEach((chunk) => {
@@ -551,24 +516,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     >
                         {t('map now')}
                     </Button>
-
-                    <Button
-                        style={style.startButton2}
-                        onPress={this.handleProjectRemoval}
-                        textStyle={style.buttonText}
-                    >
-                        Bugs? Clear Project Data
-                    </Button>
-
-                    {hasOfflineGroups ? (
-                        <Button
-                            style={style.startButton2}
-                            onPress={this.handleRemoval}
-                            textStyle={style.buttonText}
-                        >
-                            Remove Offline Data
-                        </Button>
-                    ) : null}
                 </View>
                 <Modal
                     style={[style.modal, style.offlineModal]}
