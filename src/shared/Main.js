@@ -21,6 +21,7 @@ import BuildingFootprintScreen from './views/BuildingFootprint';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
 import LanguageSelectionScreen from './common/LanguageSelectionScreen';
+import LanguageSelectionSplashScreen from './common/LanguageSelectionSplashScreen';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
@@ -247,19 +248,21 @@ class Main extends React.Component<Props, State> {
  * but loads firebase auth and the redux store, while being hidden behind
  * the splashscreen. Once ready, it hands over to one of the other two,
  * depending on the auth status:
- * - LoginNavigator is not logged in (it first tries the WelcomeScreen if it's the
+ * - LoginNavigator if not logged in (it first tries the WelcomeScreen if it's the
  *   first time we're using the app, otherwise --> Login
  * - MainNavigator if logged in, and the rest of the app happens in there.
  */
 
 const LoginNavigator = createStackNavigator(
     {
+        LanguageSelectionScreen,
+        LanguageSelectionSplashScreen,
         Login,
         WebviewWindow,
         WelcomeScreen,
     },
     {
-        initialRouteName: 'WelcomeScreen',
+        initialRouteName: 'LanguageSelectionSplashScreen',
         headerMode: 'none',
     },
 );

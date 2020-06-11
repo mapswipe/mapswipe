@@ -15,6 +15,7 @@ import type { UIState } from '../flow-types';
 const defaultUserState = {
     hasSeenHelpBoxType1: false,
     kmTillNextLevel: 0,
+    languageCode: 'xx',
     level: 1,
     progress: 0,
     username: '',
