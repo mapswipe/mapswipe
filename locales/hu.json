@@ -1,0 +1,23 @@
+{
+  "mainHeader": {
+    "missions": "Küldetések",
+    "more": "Több"
+  },
+  "signup": {
+    "chooseUsername": "Válassz egy felhasználónevet",
+    "passwordError": "A jelszó legalább 7 karakter legyen",
+    "usernameError": "A felhasználónév legalább 5 karakter legyen",
+    "usernamePublic": "Felhasználóneved nyilvánosan látható lesz"
+  },
+  "login": {
+    "enterUsername": "Add meg a felhasználóneved"
+  },
+  "profileScreen": {
+    "changeLanguage": "Nyelv módosítása",
+    "mapswipe website": "A MapSwipe weboldala",
+    "missingmaps website": "A Missing Maps weboldala",
+    "email us": "Írjon nekünk",
+    "sign out": "Kijelentkezés",
+    "delete my account": "Fiókom törlése"
+  }
+}
