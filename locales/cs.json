@@ -1,0 +1,23 @@
+{
+  "mainHeader": {
+    "missions": "Mise",
+    "more": "Více"
+  },
+  "signup": {
+    "chooseUsername": "Zvolte své uživatelské jméno",
+    "passwordError": "Heslo musí mít více než 6 znaků",
+    "usernameError": "Uživatelské jméno musí mít více než 4 znaky",
+    "usernamePublic": "Vaše uživatelské jméno bude veřejně viditelné"
+  },
+  "login": {
+    "enterUsername": "Vložte svoje uživatelské jméno"
+  },
+  "profileScreen": {
+    "changeLanguage": "Změnit jazyk",
+    "mapswipe website": "web MapSwipe",
+    "missingmaps website": "web Missing Maps",
+    "email us": "Napište nám email",
+    "sign out": "Odhlásit",
+    "delete my account": "Smazat můj účet"
+  }
+}
