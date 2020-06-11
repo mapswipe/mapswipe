@@ -71,5 +71,17 @@
     "letsGo": "Let's go!",
     "completeSession": "Complete Session",
     "continueMapping": "Continue mapping"
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Welcome to MapSwipe",
+    "helpImprove": "Help improve humanitarian responses from the comfort of your phone",
+    "partMissingMaps": "Part of Missing Maps",
+    "withMissingMaps": "With Missing Maps, we aim to put the world's vulnerable communities on the map",
+    "swipe": "Swipe",
+    "completeTasks": "Complete tasks by swiping through satellite imagery of areas that need mapping",
+    "createData": "Create meaningful data",
+    "dataUse": "The data is used to focus the efforts of Missing Maps volunteers to add detail to OpenStreetMap",
+    "saveLives": "Save lives",
+    "mapHelps": "The map helps organisations coordinate humanitarian efforts and save lives"
   }
 }

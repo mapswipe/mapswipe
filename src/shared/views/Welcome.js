@@ -8,7 +8,8 @@ import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
 import Swiper from 'react-native-swiper';
 import { NavigationActions } from 'react-navigation';
-import type { NavigationProp } from '../flow-types';
+import { withTranslation } from 'react-i18next';
+import type { NavigationProp, TranslationFunction } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
 
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
 type Props = {
     navigation: NavigationProp,
     onWelcomeComplete: (any) => any,
+    t: TranslationFunction,
     welcomeCompleted: boolean,
 };
 
@@ -93,13 +95,13 @@ class _WelcomeScreen extends React.Component<Props> {
     };
 
     render() {
-        const { welcomeCompleted } = this.props;
+        const { t, welcomeCompleted } = this.props;
         return welcomeCompleted ? (
             <View style={{ flex: 1 }}>
                 <Text />
             </View>
         ) : (
-            <WelcomeCardView onCompletion={this.handleButtonPress} />
+            <WelcomeCardView onCompletion={this.handleButtonPress} t={t} />
         );
     }
 }
@@ -116,10 +118,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // WelcomeScreen
-export default connect(mapStateToProps, mapDispatchToProps)(_WelcomeScreen);
+export default withTranslation('welcomeScreen')(
+    connect(mapStateToProps, mapDispatchToProps)(_WelcomeScreen),
+);
 
 type WelcomeCardProps = {
     onCompletion: (any) => any,
+    t: TranslationFunction,
 };
 
 type WelcomeCardState = {
@@ -135,7 +140,7 @@ class WelcomeCardView extends React.Component<
 
     /* eslint-disable global-require */
     render() {
-        const { onCompletion } = this.props;
+        const { onCompletion, t } = this.props;
         fb.analytics().logEvent('starting_onboarding');
         return (
             /* $FlowFixMe */
@@ -153,11 +158,8 @@ class WelcomeCardView extends React.Component<
                         style={styles.welcomeIcon}
                         source={require('./assets/welcome1.png')}
                     />
-                    <Text style={styles.heading}>Welcome to MapSwipe</Text>
-                    <Text style={styles.text}>
-                        Help improve humanitarian responses from the comfort of
-                        your phone
-                    </Text>
+                    <Text style={styles.heading}>{t('welcomeToMapSwipe')}</Text>
+                    <Text style={styles.text}>{t('helpImprove')}</Text>
                 </View>
 
                 <View style={styles.slide}>
@@ -165,11 +167,8 @@ class WelcomeCardView extends React.Component<
                         style={styles.welcomeIcon}
                         source={require('./assets/welcome2.png')}
                     />
-                    <Text style={styles.heading}>Part of Missing Maps</Text>
-                    <Text style={styles.text}>
-                        With Missing Maps, we aim to put the world&apos;s
-                        vulnerable communities on the map
-                    </Text>
+                    <Text style={styles.heading}>{t('partMissingMaps')}</Text>
+                    <Text style={styles.text}>{t('withMissingMaps')}</Text>
                 </View>
 
                 <View style={styles.slide}>
@@ -177,11 +176,8 @@ class WelcomeCardView extends React.Component<
                         style={styles.welcomeIcon}
                         source={require('./assets/welcome3.png')}
                     />
-                    <Text style={styles.heading}>Swipe</Text>
-                    <Text style={styles.text}>
-                        Complete tasks by swiping through satellite imagery of
-                        areas that need mapping
-                    </Text>
+                    <Text style={styles.heading}>{t('swipe')}</Text>
+                    <Text style={styles.text}>{t('completeTasks')}</Text>
                 </View>
 
                 <View style={styles.slide}>
@@ -189,11 +185,8 @@ class WelcomeCardView extends React.Component<
                         style={styles.welcomeIcon}
                         source={require('./assets/welcome4.png')}
                     />
-                    <Text style={styles.heading}>Create meaningful data</Text>
-                    <Text style={styles.text}>
-                        The data is used to focus the efforts of Missing Maps
-                        volunteers to add detail to OpenStreetMap
-                    </Text>
+                    <Text style={styles.heading}>{t('createData')}</Text>
+                    <Text style={styles.text}>{t('dataUse')}</Text>
                 </View>
 
                 <View style={styles.slide}>
@@ -201,11 +194,8 @@ class WelcomeCardView extends React.Component<
                         style={styles.welcomeIcon}
                         source={require('./assets/welcome5.png')}
                     />
-                    <Text style={styles.heading}>Save lives</Text>
-                    <Text style={styles.text}>
-                        The map helps organisations coordinate humanitarian
-                        efforts and save lives
-                    </Text>
+                    <Text style={styles.heading}>{t('saveLives')}</Text>
+                    <Text style={styles.text}>{t('mapHelps')}</Text>
                     <Button
                         style={styles.startButton}
                         onPress={() => onCompletion()}
@@ -215,7 +205,7 @@ class WelcomeCardView extends React.Component<
                             fontWeight: '700',
                         }}
                     >
-                        Sign Up
+                        {t('signup:signUp')}
                     </Button>
                 </View>
             </Swiper>
