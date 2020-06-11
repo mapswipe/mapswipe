@@ -11,7 +11,11 @@ import {
     View,
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+    supportedLanguages,
+} from '../../constants';
 import LanguageItem from './LanguageItem';
 import { selectLanguage } from '../../actions';
 import type { NavigationProp } from '../../flow-types';
@@ -83,10 +87,6 @@ class _LanguageSelectionScreen extends React.Component<Props> {
 
     render() {
         const { languageCode, navigation } = this.props;
-        const supportedLanguages = [
-            { code: 'en', name: 'English' },
-            { code: 'fr', name: 'Français' },
-        ];
 
         const items = [];
         supportedLanguages.forEach((langData) => {
