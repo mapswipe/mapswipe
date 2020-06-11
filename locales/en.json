@@ -56,9 +56,19 @@
     "no keep my account": "No, keep my account",
     "yes delete it": "Yes, delete it!"
   },
-  "projectview": {
+  "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{project.contributorCount}} MAPPERS JUST LIKE YOU.",
     "map now": "Map now",
     "tutorial": "Tutorial"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "You are looking for:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Good. You have completed the tutorial. You are ready to do some mapping!",
+    "finishedGroup": "Great job! You finished this group.",
+    "letsGo": "Let's go!",
+    "completeSession": "Complete Session",
+    "continueMapping": "Continue mapping"
   }
 }

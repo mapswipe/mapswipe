@@ -9,6 +9,7 @@ import {
     TouchableHighlight,
     TouchableWithoutFeedback,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const GLOBAL = require('../Globals');
 
@@ -81,11 +82,12 @@ const onPressDebugBox = () => {
 /* eslint-disable global-require */
 const Header = (props: Props) => {
     const { lookFor, onBackPress, onInfoPress } = props;
+    const { t } = useTranslation('mappingHeader');
     return (
         <View style={styles.swipeNavTop}>
             <TouchableWithoutFeedback onLongPress={onPressDebugBox}>
                 <View>
-                    <Text style={styles.topText}>You are looking for:</Text>
+                    <Text style={styles.topText}>{t('youAreLookingFor')}</Text>
                     <Text style={styles.elementText}>{lookFor}</Text>
                 </View>
             </TouchableWithoutFeedback>

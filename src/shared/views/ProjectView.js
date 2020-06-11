@@ -587,7 +587,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const ProjectHeader = compose(
-    withTranslation(),
+    withTranslation('projectView'),
     firebaseConnect(() => []),
     connect(mapStateToProps),
 )(_ProjectHeader);

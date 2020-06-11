@@ -5,10 +5,16 @@ import { connect } from 'react-redux';
 import fb from 'react-native-firebase';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
+import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import { cancelGroup, commitGroup, type GroupInfo } from '../actions/index';
-import type { GroupType, NavigationProp, ResultMapType } from '../flow-types';
+import type {
+    GroupType,
+    NavigationProp,
+    ResultMapType,
+    TranslationFunction,
+} from '../flow-types';
 import { COLOR_DARK_GRAY, COLOR_DEEP_BLUE, COLOR_WHITE } from '../constants';
 
 const GLOBAL = require('../Globals');
@@ -48,6 +54,7 @@ type Props = {
     onCommitGroup: (GroupInfo) => void,
     projectId: string,
     results: ResultMapType,
+    t: TranslationFunction,
     toNextGroup: (void) => void,
     tutorial: boolean,
 };
@@ -117,13 +124,11 @@ class _LoadMoreCard extends React.Component<Props> {
     };
 
     render() {
-        const { tutorial } = this.props;
+        const { t, tutorial } = this.props;
         return (
             <View style={styles.congratulationsSlide}>
                 <Text style={styles.finishedText}>
-                    {tutorial
-                        ? 'Good. You have completed the tutorial. You are ready to do some mapping!'
-                        : 'Great job! You finished this group.'}
+                    {tutorial ? t('completedTutorial') : t('finishedGroup')}
                 </Text>
 
                 <Button
@@ -131,7 +136,7 @@ class _LoadMoreCard extends React.Component<Props> {
                     onPress={this.onComplete}
                     textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                 >
-                    {tutorial ? "Let's go!" : 'Complete Session'}
+                    {tutorial ? t('letsGo') : t('completeSession')}
                 </Button>
                 {tutorial || (
                     <Button
@@ -139,7 +144,7 @@ class _LoadMoreCard extends React.Component<Props> {
                         onPress={this.onMore}
                         textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                     >
-                        Continue mapping
+                        {t('continueMapping')}
                     </Button>
                 )}
             </View>
@@ -162,6 +167,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
+    withTranslation('loadMoreScreen'),
     firebaseConnect(),
     connect(mapStateToProps, mapDispatchToProps),
 )(_LoadMoreCard);
