@@ -1,0 +1,87 @@
+{
+  "mainHeader": {
+    "missions": "ミッション",
+    "more": "もっと"
+  },
+  "signup": {
+    "chooseUsername": "あなたのユーザーネームを選んでください",
+    "passwordError": "パスワードは6文字以上で作成してください",
+    "usernameError": "ユーザーネームは4文字以上にしてください",
+    "errorOnSignup": "エラーまたはサインアップ",
+    "usernameErrorMessage": "ユーザーネームは4文字以上必要です",
+    "usernameNotEmail": "ユーザーネームをメールアドレスにすることはできません",
+    "usernamePublic": "あなたのユーザーネームは公開されます",
+    "success": "成功",
+    "welcomeToMapSwipe": "{(ユーザーネーム)}さん、マップスワイプへようこそ",
+    "emailAlreadyUsed": "このメースアドレスは既に別のアカウントに利用されています",
+    "emailInvalid": "メールアドレスが承認されませんでした",
+    "problemSigningUp": "サインアップにおける問題",
+    "errorOnSignUp": "サインアップにおけるエラー",
+    "checkYourEmail": "メールの受信箱を確認してください",
+    "noAccountFoundForEmail": "このメールアドレスを利用しているアカウントが見つかりません",
+    "problemResettingPassword": "パスワードリセットにおける問題",
+    "errorLogIn": "ログインエラー",
+    "invalidEmailPassword": "メールアドレスかパスワードが間違っています",
+    "accountDisabled": "アカウントが利用できなくなっています",
+    "problemLoggingIn": "ログインに関する問題",
+    "errorResetPass": "パスワードリセットのエラー",
+    "enterYourEmail": "メールアドレスを入力してください",
+    "choosePassword": "あなたのパスワードを選んでください",
+    "enterYourPassword": "あなたのパスワードを入力してください",
+    "IagreeToPrivacyNotice": " <1>プライバシーについてのお知らせ</1>に同意します",
+    "contributionWarningOnSignup": "あなたがマップスワイプに提供した情報はすべて、誰でも見ること使うことができます。ユーザーネームは公開されますが、メースアドレスとパスワードは一切公開・共有されません。",
+    "signUp": "サインアップ",
+    "loginExistingAccount": "既存のアカウントにログイン",
+    "login": "ログイン",
+    "forgotPassword": "パスワードを忘れてしまいましたか？",
+    "createNewAccount": "新しいアカウントを作成する",
+    "sendResetEmailWarning": "パスワードのリセットに必要なメールを送信します",
+    "sendResetEmail": "リセット用のメールを送信する",
+    "backToLogin": "ログイン画面に戻る"
+  },
+  "login": {
+    "enterUsername": "ユーザーネームを入力してください"
+  },
+  "profileScreen": {
+    "Level X": "レベル{(レベル)}",
+    "youve completed x tasks": "あなたはこれまでに{(contributions)}個のタスクをコンプリートしました！",
+    "x tasks (s swipes) until the next level": "次のレベルまであと{(sqkm)}タスク({{swipes}}スワイプ）",
+    "changeLanguage": "言語の変更",
+    "mapswipe website": "マップスワイプのウェブサイト",
+    "missingmaps website": "ミッシングマップのウェブサイト",
+    "email us": "メールでご連絡ください",
+    "sign out": "サインアウト",
+    "delete my account": "自分のアカウントを削除する",
+    "delete account question": "アカウントを削除しますか？",
+    "delete account warning": "今までの記録やバッチのデータが完全に消去されます。あなたが行った貢献活動は公開され続けますが、活動成果とアカウントが完全に切り離されます。アカウント削除の作業を進めますか？",
+    "no keep my account": "いいえ、アカウントを残します",
+    "yes delete it": "はい、このアカウントを消します"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "あなたのような世界中のマッパー{(project.contributorCount)}人によって、現在{(projectProgress)}% 完了",
+    "map now": "今すぐマッピングする",
+    "tutorial": "作業の説明"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "あなたは以下のものを探しています："
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "いいですね。作業の説明がすべて終わりました。これで、マッピングの準備万端です！",
+    "finishedGroup": "素晴らしい！このグループを終了させました。",
+    "letsGo": "さあ、いってみよう！",
+    "completeSession": "セッションを完了させる",
+    "continueMapping": "マッピングを続ける"
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "マップスワイプへようこそ",
+    "helpImprove": "あなたのスマホを使って、人道支援の対応向上に協力してください",
+    "partMissingMaps": "ミッシングマップの活動の一部です",
+    "withMissingMaps": "ミッシングマップと共に、私たちは世界中の脆弱なコミュニティーを地図上に示すことを目標にしています",
+    "swipe": "スワイプ",
+    "completeTasks": "マッピングが必要な地域の航空写真をスワイプすることでタスクを完了させてください",
+    "createData": "意味のあるデータをつくりましょう",
+    "dataUse": "データは、ミッシングマップで活動しているボランティアの人々がオープンストリートマップ上で必要なところに集中してマッピングをするために使われています。",
+    "saveLives": "命を救う",
+    "mapHelps": "この地図は人道的支援活動を指揮するのに役立てられ、命を救います　"
+  }
+}
