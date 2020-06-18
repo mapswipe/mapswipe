@@ -43,7 +43,7 @@
     "enterUsername": "ユーザーネームを入力してください"
   },
   "profileScreen": {
-    "Level X": "レベル{(レベル)}",
+    "Level X": "レベル {{level}}",
     "youve completed x tasks": "あなたはこれまでに{(contributions)}個のタスクをコンプリートしました！",
     "x tasks (s swipes) until the next level": "次のレベルまであと{(sqkm)}タスク({{swipes}}スワイプ）",
     "changeLanguage": "言語の変更",
