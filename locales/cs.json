@@ -58,7 +58,7 @@
     "yes delete it": "Ano, smažte to!"
   },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% GLOBÁLNÍ POKROKU OD {{project.contributorCount}} MAPPERŮ JAKO JSTE VY",
+    "x pc global progress by n mappers": "{{projectProgress}}% CELKEM HOTOVO OD {{project.contributorCount}} MAPPERŮ JAKO JSTE VY",
     "map now": "Mapujte nyní",
     "tutorial": "Tutorial"
   },
