@@ -58,7 +58,7 @@
     "yes delete it": "はい、このアカウントを消します"
   },
   "projectView": {
-    "x pc global progress by n mappers": "あなたのような世界中のマッパー{(project.contributorCount)}人によって、現在{(projectProgress)}% 完了",
+    "x pc global progress by n mappers": "あなたのような世界中のマッパー {{project.contributorCount}} 人によって、現在 {{projectProgress}}% 完了",
     "map now": "今すぐマッピングする",
     "tutorial": "作業の説明"
   },
