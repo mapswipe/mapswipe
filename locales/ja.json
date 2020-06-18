@@ -12,7 +12,7 @@
     "usernameNotEmail": "ユーザーネームをメールアドレスにすることはできません",
     "usernamePublic": "あなたのユーザーネームは公開されます",
     "success": "成功",
-    "welcomeToMapSwipe": "{(ユーザーネーム)}さん、マップスワイプへようこそ",
+    "welcomeToMapSwipe": "{{username}}さん、マップスワイプへようこそ",
     "emailAlreadyUsed": "このメースアドレスは既に別のアカウントに利用されています",
     "emailInvalid": "メールアドレスが承認されませんでした",
     "problemSigningUp": "サインアップにおける問題",
