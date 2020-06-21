@@ -395,30 +395,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         };
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    handleInProgress() {}
-
-    // eslint-disable-next-line class-methods-use-this
-    handleRemoval() {
-        Alert.alert(
-            'Deletion Complete',
-            'We found 0 groups in this project and deleted them.',
-            [
-                { text: 'Okay', onPress: () => console.log('closed') },
-                { text: 'Close', onPress: () => console.log('closed') },
-            ],
-        );
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    handleProjectRemoval() {
-        Alert.alert(
-            'Project Reset Complete',
-            'Your progress will still be synced! Try Now!',
-            [{ text: 'Okay', onPress: () => console.log('closed') }],
-        );
-    }
-
     render() {
         const { navigation, project, t } = this.props;
         const { isDisabled } = this.state;
