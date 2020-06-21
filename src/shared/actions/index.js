@@ -70,20 +70,19 @@ type StartGroup = {
     type: typeof START_GROUP,
     projectId: string,
     groupId: string,
-    timestamp: number,
+    startTime: number,
 };
 export function startGroup(grp: {
     projectId: string,
     groupId: string,
-    timestamp: number,
+    startTime: number,
 }): StartGroup {
-    // dispatched when the user cancels work on a group midway
-    // this forces deletion of the results created so far
+    // dispatched when the user starts work on a group
     return {
         type: START_GROUP,
         projectId: grp.projectId,
         groupId: grp.groupId,
-        timestamp: grp.timestamp,
+        startTime: grp.startTime,
     };
 }
 

@@ -110,7 +110,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     onStartGroup({
                         groupId: group.groupId,
                         projectId: group.projectId,
-                        timestamp: GLOBAL.DB.getTimestamp(),
+                        startTime: GLOBAL.DB.getTimestamp(),
                     });
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });

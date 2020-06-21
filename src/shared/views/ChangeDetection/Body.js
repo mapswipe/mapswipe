@@ -95,7 +95,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 onStartGroup({
                     groupId: group.groupId,
                     projectId: group.projectId,
-                    timestamp: GLOBAL.DB.getTimestamp(),
+                    startTime: GLOBAL.DB.getTimestamp(),
                 });
                 if (group.tasks !== undefined) {
                     // eslint-disable-next-line react/no-did-update-set-state

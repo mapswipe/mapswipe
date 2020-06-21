@@ -55,7 +55,7 @@ export default function results(
         case START_GROUP: {
             // log the timestamp of when the user started mapping
             // there might be results stored already, make sure we keep them
-            const { projectId, groupId, timestamp } = action;
+            const { projectId, groupId, startTime } = action;
             const otherGroups = state[projectId] || {};
             const previousResults = state[projectId]
                 ? state[projectId][groupId]
@@ -66,7 +66,7 @@ export default function results(
                     ...otherGroups,
                     [groupId]: {
                         ...previousResults,
-                        startTime: timestamp,
+                        startTime,
                     },
                 },
             };
