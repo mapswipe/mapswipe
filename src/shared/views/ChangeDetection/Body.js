@@ -137,7 +137,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             result,
             groupId: group.groupId,
             projectId: this.project.projectId,
-            timestamp: GLOBAL.DB.getTimestamp(),
         };
         onSubmitResult(resultObject);
     };
