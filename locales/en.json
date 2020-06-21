@@ -57,6 +57,9 @@
     "no keep my account": "No, keep my account",
     "yes delete it": "Yes, delete it!"
   },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"
+  },
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{contributorCount}} MAPPERS JUST LIKE YOU.",
     "map now": "Map now",
