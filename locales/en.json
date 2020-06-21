@@ -58,7 +58,7 @@
     "yes delete it": "Yes, delete it!"
   },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{project.contributorCount}} MAPPERS JUST LIKE YOU.",
+    "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{contributorCount}} MAPPERS JUST LIKE YOU.",
     "map now": "Map now",
     "tutorial": "Tutorial"
   },
