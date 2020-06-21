@@ -199,15 +199,13 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
         // get a single timestamp upon completion of the group
-        const timestamp = GLOBAL.DB.getTimestamp();
-        const endTime = timestamp;
+        const endTime = GLOBAL.DB.getTimestamp();
         const { groupId, projectId, results } = groupInfo;
         dispatch(startSendingResults(projectId, groupId));
         const { startTime, ...rest } = results[projectId][groupId];
         const objToUpload = {
             startTime,
             endTime,
-            timestamp,
             results: rest,
         };
         const fbPath = `v2/results/${projectId}/${groupId}/${userId}/`;
