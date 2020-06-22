@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
         flexWrap: 'wrap',
+        // prevent tiles from displaying on 4 rows
+        maxHeight: GLOBAL.TILE_SIZE * 4 - 1,
         alignItems: 'center',
     },
     swipeHelp: {
