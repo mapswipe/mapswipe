@@ -22,11 +22,11 @@ Once you have dependencies installed, clone the mapswipe repository.
 
 MapSwipe uses Firebase to handle data transfers. The project won't run unless you create your own Firebase configuration.
 
-You should request access to the `dev-mapswipe` firebase instance, on which there are real test projects to test against. Contact one of the project admins for this (see https://www.mapswipe.org/ for contacts).
+You should request access to the `dev-mapswipe` firebase instance, on which there are real test projects to test against. You can [email us](mailto:info@mapswipe.org) for this.
 
-Next, download the Firebase Google Services files from Firebase > Settings > Add App > Download files.
+We will email you 2 files.
 
-Copy the iOS file to `ios/cfg/GoogleService-Info.dev.plist` and duplicate it to `ios/cfg/GoogleService-Info.prd.plist` (The build will fail if you don't, even though this seems useless).
+Copy `GoogleService-Info.plist` to `ios/cfg/GoogleService-Info.dev.plist` and duplicate it to `ios/cfg/GoogleService-Info.prd.plist` (The build will fail if you don't, even though this seems useless).
 
 You will also get a copy of `sentry.properties` which you will need to copy to `ios/cfg/`.
 
@@ -46,6 +46,8 @@ Install steps:
 8. Check that the tests are passing locally: Run `fastlane ios test`
 
 If you get errors while installing pods (glog specifically), you might want to try this: https://github.com/facebook/react-native/issues/18408#issuecomment-386696744
+
+Another error you might face is "resource fork, Finder information, or similar detritus not allowed", you can fix it by running `xattr -cr .`, see [this page](https://developer.apple.com/library/archive/qa/qa1940/_index.html) for more details.
 
 Note: if you run into weird problems when running `yarn install` and such, and find no logical explanation, you may need to check your version of node (`node -v`). There has been a number of problems with some versions of `react-native` not working on specific versions of node. Overall, it seems that using the LTS version of node works better than the very latest builds.
 
