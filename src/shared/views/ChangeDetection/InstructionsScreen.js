@@ -9,6 +9,7 @@ import {
     TouchableHighlight,
     View,
 } from 'react-native';
+import { Trans, withTranslation } from 'react-i18next';
 import {
     COLOR_DEEP_BLUE,
     COLOR_GREEN,
@@ -16,7 +17,7 @@ import {
     COLOR_WHITE,
     COLOR_YELLOW,
 } from '../../constants';
-import type { NavigationProp } from '../../flow-types';
+import type { NavigationProp, TranslationFunction } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -86,6 +87,7 @@ type IconProps = {
 
 type Props = {
     navigation: NavigationProp,
+    t: TranslationFunction,
 };
 
 /* eslint-disable global-require */
@@ -115,7 +117,7 @@ const ColoredTapIcon = (props: IconProps) => {
     );
 };
 
-export default class CDInstructionsScreen extends React.Component<Props> {
+class CDInstructionsScreen extends React.Component<Props> {
     componentDidMount() {
         const { navigation } = this.props;
         BackHandler.addEventListener('hardwareBackPress', () =>
@@ -124,7 +126,7 @@ export default class CDInstructionsScreen extends React.Component<Props> {
     }
 
     render() {
-        const { navigation } = this.props;
+        const { navigation, t } = this.props;
         return (
             <View style={styles.background}>
                 <View style={styles.swipeNavTop}>
@@ -143,20 +145,24 @@ export default class CDInstructionsScreen extends React.Component<Props> {
                             { alignSelf: 'center', marginTop: 15 },
                         ]}
                     >
-                        Instructions
+                        {t('instructions')}
                     </Text>
                 </View>
 
                 <ScrollView style={styles.container}>
                     <Text style={styles.header}>Your task:</Text>
-                    <Text style={styles.tutParagraph}>
-                        You&apos;re looking for{' '}
-                        <Text style={{ fontWeight: 'bold' }}>
-                            changes in buildings
+
+                    <Trans i18nKey="CDInstructionsScreen:lookingFor">
+                        <Text style={styles.tutParagraph}>
+                            You&apos;re looking for{' '}
+                            <Text style={{ fontWeight: 'bold' }}>
+                                changes in buildings
+                            </Text>
+                            . This acts as a clear indicator for a change in
+                            population size.
                         </Text>
-                        . This acts as a clear indicator for a change in
-                        population size.
-                    </Text>
+                    </Trans>
+
                     <Text style={styles.header}>How to perform the task:</Text>
                     <View style={styles.tutRow}>
                         <Image
@@ -224,3 +230,5 @@ export default class CDInstructionsScreen extends React.Component<Props> {
         );
     }
 }
+
+export default withTranslation('CDInstructionsScreen')(CDInstructionsScreen);
