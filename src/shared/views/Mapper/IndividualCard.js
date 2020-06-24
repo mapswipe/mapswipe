@@ -8,6 +8,7 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
+import { Trans } from 'react-i18next';
 import { toggleMapTile } from '../../actions/index';
 import type { BuiltAreaTaskType, ResultType } from '../../flow-types';
 import { Tile } from './Tile';
