@@ -8,9 +8,13 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
-import { Trans } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { toggleMapTile } from '../../actions/index';
-import type { BuiltAreaTaskType, ResultType } from '../../flow-types';
+import type {
+    BuiltAreaTaskType,
+    ResultType,
+    TranslationFunction,
+} from '../../flow-types';
 import { Tile } from './Tile';
 import { COLOR_DEEP_BLUE } from '../../constants';
 
@@ -42,6 +46,7 @@ type ICProps = {
     closeTilePopup: () => void,
     onToggleTile: (ResultType) => void,
     openTilePopup: () => void,
+    t: TranslationFunction,
     tutorial: boolean,
 };
 
@@ -128,13 +133,13 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
     renderSwipeHelp = () => {
         const { t } = this.props;
-        return(
+        return (
             <Text style={styles.swipeHelp}>
                 {t('swipe down mark red')}
                 {'\n'}
                 {t('swipe up undo')}
             </Text>
-        )
+        );
     };
 
     render() {
@@ -178,4 +183,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // IndividualCard
-export default withTranslation('IndividualCard')(connect(mapStateToProps, mapDispatchToProps)(_IndividualCard));
+export default withTranslation('IndividualCard')(
+    connect(mapStateToProps, mapDispatchToProps)(_IndividualCard),
+);

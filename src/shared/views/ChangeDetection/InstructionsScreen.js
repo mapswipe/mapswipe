@@ -170,8 +170,10 @@ class CDInstructionsScreen extends React.Component<Props> {
                         <Text style={styles.tutText}>
                             <Trans i18nKey="CDInstructionsScreen:noChanges">
                                 If there are no changes, simply{' '}
-                                <Text style={{ fontWeight: 'bold' }}>swipe</Text> to
-                                the next photos
+                                <Text style={{ fontWeight: 'bold' }}>
+                                    swipe
+                                </Text>{' '}
+                                to the next photos
                             </Trans>
                         </Text>
                     </View>
@@ -180,7 +182,9 @@ class CDInstructionsScreen extends React.Component<Props> {
                         <Text style={styles.tutText}>
                             <Trans i18nKey="CDInstructionsScreen:seeChanges">
                                 If you see a change in buildings,{' '}
-                                <Text style={{ fontWeight: 'bold' }}>tap once</Text>{' '}
+                                <Text style={{ fontWeight: 'bold' }}>
+                                    tap once
+                                </Text>{' '}
                                 and the tile turns green
                             </Trans>
                         </Text>
@@ -211,24 +215,22 @@ class CDInstructionsScreen extends React.Component<Props> {
                         </Text>
                     </View>
 
-                    <Text style={styles.tutParagraph}>
-                        {t('holdZoom')}
-                    </Text>
+                    <Text style={styles.tutParagraph}>{t('holdZoom')}</Text>
 
                     <Text style={styles.header}>{t('hint')}</Text>
                     <Text style={styles.tutParagraph}>
                         <Trans i18nKey="CDInstructionsScreen:differentImagery">
-                            Sometimes different imagery sources will have been used.
-                            The images may be aligned slightly differently or might
-                            be a different resolution. Remember, you&apos;re looking
-                            for{' '}
+                            Sometimes different imagery sources will have been
+                            used. The images may be aligned slightly differently
+                            or might be a different resolution. Remember,
+                            you&apos;re looking for{' '}
                             <Text style={{ fontWeight: 'bold' }}>
                                 definite changes in settlements and buildings
                             </Text>{' '}
-                            so if it looks like the same buildings are there, but
-                            maybe there&apos;s a new roof, then this would be a
-                            &quot;no change&quot; scenario and you&apos;d simply
-                            swipe to the next image.
+                            so if it looks like the same buildings are there,
+                            but maybe there&apos;s a new roof, then this would
+                            be a &quot;no change&quot; scenario and you&apos;d
+                            simply swipe to the next image.
                         </Trans>
                     </Text>
                     <Text style={styles.header}>&nbsp;</Text>

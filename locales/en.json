@@ -74,8 +74,6 @@
     "letsGo": "Let's go!",
     "completeSession": "Complete Session",
     "continueMapping": "Continue mapping",
-    "tasks synced":"${data.successCount} tasks synced",
-    "task failures": "${data.errorCount} failures",
     "sync alert": "Sync Alert",
     "sync alert message": "Syncing your tasks.. do not close"
   },
@@ -122,7 +120,7 @@
     "maybe": "MAYBE",
     "instructions1": "How To Contribute",
     "instructions2": "TAP TO SELECT",
-    "instructions3": "Look for features listed in your mission brief. Tap each tile where you find what you're looking for. Tap once for <1>YES</1>, twice for {comp}, and three times for <2>BAD IMAGERY (such as clouds)</2>.",
+    "instructions3": "Look for features listed in your mission brief. Tap each tile where you find what you're looking for. Tap once for <1>YES</1>, twice for <3>{{twoTaps}}</3>, and three times for <5>BAD IMAGERY</5> (such as clouds).",
     "instructions4": "SWIPE TO NAVIGATE",
     "instructions5": "When you are done with a piece of the map, scroll to the next one by swiping.",
     "instructions6": "HOLD TO ZOOM",

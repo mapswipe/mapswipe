@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
 import Button from 'apsl-react-native-button';
+import { Trans, withTranslation } from 'react-i18next';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
     firebaseConnectGroup,
@@ -20,6 +21,7 @@ import type {
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
+    TranslationFunction,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -111,6 +113,7 @@ type Props = {
     onStartGroup: ({}) => void,
     results: ResultMapType,
     hasSeenHelpBoxType1: boolean,
+    t: TranslationFunction,
     tutorial: boolean,
     tutorialName: string,
 };
@@ -217,17 +220,15 @@ class _Mapper extends React.Component<Props, State> {
 
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
-        const { tutorial } = this.props;
+        const { t, tutorial } = this.props;
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);
-        let comp;
+        let twoTaps;
 
         if (projectObj.projectType === 4) {
-            comp = (
-                <Text style={{ color: 'rgb(237, 209, 28)' }}>{t('incomplete')}</Text>
-            );
+            twoTaps = { twoTaps: t('incomplete') };
         } else {
-            comp = <Text style={{ color: 'rgb(237, 209, 28)' }}>{t('maybe')}</Text>;
+            twoTaps = { twoTaps: t('maybe') };
         }
 
         let content;
@@ -243,11 +244,22 @@ class _Mapper extends React.Component<Props, State> {
                         <Text style={styles.tutText}>{t('instructions2')}</Text>
                     </View>
                     <Text style={styles.tutPar}>
-                        <Trans i18nKey="Tutorial:instructions3">
-                            Look for features listed in your mission brief. Tap each tile where you find what you&apos;re looking for. Tap once for&nbsp;
-                            <Text style={{ color: 'rgb(36, 219, 26)' }}>YES</Text>,
-                            twice for&nbsp;
-                            {comp}, and three times for&nbsp;
+                        <Trans
+                            i18nKey="Tutorial:instructions3"
+                            values={twoTaps}
+                        >
+                            Look for features listed in your mission brief. Tap
+                            each tile where you find what you&apos;re looking
+                            for. Tap once for&nbsp;
+                            <Text style={{ color: 'rgb(36, 219, 26)' }}>
+                                YES
+                            </Text>
+                            , twice for&nbsp;
+                            <Text style={{ color: 'rgb(237, 209, 28)' }}>
+                                {/* $FlowFixMe */}
+                                {twoTaps}
+                            </Text>
+                            , and three times for&nbsp;
                             <Text style={{ color: 'rgb(230, 28, 28)' }}>
                                 BAD IMAGERY (such as clouds)
                             </Text>
@@ -396,6 +408,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Mapper = compose(
+    withTranslation('Tutorial'),
     firebaseConnectGroup(),
     connect((state) => ({
         hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1,
