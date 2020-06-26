@@ -126,13 +126,16 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         this.setState({ showSwipeHelp: false });
     };
 
-    renderSwipeHelp = () => (
-        <Text style={styles.swipeHelp}>
-            Swipe DOWN to mark all 6 tiles RED.
-            {'\n'}
-            Swipe UP to undo.
-        </Text>
-    );
+    renderSwipeHelp = () => {
+        const { t } = this.props;
+        return(
+            <Text style={styles.swipeHelp}>
+                {t('swipe down mark red')}
+                {'\n'}
+                {t('swipe up undo')}
+            </Text>
+        )
+    };
 
     render() {
         const { card, closeTilePopup, openTilePopup, tutorial } = this.props;
@@ -175,4 +178,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // IndividualCard
-export default connect(mapStateToProps, mapDispatchToProps)(_IndividualCard);
+export default withTranslation('IndividualCard')(connect(mapStateToProps, mapDispatchToProps)(_IndividualCard));

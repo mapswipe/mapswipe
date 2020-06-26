@@ -48,7 +48,7 @@ export default class LoadingComponent extends React.Component<{}, State> {
     }
 
     render() {
-        const { animOpacity } = this.state;
+        const { animOpacity, t } = this.state;
         return (
             <Animated.View
                 style={{
@@ -65,9 +65,11 @@ export default class LoadingComponent extends React.Component<{}, State> {
                     source={require('./assets/loadinganimation.gif')}
                 />
                 <Text style={styles.loadingText} testID="loading-icon">
-                    Loading...
+                    {t('loading')}
                 </Text>
             </Animated.View>
         );
     }
 }
+
+export default withTranslation('LoadingIcon');

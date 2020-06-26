@@ -224,82 +224,57 @@ class _Mapper extends React.Component<Props, State> {
 
         if (projectObj.projectType === 4) {
             comp = (
-                <Text style={{ color: 'rgb(237, 209, 28)' }}>INCOMPLETE</Text>
+                <Text style={{ color: 'rgb(237, 209, 28)' }}>{t('incomplete')}</Text>
             );
         } else {
-            comp = <Text style={{ color: 'rgb(237, 209, 28)' }}>MAYBE</Text>;
+            comp = <Text style={{ color: 'rgb(237, 209, 28)' }}>{t('maybe')}</Text>;
         }
 
         let content;
         if (!tutorial) {
             content = (
                 <>
-                    <Text style={styles.header}>How To Contribute</Text>
+                    <Text style={styles.header}>{t('instructions1')}</Text>
                     <View style={styles.tutRow}>
                         <Image
                             source={require('../assets/tap_icon.png')}
                             style={styles.tutImage}
                         />
-                        <Text style={styles.tutText}>TAP TO SELECT</Text>
+                        <Text style={styles.tutText}>{t('instructions2')}</Text>
                     </View>
-                    <Text style={styles.tutPar}>
-                        Look for features listed in your mission brief. Tap each
-                        tile where you find what you&apos;re looking for. Tap
-                        once for&nbsp;
-                        <Text style={{ color: 'rgb(36, 219, 26)' }}>YES</Text>,
-                        twice for&nbsp;
-                        {comp}, and three times for&nbsp;
-                        <Text style={{ color: 'rgb(230, 28, 28)' }}>
-                            BAD IMAGERY (such as clouds)
-                        </Text>
-                        .
-                    </Text>
+                    <Text style={styles.tutPar}>{t('instructions3')}</Text>
                     <View style={styles.tutRow}>
                         <Image
                             source={require('../assets/swipeleft_icon.png')}
                             style={styles.tutImage2}
                         />
-                        <Text style={styles.tutText}>SWIPE TO NAVIGATE</Text>
+                        <Text style={styles.tutText}>{t('instructions4')}</Text>
                     </View>
-                    <Text style={styles.tutPar}>
-                        When you are done with a piece of the map, scroll to the
-                        next one by swiping.
-                    </Text>
+                    <Text style={styles.tutPar}>{t('instructions5')}</Text>
                     <View style={styles.tutRow}>
                         <Image
                             source={require('../assets/tap_icon.png')}
                             style={styles.tutImage2}
                         />
-                        <Text style={styles.tutText}>HOLD TO ZOOM</Text>
+                        <Text style={styles.tutText}>{t('instructions6')}</Text>
                     </View>
-                    <Text style={styles.tutPar}>
-                        Hold a tile to zoom in on the tile.
-                    </Text>
-                    <Text style={styles.header}>Credits</Text>
+                    <Text style={styles.tutPar}>{t('instructions7')}</Text>
+                    <Text style={styles.header}>{t('instructions8')}</Text>
                     <Text style={styles.tutPar}>{creditString}</Text>
                 </>
             );
         } else {
             content = (
                 <View>
-                    <Text style={styles.tutPar}>Welcome to the tutorial!</Text>
+                    <Text style={styles.tutPar}>{t('tutorial1')}</Text>
                     <View style={styles.tutRow}>
-                        <Text style={styles.tutPar}>
-                            This should make you a wizard of MapSwipe in a few
-                            minutes.
-                        </Text>
+                        <Text style={styles.tutPar}>{t('tutorial2')}</Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <Text style={styles.tutPar}>
-                            Just follow the instructions on the screen, and
-                            swipe left to continue.
-                        </Text>
+                        <Text style={styles.tutPar}>{t('tutorial3')}</Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <Text style={styles.tutPar}>
-                            If the instructions are in your way, just tap the
-                            message box to move it.
-                        </Text>
+                        <Text style={styles.tutPar}>{t('tutorial4')}</Text>
                     </View>
                 </View>
             );
@@ -325,7 +300,7 @@ class _Mapper extends React.Component<Props, State> {
                         fontWeight: '700',
                     }}
                 >
-                    I understand
+                    {t('tutorial5')}
                 </Button>
             </Modal>
         );
