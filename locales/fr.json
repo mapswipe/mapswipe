@@ -7,20 +7,81 @@
     "chooseUsername": "Choisis ton nom d'utilisateur",
     "passwordError": "Le mot de passe doit contenir au moins 6 caractères",
     "usernameError": "Le nom d'utilisateur doit contenir au moins 4 caractères",
-    "usernamePublic": "Ton nom d'utilisateur sera visible publiquement"
+    "errorOnSignup": "Erreur lors de l'inscription",
+    "usernameErrorMessage": "Votre nom d'utilisateur doit contenir 4 caractères au minimum. ",
+    "usernameNotEmail": "Votre nom d'utilisateur ne peut pas être une adresse e-mail.",
+    "usernamePublic": "Votre nom d'utilisateur sera visible publiquement",
+    "success": "Réussi",
+    "welcomeToMapSwipe": "Bienvenue sur MapSwipe, {{nom d'utilisateur}}",
+    "emailAlreadyUsed": "L'adresse e-mail est déjà utilisée par un autre compte.",
+    "emailInvalid": "L'adresse email n'est pas valide.",
+    "problemSigningUp": "Problème d'inscription",
+    "errorOnSignUp": "Erreur à l'inscription ",
+    "checkYourEmail": "Vérifiez votre boîte e-mail",
+    "noAccountFoundForEmail": "Aucun compte trouvé pour cet e-mail",
+    "problemResettingPassword": "Problème de réinitialiser votre mot de passe",
+    "errorLogIn": "Erreur lors de la connexion",
+    "invalidEmailPassword": "Email ou mot de passe invalide",
+    "accountDisabled": "Compte désactivé",
+    "problemLoggingIn": "Problème lors de la connexion",
+    "errorResetPass": "Problème lors de la réinitialisation de votre mot de passe",
+    "enterYourEmail": "Entrez votre adresse email",
+    "choosePassword": "Choisissez votre mot de passe",
+    "enterYourPassword": "Entrez votre mot de passe",
+    "IagreeToPrivacyNotice": "J'accepte <1>l'avis de confidentialité</1>",
+    "contributionWarningOnSignup": "*Toutes vos contribution à MapSwipe sont libres et sont disponible à tout le monde. Votre nom d'utilisateur est public mais votre email et mot de passe ne seront jamais partagés avec quiconque.",
+    "signUp": "Inscrivez-vous",
+    "loginExistingAccount": "Connectez-vous à un compte existant",
+    "login": "Connexion",
+    "forgotPassword": "Mot de passe oublié ?",
+    "createNewAccount": "Créer un nouveau compte",
+    "sendResetEmailWarning": "* Un email vous sera envoyé pour réinitialiser votre mot de passe",
+    "sendResetEmail": "Envoyer l’e-mail de réinitialisation",
+    "backToLogin": "Retour à la connexion"
   },
   "login": {
     "enterUsername": "Saisis ton nom d'utilisateur"
   },
   "profileScreen": {
-    "Level X": "Niveau {{level}}",
-    "youve completed x tasks": "Tu as effectué {{contributions}} tâches!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} swipes) avant le prochain niveau",
+    "Level X": "Niveau {{niveau}}",
+    "youve completed x tasks": "Vous avez complété {{contributions}} tâches!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} swipes) jusqu'au niveau supérieur ",
     "changeLanguage": "Choisir la langue",
     "mapswipe website": "Site web de MapSwipe",
     "missingmaps website": "Site web de Missing Maps",
     "email us": "Nous écrire",
     "sign out": "Se déconnecter",
-    "delete my account": "Supprimer mon compte"
+    "delete my account": "Supprimer mon compte",
+    "delete account question": "Supprimer votre compte ?",
+    "delete account warning": "Vous alley perdre tous vos progrès et vos badges. Vos contributions resteront publiques mais ne seront plus liées à votre compte. \nVoudriez-vous continuer ?",
+    "no keep my account": "Non, garder mon compte",
+    "yes delete it": "Oui, supprimez-le!"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% PROGRES GLOBAL PAR {{project.contributorCount}} CARTOGRAPHES JUSTE COMME VOUS.",
+    "map now": "Commencer à cartographier",
+    "tutorial": "Tutoriel"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Vous cherchez:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Bravo. Vous avez fini le tutoriel ! Vous êtes prêt à commencer la cartographie !",
+    "finishedGroup": "Bravo ! Vous avez terminé ce groupe. ",
+    "letsGo": "C'est parti ! ",
+    "completeSession": "Session terminée",
+    "continueMapping": "Continuer le mappage"
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Bienvenue sur MapSwipe",
+    "helpImprove": "Aidez à améliorer les réponses humanitaires avec votre téléphone",
+    "partMissingMaps": "Partie du Missing Maps",
+    "withMissingMaps": "Chez Missing Maps, nous visons à mettre les communautés vulnérables du monde sur la carte",
+    "swipe": "Glissez",
+    "completeTasks": "Complète la tâche en traçant dans les imageries satellite des aires à cartographier",
+    "createData": "Créer des données pertinentes",
+    "dataUse": "Les données sont utilisées pour rassembler les efforts des volontaires de Missing Maps en ajoutant des détails sur OpenStreetMap",
+    "saveLives": "Sauver des vies.",
+    "mapHelps": "La carte contribue à la coordination de l'effort humanitaire et sauve des vies"
   }
 }
