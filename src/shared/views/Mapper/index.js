@@ -242,7 +242,18 @@ class _Mapper extends React.Component<Props, State> {
                         />
                         <Text style={styles.tutText}>{t('instructions2')}</Text>
                     </View>
-                    <Text style={styles.tutPar}>{t('instructions3')}</Text>
+                    <Text style={styles.tutPar}>
+                        <Trans i18nKey="Tutorial:instructions3">
+                            Look for features listed in your mission brief. Tap each tile where you find what you&apos;re looking for. Tap once for&nbsp;
+                            <Text style={{ color: 'rgb(36, 219, 26)' }}>YES</Text>,
+                            twice for&nbsp;
+                            {comp}, and three times for&nbsp;
+                            <Text style={{ color: 'rgb(230, 28, 28)' }}>
+                                BAD IMAGERY (such as clouds)
+                            </Text>
+                            .
+                        </Trans>
+                    </Text>
                     <View style={styles.tutRow}>
                         <Image
                             source={require('../assets/swipeleft_icon.png')}

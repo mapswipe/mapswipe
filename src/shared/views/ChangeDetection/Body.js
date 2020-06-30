@@ -262,7 +262,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                                 marginBottom: 2,
                             }}
                         >
-                            View instructions
+                            {t('viewInstructions')}
                         </Text>
                     </TouchableWithoutFeedback>
                 </View>

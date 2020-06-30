@@ -260,7 +260,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                         fontWeight: '700',
                     }}
                 >
-                    I understand
+                    {t('iUnderstand')}
                 </Button>
             </Modal>
         );
