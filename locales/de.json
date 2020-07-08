@@ -40,7 +40,7 @@
     "backToLogin": "Zurück zur Anmeldung"
   },
   "login": {
-    "enterUsername": "Gib deinen Nutzernamen ein"
+    "enterUsername": "Gib deinen Benutzernamen ein"
   },
   "profileScreen": {
     "Level X": "Level {{level}}",
