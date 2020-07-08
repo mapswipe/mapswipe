@@ -13,7 +13,7 @@
     "usernamePublic": "Dein Benutzername ist öffentlich sichtbar",
     "success": "Erfolg",
     "welcomeToMapSwipe": "Hallo {{username}}, willkommen bei MapSwipe",
-    "emailAlreadyUsed": "Emailadresse wird bereits von einem anderen Konto verwendet",
+    "emailAlreadyUsed": "E-Mail-Adresse wird bereits von einem anderen Konto verwendet",
     "emailInvalid": "Emailadresse ist ungültig",
     "problemSigningUp": "Problem bei der Kontoerstellung",
     "errorOnSignUp": "Fehler bei der Kontoerstellung",
