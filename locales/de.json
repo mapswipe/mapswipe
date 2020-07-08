@@ -18,7 +18,7 @@
     "problemSigningUp": "Problem bei der Kontoerstellung",
     "errorOnSignUp": "Fehler bei der Kontoerstellung",
     "checkYourEmail": "Überprüfe deinen E-Mail-Posteingang",
-    "noAccountFoundForEmail": "Für diese Emailadresse konnte kein Konto gefunden werden",
+    "noAccountFoundForEmail": "Für diese E-Mail-Adresse konnte kein Konto gefunden werden",
     "problemResettingPassword": "Problem beim Zurücksetzen des Passwortes",
     "errorLogIn": "Fehler bei der Anmeldung",
     "invalidEmailPassword": "Ungültige Emailadresse oder Passwort",
