@@ -21,7 +21,7 @@
     "noAccountFoundForEmail": "Für diese E-Mail-Adresse konnte kein Konto gefunden werden",
     "problemResettingPassword": "Problem beim Zurücksetzen des Passwortes",
     "errorLogIn": "Fehler bei der Anmeldung",
-    "invalidEmailPassword": "Ungültige Emailadresse oder Passwort",
+    "invalidEmailPassword": "Ungültige E-Mail-Adresse oder Passwort",
     "accountDisabled": "Konto gesperrt",
     "problemLoggingIn": "Problem bei der Anmeldung",
     "errorResetPass": "Fehler beim Zurücksetzen des Passworts",
