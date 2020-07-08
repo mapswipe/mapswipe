@@ -10,7 +10,7 @@
     "errorOnSignup": "Fehler bei der Kontoerstellung",
     "usernameErrorMessage": "Dein Benutzername muss aus mindestens 4 Zeichen bestehen",
     "usernameNotEmail": "Dein Benutzername darf keine E-Mail-Adresse sein",
-    "usernamePublic": "Dein Nutzername ist öffentlich sichtbar",
+    "usernamePublic": "Dein Benutzername ist öffentlich sichtbar",
     "success": "Erfolg",
     "welcomeToMapSwipe": "Hallo {{username}}, willkommen bei MapSwipe",
     "emailAlreadyUsed": "Emailadresse wird bereits von einem anderen Konto verwendet",
