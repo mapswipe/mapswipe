@@ -4,7 +4,7 @@
     "more": "Mehr"
   },
   "signup": {
-    "chooseUsername": "Wähle deinen Nutzernamen",
+    "chooseUsername": "Wähle deinen Benutzernamen",
     "passwordError": "Dein Passwort muss aus mindestens 6 Zeichen bestehen",
     "usernameError": "Dein Nutzername muss aus mindestens 4 Zeichen bestehen",
     "errorOnSignup": "Fehler bei der Kontoerstellung",
