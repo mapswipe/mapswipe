@@ -64,7 +64,7 @@ class _LoadMoreCard extends React.Component<Props> {
     showSyncProgress = () => {
         MessageBarManager.showAlert({
             title: 'Sync Alert',
-            message: 'Syncing your tasks.. do not close',
+            message: 'Syncing your tasks... Do not close the app',
             alertType: 'info',
         });
     };
