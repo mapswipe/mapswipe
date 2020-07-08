@@ -35,7 +35,7 @@
     "login": "Anmelden",
     "forgotPassword": "Passwort vergessen?",
     "createNewAccount": "Neues Konto erstellen",
-    "sendResetEmailWarning": "Wir werden eine Email zum Zurücksetzen des Passwortes senden",
+    "sendResetEmailWarning": "Wir werden dir eine E-Mail zum Zurücksetzen des Passwortes senden",
     "sendResetEmail": "Email zum Zurücksetzen senden",
     "backToLogin": "Zurück zur Anmeldung"
   },
