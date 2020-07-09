@@ -58,7 +58,7 @@
     "yes delete it": "Ja, Konto löschen"
   },
   "projectList": {
-    "progress pc by x mappers": "{{progress}}% von {{mappersCount}} Kartograohierenden"
+    "progress pc by x mappers": "{{progress}}% von {{mappersCount}} Kartographierenden"
   },
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBALER FORTSCHRITT VON {{project.contributorCount}} KARTOGRAPHIERENDEN WIE DIR.",
