@@ -103,17 +103,17 @@
     "differentImagery": "Sometimes different imagery sources will have been used. The images may be aligned slightly differently or might be a different resolution. Remember, you're looking for{' '}<1> definite changes in settlements and buildings</1>{' '} so if it looks like the same buildings are there, but maybe there's a new roof, then this would be a 'no change' scenario and you'd simply swipe to the next image."
   },
   "CDBodyScreen": {
-    "viewInstructions": "View instructions",
+    "viewInstructions": "View instructions"
   },
   "ProjectLevelScreen": {
-    "iUnderstand": "I understand",
+    "iUnderstand": "I understand"
   },
   "IndividualCard": {
     "swipe down mark red": "Swipe DOWN to mark all 6 tiles RED.",
-    "swipe up undo": "Swipe UP to undo.",
+    "swipe up undo": "Swipe UP to undo."
   },
   "LoadingIcon": {
-    "loading": "Loading...",
+    "loading": "Loading..."
   },
   "Tutorial": {
     "incomplete": "INCOMPLETE",
