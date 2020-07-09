@@ -1,6 +1,8 @@
 // @flow
 import * as React from 'react';
 import { Animated, Easing, Image, Text } from 'react-native';
+import { withTranslation } from 'react-i18next';
+import type { TranslationFunction } from '../flow-types';
 
 const GLOBAL = require('../Globals');
 
@@ -15,12 +17,16 @@ const styles = {
     },
 };
 
+type Props = {
+    t: TranslationFunction,
+};
+
 type State = {
     animOpacity: Animated.Value,
 };
 
-export default class LoadingComponent extends React.Component<{}, State> {
-    constructor(props: {}) {
+class LoadingComponent extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             animOpacity: new Animated.Value(0),
@@ -49,6 +55,7 @@ export default class LoadingComponent extends React.Component<{}, State> {
 
     render() {
         const { animOpacity } = this.state;
+        const { t } = this.props;
         return (
             <Animated.View
                 style={{
@@ -65,9 +72,11 @@ export default class LoadingComponent extends React.Component<{}, State> {
                     source={require('./assets/loadinganimation.gif')}
                 />
                 <Text style={styles.loadingText} testID="loading-icon">
-                    Loading...
+                    {t('loading')}
                 </Text>
             </Animated.View>
         );
     }
 }
+
+export default withTranslation('LoadingIcon')(LoadingComponent);

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
+import { withTranslation } from 'react-i18next';
 import { cancelGroup, startGroup } from '../actions/index';
 import {
     firebaseConnectGroup,
@@ -21,6 +22,7 @@ import type {
     GroupType,
     NavigationProp,
     ProjectType,
+    TranslationFunction,
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -71,6 +73,7 @@ type Props = {
     onStartGroup: ({}) => void,
     onSubmitResult: (Object) => void,
     screenName: string,
+    t: TranslationFunction,
     tutorial: boolean,
     tutorialHelpContent: React.ComponentType<any>,
 };
@@ -228,6 +231,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     renderHelpModal = () => {
         const {
             getNormalHelpContent,
+            t,
             tutorial,
             tutorialHelpContent,
         } = this.props;
@@ -259,7 +263,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                         fontWeight: '700',
                     }}
                 >
-                    I understand
+                    {t('iUnderstand')}
                 </Button>
             </Modal>
         );
@@ -334,6 +338,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 export default compose(
+    withTranslation('ProjectLevelScreen'),
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
 )(ProjectLevelScreen);

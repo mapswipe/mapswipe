@@ -60,18 +60,11 @@ type Props = {
 };
 
 class _LoadMoreCard extends React.Component<Props> {
-    showSyncResult = (data, alertType) => {
-        MessageBarManager.showAlert({
-            title: `${data.successCount} tasks synced`,
-            message: `${data.errorCount} failures`,
-            alertType,
-        });
-    };
-
     showSyncProgress = () => {
+        const { t } = this.props;
         MessageBarManager.showAlert({
-            title: 'Sync Alert',
-            message: 'Syncing your tasks.. do not close',
+            title: t('sync alert'),
+            message: t('sync alert message'),
             alertType: 'info',
         });
     };

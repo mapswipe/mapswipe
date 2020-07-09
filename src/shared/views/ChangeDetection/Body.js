@@ -10,6 +10,7 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
+import { withTranslation } from 'react-i18next';
 import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
@@ -27,6 +28,7 @@ import type {
     NavigationProp,
     ProjectType,
     ResultMapType,
+    TranslationFunction,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -55,6 +57,7 @@ type Props = {
     onSubmitResult: (Object) => void,
     results: ResultMapType,
     screenName: string,
+    t: TranslationFunction,
     tutorial: boolean,
 };
 
@@ -207,7 +210,14 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { categories, group, navigation, results, tutorial } = this.props;
+        const {
+            categories,
+            group,
+            navigation,
+            results,
+            t,
+            tutorial,
+        } = this.props;
         const { groupCompleted } = this.state;
         if (!group) {
             return <LoadingIcon />;
@@ -261,7 +271,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                                 marginBottom: 2,
                             }}
                         >
-                            View instructions
+                            {t('viewInstructions')}
                         </Text>
                     </TouchableWithoutFeedback>
                 </View>
@@ -288,6 +298,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 export default compose(
+    withTranslation('CDBodyScreen'),
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
 )(_ChangeDetectionBody);

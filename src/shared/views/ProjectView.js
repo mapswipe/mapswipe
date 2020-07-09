@@ -405,8 +405,8 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         });
 
         // show progress = 0 if we somehow get a negative value
-        // eslint-disable-next-line no-unused-vars
         const projectProgress = getProjectProgressForDisplay(project.progress);
+        const { contributorCount } = project;
 
         return (
             <ScrollView style={style.projectViewContainer} testID="projectView">
@@ -426,7 +426,13 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                         source={require('./assets/heart_icon.png')}
                                     />
                                     <Text style={style.infoBlockText}>
-                                        {t('x pc global progress by n mappers')}
+                                        {t(
+                                            'x pc global progress by n mappers',
+                                            {
+                                                projectProgress,
+                                                contributorCount,
+                                            },
+                                        )}
                                     </Text>
                                     <Image
                                         style={style.mmLogo}
