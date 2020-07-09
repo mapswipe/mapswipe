@@ -5,16 +5,10 @@ import { connect } from 'react-redux';
 import fb from 'react-native-firebase';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
-import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import { cancelGroup, commitGroup, type GroupInfo } from '../actions/index';
-import type {
-    GroupType,
-    NavigationProp,
-    ResultMapType,
-    TranslationFunction,
-} from '../flow-types';
+import type { GroupType, NavigationProp, ResultMapType } from '../flow-types';
 import { COLOR_DARK_GRAY, COLOR_DEEP_BLUE, COLOR_WHITE } from '../constants';
 
 const GLOBAL = require('../Globals');
@@ -54,17 +48,23 @@ type Props = {
     onCommitGroup: (GroupInfo) => void,
     projectId: string,
     results: ResultMapType,
-    t: TranslationFunction,
     toNextGroup: (void) => void,
     tutorial: boolean,
 };
 
 class _LoadMoreCard extends React.Component<Props> {
-    showSyncProgress = () => {
-        const { t } = this.props;
+    showSyncResult = (data, alertType) => {
         MessageBarManager.showAlert({
-            title: t('sync alert'),
-            message: t('sync alert message'),
+            title: `${data.successCount} tasks synced`,
+            message: `${data.errorCount} failures`,
+            alertType,
+        });
+    };
+
+    showSyncProgress = () => {
+        MessageBarManager.showAlert({
+            title: 'Sync Alert',
+            message: 'Syncing your tasks... Do not close the app',
             alertType: 'info',
         });
     };
@@ -117,11 +117,13 @@ class _LoadMoreCard extends React.Component<Props> {
     };
 
     render() {
-        const { t, tutorial } = this.props;
+        const { tutorial } = this.props;
         return (
             <View style={styles.congratulationsSlide}>
                 <Text style={styles.finishedText}>
-                    {tutorial ? t('completedTutorial') : t('finishedGroup')}
+                    {tutorial
+                        ? 'Good. You have completed the tutorial. You are ready to do some mapping!'
+                        : 'Great job! You finished this group.'}
                 </Text>
 
                 <Button
@@ -129,7 +131,7 @@ class _LoadMoreCard extends React.Component<Props> {
                     onPress={this.onComplete}
                     textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                 >
-                    {tutorial ? t('letsGo') : t('completeSession')}
+                    {tutorial ? "Let's go!" : 'Complete Session'}
                 </Button>
                 {tutorial || (
                     <Button
@@ -137,7 +139,7 @@ class _LoadMoreCard extends React.Component<Props> {
                         onPress={this.onMore}
                         textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                     >
-                        {t('continueMapping')}
+                        Continue mapping
                     </Button>
                 )}
             </View>
@@ -160,7 +162,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-    withTranslation('loadMoreScreen'),
     firebaseConnect(),
     connect(mapStateToProps, mapDispatchToProps),
 )(_LoadMoreCard);
