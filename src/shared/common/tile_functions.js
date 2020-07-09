@@ -64,7 +64,7 @@ export function getTileUrlFromCoordsAndTileserver(
         // https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/
         const newY = 2 ** zoom - y - 1;
         url = formatXYZoomKey(urlTemplate, x, newY, zoom, apiKey);
-    } else if (tileServerName === 'custom' && urlTemplate.includes('{-y}')) {
+    } else if (urlTemplate.includes('{-y}')) {
         // this uses not the standard TMS tile y coordinate, but the Google tile y coordinate
         const newY = 2 ** zoom - y - 1;
         url = urlTemplate.replace('{-y}', '{y}');
