@@ -119,7 +119,7 @@
     "incomplete": "UNVOLLSTÄNDIG",
     "maybe": "VIELLEICHT",
     "instructions1": "Wie du beiträgst",
-    "instructions2": "TIPPEN ZUM AUSWÄHLEN",
+    "instructions2": "TIPPE ZUM AUSWÄHLEN",
     "instructions3": "Schaue nach den Merkmalen die in der Missionsbeschreibung stehen. Tippe jede Kachel an, auf der du findest was du suchst. Tipp einmal für <1>JA</1>, zweimal für <3>{{twoTaps}}</3>, und dreimal <5>SCHLECHTES BILD</5> (z.B. Wolken).",
     "instructions4": "WISCHEN ZUM NAVIGIEREN",
     "instructions5": "Wenn du mit einem Teil der Karte fertig bist, wische zum Nächsten.",
