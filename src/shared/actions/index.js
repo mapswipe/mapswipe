@@ -70,20 +70,19 @@ type StartGroup = {
     type: typeof START_GROUP,
     projectId: string,
     groupId: string,
-    timestamp: number,
+    startTime: number,
 };
 export function startGroup(grp: {
     projectId: string,
     groupId: string,
-    timestamp: number,
+    startTime: number,
 }): StartGroup {
-    // dispatched when the user cancels work on a group midway
-    // this forces deletion of the results created so far
+    // dispatched when the user starts work on a group
     return {
         type: START_GROUP,
         projectId: grp.projectId,
         groupId: grp.groupId,
-        timestamp: grp.timestamp,
+        startTime: grp.startTime,
     };
 }
 
@@ -200,15 +199,13 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         const firebase = getFirebase();
         const userId = firebase.auth().currentUser.uid;
         // get a single timestamp upon completion of the group
-        const timestamp = GLOBAL.DB.getTimestamp();
-        const endTime = timestamp;
+        const endTime = GLOBAL.DB.getTimestamp();
         const { groupId, projectId, results } = groupInfo;
         dispatch(startSendingResults(projectId, groupId));
         const { startTime, ...rest } = results[projectId][groupId];
         const objToUpload = {
             startTime,
             endTime,
-            timestamp,
             results: rest,
         };
         const fbPath = `v2/results/${projectId}/${groupId}/${userId}/`;

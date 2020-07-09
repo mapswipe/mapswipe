@@ -151,7 +151,7 @@ class _Mapper extends React.Component<Props, State> {
             onStartGroup({
                 groupId: group.groupId,
                 projectId: group.projectId,
-                timestamp: GLOBAL.DB.getTimestamp(),
+                startTime: GLOBAL.DB.getTimestamp(),
             });
         }
     }
