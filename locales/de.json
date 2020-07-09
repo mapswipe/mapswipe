@@ -57,8 +57,11 @@
     "no keep my account": "Nein, Konto behalten",
     "yes delete it": "Ja, Konto löschen"
   },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% von {{mappersCount}} Kartograohierenden"
+  },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% GLOBALER FORTSCHRITT VON {{project.contributorCount}} KARTOGRAPHEN UND KARTOGRAPHINNEN WIE DU.",
+    "x pc global progress by n mappers": "{{projectProgress}}% GLOBALER FORTSCHRITT VON {{project.contributorCount}} KARTOGRAPHIERENDEN WIE DIR.",
     "map now": "Jetzt kartieren",
     "tutorial": "Anleitung"
   },
@@ -70,7 +73,9 @@
     "finishedGroup": "Grossartig! Du hast diese Gruppe von Aufgaben beendet.",
     "letsGo": "Lost geht's!",
     "completeSession": "Session beenden",
-    "continueMapping": "Weiter kartieren"
+    "continueMapping": "Weiter kartieren",
+    "sync alert": "Sync Hinweis",
+    "sync alert message": "Synchronisiere deine Aufgaben... App nicht schließen."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Willkommen bei MapSwipe",
@@ -83,5 +88,48 @@
     "dataUse": "Die generierten Daten werden benutzt, damit Freiwillige von Missing Maps ihre Bemühungen, Details auf OpenStreetMap einzutragen, fokussieren können",
     "saveLives": "Rette Leben",
     "mapHelps": "Die Karte hilft humanitäre Hilfe zu koordinieren und rettet Leben"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Anleitung",
+    "your task": "Deine Aufgabe:",
+    "lookingFor": "Du suchst nach {' '} <1>Gebäudeänderungen</1>. Dies ist ein Indikator für Änderungen in der Bevölkerungsgröße.",
+    "perform task": "So erledigst du die Aufgabe:",
+    "noChanges": "Wenn sich nichts geändert hat, {' '} <1>swipe</1> einfach zu den nächsten Fotos",
+    "seeChanges": "Wenn du eine Veränderung an den Gebäuden siehst, {' '} <1>tippe einmal</1>{' '} und die Kachel wird grün",
+    "unsure": "Unsicher?{' '} <1>Tippe zweimal</1>{' '} und die Kachel wird gelb",
+    "badImagery": "Ein Problem mit dem Bildmaterial wie z.B. Wolken die im Weg sind?{' '} <1>Tippe dreimal</1>{' '} und die Kachel wird rot",
+    "holdZoom": "Wenn du ein Bild näher betrachten willst, tippe und halte das Bild und wir zoomen noch ein wenig rein.",
+    "hint": "Hinweis:",
+    "differentImagery": "Manchmal wurden unterschiedliche Bildquellen verwendet. Diese Bilder können leicht unterschiedlich angepasst oder in unterschiedlichen Auflösungen sein. Denke daran, du suchst nach{' '}<1> eindeutigen Änderungen in Siedlungen oder Gebäuden</1>{' '}. Wenn es also so aussieht als wäre dort ein Gebäude, das nur ein neues Dach bekommen hat, dann ist dies keine Änderung und die kannst wischen um fortzufahren."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Anleitung anzeigen"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Verstanden"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Wische NACH UNTEN um alle 6 Kacheln ROT zu markieren.",
+    "swipe up undo": "Wische NACH OBEN um dies rückgängig zu machen."
+  },
+  "LoadingIcon": {
+    "loading": "Lade..."
+  },
+  "Tutorial": {
+    "incomplete": "UNVOLLSTÄNDIG",
+    "maybe": "VIELLEICHT",
+    "instructions1": "Wie du beiträgst",
+    "instructions2": "TIPPEN ZUM AUSWÄHLEN",
+    "instructions3": "Schaue nach den Merkmalen die in der Missionsbeschreibung stehen. Tippe jede Kachel an, auf der du findest was du suchst. Tipp einmal für <1>JA</1>, zweimal für <3>{{twoTaps}}</3>, und dreimal <5>SCHLECHTES BILD</5> (z.B. Wolken).",
+    "instructions4": "WISCHEN ZUM NAVIGIEREN",
+    "instructions5": "Wenn du mit einem Teil der Karte fertig bist, wische zum Nächsten.",
+    "instructions6": "HALTEN ZUM ZOOMEN",
+    "instructions7": "Halte eine Kachel um zu zoomen.",
+    "instructions8": "Nachweis",
+    "tutorial1": "Willkommen zur Anleitung!",
+    "tutorial2": "Dies sollte dich in wenigen Minuten zu einem Experten in MapSwipe machen.",
+    "tutorial3": "Folge einfach den Anweisungen und wische nach links um fortzufahren.",
+    "tutorial4": "Wenn dir die Anweisungen im weg sind, klicke einfach auf die Anweisung um sie zu verschieben.",
+    "tutorial5": "Verstanden"
   }
 }
