@@ -6,6 +6,10 @@ import translationDE from '../../locales/de';
 import translationEN from '../../locales/en';
 import translationFR from '../../locales/fr';
 import translationHU from '../../locales/hu';
+import translationJA from '../../locales/ja';
+import translationNE from '../../locales/ne';
+import translationNL from '../../locales/nl';
+import translationSW from '../../locales/sw';
 
 const resources = {
     cs: translationCS,
@@ -13,6 +17,10 @@ const resources = {
     en: translationEN,
     fr: translationFR,
     hu: translationHU,
+    ja: translationJA,
+    ne: translationNE,
+    nl: translationNL,
+    sw: translationSW,
 };
 
 i18n.use(initReactI18next).init({

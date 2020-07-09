@@ -33,4 +33,8 @@ export const supportedLanguages = [
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' },
     { code: 'hu', name: 'Magyar' },
+    { code: 'ja', name: '日本語' },
+    { code: 'ne', name: 'नेपाली' },
+    { code: 'nl', name: 'Nederlands' },
+    { code: 'sw', name: 'Kiswahili' },
 ];
