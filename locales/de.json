@@ -92,7 +92,7 @@
   "CDInstructionScreen": {
     "instructions": "Anleitung",
     "your task": "Deine Aufgabe:",
-    "lookingFor": "Du suchst nach {' '} <1>Gebäudeänderungen</1>. Dies ist ein Indikator für Änderungen in der Bevölkerungsgröße.",
+    "lookingFor": "Du suchst nach{' '} <1>Gebäudeänderungen</1>. Dies ist ein Indikator für Änderungen in der Bevölkerungsgröße.",
     "perform task": "So erledigst du die Aufgabe:",
     "noChanges": "Wenn sich nichts geändert hat, {' '} <1>swipe</1> einfach zu den nächsten Fotos",
     "seeChanges": "Wenn du eine Veränderung an den Gebäuden siehst, {' '} <1>tippe einmal</1>{' '} und die Kachel wird grün",
