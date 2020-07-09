@@ -95,7 +95,7 @@
     "lookingFor": "Du suchst nach{' '} <1>Gebäudeänderungen</1>. Dies ist ein Indikator für Änderungen in der Bevölkerungsgröße.",
     "perform task": "So erledigst du die Aufgabe:",
     "noChanges": "Wenn sich nichts geändert hat,{' '} <1>wische</1> einfach zu den nächsten Fotos",
-    "seeChanges": "Wenn du eine Veränderung an den Gebäuden siehst, {' '} <1>tippe einmal</1>{' '} und die Kachel wird grün",
+    "seeChanges": "Wenn du eine Veränderung an den Gebäuden siehst,{' '} <1>tippe einmal</1>{' '} und die Kachel wird grün",
     "unsure": "Unsicher?{' '} <1>Tippe zweimal</1>{' '} und die Kachel wird gelb",
     "badImagery": "Ein Problem mit dem Bildmaterial wie z.B. Wolken die im Weg sind?{' '} <1>Tippe dreimal</1>{' '} und die Kachel wird rot",
     "holdZoom": "Wenn du ein Bild näher betrachten willst, tippe und halte das Bild und wir zoomen noch ein wenig rein.",
