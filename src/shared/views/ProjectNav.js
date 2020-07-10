@@ -47,7 +47,7 @@ class _ProjectNav extends React.Component<Props> {
             >
                 <RecommendedCards
                     navigation={navigation}
-                    tabLabel={t('Missions')}
+                    tabLabel={t('missions')}
                 />
                 <MoreOptions navigation={navigation} tabLabel={t('more')} />
             </ScrollableTabView>
