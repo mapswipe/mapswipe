@@ -5,8 +5,8 @@
   },
   "signup": {
     "chooseUsername": "Choose your username",
-    "passwordError": "Password must be more than 6 characters",
-    "usernameError": "Username must be more than 4 characters",
+    "passwordError": "Password must be at least 6 characters long",
+    "usernameError": "Username must be at least 4 characters long",
     "errorOnSignup": "Error on sign up",
     "usernameErrorMessage": "Your username must be 4 characters or more",
     "usernameNotEmail": "Your username can not be an email",

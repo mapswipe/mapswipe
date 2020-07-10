@@ -108,6 +108,10 @@ const SCREEN_SIGNUP = 0;
 const SCREEN_LOGIN = 1;
 const SCREEN_FORGOT_PASSWORD = 2;
 
+const MIN_USERNAME_LENGTH = 4;
+const MIN_PASSWORD_LENGTH = 6;
+const MIN_EMAIL_LENGTH = 6;
+
 type Props = {
     auth: {},
     firebase: Object,
@@ -173,7 +177,7 @@ class _Login extends React.Component<Props, State> {
         const { firebase, navigation, t } = this.props;
         const { email, password, username } = this.state;
         const parent = this;
-        if (username !== null && username.length < 3) {
+        if (username !== null && username.length < MIN_USERNAME_LENGTH) {
             MessageBarManager.showAlert({
                 title: t('errorOnSignup'),
                 message: t('usernameErrorMessage'),
@@ -362,9 +366,9 @@ class _Login extends React.Component<Props, State> {
             username,
         } = this.state;
         const signupButtonDisabled =
-            email.length < 6 ||
-            username.length < 4 ||
-            password.length < 6 ||
+            email.length < MIN_EMAIL_LENGTH ||
+            username.length < MIN_USERNAME_LENGTH ||
+            password.length < MIN_PASSWORD_LENGTH ||
             !signupPPChecked;
 
         return (
@@ -392,7 +396,8 @@ class _Login extends React.Component<Props, State> {
                     style={styles.textInput}
                     onChangeText={(text) =>
                         this.setState({
-                            showUsernameError: text.length < 4,
+                            showUsernameError:
+                                text.length < MIN_USERNAME_LENGTH,
                             username: text,
                         })
                     }
@@ -447,7 +452,8 @@ class _Login extends React.Component<Props, State> {
                     onChangeText={(text) =>
                         this.setState({
                             password: text,
-                            showPasswordError: text.length < 6,
+                            showPasswordError:
+                                text.length < MIN_PASSWORD_LENGTH,
                         })
                     }
                 />
@@ -565,7 +571,10 @@ class _Login extends React.Component<Props, State> {
                     {t('contributionWarningSignup')}
                 </Text>
                 <Button
-                    isDisabled={email.length < 6 || password.length < 6}
+                    isDisabled={
+                        email.length < MIN_EMAIL_LENGTH ||
+                        password.length < MIN_PASSWORD_LENGTH
+                    }
                     testID="login_button"
                     style={styles.otherButton}
                     onPress={this.handleLogin}
@@ -626,7 +635,7 @@ class _Login extends React.Component<Props, State> {
                     {t('sendResetEmailWarning')}
                 </Text>
                 <Button
-                    isDisabled={email.length < 6}
+                    isDisabled={email.length < MIN_EMAIL_LENGTH}
                     style={styles.otherButton}
                     onPress={this.handlePassReset}
                     textStyle={styles.buttonText}
