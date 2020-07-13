@@ -54,7 +54,7 @@ export type SingleImageryProjectType = {
     // FIXME: we should use constants here, somehow flow is not happy with them
     projectType: 1 | 2 | 4,
     progress: number,
-    state: number,
+    status: string,
     tileServer: TileServerType,
     tileServerB: ?TileServerType,
     zoomLevel: number,
@@ -72,7 +72,7 @@ export type ChangeDetectionProjectType = {
     projectId: string,
     projectType: 3,
     progress: number,
-    state: number,
+    status: string,
     tileServerA: TileServerType,
     tileServerB: TileServerType,
 };

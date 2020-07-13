@@ -81,6 +81,7 @@ type Props = {
     firebase: Object,
     navigation: NavigationProp,
     projects: Array<OrderedProject>,
+    teamId: ?string,
 };
 
 // request only active projects from firebase (status === 'active')
@@ -121,6 +122,7 @@ class _RecommendedCards extends React.Component<Props> {
     componentDidMount() {
         this.subscribeToProjects();
         this.subscribeToAnnouncements();
+        this.getTeamName();
     }
 
     componentWillUnmount() {
@@ -149,7 +151,19 @@ class _RecommendedCards extends React.Component<Props> {
 
     subscribeToProjects = () => {
         const { type, path, storeAs, ...options } = projectsQuery;
-        const { firebase, navigation } = this.props;
+        const { firebase, navigation, teamId } = this.props;
+        if (teamId) {
+            // the user is part of a team, amend the query to get private_active
+            // projects instead of the default (public) "active" ones.
+            // We need to query by teamId, so that we only get projects that actually
+            // belong to our team, not all private ones.
+            options.queryParams = [
+                'orderByChild=teamId',
+                `equalTo=${teamId}`,
+                'limitToFirst=20',
+            ];
+        }
+
         this.willFocusProjectSubscription = navigation.addListener(
             'willFocus',
             () => {
@@ -162,6 +176,15 @@ class _RecommendedCards extends React.Component<Props> {
                 firebase.unWatchEvent(type, path, storeAs, options);
             },
         );
+    };
+
+    getTeamName = () => {
+        // request the team display name from firebase
+        // the result is then available under state.firebase.data.teamDetails
+        const { firebase, teamId } = this.props;
+        if (teamId) {
+            firebase.watchEvent('once', `v2/teams/${teamId}`, 'teamDetails');
+        }
     };
 
     closeModal3 = () => {
@@ -272,10 +295,16 @@ class _RecommendedCards extends React.Component<Props> {
                 {projects
                     .filter(
                         (p) =>
+                            // keep only projects whose type we currently support
                             p.value &&
                             p.value.projectType &&
                             GLOBAL.SUPPORTED_PROJECT_TYPES.includes(
                                 p.value.projectType,
+                            ) &&
+                            // only show "active" and "private_active" projects
+                            // (this is only useful for private ones)
+                            ['active', 'private_active'].includes(
+                                p.value.status,
                             ),
                     )
                     .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
@@ -299,6 +328,7 @@ const mapStateToProps = (state, ownProps) => ({
     announcement: state.firebase.data.announcement,
     navigation: ownProps.navigation,
     projects: state.firebase.ordered.projects,
+    teamId: state.ui.user.teamId,
 });
 
 export default compose(
