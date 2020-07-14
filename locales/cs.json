@@ -5,8 +5,8 @@
   },
   "signup": {
     "chooseUsername": "Zvolte své uživatelské jméno",
-    "passwordError": "Heslo musí mít více než 6 znaků",
-    "usernameError": "Uživatelské jméno musí mít více než 4 znaky",
+    "passwordError": "Heslo musí mít alespoň 6 znaků",
+    "usernameError": "Uživatelské jméno musí mít alespoň 4 znaky",
     "errorOnSignup": "Chyba při registraci",
     "usernameErrorMessage": "Vaše uživatelské jméno musí mít 4 nebo více znaků",
     "usernameNotEmail": "Vaše uživatelské jméno nemůže být e-mail",
@@ -57,8 +57,11 @@
     "no keep my account": "Ne, zachovat si svůj účet",
     "yes delete it": "Ano, smažte to!"
   },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% od {{mappersCount}} mapperů"
+  },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% CELKEM HOTOVO OD {{project.contributorCount}} MAPPERŮ JAKO JSTE VY",
+    "x pc global progress by n mappers": "{{projectProgress}}% GLOBÁLNÍHO POKROKU OD {{ContributorCount}} MAPPERŮ JAKO JSTE VY.",
     "map now": "Mapujte nyní",
     "tutorial": "Tutorial"
   },
@@ -70,7 +73,9 @@
     "finishedGroup": "Dobrá práce! Tuto skupinu jste dokončili.",
     "letsGo": "Pojďme na to!",
     "completeSession": "Dokončena seance",
-    "continueMapping": "Pokračovat v mapování"
+    "continueMapping": "Pokračovat v mapování",
+    "sync alert": "Upozornění synchronizace",
+    "sync alert message": "Synchronizace vašich úloh ... Nezavírejte aplikaci."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Vítejte v MapSwipe",
@@ -83,5 +88,48 @@
     "dataUse": "Data se používají k lešímu zaměření úsilí dobrovolníků projektu Missing Maps aby mohli přidat mapové detaily do OpenStreetMap",
     "saveLives": "Zachraňujte životy",
     "mapHelps": "Mapa pomáhá organizacím koordinovat humanitární úsilí a zachraňovat životy"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instrukce",
+    "your task": "Vaše úloha:",
+    "lookingFor": "Hledáte {' '} <1>změny v budovách</1>. To je jasným ukazatelem změny velikosti populace.",
+    "perform task": "Jak provést úlohu:",
+    "noChanges": "Pokud nenastanou žádné změny, jednoduše {' '} <1>přesuňte prstem</1> na další fotografie",
+    "seeChanges": "Pokud vidíte změnu v budovách, {' '} <1>klepněte jednou </1>{' '} a dlaždice zezelená",
+    "unsure": "Nejste si jisti?{' '} <1>Poklepejte dvakrát</1> {' '}  a dlaždice zežloutne",
+    "badImagery": "Je problém se snímky, jakoby byl některý obrázek zakrytý mraky? {' '} <1> Poklepejte třikrát </1>{' '} a dlaždice zčervená",
+    "holdZoom": "Pokud potřebujete obrázek vidět blíže, klepněte na obrázek a podržte jej a přiblíží se o něco více.",
+    "hint": "Nápověda:",
+    "differentImagery": "Někdy budou použity různé zdroje snímků. Obrázky mohou být mírně odlišně zarovnány, nebo mohou mít odlišné rozlišení. Pamatujte, že hledáte {' '}<1> definitivní změny v sídlech a budovách</1> {' '}, takže pokud to vypadá, že jsou tam stejné budovy, ale možná je tu nová střecha, pak by to byl scénář „beze změn“ a jednoduše přejdete na další obrázek."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Zobrazit instrukce"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Rozumím"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Přejetím prstem dolů označíte všech 6 dlaždic ČERVENĚ.",
+    "swipe up undo": "Přejetím prstem nahoru vrátíte zpět."
+  },
+  "LoadingIcon": {
+    "loading": "Načítání..."
+  },
+  "Tutorial": {
+    "incomplete": "NEÚPLNÉ",
+    "maybe": "MOŽNÁ",
+    "instructions1": "Jak přispět",
+    "instructions2": "POKLEPNUTÍM VYBERTE",
+    "instructions3": "Podívejte se v rychlosti na funkce uvedené ve vaší misi. Klepněte na každou dlaždici, kde najdete to, co hledáte. Klepněte jednou na <1>ANO</1>, dvakrát na <3>{{twoTaps}}</3> a třikrát na <5>ŠPATNÉ ZOBRAZENÍ</5> (například mraky).",
+    "instructions4": "POSUNUTÍM PRSTEM PROHLÍŽEJTE",
+    "instructions5": "Když skončíte s částí mapy, přejeďte prstem na další.",
+    "instructions6": "PŘIDRŽENÍM PRSTEM PŘIBLÍŽIT",
+    "instructions7": "Podržením dlaždice přiblížíte dlaždici.",
+    "instructions8": "Zásluhy",
+    "tutorial1": "Vítejte v návodu!",
+    "tutorial2": "Ten by vás měl během několika minut provést aplikací MapSwipe.",
+    "tutorial3": "Postupujte podle pokynů na obrazovce a pokračujte přejetím doleva.",
+    "tutorial4": "Pokud vám pokyny překáží v práci, stačí je přesunout klepnutím na okno se zprávou.",
+    "tutorial5": "Rozumím"
   }
 }
