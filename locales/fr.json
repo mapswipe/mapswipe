@@ -94,7 +94,7 @@
     "your task": "Ta mission:",
     "lookingFor": "Tu cherches des{' '}<1>changements dans les bâtiments</1>. C'est un bon indicateur de changements de taille de la population.",
     "perform task": "Comment faire:",
-    "noChanges": "S'il n'y a pas de différence, <1>fais glisser l'écran vers la gauche</1>pour continuer",
+    "noChanges": "S'il n'y a pas de différence,{' '}<1>fais glisser l'écran vers la gauche</1>pour continuer",
     "seeChanges": "S'il y'a des changements dans les bâtiments,{' '}<1>tape une fois</1>{' '}et l'image passera au vert",
     "unsure": "Si tu n'es pas sûr,{' '}<1>tape 2 fois</1>{' '}et l'image deviendra jaune",
     "badImagery": "Si l'image n'est pas claire, par exemple s'il y'a des nuages,{' '}<1>tape 3 fois</1>{' '}et elle deviendra rouge",
