@@ -12,7 +12,7 @@
     "usernameNotEmail": "Votre nom d'utilisateur ne peut pas être une adresse e-mail.",
     "usernamePublic": "Votre nom d'utilisateur sera visible publiquement",
     "success": "Réussi",
-    "welcomeToMapSwipe": "Bienvenue sur MapSwipe, {{nom d'utilisateur}}",
+    "welcomeToMapSwipe": "Bienvenue sur MapSwipe, {{username}}",
     "emailAlreadyUsed": "L'adresse e-mail est déjà utilisée par un autre compte.",
     "emailInvalid": "L'adresse email n'est pas valide.",
     "problemSigningUp": "Problème d'inscription",
@@ -43,9 +43,9 @@
     "enterUsername": "Saisis ton nom d'utilisateur"
   },
   "profileScreen": {
-    "Level X": "Niveau {{niveau}}",
+    "Level X": "Niveau {{level}}",
     "youve completed x tasks": "Vous avez complété {{contributions}} tâches!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} swipes) jusqu'au niveau supérieur ",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} écrans) jusqu'au niveau supérieur",
     "changeLanguage": "Choisir la langue",
     "mapswipe website": "Site web de MapSwipe",
     "missingmaps website": "Site web de Missing Maps",
@@ -57,8 +57,11 @@
     "no keep my account": "Non, garder mon compte",
     "yes delete it": "Oui, supprimez-le!"
   },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% par {{mappersCount}} cartographes"
+  },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% PROGRES GLOBAL PAR {{project.contributorCount}} CARTOGRAPHES JUSTE COMME VOUS.",
+    "x pc global progress by n mappers": "{{projectProgress}}% EFFECTUÉS PAR {{contributorCount}} CARTOGRAPHES",
     "map now": "Commencer à cartographier",
     "tutorial": "Tutoriel"
   },
@@ -70,7 +73,9 @@
     "finishedGroup": "Bravo ! Vous avez terminé ce groupe. ",
     "letsGo": "C'est parti ! ",
     "completeSession": "Session terminée",
-    "continueMapping": "Continuer le mappage"
+    "continueMapping": "Continuer le mappage",
+    "sync alert": "Synchronisation en cours",
+    "sync alert message": "Transmission des réponses... Ne ferme pas l'appli."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Bienvenue sur MapSwipe",
@@ -83,5 +88,48 @@
     "dataUse": "Les données sont utilisées pour rassembler les efforts des volontaires de Missing Maps en ajoutant des détails sur OpenStreetMap",
     "saveLives": "Sauver des vies.",
     "mapHelps": "La carte contribue à la coordination de l'effort humanitaire et sauve des vies"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instructions",
+    "your task": "Ta mission:",
+    "lookingFor": "Tu cherches des{' '}<1>changements dans les bâtiments</1>. C'est un bon indicateur de changements de taille de la population.",
+    "perform task": "Comment faire:",
+    "noChanges": "S'il n'y a pas de différence,{' '}<1>fais glisser l'écran vers la gauche</1>pour continuer",
+    "seeChanges": "S'il y'a des changements dans les bâtiments,{' '}<1>tape une fois</1>{' '}et l'image passera au vert",
+    "unsure": "Si tu n'es pas sûr,{' '}<1>tape 2 fois</1>{' '}et l'image deviendra jaune",
+    "badImagery": "Si l'image n'est pas claire, par exemple s'il y'a des nuages,{' '}<1>tape 3 fois</1>{' '}et elle deviendra rouge",
+    "holdZoom": "Pour zoomer sur une image, appuie dessus pendant une seconde ou plus.",
+    "hint": "Astuce:",
+    "differentImagery": "Parfois différentes sources d'imagerie sont utilisées. Les images peuvent ne pas être parfaitement alignées, ou utiliser des résolutions différentes. Ce qui compte ce sont{' '}<1>les changements de constructions et bâtiments</1>{' '}donc si les mêmes bâtiments sont présents, mais avec par exemple un toit neuf, on considère qu'il n'y pas de changement, et on passe à l'écran suivant."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Voir les instructions"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "J'ai compris"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Fais glisser vers le BAS pour marquer les 6 images en ROUGE",
+    "swipe up undo": "Fais glisser vers le HAUT pour annuler."
+  },
+  "LoadingIcon": {
+    "loading": "Chargement..."
+  },
+  "Tutorial": {
+    "incomplete": "INCOMPLET",
+    "maybe": "PEUT ÊTRE",
+    "instructions1": "Comment contribuer",
+    "instructions2": "TAPE POUR SELECTIONNER",
+    "instructions3": "Tu cherches les éléments indiqués dans les instructions en haut de l'écran. Tape chaque image où tu vois en vois. Tape une fois pour <1>OUI</1>, deux fois pour <3>{{twoTaps}}</3>, et trois fois pour <5>MAUVAISE IMAGERIE</5> (par exemple s'il y'a des nuages).",
+    "instructions4": "NAVIGUE EN FAISANT GLISSER L'ÉCRAN",
+    "instructions5": "Quand tu as fini un écran, fais glisser vers la gauche pour continuer.",
+    "instructions6": "GARDE APPUYÉ POUR ZOOMER",
+    "instructions7": "Un appui long sur une image permet de zoomer.",
+    "instructions8": "Crédits",
+    "tutorial1": "Bienvenue dans le tutoriel!",
+    "tutorial2": "Tu devrais être un pro de MapSwipe en quelques minutes.",
+    "tutorial3": "Suis les instructions à l'écran, et fais glisser vers la gauche pour continuer.",
+    "tutorial4": "Si ce message bloque la vue, tape dessus pour le déplacer.",
+    "tutorial5": "J'ai compris"
   }
 }
