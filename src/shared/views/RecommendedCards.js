@@ -180,10 +180,14 @@ class _RecommendedCards extends React.Component<Props> {
 
     getTeamName = () => {
         // request the team display name from firebase
-        // the result is then available under state.firebase.data.teamDetails
+        // the result is then available under state.firebase.data.teamName
         const { firebase, teamId } = this.props;
         if (teamId) {
-            firebase.watchEvent('once', `v2/teams/${teamId}`, 'teamDetails');
+            firebase.watchEvent(
+                'once',
+                `v2/teams/${teamId}/teamName`,
+                'teamName',
+            );
         }
     };
 

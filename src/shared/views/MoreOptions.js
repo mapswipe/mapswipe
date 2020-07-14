@@ -371,9 +371,7 @@ const mapStateToProps = (state, ownProps) => ({
     profile: state.firebase.profile,
     progress: state.ui.user.progress,
     teamId: state.ui.user.teamId,
-    teamName: state.firebase.data.teamDetails
-        ? state.firebase.data.teamDetails.teamName
-        : undefined,
+    teamName: state.firebase.data.teamName,
 });
 
 const enhance = compose(

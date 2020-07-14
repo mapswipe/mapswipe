@@ -165,7 +165,9 @@ class Main extends React.Component<Props, State> {
     // eslint-disable-next-line class-methods-use-this
     async getNotificationToken() {
         const fcmToken = await fb.messaging().getToken();
-        console.log('FCM token', fcmToken);
+        if (__DEV__) {
+            console.log('FCM token', fcmToken);
+        }
     }
 
     async requestNotificationsPermission() {
