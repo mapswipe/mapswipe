@@ -46,6 +46,7 @@
     "Level X": "Level {{level}}",
     "youve completed x tasks": "You've completed {{contributions}} tasks!",
     "x tasks (s swipes) until the next level": "{{sqkm}} tasks ({{swipes}} swipes) until the next level",
+    "yourTeam": "Your team: {{teamName}}",
     "changeLanguage": "Change Language",
     "mapswipe website": "MapSwipe website",
     "missingmaps website": "Missing Maps website",

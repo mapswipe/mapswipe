@@ -135,6 +135,8 @@ type MOProps = {
     profile: Object,
     progress: number,
     t: TranslationFunction,
+    teamId: ?string,
+    teamName: ?string,
 };
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -225,6 +227,8 @@ class _MoreOptions extends React.Component<MOProps> {
             profile,
             progress,
             t,
+            teamId,
+            teamName,
         } = this.props;
         const levelObject = Levels[level];
         const contributions =
@@ -265,6 +269,18 @@ class _MoreOptions extends React.Component<MOProps> {
                     progress={progress}
                     t={t}
                 />
+                {teamId && (
+                    <View style={styles.row}>
+                        <Text
+                            style={[
+                                styles.buttonText,
+                                { height: 30, marginTop: 10 },
+                            ]}
+                        >
+                            {t('yourTeam', { teamName })}
+                        </Text>
+                    </View>
+                )}
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
@@ -354,6 +370,8 @@ const mapStateToProps = (state, ownProps) => ({
     navigation: ownProps.navigation,
     profile: state.firebase.profile,
     progress: state.ui.user.progress,
+    teamId: state.ui.user.teamId,
+    teamName: state.firebase.data.teamName,
 });
 
 const enhance = compose(

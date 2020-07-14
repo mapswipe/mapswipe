@@ -117,11 +117,14 @@ export default function user(
                 taskContributionCount,
                 level,
             );
+            // $FlowFixMe
+            const teamId = action.profile ? action.profile.teamId : undefined;
             return {
                 ...state,
                 kmTillNextLevel,
                 level,
                 progress: percentage,
+                teamId,
             };
         }
         default:
