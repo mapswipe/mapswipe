@@ -99,7 +99,7 @@
     "unsure": "Si tu n'es pas sûr,{' '}<1>tape 2 fois</1>{' '}et l'image deviendra jaune",
     "badImagery": "Si l'image n'est pas claire, par exemple s'il y'a des nuages,{' '}<1>tape 3 fois</1>{' '}et elle deviendra rouge",
     "holdZoom": "Pour zoomer sur une image, appuie dessus pendant une seconde ou plus.",
-    "hint": "Astuces:",
+    "hint": "Astuce:",
     "differentImagery": "Parfois différentes sources d'imagerie sont utilisées. Les images peuvent ne pas être parfaitement alignées, ou utiliser des résolutions différentes. Ce qui compte ce sont{' '}<1>les changements de constructions et bâtiments</1>{' '}donc si les mêmes bâtiments sont présents, mais avec par exemple un toit neuf, on considère qu'il n'y pas de changement, et on passe à l'écran suivant."
   },
   "CDBodyScreen": {
