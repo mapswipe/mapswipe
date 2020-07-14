@@ -428,7 +428,7 @@ class _Login extends React.Component<Props, State> {
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
-                    placeholder={t('enterYourEmail')}
+                    placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry={false}
                     style={styles.textInput}
@@ -445,7 +445,7 @@ class _Login extends React.Component<Props, State> {
                     testID="signup_password"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder={t('choosePassword')}
+                    placeholder={t('signup:choosePassword')}
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={styles.textInput}
@@ -498,7 +498,7 @@ class _Login extends React.Component<Props, State> {
                 </View>
 
                 <Text style={styles.legalText}>
-                    {t('contributionWarningOnSignup')}
+                    {t('signup:contributionWarningOnSignup')}
                 </Text>
                 <Button
                     isDisabled={signupButtonDisabled}
@@ -507,7 +507,7 @@ class _Login extends React.Component<Props, State> {
                     onPress={this.handleSignUp}
                     textStyle={styles.buttonText}
                 >
-                    {t('signUp')}
+                    {t('signup:signUp')}
                 </Button>
                 <Button
                     testID="signup_to_login_button"
@@ -515,7 +515,7 @@ class _Login extends React.Component<Props, State> {
                     onPress={() => this.switchScreens(SCREEN_LOGIN)}
                     textStyle={styles.buttonText}
                 >
-                    {t('loginExistingAccount')}
+                    {t('signup:loginExistingAccount')}
                 </Button>
             </ScrollView>
         );
@@ -546,7 +546,7 @@ class _Login extends React.Component<Props, State> {
                     autoCorrect={false}
                     autoCompleteType="email"
                     keyboardType="email-address"
-                    placeholder={t('enterYourEmail')}
+                    placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
                     style={[styles.textInput, { marginBottom: 28 }]}
                     secureTextEntry={false}
@@ -560,7 +560,7 @@ class _Login extends React.Component<Props, State> {
                     testID="login_password"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder={t('enterYourPassword')}
+                    placeholder={t('signup:enterYourPassword')}
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={[styles.textInput, { marginBottom: 30 }]}
@@ -568,7 +568,7 @@ class _Login extends React.Component<Props, State> {
                     value={password}
                 />
                 <Text style={styles.legalText}>
-                    {t('contributionWarningSignup')}
+                    {t('signup:contributionWarningOnSignup')}
                 </Text>
                 <Button
                     isDisabled={
@@ -580,7 +580,7 @@ class _Login extends React.Component<Props, State> {
                     onPress={this.handleLogin}
                     textStyle={styles.buttonText}
                 >
-                    {t('login')}
+                    {t('signup:login')}
                 </Button>
                 <Button
                     testID="login_to_password_button"
@@ -588,14 +588,14 @@ class _Login extends React.Component<Props, State> {
                     onPress={() => this.switchScreens(SCREEN_FORGOT_PASSWORD)}
                     textStyle={styles.buttonText}
                 >
-                    {t('forgotPassword')}
+                    {t('signup:forgotPassword')}
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_SIGNUP)}
                     textStyle={styles.buttonText}
                 >
-                    {t('createNewAccount')}
+                    {t('signup:createNewAccount')}
                 </Button>
             </ScrollView>
         );
@@ -623,7 +623,7 @@ class _Login extends React.Component<Props, State> {
                 <TextInput
                     autoCorrect={false}
                     keyboardType="email-address"
-                    placeholder="Enter your email"
+                    placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
                     onChangeText={(text) =>
@@ -632,7 +632,7 @@ class _Login extends React.Component<Props, State> {
                     value={email}
                 />
                 <Text style={styles.legalText}>
-                    {t('sendResetEmailWarning')}
+                    {t('signup:sendResetEmailWarning')}
                 </Text>
                 <Button
                     isDisabled={email.length < MIN_EMAIL_LENGTH}
@@ -640,14 +640,14 @@ class _Login extends React.Component<Props, State> {
                     onPress={this.handlePassReset}
                     textStyle={styles.buttonText}
                 >
-                    {t('sendResetEmail')}
+                    {t('signup:sendResetEmail')}
                 </Button>
                 <Button
                     style={styles.switchToLogin}
                     onPress={() => this.switchScreens(SCREEN_LOGIN)}
                     textStyle={styles.buttonText}
                 >
-                    {t('backToLogin')}
+                    {t('signup:backToLogin')}
                 </Button>
             </ScrollView>
         );
