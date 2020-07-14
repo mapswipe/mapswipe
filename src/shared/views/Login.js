@@ -223,7 +223,7 @@ class _Login extends React.Component<Props, State> {
             .then(() => {
                 MessageBarManager.showAlert({
                     title: t('success'),
-                    message: t('welcomeToMapSwipe', { username }),
+                    message: t('signup:welcomeToMapSwipe', { username }),
                     alertType: 'info',
                 });
                 fb.analytics().logEvent('account_created');
@@ -271,9 +271,10 @@ class _Login extends React.Component<Props, State> {
             .login({ email, password })
             .then((userCredentials) => {
                 const username = userCredentials.user.user.displayName;
+                console.log('uuu', userCredentials);
                 MessageBarManager.showAlert({
                     title: t('success'),
-                    message: t('welcomeToMapSwipe', { username }),
+                    message: t('signup:welcomeToMapSwipe', { username }),
                     alertType: 'info',
                 });
                 fb.analytics().logEvent('account_login');
