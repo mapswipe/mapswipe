@@ -44,7 +44,7 @@
   },
   "profileScreen": {
     "Level X": "سطح {{level}}",
-    "youve completed x tasks": "شما {{مشارکت}} محوله را تکمیل کرده اید",
+    "youve completed x tasks": "شما {{contributions}} محوله را تکمیل کرده اید",
     "x tasks (s swipes) until the next level": "وظایف {{ sqkdm}} ({{swipes}} swipes) تا مرحله بعدی",
     "yourTeam": "تیم شما: {{نام تیم}}",
     "changeLanguage": "تغیر زبان",
