@@ -43,7 +43,7 @@
     "enterUsername": "نام کاربری خود را وارد کنید"
   },
   "profileScreen": {
-    "Level X": "سطح {{سطح}}",
+    "Level X": "سطح {{level}}",
     "youve completed x tasks": "شما {{مشارکت}} محوله را تکمیل کرده اید",
     "x tasks (s swipes) until the next level": "وظایف {{ sqkdm}} ({{swipes}} swipes) تا مرحله بعدی",
     "yourTeam": "تیم شما: {{نام تیم}}",
