@@ -59,7 +59,7 @@
     "yes delete it": "بله، آن را حذف کنید!"
   },
   "projectList": {
-    "progress pc by x mappers": "{{پیشرفت}}% توسط {{ تعداد نقشه برداران}} نقشه برداران"
+    "progress pc by x mappers": "{{progress}}% توسط {{ mappersCount}} نقشه برداران"
   },
   "projectView": {
     "x pc global progress by n mappers": "{{پیشرف پروژه}} پیشرفت کلی جهانی توسط {{تعداد مشارکت کنندگان}} نقشه برداران مثل شما",
