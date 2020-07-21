@@ -12,7 +12,7 @@
     "usernameNotEmail": "حساب کاربری شما نمیتواند ایمیل باشد",
     "usernamePublic": "حساب کاربری شما برای عموم قابل مشاهده است",
     "success": "موفقیت",
-    "welcomeToMapSwipe": "به MapSwipe خوش آمدید، {{User name}}",
+    "welcomeToMapSwipe": "به MapSwipe خوش آمدید، {{username}}",
     "emailAlreadyUsed": "این ایمیل قبلا توسط حساب دیگر استفاده شده است ",
     "emailInvalid": "آدرس ایمیل نا معتبر است",
     "problemSigningUp": "مشکل در ثبت نام ",
