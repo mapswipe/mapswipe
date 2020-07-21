@@ -45,7 +45,7 @@
   "profileScreen": {
     "Level X": "سطح {{level}}",
     "youve completed x tasks": "شما {{contributions}} محوله را تکمیل کرده اید",
-    "x tasks (s swipes) until the next level": "وظایف {{ sqkdm}} ({{swipes}} swipes) تا مرحله بعدی",
+    "x tasks (s swipes) until the next level": "وظایف {{ sqkm}} ({{swipes}} swipes) تا مرحله بعدی",
     "yourTeam": "تیم شما: {{TeamName}}",
     "changeLanguage": "تغیر زبان",
     "mapswipe website": "وب سایت MapSwipe",
