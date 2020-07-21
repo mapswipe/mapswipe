@@ -62,7 +62,7 @@
     "progress pc by x mappers": "{{progress}}% توسط {{ mappersCount}} نقشه برداران"
   },
   "projectView": {
-    "x pc global progress by n mappers": "{{پیشرف پروژه}} پیشرفت کلی جهانی توسط {{تعداد مشارکت کنندگان}} نقشه برداران مثل شما",
+    "x pc global progress by n mappers": "{{Project progress}} پیشرفت کلی جهانی توسط {{contributorCount}} نقشه برداران مثل شما",
     "map now": "اکنون نقشه کنید",
     "tutorial": "آموزشی"
   },
