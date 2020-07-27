@@ -1,0 +1,136 @@
+{
+  "mainHeader": {
+    "missions": "Misiones",
+    "more": "Más"
+  },
+  "signup": {
+    "chooseUsername": "Elige tu nombre de usuario",
+    "passwordError": "La contraseña debe tener como mínimo 6 caracteres",
+    "usernameError": "El nombre de usuario debe tener como mínimo 4 caracteres",
+    "errorOnSignup": "Error al registrarse",
+    "usernameErrorMessage": "Su nombre de usuario debe tener 4 caracteres o mas",
+    "usernameNotEmail": "Su nombre de usuario no puede ser un e-mail",
+    "usernamePublic": "Su nombre de usuario será visible publicamente",
+    "success": "Exito",
+    "welcomeToMapSwipe": "Bienvenido a MapSwipe, {{username}}",
+    "emailAlreadyUsed": "Email ya en uso por otra cuenta",
+    "emailInvalid": "Dirección de eail inválida",
+    "problemSigningUp": "Problema al registrarse",
+    "errorOnSignUp": "Error al registrarse",
+    "checkYourEmail": "Chequee su casilla de correo",
+    "noAccountFoundForEmail": "No se halló una cuenta para ese email",
+    "problemResettingPassword": "Problema al resetear su contraseña",
+    "errorLogIn": "Error al registrarse",
+    "invalidEmailPassword": "Correo o contraseña invalidos",
+    "accountDisabled": "Cuenta no válida",
+    "problemLoggingIn": "Problema al iniciar sesión",
+    "errorResetPass": "Error al resetear la contraseña",
+    "enterYourEmail": "Ingrese su email",
+    "choosePassword": "Elija su contraseña",
+    "enterYourPassword": "Ingrese su contraseña",
+    "IagreeToPrivacyNotice": "Acepto 1 Nota de privacidad 1",
+    "contributionWarningOnSignup": "Todos los datos que Ud contribuya a MapSwipe es abierto disponible . Su nombre de usuario es público, pero su email y contraseña no será compartido por nadie",
+    "signUp": "Firme",
+    "loginExistingAccount": "Iniciar sesión en una cuenta existente",
+    "login": "Iniciar sesión",
+    "forgotPassword": "Olvidó su contraseña?",
+    "createNewAccount": "Crear una nueva cuenta",
+    "sendResetEmailWarning": "* Le enviaremos un email para reestablecer su contraseña",
+    "sendResetEmail": " Enviar email reestablecido",
+    "backToLogin": "Volver para establecer sesión"
+  },
+  "login": {
+    "enterUsername": "Ingrese su nombre de usuario"
+  },
+  "profileScreen": {
+    "Level X": "Nivel {{}}",
+    "youve completed x tasks": "Has completado {{}} tareas!",
+    "x tasks (s swipes) until the next level": "{{}}tareas{{}} hasta el próximo nivel",
+    "yourTeam": "Tu equipo {{}}",
+    "changeLanguage": "Cambiar idioma",
+    "mapswipe website": "Sitio web MapSwipe",
+    "missingmaps website": "sitio web de Missing Maps",
+    "email us": "Envíenos un email",
+    "sign out": "Cerrar sesión",
+    "delete my account": "Borrar mi cuenta",
+    "delete account question": "Borrar la cuenta?",
+    "delete account warning": "Ud perderá todo su progreso y escudos.Sus contribuciones permanecerán siendo públicas pero no estarán ligadas a su cuenta. Desea continuar ?",
+    "no keep my account": "No , mantenga mi cuenta.",
+    "yes delete it": "Sí , bórrela"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{}}% por {{}} mapeadores "
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{}}% PROGRESO GLOBAL POR {{}} MAPEADORES COMO UD",
+    "map now": "Mapear ahora",
+    "tutorial": "Tutorial"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Ud está buscando:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Bien . Ud a completado el tutorial. Está listo para comenzar a mapear",
+    "finishedGroup": "Buen trabajo ! Ud ha terminado este grupo",
+    "letsGo": "Vamos !",
+    "completeSession": "Sesión completa",
+    "continueMapping": "Continúa mapeando",
+    "sync alert": "alerta de sincronización",
+    "sync alert message": "Sincronizar tareas. No cierre la aplicación"
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Bienvenido a MapSwipe",
+    "helpImprove": "Ayude a mejorar respuestas humanitarias desde el confort de su  teléfono",
+    "partMissingMaps": "Partede Missing Maps",
+    "withMissingMaps": "Con Missing Maps pretendemos incluir en mapas a comunidades vulnerables a nivel mundial",
+    "swipe": "Deslizar",
+    "completeTasks": "Completar tareas deslizando a través de imágenes satelitales de areas que necesitan ser mapeadas",
+    "createData": "Crear datos relevantes",
+    "dataUse": "os datos son usados para enfocarse en los esfuerzos de los voluntarios de Missing Maps en agregar detalles a OpenStreetMap",
+    "saveLives": "Salvar vidas",
+    "mapHelps": "El mapa ayuda a las organizaciones a coordinar esfuerzos y salvar vidas"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instrucciones",
+    "your task": "Tu tarea",
+    "lookingFor": "Ud está buscando {\"} cambios 1 en edificios 1 .Esto actúa como claro indicador de un cambio en el tamaño de la población",
+    "perform task": "como desempeñar la tarea",
+    "noChanges": "si no hay cambios , simplemente {\"} 1 deslice 1 a la próxima foto",
+    "seeChanges": "Si Ud ve un cambio en los edificios,{' '} 1 presione una vez 1 {' '} y la cuadrícula se pondrá verde",
+    "unsure": "No está seguro ? {' '}1 Presione dos veces 1 {' '} y la cuadrícula se pondrá amarilla",
+    "badImagery": "Conflicto con imágen, como si la imagen tuviera nubes tapando la vista ? {' '} 1 Presione tres veces 1 {' '}y la cuadrícula se pondrá roja",
+    "holdZoom": "Si necesita ver una imagen mas cerca, presione y mantenga la imagen, esta se enfocará mas cerca",
+    "hint": "Sugerencia",
+    "differentImagery": "A veces distintas fuentes de imagen han sido usadas.Las imágenes pueden estar alineadas de manera ligeramente diferente o pueden estar en una resolución diferente. Recuerde, Ud está buscando {' '}1 cambios definidos en establecimientos y edificios 1 {' '} entonces pueden ser los  mismos edificios pero haber un techo nuevo, eso puede ser un escenario \"sin cambio\" y simplemente Ud deberá pasar a la imagen siguiente."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "visualizar instrucciones"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Entiendo"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Deslice hacia ABAJO para marcar en ROJO las 6 cuadrículas.",
+    "swipe up undo": "Deslice hacia arriba para deshacer"
+  },
+  "LoadingIcon": {
+    "loading": "cargando........"
+  },
+  "Tutorial": {
+    "incomplete": "incompleto",
+    "maybe": "quizás",
+    "instructions1": "como colaborar",
+    "instructions2": "Presione para seleccionar",
+    "instructions3": "Busque las características listadas en la descripción de la misión. Presione cada cuadrícula donde Ud encuentre lo que está buscando. Presione una vez para 1 SI 1, dos veces para 2 {{dos veces}}2 ,tres veces para 3 MALA IMAGEN 3 (por ejemplo nubes).",
+    "instructions4": "DESLICE PARA NAVEGAR",
+    "instructions5": "Cuando finalizaste una parte del mapa, avanza al siguiente deslizando",
+    "instructions6": "PRESIONAR PARA ACERCAR",
+    "instructions7": "Presiona la cuadrícula para acercarla.",
+    "instructions8": "Creditos",
+    "tutorial1": "Bienvenido al tutorial!",
+    "tutorial2": "Esto debería hacer un asistente de MapSwipe en unos pocos minutos ",
+    "tutorial3": "Solo siga las instrucciones y deslice a la izquierda para continuar",
+    "tutorial4": "Si las instrucciones te molestan presiona la casilla de mensaje para moverla",
+    "tutorial5": "Entiendo"
+  }
+}
