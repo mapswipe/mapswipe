@@ -20,7 +20,7 @@ platform :ios do
 
   desc "Build the app and run the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step."
   lane :test do
-    match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
+    match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false, verbose: true)
     scan(scheme: "mapswipe",
          configuration: "Debug",
          clean: true,
