@@ -131,6 +131,21 @@ Once the certificates are downloaded, the app can be built. See `ios/fastlane/Fa
 
 The whole process is performed using the `mapswipe.dev A T gmail` account.
 
+### Renewing iOS certificates
+
+Note: The naming of all these components is a bit confusing, and sometimes conflicting. This doc tries to make it clear what is what, but don't be surprised if the labels don't exactly match what you see. Also, Apple seems to change their processes every now and then, so this may be outdated sooner or later.
+
+The CI build and deployment to testflight and the appstore require certificates and provisioning profiles (local development as well, in fact), which seem to have a fixed lifetime of 1 year. Once expired, you need to renew them, or more correctly, delete the old ones, and generate new ones.
+
+The process looks like this:
+
+- Delete the expired certificate and provisioning profile from the `ios-certificates` git repository.
+- run `fastlane ios matchProd` or `fastlane ios matchDev` depending on the certs to renew. This should create new files and push them to the remote git repo, so you don't need to do anything else.
+- If you run into an error similar to "maximum number of certificates reached", you might need to delete one of the extra distribution certs on developer.apple.com.
+- You might need to give your deploy key write access to the git repo so that fastlane can push the new certs.
+
+These steps are written as an indication only, if you actually know how this is working, an update to this section is more than welcome!
+
 ## Upgrading dependencies and tools
 
 See [this page](upgrading_dependencies.md)
