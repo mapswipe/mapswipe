@@ -141,8 +141,6 @@ matrix:
         - tar -xvf ios/cfg/secrets.tar -C ios/cfg
       install:
         - bundle install
-        - bundle update fastlane
-        - cat Gemfile.lock
         - travis_retry gem install xcpretty cocoapods
         #- travis_retry yarn install --frozen-lockfile
         # install tooling needed for detox
