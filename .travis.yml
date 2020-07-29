@@ -142,7 +142,7 @@ matrix:
       install:
         - bundle install
         - travis_retry gem install xcpretty cocoapods
-        - travis_retry yarn install --frozen-lockfile
+        #- travis_retry yarn install --frozen-lockfile
         # install tooling needed for detox
         - brew tap wix/brew
         - brew install applesimutils
