@@ -171,6 +171,8 @@ matrix:
         # detox test --configuration ios.sim.debug --cleanup
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
+        - bundle exec fastlane ios matchProd
+        - echo "123456789012345678901234567890"
         - bundle exec fastlane test
       before_deploy:
       deploy:

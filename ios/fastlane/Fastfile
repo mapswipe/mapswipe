@@ -15,7 +15,8 @@ platform :ios do
   end
 
   lane :matchProd do
-    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: is_ci)
+    # match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: is_ci)
+    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false, verbose: true)
   end
 
   desc "Build the app and run the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step."
