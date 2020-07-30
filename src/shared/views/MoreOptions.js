@@ -194,7 +194,9 @@ class _MoreOptions extends React.Component<MOProps> {
         const { t } = this.props;
         const content = (
             <>
-                <Text style={{ fontSize: 28 }}>{t('Delete account?')}</Text>
+                <Text style={{ fontSize: 28 }}>
+                    {t('delete account question')}
+                </Text>
                 <Text>{t('delete account warning')}</Text>
             </>
         );
