@@ -46,6 +46,7 @@
     "Level X": "Úroveň {{level}}",
     "youve completed x tasks": "Dokončili jste {{contributions}} úkolů!",
     "x tasks (s swipes) until the next level": "{{sqkm}} úkoly ({{swipes}} swipe) do další úrovně",
+    "yourTeam": "Váš tým: {{teamName}}",
     "changeLanguage": "Změnit jazyk",
     "mapswipe website": "web MapSwipe",
     "missingmaps website": "web Missing Maps",
