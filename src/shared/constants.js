@@ -31,6 +31,8 @@ export const supportedLanguages = [
     { code: 'cs', name: 'Čeština' },
     { code: 'de', name: 'Deutsch' },
     { code: 'en', name: 'English' },
+    { code: 'es', name: 'Español' },
+    { code: 'fa_AF', name: 'دری- افغانستان' },
     { code: 'fr', name: 'Français' },
     { code: 'hu', name: 'Magyar' },
     { code: 'ja', name: '日本語' },
