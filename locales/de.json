@@ -46,6 +46,7 @@
     "Level X": "Level {{level}}",
     "youve completed x tasks": "Du hast {{contributions}} Aufgaben erledigt!",
     "x tasks (s swipes) until the next level": "{{sqkm}} Aufgaben ({{swipes}} Bildschirme) bis zum nächsten Level",
+    "yourTeam": "Dein Team: {{teamName}}",
     "changeLanguage": "Sprache wechseln",
     "mapswipe website": "MapSwipe Webseite",
     "missingmaps website": "Missing Maps Webseite",
