@@ -483,7 +483,7 @@ class _Login extends React.Component<Props, State> {
                     />
                     <Text style={styles.checkboxLabel}>
                         <Trans i18nKey="signup:IagreeToPrivacyNotice">
-                            I agree to the bal
+                            I agree to the
                             <Text
                                 style={styles.policyLink}
                                 onPress={() => {
