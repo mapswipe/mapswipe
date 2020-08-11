@@ -13,6 +13,8 @@ import type { Action } from '../actions';
 import type { UIState } from '../flow-types';
 
 const defaultUserState = {
+    // this is set to true once the user has seen the help box for projects of type 1 (built_area)
+    // This allows showing the help text when the user first opens a project of that type
     hasSeenHelpBoxType1: false,
     kmTillNextLevel: 0,
     languageCode: 'xx',
