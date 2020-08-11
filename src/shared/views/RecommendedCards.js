@@ -89,6 +89,8 @@ type Props = {
 // but here we can still limit to 20 projects maximum
 // `path` defines where the resulting data is copied in the redux store
 // (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
+// Note that the firebase access rules must be configured to allow this, or you'll get a
+// permission denied error.
 const projectsQuery = {
     isQuery: true,
     path: 'v2/projects',
