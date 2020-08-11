@@ -3,6 +3,7 @@ import { actionTypes } from 'react-redux-firebase';
 import {
     AUTH_STATUS_AVAILABLE,
     SEEN_HELPBOX_TYPE_1,
+    SELECT_LANGUAGE,
     START_GROUP,
     START_SENDING_RESULTS,
     WELCOME_COMPLETED,
@@ -12,8 +13,11 @@ import type { Action } from '../actions';
 import type { UIState } from '../flow-types';
 
 const defaultUserState = {
+    // this is set to true once the user has seen the help box for projects of type 1 (built_area)
+    // This allows showing the help text when the user first opens a project of that type
     hasSeenHelpBoxType1: false,
     kmTillNextLevel: 0,
+    languageCode: 'xx',
     level: 1,
     progress: 0,
     username: '',
@@ -81,6 +85,11 @@ export default function user(
                 ...state,
                 welcomeCompleted: true,
             };
+        case SELECT_LANGUAGE:
+            return {
+                ...state,
+                languageCode: action.languageCode,
+            };
         case AUTH_STATUS_AVAILABLE:
             return {
                 ...state,
@@ -110,11 +119,14 @@ export default function user(
                 taskContributionCount,
                 level,
             );
+            // $FlowFixMe
+            const teamId = action.profile ? action.profile.teamId : undefined;
             return {
                 ...state,
                 kmTillNextLevel,
                 level,
                 progress: percentage,
+                teamId,
             };
         }
         default:

@@ -9,6 +9,7 @@ import {
     TouchableHighlight,
     View,
 } from 'react-native';
+import { Trans, withTranslation } from 'react-i18next';
 import {
     COLOR_DEEP_BLUE,
     COLOR_GREEN,
@@ -16,7 +17,7 @@ import {
     COLOR_WHITE,
     COLOR_YELLOW,
 } from '../../constants';
-import type { NavigationProp } from '../../flow-types';
+import type { NavigationProp, TranslationFunction } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -86,6 +87,7 @@ type IconProps = {
 
 type Props = {
     navigation: NavigationProp,
+    t: TranslationFunction,
 };
 
 /* eslint-disable global-require */
@@ -115,7 +117,7 @@ const ColoredTapIcon = (props: IconProps) => {
     );
 };
 
-export default class CDInstructionsScreen extends React.Component<Props> {
+class CDInstructionsScreen extends React.Component<Props> {
     componentDidMount() {
         const { navigation } = this.props;
         BackHandler.addEventListener('hardwareBackPress', () =>
@@ -124,7 +126,7 @@ export default class CDInstructionsScreen extends React.Component<Props> {
     }
 
     render() {
-        const { navigation } = this.props;
+        const { navigation, t } = this.props;
         return (
             <View style={styles.background}>
                 <View style={styles.swipeNavTop}>
@@ -143,80 +145,93 @@ export default class CDInstructionsScreen extends React.Component<Props> {
                             { alignSelf: 'center', marginTop: 15 },
                         ]}
                     >
-                        Instructions
+                        {t('instructions')}
                     </Text>
                 </View>
 
                 <ScrollView style={styles.container}>
-                    <Text style={styles.header}>Your task:</Text>
+                    <Text style={styles.header}>{t('your task')}</Text>
                     <Text style={styles.tutParagraph}>
-                        You&apos;re looking for{' '}
-                        <Text style={{ fontWeight: 'bold' }}>
-                            changes in buildings
-                        </Text>
-                        . This acts as a clear indicator for a change in
-                        population size.
+                        <Trans i18nKey="CDInstructionsScreen:lookingFor">
+                            You&apos;re looking for{' '}
+                            <Text style={{ fontWeight: 'bold' }}>
+                                changes in buildings
+                            </Text>
+                            . This acts as a clear indicator for a change in
+                            population size.
+                        </Trans>
                     </Text>
-                    <Text style={styles.header}>How to perform the task:</Text>
+                    <Text style={styles.header}>{t('perform task')}</Text>
                     <View style={styles.tutRow}>
                         <Image
                             source={require('../assets/swipeleft_icon_white.png')}
                             style={styles.tutImage}
                         />
                         <Text style={styles.tutText}>
-                            If there are no changes, simply{' '}
-                            <Text style={{ fontWeight: 'bold' }}>swipe</Text> to
-                            the next photos
+                            <Trans i18nKey="CDInstructionsScreen:noChanges">
+                                If there are no changes, simply{' '}
+                                <Text style={{ fontWeight: 'bold' }}>
+                                    swipe
+                                </Text>{' '}
+                                to the next photos
+                            </Trans>
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
                         <ColoredTapIcon bgColor={COLOR_GREEN} number="1" />
                         <Text style={styles.tutText}>
-                            If you see a change in buildings,{' '}
-                            <Text style={{ fontWeight: 'bold' }}>tap once</Text>{' '}
-                            and the tile turns green
+                            <Trans i18nKey="CDInstructionsScreen:seeChanges">
+                                If you see a change in buildings,{' '}
+                                <Text style={{ fontWeight: 'bold' }}>
+                                    tap once
+                                </Text>{' '}
+                                and the tile turns green
+                            </Trans>
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
                         <ColoredTapIcon bgColor={COLOR_YELLOW} number="2" />
                         <Text style={styles.tutText}>
-                            Unsure?{' '}
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Tap twice
-                            </Text>{' '}
-                            and the tile will turn yellow
+                            <Trans i18nKey="CDInstructionsScreen:unsure">
+                                Unsure?{' '}
+                                <Text style={{ fontWeight: 'bold' }}>
+                                    Tap twice
+                                </Text>{' '}
+                                and the tile will turn yellow
+                            </Trans>
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
                         <ColoredTapIcon bgColor={COLOR_RED} number="3" />
                         <Text style={styles.tutText}>
-                            Imagery issue, like if either image has clouds
-                            covering the view?{' '}
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Tap three times
-                            </Text>{' '}
-                            and the tile will turn red
+                            <Trans i18nKey="CDInstructionsScreen:badImagery">
+                                Imagery issue, like if either image has clouds
+                                covering the view?{' '}
+                                <Text style={{ fontWeight: 'bold' }}>
+                                    Tap three times
+                                </Text>{' '}
+                                and the tile will turn red
+                            </Trans>
                         </Text>
                     </View>
 
-                    <Text style={styles.tutParagraph}>
-                        If you need to see an image more closely, tap and hold
-                        the image and it&apos;ll zoom in a little more.
-                    </Text>
+                    <Text style={styles.tutParagraph}>{t('holdZoom')}</Text>
 
-                    <Text style={styles.header}>Hint:</Text>
+                    <Text style={styles.header}>{t('hint')}</Text>
                     <Text style={styles.tutParagraph}>
-                        Sometimes different imagery sources will have been used.
-                        The images may be aligned slightly differently or might
-                        be a different resolution. Remember, you&apos;re looking
-                        for{' '}
-                        <Text style={{ fontWeight: 'bold' }}>
-                            definite changes in settlements and buildings
-                        </Text>{' '}
-                        so if it looks like the same buildings are there, but
-                        maybe there&apos;s a new roof, then this would be a
-                        &quot;no change&quot; scenario and you&apos;d simply
-                        swipe to the next image.
+                        <Trans i18nKey="CDInstructionsScreen:differentImagery">
+                            Sometimes different imagery sources will have been
+                            used. The images may be aligned slightly differently
+                            or might be a different resolution. Remember,
+                            you&apos;re looking for{' '}
+                            <Text style={{ fontWeight: 'bold' }}>
+                                definite changes in settlements and buildings
+                            </Text>{' '}
+                            so if it looks like the same buildings are there,
+                            but maybe there&apos;s a new roof, then this would
+                            be a &quot;no change&quot; scenario and you&apos;d
+                            simply swipe to the next image.
+                        </Trans>
                     </Text>
                     <Text style={styles.header}>&nbsp;</Text>
                 </ScrollView>
@@ -224,3 +239,5 @@ export default class CDInstructionsScreen extends React.Component<Props> {
         );
     }
 }
+
+export default withTranslation('CDInstructionsScreen')(CDInstructionsScreen);

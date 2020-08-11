@@ -14,6 +14,7 @@ import {
     TouchableOpacity,
     Alert,
 } from 'react-native';
+import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
 
 // $FlowFixMe
@@ -30,7 +31,11 @@ import {
     LEGACY_TILES,
 } from '../constants';
 import { getProjectProgressForDisplay } from '../Database';
-import type { NavigationProp, ProjectType } from '../flow-types';
+import type {
+    NavigationProp,
+    ProjectType,
+    TranslationFunction,
+} from '../flow-types';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
@@ -160,15 +165,6 @@ const style = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.1,
     },
-    startButton2: {
-        marginTop: 10,
-        backgroundColor: '#e61c1c',
-        flex: 1,
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-    },
     startButtonTutorial: {
         marginTop: 10,
         backgroundColor: '#33A929',
@@ -238,50 +234,25 @@ const ProjectView = (props: Props) => (
 type HeaderProps = {
     navigation: NavigationProp,
     project: ProjectType,
+    t: TranslationFunction,
 };
 
 type HeaderState = {
-    hasOfflineGroups: boolean,
     isDisabled: boolean,
 };
 
 class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
-    mounted: boolean;
-
     offlineModal: ?Modal;
 
     constructor(props) {
         super(props);
         this.state = {
-            hasOfflineGroups: false,
             isDisabled: true,
         };
     }
 
     componentDidMount() {
-        const { project } = this.props;
-        this.mounted = true;
         fb.analytics().logEvent('project_view_opened');
-        const parent = this;
-        parent.setState({
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
-                `project-${project.projectId}`,
-            ),
-        });
-        setInterval(() => {
-            if (!parent.mounted) {
-                return;
-            }
-            parent.setState({
-                hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
-                    `project-${project.projectId}`,
-                ),
-            });
-        }, 300);
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
     }
 
     returnToView = () => {
@@ -424,33 +395,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         };
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    handleInProgress() {}
-
-    // eslint-disable-next-line class-methods-use-this
-    handleRemoval() {
-        Alert.alert(
-            'Deletion Complete',
-            'We found 0 groups in this project and deleted them.',
-            [
-                { text: 'Okay', onPress: () => console.log('closed') },
-                { text: 'Close', onPress: () => console.log('closed') },
-            ],
-        );
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    handleProjectRemoval() {
-        Alert.alert(
-            'Project Reset Complete',
-            'Your progress will still be synced! Try Now!',
-            [{ text: 'Okay', onPress: () => console.log('closed') }],
-        );
-    }
-
     render() {
-        const { navigation, project } = this.props;
-        const { hasOfflineGroups, isDisabled } = this.state;
+        const { navigation, project, t } = this.props;
+        const { isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
         chunks.forEach((chunk) => {
@@ -459,6 +406,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 
         // show progress = 0 if we somehow get a negative value
         const projectProgress = getProjectProgressForDisplay(project.progress);
+        const { contributorCount } = project;
 
         return (
             <ScrollView style={style.projectViewContainer} testID="projectView">
@@ -478,8 +426,13 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                         source={require('./assets/heart_icon.png')}
                                     />
                                     <Text style={style.infoBlockText}>
-                                        {`${projectProgress}% GLOBAL PROGRESS BY `}
-                                        {`${project.contributorCount} MAPPERS JUST LIKE YOU.`}
+                                        {t(
+                                            'x pc global progress by n mappers',
+                                            {
+                                                projectProgress,
+                                                contributorCount,
+                                            },
+                                        )}
                                     </Text>
                                     <Image
                                         style={style.mmLogo}
@@ -535,7 +488,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         }}
                         textStyle={style.buttonText}
                     >
-                        Tutorial
+                        {t('tutorial')}
                     </Button>
                     <Button
                         style={style.startButton}
@@ -543,26 +496,8 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         testID="mapNowButton"
                         textStyle={style.buttonText}
                     >
-                        Map Now
+                        {t('map now')}
                     </Button>
-
-                    <Button
-                        style={style.startButton2}
-                        onPress={this.handleProjectRemoval}
-                        textStyle={style.buttonText}
-                    >
-                        Bugs? Clear Project Data
-                    </Button>
-
-                    {hasOfflineGroups ? (
-                        <Button
-                            style={style.startButton2}
-                            onPress={this.handleRemoval}
-                            textStyle={style.buttonText}
-                        >
-                            Remove Offline Data
-                        </Button>
-                    ) : null}
                 </View>
                 <Modal
                     style={[style.modal, style.offlineModal]}
@@ -634,6 +569,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const ProjectHeader = compose(
+    withTranslation('projectView'),
     firebaseConnect(() => []),
     connect(mapStateToProps),
 )(_ProjectHeader);

@@ -9,7 +9,12 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import type { NavigationProp, ProjectType } from '../flow-types';
+import { withTranslation } from 'react-i18next';
+import type {
+    NavigationProp,
+    ProjectType,
+    TranslationFunction,
+} from '../flow-types';
 import { COLOR_LIGHT_GRAY } from '../constants';
 import { getProjectProgressForDisplay } from '../Database';
 
@@ -131,13 +136,14 @@ type Props = {
     project: ProjectType,
     cardIndex: number,
     navigation: NavigationProp,
+    t: TranslationFunction,
 };
 
 type State = {
     hasOfflineGroups: boolean,
 };
 
-export default class ProjectCard extends React.Component<Props, State> {
+class ProjectCard extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -182,7 +188,7 @@ export default class ProjectCard extends React.Component<Props, State> {
     };
 
     render() {
-        const { project, cardIndex } = this.props;
+        const { project, cardIndex, t } = this.props;
         const { hasOfflineGroups } = this.state;
         // show progress = 0 if we somehow get a negative value
         const progress = getProjectProgressForDisplay(project.progress);
@@ -234,7 +240,10 @@ export default class ProjectCard extends React.Component<Props, State> {
                                         source={require('./assets/heart_icon.png')}
                                     />
                                     <Text style={style.teamMateText}>
-                                        {`${progress}% by ${mappersCount} mappers`}
+                                        {t('progress pc by x mappers', {
+                                            progress,
+                                            mappersCount,
+                                        })}
                                     </Text>
                                 </View>
                             </View>
@@ -245,3 +254,5 @@ export default class ProjectCard extends React.Component<Props, State> {
         );
     }
 }
+
+export default withTranslation('projectList')(ProjectCard);

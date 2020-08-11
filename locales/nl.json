@@ -1,0 +1,87 @@
+{
+  "mainHeader": {
+    "missions": "Missies",
+    "more": "Meer"
+  },
+  "signup": {
+    "chooseUsername": "Kies je gebruikersnaam",
+    "passwordError": "Wachtwoord moet uit meer dan 6 tekens bestaan",
+    "usernameError": "Gebruikersnaam moet uit meer dan 4 tekens bestaan",
+    "errorOnSignup": "Fout bij aanmelden",
+    "usernameErrorMessage": "Uw gebruikersnaam moet uit 4 tekens of meer bestaan",
+    "usernameNotEmail": "Uw gebruikersnaam mag geen e-mailadres zijn ",
+    "usernamePublic": "Uw gebruikersnaam is publiek zichtbaar",
+    "success": "Succes",
+    "welcomeToMapSwipe": "Welkom bij MapSwipe, {{gebruikersnaam}}",
+    "emailAlreadyUsed": "E-mailadres al gebruikt door een ander account",
+    "emailInvalid": "E-mailadres is ongeldig",
+    "problemSigningUp": "Probleem met aanmelden",
+    "errorOnSignUp": "Fout bij aanmelden",
+    "checkYourEmail": "Check je inbox",
+    "noAccountFoundForEmail": "Geen account gevonden voor dit e-mailadres",
+    "problemResettingPassword": "Er was een probleem met het resetten van uw wachtwoord",
+    "errorLogIn": "Fout bij inloggen",
+    "invalidEmailPassword": "Ongeldig e-mailadres of wachtwoord",
+    "accountDisabled": "Uw account is uitgeschakeld",
+    "problemLoggingIn": "Probleem met inloggen",
+    "errorResetPass": "Er was een fout bij het resetten van het wachtwoord",
+    "enterYourEmail": "Voer uw e-mailadres in",
+    "choosePassword": "Kies uw wachtwoord",
+    "enterYourPassword": "Voer uw wachtwoord in",
+    "IagreeToPrivacyNotice": "Ik ga akkoord met de <1>privacyverklaring</1>",
+    "contributionWarningOnSignup": "Alle gegevens die u bijdraagt aan MapSwipe zijn open en voor iedereen beschikbaar. Uw gebruikersnaam is publiek, maar uw e-mailadres en wachtwoord worden nooit met iemand gedeeld.",
+    "signUp": "Aanmelden",
+    "loginExistingAccount": "Log in met een bestaand account",
+    "login": "Log in",
+    "forgotPassword": "Uw wachtwoord vergeten?",
+    "createNewAccount": "Maak een nieuwe account",
+    "sendResetEmailWarning": "* We sturen u een e-mail om uw wachtwoord opnieuw in te stellen",
+    "sendResetEmail": "Resetmail versturen",
+    "backToLogin": "Terug naar inlogscherm"
+  },
+  "login": {
+    "enterUsername": "Voer uw gebruikersnaam in"
+  },
+  "profileScreen": {
+    "Level X": "Niveau {{niveau}}",
+    "youve completed x tasks": "U heeft {{contributions}} taken afgerond!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} taken ({{swipes}} swipes) tot het volgende niveau",
+    "changeLanguage": "Taal aanpassen",
+    "mapswipe website": "MapSwipe website",
+    "missingmaps website": "Missing Maps website",
+    "email us": "Email ons",
+    "sign out": "Afmelden",
+    "delete my account": "Verwijder mijn account",
+    "delete account question": "Account verwijderen?",
+    "delete account warning": "U zal al uw vooruitgang en badges verliezen. Uw bijdragen blijven publiek, maar niet langer gekoppeld aan uw account.\nWilt u doorgaan?",
+    "no keep my account": "Nee, bewaar mijn account",
+    "yes delete it": "Ja, verwijder mijn account"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% VOORUITGANG DANKZIJ {{project.contributorCount}} VRIJWILLIGERS ZOALS U.",
+    "map now": "Nu in kaart brengen",
+    "tutorial": "Handleiding"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "U zoekt:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Goed. U heeft de handleiding goed afgerond. U bent klaar om te swipen!",
+    "finishedGroup": "Goed werk! U bent klaar met deze groep.",
+    "letsGo": "Aan de slag!",
+    "completeSession": "Sessie voltooien",
+    "continueMapping": "Doorgaan met in kaart brengen"
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Welkom bij MapSwipe",
+    "helpImprove": "Help vanaf je telefoon humanitaire acties te verbeteren.",
+    "partMissingMaps": "Onderdeel van Missing Maps",
+    "withMissingMaps": "Met Missing Maps zetten we kwetsbare gemeenschappen in de wereld op de kaart",
+    "swipe": "Swipe",
+    "completeTasks": "Voltooi taken door door satellietbeelden te vegen van gebieden die in kaart moeten worden gebracht.",
+    "createData": "Creëer zinvolle data",
+    "dataUse": "De data helpt Missing Map vrijwilligers sneller data toe te voegen aan OpenStreetMap",
+    "saveLives": "Red levens",
+    "mapHelps": "De kaart helpt organisaties bij het coördineren van humanitaire hulp en het redden van levens"
+  }
+}

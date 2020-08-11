@@ -24,6 +24,8 @@ When you're done, commit in your feature branch, then [submit a PR](https://gith
 
 We will get notified, and review your changes. We might ask you to modify certain bits of your code before everything gets merged, to make sure that the code base remains fairly consistent and clean.
 
+If you add or modify text that is displayed in the app, make sure you support translations, see [this page](translating.md) for instructions on how to do this.
+
 If you need help with anything in the code, you can reach out via the github issues, or get in touch via email as explained [here](https://mapswipe.org/get-involved.html).
 
 # Workflow overview (for the core team)

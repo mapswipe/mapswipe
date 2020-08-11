@@ -6,6 +6,7 @@ import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
+import type { NavigationEventSubscription } from 'react-navigation';
 import ProjectCard from './ProjectCard';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, ProjectType } from '../flow-types';
@@ -77,12 +78,120 @@ type OrderedProject = {
 
 type Props = {
     announcement: Object,
+    firebase: Object,
     navigation: NavigationProp,
     projects: Array<OrderedProject>,
+    teamId: ?string,
+};
+
+// request only active projects from firebase (status === 'active')
+// firebase doesn't allow multiple query params, so for project types we filter in render()
+// but here we can still limit to 20 projects maximum
+// `path` defines where the resulting data is copied in the redux store
+// (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
+// Note that the firebase access rules must be configured to allow this, or you'll get a
+// permission denied error.
+const projectsQuery = {
+    isQuery: true,
+    path: 'v2/projects',
+    queryId: 'projectsQuery',
+    queryParams: ['orderByChild=status', 'equalTo=active', 'limitToFirst=20'],
+    storeAs: 'projects',
+    type: 'value',
+};
+// load any announcement data from firebase
+// (state.firebase.data.announcement here because we've not ordered the query)
+const announcementQuery = {
+    isQuery: true,
+    path: 'v2/announcement',
+    queryId: 'announcementQuery',
+    queryParams: ['limitToLast=2'],
+    storeAs: 'announcement',
+    type: 'value',
 };
 
 class _RecommendedCards extends React.Component<Props> {
     tutorialModal: ?Modal;
+
+    willBlurAnnouncementSubscription: NavigationEventSubscription;
+
+    willFocusAnnouncementSubscription: NavigationEventSubscription;
+
+    willBlurProjectSubscription: NavigationEventSubscription;
+
+    willFocusProjectSubscription: NavigationEventSubscription;
+
+    componentDidMount() {
+        this.subscribeToProjects();
+        this.subscribeToAnnouncements();
+        this.getTeamName();
+    }
+
+    componentWillUnmount() {
+        this.willFocusAnnouncementSubscription.remove();
+        this.willBlurAnnouncementSubscription.remove();
+        this.willFocusProjectSubscription.remove();
+        this.willBlurProjectSubscription.remove();
+    }
+
+    subscribeToAnnouncements = () => {
+        const { type, path, storeAs, ...options } = announcementQuery;
+        const { firebase, navigation } = this.props;
+        this.willFocusAnnouncementSubscription = navigation.addListener(
+            'willFocus',
+            () => {
+                firebase.watchEvent(type, path, storeAs, options);
+            },
+        );
+        this.willBlurAnnouncementSubscription = navigation.addListener(
+            'willBlur',
+            () => {
+                firebase.unWatchEvent(type, path, storeAs, options);
+            },
+        );
+    };
+
+    subscribeToProjects = () => {
+        const { type, path, storeAs, ...options } = projectsQuery;
+        const { firebase, navigation, teamId } = this.props;
+        if (teamId) {
+            // the user is part of a team, amend the query to get private_active
+            // projects instead of the default (public) "active" ones.
+            // We need to query by teamId, so that we only get projects that actually
+            // belong to our team, not all private ones.
+            options.queryParams = [
+                'orderByChild=teamId',
+                `equalTo=${teamId}`,
+                'limitToFirst=20',
+            ];
+        }
+
+        this.willFocusProjectSubscription = navigation.addListener(
+            'willFocus',
+            () => {
+                firebase.watchEvent(type, path, storeAs, options);
+            },
+        );
+        this.willBlurProjectSubscription = navigation.addListener(
+            'willBlur',
+            () => {
+                firebase.unWatchEvent(type, path, storeAs, options);
+            },
+        );
+    };
+
+    getTeamName = () => {
+        // request the team display name from firebase
+        // the result is then available under state.firebase.data.teamName
+        const { firebase, teamId } = this.props;
+        if (teamId) {
+            firebase.watchEvent(
+                'once',
+                `v2/teams/${teamId}/teamName`,
+                'teamName',
+            );
+        }
+    };
 
     closeModal3 = () => {
         if (this.tutorialModal) {
@@ -192,10 +301,16 @@ class _RecommendedCards extends React.Component<Props> {
                 {projects
                     .filter(
                         (p) =>
+                            // keep only projects whose type we currently support
                             p.value &&
                             p.value.projectType &&
                             GLOBAL.SUPPORTED_PROJECT_TYPES.includes(
                                 p.value.projectType,
+                            ) &&
+                            // only show "active" and "private_active" projects
+                            // (this is only useful for private ones)
+                            ['active', 'private_active'].includes(
+                                p.value.status,
                             ),
                     )
                     .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
@@ -219,29 +334,15 @@ const mapStateToProps = (state, ownProps) => ({
     announcement: state.firebase.data.announcement,
     navigation: ownProps.navigation,
     projects: state.firebase.ordered.projects,
+    teamId: state.ui.user.teamId,
 });
 
 export default compose(
-    firebaseConnect(() => [
-        // request only active projects from firebase (status === 'active')
-        // firebase doesn't allow multiple query params, so for project types we filter in render()
-        // but here we can still limit to 20 projects maximum
-        // `path` defines where the resulting data is copied in the redux store
-        // (state.firebase.ordered.projects in this case, because we've asked for `orderByChild`)
-        {
-            type: 'once',
-            path: 'v2/projects',
-            queryParams: [
-                'orderByChild=status',
-                'equalTo=active',
-                'limitToFirst=20',
-            ],
-            storeAs: 'projects',
-        },
-        // load any announcement data from firebase
-        // (state.firebase.data.announcement here because we've not ordered the query)
-        { path: 'v2/announcement', queryParams: ['limitToLast=2'] },
-    ]),
+    // this only supplies the firebase object in the props, the actual connection
+    // to projects and announcement is done in componentDidMount
+    // so that we can disable updates while mapping to prevent updates from other
+    // users from resetting our mapping state, see #119
+    firebaseConnect(), //() => [
     // connect to redux store
     connect(mapStateToProps),
 )(_RecommendedCards);

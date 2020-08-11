@@ -1,0 +1,136 @@
+{
+  "mainHeader": {
+    "missions": "Missionen",
+    "more": "Mehr"
+  },
+  "signup": {
+    "chooseUsername": "Wähle deinen Benutzernamen",
+    "passwordError": "Dein Passwort muss aus mindestens 6 Zeichen bestehen",
+    "usernameError": "Dein Benutzername muss aus mindestens 4 Zeichen bestehen",
+    "errorOnSignup": "Fehler bei der Kontoerstellung",
+    "usernameErrorMessage": "Dein Benutzername muss aus mindestens 4 Zeichen bestehen",
+    "usernameNotEmail": "Dein Benutzername darf keine E-Mail-Adresse sein",
+    "usernamePublic": "Dein Benutzername ist öffentlich sichtbar",
+    "success": "Erfolg",
+    "welcomeToMapSwipe": "Hallo {{username}}, willkommen bei MapSwipe",
+    "emailAlreadyUsed": "E-Mail-Adresse wird bereits von einem anderen Konto verwendet",
+    "emailInvalid": "E-Mail-Adresse ist ungültig",
+    "problemSigningUp": "Problem bei der Kontoerstellung",
+    "errorOnSignUp": "Fehler bei der Kontoerstellung",
+    "checkYourEmail": "Überprüfe deinen E-Mail-Posteingang",
+    "noAccountFoundForEmail": "Für diese E-Mail-Adresse konnte kein Konto gefunden werden",
+    "problemResettingPassword": "Problem beim Zurücksetzen des Passwortes",
+    "errorLogIn": "Fehler bei der Anmeldung",
+    "invalidEmailPassword": "Ungültige E-Mail-Adresse oder Passwort",
+    "accountDisabled": "Konto gesperrt",
+    "problemLoggingIn": "Problem bei der Anmeldung",
+    "errorResetPass": "Fehler beim Zurücksetzen des Passworts",
+    "enterYourEmail": "E-Mail-Adresse eingeben",
+    "choosePassword": "Passwort wählen",
+    "enterYourPassword": "Passwort eingeben",
+    "IagreeToPrivacyNotice": "Ich stimme den <1>Datenschutzbestimmungen</1> zu",
+    "contributionWarningOnSignup": "Deine Beiträge in MapSwipe sind für Jede und Jeden öffentlich verfügbar. Dein Benutzername ist öffentlich, deine E-Mail-Adresse sowie dein Passwort werden niemals veröffentlicht.",
+    "signUp": "Registrieren",
+    "loginExistingAccount": "Mit einem bestehenden Konto anmelden",
+    "login": "Anmelden",
+    "forgotPassword": "Passwort vergessen?",
+    "createNewAccount": "Neues Konto erstellen",
+    "sendResetEmailWarning": "Wir werden dir eine E-Mail zum Zurücksetzen des Passwortes senden",
+    "sendResetEmail": "E-Mail zum Zurücksetzen senden",
+    "backToLogin": "Zurück zur Anmeldung"
+  },
+  "login": {
+    "enterUsername": "Gib deinen Benutzernamen ein"
+  },
+  "profileScreen": {
+    "Level X": "Level {{level}}",
+    "youve completed x tasks": "Du hast {{contributions}} Aufgaben erledigt!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} Aufgaben ({{swipes}} Bildschirme) bis zum nächsten Level",
+    "yourTeam": "Dein Team: {{teamName}}",
+    "changeLanguage": "Sprache wechseln",
+    "mapswipe website": "MapSwipe Webseite",
+    "missingmaps website": "Missing Maps Webseite",
+    "email us": "Schreib uns eine E-Mail",
+    "sign out": "Abmelden",
+    "delete my account": "Konto löschen",
+    "delete account question": "Konto löschen?",
+    "delete account warning": "Der gesamte Fortschritt und alle Badges werden gelöscht. Alle Beiträge werden öffentlich bleiben, aber nicht mehr mit deinem Konto verknüpft sein.\nWillst du den Vorgang fortsetzen?",
+    "no keep my account": "Nein, Konto behalten",
+    "yes delete it": "Ja, Konto löschen"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% von {{mappersCount}} Kartographierenden"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% GLOBALER FORTSCHRITT VON {{project.contributorCount}} KARTOGRAPHIERENDEN WIE DIR.",
+    "map now": "Jetzt kartieren",
+    "tutorial": "Anleitung"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Du suchst:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Super. Du hast die Anleitung beendet. Du kannst jetzt mit dem Kartieren beginnen!",
+    "finishedGroup": "Grossartig! Du hast diese Gruppe von Aufgaben beendet.",
+    "letsGo": "Lost geht's!",
+    "completeSession": "Session beenden",
+    "continueMapping": "Weiter kartieren",
+    "sync alert": "Hinweis",
+    "sync alert message": "Synchronisiere deine Aufgaben... App nicht schließen."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Willkommen bei MapSwipe",
+    "helpImprove": "Hilf bequem von deinem Telefon aus, die humanitäre Hilfe zu verbessern",
+    "partMissingMaps": "Teil des Missing Maps-Projektes",
+    "withMissingMaps": "Mit Missing Maps wollen wir die verletzlichen Gemeinschaften der Welt auf Karten sichtbar machen",
+    "swipe": "Wischen",
+    "completeTasks": "Indem du durch Satellitenbilder wischst, die in Gegenden aufgenommen wurden, die kartiert werden müssen erfüllst du Aufgaben",
+    "createData": "Generiere brauchbare Daten",
+    "dataUse": "Die generierten Daten werden benutzt, damit Freiwillige von Missing Maps ihre Bemühungen, Details auf OpenStreetMap einzutragen, fokussieren können",
+    "saveLives": "Rette Leben",
+    "mapHelps": "Die Karte hilft humanitäre Hilfe zu koordinieren und rettet Leben"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Anleitung",
+    "your task": "Deine Aufgabe:",
+    "lookingFor": "Du suchst nach{' '} <1>Gebäudeänderungen</1>. Dies ist ein Indikator für Änderungen in der Bevölkerungsgröße.",
+    "perform task": "So erledigst du die Aufgabe:",
+    "noChanges": "Wenn sich nichts geändert hat,{' '} <1>wische</1> einfach zu den nächsten Fotos",
+    "seeChanges": "Wenn du eine Veränderung an den Gebäuden siehst,{' '} <1>tippe einmal</1>{' '} und die Kachel wird grün",
+    "unsure": "Unsicher?{' '} <1>Tippe zweimal</1>{' '} und die Kachel wird gelb",
+    "badImagery": "Ein Problem mit dem Bildmaterial wie z.B. Wolken die im Weg sind?{' '} <1>Tippe dreimal</1>{' '} und die Kachel wird rot",
+    "holdZoom": "Wenn du ein Bild näher betrachten willst, tippe und halte das Bild und wir zoomen noch ein wenig rein.",
+    "hint": "Hinweis:",
+    "differentImagery": "Manchmal wurden unterschiedliche Bildquellen verwendet. Diese Bilder können leicht unterschiedlich angepasst oder in unterschiedlichen Auflösungen sein. Denke daran, du suchst nach{' '}<1> eindeutigen Änderungen in Siedlungen oder Gebäuden</1>{' '}. Wenn es also so aussieht als wäre dort ein Gebäude, das nur ein neues Dach bekommen hat, dann ist dies keine Änderung und die kannst wischen um fortzufahren."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Anleitung anzeigen"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Verstanden"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Wische NACH UNTEN um alle 6 Kacheln ROT zu markieren.",
+    "swipe up undo": "Wische NACH OBEN um dies rückgängig zu machen."
+  },
+  "LoadingIcon": {
+    "loading": "Lade..."
+  },
+  "Tutorial": {
+    "incomplete": "UNVOLLSTÄNDIG",
+    "maybe": "VIELLEICHT",
+    "instructions1": "Wie du beiträgst",
+    "instructions2": "TIPPE ZUM AUSWÄHLEN",
+    "instructions3": "Schaue nach den Merkmalen die in der Missionsbeschreibung stehen. Tippe jede Kachel an, auf der du findest was du suchst. Tipp einmal für <1>JA</1>, zweimal für <3>{{twoTaps}}</3>, und dreimal <5>SCHLECHTES BILD</5> (z.B. Wolken).",
+    "instructions4": "WISCHEN ZUM NAVIGIEREN",
+    "instructions5": "Wenn du mit einem Teil der Karte fertig bist, wische zum Nächsten.",
+    "instructions6": "HALTEN ZUM ZOOMEN",
+    "instructions7": "Halte eine Kachel um zu zoomen.",
+    "instructions8": "Nachweis",
+    "tutorial1": "Willkommen zur Anleitung!",
+    "tutorial2": "Diese sollte dich in wenigen Minuten zu einem Experten in MapSwipe machen.",
+    "tutorial3": "Folge einfach den Anweisungen und wische nach links um fortzufahren.",
+    "tutorial4": "Wenn dir die Anweisungen im Weg sind, klicke einfach auf die Anweisung um sie zu verschieben.",
+    "tutorial5": "Verstanden"
+  }
+}

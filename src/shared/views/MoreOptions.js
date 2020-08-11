@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import fb from 'react-native-firebase';
+import { withTranslation } from 'react-i18next';
 import {
     Alert,
     Linking,
@@ -22,7 +23,7 @@ import * as Progress from 'react-native-progress';
 import debugInfo from '../../../debugInfo';
 import ConfirmationModal from '../common/ConfirmationModal';
 import Levels from '../Levels';
-import type { NavigationProp } from '../flow-types';
+import type { NavigationProp, TranslationFunction } from '../flow-types';
 import {
     COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
@@ -133,6 +134,9 @@ type MOProps = {
     navigation: NavigationProp,
     profile: Object,
     progress: number,
+    t: TranslationFunction,
+    teamId: ?string,
+    teamName: ?string,
 };
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -144,7 +148,7 @@ class _MoreOptions extends React.Component<MOProps> {
     }
 
     deleteUserAccount = () => {
-        const { firebase, navigation } = this.props;
+        const { firebase, navigation, t } = this.props;
 
         const user = firebase.auth().currentUser;
         fb.analytics().logEvent('delete_account');
@@ -155,8 +159,8 @@ class _MoreOptions extends React.Component<MOProps> {
             .then(() => {
                 // account deleted
                 MessageBarManager.showAlert({
-                    title: 'Account deleted!',
-                    message: 'Sorry to see you go...',
+                    title: t('Account deleted!'),
+                    message: t('Sorry to see you go...'),
                     alertType: 'info',
                 });
                 navigation.navigate('LoginNavigator');
@@ -166,9 +170,10 @@ class _MoreOptions extends React.Component<MOProps> {
                 // ask them to reauthenticate to make sure
                 // it's them
                 MessageBarManager.showAlert({
-                    title: 'Could not delete!',
-                    message:
+                    title: t('Could not delete!'),
+                    message: t(
                         'Please login again to confirm you want to delete your account',
+                    ),
                     alertType: 'error',
                 });
                 navigation.navigate('LoginNavigator');
@@ -186,16 +191,13 @@ class _MoreOptions extends React.Component<MOProps> {
     };
 
     renderDeleteAccountConfirmationModal = () => {
+        const { t } = this.props;
         const content = (
             <>
-                <Text style={{ fontSize: 28 }}>Delete account?</Text>
-                <Text>
-                    You will lose all of your progress and badges. Your
-                    contributions will remain public but no longer tied to your
-                    account.
-                    {'\n'}
-                    Would you like to continue?
+                <Text style={{ fontSize: 28 }}>
+                    {t('delete account question')}
                 </Text>
+                <Text>{t('delete account warning')}</Text>
             </>
         );
 
@@ -205,11 +207,11 @@ class _MoreOptions extends React.Component<MOProps> {
                     // $FlowFixMe
                     this.deleteAccountConfirmationModal.close();
                 }}
-                cancelButtonText="No, keep my account"
+                cancelButtonText={t('no keep my account')}
                 content={content}
                 // $FlowFixMe
                 exitButtonCallback={this.deleteUserAccount}
-                exitButtonText="Yes, delete it!"
+                exitButtonText={t('yes delete it')}
                 getRef={(r) => {
                     this.deleteAccountConfirmationModal = r;
                 }}
@@ -226,6 +228,9 @@ class _MoreOptions extends React.Component<MOProps> {
             navigation,
             profile,
             progress,
+            t,
+            teamId,
+            teamName,
         } = this.props;
         const levelObject = Levels[level];
         const contributions =
@@ -251,21 +256,44 @@ class _MoreOptions extends React.Component<MOProps> {
                 </TouchableWithoutFeedback>
                 <View style={styles.info}>
                     <Text style={styles.infoLeftTitle}>
-                        Level
-                        {level}
+                        {t('Level X', { level })}
                     </Text>
                     <Text style={styles.infoRightTitle} numberOfLines={1}>
                         {auth.displayName}
                     </Text>
                     <Text style={styles.infoLeft}>{levelObject.title}</Text>
                     <Text style={styles.infoRight}>
-                        You&apos;ve completed {contributions} tasks!
+                        {t('youve completed x tasks', { contributions })}
                     </Text>
                 </View>
                 <LevelProgress
                     kmTillNextLevel={kmTillNextLevel}
                     progress={progress}
+                    t={t}
                 />
+                {teamId && (
+                    <View style={styles.row}>
+                        <Text
+                            style={[
+                                styles.buttonText,
+                                { height: 30, marginTop: 10 },
+                            ]}
+                        >
+                            {t('yourTeam', { teamName })}
+                        </Text>
+                    </View>
+                )}
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            navigation.push('LanguageSelectionScreen');
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        {t('changeLanguage')}
+                    </Button>
+                </View>
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
@@ -276,7 +304,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        MapSwipe website
+                        {t('mapswipe website')}
                     </Button>
                 </View>
                 <View style={styles.row}>
@@ -289,7 +317,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        Missing Maps website
+                        {t('missingmaps website')}
                     </Button>
                 </View>
                 <View style={styles.row}>
@@ -300,7 +328,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        Email us
+                        {t('email us')}
                     </Button>
                 </View>
 
@@ -315,7 +343,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        Sign Out
+                        {t('sign out')}
                     </Button>
                 </View>
                 <View
@@ -329,7 +357,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        Delete my account
+                        {t('delete my account')}
                     </Button>
                 </View>
             </ScrollView>
@@ -344,9 +372,15 @@ const mapStateToProps = (state, ownProps) => ({
     navigation: ownProps.navigation,
     profile: state.firebase.profile,
     progress: state.ui.user.progress,
+    teamId: state.ui.user.teamId,
+    teamName: state.firebase.data.teamName,
 });
 
-const enhance = compose(firebaseConnect(), connect(mapStateToProps));
+const enhance = compose(
+    withTranslation('profileScreen'),
+    firebaseConnect(),
+    connect(mapStateToProps),
+);
 
 export default enhance(_MoreOptions);
 
@@ -422,10 +456,12 @@ const progressStyle = StyleSheet.create({
 type LPProps = {
     kmTillNextLevel: number,
     progress: number,
+    t: TranslationFunction,
 };
 
 const LevelProgress = (props: LPProps) => {
     let { kmTillNextLevel } = props;
+    const { t } = props;
     const { progress } = props;
     if (Number.isNaN(kmTillNextLevel)) {
         kmTillNextLevel = 0;
@@ -444,7 +480,10 @@ const LevelProgress = (props: LPProps) => {
                 width={GLOBAL.SCREEN_WIDTH}
             />
             <Text style={progressStyle.text}>
-                {`${sqkm} tasks (${swipes} swipes) until the next level`}
+                {t('x tasks (s swipes) until the next level', {
+                    sqkm,
+                    swipes,
+                })}
             </Text>
         </View>
     );

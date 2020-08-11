@@ -23,3 +23,20 @@ export const COLOR_WHITE = 'white';
 export const COLOR_DARK_GRAY = '#212121';
 export const COLOR_LIGHT_GRAY = '#eef2fb';
 export const COLOR_TRANSPARENT_LIGHT_GRAY = 'rgba(238, 242, 251, 0)';
+
+// languages
+export const supportedLanguages = [
+    // follows (hopefully) the order in which they are displayed
+    // in wikipedia's list of languages (left side toolbar)
+    { code: 'cs', name: 'Čeština' },
+    { code: 'de', name: 'Deutsch' },
+    { code: 'en', name: 'English' },
+    { code: 'es', name: 'Español' },
+    { code: 'fa_AF', name: 'دری- افغانستان' },
+    { code: 'fr', name: 'Français' },
+    { code: 'hu', name: 'Magyar' },
+    { code: 'ja', name: '日本語' },
+    { code: 'ne', name: 'नेपाली' },
+    { code: 'nl', name: 'Nederlands' },
+    { code: 'sw', name: 'Kiswahili' },
+];

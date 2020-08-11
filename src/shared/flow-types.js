@@ -54,7 +54,7 @@ export type SingleImageryProjectType = {
     // FIXME: we should use constants here, somehow flow is not happy with them
     projectType: 1 | 2 | 4,
     progress: number,
-    state: number,
+    status: string,
     tileServer: TileServerType,
     tileServerB: ?TileServerType,
     zoomLevel: number,
@@ -72,7 +72,7 @@ export type ChangeDetectionProjectType = {
     projectId: string,
     projectType: 3,
     progress: number,
-    state: number,
+    status: string,
     tileServerA: TileServerType,
     tileServerB: TileServerType,
 };
@@ -170,6 +170,13 @@ export type Mapper = {
     progress: BottomProgress,
     project: ProjectType,
 };
+
+export type LanguageData = {
+    code: string, // two letter code, like 'en', 'de', etc...
+    name: string, // the name of the language in itself 'english', 'Français', 'Español'...
+};
+
+export type TranslationFunction = (string, ?Object) => string;
 
 // redux types
 
