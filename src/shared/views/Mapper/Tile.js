@@ -2,6 +2,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import base64 from 'base-64';
 import {
     ImageBackground,
     View,
@@ -150,14 +151,38 @@ export class _Tile extends React.Component<Props> {
         });
     };
 
+    parseUrlIfItContainsCredentials = (rawUrl) => {
+        // check if we have a basic http auth scheme in the url and
+        // send the credentials via headers if so, as react-native's
+        // http clients don't seem to support the url scheme.
+        const urlPattern = /^(?<proto>http|https):\/\/(?<username>.+):(?<password>.+)@(?<url>.+)$/;
+        const match = rawUrl.match(urlPattern);
+        if (match) {
+            const { proto, username, password, url } = match.groups;
+            const uri = `${proto}://${url}`;
+            return {
+                uri,
+                headers: {
+                    Authorization: `Basic ${base64.encode(
+                        `${username}:${password}`,
+                    )}`,
+                },
+            };
+        }
+        return { uri: rawUrl };
+    };
+
     getImgSource = () => {
         const { tile } = this.props;
-        return { uri: tile.url };
+        return this.parseUrlIfItContainsCredentials(tile.url);
     };
 
     getOsmBuildingsUrl = () => {
         const { tile } = this.props;
-        return { uri: tile.urlB };
+        if (tile.urlB !== undefined) {
+            return this.parseUrlIfItContainsCredentials(tile.urlB);
+        }
+        return { url: tile.urlB };
     };
 
     zoomRender = () => {

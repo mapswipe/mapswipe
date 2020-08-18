@@ -65,6 +65,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
+    "base-64": "^0.1.0",
     "detox": "^13.0.2",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
