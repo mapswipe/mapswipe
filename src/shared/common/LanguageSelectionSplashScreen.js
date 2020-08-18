@@ -94,10 +94,12 @@ type Props = {
 class _LanguageSelectionSplashScreen extends React.Component<Props> {
     componentDidMount() {
         const { languageCode, navigation } = this.props;
-        if (languageCode !== 'xx') {
-            navigation.navigate('WelcomeScreen');
-        } else {
+        if (languageCode === undefined || languageCode === 'xx') {
+            // no language selected, show this screen
             SplashScreen.hide();
+        } else {
+            // the user has already picked a language, move on to the next screen
+            navigation.navigate('WelcomeScreen');
         }
     }
 
@@ -118,7 +120,11 @@ class _LanguageSelectionSplashScreen extends React.Component<Props> {
         const { languageCode, t } = this.props;
 
         // if the language code is unset, default to english for the first display
-        const actualLangCode = languageCode === 'xx' ? 'en' : languageCode;
+        // we also allow for xx as a legacy code from 2.0.5 (which should not have happened)
+        const actualLangCode =
+            languageCode === undefined || languageCode === 'xx'
+                ? 'en'
+                : languageCode;
         const languageName = supportedLanguages.filter(
             (item) => item.code === actualLangCode,
         )[0].name;
