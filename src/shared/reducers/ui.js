@@ -17,7 +17,7 @@ const defaultUserState = {
     // This allows showing the help text when the user first opens a project of that type
     hasSeenHelpBoxType1: false,
     kmTillNextLevel: 0,
-    languageCode: 'xx',
+    languageCode: undefined,
     level: 1,
     progress: 0,
     username: '',
