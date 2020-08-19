@@ -5,8 +5,8 @@
   },
   "signup": {
     "chooseUsername": "Kies je gebruikersnaam",
-    "passwordError": "Wachtwoord moet uit meer dan 6 tekens bestaan",
-    "usernameError": "Gebruikersnaam moet uit meer dan 4 tekens bestaan",
+    "passwordError": "Wachtwoord moet uit 6 tekens of meer bestaan",
+    "usernameError": "Gebruikersnaam moet uit 4 tekens of meer bestaan",
     "errorOnSignup": "Fout bij aanmelden",
     "usernameErrorMessage": "Uw gebruikersnaam moet uit 4 tekens of meer bestaan",
     "usernameNotEmail": "Uw gebruikersnaam mag geen e-mailadres zijn ",
@@ -29,7 +29,7 @@
     "choosePassword": "Kies uw wachtwoord",
     "enterYourPassword": "Voer uw wachtwoord in",
     "IagreeToPrivacyNotice": "Ik ga akkoord met de <1>privacyverklaring</1>",
-    "contributionWarningOnSignup": "Alle gegevens die u bijdraagt aan MapSwipe zijn open en voor iedereen beschikbaar. Uw gebruikersnaam is publiek, maar uw e-mailadres en wachtwoord worden nooit met iemand gedeeld.",
+    "contributionWarningOnSignup": "* Alle gegevens die u bijdraagt aan MapSwipe zijn open en voor iedereen beschikbaar. Uw gebruikersnaam is publiek, maar uw e-mailadres en wachtwoord worden nooit met iemand gedeeld.",
     "signUp": "Aanmelden",
     "loginExistingAccount": "Log in met een bestaand account",
     "login": "Log in",
@@ -46,6 +46,7 @@
     "Level X": "Niveau {{niveau}}",
     "youve completed x tasks": "U heeft {{contributions}} taken afgerond!",
     "x tasks (s swipes) until the next level": "{{sqkm}} taken ({{swipes}} swipes) tot het volgende niveau",
+    "yourTeam": "Uw team: {{teamName}}",
     "changeLanguage": "Taal aanpassen",
     "mapswipe website": "MapSwipe website",
     "missingmaps website": "Missing Maps website",
@@ -57,8 +58,11 @@
     "no keep my account": "Nee, bewaar mijn account",
     "yes delete it": "Ja, verwijder mijn account"
   },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% door {{mappersCount}} mappers"
+  },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% VOORUITGANG DANKZIJ {{project.contributorCount}} VRIJWILLIGERS ZOALS U.",
+    "x pc global progress by n mappers": "{{projectProgress}}% WERELDWIJDE VOORTGANG DANKZIJ {{contributorCount}} VRIJWILLIGERS ZOALS U.",
     "map now": "Nu in kaart brengen",
     "tutorial": "Handleiding"
   },
@@ -70,7 +74,9 @@
     "finishedGroup": "Goed werk! U bent klaar met deze groep.",
     "letsGo": "Aan de slag!",
     "completeSession": "Sessie voltooien",
-    "continueMapping": "Doorgaan met in kaart brengen"
+    "continueMapping": "Doorgaan met in kaart brengen",
+    "sync alert": "Synchronisatie alert",
+    "sync alert message": "Synchroniseren van uw taken... sluit de app niet af. "
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Welkom bij MapSwipe",
@@ -83,5 +89,48 @@
     "dataUse": "De data helpt Missing Map vrijwilligers sneller data toe te voegen aan OpenStreetMap",
     "saveLives": "Red levens",
     "mapHelps": "De kaart helpt organisaties bij het coördineren van humanitaire hulp en het redden van levens"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instructies",
+    "your task": "Uw taak:",
+    "lookingFor": "U bent op zoek naar {' '}<1> veranderingen in gebouwen</1>. Dit fungeert als een duidelijke indicator voor een verandering in populatiegrootte. ",
+    "perform task": "Hoe voer je de taak uit:",
+    "noChanges": "Als er geen wijzigingen zijn {' '} <1>Swipe</1> eenvoudig naar de volgende foto's",
+    "seeChanges": "Als u een verandering in gebouwen ziet, {' '}<1>tik dan één keer</1>{' '} en de tegel wordt groen",
+    "unsure": "Weet u het niet zeker? {' '} <1>Tik twee keer</1> {' '} en de tegel wordt geel",
+    "badImagery": "Problemen met satellietbeelden, bijvoorbeeld door wolken die het zicht bedekken?{' '} <1>Tik drie keer</1>{' '} en de tegel wordt rood",
+    "holdZoom": "Als u een afbeelding van dichterbij wilt zien tikt u op de afbeelding en houdt u deze vast om nog iets meer in te zoomen.",
+    "hint": "Hint:",
+    "differentImagery": "Soms zijn er verschillende beeldbronnen gebruikt. De afbeeldingen kunnen daardoor iets anders zijn uitgelijnd of een andere resolutie hebben. Onthoud dat u opzoek bent naar {' '}<1>duidelijke veranderingen in nederzettingen en gebouwen</1>{' '}. Als het lijkt dat gebouwen hetzelfde zijn, maar misschien een nieuw dak hebben, dan is dit een scenario waarbij er niks is verandert. Swipe simpelweg naar de volgende afbeelding. "
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Bekijk instructies"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Ik begrijp het"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Swipe OMLAAG om alle 6 tegels ROOD te markeren.",
+    "swipe up undo": "Swipe OMHOOG om ongedaan te maken."
+  },
+  "LoadingIcon": {
+    "loading": "Laden..."
+  },
+  "Tutorial": {
+    "incomplete": "INCOMPLEET",
+    "maybe": "MISSCHIEN",
+    "instructions1": "Hoe u kan bijdragen",
+    "instructions2": "TIK OM TE SELECTEREN",
+    "instructions3": "Zoek naar kenmerken die in uw missie worden vermeld. Tik elke tegel waar u deze kenmerken vindt. Tik eenmaal voor <1>JA</1>, tweemaal voor <3>{{twoTaps}}</3>, en driemaal voor <5>SLECHT BEELD</5> (zoals wolken).",
+    "instructions4": "SWIPE OM TE NAVIGEREN",
+    "instructions5": "Als u klaar bent met een stuk van de kaart, scrol naar de volgende door te swipen.",
+    "instructions6": "HOUD INGEDRUKT OM IN TE ZOOMEN",
+    "instructions7": "Houd een tegel vast om in te zoomen op de tegel.",
+    "instructions8": "Credits",
+    "tutorial1": "Welkom bij de tutorial!",
+    "tutorial2": "Dit zou u binnen een paar minuten een meester in MapSwipe moeten maken.",
+    "tutorial3": "Volg simpelweg de instructies op het scherm en swipe naar links om door te gaan.",
+    "tutorial4": "Als de instructies in de weg staan tikt u gewoon op de melding om deze te verplaatsen.",
+    "tutorial5": "Ik begrijp het"
   }
 }
