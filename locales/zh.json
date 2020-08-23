@@ -1,0 +1,136 @@
+{
+  "mainHeader": {
+    "missions": "使命",
+    "more": "更多"
+  },
+  "signup": {
+    "chooseUsername": "選擇你的用戶名",
+    "passwordError": "密碼必須至少有6個字符長",
+    "usernameError": "您的用戶名必須包含4個或更多的字符",
+    "errorOnSignup": "註冊時出錯",
+    "usernameErrorMessage": "您的用戶名必須是4個字符或更多",
+    "usernameNotEmail": "您的用戶名稱不能是電子郵件",
+    "usernamePublic": "您的用戶名稱將被公開顯示",
+    "success": "成功",
+    "welcomeToMapSwipe": "歡迎使用MapSwipe，{{用戶名稱}}",
+    "emailAlreadyUsed": "電子郵件已被另一個帳戶使用",
+    "emailInvalid": "電子郵箱地址不可用",
+    "problemSigningUp": "註冊問題",
+    "errorOnSignUp": "註冊時出錯",
+    "checkYourEmail": "檢查您的郵箱",
+    "noAccountFoundForEmail": "找不到此電子郵件的帳戶",
+    "problemResettingPassword": "重置密碼時出現問題",
+    "errorLogIn": "登錄出錯",
+    "invalidEmailPassword": "無效的電子郵件或密碼",
+    "accountDisabled": "帳戶已被禁用",
+    "problemLoggingIn": "登錄問題",
+    "errorResetPass": "重置密碼時出錯",
+    "enterYourEmail": "輸入你的電郵",
+    "choosePassword": "選擇你的密碼",
+    "enterYourPassword": "輸入你的密碼",
+    "IagreeToPrivacyNotice": "我同意<1>隱私聲明</1>",
+    "contributionWarningOnSignup": "*你為MapSwipe貢獻的所有數據都是開放的，並可供任何人使用。 你的用戶名稱是公開的，但你的電子郵件和密碼永遠不會與任何人共享。",
+    "signUp": "註冊",
+    "loginExistingAccount": "登錄到現有帳戶",
+    "login": "登入",
+    "forgotPassword": "忘記你的密碼？",
+    "createNewAccount": "建立新帳戶",
+    "sendResetEmailWarning": "*我們將向你發送電子郵件以重置密碼",
+    "sendResetEmail": "發送重置電子郵件",
+    "backToLogin": "回到登入"
+  },
+  "login": {
+    "enterUsername": "輸入你的用戶名"
+  },
+  "profileScreen": {
+    "Level X": "等級{{等級}}",
+    "youve completed x tasks": "您已完成{{contributions}}任務！",
+    "x tasks (s swipes) until the next level": "{{sqkm}}任務（{{swipes}}滑動）直到下一個等級",
+    "yourTeam": "您的隊伍：{{隊伍名稱}}",
+    "changeLanguage": "改變語言",
+    "mapswipe website": "MapSwipe網站",
+    "missingmaps website": "Missing Maps網站",
+    "email us": "給我們發電子郵件",
+    "sign out": "登出",
+    "delete my account": "刪除我的賬戶",
+    "delete account question": "刪除帳戶？",
+    "delete account warning": "你將失去所有的進度和徽章。 你的貢獻將保持公開狀態，但不再與你的帳戶綁定。你要繼續嗎？",
+    "no keep my account": "不，保留我的帳戶",
+    "yes delete it": "是的，刪除它！"
+  },
+  "projectList": {
+    "progress pc by x mappers": " {{mappersCount}} 繪圖者已完成{{progress}}%"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "像你一樣的{{contributorCount}} 繪圖者已完成{{projectprogress}}% 的全球進展",
+    "map now": "現在繪圖",
+    "tutorial": "教學"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "正在尋找："
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "好。 你已經完成了本教程。 你現在準備好開繪圖了！",
+    "finishedGroup": "很棒！ 你完成了這組。",
+    "letsGo": "我們走吧！",
+    "completeSession": "完成此節",
+    "continueMapping": "繼續繪制地圖",
+    "sync alert": "同步提醒",
+    "sync alert message": "正在同步任務中。。。請不要關閉應用程序。"
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "歡迎來到MapSwipe",
+    "helpImprove": "透過僅僅你的手機，幫助改善人道主義者的反應效率",
+    "partMissingMaps": "部分Missing Maps ",
+    "withMissingMaps": "借助Missing Maps，我們旨在將世界上的弱勢社區放在地圖上",
+    "swipe": "滑動",
+    "completeTasks": "通過在需要繪圖的衛星圖像區域滑動以完成任務",
+    "createData": "創造有意義的數據",
+    "dataUse": "這數據會用於集中Missing Maps為OpenStreetMap添加細節的工作",
+    "saveLives": "拯救生命",
+    "mapHelps": "此地圖可幫助人道主義組織協調並挽救生命"
+  },
+  "CDInstructionScreen": {
+    "instructions": "指引",
+    "your task": "你的任務：",
+    "lookingFor": "您正在尋找{' '} <1>建築物的變化</1>。 這是人口數量變化的明確指標。",
+    "perform task": "如何執行任務：",
+    "noChanges": "如果沒有更改，只需{''} <1>滑動</1>便可到下張照片",
+    "seeChanges": "如果看到建築物有變化，{' '} <1>點按一次</1>{' '} ，圖塊會變為綠色",
+    "unsure": "不確定嗎？{' '} <1>1輕按兩次</1>{' '} ，圖塊便會變成黃色",
+    "badImagery": "圖像問題，例如如果任可圖像上都有雲覆蓋視野？{' '} <1>點按3次</1> {' '}，圖塊將變為紅色",
+    "holdZoom": "如果你需要更仔細地查看圖像，請點擊並按住該圖像以將它放大一點。",
+    "hint": "提示：",
+    "differentImagery": "有時不同的圖像來源會被使用。 圖像的對齊方式或解析度可能會略有不同。 請記住，你正在尋找{' '}<1>個定居點和建築物的明確變化</1> {' '}。因此，如果圖中看起來是同一座建築物，但是也許有一個新的屋頂，那麼這將是“不變”的情況。你只需滑動到下一張圖片即可。"
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "查看指示"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "我明白"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "向下滑動以將全部6個圖塊標記為紅色。",
+    "swipe up undo": "向上滑動即可撤消。"
+  },
+  "LoadingIcon": {
+    "loading": "載入中。。。"
+  },
+  "Tutorial": {
+    "incomplete": "未完成",
+    "maybe": "可能",
+    "instructions1": "如何貢獻",
+    "instructions2": "點擊選擇",
+    "instructions3": "查找任務簡介中列出的功能。 點按你在尋找的每個圖塊。 輕觸一次以表示<1>YES</1>，輕按兩次以<3>{{twoTaps}} </3>，然後輕擊3次以表示<5>無效影像</5>（例如雲）。",
+    "instructions4": "滑動以導航",
+    "instructions5": "當你完成一張地圖後，滑動即可滾動到下一張地圖。",
+    "instructions6": "長按以放大",
+    "instructions7": "長按圖塊以放大圖塊。",
+    "instructions8": "歸功",
+    "tutorial1": "歡迎使用本教學！",
+    "tutorial2": "這將使你在幾分鐘內成為MapSwipe的能手。",
+    "tutorial3": "只需按照屏幕上的指示操作，然後向左滑動即可繼續。",
+    "tutorial4": "如果指示阻礙你進行操作，只需點擊消息框就可將其移動。",
+    "tutorial5": "我明白"
+  }
+}
