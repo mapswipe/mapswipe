@@ -12,19 +12,20 @@ import TutorialBox from '../../common/Tutorial';
 import ScaleBar from '../../common/ScaleBar';
 import IndividualCard from './IndividualCard';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
+import { tutorialModes } from '../../constants';
 import type {
     BuiltAreaGroupType,
-    CategoriesType,
     NavigationProp,
     ResultMapType,
     TaskType,
     TileServerType,
+    TutorialContent,
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
 type Props = {
-    categories: CategoriesType,
+    screens: Array<TutorialContent>,
     closeTilePopup: () => void,
     group: BuiltAreaGroupType,
     isSendingResults: boolean,
@@ -43,12 +44,6 @@ type State = {
     currentX: number,
     showScaleBar: boolean,
     tutorialMode: string,
-};
-
-const tutorialModes = {
-    pre: 'pre',
-    post_correct: 'post_correct',
-    post_wrong: 'post_wrong',
 };
 
 class _CardBody extends React.PureComponent<Props, State> {
@@ -70,9 +65,24 @@ class _CardBody extends React.PureComponent<Props, State> {
         this.state = {
             currentX: parseInt(props.group.xMin, 10),
             showScaleBar: true,
-            tutorialMode: tutorialModes.pre,
+            tutorialMode: tutorialModes.instructions,
         };
     }
+
+    componentDidUpdate = (oldProps: Props) => {
+        const { group, results, tutorial } = this.props;
+        if (tutorial && results !== oldProps.results) {
+            // we're cheating here: we use the fact that props are updated when the user
+            // taps a tile to check the answers, instead of responding to the tap event.
+            // This is to avoid having to pass callbacks around all the way down to the tiles.
+            if (group.tasks && results) {
+                // FIXME: this is going to cause trouble when we change checkTutorialanswers
+                // because we shouldn't do it before the user has actually tapped at least once
+                // unless we count the taps they've done, and only act after X >= 1
+                this.checkTutorialAnswers();
+            }
+        }
+    };
 
     generateTasks = () => {
         // build an array of tasks grouped by 6 so that each
@@ -205,10 +215,13 @@ class _CardBody extends React.PureComponent<Props, State> {
             true,
         );
         if (allCorrect) {
-            this.setState({ tutorialMode: tutorialModes.post_correct });
+            this.setState({ tutorialMode: tutorialModes.success });
             this.scrollEnabled = true;
         } else {
-            this.setState({ tutorialMode: tutorialModes.post_wrong });
+            // TODO: we keep instructions for now, but we need to define a way to show
+            // the hints instead. Maybe after X taps?
+            this.setState({ tutorialMode: tutorialModes.instructions });
+            //this.setState({ tutorialMode: tutorialModes.hint });
         }
     };
 
@@ -266,7 +279,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             });
             // we changed page, reset state variables
             this.scrollEnabled = false;
-            this.setState({ tutorialMode: tutorialModes.pre });
+            this.setState({ tutorialMode: tutorialModes.instructions });
         }
         this.setState({ showScaleBar: progress < 0.99 });
     };
@@ -274,18 +287,18 @@ class _CardBody extends React.PureComponent<Props, State> {
     render() {
         const { currentX, showScaleBar, tutorialMode } = this.state;
         const {
-            categories,
             closeTilePopup,
             group,
             isSendingResults,
             navigation,
             openTilePopup,
             projectId,
+            screens,
             tutorial,
             zoomLevel,
         } = this.props;
 
-        let tutorialText: string = '';
+        let tutorialContent: ?TutorialContent;
 
         if ((tutorial && group.tasks === undefined) || isSendingResults) {
             return <LoadingIcon key="loadingicon" />;
@@ -294,13 +307,10 @@ class _CardBody extends React.PureComponent<Props, State> {
         if (tutorial && group.tasks) {
             if (currentX >= group.xMax) {
                 // we've reached the end, hide the tutorial text
-                tutorialText = '';
+                tutorialContent = undefined;
             } else {
-                const { category } = group.tasks.filter(
-                    (t) => parseInt(t.taskX, 10) === currentX,
-                )[0];
-                // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
-                tutorialText = categories[category][tutorialMode];
+                const currentPage = Math.floor((currentX - group.xMin) / 2);
+                tutorialContent = screens[currentPage][tutorialMode];
             }
         }
 
@@ -366,8 +376,11 @@ class _CardBody extends React.PureComponent<Props, State> {
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
-                {tutorial && tutorialText !== '' && (
-                    <TutorialBox>{tutorialText}</TutorialBox>
+                {tutorial && tutorialContent && (
+                    <TutorialBox
+                        content={tutorialContent}
+                        boxType={tutorialMode}
+                    />
                 )}
             </>
         );
@@ -381,7 +394,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state, ownProps) => ({
-    categories: ownProps.categories,
+    screens: ownProps.screens,
     group: ownProps.group,
     isSendingResults: state.ui.user.isSendingResults,
     navigation: ownProps.navigation,

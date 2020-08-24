@@ -189,3 +189,11 @@ export type State = {
     +results?: ResultMapType,
     +ui?: UIState,
 };
+
+// each step of the tutorial must have the following shape
+
+export type TutorialContent = {
+    title: string,
+    description: string,
+    icon: string,
+};
