@@ -18,6 +18,7 @@ import {
     COLOR_YELLOW,
 } from '../../constants';
 import type { NavigationProp, TranslationFunction } from '../../flow-types';
+import { ColoredTapIcon } from '../../common/Tutorial/icons';
 
 const GLOBAL = require('../../Globals');
 
@@ -80,43 +81,12 @@ const styles = StyleSheet.create({
     },
 });
 
-type IconProps = {
-    bgColor: string,
-    number: string,
-};
-
 type Props = {
     navigation: NavigationProp,
     t: TranslationFunction,
 };
 
 /* eslint-disable global-require */
-const ColoredTapIcon = (props: IconProps) => {
-    const { bgColor, number } = props;
-    return (
-        <View>
-            <Image
-                source={require('../assets/tap_icon_angular_white.png')}
-                style={styles.tutImage}
-            />
-            <Text
-                style={{
-                    color: COLOR_WHITE,
-                    backgroundColor: bgColor,
-                    borderRadius: 10,
-                    fontWeight: 'bold',
-                    left: 30,
-                    paddingLeft: 5,
-                    position: 'absolute',
-                    width: 18,
-                }}
-            >
-                {number}
-            </Text>
-        </View>
-    );
-};
-
 class CDInstructionsScreen extends React.Component<Props> {
     componentDidMount() {
         const { navigation } = this.props;

@@ -17,11 +17,11 @@ import BottomProgress from '../../common/BottomProgress';
 import LoadingIcon from '../LoadingIcon';
 import type {
     BuiltAreaGroupType,
-    CategoriesType,
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
     TranslationFunction,
+    TutorialContent,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    categories: CategoriesType,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
     onMarkHelpBoxSeen: (void) => void,
     onStartGroup: ({}) => void,
     results: ResultMapType,
+    screens: Array<TutorialContent>,
     hasSeenHelpBoxType1: boolean,
     t: TranslationFunction,
     tutorial: boolean,
@@ -332,10 +332,10 @@ class _Mapper extends React.Component<Props, State> {
 
     render() {
         const {
-            categories,
             group,
             navigation,
             results,
+            screens,
             tutorial,
             tutorialName,
         } = this.props;
@@ -359,13 +359,13 @@ class _Mapper extends React.Component<Props, State> {
                     onInfoPress={this.openHelpModal}
                 />
                 <CardBody
-                    categories={tutorial ? categories : null}
                     closeTilePopup={this.closeTilePopup}
                     group={group}
                     navigation={navigation}
                     openTilePopup={this.openTilePopup}
                     projectId={group.projectId}
                     results={results}
+                    screens={tutorial ? screens : null}
                     tileServer={this.project.tileServer}
                     tileServerB={this.project.tileServerB}
                     tutorial={tutorial}

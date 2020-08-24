@@ -83,14 +83,16 @@ export const mapStateToPropsForGroups = (tutorialName?: string) =>
         if (tutorial) {
             projectId = tutorialProjectName;
         }
-        let categories = null;
+        // screens holds the content for each screen of the tutorial
+        let screens = null;
         let groupId = '';
         let groups;
         const prefix = tutorial ? 'tutorial' : 'projects';
         // const projectData = state.firebase.data[prefix][projectId];
         const { data } = state.firebase;
         if (data[prefix] && data[prefix][projectId]) {
-            ({ categories, groups } = data[prefix][projectId]);
+            ({ screens, groups } = data[prefix][projectId]);
+            screens = screens.filter((e) => e !== null);
         }
         if (groups && isLoaded(groups)) {
             // we have a few groups to choose from, remove the ones the user has already worked on
@@ -109,7 +111,7 @@ export const mapStateToPropsForGroups = (tutorialName?: string) =>
                 ];
         }
         return {
-            categories,
+            screens,
             group: get(
                 state.firebase.data,
                 `${prefix}.${projectId}.groups.${groupId}`,
