@@ -9,12 +9,14 @@ import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
+import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import ScaleBar from '../../common/ScaleBar';
 import IndividualCard from './IndividualCard';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import { tutorialModes } from '../../constants';
 import type {
     BuiltAreaGroupType,
+    BuiltAreaTaskType,
     NavigationProp,
     ResultMapType,
     TaskType,
@@ -30,6 +32,7 @@ type Props = {
     group: BuiltAreaGroupType,
     isSendingResults: boolean,
     navigation: NavigationProp,
+    onToggleTile: (BuiltAreaTaskType) => void,
     openTilePopup: () => void,
     projectId: number,
     results: ResultMapType,
@@ -42,6 +45,7 @@ type Props = {
 
 type State = {
     currentX: number,
+    showAnswerButtonIsVisible: boolean,
     showScaleBar: boolean,
     tutorialMode: string,
 };
@@ -55,6 +59,8 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     scrollEnabled: boolean;
 
+    tapsRegistered: number;
+
     tasksPerScreen: ?Array<Array<TaskType>>;
 
     constructor(props: Props) {
@@ -62,8 +68,12 @@ class _CardBody extends React.PureComponent<Props, State> {
         this.flatlist = null;
         this.scrollEnabled = !props.tutorial;
         this.tasksPerScreen = undefined;
+        // keep a record of how many taps the user has done on the screen,
+        // so we can show the answers button after X interactions (only for tutorial)
+        this.tapsRegistered = 0;
         this.state = {
             currentX: parseInt(props.group.xMin, 10),
+            showAnswerButtonIsVisible: false,
             showScaleBar: true,
             tutorialMode: tutorialModes.instructions,
         };
@@ -71,15 +81,28 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     componentDidUpdate = (oldProps: Props) => {
         const { group, results, tutorial } = this.props;
+        const { tutorialMode } = this.state;
         if (tutorial && results !== oldProps.results) {
             // we're cheating here: we use the fact that props are updated when the user
             // taps a tile to check the answers, instead of responding to the tap event.
             // This is to avoid having to pass callbacks around all the way down to the tiles.
             if (group.tasks && results) {
-                // FIXME: this is going to cause trouble when we change checkTutorialanswers
-                // because we shouldn't do it before the user has actually tapped at least once
-                // unless we count the taps they've done, and only act after X >= 1
-                this.checkTutorialAnswers();
+                // componentDidUpdate is called a first time when the screen component is loaded
+                // before the user taps anything, so we need to keep track of that
+                this.tapsRegistered += 1;
+                if (this.tapsRegistered > 1) {
+                    this.checkTutorialAnswers();
+                }
+                // the user has tapped at least once, hide the prompt and show the answers
+                // button instead
+                if (
+                    this.tapsRegistered > 3 &&
+                    tutorialMode !== tutorialModes.showAnswers &&
+                    tutorialMode !== tutorialModes.success
+                ) {
+                    // eslint-disable-next-line react/no-did-update-set-state
+                    this.setState({ showAnswerButtonIsVisible: true });
+                }
             }
         }
     };
@@ -196,13 +219,25 @@ class _CardBody extends React.PureComponent<Props, State> {
         return progress;
     };
 
+    getCurrentPage = () => {
+        const { currentX } = this.state;
+        const { group } = this.props;
+        const currentPage = Math.floor((currentX - group.xMin) / 2);
+        return currentPage;
+    };
+
     checkTutorialAnswers = () => {
         // only called when running the tutorial
         // compare the user's results with what is expected
         // and set the tutorial mode to correct/wrong for
         // appropriate feedback
         const { group, results } = this.props;
-        const { currentX } = this.state;
+        const { currentX, tutorialMode } = this.state;
+        if (tutorialMode === tutorialModes.showAnswers) {
+            // the user has asked for answers, no need to verify what they did
+            // and we don't want the check to set the tutorialMode anyway
+            return;
+        }
         const Xs = [currentX, currentX + 1];
         const tilesToCheck = group.tasks.filter((t) =>
             Xs.includes(parseInt(t.taskX, 10)),
@@ -215,7 +250,10 @@ class _CardBody extends React.PureComponent<Props, State> {
             true,
         );
         if (allCorrect) {
-            this.setState({ tutorialMode: tutorialModes.success });
+            this.setState({
+                tutorialMode: tutorialModes.success,
+                showAnswerButtonIsVisible: false,
+            });
             this.scrollEnabled = true;
         } else {
             // TODO: we keep instructions for now, but we need to define a way to show
@@ -279,13 +317,46 @@ class _CardBody extends React.PureComponent<Props, State> {
             });
             // we changed page, reset state variables
             this.scrollEnabled = false;
-            this.setState({ tutorialMode: tutorialModes.instructions });
+            this.tapsRegistered = 1; // remember to offset by 1 (see above)
+            this.setState({
+                tutorialMode: tutorialModes.instructions,
+                showAnswerButtonIsVisible: false,
+            });
         }
         this.setState({ showScaleBar: progress < 0.99 });
     };
 
+    showAnswers = () => {
+        const { onToggleTile } = this.props;
+        // set each tile to its reference value
+        const currentPage = this.getCurrentPage();
+        if (this.tasksPerScreen) {
+            const visibleTiles = this.tasksPerScreen[currentPage];
+            visibleTiles.forEach((tile) => {
+                // $FlowFixMe
+                onToggleTile({
+                    groupId: tile.groupId,
+                    resultId: tile.taskId,
+                    // $FlowFixMe
+                    result: tile.referenceAnswer,
+                    projectId: tile.projectId,
+                });
+            });
+            this.scrollEnabled = true;
+            this.setState({
+                tutorialMode: tutorialModes.showAnswers,
+                showAnswerButtonIsVisible: false,
+            });
+        }
+    };
+
     render() {
-        const { currentX, showScaleBar, tutorialMode } = this.state;
+        const {
+            currentX,
+            showAnswerButtonIsVisible,
+            showScaleBar,
+            tutorialMode,
+        } = this.state;
         const {
             closeTilePopup,
             group,
@@ -308,8 +379,14 @@ class _CardBody extends React.PureComponent<Props, State> {
             if (currentX >= group.xMax) {
                 // we've reached the end, hide the tutorial text
                 tutorialContent = undefined;
+            } else if (tutorialMode === tutorialModes.showAnswers) {
+                tutorialContent = {
+                    title: "We've marked the correct answers",
+                    description: 'What was missing? Swipe to try some more',
+                    icon: 'swipe-left',
+                };
             } else {
-                const currentPage = Math.floor((currentX - group.xMin) / 2);
+                const currentPage = this.getCurrentPage();
                 tutorialContent = screens[currentPage][tutorialMode];
             }
         }
@@ -326,7 +403,6 @@ class _CardBody extends React.PureComponent<Props, State> {
             (180 / Math.PI);
         return (
             <>
-                {/* $FlowFixMe */}
                 <FlatList
                     data={this.tasksPerScreen}
                     decelerationRate="fast"
@@ -376,11 +452,14 @@ class _CardBody extends React.PureComponent<Props, State> {
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
-                {tutorial && tutorialContent && (
+                {tutorial && tutorialContent && !showAnswerButtonIsVisible && (
                     <TutorialBox
                         content={tutorialContent}
                         boxType={tutorialMode}
                     />
+                )}
+                {tutorial && showAnswerButtonIsVisible && (
+                    <ShowAnswersButton onPress={this.showAnswers} />
                 )}
             </>
         );

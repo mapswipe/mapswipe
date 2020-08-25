@@ -88,10 +88,10 @@ export type ProjectMapType = { [project_id: string]: ProjectType };
 
 // used only by projects of type LEGACY_PROJECT (type 1)
 export type BuiltAreaTaskType = {
-    category: ?string, // only found in tutorial projects
     groupId: string,
     projectId: string,
     referenceAnswer: ?number,
+    screens: ?string, // only found in tutorial projects
     taskId: string,
     taskX: number,
     taskY: number,
