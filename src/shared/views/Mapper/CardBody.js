@@ -19,7 +19,6 @@ import type {
     BuiltAreaTaskType,
     NavigationProp,
     ResultMapType,
-    TaskType,
     TileServerType,
     TutorialContent,
 } from '../../flow-types';
@@ -59,15 +58,22 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     scrollEnabled: boolean;
 
+    tapsExpected: number;
+
     tapsRegistered: number;
 
-    tasksPerScreen: ?Array<Array<TaskType>>;
+    tasksPerScreen: ?Array<Array<BuiltAreaTaskType>>;
 
     constructor(props: Props) {
         super(props);
         this.flatlist = null;
         this.scrollEnabled = !props.tutorial;
         this.tasksPerScreen = undefined;
+        // we expect the user to to at least X taps/swipes on the screen to match the
+        // expected results. We calculate this for each screen when we reach it, and
+        // store it here so we can show the "show Answers" button if they've tapped more
+        // than they should have in a "perfect" response.
+        this.tapsExpected = 0;
         // keep a record of how many taps the user has done on the screen,
         // so we can show the answers button after X interactions (only for tutorial)
         this.tapsRegistered = 0;
@@ -90,18 +96,22 @@ class _CardBody extends React.PureComponent<Props, State> {
                 // componentDidUpdate is called a first time when the screen component is loaded
                 // before the user taps anything, so we need to keep track of that
                 this.tapsRegistered += 1;
+                this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
+                    this.getCurrentScreen(),
+                );
                 if (this.tapsRegistered > 1) {
-                    this.checkTutorialAnswers();
-                }
-                // the user has tapped at least once, hide the prompt and show the answers
-                // button instead
-                if (
-                    this.tapsRegistered > 3 &&
-                    tutorialMode !== tutorialModes.showAnswers &&
-                    tutorialMode !== tutorialModes.success
-                ) {
-                    // eslint-disable-next-line react/no-did-update-set-state
-                    this.setState({ showAnswerButtonIsVisible: true });
+                    const allCorrect = this.checkTutorialAnswers();
+                    // the user has tapped at least once, hide the prompt and show the answers
+                    // button instead
+                    if (
+                        !allCorrect &&
+                        this.tapsRegistered > this.tapsExpected &&
+                        tutorialMode !== tutorialModes.showAnswers &&
+                        tutorialMode !== tutorialModes.success
+                    ) {
+                        // eslint-disable-next-line react/no-did-update-set-state
+                        this.setState({ showAnswerButtonIsVisible: true });
+                    }
                 }
             }
         }
@@ -219,11 +229,11 @@ class _CardBody extends React.PureComponent<Props, State> {
         return progress;
     };
 
-    getCurrentPage = () => {
+    getCurrentScreen = () => {
         const { currentX } = this.state;
         const { group } = this.props;
-        const currentPage = Math.floor((currentX - group.xMin) / 2);
-        return currentPage;
+        const currentScreen = Math.floor((currentX - group.xMin) / 2);
+        return currentScreen;
     };
 
     checkTutorialAnswers = () => {
@@ -231,12 +241,14 @@ class _CardBody extends React.PureComponent<Props, State> {
         // compare the user's results with what is expected
         // and set the tutorial mode to correct/wrong for
         // appropriate feedback
+        // Returns a bool indicating whether all answers are correct
         const { group, results } = this.props;
         const { currentX, tutorialMode } = this.state;
+        console.log('checking answers', results);
         if (tutorialMode === tutorialModes.showAnswers) {
             // the user has asked for answers, no need to verify what they did
             // and we don't want the check to set the tutorialMode anyway
-            return;
+            return false;
         }
         const Xs = [currentX, currentX + 1];
         const tilesToCheck = group.tasks.filter((t) =>
@@ -250,6 +262,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             true,
         );
         if (allCorrect) {
+            console.log('all correct');
             this.setState({
                 tutorialMode: tutorialModes.success,
                 showAnswerButtonIsVisible: false,
@@ -261,6 +274,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             this.setState({ tutorialMode: tutorialModes.instructions });
             //this.setState({ tutorialMode: tutorialModes.hint });
         }
+        return allCorrect;
     };
 
     handleTutorialScrollCapture = (event: Object) => {
@@ -270,6 +284,9 @@ class _CardBody extends React.PureComponent<Props, State> {
         const e = event.nativeEvent;
         const { tutorial } = this.props;
         if (tutorial && !this.scrollEnabled) {
+            // swiping is disabled in the flatlist component, so we need to detect swipes
+            // by ourselves. This relies on capturing touch events, and figuring what is
+            // happening
             if (
                 this.firstTouch === undefined ||
                 (e.identifier === this.previousTouch.identifier &&
@@ -277,10 +294,13 @@ class _CardBody extends React.PureComponent<Props, State> {
             ) {
                 // during a swipe, events are fired at about 15-30ms interval
                 // so at more than 100ms interval, we probably have a new touch event
+                // this is probably the start of a swipe
                 this.firstTouch = e;
                 this.previousTouch = e;
             } else {
-                // we're swiping!
+                // we're swiping! The finger is probably moving across the screen, so
+                // we are receiving a stream of events that are very close to each other
+                // in time
                 const swipeX = e.pageX - this.firstTouch.pageX;
                 const swipeY = e.pageY - this.firstTouch.pageY;
                 this.previousTouch = e;
@@ -296,6 +316,25 @@ class _CardBody extends React.PureComponent<Props, State> {
         }
         // we're not interested in this touch, leave it to some other component
         return false;
+    };
+
+    getNumberOfTapsExpectedForScreen = (screenNumber) => {
+        // calculate how many taps/swipes the user is expected to do
+        // to get the correct result by summing up reference answers for each
+        // tile of the screen
+        let result = 0;
+        if (this.tasksPerScreen) {
+            result = this.tasksPerScreen[screenNumber].reduce(
+                (sum, task) => sum + task.referenceAnswer,
+                0,
+            );
+        }
+        if (result === 18) {
+            // the user should be swiping down, only 1 action expected
+            result = 1;
+        }
+        console.log('expected taps', result, screenNumber);
+        return result;
     };
 
     onMomentumScrollEnd = (event: Object) => {
@@ -318,6 +357,10 @@ class _CardBody extends React.PureComponent<Props, State> {
             // we changed page, reset state variables
             this.scrollEnabled = false;
             this.tapsRegistered = 1; // remember to offset by 1 (see above)
+            const currentScreen = this.getCurrentScreen();
+            this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
+                currentScreen,
+            );
             this.setState({
                 tutorialMode: tutorialModes.instructions,
                 showAnswerButtonIsVisible: false,
@@ -329,9 +372,9 @@ class _CardBody extends React.PureComponent<Props, State> {
     showAnswers = () => {
         const { onToggleTile } = this.props;
         // set each tile to its reference value
-        const currentPage = this.getCurrentPage();
+        const currentScreen = this.getCurrentScreen();
         if (this.tasksPerScreen) {
-            const visibleTiles = this.tasksPerScreen[currentPage];
+            const visibleTiles = this.tasksPerScreen[currentScreen];
             visibleTiles.forEach((tile) => {
                 // $FlowFixMe
                 onToggleTile({
@@ -386,8 +429,8 @@ class _CardBody extends React.PureComponent<Props, State> {
                     icon: 'swipe-left',
                 };
             } else {
-                const currentPage = this.getCurrentPage();
-                tutorialContent = screens[currentPage][tutorialMode];
+                const currentScreen = this.getCurrentScreen();
+                tutorialContent = screens[currentScreen][tutorialMode];
             }
         }
 
