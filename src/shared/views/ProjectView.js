@@ -316,7 +316,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                 });
                 break;
             case BUILDING_FOOTPRINTS:
-                navigation.push('BuildingFootprintValidator', {
+                navigation.push('BuildingFootprintScreen', {
                     project,
                 });
                 break;
