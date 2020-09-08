@@ -92,20 +92,28 @@ class _CardBody extends React.PureComponent<Props, State> {
             // we're cheating here: we use the fact that props are updated when the user
             // taps a tile to check the answers, instead of responding to the tap event.
             // This is to avoid having to pass callbacks around all the way down to the tiles.
-            if (group.tasks && results) {
-                // componentDidUpdate is called a first time when the screen component is loaded
-                // before the user taps anything, so we need to keep track of that
+            // to prevent mistaking prop updates for taps, we check that at least one result
+            // is non-zero
+            if (
+                group.tasks &&
+                results &&
+                Object.values(results).reduce(
+                    (sum, v) =>
+                        typeof v === 'number' ? sum + parseInt(v, 10) : sum,
+                    0,
+                ) > 0
+            ) {
                 this.tapsRegistered += 1;
                 this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
                     this.getCurrentScreen(),
                 );
-                if (this.tapsRegistered > 1) {
+                if (this.tapsRegistered > 0) {
                     const allCorrect = this.checkTutorialAnswers();
                     // the user has tapped at least once, hide the prompt and show the answers
                     // button instead
                     if (
                         !allCorrect &&
-                        this.tapsRegistered > this.tapsExpected &&
+                        this.tapsRegistered >= this.tapsExpected &&
                         tutorialMode !== tutorialModes.showAnswers &&
                         tutorialMode !== tutorialModes.success
                     ) {
@@ -244,7 +252,6 @@ class _CardBody extends React.PureComponent<Props, State> {
         // Returns a bool indicating whether all answers are correct
         const { group, results } = this.props;
         const { currentX, tutorialMode } = this.state;
-        console.log('checking answers', results);
         if (tutorialMode === tutorialModes.showAnswers) {
             // the user has asked for answers, no need to verify what they did
             // and we don't want the check to set the tutorialMode anyway
@@ -262,7 +269,6 @@ class _CardBody extends React.PureComponent<Props, State> {
             true,
         );
         if (allCorrect) {
-            console.log('all correct');
             this.setState({
                 tutorialMode: tutorialModes.success,
                 showAnswerButtonIsVisible: false,
@@ -333,7 +339,6 @@ class _CardBody extends React.PureComponent<Props, State> {
             // the user should be swiping down, only 1 action expected
             result = 1;
         }
-        console.log('expected taps', result, screenNumber);
         return result;
     };
 
@@ -356,7 +361,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             });
             // we changed page, reset state variables
             this.scrollEnabled = false;
-            this.tapsRegistered = 1; // remember to offset by 1 (see above)
+            this.tapsRegistered = 0; // remember to offset by 1 (see above)
             const currentScreen = this.getCurrentScreen();
             this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
                 currentScreen,
