@@ -114,7 +114,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     if (
                         !allCorrect &&
                         this.tapsRegistered >= this.tapsExpected &&
-                        tutorialMode !== tutorialModes.showAnswers &&
+                        tutorialMode !== tutorialModes.hint &&
                         tutorialMode !== tutorialModes.success
                     ) {
                         // eslint-disable-next-line react/no-did-update-set-state
@@ -252,7 +252,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         // Returns a bool indicating whether all answers are correct
         const { group, results } = this.props;
         const { currentX, tutorialMode } = this.state;
-        if (tutorialMode === tutorialModes.showAnswers) {
+        if (tutorialMode === tutorialModes.hint) {
             // the user has asked for answers, no need to verify what they did
             // and we don't want the check to set the tutorialMode anyway
             return false;
@@ -392,7 +392,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             });
             this.scrollEnabled = true;
             this.setState({
-                tutorialMode: tutorialModes.showAnswers,
+                tutorialMode: tutorialModes.hint,
                 showAnswerButtonIsVisible: false,
             });
         }
@@ -427,12 +427,6 @@ class _CardBody extends React.PureComponent<Props, State> {
             if (currentX >= group.xMax) {
                 // we've reached the end, hide the tutorial text
                 tutorialContent = undefined;
-            } else if (tutorialMode === tutorialModes.showAnswers) {
-                tutorialContent = {
-                    title: "We've marked the correct answers",
-                    description: 'What was missing? Swipe to try some more',
-                    icon: 'swipe-left',
-                };
             } else {
                 const currentScreen = this.getCurrentScreen();
                 tutorialContent = screens[currentScreen][tutorialMode];

@@ -43,12 +43,13 @@ export const supportedLanguages = [
     { code: 'sw', name: 'Kiswahili' },
 ];
 
-// The 4 modes the tutorial prompt box can be in
+// The 3 modes the tutorial prompt box can be in
 export const tutorialModes = {
+    // instructions is shown at the start, until another mode is switched to:
     instructions: 'instructions',
+    // success is displayed once the user has reached the correct combination
+    // of taps by themselves,
     success: 'success',
+    // hint is shown if they press the "show answers" button
     hint: 'hint',
-    // this last mode is never coming from the tutorial data
-    // but is hardcoded in the app's code
-    showAnswers: 'showAnswers',
 };
