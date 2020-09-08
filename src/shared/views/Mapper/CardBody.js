@@ -10,8 +10,10 @@ import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
 import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
+import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import ScaleBar from '../../common/ScaleBar';
 import IndividualCard from './IndividualCard';
+import TutorialIntroScreen from './TutorialIntro';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import { tutorialModes } from '../../constants';
 import type {
@@ -43,6 +45,7 @@ type Props = {
 };
 
 type State = {
+    // the x value for the leftmost tile currently shown on the screen
     currentX: number,
     showAnswerButtonIsVisible: boolean,
     showScaleBar: boolean,
@@ -64,6 +67,8 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     tasksPerScreen: ?Array<Array<BuiltAreaTaskType>>;
 
+    tutorialIntroWidth: number;
+
     constructor(props: Props) {
         super(props);
         this.flatlist = null;
@@ -77,10 +82,12 @@ class _CardBody extends React.PureComponent<Props, State> {
         // keep a record of how many taps the user has done on the screen,
         // so we can show the answers button after X interactions (only for tutorial)
         this.tapsRegistered = 0;
+        // the number of screens that the initial tutorial intro covers
+        this.tutorialIntroWidth = 2;
         this.state = {
-            currentX: parseInt(props.group.xMin, 10),
+            currentX: parseInt(props.group.xMin, 10) - this.tutorialIntroWidth,
             showAnswerButtonIsVisible: false,
-            showScaleBar: true,
+            showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
         };
     }
@@ -88,7 +95,8 @@ class _CardBody extends React.PureComponent<Props, State> {
     componentDidUpdate = (oldProps: Props) => {
         const { group, results, tutorial } = this.props;
         const { tutorialMode } = this.state;
-        if (tutorial && results !== oldProps.results) {
+        const currentScreen = this.getCurrentScreen();
+        if (tutorial && results !== oldProps.results && currentScreen >= 0) {
             // we're cheating here: we use the fact that props are updated when the user
             // taps a tile to check the answers, instead of responding to the tap event.
             // This is to avoid having to pass callbacks around all the way down to the tiles.
@@ -221,23 +229,35 @@ class _CardBody extends React.PureComponent<Props, State> {
         // over the lifetime of the FlatList (because it gets updated
         // when the list is rerendered).
         let width;
+        let introWidth;
         if (tutorial) {
             width = group.tasks
                 ? (group.tasks.length / 6) * GLOBAL.TILE_SIZE * 2
                 : 0;
+            introWidth = this.tutorialIntroWidth * GLOBAL.SCREEN_WIDTH;
         } else {
             width = this.tasksPerScreen
                 ? this.tasksPerScreen.length * GLOBAL.TILE_SIZE * 2
                 : 0;
+            introWidth = 0;
         }
         // FlatList includes the "Load More" screen in the width
         // which we don't want for progress calculation
-        const progress = width === 0 ? 0 : x / width;
+        // we also subtract the 2 intro screens from the calculation so that progress
+        // is negative before we reach the examples
+        // progress is calculated so that it's negative before the first example
+        // and reaches 1 when we reach the end of the examples
+        const progress = width === 0 ? 0 : (x - introWidth) / width;
         updateProgress(progress);
         return progress;
     };
 
     getCurrentScreen = () => {
+        // return the screen number for the tutorial examples, 0 indexed
+        // The screens before the start of the content are numbered negatively
+        // which allows to check whether we're showing an example or not
+        // TODO: clean up the progress calculation, as we are using a few different
+        // numbers that are all confusing
         const { currentX } = this.state;
         const { group } = this.props;
         const currentScreen = Math.floor((currentX - group.xMin) / 2);
@@ -289,7 +309,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         // tried to scroll, and respond accordingly
         const e = event.nativeEvent;
         const { tutorial } = this.props;
-        if (tutorial && !this.scrollEnabled) {
+        if (tutorial && this.getCurrentScreen() >= 0 && !this.scrollEnabled) {
             // swiping is disabled in the flatlist component, so we need to detect swipes
             // by ourselves. This relies on capturing touch events, and figuring what is
             // happening
@@ -359,19 +379,25 @@ class _CardBody extends React.PureComponent<Props, State> {
             this.setState({
                 currentX: Math.ceil(min + (max - min) * progress),
             });
-            // we changed page, reset state variables
-            this.scrollEnabled = false;
-            this.tapsRegistered = 0; // remember to offset by 1 (see above)
             const currentScreen = this.getCurrentScreen();
-            this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
-                currentScreen,
-            );
+            if (currentScreen >= 0) {
+                // we changed page, reset state variables
+                this.scrollEnabled = false;
+                this.tapsRegistered = 0; // remember to offset by 1 (see above)
+                this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
+                    currentScreen,
+                );
+                this.setState({
+                    tutorialMode: tutorialModes.instructions,
+                    showAnswerButtonIsVisible: false,
+                });
+            }
             this.setState({
-                tutorialMode: tutorialModes.instructions,
-                showAnswerButtonIsVisible: false,
+                showScaleBar: progress < 0.99 && currentScreen >= 0,
             });
+        } else {
+            this.setState({ showScaleBar: progress < 0.99 });
         }
-        this.setState({ showScaleBar: progress < 0.99 });
     };
 
     showAnswers = () => {
@@ -429,7 +455,11 @@ class _CardBody extends React.PureComponent<Props, State> {
                 tutorialContent = undefined;
             } else {
                 const currentScreen = this.getCurrentScreen();
-                tutorialContent = screens[currentScreen][tutorialMode];
+                if (currentScreen >= 0) {
+                    tutorialContent = screens[currentScreen][tutorialMode];
+                } else {
+                    tutorialContent = null;
+                }
             }
         }
 
@@ -458,13 +488,26 @@ class _CardBody extends React.PureComponent<Props, State> {
                     horizontal
                     initialNumToRender={1}
                     ListFooterComponent={
-                        <LoadMoreCard
-                            group={group}
-                            navigation={navigation}
-                            projectId={projectId}
-                            toNextGroup={this.toNextGroup}
-                            tutorial={tutorial}
-                        />
+                        tutorial ? (
+                            <TutorialEndScreen
+                                group={group}
+                                navigation={navigation}
+                                projectId={projectId}
+                            />
+                        ) : (
+                            <LoadMoreCard
+                                group={group}
+                                navigation={navigation}
+                                projectId={projectId}
+                                toNextGroup={this.toNextGroup}
+                                tutorial={tutorial}
+                            />
+                        )
+                    }
+                    ListHeaderComponent={
+                        tutorial ? (
+                            <TutorialIntroScreen tutorial={tutorial} />
+                        ) : null
                     }
                     maxToRenderPerBatch={3}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
@@ -484,7 +527,9 @@ class _CardBody extends React.PureComponent<Props, State> {
                             tutorial={tutorial}
                         />
                     )}
-                    scrollEnabled={this.scrollEnabled}
+                    scrollEnabled={
+                        this.scrollEnabled || this.getCurrentScreen() < 0
+                    }
                     snapToInterval={GLOBAL.TILE_SIZE * 2}
                     showsHorizontalScrollIndicator={false}
                     windowSize={5}
@@ -494,12 +539,15 @@ class _CardBody extends React.PureComponent<Props, State> {
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
-                {tutorial && tutorialContent && !showAnswerButtonIsVisible && (
-                    <TutorialBox
-                        content={tutorialContent}
-                        boxType={tutorialMode}
-                    />
-                )}
+                {tutorial &&
+                    tutorialContent &&
+                    this.getCurrentScreen() >= 0 &&
+                    !showAnswerButtonIsVisible && (
+                        <TutorialBox
+                            content={tutorialContent}
+                            boxType={tutorialMode}
+                        />
+                    )}
                 {tutorial && showAnswerButtonIsVisible && (
                     <ShowAnswersButton onPress={this.showAnswers} />
                 )}

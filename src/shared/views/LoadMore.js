@@ -60,6 +60,11 @@ type Props = {
 };
 
 class _LoadMoreCard extends React.Component<Props> {
+    // the screen shown at the end of a group when mapping.
+    // This should not be used for tutorials after the upgrade of late 2020
+    // and you should use TutorialEndScreen instead
+    // TODO: remove all the code related to tutorial mode once this screen
+    // is not used for any project type tutorial anymore
     showSyncProgress = () => {
         const { t } = this.props;
         MessageBarManager.showAlert({
