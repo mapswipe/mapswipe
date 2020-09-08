@@ -1,0 +1,136 @@
+{
+  "mainHeader": {
+    "missions": "Missões",
+    "more": "Mais"
+  },
+  "signup": {
+    "chooseUsername": "Escolha o seu nome de utilizador",
+    "passwordError": "A palavra passe deve ter no mínimo 6 caracteres",
+    "usernameError": "O nome de utilizador deve ter no mínimo 4 caracteres",
+    "errorOnSignup": "Erro no registo",
+    "usernameErrorMessage": "O seu nome de utilizador deve ter 4 caracteres ou mais",
+    "usernameNotEmail": "O seu nome de utilizador não pode ser um endereço de correio electrónico",
+    "usernamePublic": "O seu nome de utilizador será visível publicamente",
+    "success": "Sucesso",
+    "welcomeToMapSwipe": "Bem-vindo ao MapSwipe, {{username}}",
+    "emailAlreadyUsed": "O endereço de correio electrónico já está a ser utilizado noutra conta",
+    "emailInvalid": "O endereço de correio electrónico é inválido",
+    "problemSigningUp": "Problema no registo",
+    "errorOnSignUp": "Erro no registo",
+    "checkYourEmail": "Verifique a sua caixa de correio",
+    "noAccountFoundForEmail": "Não foi localizada nenhuma conta para este endereço de correio electrónico",
+    "problemResettingPassword": "Problema ao restabelecer a sua palavra passe",
+    "errorLogIn": "Erro ao entrar",
+    "invalidEmailPassword": "Endereço electrónico ou palavra passe inválidos",
+    "accountDisabled": "Conta desabilitada",
+    "problemLoggingIn": "Problema ao entrar",
+    "errorResetPass": "Erro ao restabelecer a palavra passe",
+    "enterYourEmail": "Digite o seu endereço de correio electrónico",
+    "choosePassword": "Escolha a sua palavra passe",
+    "enterYourPassword": "Digite a sua palavra passe",
+    "IagreeToPrivacyNotice": "Eu concordo com a <1>Nota de Privacidade</1>",
+    "contributionWarningOnSignup": "* Todos os dados que você contribui para o MapSwipe são abertos e disponíveis para todos. O seu nome de utilizador é público, mas o seu endereço de correio electrónico e palavra passe nunca serão partilhados com ninguém.",
+    "signUp": "Registo",
+    "loginExistingAccount": "Entrar para uma conta existente",
+    "login": "Entrar",
+    "forgotPassword": "Esqueceu-se da palavra passe?",
+    "createNewAccount": "Criar uma nova conta",
+    "sendResetEmailWarning": "Nós vamos enviar um correio electrónico para restabelecer a sua palavra passe",
+    "sendResetEmail": "Enviar Correio Electrónico para Restabelecer",
+    "backToLogin": "Voltar ao acesso"
+  },
+  "login": {
+    "enterUsername": "Digite o seu nome de utilizador"
+  },
+  "profileScreen": {
+    "Level X": "Nível {{level}}",
+    "youve completed x tasks": "Já completou {{contributions}} tarefas!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tarefas ({{swipes}} deslizar) até ao próximo nível",
+    "yourTeam": "A sua equipa: {{teamName}}",
+    "changeLanguage": "Alterar o Idioma",
+    "mapswipe website": "Página Internet do MapSwipe",
+    "missingmaps website": "Página Internet do Missing Maps",
+    "email us": "Envie-nos um correio electrónico",
+    "sign out": "Sair",
+    "delete my account": "Apagar a minha conta",
+    "delete account question": "Apagar a conta?",
+    "delete account warning": "Vai perder todo o seu progresso e insígnias. Os seus contributos continuarão públicos mas serão desvinculados da sua conta. Gostaria de continuar? ",
+    "no keep my account": "Não, manter a minha conta",
+    "yes delete it": "Sim, apagar!"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% por {{mappersCount}} cartógrafos"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% PROGRESSO GLOBAL {{contributorCount}} CARTÓGRAFOS COMO VOCÊ.",
+    "map now": "Mapear agora",
+    "tutorial": "Tutorial"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Está à procura de:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Boa! Já completou o tutorial. Está pronto para mapear!",
+    "finishedGroup": "Excelente trabalho! Já terminou este grupo.",
+    "letsGo": "Vamos!",
+    "completeSession": "Completar Sessão",
+    "continueMapping": "Continuar a mapear",
+    "sync alert": "Alerta de Sincronização",
+    "sync alert message": "A sincronizar tarefas... Não desligue a aplicação."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Bem-vindo ao MapSwipe",
+    "helpImprove": "Ajudar a melhorar as respostas humanitárias desde o conforto do seu telefone",
+    "partMissingMaps": "Parte de Missing Maps",
+    "withMissingMaps": "Com o Missing Maps, pretendemos colocar as mundiais comunidades vulneráveis no mapa",
+    "swipe": "Deslizar",
+    "completeTasks": "Complete tarefas deslizando através de imagens de satélite que necessitam de mapeamento",
+    "createData": "Criar informação com sentido",
+    "dataUse": "A informação é utilizada para focalizar os esforços dos voluntários Missing Maps para adicionar detalhes ao OpenStreetMap",
+    "saveLives": "Salvar vidas",
+    "mapHelps": "O mapa ajuda a coordenar esforços humanitários e a salvar vidas"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instruções",
+    "your task": "A sua tarefa:",
+    "lookingFor": "Está à procura de{' '}<1>alterações nos edifícios</1>. Isto demonstra um indicador de alterações no tamanho da população.",
+    "perform task": "Como realizar a tarefa:",
+    "noChanges": "Se não existem alterações, simplesmente{' '} <1>deslize</1> para as próximas fotos",
+    "seeChanges": "Se observa alterações nos edifícios,{' '} <1>toque uma vez</1>{' '} e o ladrilho ficará verde",
+    "unsure": "Inseguro?{' '}<1>Toque duas vezes</1>{' '} e o ladrilho ficará amarelo",
+    "badImagery": "Problemas a visionar, como por exemplo nuvens a tapar a imagem? {' '} <1>Toque três vezes</1>{' '} e o ladrilho ficará encarnado",
+    "holdZoom": "Se necessitar de observar uma imagem mais de perto, mantenha pressionada a imagem e esta será aumentada um pouco.",
+    "hint": "Sugestão:",
+    "differentImagery": "Por vezes utilizam-se diferentes fontes de imagem. As imagens podem ter um alinhamento distinto ou ter uma resolução diferente. Lembre-se, está à procura de{' '}<1>mudanças definitivas em residências e edifícios</1>{' '} então, se parecer que os mesmos edifícios estão lá, mas talvez haja um novo telhado, este seria um cenário \"sem alterações\" e você simplesmente passaria para a próxima imagem."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Ver instruções"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Eu entendi"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Deslize para BAIXO para marcar todos os 6 ladrilhos a ENCARNADO.",
+    "swipe up undo": "Deslize para cima para desfazer"
+  },
+  "LoadingIcon": {
+    "loading": "A carregar..."
+  },
+  "Tutorial": {
+    "incomplete": "INCOMPLETO",
+    "maybe": "TALVEZ",
+    "instructions1": "Como contribuir",
+    "instructions2": "TOCAR PARA ESCOLHER",
+    "instructions3": "Procure os recursos listados no seu resumo de tarefa. Toque em cada ladrilho que encontra o que procura. Toque uma vez para <1>SIM</1>, duas para <3>{{twoTaps}}</3>, e três vezes para <5>MÁ IMAGEM</5> (por exemplo nuvens).",
+    "instructions4": "DESLIZAR PARA NAVEGAR",
+    "instructions5": "Quando completar com uma parte do mapa, avance para o próximo deslizando.",
+    "instructions6": "MANTENHA PRESSIONADO PARA APROXIMAR",
+    "instructions7": "Mantenha um ladrilho pressionado para aproximar esse ladrilho.",
+    "instructions8": "Créditos",
+    "tutorial1": "Bem-vindo ao tutorial!",
+    "tutorial2": "Isto deve torná-lo num entendido de MapSwipe em alguns minutos",
+    "tutorial3": "Apenas siga as instruções no ecrã e deslize para a esquerda para continuar.",
+    "tutorial4": "Se as instruções estão a obstruir, apenas toque na caixa de mensagem para as mover",
+    "tutorial5": "Eu entendi"
+  }
+}
