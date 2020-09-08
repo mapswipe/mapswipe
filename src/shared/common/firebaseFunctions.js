@@ -91,8 +91,11 @@ export const mapStateToPropsForGroups = (tutorialName?: string) =>
         // const projectData = state.firebase.data[prefix][projectId];
         const { data } = state.firebase;
         if (data[prefix] && data[prefix][projectId]) {
-            ({ screens, groups } = data[prefix][projectId]);
-            screens = screens.filter((e) => e !== null);
+            ({ groups } = data[prefix][projectId]);
+            if (tutorial) {
+                ({ screens } = data[prefix][projectId]);
+                screens = screens.filter((e) => e !== null);
+            }
         }
         if (groups && isLoaded(groups)) {
             // we have a few groups to choose from, remove the ones the user has already worked on
