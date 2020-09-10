@@ -30,6 +30,8 @@ const GLOBAL = require('../../Globals');
 type Props = {
     screens: Array<TutorialContent>,
     closeTilePopup: () => void,
+    exampleImage1: string,
+    exampleImage2: string,
     group: BuiltAreaGroupType,
     isSendingResults: boolean,
     navigation: NavigationProp,
@@ -433,6 +435,8 @@ class _CardBody extends React.PureComponent<Props, State> {
         } = this.state;
         const {
             closeTilePopup,
+            exampleImage1,
+            exampleImage2,
             group,
             isSendingResults,
             navigation,
@@ -506,7 +510,11 @@ class _CardBody extends React.PureComponent<Props, State> {
                     }
                     ListHeaderComponent={
                         tutorial ? (
-                            <TutorialIntroScreen tutorial={tutorial} />
+                            <TutorialIntroScreen
+                                exampleImage1={exampleImage1}
+                                exampleImage2={exampleImage2}
+                                tutorial={tutorial}
+                            />
                         ) : null
                     }
                     maxToRenderPerBatch={3}

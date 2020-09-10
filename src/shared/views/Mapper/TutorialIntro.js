@@ -69,12 +69,14 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    exampleImage1: string,
+    exampleImage2: string,
     t: TranslationFunction,
 };
 
 /* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
-    const { t } = props;
+    const { exampleImage1, exampleImage2, t } = props;
     return (
         <View style={styles.background}>
             <View style={styles.screenWidth}>
@@ -151,8 +153,7 @@ const TutorialIntroScreen = (props: Props) => {
                     <Image
                         style={styles.introImage}
                         source={{
-                            uri:
-                                'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Falive2green.com%2Fwp-content%2Fuploads%2F2019%2F01%2Fpic8-e1548151506203.jpg&f=1&nofb=1',
+                            uri: exampleImage1,
                         }}
                     />
 
@@ -163,8 +164,7 @@ const TutorialIntroScreen = (props: Props) => {
                     <Image
                         style={styles.introImage}
                         source={{
-                            uri:
-                                'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Falive2green.com%2Fwp-content%2Fuploads%2F2019%2F01%2Fpic8-e1548151506203.jpg&f=1&nofb=1',
+                            uri: exampleImage2,
                         }}
                     />
                     <Text style={styles.header}>{t('SwipeToContinue')}</Text>

@@ -45,6 +45,9 @@ export type SingleImageryProjectType = {
     categories: ?CategoriesType,
     contributorCount: number,
     created: number,
+    // example images shown on the first screen of the tutorial
+    exampleImage1: string,
+    exampleImage2: string,
     image: string,
     isFeatured: boolean,
     lookFor: string,

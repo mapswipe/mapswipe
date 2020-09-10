@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    exampleImage1: string,
+    exampleImage2: string,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
@@ -332,6 +334,8 @@ class _Mapper extends React.Component<Props, State> {
 
     render() {
         const {
+            exampleImage1,
+            exampleImage2,
             group,
             navigation,
             results,
@@ -360,6 +364,8 @@ class _Mapper extends React.Component<Props, State> {
                 />
                 <CardBody
                     closeTilePopup={this.closeTilePopup}
+                    exampleImage1={exampleImage1}
+                    exampleImage2={exampleImage2}
                     group={group}
                     navigation={navigation}
                     openTilePopup={this.openTilePopup}

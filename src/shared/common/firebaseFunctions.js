@@ -87,13 +87,18 @@ export const mapStateToPropsForGroups = (tutorialName?: string) =>
         let screens = null;
         let groupId = '';
         let groups;
+        let exampleImage1;
+        let exampleImage2;
         const prefix = tutorial ? 'tutorial' : 'projects';
         // const projectData = state.firebase.data[prefix][projectId];
         const { data } = state.firebase;
         if (data[prefix] && data[prefix][projectId]) {
             ({ groups } = data[prefix][projectId]);
             if (tutorial) {
-                ({ screens } = data[prefix][projectId]);
+                ({ exampleImage1, exampleImage2, screens } = data[prefix][
+                    projectId
+                ]);
+                // reindex the screens from 0 as the backend has them 1-indexed :)
                 screens = screens.filter((e) => e !== null);
             }
         }
@@ -114,6 +119,8 @@ export const mapStateToPropsForGroups = (tutorialName?: string) =>
                 ];
         }
         return {
+            exampleImage1,
+            exampleImage2,
             screens,
             group: get(
                 state.firebase.data,
