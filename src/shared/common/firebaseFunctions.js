@@ -21,13 +21,8 @@ export const firebaseConnectGroup = (tutorialName?: string) =>
             return [
                 {
                     type: 'once',
-                    path: 'v2/projects',
-                    queryParams: [
-                        'orderByChild=status',
-                        `equalTo=${tutorialProjectName}`,
-                        'limitToFirst=1',
-                    ],
-                    storeAs: 'tutorial',
+                    path: `v2/projects/${tutorialProjectName}`,
+                    storeAs: `tutorial/${tutorialProjectName}`,
                 },
                 {
                     type: 'once',

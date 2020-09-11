@@ -438,9 +438,11 @@ export default class MapperScreen extends React.Component<Props> {
         // in which case, we use it as the tutorial, or fallback onto the default
         // tutorial content based on the project type
         let tutorialName;
-        if (projectObj.tutorialName !== undefined) {
-            tutorialName = projectObj.tutorialName;
+        if (projectObj.tutorialId !== undefined) {
+            tutorialName = projectObj.tutorialId;
         } else {
+            // TODO: thid default value should probably be removed entirely
+            // once all projects have a tutorialId value assigned in the backend
             switch (projectObj.projectType) {
                 case LEGACY_TILES:
                     tutorialName = 'build_area_tutorial';
