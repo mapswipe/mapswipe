@@ -101,8 +101,6 @@ export const mapStateToPropsForGroups = (tutorialId?: string) =>
                 ({ exampleImage1, exampleImage2, screens } = data[prefix][
                     projectId
                 ]);
-                // reindex the screens from 0 as the backend has them 1-indexed :)
-                screens = screens.filter((e) => e !== null);
             }
         }
         if (groups && isLoaded(groups)) {
