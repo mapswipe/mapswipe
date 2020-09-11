@@ -363,6 +363,7 @@ class _Mapper extends React.Component<Props, State> {
                     exampleImage1={exampleImage1}
                     exampleImage2={exampleImage2}
                     group={group}
+                    lookFor={this.project.lookFor}
                     navigation={navigation}
                     openTilePopup={this.openTilePopup}
                     projectId={group.projectId}

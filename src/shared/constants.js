@@ -14,6 +14,7 @@ export const COLOR_GREEN = 'rgb(36, 219, 26)'; // #24DB1A
 export const COLOR_SUCCESS_GREEN = '#32A82C';
 export const COLOR_GREEN_OVERLAY = 'rgba(36, 219, 26, 0.2)';
 export const COLOR_TRANSPARENT_GREEN = 'rgba(36, 219, 26, 0)';
+export const COLOR_CHECKMARK_GREEN = '#93CC8C';
 export const COLOR_RED = 'rgb(230, 28, 28)';
 export const COLOR_RED_OVERLAY = 'rgba(230, 28, 28, 0.2)';
 export const COLOR_TRANSPARENT_RED = 'rgba(230, 28, 28, 0)';

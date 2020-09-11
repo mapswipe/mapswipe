@@ -78,6 +78,15 @@ export const SwipeIconBlack = () => {
     );
 };
 
+export const SwipeIconWhite = () => {
+    return (
+        <Image
+            source={require('../../views/assets/swipeleft_icon_white.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
 export const TapIconBlack = () => {
     return (
         <Image
@@ -91,6 +100,24 @@ export const CheckMark = () => {
     return (
         <Image
             source={require('../../views/assets/checkmark_white.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const MapswipeMagnifyingGlassIcon = () => {
+    return (
+        <Image
+            source={require('../../views/assets/mapswipe_magnifying_glass.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const PressAndHoldIcon = () => {
+    return (
+        <Image
+            source={require('../../views/assets/icon_hold.png')}
             style={styles.tutImage}
         />
     );

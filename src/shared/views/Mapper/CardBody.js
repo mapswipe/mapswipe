@@ -34,6 +34,7 @@ type Props = {
     exampleImage2: string,
     group: BuiltAreaGroupType,
     isSendingResults: boolean,
+    lookFor: string,
     navigation: NavigationProp,
     onToggleTile: (BuiltAreaTaskType) => void,
     openTilePopup: () => void,
@@ -436,6 +437,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             exampleImage2,
             group,
             isSendingResults,
+            lookFor,
             navigation,
             openTilePopup,
             projectId,
@@ -510,6 +512,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                             <TutorialIntroScreen
                                 exampleImage1={exampleImage1}
                                 exampleImage2={exampleImage2}
+                                lookFor={lookFor}
                                 tutorial={tutorial}
                             />
                         ) : null

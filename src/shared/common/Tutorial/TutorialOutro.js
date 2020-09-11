@@ -2,14 +2,13 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import {
-    COLOR_DEEP_BLUE,
-    COLOR_RED,
-    COLOR_WHITE,
-    COLOR_YELLOW,
-} from '../../constants';
+import { COLOR_DEEP_BLUE, COLOR_WHITE, COLOR_YELLOW } from '../../constants';
 import type { TranslationFunction } from '../../flow-types';
-import { NumberedTapIcon } from './icons';
+import {
+    MapswipeMagnifyingGlassIcon,
+    NumberedTapIconWhite,
+    PressAndHoldIcon,
+} from './icons';
 
 const GLOBAL = require('../../Globals');
 
@@ -24,23 +23,25 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
     },
+    centeredHeader: {
+        alignSelf: 'center',
+        color: COLOR_WHITE,
+        fontWeight: '700',
+        fontSize: 18,
+        marginTop: 40,
+    },
     header: {
         color: COLOR_WHITE,
         fontWeight: '700',
         fontSize: 18,
+        marginBottom: 20,
         marginTop: 20,
     },
     tutRow: {
-        marginTop: 10,
+        marginTop: 20,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-    },
-    tutParagraph: {
-        color: 'white',
-        fontSize: 13,
-        fontWeight: '600',
-        marginTop: 10,
     },
     tutText: {
         color: 'white',
@@ -67,25 +68,29 @@ const TutorialOutroScreen = (props: Props) => {
                         {t('dontWorryIfYoureUnsure')}
                     </Text>
                     <View style={styles.tutRow}>
-                        <NumberedTapIcon bgColor={COLOR_YELLOW} number="2" />
+                        <NumberedTapIconWhite
+                            bgColor={COLOR_YELLOW}
+                            number="2"
+                        />
                         <Text style={styles.tutText}>
-                            Remember you can always tap twice to mark the tile
-                            yellow if you&apos;re not sure what you see is waste
+                            {t('youCanAlwaysTapTwice')}
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <NumberedTapIcon bgColor={COLOR_RED} number="3" />
+                        <MapswipeMagnifyingGlassIcon />
                         <Text style={styles.tutText}>
-                            Every image is viewed by at least 3 people, so
-                            don&apos;t worry if you think you&apos;ve missed
-                            something
+                            {t('everyImageViewedBy')}
                         </Text>
                     </View>
 
-                    <Text style={styles.tutParagraph}>{t('holdZoom')}</Text>
+                    <View style={styles.tutRow}>
+                        <PressAndHoldIcon />
+                        <Text style={styles.tutText}>{t('holdZoom')}</Text>
+                    </View>
 
-                    <Text style={styles.header}>{t('SwipeToContinue')}</Text>
-                    <Text style={styles.header}>&nbsp;</Text>
+                    <Text style={styles.centeredHeader}>
+                        {t('TutorialIntroScreen:SwipeToContinue')}
+                    </Text>
                 </ScrollView>
             </View>
         </View>

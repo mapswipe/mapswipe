@@ -14,7 +14,12 @@ import type {
     NavigationProp,
     TranslationFunction,
 } from '../../flow-types';
-import { COLOR_DARK_GRAY, COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
+import {
+    COLOR_CHECKMARK_GREEN,
+    COLOR_DEEP_BLUE,
+    COLOR_RED,
+    COLOR_WHITE,
+} from '../../constants';
 
 const GLOBAL = require('../../Globals');
 
@@ -23,26 +28,45 @@ const styles = StyleSheet.create({
         width: GLOBAL.SCREEN_WIDTH,
         height: '100%',
         borderWidth: 0,
-        backgroundColor: COLOR_DARK_GRAY,
+        backgroundColor: COLOR_DEEP_BLUE,
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
     },
-    moreButton: {
-        backgroundColor: COLOR_DEEP_BLUE,
+    startButton: {
+        alignSelf: 'center',
+        backgroundColor: COLOR_RED,
+        fontWeight: 'bold',
         marginTop: 20,
-        width: '70%',
-        marginLeft: '15%',
+        width: '90%',
         height: 50,
         padding: 12,
-        borderRadius: 5,
+        borderRadius: 25,
         borderWidth: 0.1,
     },
-    finishedText: {
-        textAlign: 'center',
+    centeredHeader: {
+        alignSelf: 'center',
         color: COLOR_WHITE,
-        marginBottom: 10,
-        width: '70%',
+        fontWeight: '700',
+        fontSize: 18,
+        marginBottom: 20,
+        marginTop: 40,
+    },
+    greenCheckMark: {
+        backgroundColor: COLOR_CHECKMARK_GREEN,
+        borderRadius: 64,
+        color: COLOR_WHITE,
+        fontWeight: 'bold',
+        fontSize: 96,
+        paddingLeft: 32,
+        width: 128,
+    },
+    finishedText: {
+        fontSize: 17,
+        textAlign: 'justify',
+        color: COLOR_WHITE,
+        marginBottom: 30,
+        width: '90%',
     },
     oneScreenWidth: {
         width: GLOBAL.SCREEN_WIDTH,
@@ -89,16 +113,20 @@ class TutorialEndScreen extends React.Component<Props> {
                 </View>
                 <View style={styles.oneScreenWidth}>
                     <View style={styles.congratulationsSlide}>
+                        <Text style={styles.greenCheckMark}>&#x2713;</Text>
+                        <Text style={styles.centeredHeader}>
+                            {t('readyToStart')}
+                        </Text>
                         <Text style={styles.finishedText}>
                             {t('completedTutorial')}
                         </Text>
 
                         <Button
-                            style={styles.moreButton}
+                            style={styles.startButton}
                             onPress={this.onComplete}
                             textStyle={{ fontSize: 18, color: COLOR_WHITE }}
                         >
-                            {t('letsGo')}
+                            {t('startMapping')}
                         </Button>
                     </View>
                 </View>
