@@ -23,11 +23,7 @@ import type {
     TranslationFunction,
     TutorialContent,
 } from '../../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-    COMPLETENESS_PROJECT,
-    LEGACY_TILES,
-} from '../../constants';
+import { COLOR_DEEP_BLUE } from '../../constants';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
@@ -117,7 +113,7 @@ type Props = {
     hasSeenHelpBoxType1: boolean,
     t: TranslationFunction,
     tutorial: boolean,
-    tutorialName: string,
+    tutorialId: string,
 };
 
 type State = {
@@ -341,7 +337,7 @@ class _Mapper extends React.Component<Props, State> {
             results,
             screens,
             tutorial,
-            tutorialName,
+            tutorialId,
         } = this.props;
         const { poppedUpTile } = this.state;
 
@@ -375,7 +371,7 @@ class _Mapper extends React.Component<Props, State> {
                     tileServer={this.project.tileServer}
                     tileServerB={this.project.tileServerB}
                     tutorial={tutorial}
-                    tutorialName={tutorialName}
+                    tutorialId={tutorialId}
                     updateProgress={this.updateProgress}
                     zoomLevel={this.project.zoomLevel}
                 />
@@ -434,30 +430,22 @@ export default class MapperScreen extends React.Component<Props> {
     render() {
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);
-        // check if the project data has a custom tutorialName set (in firebase)
-        // in which case, we use it as the tutorial, or fallback onto the default
-        // tutorial content based on the project type
-        let tutorialName;
+        // check that the project data has a tutorialId set (in firebase)
+        // in which case, we use it as the tutorial (all projects should have one)
+        let tutorialId;
         if (projectObj.tutorialId !== undefined) {
-            tutorialName = projectObj.tutorialId;
+            tutorialId = projectObj.tutorialId;
         } else {
-            // TODO: thid default value should probably be removed entirely
-            // once all projects have a tutorialId value assigned in the backend
-            switch (projectObj.projectType) {
-                case LEGACY_TILES:
-                    tutorialName = 'build_area_tutorial';
-                    break;
-                case COMPLETENESS_PROJECT:
-                    tutorialName = 'completeness_tutorial';
-                    break;
-                default:
-                    console.log('Project type not supported');
-            }
+            console.warn('No tutorial defined for the project');
+            // we should never get to this point, as we catch the lack of tutorial
+            // earlier, but just in case: abort and go back to the previous screen,
+            // this is a bit ugly, but will prevent a crash for now
+            otherProps.navigation.pop();
         }
         return (
             <Mapper
                 randomSeed={this.randomSeed}
-                tutorialName={tutorialName}
+                tutorialId={tutorialId}
                 {...otherProps}
             />
         );

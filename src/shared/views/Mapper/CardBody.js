@@ -574,7 +574,7 @@ const mapStateToProps = (state, ownProps) => ({
     navigation: ownProps.navigation,
     projectId: ownProps.projectId,
     results: get(
-        state.results[ownProps.tutorialName],
+        state.results[ownProps.tutorialId],
         ownProps.group.groupId,
         null,
     ),
