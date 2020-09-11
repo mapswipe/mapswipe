@@ -51,6 +51,7 @@ export type SingleImageryProjectType = {
     image: string,
     isFeatured: boolean,
     lookFor: string,
+    maxTasksPerUser: ?number,
     name: string,
     projectDetails: string,
     projectId: string,
@@ -60,6 +61,7 @@ export type SingleImageryProjectType = {
     status: string,
     tileServer: TileServerType,
     tileServerB: ?TileServerType,
+    tutorialId: string,
     zoomLevel: number,
 };
 
@@ -70,6 +72,7 @@ export type ChangeDetectionProjectType = {
     image: string,
     isFeatured: boolean,
     lookFor: string,
+    maxTasksPerUser: ?number,
     name: string,
     projectDetails: string,
     projectId: string,
@@ -164,6 +167,23 @@ export type ResultType = {
 };
 
 export type ResultMapType = { [string]: ResultType };
+
+// user profiles
+export type UserContributionsToProject = {
+    groupContributionCount: number,
+    taskContributionCount: number,
+};
+
+export type UserContributionsMap = {
+    // string below is the projectId
+    [string]: UserContributionsToProject,
+};
+
+export type UserProfile = {
+    contributions: UserContributionsMap,
+    projectContributionCount: number,
+    taskContributionCount: number,
+};
 
 // internal app types
 

@@ -63,6 +63,8 @@
   },
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{contributorCount}} MAPPERS JUST LIKE YOU.",
+    "userProgressForProject": "{{userProgress}}% for this project",
+    "quotaReachedWarning": "Choose another project from the missions screens",
     "map now": "Map now",
     "tutorial": "Tutorial"
   },
