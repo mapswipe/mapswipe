@@ -297,10 +297,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             });
             this.scrollEnabled = true;
         } else {
-            // TODO: we keep instructions for now, but we need to define a way to show
-            // the hints instead. Maybe after X taps?
             this.setState({ tutorialMode: tutorialModes.instructions });
-            //this.setState({ tutorialMode: tutorialModes.hint });
         }
         return allCorrect;
     };
