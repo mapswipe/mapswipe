@@ -96,7 +96,6 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
                 randomSeed={this.randomSeed}
                 screenName="BuildingFootprintScreen"
                 submitResultFunction={submitFootprint}
-                tutorialName="building_footprint_tutorial"
             />
         );
     }
