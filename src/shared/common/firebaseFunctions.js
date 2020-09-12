@@ -6,37 +6,39 @@
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import get from 'lodash.get';
 
-export const firebaseConnectGroup = (tutorialName?: string) =>
+export const firebaseConnectGroup = (tutorialId?: string) =>
+    // the tutorialId parameter is not really used at this point, but we keep it
+    // for now, as it potentially allows setting a default value for tutorials
+    // quite easily.
     firebaseConnect((props) => {
         const tutorial = props.navigation.getParam('tutorial', false);
-        let tutorialProjectName;
-        if (tutorialName === undefined) {
-            tutorialProjectName = props.tutorialName;
+        let tutorialProjectId;
+        // TODO: revisit this later, once the new tutorial format is used everywhere
+        // (app and projects) and possibly remove the test below is unused
+        if (tutorialId === undefined) {
+            tutorialProjectId = props.tutorialId;
         } else {
-            tutorialProjectName = tutorialName;
+            tutorialProjectId = tutorialId;
         }
         if (tutorial) {
             // we're running the tutorial: we need to load the correct tutorial
             // project instead of the one we were showing in the menu
+            // The tutorial is selected by its id, which must match the value
+            // under project.tutorialId
             return [
                 {
                     type: 'once',
-                    path: 'v2/projects',
-                    queryParams: [
-                        'orderByChild=status',
-                        `equalTo=${tutorialProjectName}`,
-                        'limitToFirst=1',
-                    ],
-                    storeAs: 'tutorial',
+                    path: `v2/projects/${tutorialProjectId}`,
+                    storeAs: `tutorial/${tutorialProjectId}`,
                 },
                 {
                     type: 'once',
-                    path: `v2/groups/${tutorialProjectName}`,
+                    path: `v2/groups/${tutorialProjectId}`,
                     queryParams: [
                         'limitToLast=1',
                         'orderByChild=requiredCount',
                     ],
-                    storeAs: `tutorial/${tutorialProjectName}/groups`,
+                    storeAs: `tutorial/${tutorialProjectId}/groups`,
                 },
             ];
         }
@@ -57,19 +59,19 @@ export const firebaseConnectGroup = (tutorialName?: string) =>
         return [];
     });
 
-export const mapStateToPropsForGroups = (tutorialName?: string) =>
+export const mapStateToPropsForGroups = (tutorialId?: string) =>
     // This function is a common mapStateToProps used to fetch groups from firebase.
     // It looks at a few things to decide which group to fetch, based on the project
     // object that is passed as an argument to the navigation object.
 
     // $FlowFixMe
     (state, ownProps) => {
-        let tutorialProjectName;
+        let tutorialProjectId;
         // ownProps are the props passed to the Mapper or ChangeDetection component
-        if (tutorialName === undefined) {
-            tutorialProjectName = ownProps.tutorialName;
+        if (tutorialId === undefined) {
+            tutorialProjectId = ownProps.tutorialId;
         } else {
-            tutorialProjectName = tutorialName;
+            tutorialProjectId = tutorialId;
         }
         // if we're offline, there might be more than 1 group in the local
         // firebase data, for now, we just pick the first one
@@ -81,16 +83,25 @@ export const mapStateToPropsForGroups = (tutorialName?: string) =>
             groupsMapped = Object.keys(contributions[projectId]);
         }
         if (tutorial) {
-            projectId = tutorialProjectName;
+            projectId = tutorialProjectId;
         }
-        let categories = null;
+        // screens holds the text content for each screen of the tutorial
+        let screens = null;
         let groupId = '';
         let groups;
+        let exampleImage1;
+        let exampleImage2;
         const prefix = tutorial ? 'tutorial' : 'projects';
-        // const projectData = state.firebase.data[prefix][projectId];
         const { data } = state.firebase;
         if (data[prefix] && data[prefix][projectId]) {
-            ({ categories, groups } = data[prefix][projectId]);
+            ({ groups } = data[prefix][projectId]);
+            if (tutorial) {
+                // we pick some items from the tutorial project instead of the initial
+                // project object
+                ({ exampleImage1, exampleImage2, screens } = data[prefix][
+                    projectId
+                ]);
+            }
         }
         if (groups && isLoaded(groups)) {
             // we have a few groups to choose from, remove the ones the user has already worked on
@@ -109,7 +120,9 @@ export const mapStateToPropsForGroups = (tutorialName?: string) =>
                 ];
         }
         return {
-            categories,
+            exampleImage1,
+            exampleImage2,
+            screens,
             group: get(
                 state.firebase.data,
                 `${prefix}.${projectId}.groups.${groupId}`,

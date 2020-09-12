@@ -17,17 +17,13 @@ import BottomProgress from '../../common/BottomProgress';
 import LoadingIcon from '../LoadingIcon';
 import type {
     BuiltAreaGroupType,
-    CategoriesType,
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
     TranslationFunction,
+    TutorialContent,
 } from '../../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-    COMPLETENESS_PROJECT,
-    LEGACY_TILES,
-} from '../../constants';
+import { COLOR_DEEP_BLUE } from '../../constants';
 
 const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
@@ -105,17 +101,19 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    categories: CategoriesType,
+    exampleImage1: string,
+    exampleImage2: string,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
     onMarkHelpBoxSeen: (void) => void,
     onStartGroup: ({}) => void,
     results: ResultMapType,
+    screens: Array<TutorialContent>,
     hasSeenHelpBoxType1: boolean,
     t: TranslationFunction,
     tutorial: boolean,
-    tutorialName: string,
+    tutorialId: string,
 };
 
 type State = {
@@ -332,12 +330,14 @@ class _Mapper extends React.Component<Props, State> {
 
     render() {
         const {
-            categories,
+            exampleImage1,
+            exampleImage2,
             group,
             navigation,
             results,
+            screens,
             tutorial,
-            tutorialName,
+            tutorialId,
         } = this.props;
         const { poppedUpTile } = this.state;
 
@@ -359,17 +359,20 @@ class _Mapper extends React.Component<Props, State> {
                     onInfoPress={this.openHelpModal}
                 />
                 <CardBody
-                    categories={tutorial ? categories : null}
                     closeTilePopup={this.closeTilePopup}
+                    exampleImage1={exampleImage1}
+                    exampleImage2={exampleImage2}
                     group={group}
+                    lookFor={this.project.lookFor}
                     navigation={navigation}
                     openTilePopup={this.openTilePopup}
                     projectId={group.projectId}
                     results={results}
+                    screens={tutorial ? screens : null}
                     tileServer={this.project.tileServer}
                     tileServerB={this.project.tileServerB}
                     tutorial={tutorial}
-                    tutorialName={tutorialName}
+                    tutorialId={tutorialId}
                     updateProgress={this.updateProgress}
                     zoomLevel={this.project.zoomLevel}
                 />
@@ -428,28 +431,22 @@ export default class MapperScreen extends React.Component<Props> {
     render() {
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);
-        // check if the project data has a custom tutorialName set (in firebase)
-        // in which case, we use it as the tutorial, or fallback onto the default
-        // tutorial content based on the project type
-        let tutorialName;
-        if (projectObj.tutorialName !== undefined) {
-            tutorialName = projectObj.tutorialName;
+        // check that the project data has a tutorialId set (in firebase)
+        // in which case, we use it as the tutorial (all projects should have one)
+        let tutorialId;
+        if (projectObj.tutorialId !== undefined) {
+            tutorialId = projectObj.tutorialId;
         } else {
-            switch (projectObj.projectType) {
-                case LEGACY_TILES:
-                    tutorialName = 'build_area_tutorial';
-                    break;
-                case COMPLETENESS_PROJECT:
-                    tutorialName = 'completeness_tutorial';
-                    break;
-                default:
-                    console.log('Project type not supported');
-            }
+            console.warn('No tutorial defined for the project');
+            // we should never get to this point, as we catch the lack of tutorial
+            // earlier, but just in case: abort and go back to the previous screen,
+            // this is a bit ugly, but will prevent a crash for now
+            otherProps.navigation.pop();
         }
         return (
             <Mapper
                 randomSeed={this.randomSeed}
-                tutorialName={tutorialName}
+                tutorialId={tutorialId}
                 {...otherProps}
             />
         );

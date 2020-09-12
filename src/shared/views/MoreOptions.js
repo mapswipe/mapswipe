@@ -19,13 +19,12 @@ import {
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
-import * as Progress from 'react-native-progress';
 import debugInfo from '../../../debugInfo';
 import ConfirmationModal from '../common/ConfirmationModal';
 import Levels from '../Levels';
+import LevelProgress from '../common/LevelProgress';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import {
-    COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
     COLOR_RED_OVERLAY,
@@ -61,14 +60,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0,
         borderColor: COLOR_LIGHT_GRAY,
         backgroundColor: COLOR_WHITE,
-        width: GLOBAL.SCREEN_WIDTH,
-    },
-    barRow: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        borderTopWidth: 0.5,
-        borderBottomWidth: 0,
-        borderColor: COLOR_LIGHT_GRAY,
         width: GLOBAL.SCREEN_WIDTH,
     },
     pic: {
@@ -243,6 +234,18 @@ class _MoreOptions extends React.Component<MOProps> {
                 : 0;
         const deleteAccountConfirmationModal = this.renderDeleteAccountConfirmationModal();
 
+        // determine the text to show on the level progress bar
+        let kmTillNextLevelToShow = kmTillNextLevel;
+        if (Number.isNaN(kmTillNextLevel)) {
+            kmTillNextLevelToShow = 0;
+        }
+        const swipes = Math.ceil(kmTillNextLevelToShow / 6);
+        const sqkm = kmTillNextLevelToShow.toFixed(0);
+        const levelProgressText = t('x tasks (s swipes) until the next level', {
+            sqkm,
+            swipes,
+        });
+
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 {deleteAccountConfirmationModal}
@@ -269,7 +272,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 <LevelProgress
                     kmTillNextLevel={kmTillNextLevel}
                     progress={progress}
-                    t={t}
+                    text={levelProgressText}
                 />
                 {teamId && (
                     <View style={styles.row}>
@@ -439,52 +442,3 @@ class ScrollingBackground extends React.Component<{}, SBState> {
         return this.backgroundImage();
     }
 }
-
-const progressStyle = StyleSheet.create({
-    text: {
-        color: COLOR_WHITE,
-        borderColor: COLOR_DARK_GRAY,
-        fontWeight: '500',
-        position: 'absolute',
-        width: GLOBAL.SCREEN_WIDTH,
-        left: 0,
-        textAlign: 'center',
-        paddingTop: 5,
-    },
-});
-
-type LPProps = {
-    kmTillNextLevel: number,
-    progress: number,
-    t: TranslationFunction,
-};
-
-const LevelProgress = (props: LPProps) => {
-    let { kmTillNextLevel } = props;
-    const { t } = props;
-    const { progress } = props;
-    if (Number.isNaN(kmTillNextLevel)) {
-        kmTillNextLevel = 0;
-    }
-    const swipes = Math.ceil(kmTillNextLevel / 6);
-    const sqkm = kmTillNextLevel.toFixed(0);
-    return (
-        <View style={styles.barRow}>
-            <Progress.Bar
-                borderRadius={0}
-                borderWidth={0}
-                color={COLOR_DEEP_BLUE}
-                height={30}
-                progress={Number.isNaN(progress) ? 0 : progress}
-                unfilledColor="#bbbbbb"
-                width={GLOBAL.SCREEN_WIDTH}
-            />
-            <Text style={progressStyle.text}>
-                {t('x tasks (s swipes) until the next level', {
-                    sqkm,
-                    swipes,
-                })}
-            </Text>
-        </View>
-    );
-};

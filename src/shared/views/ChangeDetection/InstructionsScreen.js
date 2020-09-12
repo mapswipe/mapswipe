@@ -18,6 +18,7 @@ import {
     COLOR_YELLOW,
 } from '../../constants';
 import type { NavigationProp, TranslationFunction } from '../../flow-types';
+import { NumberedTapIcon } from '../../common/Tutorial/icons';
 
 const GLOBAL = require('../../Globals');
 
@@ -80,43 +81,12 @@ const styles = StyleSheet.create({
     },
 });
 
-type IconProps = {
-    bgColor: string,
-    number: string,
-};
-
 type Props = {
     navigation: NavigationProp,
     t: TranslationFunction,
 };
 
 /* eslint-disable global-require */
-const ColoredTapIcon = (props: IconProps) => {
-    const { bgColor, number } = props;
-    return (
-        <View>
-            <Image
-                source={require('../assets/tap_icon_angular_white.png')}
-                style={styles.tutImage}
-            />
-            <Text
-                style={{
-                    color: COLOR_WHITE,
-                    backgroundColor: bgColor,
-                    borderRadius: 10,
-                    fontWeight: 'bold',
-                    left: 30,
-                    paddingLeft: 5,
-                    position: 'absolute',
-                    width: 18,
-                }}
-            >
-                {number}
-            </Text>
-        </View>
-    );
-};
-
 class CDInstructionsScreen extends React.Component<Props> {
     componentDidMount() {
         const { navigation } = this.props;
@@ -178,7 +148,7 @@ class CDInstructionsScreen extends React.Component<Props> {
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <ColoredTapIcon bgColor={COLOR_GREEN} number="1" />
+                        <NumberedTapIcon bgColor={COLOR_GREEN} number="1" />
                         <Text style={styles.tutText}>
                             <Trans i18nKey="CDInstructionsScreen:seeChanges">
                                 If you see a change in buildings,{' '}
@@ -190,7 +160,7 @@ class CDInstructionsScreen extends React.Component<Props> {
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <ColoredTapIcon bgColor={COLOR_YELLOW} number="2" />
+                        <NumberedTapIcon bgColor={COLOR_YELLOW} number="2" />
                         <Text style={styles.tutText}>
                             <Trans i18nKey="CDInstructionsScreen:unsure">
                                 Unsure?{' '}
@@ -202,7 +172,7 @@ class CDInstructionsScreen extends React.Component<Props> {
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <ColoredTapIcon bgColor={COLOR_RED} number="3" />
+                        <NumberedTapIcon bgColor={COLOR_RED} number="3" />
                         <Text style={styles.tutText}>
                             <Trans i18nKey="CDInstructionsScreen:badImagery">
                                 Imagery issue, like if either image has clouds

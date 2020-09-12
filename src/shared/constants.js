@@ -8,10 +8,13 @@ export const CHANGE_DETECTION: number = 3;
 export const COMPLETENESS_PROJECT: number = 4;
 
 // colours
+export const COLOR_BLACK = 'black';
 export const COLOR_DEEP_BLUE = '#0d1949';
 export const COLOR_GREEN = 'rgb(36, 219, 26)'; // #24DB1A
+export const COLOR_SUCCESS_GREEN = '#32A82C';
 export const COLOR_GREEN_OVERLAY = 'rgba(36, 219, 26, 0.2)';
 export const COLOR_TRANSPARENT_GREEN = 'rgba(36, 219, 26, 0)';
+export const COLOR_CHECKMARK_GREEN = '#93CC8C';
 export const COLOR_RED = 'rgb(230, 28, 28)';
 export const COLOR_RED_OVERLAY = 'rgba(230, 28, 28, 0.2)';
 export const COLOR_TRANSPARENT_RED = 'rgba(230, 28, 28, 0)';
@@ -40,3 +43,14 @@ export const supportedLanguages = [
     { code: 'nl', name: 'Nederlands' },
     { code: 'sw', name: 'Kiswahili' },
 ];
+
+// The 3 modes the tutorial prompt box can be in
+export const tutorialModes = {
+    // instructions is shown at the start, until another mode is switched to:
+    instructions: 'instructions',
+    // success is displayed once the user has reached the correct combination
+    // of taps by themselves,
+    success: 'success',
+    // hint is shown if they press the "show answers" button
+    hint: 'hint',
+};
