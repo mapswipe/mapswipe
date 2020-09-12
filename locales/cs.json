@@ -11,17 +11,17 @@
     "usernameErrorMessage": "Vaše uživatelské jméno musí mít 4 nebo více znaků",
     "usernameNotEmail": "Vaše uživatelské jméno nemůže být e-mail",
     "usernamePublic": "Vaše uživatelské jméno bude veřejně viditelné",
-    "success": "Úspěch",
+    "success": "Skvěle!",
     "welcomeToMapSwipe": "Vítejte v MapSwipe, {{username}}",
     "emailAlreadyUsed": "E-mail je již použitý jiným účtem",
     "emailInvalid": "E-mailová adresa je neplatná",
     "problemSigningUp": "Problém s registrací",
     "errorOnSignUp": "Chyba při registraci",
-    "checkYourEmail": "Zkontrolujte svou poštovní schránku",
+    "checkYourEmail": "Zkontrolujte svou e-mailovou schránku",
     "noAccountFoundForEmail": "Pro tento e-mail nebyl nalezen žádný účet",
     "problemResettingPassword": "Problém s resetováním hesla",
     "errorLogIn": "Chyba při přihlášení",
-    "invalidEmailPassword": "špatný email nebo heslo",
+    "invalidEmailPassword": "Neplatný e-mail nebo heslo",
     "accountDisabled": "Účet deaktivován",
     "problemLoggingIn": "Problém s přihlášením",
     "errorResetPass": "Chyba při resetování hesla",
@@ -29,7 +29,7 @@
     "choosePassword": "Zvolte si své heslo",
     "enterYourPassword": "Zadejte heslo",
     "IagreeToPrivacyNotice": "Souhlasím s <1>oznámením o ochraně osobních údajů</1>",
-    "contributionWarningOnSignup": "* Všechna data, která přispíváte k MapSwipe, jsou otevřená a dostupná pro kohokoli. Vaše uživatelské jméno je veřejné, ale váš e-mail a heslo nikdy nebudou sdíleny s nikým.",
+    "contributionWarningOnSignup": "* Všechna data, která přispíváte k MapSwipe, jsou otevřená a dostupná pro kohokoli. Vaše uživatelské jméno je veřejné, ale váš e-mail a heslo nikdy nebudou s nikým sdíleny. ",
     "signUp": "Přihlásit se",
     "loginExistingAccount": "Přihlaste se k existujícímu účtu",
     "login": "Přihlásit se",
@@ -45,7 +45,7 @@
   "profileScreen": {
     "Level X": "Úroveň {{level}}",
     "youve completed x tasks": "Dokončili jste {{contributions}} úkolů!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} úkoly ({{swipes}} swipe) do další úrovně",
+    "x tasks (s swipes) until the next level": "{{sqkm}} úkolů ({{swipes}} swipe) do další úrovně",
     "yourTeam": "Váš tým: {{teamName}}",
     "changeLanguage": "Změnit jazyk",
     "mapswipe website": "web MapSwipe",
@@ -63,7 +63,9 @@
   },
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBÁLNÍHO POKROKU OD {{ContributorCount}} MAPPERŮ JAKO JSTE VY.",
-    "map now": "Mapujte nyní",
+    "userProgressForProject": "{{userProgress}}% pro tento projekt",
+    "quotaReachedWarning": "Na obrazovkách misí vyberte jiný projekt",
+    "map now": "Začněte mapovat",
     "tutorial": "Tutorial"
   },
   "mappingHeader": {
@@ -73,7 +75,7 @@
     "completedTutorial": "Fajn. Dokončili jste kurz. Jste připraveni udělat nějaké mapování!",
     "finishedGroup": "Dobrá práce! Tuto skupinu jste dokončili.",
     "letsGo": "Pojďme na to!",
-    "completeSession": "Dokončena seance",
+    "completeSession": "Dokončit seanci",
     "continueMapping": "Pokračovat v mapování",
     "sync alert": "Upozornění synchronizace",
     "sync alert message": "Synchronizace vašich úloh ... Nezavírejte aplikaci."
@@ -122,7 +124,7 @@
     "instructions1": "Jak přispět",
     "instructions2": "POKLEPNUTÍM VYBERTE",
     "instructions3": "Podívejte se v rychlosti na funkce uvedené ve vaší misi. Klepněte na každou dlaždici, kde najdete to, co hledáte. Klepněte jednou na <1>ANO</1>, dvakrát na <3>{{twoTaps}}</3> a třikrát na <5>ŠPATNÉ ZOBRAZENÍ</5> (například mraky).",
-    "instructions4": "POSUNUTÍM PRSTEM PROHLÍŽEJTE",
+    "instructions4": "PŘEJETÍM PRSTEM PROHLÍŽEJTE",
     "instructions5": "Když skončíte s částí mapy, přejeďte prstem na další.",
     "instructions6": "PŘIDRŽENÍM PRSTEM PŘIBLÍŽIT",
     "instructions7": "Podržením dlaždice přiblížíte dlaždici.",
@@ -132,5 +134,29 @@
     "tutorial3": "Postupujte podle pokynů na obrazovce a pokračujte přejetím doleva.",
     "tutorial4": "Pokud vám pokyny překáží v práci, stačí je přesunout klepnutím na okno se zprávou.",
     "tutorial5": "Rozumím"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Tento kurz vás naučí, jak používat MapSwipe. Tady jsou základní kroky:",
+    "noChanges": "Pokud na obrázcích není nic relevantního, jednoduše <1>přejeďte prstem</1> na další obrazovku",
+    "seeChanges": "Pokud na jednom z obrázků něco vidíte, <1>jedním klepnutím změníte čtvereček na zelenou.</1>",
+    "unsure": "Nejste si jisti tím, co vidíte? <1>Dvojitým klepnutím čtvereček zbarvíte žlutě</1>",
+    "badImagery": "Pokud je se snímky problém, <1>klepněte třikrát, aby se čtverec změnil na červenou</1>",
+    "tapAgain": "Opětovným klepnutím vrátíte čtverec do původního stavu.",
+    "WhatToLookFor": "Co hledat",
+    "YouAreLookingFor": "Hledáte {{lookFor}}",
+    "FromTheGround": "Ze země to vypadá takto:",
+    "ImagesFromAbove": "Ale obrázky, které uvidíte, to ukáží shora a vypadá to takto:",
+    "SwipeToContinue": "Pokračujte přejetím prstem"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Nedělejte si starosti, pokud si nejste jisti tím, co ve čtverci vidíte.",
+    "youCanAlwaysTapTwice": "Nezapomeňte, že pokud si nejste jisti tím, co vidíte, můžete dlaždici dvojím klepnutím označit žlutě",
+    "everyImageViewedBy": "Každý obrázek sleduje více lidí, takže se nemusíte bát, že vám něco uniklo",
+    "holdZoom": "Stisknutím a podržením libovolného čtverce jej můžete přiblížit. Opětovným klepnutím ho zas oddálíte."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Jste připraveni začít s MapSwipe!",
+    "startMapping": "Začít mapovat",
+    "completedTutorial": "Nyní jste vybaveni vším, co potřebujete, abyste přispěli k humanitárnímu mapování pomocí této aplikace. Po osvěžení se můžete kdykoli vrátit."
   }
 }
