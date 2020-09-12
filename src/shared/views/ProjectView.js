@@ -249,6 +249,7 @@ const ProjectView = (props: Props) => (
 /* eslint-enable react/destructuring-assignment */
 
 type HeaderProps = {
+    hasSeenTutorial: ?Array<boolean>,
     navigation: NavigationProp,
     profile: UserProfile,
     project: ProjectType,
@@ -317,7 +318,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     };
 
     checkWifiMapping() {
-        const { navigation, project } = this.props;
+        const { hasSeenTutorial, navigation, project } = this.props;
         if (project.projectType === undefined) {
             // force a project type on the old ones
             project.projectType = LEGACY_TILES;
@@ -325,12 +326,19 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         fb.analytics().logEvent('mapping_started', {
             projectType: project.projectType,
         });
+        // do we need to force the user through the tutorial?
+        const forceTutorial =
+            hasSeenTutorial === undefined ||
+            hasSeenTutorial === null ||
+            !hasSeenTutorial[project.projectType - 1];
+
         switch (project.projectType) {
             case COMPLETENESS_PROJECT:
             case LEGACY_TILES:
                 // this is the original project type
                 navigation.push('Mapper', {
                     project,
+                    tutorial: forceTutorial,
                 });
                 break;
             case BUILDING_FOOTPRINTS:
@@ -444,13 +452,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             const maxTasks = parseInt(project.maxTasksPerUser, 10);
             // users can do more tasks than the limit, so we round up to 100% (ie: 1) max
             userProgress = Math.min(tasksCompleted / maxTasks, 1);
-            console.log(
-                'uprog',
-                userProgress,
-                tasksCompleted,
-                maxTasks,
-                project.projectId,
-            );
             userCanMap = tasksCompleted < maxTasks;
         }
 
@@ -642,6 +643,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+    hasSeenTutorial: state.ui.user.hasSeenTutorial,
     navigation: ownProps.navigation,
     profile: state.firebase.profile,
     project: ownProps.project,

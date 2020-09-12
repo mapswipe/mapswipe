@@ -8,7 +8,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
 import TutorialOutroScreen from './TutorialOutro';
-import { cancelGroup } from '../../actions/index';
+import { cancelGroup, completeTutorial } from '../../actions';
 import type {
     GroupType,
     NavigationProp,
@@ -82,14 +82,24 @@ type Props = {
     group: GroupType,
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
+    onCompleteTutorial: (number) => void,
     projectId: string,
+    projectType: number,
     t: TranslationFunction,
 };
 
 class TutorialEndScreen extends React.Component<Props> {
     onComplete = () => {
-        const { group, navigation, onCancelGroup } = this.props;
+        const {
+            group,
+            navigation,
+            onCancelGroup,
+            onCompleteTutorial,
+            projectType,
+        } = this.props;
         fb.analytics().logEvent('finish_tutorial');
+        // mark that the user has completed the tutorial for this project type
+        onCompleteTutorial(projectType);
         // this prevents the tutorial from showing
         // results from a previous run
         onCancelGroup({
@@ -137,12 +147,16 @@ class TutorialEndScreen extends React.Component<Props> {
 
 const mapStateToProps = (state, ownProps) => ({
     navigation: ownProps.navigation,
+    projectType: state.firebase.data.tutorial[ownProps.projectId].projectType,
     results: state.results,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onCancelGroup(groupDetails) {
         dispatch(cancelGroup(groupDetails));
+    },
+    onCompleteTutorial(projectType) {
+        dispatch(completeTutorial(projectType));
     },
 });
 

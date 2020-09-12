@@ -6,16 +6,21 @@ import {
     SELECT_LANGUAGE,
     START_GROUP,
     START_SENDING_RESULTS,
+    TUTORIAL_COMPLETED,
     WELCOME_COMPLETED,
 } from '../actions/index';
 import Levels from '../Levels';
 import type { Action } from '../actions';
 import type { UIState } from '../flow-types';
 
+const defaultHasSeenTutorial = [false, false, false, false];
+
 const defaultUserState = {
     // this is set to true once the user has seen the help box for projects of type 1 (built_area)
     // This allows showing the help text when the user first opens a project of that type
     hasSeenHelpBoxType1: false,
+    // if the user has gone through tutorial for projectType N, set the array below at N-1 to true
+    hasSeenTutorial: defaultHasSeenTutorial,
     kmTillNextLevel: 0,
     languageCode: undefined,
     level: 1,
@@ -74,11 +79,22 @@ export default function user(
     action: Action,
 ): UIState {
     let level = 1;
+    // FIXME: if this is undefined (for instance when users upgrade the app,
+    // we need to set a default value
+    const newHasSeenTutorial = state.hasSeenTutorial
+        ? state.hasSeenTutorial
+        : defaultHasSeenTutorial;
     switch (action.type) {
         case SEEN_HELPBOX_TYPE_1:
             return {
                 ...state,
                 hasSeenHelpBoxType1: true,
+            };
+        case TUTORIAL_COMPLETED:
+            newHasSeenTutorial[action.projectType - 1] = true;
+            return {
+                ...state,
+                hasSeenTutorial: newHasSeenTutorial,
             };
         case WELCOME_COMPLETED:
             return {
