@@ -41,6 +41,7 @@ export type TileServerType = {
     wmtsLayerName: ?string,
 };
 
+// TODO: separate out a type for tutorial projects, which include a few more attributes
 export type SingleImageryProjectType = {
     categories: ?CategoriesType,
     contributorCount: number,
@@ -204,6 +205,7 @@ export type TranslationFunction = (string, ?Object) => string;
 // redux types
 
 export type UIState = {
+    hasSeenTutorial: ?Array<boolean>,
     welcomeCompleted: boolean,
 };
 
