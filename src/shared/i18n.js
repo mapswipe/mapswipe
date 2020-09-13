@@ -12,7 +12,9 @@ import translationHU from '../../locales/hu';
 import translationJA from '../../locales/ja';
 import translationNE from '../../locales/ne';
 import translationNL from '../../locales/nl';
+import translationPT from '../../locales/pt';
 import translationSW from '../../locales/sw';
+import translationZH from '../../locales/zh';
 
 const resources = {
     cs: translationCS,
@@ -25,7 +27,9 @@ const resources = {
     ja: translationJA,
     ne: translationNE,
     nl: translationNL,
+    pt: translationPT,
     sw: translationSW,
+    zh: translationZH,
 };
 
 i18n.use(initReactI18next).init({

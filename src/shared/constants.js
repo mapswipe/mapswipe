@@ -41,7 +41,9 @@ export const supportedLanguages = [
     { code: 'ja', name: '日本語' },
     { code: 'ne', name: 'नेपाली' },
     { code: 'nl', name: 'Nederlands' },
+    { code: 'pt', name: 'Português' },
     { code: 'sw', name: 'Kiswahili' },
+    { code: 'zh', name: '中文' },
 ];
 
 // The 3 modes the tutorial prompt box can be in
