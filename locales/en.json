@@ -118,6 +118,9 @@
   "LoadingIcon": {
     "loading": "Loading..."
   },
+  "ShowAnswersButton": {
+    "showAnswers": "Show answers"
+  },
   "Tutorial": {
     "incomplete": "INCOMPLETE",
     "maybe": "MAYBE",
