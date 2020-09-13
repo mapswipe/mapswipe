@@ -119,8 +119,14 @@ export default function user(
                 taskContributionCount,
                 level,
             );
+            // teamId is undefined before we receive the profile from the backend
+            // we then set it to either the value or null to mean "we know the user
+            // is not part of any team"
             // $FlowFixMe
-            const teamId = action.profile ? action.profile.teamId : undefined;
+            const teamId =
+                action.profile && action.profile.teamId !== undefined
+                    ? action.profile.teamId
+                    : null;
             return {
                 ...state,
                 kmTillNextLevel,
