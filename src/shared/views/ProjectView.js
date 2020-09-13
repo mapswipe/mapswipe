@@ -327,10 +327,15 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
             projectType: project.projectType,
         });
         // do we need to force the user through the tutorial?
+        // TODO: for now, we only force it for private projects
+        // that have a max work per user value, to avoid forcing existing
+        // users through a tutorial that might not be in their language yet
         const forceTutorial =
-            hasSeenTutorial === undefined ||
-            hasSeenTutorial === null ||
-            !hasSeenTutorial[project.projectType - 1];
+            project.maxTasksPerUser !== undefined
+                ? hasSeenTutorial === undefined ||
+                  hasSeenTutorial === null ||
+                  !hasSeenTutorial[project.projectType - 1]
+                : false;
 
         switch (project.projectType) {
             case COMPLETENESS_PROJECT:
