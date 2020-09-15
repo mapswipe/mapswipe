@@ -151,6 +151,16 @@ export default function user(
                 teamId,
             };
         }
+        case actionTypes.LOGOUT: {
+            // when the user logs out, the ui.user data is not erased, which can lead
+            // to one user seeing the previously logged in user's data. This is the case
+            // with private teamId which could be problematic. So we clear teamId upon
+            // logout to avoid any issues. It will be fetched from the backend upon next login.
+            return {
+                ...state,
+                teamId: undefined,
+            };
+        }
         default:
             return state;
     }

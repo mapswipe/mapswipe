@@ -271,7 +271,6 @@ class _Login extends React.Component<Props, State> {
             .login({ email, password })
             .then((userCredentials) => {
                 const username = userCredentials.user.user.displayName;
-                console.log('uuu', userCredentials);
                 MessageBarManager.showAlert({
                     title: t('signup:success'),
                     message: t('signup:welcomeToMapSwipe', { username }),
