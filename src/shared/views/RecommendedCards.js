@@ -137,7 +137,7 @@ class _RecommendedCards extends React.Component<Props> {
         }
     }
 
-    componentDidUpdate = () => {
+    componentDidUpdate = (oldProps: Props) => {
         // set teamId to null if we positively don't have one
         // then check here is we're not undefined, and set the listeners from then
         // and  not before
@@ -148,7 +148,10 @@ class _RecommendedCards extends React.Component<Props> {
             // we start requesting projects from the backend, to avoid fetching incorrect data
             // in the case where we get to this before the user profile has loaded
             this.subscribeToProjects();
-            this.getTeamName();
+            if (teamId !== oldProps.teamId) {
+                // if the teamId hasn't changed, no need to fetch the teamName again
+                this.getTeamName();
+            }
         }
     };
 
