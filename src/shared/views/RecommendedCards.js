@@ -123,7 +123,11 @@ class _RecommendedCards extends React.Component<Props> {
     willFocusProjectSubscription: NavigationEventSubscription;
 
     componentDidMount() {
+        const { teamId } = this.props;
         this.subscribeToAnnouncements();
+        if (teamId) {
+            this.getTeamName();
+        }
     }
 
     componentWillUnmount() {
