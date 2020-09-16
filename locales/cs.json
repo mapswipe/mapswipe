@@ -118,6 +118,9 @@
   "LoadingIcon": {
     "loading": "Načítání..."
   },
+  "ShowAnswersButton": {
+    "showAnswers": "Ukázat odpovědi"
+  },
   "Tutorial": {
     "incomplete": "NEÚPLNÉ",
     "maybe": "MOŽNÁ",
