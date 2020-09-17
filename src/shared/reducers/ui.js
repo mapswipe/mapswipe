@@ -26,6 +26,7 @@ const defaultUserState = {
     level: 1,
     progress: 0,
     username: '',
+    teamId: undefined,
     welcomeCompleted: false,
     user: null,
 };
@@ -158,7 +159,10 @@ export default function user(
             // logout to avoid any issues. It will be fetched from the backend upon next login.
             return {
                 ...state,
+                hasSeenTutorial: defaultHasSeenTutorial,
+                languageCode: undefined,
                 teamId: undefined,
+                welcomeCompleted: false,
             };
         }
         default:
