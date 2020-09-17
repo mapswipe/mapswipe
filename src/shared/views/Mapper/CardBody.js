@@ -48,14 +48,15 @@ type Props = {
 };
 
 type State = {
-    // the x value for the leftmost tile currently shown on the screen
-    currentX: number,
     showAnswerButtonIsVisible: boolean,
     showScaleBar: boolean,
     tutorialMode: string,
 };
 
 class _CardBody extends React.PureComponent<Props, State> {
+    // the x value for the leftmost tile currently shown on the screen
+    currentX: number;
+
     firstTouch: Object;
 
     flatlist: ?FlatList<IndividualCard>;
@@ -87,8 +88,9 @@ class _CardBody extends React.PureComponent<Props, State> {
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
         this.tutorialIntroWidth = 2;
+        this.currentX =
+            parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
-            currentX: parseInt(props.group.xMin, 10) - this.tutorialIntroWidth,
             showAnswerButtonIsVisible: false,
             showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
@@ -256,12 +258,12 @@ class _CardBody extends React.PureComponent<Props, State> {
     };
 
     getCurrentScreen = () => {
-        // return the screen number for the tutorial examples, 0 indexed
+        // return the screen number for the tutorial examples.
         // The screens before the start of the content are numbered negatively
         // which allows to check whether we're showing an example or not
         // TODO: clean up the progress calculation, as we are using a few different
         // numbers that are all confusing
-        const { currentX } = this.state;
+        const { currentX } = this;
         const { group } = this.props;
         const currentScreen = Math.floor((currentX - group.xMin) / 2);
         return currentScreen;
@@ -274,7 +276,8 @@ class _CardBody extends React.PureComponent<Props, State> {
         // appropriate feedback
         // Returns a bool indicating whether all answers are correct
         const { group, results } = this.props;
-        const { currentX, tutorialMode } = this.state;
+        const { tutorialMode } = this.state;
+        const { currentX } = this;
         if (tutorialMode === tutorialModes.hint) {
             // the user has asked for answers, no need to verify what they did
             // and we don't want the check to set the tutorialMode anyway
@@ -309,7 +312,14 @@ class _CardBody extends React.PureComponent<Props, State> {
         // tried to scroll, and respond accordingly
         const e = event.nativeEvent;
         const { tutorial } = this.props;
-        if (tutorial && this.getCurrentScreen() >= 0 && !this.scrollEnabled) {
+        const currentScreen = this.getCurrentScreen();
+        if (
+            tutorial &&
+            currentScreen >= 0 &&
+            // $FlowFixMe
+            currentScreen < this.tasksPerScreen.length &&
+            !this.scrollEnabled
+        ) {
             // swiping is disabled in the flatlist component, so we need to detect swipes
             // by ourselves. This relies on capturing touch events, and figuring what is
             // happening
@@ -376,21 +386,28 @@ class _CardBody extends React.PureComponent<Props, State> {
             // determine current taskX for tutorial
             const min = parseInt(xMin, 10);
             const max = parseInt(xMax, 10);
-            this.setState({
-                currentX: Math.ceil(min + (max - min) * progress),
-            });
-            const currentScreen = this.getCurrentScreen();
+            // FIXME: currentX is incorrect after xMax because of next line
+            this.currentX = Math.ceil(min + (max - min) * progress);
+            // getCurrentScreen returns an incorrect value after the last sample screen
+            const currentScreen =
+                event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
+                this.tutorialIntroWidth;
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
-                this.scrollEnabled = false;
-                this.tapsRegistered = 0; // remember to offset by 1 (see above)
-                this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
-                    currentScreen,
-                );
-                this.setState({
-                    tutorialMode: tutorialModes.instructions,
-                    showAnswerButtonIsVisible: false,
-                });
+                // $FlowFixMe
+                if (currentScreen >= this.tasksPerScreen.length) {
+                    this.scrollEnabled = true;
+                } else {
+                    this.scrollEnabled = false;
+                    this.tapsRegistered = 0; // remember to offset by 1 (see above)
+                    this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
+                        currentScreen,
+                    );
+                    this.setState({
+                        tutorialMode: tutorialModes.instructions,
+                        showAnswerButtonIsVisible: false,
+                    });
+                }
             }
             this.setState({
                 showScaleBar: progress < 0.99 && currentScreen >= 0,
@@ -426,11 +443,11 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     render() {
         const {
-            currentX,
             showAnswerButtonIsVisible,
             showScaleBar,
             tutorialMode,
         } = this.state;
+        const { currentX } = this;
         const {
             closeTilePopup,
             exampleImage1,
