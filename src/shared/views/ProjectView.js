@@ -574,13 +574,14 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         {t('tutorial')}
                     </Button>
                     <Button
-                        isDisabled={!userCanMap}
                         style={style.startButton}
-                        onPress={this.handlePress}
+                        onPress={
+                            userCanMap ? this.handlePress : this.returnToView
+                        }
                         testID="mapNowButton"
                         textStyle={style.buttonText}
                     >
-                        {t('map now')}
+                        {userCanMap ? t('map now') : t('chooseAnotherProject')}
                     </Button>
                 </View>
                 <Modal
