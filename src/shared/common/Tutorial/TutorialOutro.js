@@ -2,11 +2,11 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import { COLOR_DEEP_BLUE, COLOR_WHITE, COLOR_YELLOW } from '../../constants';
+import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { TranslationFunction } from '../../flow-types';
 import {
     MapswipeMagnifyingGlassIcon,
-    NumberedTapIconWhite,
+    NumberedTapIconWhite2,
     PressAndHoldIcon,
 } from './icons';
 
@@ -68,10 +68,7 @@ const TutorialOutroScreen = (props: Props) => {
                         {t('dontWorryIfYoureUnsure')}
                     </Text>
                     <View style={styles.tutRow}>
-                        <NumberedTapIconWhite
-                            bgColor={COLOR_YELLOW}
-                            number="2"
-                        />
+                        <NumberedTapIconWhite2 />
                         <Text style={styles.tutText}>
                             {t('youCanAlwaysTapTwice')}
                         </Text>

@@ -2,17 +2,14 @@
 import * as React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
-import {
-    COLOR_DEEP_BLUE,
-    COLOR_GREEN,
-    COLOR_RED,
-    COLOR_WHITE,
-    COLOR_YELLOW,
-} from '../../constants';
+import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { TranslationFunction } from '../../flow-types';
 import {
-    NumberedTapIconWhite,
+    NumberedTapIconWhite1,
+    NumberedTapIconWhite2,
+    NumberedTapIconWhite3,
     SwipeIconWhite,
+    TapIconWhite,
 } from '../../common/Tutorial/icons';
 
 const GLOBAL = require('../../Globals');
@@ -99,10 +96,7 @@ const TutorialIntroScreen = (props: Props) => {
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <NumberedTapIconWhite
-                            bgColor={COLOR_GREEN}
-                            number="1"
-                        />
+                        <NumberedTapIconWhite1 />
                         <Text style={styles.tutText}>
                             <Trans i18nKey="TutorialIntroScreen:seeChanges">
                                 If you see...
@@ -112,10 +106,7 @@ const TutorialIntroScreen = (props: Props) => {
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <NumberedTapIconWhite
-                            bgColor={COLOR_YELLOW}
-                            number="2"
-                        />
+                        <NumberedTapIconWhite2 />
                         <Text style={styles.tutText}>
                             <Trans i18nKey="TutorialIntroScreen:unsure">
                                 Not sure about what you are seeing?
@@ -127,7 +118,7 @@ const TutorialIntroScreen = (props: Props) => {
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <NumberedTapIconWhite bgColor={COLOR_RED} number="3" />
+                        <NumberedTapIconWhite3 />
                         <Text style={styles.tutText}>
                             <Trans i18nKey="TutorialIntroScreen:badImagery">
                                 Imagery issue, like if either image has clouds
@@ -140,10 +131,7 @@ const TutorialIntroScreen = (props: Props) => {
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <NumberedTapIconWhite
-                            bgColor={COLOR_DEEP_BLUE}
-                            number=""
-                        />
+                        <TapIconWhite />
                         <Text style={styles.tutText}>
                             {t('TutorialIntroScreen:tapAgain')}
                         </Text>

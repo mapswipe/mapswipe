@@ -8,18 +8,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
 import TutorialOutroScreen from './TutorialOutro';
+import { TickWhiteOnGreen } from './icons';
 import { cancelGroup, completeTutorial } from '../../actions';
 import type {
     GroupType,
     NavigationProp,
     TranslationFunction,
 } from '../../flow-types';
-import {
-    COLOR_CHECKMARK_GREEN,
-    COLOR_DEEP_BLUE,
-    COLOR_RED,
-    COLOR_WHITE,
-} from '../../constants';
+import { COLOR_DEEP_BLUE, COLOR_RED, COLOR_WHITE } from '../../constants';
 
 const GLOBAL = require('../../Globals');
 
@@ -51,15 +47,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 20,
         marginTop: 40,
-    },
-    greenCheckMark: {
-        backgroundColor: COLOR_CHECKMARK_GREEN,
-        borderRadius: 64,
-        color: COLOR_WHITE,
-        fontWeight: 'bold',
-        fontSize: 96,
-        paddingLeft: 32,
-        width: 128,
     },
     finishedText: {
         fontSize: 17,
@@ -123,7 +110,7 @@ class TutorialEndScreen extends React.Component<Props> {
                 </View>
                 <View style={styles.oneScreenWidth}>
                     <View style={styles.congratulationsSlide}>
-                        <Text style={styles.greenCheckMark}>&#x2713;</Text>
+                        <TickWhiteOnGreen />
                         <Text style={styles.centeredHeader}>
                             {t('readyToStart')}
                         </Text>

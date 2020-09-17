@@ -1,8 +1,13 @@
 import * as React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { COLOR_BLACK, COLOR_WHITE } from '../../constants';
+import { Image, StyleSheet } from 'react-native';
+// import { COLOR_BLACK, COLOR_WHITE } from '../../constants';
 
 const styles = StyleSheet.create({
+    greenCheckMark: {
+        height: 128,
+        resizeMode: 'contain',
+        width: 128,
+    },
     tutImage: {
         height: 50,
         resizeMode: 'contain',
@@ -10,61 +15,58 @@ const styles = StyleSheet.create({
     },
 });
 
-type IconProps = {
-    bgColor: string,
-    number: string,
-};
-
-type InternalIconProps = {
-    ...IconProps,
-    image: string,
-    textColor: string,
-};
-
 /* eslint-disable global-require */
-export const NumberedTapIcon = (props: InternalIconProps) => {
-    const { bgColor, image, number, textColor } = props;
-    return (
-        <View>
-            <Image source={image} style={styles.tutImage} />
-            <Text
-                style={{
-                    color: textColor,
-                    backgroundColor: bgColor,
-                    borderRadius: 10,
-                    fontWeight: 'bold',
-                    left: 30,
-                    paddingLeft: 5,
-                    position: 'absolute',
-                    width: 18,
-                }}
-            >
-                {number}
-            </Text>
-        </View>
-    );
-};
 
-export const NumberedTapIconWhite = (props: IconProps) => {
-    const { bgColor, number } = props;
+export const NumberedTapIconWhite1 = () => {
     return (
-        <NumberedTapIcon
-            bgColor={bgColor}
-            image={require('../../views/assets/tap_icon_angular_white.png')}
-            number={number}
-            textColor={COLOR_WHITE}
+        <Image
+            source={require('../../views/assets/1_Tap_White.png')}
+            style={styles.tutImage}
         />
     );
 };
 
-export const NumberedTapIconBlack = (props: IconProps) => {
-    const { bgColor, number } = props;
+export const NumberedTapIconWhite2 = () => {
     return (
-        <NumberedTapIcon
-            bgColor={bgColor}
-            image={require('../../views/assets/tap_icon_angular.png')}
-            number={number}
-            textColor={COLOR_BLACK}
+        <Image
+            source={require('../../views/assets/2_Tap_White.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const NumberedTapIconWhite3 = () => {
+    return (
+        <Image
+            source={require('../../views/assets/3_Tap_White.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const NumberedTapIconBlack1 = () => {
+    return (
+        <Image
+            source={require(`../../views/assets/1_Tap_Black.png`)}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const NumberedTapIconBlack2 = () => {
+    return (
+        <Image
+            source={require(`../../views/assets/2_Tap_Black.png`)}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const NumberedTapIconBlack3 = () => {
+    return (
+        <Image
+            source={require(`../../views/assets/3_Tap_Black.png`)}
+            style={styles.tutImage}
         />
     );
 };
@@ -96,11 +98,38 @@ export const TapIconBlack = () => {
     );
 };
 
+export const TapIconWhite = () => {
+    return (
+        <Image
+            source={require('../../views/assets/tap_icon_angular_white.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
 export const CheckMark = () => {
     return (
         <Image
             source={require('../../views/assets/checkmark_white.png')}
             style={styles.tutImage}
+        />
+    );
+};
+
+export const TickGreenOnWhite = () => {
+    return (
+        <Image
+            source={require('../../views/assets/tick_green_on_white.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const TickWhiteOnGreen = () => {
+    return (
+        <Image
+            source={require('../../views/assets/tick_white_on_green.png')}
+            style={styles.greenCheckMark}
         />
     );
 };

@@ -9,8 +9,10 @@ import {
 } from '../../constants';
 import { type TutorialContent } from '../../flow-types';
 import {
-    CheckMark,
-    NumberedTapIconBlack,
+    TickGreenOnWhite,
+    NumberedTapIconBlack1,
+    NumberedTapIconBlack2,
+    NumberedTapIconBlack3,
     SwipeIconBlack,
     TapIconBlack,
 } from './icons';
@@ -82,17 +84,17 @@ export default class TutorialBox extends React.Component<Props, State> {
         } = this.props;
         switch (icon) {
             case 'tap-1':
-                return <NumberedTapIconBlack number={1} />;
+                return <NumberedTapIconBlack1 />;
             case 'tap-2':
-                return <NumberedTapIconBlack number={2} />;
+                return <NumberedTapIconBlack2 />;
             case 'tap-3':
-                return <NumberedTapIconBlack number={3} />;
+                return <NumberedTapIconBlack3 />;
             case 'tap':
                 return <TapIconBlack />;
             case 'swipe-left':
                 return <SwipeIconBlack />;
             case 'check':
-                return <CheckMark />;
+                return <TickGreenOnWhite />;
             default:
                 return null;
         }
