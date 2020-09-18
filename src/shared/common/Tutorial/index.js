@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     icon: {
+        paddingLeft: 5,
         width: 50,
     },
 });

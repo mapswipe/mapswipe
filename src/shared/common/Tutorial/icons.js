@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
         width: 128,
     },
     tutImage: {
-        height: 50,
+        height: 40,
         resizeMode: 'contain',
-        width: 50,
+        width: 40,
     },
 });
 
