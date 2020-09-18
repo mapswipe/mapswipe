@@ -152,7 +152,14 @@ export default class ChangeDetectionTask extends React.PureComponent<
                     />
                 </View>
                 {tutorial && tutorialText !== '' && (
-                    <TutorialBox>{tutorialText}</TutorialBox>
+                    <TutorialBox
+                        content={{
+                            description: 'fixme',
+                            title: 'fixme',
+                            icon: 'fixme',
+                        }}
+                        boxType="fixme"
+                    />
                 )}
             </>
         );

@@ -7762,13 +7762,12 @@ react-native-scrollable-tab-view@^1.0.0:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
 
-react-native-simple-markdown@^1.1.0:
+react-native-simple-markdown@mapswipe/react-native-simple-markdown#master:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-simple-markdown/-/react-native-simple-markdown-1.1.0.tgz#4d462f8ced26393c5230467420c61a50cc6a8095"
-  integrity sha1-TUYvjO0mOTxSMEZ0IMYaUMxqgJU=
+  resolved "https://codeload.github.com/mapswipe/react-native-simple-markdown/tar.gz/c01c1caead347642236026f94d70dbae6d6c50a5"
   dependencies:
     lodash "^4.15.0"
-    simple-markdown "git://github.com/CharlesMangwa/simple-markdown.git"
+    simple-markdown "^0.5.2"
 
 react-native-splash-screen@^3.1.1:
   version "3.2.0"
@@ -8644,9 +8643,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
-"simple-markdown@git://github.com/CharlesMangwa/simple-markdown.git":
-  version "0.1.1"
-  resolved "git://github.com/CharlesMangwa/simple-markdown.git#33d963c760b8196bee01b1a5ba9974bc7f669af1"
+simple-markdown@^0.5.2:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/simple-markdown/-/simple-markdown-0.5.3.tgz#4c31cc7adbadb545d9a0ba782a6f0f3ef78dbb24"
+  integrity sha512-nFvw0DTiVHdd7v/f1DyuQ+2b3V3ZXummODZ9z9IO2dBVM+h4Cg5nnfuU43h6DYcsVrHHI1HcMe8t3b/lpAYBIQ==
 
 simple-plist@^1.0.0:
   version "1.0.0"

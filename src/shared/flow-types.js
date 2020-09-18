@@ -41,13 +41,18 @@ export type TileServerType = {
     wmtsLayerName: ?string,
 };
 
+// TODO: separate out a type for tutorial projects, which include a few more attributes
 export type SingleImageryProjectType = {
     categories: ?CategoriesType,
     contributorCount: number,
     created: number,
+    // example images shown on the first screen of the tutorial
+    exampleImage1: string,
+    exampleImage2: string,
     image: string,
     isFeatured: boolean,
     lookFor: string,
+    maxTasksPerUser: ?number,
     name: string,
     projectDetails: string,
     projectId: string,
@@ -57,6 +62,7 @@ export type SingleImageryProjectType = {
     status: string,
     tileServer: TileServerType,
     tileServerB: ?TileServerType,
+    tutorialId: string,
     zoomLevel: number,
 };
 
@@ -67,6 +73,7 @@ export type ChangeDetectionProjectType = {
     image: string,
     isFeatured: boolean,
     lookFor: string,
+    maxTasksPerUser: ?number,
     name: string,
     projectDetails: string,
     projectId: string,
@@ -88,10 +95,10 @@ export type ProjectMapType = { [project_id: string]: ProjectType };
 
 // used only by projects of type LEGACY_PROJECT (type 1)
 export type BuiltAreaTaskType = {
-    category: ?string, // only found in tutorial projects
     groupId: string,
     projectId: string,
     referenceAnswer: ?number,
+    screens: ?string, // only found in tutorial projects
     taskId: string,
     taskX: number,
     taskY: number,
@@ -162,6 +169,23 @@ export type ResultType = {
 
 export type ResultMapType = { [string]: ResultType };
 
+// user profiles
+export type UserContributionsToProject = {
+    groupContributionCount: number,
+    taskContributionCount: number,
+};
+
+export type UserContributionsMap = {
+    // string below is the projectId
+    [string]: UserContributionsToProject,
+};
+
+export type UserProfile = {
+    contributions: UserContributionsMap,
+    projectContributionCount: number,
+    taskContributionCount: number,
+};
+
 // internal app types
 
 export type Mapper = {
@@ -181,6 +205,7 @@ export type TranslationFunction = (string, ?Object) => string;
 // redux types
 
 export type UIState = {
+    hasSeenTutorial: ?Array<boolean>,
     welcomeCompleted: boolean,
 };
 
@@ -188,4 +213,12 @@ export type State = {
     +firebase?: {},
     +results?: ResultMapType,
     +ui?: UIState,
+};
+
+// each step of the tutorial must have the following shape
+
+export type TutorialContent = {
+    title: string,
+    description: string,
+    icon: string,
 };

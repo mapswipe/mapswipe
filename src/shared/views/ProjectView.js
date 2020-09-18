@@ -26,15 +26,18 @@ import {
     COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
+    COLOR_RED,
     COLOR_WHITE,
     COMPLETENESS_PROJECT,
     LEGACY_TILES,
 } from '../constants';
 import { getProjectProgressForDisplay } from '../Database';
+import LevelProgress from '../common/LevelProgress';
 import type {
     NavigationProp,
     ProjectType,
     TranslationFunction,
+    UserProfile,
 } from '../flow-types';
 
 const Modal = require('react-native-modalbox');
@@ -215,6 +218,20 @@ const style = StyleSheet.create({
         backgroundColor: COLOR_WHITE,
         borderRadius: 2,
     },
+    progressBox: {
+        marginBottom: 20,
+        marginLeft: -15,
+    },
+    progressText: {
+        marginLeft: 15,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    quotaReachedWarning: {
+        color: COLOR_RED,
+        fontWeight: '600',
+        marginLeft: 15,
+    },
 });
 
 type Props = {
@@ -232,7 +249,9 @@ const ProjectView = (props: Props) => (
 /* eslint-enable react/destructuring-assignment */
 
 type HeaderProps = {
+    hasSeenTutorial: ?Array<boolean>,
     navigation: NavigationProp,
+    profile: UserProfile,
     project: ProjectType,
     t: TranslationFunction,
 };
@@ -299,7 +318,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     };
 
     checkWifiMapping() {
-        const { navigation, project } = this.props;
+        const { hasSeenTutorial, navigation, project } = this.props;
         if (project.projectType === undefined) {
             // force a project type on the old ones
             project.projectType = LEGACY_TILES;
@@ -307,16 +326,28 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         fb.analytics().logEvent('mapping_started', {
             projectType: project.projectType,
         });
+        // do we need to force the user through the tutorial?
+        // TODO: for now, we only force it for private projects
+        // that have a max work per user value, to avoid forcing existing
+        // users through a tutorial that might not be in their language yet
+        const forceTutorial =
+            project.maxTasksPerUser !== undefined
+                ? hasSeenTutorial === undefined ||
+                  hasSeenTutorial === null ||
+                  !hasSeenTutorial[project.projectType - 1]
+                : false;
+
         switch (project.projectType) {
             case COMPLETENESS_PROJECT:
             case LEGACY_TILES:
                 // this is the original project type
                 navigation.push('Mapper', {
                     project,
+                    tutorial: forceTutorial,
                 });
                 break;
             case BUILDING_FOOTPRINTS:
-                navigation.push('BuildingFootprintValidator', {
+                navigation.push('BuildingFootprintScreen', {
                     project,
                 });
                 break;
@@ -396,7 +427,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     }
 
     render() {
-        const { navigation, project, t } = this.props;
+        const { navigation, profile, project, t } = this.props;
         const { isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
@@ -407,6 +438,27 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         // show progress = 0 if we somehow get a negative value
         const projectProgress = getProjectProgressForDisplay(project.progress);
         const { contributorCount } = project;
+        let tasksCompleted = 0;
+        let userProgress = 0;
+        // by default, users can always map, unless they've reached their quota
+        // which we check below
+        let userCanMap = true;
+
+        // calculate user's progress on this project if the project has a max tasks/user set
+        if (project.maxTasksPerUser) {
+            if (
+                profile.contributions &&
+                profile.contributions[project.projectId]
+            ) {
+                tasksCompleted =
+                    profile.contributions[project.projectId]
+                        .taskContributionCount || 0;
+            }
+            const maxTasks = parseInt(project.maxTasksPerUser, 10);
+            // users can do more tasks than the limit, so we round up to 100% (ie: 1) max
+            userProgress = Math.min(tasksCompleted / maxTasks, 1);
+            userCanMap = tasksCompleted < maxTasks;
+        }
 
         return (
             <ScrollView style={style.projectViewContainer} testID="projectView">
@@ -455,6 +507,27 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 
                 {/* $FlowFixMe */}
                 <View style={style.detailContainer}>
+                    {project.maxTasksPerUser && (
+                        <View style={style.progressBox}>
+                            <Text style={style.progressText}>
+                                Your progress:
+                            </Text>
+                            <LevelProgress
+                                progress={userProgress}
+                                text={t('userProgressForProject', {
+                                    userProgress: parseInt(
+                                        userProgress * 100,
+                                        10,
+                                    ),
+                                })}
+                            />
+                            {userCanMap || (
+                                <Text style={style.quotaReachedWarning}>
+                                    {t('quotaReachedWarning')}
+                                </Text>
+                            )}
+                        </View>
+                    )}
                     {/* $FlowFixMe */}
                     <Markdown style={style.projectDetails}>
                         {renderQueue}
@@ -462,6 +535,16 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     <Button
                         style={style.startButtonTutorial}
                         onPress={() => {
+                            if (!project.tutorialId) {
+                                Alert.alert(
+                                    t('No tutorial available'),
+                                    t(
+                                        'There is no tutorial for this project yet.',
+                                    ),
+                                );
+                                return;
+                            }
+                            // we have a tutorialId, let's show it
                             fb.analytics().logEvent('starting_tutorial', {
                                 projectType: project.projectType,
                             });
@@ -492,11 +575,13 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     </Button>
                     <Button
                         style={style.startButton}
-                        onPress={this.handlePress}
+                        onPress={
+                            userCanMap ? this.handlePress : this.returnToView
+                        }
                         testID="mapNowButton"
                         textStyle={style.buttonText}
                     >
-                        {t('map now')}
+                        {userCanMap ? t('map now') : t('chooseAnotherProject')}
                     </Button>
                 </View>
                 <Modal
@@ -564,7 +649,9 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+    hasSeenTutorial: state.ui.user.hasSeenTutorial,
     navigation: ownProps.navigation,
+    profile: state.firebase.profile,
     project: ownProps.project,
 });
 

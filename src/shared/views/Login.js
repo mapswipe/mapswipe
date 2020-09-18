@@ -179,8 +179,8 @@ class _Login extends React.Component<Props, State> {
         const parent = this;
         if (username !== null && username.length < MIN_USERNAME_LENGTH) {
             MessageBarManager.showAlert({
-                title: t('errorOnSignup'),
-                message: t('usernameErrorMessage'),
+                title: t('signup:errorOnSignup'),
+                message: t('signup:usernameErrorMessage'),
                 alertType: 'error',
                 shouldHideAfterDelay: false,
             });
@@ -189,8 +189,8 @@ class _Login extends React.Component<Props, State> {
 
         if (username !== null && username.indexOf('@') !== -1) {
             MessageBarManager.showAlert({
-                title: t('errorOnSignup'),
-                message: t('usernameNotEmail'),
+                title: t('signup:errorOnSignup'),
+                message: t('signup:usernameNotEmail'),
                 alertType: 'error',
                 shouldHideAfterDelay: false,
             });
@@ -222,7 +222,7 @@ class _Login extends React.Component<Props, State> {
             })
             .then(() => {
                 MessageBarManager.showAlert({
-                    title: t('success'),
+                    title: t('signup:success'),
                     message: t('signup:welcomeToMapSwipe', { username }),
                     alertType: 'info',
                 });
@@ -234,16 +234,16 @@ class _Login extends React.Component<Props, State> {
                 // error codes from https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#createUserWithEmailAndPassword
                 switch (error.code) {
                     case 'auth/email-already-in-use':
-                        errorMsg = t('emailAlreadyUsed');
+                        errorMsg = t('signup:emailAlreadyUsed');
                         break;
                     case 'auth/invalid-email':
-                        errorMsg = t('emailInvalid');
+                        errorMsg = t('signup:emailInvalid');
                         break;
                     default:
-                        errorMsg = t('problemSigningUp');
+                        errorMsg = t('signup:problemSigningUp');
                 }
                 MessageBarManager.showAlert({
-                    title: t('errorOnSignup'),
+                    title: t('signup:errorOnSignup'),
                     message: errorMsg,
                     alertType: 'error',
                     shouldHideAfterDelay: false,
@@ -271,9 +271,8 @@ class _Login extends React.Component<Props, State> {
             .login({ email, password })
             .then((userCredentials) => {
                 const username = userCredentials.user.user.displayName;
-                console.log('uuu', userCredentials);
                 MessageBarManager.showAlert({
-                    title: t('success'),
+                    title: t('signup:success'),
                     message: t('signup:welcomeToMapSwipe', { username }),
                     alertType: 'info',
                 });
@@ -287,20 +286,20 @@ class _Login extends React.Component<Props, State> {
                 // https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#signInWithEmailAndPassword
                 switch (error.code) {
                     case 'auth/user-not-found':
-                        errorMessage = t('noAccountFoundForEmail');
+                        errorMessage = t('signup:noAccountFoundForEmail');
                         break;
                     case 'auth/wrong-password':
                     case 'auth/invalid-email':
-                        errorMessage = t('invalidEmailPassword');
+                        errorMessage = t('signup:invalidEmailPassword');
                         break;
                     case 'auth/user-disabled':
-                        errorMessage = t('accountDisabled');
+                        errorMessage = t('signup:accountDisabled');
                         break;
                     default:
-                        errorMessage = t('problemLoggingIn');
+                        errorMessage = t('signup:problemLoggingIn');
                 }
                 MessageBarManager.showAlert({
-                    title: t('errorLogIn'),
+                    title: t('signup:errorLogIn'),
                     message: errorMessage,
                     alertType: 'error',
                     shouldHideAfterDelay: false,
@@ -323,8 +322,8 @@ class _Login extends React.Component<Props, State> {
             .sendPasswordResetEmail(email)
             .then(() => {
                 MessageBarManager.showAlert({
-                    title: t('success'),
-                    message: t('checkYourEmail'),
+                    title: t('signup:success'),
+                    message: t('signup:checkYourEmail'),
                     alertType: 'info',
                 });
                 parent.setState({
@@ -336,16 +335,16 @@ class _Login extends React.Component<Props, State> {
                 let errorMessage;
                 switch (error.code) {
                     case 'auth/user-not-found':
-                        errorMessage = t('noAccountFoundForEmail');
+                        errorMessage = t('signup:noAccountFoundForEmail');
                         break;
                     case 'auth/invalid-email':
-                        errorMessage = t('emailInvalid');
+                        errorMessage = t('signup:emailInvalid');
                         break;
                     default:
-                        errorMessage = t('problemResettingPassword');
+                        errorMessage = t('signup:problemResettingPassword');
                 }
                 MessageBarManager.showAlert({
-                    title: t('errorResetPass'),
+                    title: t('signup:errorResetPass'),
                     message: errorMessage,
                     alertType: 'error',
                     shouldHideAfterDelay: false,

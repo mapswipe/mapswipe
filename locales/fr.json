@@ -4,7 +4,7 @@
     "more": "Profil"
   },
   "signup": {
-    "chooseUsername": "Choisis ton nom d'utilisateur",
+    "chooseUsername": "Choisissez votre nom d'utilisateur",
     "passwordError": "Le mot de passe doit contenir au moins 6 caractères",
     "usernameError": "Le nom d'utilisateur doit contenir au moins 4 caractères",
     "errorOnSignup": "Erreur lors de l'inscription",
@@ -19,7 +19,7 @@
     "errorOnSignUp": "Erreur à l'inscription ",
     "checkYourEmail": "Vérifiez votre boîte e-mail",
     "noAccountFoundForEmail": "Aucun compte trouvé pour cet e-mail",
-    "problemResettingPassword": "Problème de réinitialiser votre mot de passe",
+    "problemResettingPassword": "Problème lors de la réinitialisation de votre mot de passe",
     "errorLogIn": "Erreur lors de la connexion",
     "invalidEmailPassword": "Email ou mot de passe invalide",
     "accountDisabled": "Compte désactivé",
@@ -40,13 +40,13 @@
     "backToLogin": "Retour à la connexion"
   },
   "login": {
-    "enterUsername": "Saisis ton nom d'utilisateur"
+    "enterUsername": "Saisissez votre nom d'utilisateur"
   },
   "profileScreen": {
     "Level X": "Niveau {{level}}",
     "youve completed x tasks": "Vous avez complété {{contributions}} tâches!",
     "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} écrans) jusqu'au niveau supérieur",
-    "yourTeam": "Ton équipe: {{teamName}}",
+    "yourTeam": "Votre équipe: {{teamName}}",
     "changeLanguage": "Choisir la langue",
     "mapswipe website": "Site web de MapSwipe",
     "missingmaps website": "Site web de Missing Maps",
@@ -54,7 +54,7 @@
     "sign out": "Se déconnecter",
     "delete my account": "Supprimer mon compte",
     "delete account question": "Supprimer votre compte ?",
-    "delete account warning": "Vous alley perdre tous vos progrès et vos badges. Vos contributions resteront publiques mais ne seront plus liées à votre compte. \nVoudriez-vous continuer ?",
+    "delete account warning": "Vous allez perdre tous vos progrès et vos badges. Vos contributions resteront publiques mais ne seront plus liées à votre compte. \nVoulez-vous continuer ?",
     "no keep my account": "Non, garder mon compte",
     "yes delete it": "Oui, supprimez-le!"
   },
@@ -63,7 +63,10 @@
   },
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% EFFECTUÉS PAR {{contributorCount}} CARTOGRAPHES",
+    "userProgressForProject": "{{userProgress}}% pour ce projet",
+    "quotaReachedWarning": "Choisissez un autre projet dans la liste des missions",
     "map now": "Commencer à cartographier",
+    "chooseAnotherProject": "Choisir un autre projet",
     "tutorial": "Tutoriel"
   },
   "mappingHeader": {
@@ -74,17 +77,17 @@
     "finishedGroup": "Bravo ! Vous avez terminé ce groupe. ",
     "letsGo": "C'est parti ! ",
     "completeSession": "Session terminée",
-    "continueMapping": "Continuer le mappage",
+    "continueMapping": "Continuer à cartographier",
     "sync alert": "Synchronisation en cours",
-    "sync alert message": "Transmission des réponses... Ne ferme pas l'appli."
+    "sync alert message": "Transmission des réponses... Ne fermez pas l'appli."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Bienvenue sur MapSwipe",
     "helpImprove": "Aidez à améliorer les réponses humanitaires avec votre téléphone",
     "partMissingMaps": "Partie du Missing Maps",
     "withMissingMaps": "Chez Missing Maps, nous visons à mettre les communautés vulnérables du monde sur la carte",
-    "swipe": "Glissez",
-    "completeTasks": "Complète la tâche en traçant dans les imageries satellite des aires à cartographier",
+    "swipe": "Faites glisser",
+    "completeTasks": "Participez en traçant dans les images satellite les zones à cartographier",
     "createData": "Créer des données pertinentes",
     "dataUse": "Les données sont utilisées pour rassembler les efforts des volontaires de Missing Maps en ajoutant des détails sur OpenStreetMap",
     "saveLives": "Sauver des vies.",
@@ -92,14 +95,14 @@
   },
   "CDInstructionScreen": {
     "instructions": "Instructions",
-    "your task": "Ta mission:",
-    "lookingFor": "Tu cherches des{' '}<1>changements dans les bâtiments</1>. C'est un bon indicateur de changements de taille de la population.",
+    "your task": "Votre mission:",
+    "lookingFor": "Vous cherchez des{' '}<1>changements dans les bâtiments</1>. C'est un bon indicateur de changements de taille de la population.",
     "perform task": "Comment faire:",
-    "noChanges": "S'il n'y a pas de différence,{' '}<1>fais glisser l'écran vers la gauche</1>pour continuer",
-    "seeChanges": "S'il y'a des changements dans les bâtiments,{' '}<1>tape une fois</1>{' '}et l'image passera au vert",
-    "unsure": "Si tu n'es pas sûr,{' '}<1>tape 2 fois</1>{' '}et l'image deviendra jaune",
-    "badImagery": "Si l'image n'est pas claire, par exemple s'il y'a des nuages,{' '}<1>tape 3 fois</1>{' '}et elle deviendra rouge",
-    "holdZoom": "Pour zoomer sur une image, appuie dessus pendant une seconde ou plus.",
+    "noChanges": "S'il n'y a pas de différence,{' '}<1>faites glisser l'écran vers la gauche</1>pour continuer",
+    "seeChanges": "S'il y'a des changements dans les bâtiments,{' '}<1>tapez une fois</1>{' '}et l'image passera au vert",
+    "unsure": "Si vous n'êtes pas sûr,{' '}<1>tapez 2 fois</1>{' '}et l'image deviendra jaune",
+    "badImagery": "Si l'image n'est pas claire, par exemple s'il y'a des nuages,{' '}<1>tapez 3 fois</1>{' '}et elle deviendra rouge",
+    "holdZoom": "Pour zoomer sur une image, appuyez dessus pendant une seconde ou plus.",
     "hint": "Astuce:",
     "differentImagery": "Parfois différentes sources d'imagerie sont utilisées. Les images peuvent ne pas être parfaitement alignées, ou utiliser des résolutions différentes. Ce qui compte ce sont{' '}<1>les changements de constructions et bâtiments</1>{' '}donc si les mêmes bâtiments sont présents, mais avec par exemple un toit neuf, on considère qu'il n'y pas de changement, et on passe à l'écran suivant."
   },
@@ -110,27 +113,54 @@
     "iUnderstand": "J'ai compris"
   },
   "IndividualCard": {
-    "swipe down mark red": "Fais glisser vers le BAS pour marquer les 6 images en ROUGE",
-    "swipe up undo": "Fais glisser vers le HAUT pour annuler."
+    "swipe down mark red": "Faites glisser vers le BAS pour marquer les 6 images en ROUGE",
+    "swipe up undo": "Faites glisser vers le HAUT pour annuler."
   },
   "LoadingIcon": {
     "loading": "Chargement..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Montrer les réponses"
   },
   "Tutorial": {
     "incomplete": "INCOMPLET",
     "maybe": "PEUT ÊTRE",
     "instructions1": "Comment contribuer",
     "instructions2": "TAPE POUR SELECTIONNER",
-    "instructions3": "Tu cherches les éléments indiqués dans les instructions en haut de l'écran. Tape chaque image où tu vois en vois. Tape une fois pour <1>OUI</1>, deux fois pour <3>{{twoTaps}}</3>, et trois fois pour <5>MAUVAISE IMAGERIE</5> (par exemple s'il y'a des nuages).",
-    "instructions4": "NAVIGUE EN FAISANT GLISSER L'ÉCRAN",
-    "instructions5": "Quand tu as fini un écran, fais glisser vers la gauche pour continuer.",
-    "instructions6": "GARDE APPUYÉ POUR ZOOMER",
+    "instructions3": "Vous cherchez les éléments indiqués dans les instructions en haut de l'écran. Tapez chaque image où vous en voyez. Tapez une fois pour <1>OUI</1>, deux fois pour <3>{{twoTaps}}</3>, et trois fois pour <5>MAUVAISE IMAGERIE</5> (par exemple s'il y'a des nuages).",
+    "instructions4": "NAVIGUEZ EN FAISANT GLISSER L'ÉCRAN",
+    "instructions5": "Quand vous avez fini un écran, faites glisser vers la gauche pour continuer.",
+    "instructions6": "GARDEZ APPUYÉ POUR ZOOMER",
     "instructions7": "Un appui long sur une image permet de zoomer.",
     "instructions8": "Crédits",
     "tutorial1": "Bienvenue dans le tutoriel!",
-    "tutorial2": "Tu devrais être un pro de MapSwipe en quelques minutes.",
-    "tutorial3": "Suis les instructions à l'écran, et fais glisser vers la gauche pour continuer.",
-    "tutorial4": "Si ce message bloque la vue, tape dessus pour le déplacer.",
+    "tutorial2": "Vous devriez être un pro de MapSwipe en quelques minutes.",
+    "tutorial3": "Suivez les instructions à l'écran, et faites glisser vers la gauche pour continuer.",
+    "tutorial4": "Si ce message bloque la vue, tapez dessus pour le déplacer.",
     "tutorial5": "J'ai compris"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Ce tutoriel va vous montrer comment utiliser MapSwipe. Voici les bases:",
+    "noChanges": "Si vous ne voyez pas ce que vous cherchez dans les images, <1>faites glissez</1> vers l'écran suivant",
+    "seeChanges": "Si vous voyez quelque chose dans une des images, <1>tapez dessus une fois pour la marquer en vert</1>.",
+    "unsure": "Pas sûr.e de ce que vous voyez? <1>Tapez deux fois pour marquer l'image en jaune</1>",
+    "badImagery": "S'il y'a un problème avec une image, <1>tapez trois fois pour la marquer en rouge</1>",
+    "tapAgain": "Tapez une fois de plus pour remettre l'image à son état initial.",
+    "WhatToLookFor": "Ce que vous cherchez",
+    "YouAreLookingFor": "Vous cherchez: {{lookFor}}",
+    "FromTheGround": "Au sol, cela ressemble à ça:",
+    "ImagesFromAbove": "Mais les images que vous verrez montreront la même chose depuis le ciel, et ressembleront à ça:",
+    "SwipeToContinue": "Faites glisser pour continuer"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Ne vous inquiétez pas si vous n'êtes pas sûr.e de ce que vous voyez sur une image.",
+    "youCanAlwaysTapTwice": "Vous pouvez toujours taper deux fois pour marquer l'image en jaune en cas de doute",
+    "everyImageViewedBy": "Chaque image est vue par plusieurs personnes. Ce n'est pas grave si vous ratez quelque chose",
+    "holdZoom": "Vous pouvez faire un appui long sur une image pour zoomer. Tapez de nouveau pour continuer."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Vous êtes prêt.e à MapSwiper!",
+    "startMapping": "Commencer à cartographier",
+    "completedTutorial": "Vous savez maintenant tout ce qu'il faut pour contribuer à la cartographie humanitaire avec l'appli. Vous pouvez revenir à ce tutoriel à n'importe quel moment."
   }
 }

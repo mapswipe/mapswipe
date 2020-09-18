@@ -82,6 +82,7 @@ type Props = {
     navigation: NavigationProp,
     projects: Array<OrderedProject>,
     teamId: ?string,
+    teamName: ?string,
 };
 
 // request only active projects from firebase (status === 'active')
@@ -122,17 +123,41 @@ class _RecommendedCards extends React.Component<Props> {
     willFocusProjectSubscription: NavigationEventSubscription;
 
     componentDidMount() {
-        this.subscribeToProjects();
+        const { teamId } = this.props;
         this.subscribeToAnnouncements();
-        this.getTeamName();
+        if (teamId) {
+            this.getTeamName();
+        }
     }
 
     componentWillUnmount() {
         this.willFocusAnnouncementSubscription.remove();
         this.willBlurAnnouncementSubscription.remove();
-        this.willFocusProjectSubscription.remove();
-        this.willBlurProjectSubscription.remove();
+        if (this.willFocusProjectSubscription !== undefined) {
+            this.willFocusProjectSubscription.remove();
+        }
+        if (this.willBlurProjectSubscription !== undefined) {
+            this.willBlurProjectSubscription.remove();
+        }
     }
+
+    componentDidUpdate = (oldProps: Props) => {
+        // set teamId to null if we positively don't have one
+        // then check here is we're not undefined, and set the listeners from then
+        // and  not before
+        const { teamId } = this.props;
+        if (teamId !== undefined) {
+            // teamId starts undefined, and we set it to either null if no team is assigned
+            // or the teamId string. Here we check that we have indeed set the value before
+            // we start requesting projects from the backend, to avoid fetching incorrect data
+            // in the case where we get to this before the user profile has loaded
+            this.subscribeToProjects();
+            if (teamId !== oldProps.teamId) {
+                // if the teamId hasn't changed, no need to fetch the teamName again
+                this.getTeamName();
+            }
+        }
+    };
 
     subscribeToAnnouncements = () => {
         const { type, path, storeAs, ...options } = announcementQuery;
@@ -153,7 +178,7 @@ class _RecommendedCards extends React.Component<Props> {
 
     subscribeToProjects = () => {
         const { type, path, storeAs, ...options } = projectsQuery;
-        const { firebase, navigation, teamId } = this.props;
+        const { firebase, navigation, projects, teamId } = this.props;
         if (teamId) {
             // the user is part of a team, amend the query to get private_active
             // projects instead of the default (public) "active" ones.
@@ -166,25 +191,35 @@ class _RecommendedCards extends React.Component<Props> {
             ];
         }
 
-        this.willFocusProjectSubscription = navigation.addListener(
-            'willFocus',
-            () => {
-                firebase.watchEvent(type, path, storeAs, options);
-            },
-        );
-        this.willBlurProjectSubscription = navigation.addListener(
-            'willBlur',
-            () => {
-                firebase.unWatchEvent(type, path, storeAs, options);
-            },
-        );
+        if (projects === undefined) {
+            // the subscription below only fires a query when the screen is focused
+            // but it is often set up AFTER the initial focus, which means
+            // we need to request data "manually" the first time if we have nothing
+            // available yet
+            firebase.watchEvent('once', path, storeAs, options);
+        }
+
+        if (this.willFocusProjectSubscription === undefined) {
+            this.willFocusProjectSubscription = navigation.addListener(
+                'willFocus',
+                () => {
+                    firebase.watchEvent(type, path, storeAs, options);
+                },
+            );
+            this.willBlurProjectSubscription = navigation.addListener(
+                'willBlur',
+                () => {
+                    firebase.unWatchEvent(type, path, storeAs, options);
+                },
+            );
+        }
     };
 
     getTeamName = () => {
         // request the team display name from firebase
         // the result is then available under state.firebase.data.teamName
-        const { firebase, teamId } = this.props;
-        if (teamId) {
+        const { firebase, teamId, teamName } = this.props;
+        if (teamId && teamName === undefined) {
             firebase.watchEvent(
                 'once',
                 `v2/teams/${teamId}/teamName`,
@@ -335,6 +370,8 @@ const mapStateToProps = (state, ownProps) => ({
     navigation: ownProps.navigation,
     projects: state.firebase.ordered.projects,
     teamId: state.ui.user.teamId,
+    // use teamName as a prop so we can avoid fetching its value from the backend more than once
+    teamName: state.firebase.data.teamName,
 });
 
 export default compose(

@@ -4,8 +4,10 @@ import { actionTypes } from 'react-redux-firebase';
 import type { ResultMapType, ResultType, State } from '../flow-types';
 import GLOBAL from '../Globals';
 
+// this weird format is to make flow happy, so that it can check types of each action
 export const SEEN_HELPBOX_TYPE_1: 'SEEN_HELPBOX_TYPE_1' = 'SEEN_HELPBOX_TYPE_1';
 export const WELCOME_COMPLETED: 'WELCOME_COMPLETED' = 'WELCOME_COMPLETED';
+export const TUTORIAL_COMPLETED: 'TUTORIAL_COMPLETED' = 'TUTORIAL_COMPLETED';
 export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' =
     'AUTH_STATUS_AVAILABLE';
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
@@ -25,6 +27,17 @@ export const SELECT_LANGUAGE = 'SELECT_LANGUAGE';
 type SeenHelpBoxType1 = { type: typeof SEEN_HELPBOX_TYPE_1 };
 export function seenHelpBoxType1(): SeenHelpBoxType1 {
     return { type: SEEN_HELPBOX_TYPE_1 };
+}
+
+type CompleteTutorial = {
+    type: typeof TUTORIAL_COMPLETED,
+    projectType: number,
+};
+// dispatched when the user reaches the end of a tutorial.
+// projectType is the type of the corresponding project, so we can track
+// tutorial completion per type of project
+export function completeTutorial(projectType: number): CompleteTutorial {
+    return { type: TUTORIAL_COMPLETED, projectType };
 }
 
 type SelectLanguage = { type: typeof SELECT_LANGUAGE };

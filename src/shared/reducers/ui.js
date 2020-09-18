@@ -6,21 +6,27 @@ import {
     SELECT_LANGUAGE,
     START_GROUP,
     START_SENDING_RESULTS,
+    TUTORIAL_COMPLETED,
     WELCOME_COMPLETED,
 } from '../actions/index';
 import Levels from '../Levels';
 import type { Action } from '../actions';
 import type { UIState } from '../flow-types';
 
+const defaultHasSeenTutorial = [false, false, false, false];
+
 const defaultUserState = {
     // this is set to true once the user has seen the help box for projects of type 1 (built_area)
     // This allows showing the help text when the user first opens a project of that type
     hasSeenHelpBoxType1: false,
+    // if the user has gone through tutorial for projectType N, set the array below at N-1 to true
+    hasSeenTutorial: defaultHasSeenTutorial,
     kmTillNextLevel: 0,
     languageCode: undefined,
     level: 1,
     progress: 0,
     username: '',
+    teamId: undefined,
     welcomeCompleted: false,
     user: null,
 };
@@ -74,11 +80,22 @@ export default function user(
     action: Action,
 ): UIState {
     let level = 1;
+    // FIXME: if this is undefined (for instance when users upgrade the app,
+    // we need to set a default value
+    const newHasSeenTutorial = state.hasSeenTutorial
+        ? state.hasSeenTutorial
+        : defaultHasSeenTutorial;
     switch (action.type) {
         case SEEN_HELPBOX_TYPE_1:
             return {
                 ...state,
                 hasSeenHelpBoxType1: true,
+            };
+        case TUTORIAL_COMPLETED:
+            newHasSeenTutorial[action.projectType - 1] = true;
+            return {
+                ...state,
+                hasSeenTutorial: newHasSeenTutorial,
             };
         case WELCOME_COMPLETED:
             return {
@@ -119,14 +136,33 @@ export default function user(
                 taskContributionCount,
                 level,
             );
+            // teamId is undefined before we receive the profile from the backend
+            // we then set it to either the value or null to mean "we know the user
+            // is not part of any team"
             // $FlowFixMe
-            const teamId = action.profile ? action.profile.teamId : undefined;
+            const teamId =
+                action.profile && action.profile.teamId !== undefined
+                    ? action.profile.teamId
+                    : null;
             return {
                 ...state,
                 kmTillNextLevel,
                 level,
                 progress: percentage,
                 teamId,
+            };
+        }
+        case actionTypes.LOGOUT: {
+            // when the user logs out, the ui.user data is not erased, which can lead
+            // to one user seeing the previously logged in user's data. This is the case
+            // with private teamId which could be problematic. So we clear teamId upon
+            // logout to avoid any issues. It will be fetched from the backend upon next login.
+            return {
+                ...state,
+                hasSeenTutorial: defaultHasSeenTutorial,
+                languageCode: undefined,
+                teamId: undefined,
+                welcomeCompleted: false,
             };
         }
         default:
