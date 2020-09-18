@@ -66,6 +66,7 @@
     "userProgressForProject": "{{userProgress}}% pour ce projet",
     "quotaReachedWarning": "Choisissez un autre projet dans la liste des missions",
     "map now": "Commencer à cartographier",
+    "chooseAnotherProject": "Choisir un autre projet",
     "tutorial": "Tutoriel"
   },
   "mappingHeader": {
