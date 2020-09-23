@@ -29,7 +29,7 @@
     "choosePassword": "Zvolte si své heslo",
     "enterYourPassword": "Zadejte heslo",
     "IagreeToPrivacyNotice": "Souhlasím s <1>oznámením o ochraně osobních údajů</1>",
-    "contributionWarningOnSignup": "* Všechna data, která přispíváte k MapSwipe, jsou otevřená a dostupná pro kohokoli. Vaše uživatelské jméno je veřejné, ale váš e-mail a heslo nikdy nebudou s nikým sdíleny. ",
+    "contributionWarningOnSignup": "* Všechna data, která přidáte v MapSwipe, jsou otevřená a dostupná komukoli. Vaše uživatelské jméno je veřejné, ale váš e-mail a heslo nikdy nebudou s nikým sdíleny. ",
     "signUp": "Přihlásit se",
     "loginExistingAccount": "Přihlaste se k existujícímu účtu",
     "login": "Přihlásit se",
@@ -66,23 +66,24 @@
     "userProgressForProject": "{{userProgress}}% pro tento projekt",
     "quotaReachedWarning": "Na obrazovkách misí vyberte jiný projekt",
     "map now": "Začněte mapovat",
+    "chooseAnotherProject": "Vyberte jiný projekt",
     "tutorial": "Tutorial"
   },
   "mappingHeader": {
     "youAreLookingFor": "Hledáte:"
   },
   "loadMoreScreen": {
-    "completedTutorial": "Fajn. Dokončili jste kurz. Jste připraveni udělat nějaké mapování!",
+    "completedTutorial": "Fajn. Dokončili jste kurz. Jste připraveni mapovat!",
     "finishedGroup": "Dobrá práce! Tuto skupinu jste dokončili.",
     "letsGo": "Pojďme na to!",
     "completeSession": "Dokončit seanci",
     "continueMapping": "Pokračovat v mapování",
-    "sync alert": "Upozornění synchronizace",
+    "sync alert": "Upozornění: synchronizace",
     "sync alert message": "Synchronizace vašich úloh ... Nezavírejte aplikaci."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Vítejte v MapSwipe",
-    "helpImprove": "Pomozte zlepšit humanitární činnost z pohodlí vašeho telefonu",
+    "helpImprove": "Podpořte humanitární pomoc pohodlně s vaším telefonem",
     "partMissingMaps": "Součást projektu Missing Maps",
     "withMissingMaps": "S Missing Maps se snažíme zmapovat zranitelné komunity světa",
     "swipe": "Procházejte",
