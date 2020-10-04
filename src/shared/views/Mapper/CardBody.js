@@ -360,6 +360,8 @@ class _CardBody extends React.PureComponent<Props, State> {
         // tile of the screen
         let result = 0;
         if (this.tasksPerScreen) {
+            console.log('tps', this.tasksPerScreen.length, screenNumber);
+            // $FlowFixMe
             if (this.tasksPerScreen[screenNumber]) {
                 result = this.tasksPerScreen[screenNumber].reduce(
                     (sum, task) => sum + task.referenceAnswer,
@@ -400,6 +402,12 @@ class _CardBody extends React.PureComponent<Props, State> {
             const currentScreen = Math.round(
                 event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
                     this.tutorialIntroWidth,
+            );
+            console.log(
+                'currentScreen',
+                currentScreen,
+                (this.currentX - min) / 2,
+                this.getCurrentScreen(),
             );
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
