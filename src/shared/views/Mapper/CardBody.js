@@ -78,7 +78,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         this.flatlist = null;
         this.scrollEnabled = !props.tutorial;
         this.tasksPerScreen = undefined;
-        // we expect the user to to at least X taps/swipes on the screen to match the
+        // we expect the user to do at least X taps/swipes on the screen to match the
         // expected results. We calculate this for each screen when we reach it, and
         // store it here so we can show the "show Answers" button if they've tapped more
         // than they should have in a "perfect" response.
@@ -397,9 +397,10 @@ class _CardBody extends React.PureComponent<Props, State> {
             // FIXME: currentX is incorrect after xMax because of next line
             this.currentX = Math.ceil(min + (max - min) * progress);
             // getCurrentScreen returns an incorrect value after the last sample screen
-            const currentScreen =
+            const currentScreen = Math.round(
                 event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
-                this.tutorialIntroWidth;
+                    this.tutorialIntroWidth,
+            );
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
