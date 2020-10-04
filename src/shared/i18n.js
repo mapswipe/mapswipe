@@ -13,6 +13,7 @@ import translationJA from '../../locales/ja';
 import translationNE from '../../locales/ne';
 import translationNL from '../../locales/nl';
 import translationPT from '../../locales/pt';
+import translationRU from '../../locales/ru';
 import translationSW from '../../locales/sw';
 import translationZH from '../../locales/zh';
 
@@ -28,6 +29,7 @@ const resources = {
     ne: translationNE,
     nl: translationNL,
     pt: translationPT,
+    ru: translationRU,
     sw: translationSW,
     zh: translationZH,
 };

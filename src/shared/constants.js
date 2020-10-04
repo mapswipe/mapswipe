@@ -41,6 +41,7 @@ export const supportedLanguages = [
     { code: 'ne', name: 'नेपाली' },
     { code: 'nl', name: 'Nederlands' },
     { code: 'pt', name: 'Português' },
+    { code: 'ru', name: 'Русский' },
     { code: 'sw', name: 'Kiswahili' },
     { code: 'zh', name: '中文' },
 ];
