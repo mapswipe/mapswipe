@@ -360,10 +360,18 @@ class _CardBody extends React.PureComponent<Props, State> {
         // tile of the screen
         let result = 0;
         if (this.tasksPerScreen) {
-            result = this.tasksPerScreen[screenNumber].reduce(
-                (sum, task) => sum + task.referenceAnswer,
-                0,
-            );
+            if (this.tasksPerScreen[screenNumber]) {
+                result = this.tasksPerScreen[screenNumber].reduce(
+                    (sum, task) => sum + task.referenceAnswer,
+                    0,
+                );
+            } else {
+                // FIXME: in some unclear edge cases, the screenNumber is not
+                // set properly, leading to the above reduce crashing
+                // in that case, we just force a zero value, which is not perfect
+                // but allows the user to move forward
+                return 0;
+            }
         }
         if (result === 18) {
             // the user should be swiping down, only 1 action expected
