@@ -78,7 +78,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         this.flatlist = null;
         this.scrollEnabled = !props.tutorial;
         this.tasksPerScreen = undefined;
-        // we expect the user to to at least X taps/swipes on the screen to match the
+        // we expect the user to do at least X taps/swipes on the screen to match the
         // expected results. We calculate this for each screen when we reach it, and
         // store it here so we can show the "show Answers" button if they've tapped more
         // than they should have in a "perfect" response.
@@ -360,10 +360,20 @@ class _CardBody extends React.PureComponent<Props, State> {
         // tile of the screen
         let result = 0;
         if (this.tasksPerScreen) {
-            result = this.tasksPerScreen[screenNumber].reduce(
-                (sum, task) => sum + task.referenceAnswer,
-                0,
-            );
+            console.log('tps', this.tasksPerScreen.length, screenNumber);
+            // $FlowFixMe
+            if (this.tasksPerScreen[screenNumber]) {
+                result = this.tasksPerScreen[screenNumber].reduce(
+                    (sum, task) => sum + task.referenceAnswer,
+                    0,
+                );
+            } else {
+                // FIXME: in some unclear edge cases, the screenNumber is not
+                // set properly, leading to the above reduce crashing
+                // in that case, we just force a zero value, which is not perfect
+                // but allows the user to move forward
+                return 0;
+            }
         }
         if (result === 18) {
             // the user should be swiping down, only 1 action expected
@@ -389,9 +399,16 @@ class _CardBody extends React.PureComponent<Props, State> {
             // FIXME: currentX is incorrect after xMax because of next line
             this.currentX = Math.ceil(min + (max - min) * progress);
             // getCurrentScreen returns an incorrect value after the last sample screen
-            const currentScreen =
+            const currentScreen = Math.round(
                 event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
-                this.tutorialIntroWidth;
+                    this.tutorialIntroWidth,
+            );
+            console.log(
+                'currentScreen',
+                currentScreen,
+                (this.currentX - min) / 2,
+                this.getCurrentScreen(),
+            );
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
