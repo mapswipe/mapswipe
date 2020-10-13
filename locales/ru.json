@@ -4,7 +4,7 @@
     "more": "Другое"
   },
   "signup": {
-    "chooseUsername": "Выберите имя пользователя",
+    "chooseUsername": "Введите имя пользователя",
     "passwordError": "Пароль должен содержать минимум 6 символов",
     "usernameError": "Имя пользователя должно содержать минимум 4 символа",
     "errorOnSignup": "Ошибка при регистрации",
@@ -26,7 +26,7 @@
     "problemLoggingIn": "Проблема со входом в",
     "errorResetPass": "Ошибка сброса пароля",
     "enterYourEmail": "Введите свою эл. почту",
-    "choosePassword": "Выберите свой пароль",
+    "choosePassword": "Введите пароль",
     "enterYourPassword": "Введите свой пароль",
     "IagreeToPrivacyNotice": "Я согласен с <1>Условиями использования</1>",
     "contributionWarningOnSignup": "* Все данные, которые вы помогаете создать в MapSwipe, открытые и доступны каждому. Ваше имя отображается публично, но пароль и почтовый адрес никогда не будут переданы кому-либо.",
@@ -48,8 +48,8 @@
     "x tasks (s swipes) until the next level": "{{sqkm}} заданий ({{swipes}} перелистываний) до следующего уровня",
     "yourTeam": "Ваша группа: {{teamName}}",
     "changeLanguage": "Изменить язык",
-    "mapswipe website": "MapSwipe сайт",
-    "missingmaps website": "Missing Maps сайт",
+    "mapswipe website": "Сайт проекта MapSwipe",
+    "missingmaps website": "Сайт проекта Missing Maps",
     "email us": "Напишите нам",
     "sign out": "Выход",
     "delete my account": "Удалить мой аккаунт",
@@ -83,7 +83,7 @@
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Добро пожаловать в MapSwipe",
-    "helpImprove": "Помогите улучшить работу гуманитарных миссий используя свой смартфон",
+    "helpImprove": "Помогайте улучшить работу гуманитарных миссий используя свой смартфон",
     "partMissingMaps": "Часть проекта Missing Maps",
     "withMissingMaps": "Вместе с проектом Missing Maps мы хотим нанести на карту уязвимые сообщества",
     "swipe": "Пролистните экран",
