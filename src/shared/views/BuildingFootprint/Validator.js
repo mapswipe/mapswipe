@@ -2,6 +2,8 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import pako from 'pako';
+import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { StyleSheet, View } from 'react-native';
 import Button from 'apsl-react-native-button';
@@ -44,6 +46,13 @@ type State = {
 type taskGenType = Generator<string, void, void>;
 
 class _Validator extends React.Component<Props, State> {
+    // props.group.tasks are now gzipped and base64 encoded on the server
+    // so we need to decode and gunzip them into a JSON string which is then
+    // parsed into an array. for this project type, we do not load the tasks
+    // directly, instead we do the above process and then work with the result
+    // which is stored in expandedTasks
+    expandedTasks: Array<BuildingFootprintTaskType>;
+
     taskGen: taskGenType;
 
     tasksDone: number;
@@ -69,7 +78,17 @@ class _Validator extends React.Component<Props, State> {
 
     setupTaskIdGenerator = (tasks: Array<BuildingFootprintTaskType>) => {
         if (isLoaded(tasks) && !isEmpty(tasks)) {
-            this.taskGen = this.makeNextTaskGenerator(tasks);
+            // TODO: is it possible that tasks are only partially loaded
+            // when we get here? if so, we should bail out politely in case
+            // of error
+
+            // decode base64 and gunzip tasks
+            const compressedTasks = base64.decode(tasks);
+            const expandedTasks = pako.inflate(compressedTasks, {
+                to: 'string',
+            });
+            this.expandedTasks = JSON.parse(expandedTasks);
+            this.taskGen = this.makeNextTaskGenerator(this.expandedTasks);
             const taskGenValue = this.taskGen.next();
             if (!taskGenValue.done) {
                 return taskGenValue.value;
@@ -112,12 +131,14 @@ class _Validator extends React.Component<Props, State> {
     }
 
     render = () => {
-        const { group, project } = this.props;
+        const { project } = this.props;
         const { currentTaskId } = this.state;
-        if (!group.tasks) {
+        if (!this.expandedTasks) {
             return <LoadingIcon />;
         }
-        const currentTask = group.tasks.find((t) => t.taskId === currentTaskId);
+        const currentTask = this.expandedTasks.find(
+            (t) => t.taskId === currentTaskId,
+        );
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
