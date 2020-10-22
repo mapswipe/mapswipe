@@ -168,7 +168,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         this.HelpModal.open();
     };
 
-    commitCompletedGroup = () => {
+    completeGroup = () => {
         this.setState({ groupCompleted: true });
     };
 
@@ -200,6 +200,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     toNextGroup = () => {
         const { navigation, screenName } = this.props;
         navigation.navigate(screenName, { project: this.project });
+        this.setState({ groupCompleted: false });
     };
 
     updateProgress = (progress: number) => {
@@ -308,7 +309,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 {helpModal}
                 <Component
                     categories={tutorial ? categories : null}
-                    commitCompletedGroup={this.commitCompletedGroup}
+                    completeGroup={this.completeGroup}
                     group={group}
                     project={this.project}
                     submitResult={this.submitResult}

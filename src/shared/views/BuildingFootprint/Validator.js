@@ -31,7 +31,7 @@ const FOOTPRINT_NEEDS_ADJUSTMENT = 2;
 const FOOTPRINT_NO_BUILDING = 3;
 
 type Props = {
-    commitCompletedGroup: () => void,
+    completeGroup: () => void,
     group: BuildingFootprintGroupType,
     project: ProjectType,
     submitResult: (number, string) => void,
@@ -39,7 +39,9 @@ type Props = {
 };
 
 type State = {
-    currentTaskId: string,
+    // the index of the current task in the task array
+    currentTaskIndex: number,
+    // currentTaskId: string,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -55,28 +57,31 @@ class _Validator extends React.Component<Props, State> {
 
     taskGen: taskGenType;
 
+    // keep track of how far the user has actually provided results
+    // so we can disable the swipe forward option, to prevent swiping
+    // past tasks they haven't provided an answer for yet
     tasksDone: number;
 
     constructor(props: Props) {
         super(props);
         this.state = {
-            currentTaskId: this.setupTaskIdGenerator(props.group.tasks),
+            currentTaskIndex: 0,
         };
         this.tasksDone = 0;
+        this.setupTasksList(props.group.tasks);
     }
 
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
         const { group } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
-            const currentTaskId = this.setupTaskIdGenerator(group.tasks);
-            this.tasksDone = 0;
+            this.setupTasksList(group.tasks);
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({ currentTaskId });
+            this.setState({ currentTaskIndex: 0 });
         }
     };
 
-    setupTaskIdGenerator = (tasks: Array<BuildingFootprintTaskType>) => {
+    setupTasksList = (tasks: Array<BuildingFootprintTaskType>) => {
         if (isLoaded(tasks) && !isEmpty(tasks)) {
             // TODO: is it possible that tasks are only partially loaded
             // when we get here? if so, we should bail out politely in case
@@ -88,63 +93,63 @@ class _Validator extends React.Component<Props, State> {
                 to: 'string',
             });
             this.expandedTasks = JSON.parse(expandedTasks);
-            this.taskGen = this.makeNextTaskGenerator(this.expandedTasks);
-            const taskGenValue = this.taskGen.next();
-            if (!taskGenValue.done) {
-                return taskGenValue.value;
-            }
         }
         return ''; // to keep flow and eslint happy
     };
 
-    nextTask = (result: number) => {
+    nextTask = (result: ?number) => {
         const {
-            commitCompletedGroup,
+            completeGroup,
             group,
             submitResult,
             updateProgress,
         } = this.props;
-        const { currentTaskId } = this.state;
-        submitResult(result, currentTaskId);
-        const { done, value } = this.taskGen.next();
-        if (done) {
-            // no more tasks in the group, commit results and go back to menu
-            commitCompletedGroup();
+        const { currentTaskIndex } = this.state;
+        if (result) {
+            submitResult(result, this.expandedTasks[currentTaskIndex].taskId);
+            this.tasksDone = currentTaskIndex;
+        } else if (currentTaskIndex > this.tasksDone) {
+            // no result provided, the user just tried to swipe forward
+            // past the last task completed, just ignore this swipe
+            // TODO: provide some visual feedback
+            return;
         }
-        this.tasksDone += 1;
-        updateProgress(this.tasksDone / group.numberOfTasks);
-        this.setState({ currentTaskId: value });
+        if (currentTaskIndex + 1 >= this.expandedTasks.length) {
+            // no more tasks in the group, show the "LoadMore" screen
+            completeGroup();
+            return;
+        }
+        updateProgress(currentTaskIndex / group.numberOfTasks);
+        this.setState({ currentTaskIndex: currentTaskIndex + 1 });
     };
 
-    // eslint-disable-next-line class-methods-use-this
-    *makeNextTaskGenerator(
-        tasks: Array<BuildingFootprintTaskType>,
-    ): taskGenType {
-        // generator function that picks the next task to work on
-        // we cannot assume any specific order of taskId in the group
-        const taskIds = tasks.map((t) => t.taskId);
-        let i;
-        // eslint-disable-next-line no-plusplus
-        for (i = 0; i < taskIds.length; i++) {
-            yield taskIds[i];
+    previousTask = () => {
+        const { group, updateProgress } = this.props;
+        const { currentTaskIndex } = this.state;
+        if (currentTaskIndex > 0) {
+            updateProgress(currentTaskIndex / group.numberOfTasks);
+            this.setState({ currentTaskIndex: currentTaskIndex - 1 });
         }
-    }
+    };
 
     render = () => {
         const { project } = this.props;
-        const { currentTaskId } = this.state;
+        const { currentTaskIndex } = this.state;
         if (!this.expandedTasks) {
             return <LoadingIcon />;
         }
-        const currentTask = this.expandedTasks.find(
-            (t) => t.taskId === currentTaskId,
-        );
+        const currentTask = this.expandedTasks[currentTaskIndex];
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
         return (
             <View>
-                <FootprintDisplay project={project} task={currentTask} />
+                <FootprintDisplay
+                    nextTask={this.nextTask}
+                    previousTask={this.previousTask}
+                    project={project}
+                    task={currentTask}
+                />
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_CORRECT)}
                     style={[{ backgroundColor: COLOR_GREEN }, styles.button]}

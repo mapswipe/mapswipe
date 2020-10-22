@@ -1,6 +1,11 @@
 // @flow
 import * as React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, PanResponder, StyleSheet, View } from 'react-native';
+import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type {
+    GestureState,
+    PanResponderInstance,
+} from 'react-native/Libraries/Interaction/PanResponder';
 import { Path, Shape, Surface } from '@react-native-community/art';
 import tilebelt from '@mapbox/tilebelt';
 import type {
@@ -25,11 +30,48 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    nextTask: () => void,
+    previousTask: () => void,
     project: ProjectType,
     task: BuildingFootprintTaskType,
 };
 
 export default class FootprintDisplay extends React.Component<Props> {
+    panResponder: PanResponderInstance;
+
+    swipeThreshold: number;
+
+    constructor(props: Props) {
+        super(props);
+        // swipeThreshold defines how much movement is needed to start considering the event
+        // as a swipe. This used to be a fixed value, we now link it to screen size (through the tile size)
+        // so that it should work across screen densities.
+        this.swipeThreshold = GLOBAL.TILE_SIZE * 0.02;
+        this.panResponder = PanResponder.create({
+            onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
+            onMoveShouldSetPanResponderCapture: this
+                .handleMoveShouldSetPanResponder,
+            onPanResponderRelease: this.handlePanResponderEnd,
+        });
+    }
+
+    handleMoveShouldSetPanResponder = (
+        // decide if we handle the move event: only if it's vertical
+        event: PressEvent,
+        gestureState: GestureState,
+    ): boolean => Math.abs(gestureState.dx) > this.swipeThreshold;
+
+    handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
+        // swipe completed, decide what to do
+        const { nextTask, previousTask } = this.props;
+        const swipeMinLength = 0.2;
+        if (gestureState.dx < -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+            nextTask();
+        } else if (gestureState.dx > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+            previousTask();
+        }
+    };
+
     /*
      * Get the polygon to draw over the image
      */
@@ -145,6 +187,7 @@ export default class FootprintDisplay extends React.Component<Props> {
         const shiftY = (swCornerTile[1] % 1) * tileSize;
         return (
             <View
+                {...this.panResponder.panHandlers}
                 style={{
                     height: tileSize,
                     overflow: 'hidden',
