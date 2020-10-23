@@ -112,6 +112,7 @@ export type BuiltAreaTaskType = {
 
 // used only by projects of type BUILDING_FOOTPRINTS (type 2)
 export type BuildingFootprintTaskType = {
+    center: ?Point,
     groupId: string,
     geojson: { type: string, coordinates: { [number]: Polygon } },
     projectId: string,

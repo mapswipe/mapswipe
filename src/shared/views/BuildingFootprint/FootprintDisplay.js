@@ -99,7 +99,7 @@ export default class FootprintDisplay extends React.Component<Props> {
     };
 
     // return the center of the building footprint
-    getBuildingCentroid = (coords: Polygon): Point => {
+    getTaskGeometryCentroid = (coords: Polygon): Point => {
         const centroid: Point = coords
             .slice(0, -1)
             .reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
@@ -221,24 +221,35 @@ export default class FootprintDisplay extends React.Component<Props> {
             );
         }
         const coords = task.geojson.coordinates[0];
-        // TODO: rename getTaskGeometryCentroid()
-        const center = this.getBuildingCentroid(coords);
 
         if (project.tileServer.url.includes('googleapis')) {
+            // google imagery is returned as a single image of the size we want
+            // so we need a different logic, as we can't just pull 4 images
+            // (each call costs money, and would include a credit line)
+            const googleSize = `${tileSize}x${tileSize}`;
+            // some projects include a `center` attribute in the task which defines
+            // the center point of the imagery to use. This allows some optimisation
+            // of number of imagery requests by reusing the same image for multiple
+            // tasks.
+            let googleCenter; // the center of the imagery
+            let center; // the geometry center
+            if (task.center) {
+                googleCenter = `${task.center[1]}%2C%20${task.center[0]}`;
+                center = task.center;
+            } else {
+                center = this.getTaskGeometryCentroid(coords);
+                googleCenter = `${center[1]}%2C%20${center[0]}`;
+            }
             const p = this.getGooglePolygonFromCenter(
                 center,
                 zoomLevel,
                 coords,
             );
-            // google imagery is returned as a single image of the size we want
-            // so we need a different logic, as we can't just pull 4 images
-            // (each call costs money, and would include a credit line)
-            const googleSize = `${tileSize}x${tileSize}`;
             // tileUrl -> imageryUrl
             const tileUrl = project.tileServer.url
                 .replace('{z}', zoomLevel.toString())
                 .replace('{size}', googleSize)
-                .replace('{center}', `${center[1]}%2C%20${center[0]}`);
+                .replace('{center}', googleCenter);
             return (
                 <View
                     {...this.panResponder.panHandlers}
@@ -269,6 +280,7 @@ export default class FootprintDisplay extends React.Component<Props> {
         }
         // all other imagery sources work with 4 tiles shown at the same time
         // get 4 tiles at zoomLevel and shift them as needed
+        const center = this.getTaskGeometryCentroid(coords);
         const screenBBox = this.getScreenBBoxFromCenter(center, zoomLevel);
         // build footprint polyline
         const p = this.getPolygon(coords, screenBBox);
