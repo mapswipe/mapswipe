@@ -12,7 +12,7 @@ import type {
     BBOX,
     Point,
     Polygon,
-    ProjectType,
+    SingleImageryProjectType,
     BuildingFootprintTaskType,
     Tile,
 } from '../../flow-types';
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 type Props = {
     nextTask: () => void,
     previousTask: () => void,
-    project: ProjectType,
+    project: SingleImageryProjectType,
     task: BuildingFootprintTaskType,
 };
 
@@ -75,8 +75,9 @@ export default class FootprintDisplay extends React.Component<Props> {
     /*
      * Get the polygon to draw over the image
      */
-    getPolygon = (coords: Polygon, screenBBox: BBOX) => {
+    getPolygon = (coords: Polygon, screenBBox: BBOX): Path => {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
+        // geographic coords to screen pixels
         const lon2x = (lon) => ((lon - minLon) / (maxLon - minLon)) * tileSize;
         const lat2y = (lat) =>
             (1 - (lat - minLat) / (maxLat - minLat)) * tileSize;
@@ -108,7 +109,7 @@ export default class FootprintDisplay extends React.Component<Props> {
 
     // return a bouding box to zoom to as [W, S, E, N]
     // which has the same size as a tile at these coordinates and zoom level
-    getScreenBBoxFromCenter = (center: Point, zoom: number) => {
+    getScreenBBoxFromCenter = (center: Point, zoom: number): BBOX => {
         const lon = center[0];
         const lat = center[1];
         const centerTile = tilebelt.pointToTile(lon, lat, zoom);
@@ -124,7 +125,59 @@ export default class FootprintDisplay extends React.Component<Props> {
         ];
     };
 
-    BBOXToCoords = (bbox: BBOX) => {
+    latLonZoomToPixelCoords = (lonLat: Point, zoom: number): Point => {
+        const [lon, lat] = lonLat;
+        const sinLat = Math.sin((lat * Math.PI) / 180);
+        const x = ((lon + 180) / 360) * 256 * 2 ** zoom;
+        const y =
+            (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) *
+            256 *
+            2 ** zoom;
+        return [Math.floor(x), Math.floor(y)];
+    };
+
+    pixelCoordsToImageCoords = (
+        pointPixelCoords: Point,
+        minX: number, // pixel coord of left side of the screen
+        minY: number, // pixel coord of top of the screen
+    ): Point => {
+        return [pointPixelCoords[0] - minX, pointPixelCoords[1] - minY];
+    };
+
+    getGooglePolygonFromCenter = (
+        center: Point,
+        zoom: number,
+        taskCoords: Polygon,
+    ): Path => {
+        // get the polygon in ART Path format, expressed in image coordinates,
+        // for the task geometry. Arguments:
+        // center: the center as [longitude, latitude]
+        // zoom: standard zoom level
+        // taskCoords: the coordinates of the task geometry, each point as [lon, lat]
+        // This only works for google imagery
+
+        // get bounding box coordinates in geographic pixels
+        const centerPixelCoords = this.latLonZoomToPixelCoords(center, zoom);
+        const minX = centerPixelCoords[0] - tileSize / 2;
+        const minY = centerPixelCoords[1] - tileSize / 2;
+
+        // geographic coords to screen pixels
+        const taskImageCoords = taskCoords.map((tc) =>
+            this.pixelCoordsToImageCoords(
+                this.latLonZoomToPixelCoords(tc, zoom),
+                minX,
+                minY,
+            ),
+        );
+
+        const p = Path().moveTo(taskImageCoords[0][0], taskImageCoords[0][1]);
+        taskImageCoords.forEach((corner) => {
+            p.lineTo(corner[0], corner[1]);
+        });
+        return p;
+    };
+
+    BBOXToCoords = (bbox: BBOX): Polygon => {
         const [w, s, e, n] = bbox;
         return [
             [w, s],
@@ -142,7 +195,7 @@ export default class FootprintDisplay extends React.Component<Props> {
         return [sw, nw, ne, se];
     };
 
-    getTileUrl = (tile: Tile) => {
+    getTileUrl = (tile: Tile): string => {
         const { project } = this.props;
         const quadKey = tilebelt.tileToQuadkey(tile);
         // $FlowFixMe
@@ -154,7 +207,7 @@ export default class FootprintDisplay extends React.Component<Props> {
     };
 
     render = () => {
-        const { task } = this.props;
+        const { project, task } = this.props;
         const zoomLevel = 19;
         if (task.geojson === undefined) {
             // data is not ready yet, just show a placeholder
@@ -168,9 +221,57 @@ export default class FootprintDisplay extends React.Component<Props> {
             );
         }
         const coords = task.geojson.coordinates[0];
+        // TODO: rename getTaskGeometryCentroid()
         const center = this.getBuildingCentroid(coords);
+
+        if (project.tileServer.url.includes('googleapis')) {
+            const p = this.getGooglePolygonFromCenter(
+                center,
+                zoomLevel,
+                coords,
+            );
+            // google imagery is returned as a single image of the size we want
+            // so we need a different logic, as we can't just pull 4 images
+            // (each call costs money, and would include a credit line)
+            const googleSize = `${tileSize}x${tileSize}`;
+            // tileUrl -> imageryUrl
+            const tileUrl = project.tileServer.url
+                .replace('{z}', zoomLevel.toString())
+                .replace('{size}', googleSize)
+                .replace('{center}', `${center[1]}%2C%20${center[0]}`);
+            return (
+                <View
+                    {...this.panResponder.panHandlers}
+                    style={{
+                        height: tileSize,
+                        overflow: 'hidden',
+                        width: tileSize,
+                    }}
+                >
+                    <Image
+                        style={[
+                            {
+                                left: 0,
+                                top: 0,
+                            },
+                            styles.tileImg,
+                        ]}
+                        source={{ uri: tileUrl }}
+                    />
+                    <Surface
+                        height={GLOBAL.SCREEN_WIDTH}
+                        width={GLOBAL.SCREEN_WIDTH}
+                    >
+                        <Shape d={p} stroke="red" strokeWidth={1} />
+                    </Surface>
+                </View>
+            );
+        }
+        // all other imagery sources work with 4 tiles shown at the same time
         // get 4 tiles at zoomLevel and shift them as needed
         const screenBBox = this.getScreenBBoxFromCenter(center, zoomLevel);
+        // build footprint polyline
+        const p = this.getPolygon(coords, screenBBox);
         const corners = this.BBOXToCoords(screenBBox);
         const swCornerTile = tilebelt.pointToTileFraction(
             corners[0][0],
@@ -179,9 +280,6 @@ export default class FootprintDisplay extends React.Component<Props> {
         );
         const tiles = this.getTilesFromScreenCorners(corners, zoomLevel);
         const tileUrls = tiles.map(this.getTileUrl);
-
-        // build footprint polyline
-        const p = this.getPolygon(coords, screenBBox);
 
         const shiftX = (swCornerTile[0] % 1) * tileSize;
         const shiftY = (swCornerTile[1] % 1) * tileSize;

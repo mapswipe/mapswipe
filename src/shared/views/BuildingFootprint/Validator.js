@@ -13,7 +13,7 @@ import { COLOR_GREEN, COLOR_RED, COLOR_YELLOW } from '../../constants';
 
 import type {
     BuildingFootprintGroupType,
-    ProjectType,
+    SingleImageryProjectType,
     BuildingFootprintTaskType,
 } from '../../flow-types';
 
@@ -33,7 +33,7 @@ const FOOTPRINT_NO_BUILDING = 3;
 type Props = {
     completeGroup: () => void,
     group: BuildingFootprintGroupType,
-    project: ProjectType,
+    project: SingleImageryProjectType,
     submitResult: (number, string) => void,
     updateProgress: (number) => void,
 };

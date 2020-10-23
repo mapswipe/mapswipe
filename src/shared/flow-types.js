@@ -5,12 +5,16 @@ import BottomProgress from './common/BottomProgress';
 
 // geographic types
 
+// a single point whose coordinates can be expressed in latitude/longitude
+// in geographic pixel coordinates or in image pixel coordinates
 export type Point = [number, number];
 
 export type Polygon = Array<Point>;
 
 export type BBOX = [number, number, number, number];
 
+// tile reference (only works for TMS tiles) expressed as
+// x, y, zoom
 export type Tile = [number, number, number];
 
 // dependencies types
