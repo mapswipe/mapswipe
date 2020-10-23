@@ -60,10 +60,10 @@ const styles = StyleSheet.create({
     },
 });
 
-const WSF_NO_BUILDING = 0;
-const WSF_BUILDING = 1;
-const WSF_NOT_SURE = 2;
-const WSF_BAD_IMAGERY = 3;
+const FOOTPRINT_NO_BUILDING = 0;
+const FOOTPRINT_BUILDING = 1;
+const FOOTPRINT_NOT_SURE = 2;
+const FOOTPRINT_BAD_IMAGERY = 3;
 
 type Props = {
     completeGroup: () => void,
@@ -187,14 +187,14 @@ class _Validator extends React.Component<Props, State> {
                 />
                 <View style={styles.sideBySideButtons}>
                     <Button
-                        onPress={() => this.nextTask(WSF_BUILDING)}
+                        onPress={() => this.nextTask(FOOTPRINT_BUILDING)}
                         style={styles.bigSquareButton}
                         textStyle={styles.bigSquareButtonText}
                     >
                         Yes
                     </Button>
                     <Button
-                        onPress={() => this.nextTask(WSF_NO_BUILDING)}
+                        onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
                         style={styles.bigSquareButton}
                         textStyle={styles.bigSquareButtonText}
                     >
@@ -202,14 +202,14 @@ class _Validator extends React.Component<Props, State> {
                     </Button>
                 </View>
                 <Button
-                    onPress={() => this.nextTask(WSF_NOT_SURE)}
+                    onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
                     style={styles.longNarrowButton}
                     textStyle={styles.longNarrowButtonText}
                 >
                     Not sure
                 </Button>
                 <Button
-                    onPress={() => this.nextTask(WSF_BAD_IMAGERY)}
+                    onPress={() => this.nextTask(FOOTPRINT_BAD_IMAGERY)}
                     style={styles.longNarrowButton}
                     textStyle={styles.longNarrowButtonText}
                 >
