@@ -9,7 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
-import { COLOR_GREEN, COLOR_RED, COLOR_YELLOW } from '../../constants';
+import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 
 import type {
     BuildingFootprintGroupType,
@@ -18,17 +18,52 @@ import type {
 } from '../../flow-types';
 
 const styles = StyleSheet.create({
-    button: {
-        borderRadius: 0,
+    container: {
+        alignItems: 'center',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+    },
+    sideBySideButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: 105,
+    },
+    bigSquareButton: {
+        backgroundColor: COLOR_WHITE,
+        borderRadius: 20,
+        height: 100,
+        width: '47%',
+        marginBottom: 5,
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 5,
+    },
+    bigSquareButtonText: {
+        color: COLOR_DEEP_BLUE,
+        fontWeight: 'bold',
+    },
+    longNarrowButton: {
+        borderColor: COLOR_WHITE,
+        borderRadius: 20,
+        borderWidth: 2,
+        color: COLOR_WHITE,
         height: 55,
         marginBottom: 0,
+        marginLeft: 5,
+        marginRight: 5,
         marginTop: 5,
+    },
+    longNarrowButtonText: {
+        color: COLOR_WHITE,
+        fontWeight: 'bold',
     },
 });
 
-const FOOTPRINT_CORRECT = 1;
-const FOOTPRINT_NEEDS_ADJUSTMENT = 2;
-const FOOTPRINT_NO_BUILDING = 3;
+const WSF_NO_BUILDING = 0;
+const WSF_BUILDING = 1;
+const WSF_NOT_SURE = 2;
+const WSF_BAD_IMAGERY = 3;
 
 type Props = {
     completeGroup: () => void,
@@ -105,7 +140,7 @@ class _Validator extends React.Component<Props, State> {
             updateProgress,
         } = this.props;
         const { currentTaskIndex } = this.state;
-        if (result) {
+        if (result !== null && result !== undefined) {
             submitResult(result, this.expandedTasks[currentTaskIndex].taskId);
             this.tasksDone = currentTaskIndex;
         } else if (currentTaskIndex > this.tasksDone) {
@@ -143,30 +178,42 @@ class _Validator extends React.Component<Props, State> {
             return <LoadingIcon />;
         }
         return (
-            <View>
+            <View style={styles.container}>
                 <FootprintDisplay
                     nextTask={this.nextTask}
                     previousTask={this.previousTask}
                     project={project}
                     task={currentTask}
                 />
+                <View style={styles.sideBySideButtons}>
+                    <Button
+                        onPress={() => this.nextTask(WSF_BUILDING)}
+                        style={styles.bigSquareButton}
+                        textStyle={styles.bigSquareButtonText}
+                    >
+                        Yes
+                    </Button>
+                    <Button
+                        onPress={() => this.nextTask(WSF_NO_BUILDING)}
+                        style={styles.bigSquareButton}
+                        textStyle={styles.bigSquareButtonText}
+                    >
+                        No
+                    </Button>
+                </View>
                 <Button
-                    onPress={() => this.nextTask(FOOTPRINT_CORRECT)}
-                    style={[{ backgroundColor: COLOR_GREEN }, styles.button]}
+                    onPress={() => this.nextTask(WSF_NOT_SURE)}
+                    style={styles.longNarrowButton}
+                    textStyle={styles.longNarrowButtonText}
                 >
-                    Looks good
+                    Not sure
                 </Button>
                 <Button
-                    onPress={() => this.nextTask(FOOTPRINT_NEEDS_ADJUSTMENT)}
-                    style={[{ backgroundColor: COLOR_YELLOW }, styles.button]}
+                    onPress={() => this.nextTask(WSF_BAD_IMAGERY)}
+                    style={styles.longNarrowButton}
+                    textStyle={styles.longNarrowButtonText}
                 >
-                    Needs adjustment
-                </Button>
-                <Button
-                    onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
-                    style={[{ backgroundColor: COLOR_RED }, styles.button]}
-                >
-                    No building
+                    Bad imagery
                 </Button>
             </View>
         );

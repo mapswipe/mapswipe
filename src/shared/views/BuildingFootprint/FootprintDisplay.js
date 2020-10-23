@@ -19,13 +19,9 @@ import type {
 
 const GLOBAL = require('../../Globals');
 
-const tileSize = GLOBAL.SCREEN_WIDTH;
-
 const styles = StyleSheet.create({
     tileImg: {
-        height: tileSize,
         position: 'absolute',
-        width: tileSize,
     },
 });
 
@@ -41,6 +37,14 @@ export default class FootprintDisplay extends React.Component<Props> {
 
     swipeThreshold: number;
 
+    // the imagery is always shown as a square, whose size is computed to fill
+    // in the screen as much as possible, while remaining narrower than the screen.
+    // we rely on flexbox to size the different components, which means that the
+    // first rendering is when we find out how much space we have for the imagery.
+    // so we first set this value to null, and update it to min(height, screenwidth)
+    // once flexbox has given us a height. Only then can we pull imagery
+    imagerySize: number;
+
     constructor(props: Props) {
         super(props);
         // swipeThreshold defines how much movement is needed to start considering the event
@@ -53,7 +57,17 @@ export default class FootprintDisplay extends React.Component<Props> {
                 .handleMoveShouldSetPanResponder,
             onPanResponderRelease: this.handlePanResponderEnd,
         });
+        this.imagerySize = 0;
     }
+
+    // $FlowFixMe
+    onLayout = (event) => {
+        const { height } = event.nativeEvent.layout;
+        if (height !== this.imagerySize) {
+            this.imagerySize = Math.min(GLOBAL.SCREEN_WIDTH, height);
+            this.forceUpdate();
+        }
+    };
 
     handleMoveShouldSetPanResponder = (
         // decide if we handle the move event: only if it's vertical
@@ -78,9 +92,10 @@ export default class FootprintDisplay extends React.Component<Props> {
     getPolygon = (coords: Polygon, screenBBox: BBOX): Path => {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
         // geographic coords to screen pixels
-        const lon2x = (lon) => ((lon - minLon) / (maxLon - minLon)) * tileSize;
+        const lon2x = (lon) =>
+            ((lon - minLon) / (maxLon - minLon)) * this.imagerySize;
         const lat2y = (lat) =>
-            (1 - (lat - minLat) / (maxLat - minLat)) * tileSize;
+            (1 - (lat - minLat) / (maxLat - minLat)) * this.imagerySize;
         const p = Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
         coords.forEach((corner) => {
             p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
@@ -158,8 +173,8 @@ export default class FootprintDisplay extends React.Component<Props> {
 
         // get bounding box coordinates in geographic pixels
         const centerPixelCoords = this.latLonZoomToPixelCoords(center, zoom);
-        const minX = centerPixelCoords[0] - tileSize / 2;
-        const minY = centerPixelCoords[1] - tileSize / 2;
+        const minX = centerPixelCoords[0] - this.imagerySize / 2;
+        const minY = centerPixelCoords[1] - this.imagerySize / 2;
 
         // geographic coords to screen pixels
         const taskImageCoords = taskCoords.map((tc) =>
@@ -209,13 +224,15 @@ export default class FootprintDisplay extends React.Component<Props> {
     render = () => {
         const { project, task } = this.props;
         const zoomLevel = 19;
-        if (task.geojson === undefined) {
+        if (task.geojson === undefined || this.imagerySize === 0) {
             // data is not ready yet, just show a placeholder
             return (
                 <View
+                    onLayout={this.onLayout}
                     style={{
-                        height: tileSize,
-                        width: tileSize,
+                        flex: 1,
+                        // height: 1,
+                        width: GLOBAL.SCREEN_WIDTH,
                     }}
                 />
             );
@@ -226,7 +243,7 @@ export default class FootprintDisplay extends React.Component<Props> {
             // google imagery is returned as a single image of the size we want
             // so we need a different logic, as we can't just pull 4 images
             // (each call costs money, and would include a credit line)
-            const googleSize = `${tileSize}x${tileSize}`;
+            const googleSize = `${this.imagerySize}x${this.imagerySize}`;
             // some projects include a `center` attribute in the task which defines
             // the center point of the imagery to use. This allows some optimisation
             // of number of imagery requests by reusing the same image for multiple
@@ -254,15 +271,18 @@ export default class FootprintDisplay extends React.Component<Props> {
                 <View
                     {...this.panResponder.panHandlers}
                     style={{
-                        height: tileSize,
+                        alignSelf: 'center',
+                        flex: 1,
                         overflow: 'hidden',
-                        width: tileSize,
+                        aspectRatio: 1,
                     }}
                 >
                     <Image
                         style={[
                             {
                                 left: 0,
+                                height: this.imagerySize,
+                                width: this.imagerySize,
                                 top: 0,
                             },
                             styles.tileImg,
@@ -293,15 +313,15 @@ export default class FootprintDisplay extends React.Component<Props> {
         const tiles = this.getTilesFromScreenCorners(corners, zoomLevel);
         const tileUrls = tiles.map(this.getTileUrl);
 
-        const shiftX = (swCornerTile[0] % 1) * tileSize;
-        const shiftY = (swCornerTile[1] % 1) * tileSize;
+        const shiftX = (swCornerTile[0] % 1) * this.imagerySize;
+        const shiftY = (swCornerTile[1] % 1) * this.imagerySize;
         return (
             <View
                 {...this.panResponder.panHandlers}
                 style={{
-                    height: tileSize,
+                    height: this.imagerySize,
                     overflow: 'hidden',
-                    width: tileSize,
+                    width: this.imagerySize,
                 }}
             >
                 <View
@@ -309,8 +329,8 @@ export default class FootprintDisplay extends React.Component<Props> {
                         position: 'absolute',
                         left: -shiftX,
                         top: -shiftY,
-                        height: tileSize * 2,
-                        width: tileSize * 2,
+                        height: this.imagerySize * 2,
+                        width: this.imagerySize * 2,
                     }}
                 >
                     <Image
@@ -326,7 +346,7 @@ export default class FootprintDisplay extends React.Component<Props> {
                     <Image
                         style={[
                             {
-                                left: tileSize,
+                                left: this.imagerySize,
                                 top: 0,
                             },
                             styles.tileImg,
@@ -337,7 +357,7 @@ export default class FootprintDisplay extends React.Component<Props> {
                         style={[
                             {
                                 left: 0,
-                                top: tileSize,
+                                top: this.imagerySize,
                             },
                             styles.tileImg,
                         ]}
@@ -346,8 +366,8 @@ export default class FootprintDisplay extends React.Component<Props> {
                     <Image
                         style={[
                             {
-                                left: tileSize,
-                                top: tileSize,
+                                left: this.imagerySize,
+                                top: this.imagerySize,
                             },
                             styles.tileImg,
                         ]}

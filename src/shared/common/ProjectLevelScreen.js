@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DEEP_BLUE,
         flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
+        maxHeight: GLOBAL.SCREEN_HEIGHT,
     },
     startButton: {
         backgroundColor: COLOR_DEEP_BLUE,
