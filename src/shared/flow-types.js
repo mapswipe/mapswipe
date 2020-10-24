@@ -11,6 +11,8 @@ export type Point = [number, number];
 
 export type Polygon = Array<Point>;
 
+// bounding box limits as [West, South, East, North]
+// aka [left, bottom, right, top]
 export type BBOX = [number, number, number, number];
 
 // tile reference (only works for TMS tiles) expressed as

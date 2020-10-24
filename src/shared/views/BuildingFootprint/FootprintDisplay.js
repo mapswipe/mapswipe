@@ -1,7 +1,10 @@
 // @flow
 import * as React from 'react';
 import { Image, PanResponder, StyleSheet, View } from 'react-native';
-import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import {
+    type LayoutEvent,
+    type PressEvent,
+} from 'react-native/Libraries/Types/CoreEventTypes';
 import type {
     GestureState,
     PanResponderInstance,
@@ -37,13 +40,13 @@ export default class FootprintDisplay extends React.Component<Props> {
 
     swipeThreshold: number;
 
-    // the imagery is always shown as a square, whose size is computed to fill
-    // in the screen as much as possible, while remaining narrower than the screen.
-    // we rely on flexbox to size the different components, which means that the
+    // the imagery is shown as a rectangle, whose size is computed to fill
+    // in the screen as much as possible. The width is the same as the screen, and
+    // for the height, we rely on flexbox to size the different components, which means that the
     // first rendering is when we find out how much space we have for the imagery.
-    // so we first set this value to null, and update it to min(height, screenwidth)
-    // once flexbox has given us a height. Only then can we pull imagery
-    imagerySize: number;
+    // so we first set this value to null, and update it once flexbox has given us a height.
+    // Only then can we pull imagery
+    imageryHeight: number;
 
     constructor(props: Props) {
         super(props);
@@ -57,20 +60,20 @@ export default class FootprintDisplay extends React.Component<Props> {
                 .handleMoveShouldSetPanResponder,
             onPanResponderRelease: this.handlePanResponderEnd,
         });
-        this.imagerySize = 0;
+        this.imageryHeight = 0;
     }
 
     // $FlowFixMe
-    onLayout = (event) => {
+    onLayout = (event: LayoutEvent) => {
         const { height } = event.nativeEvent.layout;
-        if (height !== this.imagerySize) {
-            this.imagerySize = Math.min(GLOBAL.SCREEN_WIDTH, height);
+        if (height !== this.imageryHeight) {
+            this.imageryHeight = height;
             this.forceUpdate();
         }
     };
 
     handleMoveShouldSetPanResponder = (
-        // decide if we handle the move event: only if it's vertical
+        // decide if we handle the move event: only if it's horizontal
         event: PressEvent,
         gestureState: GestureState,
     ): boolean => Math.abs(gestureState.dx) > this.swipeThreshold;
@@ -141,6 +144,9 @@ export default class FootprintDisplay extends React.Component<Props> {
     };
 
     latLonZoomToPixelCoords = (lonLat: Point, zoom: number): Point => {
+        // returns the point in pixel coords for the given zoom level.
+        // https://docs.microsoft.com/en-us/bingmaps/articles/bing-maps-tile-system#pixel-coordinates
+        // for more details on pixel coords
         const [lon, lat] = lonLat;
         const sinLat = Math.sin((lat * Math.PI) / 180);
         const x = ((lon + 180) / 360) * 256 * 2 ** zoom;
@@ -173,8 +179,8 @@ export default class FootprintDisplay extends React.Component<Props> {
 
         // get bounding box coordinates in geographic pixels
         const centerPixelCoords = this.latLonZoomToPixelCoords(center, zoom);
-        const minX = centerPixelCoords[0] - this.imagerySize / 2;
-        const minY = centerPixelCoords[1] - this.imagerySize / 2;
+        const minX = centerPixelCoords[0] - GLOBAL.SCREEN_WIDTH / 2;
+        const minY = centerPixelCoords[1] - this.imageryHeight / 2;
 
         // geographic coords to screen pixels
         const taskImageCoords = taskCoords.map((tc) =>
@@ -224,14 +230,13 @@ export default class FootprintDisplay extends React.Component<Props> {
     render = () => {
         const { project, task } = this.props;
         const zoomLevel = 19;
-        if (task.geojson === undefined || this.imagerySize === 0) {
+        if (task.geojson === undefined || this.imageryHeight === 0) {
             // data is not ready yet, just show a placeholder
             return (
                 <View
                     onLayout={this.onLayout}
                     style={{
                         flex: 1,
-                        // height: 1,
                         width: GLOBAL.SCREEN_WIDTH,
                     }}
                 />
@@ -243,7 +248,7 @@ export default class FootprintDisplay extends React.Component<Props> {
             // google imagery is returned as a single image of the size we want
             // so we need a different logic, as we can't just pull 4 images
             // (each call costs money, and would include a credit line)
-            const googleSize = `${this.imagerySize}x${this.imagerySize}`;
+            const googleSize = `${GLOBAL.SCREEN_WIDTH}x${this.imageryHeight}`;
             // some projects include a `center` attribute in the task which defines
             // the center point of the imagery to use. This allows some optimisation
             // of number of imagery requests by reusing the same image for multiple
@@ -272,25 +277,23 @@ export default class FootprintDisplay extends React.Component<Props> {
                     {...this.panResponder.panHandlers}
                     style={{
                         alignSelf: 'center',
-                        flex: 1,
+                        height: this.imageryHeight,
+                        width: GLOBAL.SCREEN_WIDTH,
                         overflow: 'hidden',
-                        aspectRatio: 1,
                     }}
                 >
                     <Image
-                        style={[
-                            {
-                                left: 0,
-                                height: this.imagerySize,
-                                width: this.imagerySize,
-                                top: 0,
-                            },
-                            styles.tileImg,
-                        ]}
+                        style={{
+                            left: 0,
+                            height: this.imageryHeight,
+                            position: 'absolute',
+                            width: GLOBAL.SCREEN_WIDTH,
+                            top: 0,
+                        }}
                         source={{ uri: tileUrl }}
                     />
                     <Surface
-                        height={GLOBAL.SCREEN_WIDTH}
+                        height={this.imageryHeight}
                         width={GLOBAL.SCREEN_WIDTH}
                     >
                         <Shape d={p} stroke="red" strokeWidth={1} />
