@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     nextTask: () => void,
+    prefetchTask: BuildingFootprintTaskType,
     previousTask: () => void,
     project: SingleImageryProjectType,
     task: BuildingFootprintTaskType,
@@ -48,6 +49,9 @@ export default class FootprintDisplay extends React.Component<Props> {
     // Only then can we pull imagery
     imageryHeight: number;
 
+    // for now, this is hardcoded at 19
+    zoomLevel: number;
+
     constructor(props: Props) {
         super(props);
         // swipeThreshold defines how much movement is needed to start considering the event
@@ -61,9 +65,33 @@ export default class FootprintDisplay extends React.Component<Props> {
             onPanResponderRelease: this.handlePanResponderEnd,
         });
         this.imageryHeight = 0;
+        this.zoomLevel = 19;
     }
 
-    // $FlowFixMe
+    componentDidUpdate(prevProps: Props) {
+        // try to prefetch the next task's imagery so it displays instantly when
+        // we reach it
+        const { prefetchTask, project } = this.props;
+        if (
+            prefetchTask !== prevProps.prefetchTask &&
+            prefetchTask !== undefined
+        ) {
+            if (
+                project.tileServer.url.includes('googleapis') &&
+                this.imageryHeight !== 0
+            ) {
+                const prefetchUrl = this.getGoogleImageryUrl(
+                    project.tileServer.url,
+                    prefetchTask,
+                    this.zoomLevel,
+                    GLOBAL.SCREEN_WIDTH,
+                    this.imageryHeight,
+                );
+                Image.prefetch(prefetchUrl);
+            }
+        }
+    }
+
     onLayout = (event: LayoutEvent) => {
         const { height } = event.nativeEvent.layout;
         if (height !== this.imageryHeight) {
@@ -227,9 +255,53 @@ export default class FootprintDisplay extends React.Component<Props> {
         return url;
     };
 
+    getTaskCenter = (task: BuildingFootprintTaskType): Point => {
+        if (task.center) {
+            return task.center;
+        }
+        return this.getTaskGeometryCentroid(task.geojson.coordinates[0]);
+    };
+
+    getGoogleImageryUrl = (
+        urlTemplate: string,
+        task: BuildingFootprintTaskType,
+        zoom: number,
+        width: number,
+        height: number,
+    ) => {
+        // return the url required to download imagery
+        // google imagery is returned as a single image of the size we want
+        // so we need a different logic, as we can't just pull 4 images
+        // (each call costs money, and would include a credit line)
+        const googleSize = `${width}x${height}`;
+        // some projects include a `center` attribute in the task which defines
+        // the center point of the imagery to use. This allows some optimisation
+        // of number of imagery requests by reusing the same image for multiple
+        // tasks.
+        const center = this.getTaskCenter(task); // the geometry center
+        const googleCenterString = `${center[1]}%2C%20${center[0]}`;
+
+        const imageUrl = urlTemplate
+            .replace('{z}', zoom.toString())
+            .replace('{size}', googleSize)
+            .replace('{center}', googleCenterString);
+        return imageUrl;
+    };
+
+    getTaskGeometryPath = (
+        task: BuildingFootprintTaskType,
+        zoom: number,
+    ): Path => {
+        const center = this.getTaskCenter(task); // the geometry center
+        return this.getGooglePolygonFromCenter(
+            center,
+            zoom,
+            task.geojson.coordinates[0],
+        );
+    };
+
     render = () => {
         const { project, task } = this.props;
-        const zoomLevel = 19;
         if (task.geojson === undefined || this.imageryHeight === 0) {
             // data is not ready yet, just show a placeholder
             return (
@@ -243,35 +315,16 @@ export default class FootprintDisplay extends React.Component<Props> {
             );
         }
         const coords = task.geojson.coordinates[0];
+        const imageUrl = this.getGoogleImageryUrl(
+            project.tileServer.url,
+            task,
+            this.zoomLevel,
+            GLOBAL.SCREEN_WIDTH,
+            this.imageryHeight,
+        );
+        const path = this.getTaskGeometryPath(task, this.zoomLevel);
 
         if (project.tileServer.url.includes('googleapis')) {
-            // google imagery is returned as a single image of the size we want
-            // so we need a different logic, as we can't just pull 4 images
-            // (each call costs money, and would include a credit line)
-            const googleSize = `${GLOBAL.SCREEN_WIDTH}x${this.imageryHeight}`;
-            // some projects include a `center` attribute in the task which defines
-            // the center point of the imagery to use. This allows some optimisation
-            // of number of imagery requests by reusing the same image for multiple
-            // tasks.
-            let googleCenter; // the center of the imagery
-            let center; // the geometry center
-            if (task.center) {
-                googleCenter = `${task.center[1]}%2C%20${task.center[0]}`;
-                center = task.center;
-            } else {
-                center = this.getTaskGeometryCentroid(coords);
-                googleCenter = `${center[1]}%2C%20${center[0]}`;
-            }
-            const p = this.getGooglePolygonFromCenter(
-                center,
-                zoomLevel,
-                coords,
-            );
-            // tileUrl -> imageryUrl
-            const tileUrl = project.tileServer.url
-                .replace('{z}', zoomLevel.toString())
-                .replace('{size}', googleSize)
-                .replace('{center}', googleCenter);
             return (
                 <View
                     {...this.panResponder.panHandlers}
@@ -290,13 +343,13 @@ export default class FootprintDisplay extends React.Component<Props> {
                             width: GLOBAL.SCREEN_WIDTH,
                             top: 0,
                         }}
-                        source={{ uri: tileUrl }}
+                        source={{ uri: imageUrl }}
                     />
                     <Surface
                         height={this.imageryHeight}
                         width={GLOBAL.SCREEN_WIDTH}
                     >
-                        <Shape d={p} stroke="red" strokeWidth={1} />
+                        <Shape d={path} stroke="red" strokeWidth={1} />
                     </Surface>
                 </View>
             );

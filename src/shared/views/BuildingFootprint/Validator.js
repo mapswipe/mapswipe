@@ -173,6 +173,12 @@ class _Validator extends React.Component<Props, State> {
             return <LoadingIcon />;
         }
         const currentTask = this.expandedTasks[currentTaskIndex];
+        // if tasks have a center attribute, we know they're grouped by 9
+        // so we look a bit further ahead to prefetch imagery
+        const prefetchOffset = currentTask.center ? 9 : 1;
+        const prefetchTask = this.expandedTasks[
+            currentTaskIndex + prefetchOffset
+        ];
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
@@ -180,6 +186,7 @@ class _Validator extends React.Component<Props, State> {
             <View style={styles.container}>
                 <FootprintDisplay
                     nextTask={this.nextTask}
+                    prefetchTask={prefetchTask}
                     previousTask={this.previousTask}
                     project={project}
                     task={currentTask}
