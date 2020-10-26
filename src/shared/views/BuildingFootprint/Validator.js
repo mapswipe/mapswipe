@@ -76,7 +76,6 @@ type Props = {
 type State = {
     // the index of the current task in the task array
     currentTaskIndex: number,
-    // currentTaskId: string,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html

@@ -81,6 +81,12 @@ type Props = {
 
 type State = {
     groupCompleted: boolean,
+    // only true between the moment the user taps "continue mapping" and the moment
+    // the new group has been loaded and is ready to use (this does not mean the imagery
+    // is loaded, but most importantly the old group has been replaced, so we can start
+    // rendering the component without the risk of showing the group that's already
+    // been mapped)
+    waitingForNextGroup: boolean,
 };
 
 class ProjectLevelScreen extends React.Component<Props, State> {
@@ -97,6 +103,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         this.project = props.navigation.getParam('project');
         this.state = {
             groupCompleted: false,
+            waitingForNextGroup: false,
         };
     }
 
@@ -108,6 +115,10 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
+                // eslint-disable-next-line react/no-did-update-set-state
+                this.setState({
+                    waitingForNextGroup: false,
+                });
                 // the component props are updated when group is received
                 // and then when tasks are received
                 if (group.tasks !== undefined) {
@@ -117,7 +128,9 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                         startTime: GLOBAL.DB.getTimestamp(),
                     });
                     // eslint-disable-next-line react/no-did-update-set-state
-                    this.setState({ groupCompleted: false });
+                    this.setState({
+                        groupCompleted: false,
+                    });
                     if (this.progress) this.progress.updateProgress(0);
                 }
             }
@@ -201,7 +214,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     toNextGroup = () => {
         const { navigation, screenName } = this.props;
         navigation.navigate(screenName, { project: this.project });
-        this.setState({ groupCompleted: false });
+        this.setState({ groupCompleted: false, waitingForNextGroup: true });
     };
 
     updateProgress = (progress: number) => {
@@ -279,8 +292,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             navigation,
             tutorial,
         } = this.props;
-        const { groupCompleted } = this.state;
-        if (!group) {
+        const { groupCompleted, waitingForNextGroup } = this.state;
+        if (!group || waitingForNextGroup) {
             return <LoadingIcon />;
         }
         if (groupCompleted) {
