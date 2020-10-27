@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { Image, PanResponder, StyleSheet, View } from 'react-native';
+import { Animated, Image, PanResponder, StyleSheet, View } from 'react-native';
 import {
     type LayoutEvent,
     type PressEvent,
@@ -29,14 +29,19 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    nextTask: () => void,
+    nextTask: () => boolean,
     prefetchTask: BuildingFootprintTaskType,
-    previousTask: () => void,
+    previousTask: () => boolean,
     project: SingleImageryProjectType,
     task: BuildingFootprintTaskType,
 };
 
-export default class FootprintDisplay extends React.Component<Props> {
+type State = {
+    animatedMarginLeft: Animated.Value,
+    animatedMarginRight: Animated.Value,
+};
+
+export default class FootprintDisplay extends React.Component<Props, State> {
     panResponder: PanResponderInstance;
 
     swipeThreshold: number;
@@ -64,6 +69,10 @@ export default class FootprintDisplay extends React.Component<Props> {
                 .handleMoveShouldSetPanResponder,
             onPanResponderRelease: this.handlePanResponderEnd,
         });
+        this.state = {
+            animatedMarginLeft: new Animated.Value(0),
+            animatedMarginRight: new Animated.Value(0),
+        };
         this.imageryHeight = 0;
         this.zoomLevel = 19;
     }
@@ -106,14 +115,44 @@ export default class FootprintDisplay extends React.Component<Props> {
         gestureState: GestureState,
     ): boolean => Math.abs(gestureState.dx) > this.swipeThreshold;
 
+    bounceImage = (direction: string) => {
+        // bounce the image left or right when the user tries to swipe past what
+        // they're allowed to, to give them some visual feedback
+        const { animatedMarginLeft, animatedMarginRight } = this.state;
+        let value;
+        if (direction === 'left') {
+            value = animatedMarginRight;
+        } else {
+            value = animatedMarginLeft;
+        }
+        Animated.sequence([
+            Animated.timing(value, {
+                toValue: 100,
+                duration: 100,
+                useNativeDriver: false,
+            }),
+            Animated.timing(value, {
+                toValue: 0,
+                duration: 100,
+                useNativeDriver: false,
+            }),
+        ]).start();
+    };
+
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         const { nextTask, previousTask } = this.props;
         const swipeMinLength = 0.2;
         if (gestureState.dx < -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
-            nextTask();
+            const bounceAtEnd = nextTask();
+            if (bounceAtEnd) {
+                this.bounceImage('left');
+            }
         } else if (gestureState.dx > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
-            previousTask();
+            const bounceAtEnd = previousTask();
+            if (bounceAtEnd) {
+                this.bounceImage('right');
+            }
         }
     };
 
@@ -302,6 +341,7 @@ export default class FootprintDisplay extends React.Component<Props> {
 
     render = () => {
         const { project, task } = this.props;
+        const { animatedMarginLeft, animatedMarginRight } = this.state;
         if (task.geojson === undefined || this.imageryHeight === 0) {
             // data is not ready yet, just show a placeholder
             return (
@@ -326,11 +366,13 @@ export default class FootprintDisplay extends React.Component<Props> {
 
         if (project.tileServer.url.includes('googleapis')) {
             return (
-                <View
+                <Animated.View
                     {...this.panResponder.panHandlers}
                     style={{
                         alignSelf: 'center',
                         height: this.imageryHeight,
+                        marginLeft: animatedMarginLeft,
+                        marginRight: animatedMarginRight,
                         width: GLOBAL.SCREEN_WIDTH,
                         overflow: 'hidden',
                     }}
@@ -351,7 +393,7 @@ export default class FootprintDisplay extends React.Component<Props> {
                     >
                         <Shape d={path} stroke="red" strokeWidth={1} />
                     </Surface>
-                </View>
+                </Animated.View>
             );
         }
         // all other imagery sources work with 4 tiles shown at the same time

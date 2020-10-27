@@ -147,7 +147,11 @@ class _Validator extends React.Component<Props, State> {
         return ''; // to keep flow and eslint happy
     };
 
-    nextTask = (result: ?number) => {
+    nextTask = (result: ?number): boolean => {
+        // update state to point to the next task in the list, and
+        // save result if one was provided.
+        // Return a bool indicating whether we've reached the end of
+        // the array of tasks
         const {
             completeGroup,
             group,
@@ -162,24 +166,29 @@ class _Validator extends React.Component<Props, State> {
             // no result provided, the user just tried to swipe forward
             // past the last task completed, just ignore this swipe
             // TODO: provide some visual feedback
-            return;
+            return true;
         }
         if (currentTaskIndex + 1 >= this.expandedTasks.length) {
             // no more tasks in the group, show the "LoadMore" screen
             completeGroup();
-            return;
+            return false;
         }
         updateProgress(currentTaskIndex / group.numberOfTasks);
         this.setState({ currentTaskIndex: currentTaskIndex + 1 });
+        return false;
     };
 
-    previousTask = () => {
+    previousTask = (): boolean => {
+        // update state to point to the previous task and return a
+        // bool indicating whether we've reached the end of the array of tasks
         const { group, updateProgress } = this.props;
         const { currentTaskIndex } = this.state;
         if (currentTaskIndex > 0) {
             updateProgress(currentTaskIndex / group.numberOfTasks);
             this.setState({ currentTaskIndex: currentTaskIndex - 1 });
+            return false;
         }
+        return true;
     };
 
     /* eslint-disable global-require */
