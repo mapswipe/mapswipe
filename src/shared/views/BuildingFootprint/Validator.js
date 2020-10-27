@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
@@ -14,14 +15,18 @@ import GLOBAL from '../../Globals';
 
 import type {
     BuildingFootprintGroupType,
-    SingleImageryProjectType,
     BuildingFootprintTaskType,
+    ResultMapType,
+    SingleImageryProjectType,
 } from '../../flow-types';
 
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
 const buttonMargin = GLOBAL.SCREEN_HEIGHT >= 550 ? 5 : 3;
+
+const buttonBGColor = 'rgba(255, 255, 255, 0.2)';
+const buttonBGColorSelected = 'rgba(255, 255, 255, 0.8)';
 
 const styles = StyleSheet.create({
     container: {
@@ -41,7 +46,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     bigSquareButton: {
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderColor: COLOR_WHITE,
         borderRadius: 20,
         borderWidth: 2,
@@ -59,7 +63,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     longNarrowButton: {
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderColor: COLOR_WHITE,
         borderRadius: 20,
         borderWidth: 2,
@@ -85,6 +88,7 @@ type Props = {
     completeGroup: () => void,
     group: BuildingFootprintGroupType,
     project: SingleImageryProjectType,
+    results: ResultMapType,
     submitResult: (number, string) => void,
     updateProgress: (number) => void,
 };
@@ -160,12 +164,16 @@ class _Validator extends React.Component<Props, State> {
         } = this.props;
         const { currentTaskIndex } = this.state;
         if (result !== null && result !== undefined) {
+            // the user tapped a button, save result and update how far
+            // we've worked
             submitResult(result, this.expandedTasks[currentTaskIndex].taskId);
-            this.tasksDone = currentTaskIndex;
+            if (currentTaskIndex > this.tasksDone) {
+                this.tasksDone = currentTaskIndex;
+            }
         } else if (currentTaskIndex > this.tasksDone) {
             // no result provided, the user just tried to swipe forward
             // past the last task completed, just ignore this swipe
-            // TODO: provide some visual feedback
+            // but return true to indicate we can't go any further
             return true;
         }
         if (currentTaskIndex + 1 >= this.expandedTasks.length) {
@@ -193,7 +201,7 @@ class _Validator extends React.Component<Props, State> {
 
     /* eslint-disable global-require */
     render = () => {
-        const { project } = this.props;
+        const { project, results } = this.props;
         const { currentTaskIndex } = this.state;
         if (!this.expandedTasks) {
             return <LoadingIcon />;
@@ -208,6 +216,10 @@ class _Validator extends React.Component<Props, State> {
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
+        let selectedResult;
+        if (results) {
+            selectedResult = results[currentTask.taskId];
+        }
         return (
             <View style={styles.container}>
                 <FootprintDisplay
@@ -220,7 +232,15 @@ class _Validator extends React.Component<Props, State> {
                 <View style={styles.sideBySideButtons}>
                     <Button
                         onPress={() => this.nextTask(FOOTPRINT_BUILDING)}
-                        style={styles.bigSquareButton}
+                        style={[
+                            {
+                                backgroundColor:
+                                    selectedResult === FOOTPRINT_BUILDING
+                                        ? buttonBGColorSelected
+                                        : buttonBGColor,
+                            },
+                            styles.bigSquareButton,
+                        ]}
                         textStyle={styles.bigSquareButtonText}
                     >
                         <View>
@@ -233,7 +253,15 @@ class _Validator extends React.Component<Props, State> {
                     </Button>
                     <Button
                         onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
-                        style={styles.bigSquareButton}
+                        style={[
+                            {
+                                backgroundColor:
+                                    selectedResult === FOOTPRINT_NO_BUILDING
+                                        ? buttonBGColorSelected
+                                        : buttonBGColor,
+                            },
+                            styles.bigSquareButton,
+                        ]}
                         textStyle={styles.bigSquareButtonText}
                     >
                         {`\u2715\nNo`}
@@ -241,14 +269,30 @@ class _Validator extends React.Component<Props, State> {
                 </View>
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                    style={styles.longNarrowButton}
+                    style={[
+                        {
+                            backgroundColor:
+                                selectedResult === FOOTPRINT_NOT_SURE
+                                    ? buttonBGColorSelected
+                                    : buttonBGColor,
+                        },
+                        styles.longNarrowButton,
+                    ]}
                     textStyle={styles.longNarrowButtonText}
                 >
                     Not sure
                 </Button>
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_BAD_IMAGERY)}
-                    style={styles.longNarrowButton}
+                    style={[
+                        {
+                            backgroundColor:
+                                selectedResult === FOOTPRINT_BAD_IMAGERY
+                                    ? buttonBGColorSelected
+                                    : buttonBGColor,
+                        },
+                        styles.longNarrowButton,
+                    ]}
                     textStyle={styles.longNarrowButtonText}
                 >
                     Bad imagery
@@ -262,6 +306,11 @@ const mapStateToProps = (state, ownProps) => ({
     commitCompletedGroup: ownProps.commitCompletedGroup,
     group: ownProps.group,
     project: ownProps.project,
+    results: get(
+        state.results[ownProps.project.projectId],
+        ownProps.group.groupId,
+        null,
+    ),
     submitResult: ownProps.submitResult,
 });
 
