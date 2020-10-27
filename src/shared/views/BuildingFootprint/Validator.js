@@ -121,7 +121,7 @@ class _Validator extends React.Component<Props, State> {
         this.state = {
             currentTaskIndex: 0,
         };
-        this.tasksDone = 0;
+        this.tasksDone = -1;
         this.setupTasksList(props.group.tasks);
     }
 
