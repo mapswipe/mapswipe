@@ -142,13 +142,14 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
         const { nextTask, previousTask } = this.props;
-        const swipeMinLength = 0.2;
-        if (gestureState.dx < -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+        // we only accept swipes longer than 10% of the screen width
+        const swipeMinLength = 0.1;
+        if (gestureState.dx < -GLOBAL.SCREEN_WIDTH * swipeMinLength) {
             const bounceAtEnd = nextTask();
             if (bounceAtEnd) {
                 this.bounceImage('left');
             }
-        } else if (gestureState.dx > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
+        } else if (gestureState.dx > GLOBAL.SCREEN_WIDTH * swipeMinLength) {
             const bounceAtEnd = previousTask();
             if (bounceAtEnd) {
                 this.bounceImage('right');
