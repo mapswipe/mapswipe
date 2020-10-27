@@ -163,9 +163,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
         // geographic coords to screen pixels
         const lon2x = (lon) =>
-            ((lon - minLon) / (maxLon - minLon)) * this.imagerySize;
+            ((lon - minLon) / (maxLon - minLon)) * this.imageryHeight;
         const lat2y = (lat) =>
-            (1 - (lat - minLat) / (maxLat - minLat)) * this.imagerySize;
+            (1 - (lat - minLat) / (maxLat - minLat)) * this.imageryHeight;
         const p = Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
         coords.forEach((corner) => {
             p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
@@ -399,27 +399,27 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // all other imagery sources work with 4 tiles shown at the same time
         // get 4 tiles at zoomLevel and shift them as needed
         const center = this.getTaskGeometryCentroid(coords);
-        const screenBBox = this.getScreenBBoxFromCenter(center, zoomLevel);
+        const screenBBox = this.getScreenBBoxFromCenter(center, this.zoomLevel);
         // build footprint polyline
         const p = this.getPolygon(coords, screenBBox);
         const corners = this.BBOXToCoords(screenBBox);
         const swCornerTile = tilebelt.pointToTileFraction(
             corners[0][0],
             corners[0][1],
-            zoomLevel,
+            this.zoomLevel,
         );
-        const tiles = this.getTilesFromScreenCorners(corners, zoomLevel);
+        const tiles = this.getTilesFromScreenCorners(corners, this.zoomLevel);
         const tileUrls = tiles.map(this.getTileUrl);
 
-        const shiftX = (swCornerTile[0] % 1) * this.imagerySize;
-        const shiftY = (swCornerTile[1] % 1) * this.imagerySize;
+        const shiftX = (swCornerTile[0] % 1) * this.imageryHeight;
+        const shiftY = (swCornerTile[1] % 1) * this.imageryHeight;
         return (
             <View
                 {...this.panResponder.panHandlers}
                 style={{
-                    height: this.imagerySize,
+                    height: this.imageryHeight,
                     overflow: 'hidden',
-                    width: this.imagerySize,
+                    width: this.imageryHeight,
                 }}
             >
                 <View
@@ -427,8 +427,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         position: 'absolute',
                         left: -shiftX,
                         top: -shiftY,
-                        height: this.imagerySize * 2,
-                        width: this.imagerySize * 2,
+                        height: this.imageryHeight * 2,
+                        width: this.imageryHeight * 2,
                     }}
                 >
                     <Image
@@ -444,7 +444,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     <Image
                         style={[
                             {
-                                left: this.imagerySize,
+                                left: this.imageryHeight,
                                 top: 0,
                             },
                             styles.tileImg,
@@ -455,7 +455,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         style={[
                             {
                                 left: 0,
-                                top: this.imagerySize,
+                                top: this.imageryHeight,
                             },
                             styles.tileImg,
                         ]}
@@ -464,8 +464,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     <Image
                         style={[
                             {
-                                left: this.imagerySize,
-                                top: this.imagerySize,
+                                left: this.imageryHeight,
+                                top: this.imageryHeight,
                             },
                             styles.tileImg,
                         ]}
