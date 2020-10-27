@@ -5,17 +5,23 @@ import { connect } from 'react-redux';
 import pako from 'pako';
 import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
-import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
+import { COLOR_WHITE } from '../../constants';
+import GLOBAL from '../../Globals';
 
 import type {
     BuildingFootprintGroupType,
     SingleImageryProjectType,
     BuildingFootprintTaskType,
 } from '../../flow-types';
+
+// in order to allow enough screen height for satellite imagery on small
+// screens (less than 550px high) we make buttons smaller on those screens
+const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
+const buttonMargin = GLOBAL.SCREEN_HEIGHT >= 550 ? 5 : 3;
 
 const styles = StyleSheet.create({
     container: {
@@ -24,35 +30,45 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
     },
+    checkmark: {
+        alignSelf: 'center',
+        marginBottom: -3,
+        height: 25,
+        width: 25,
+    },
     sideBySideButtons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: 105,
     },
     bigSquareButton: {
-        backgroundColor: COLOR_WHITE,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        borderColor: COLOR_WHITE,
         borderRadius: 20,
-        height: 100,
-        width: '47%',
-        marginBottom: 5,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 5,
+        borderWidth: 2,
+        height: buttonHeight * 2,
+        flex: 1,
+        marginBottom: buttonMargin,
+        marginLeft: buttonMargin,
+        marginRight: buttonMargin,
+        marginTop: buttonMargin,
     },
     bigSquareButtonText: {
-        color: COLOR_DEEP_BLUE,
+        alignSelf: 'center',
+        color: COLOR_WHITE,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     longNarrowButton: {
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderColor: COLOR_WHITE,
         borderRadius: 20,
         borderWidth: 2,
         color: COLOR_WHITE,
-        height: 55,
-        marginBottom: 0,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 5,
+        height: buttonHeight,
+        marginBottom: buttonMargin,
+        marginLeft: buttonMargin,
+        marginRight: buttonMargin,
+        marginTop: buttonMargin,
     },
     longNarrowButtonText: {
         color: COLOR_WHITE,
@@ -166,6 +182,7 @@ class _Validator extends React.Component<Props, State> {
         }
     };
 
+    /* eslint-disable global-require */
     render = () => {
         const { project } = this.props;
         const { currentTaskIndex } = this.state;
@@ -197,14 +214,20 @@ class _Validator extends React.Component<Props, State> {
                         style={styles.bigSquareButton}
                         textStyle={styles.bigSquareButtonText}
                     >
-                        Yes
+                        <View>
+                            <Image
+                                source={require('../assets/checkmark_white.png')}
+                                style={styles.checkmark}
+                            />
+                            <Text style={styles.bigSquareButtonText}>Yes</Text>
+                        </View>
                     </Button>
                     <Button
                         onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
                         style={styles.bigSquareButton}
                         textStyle={styles.bigSquareButtonText}
                     >
-                        No
+                        {`\u2715\nNo`}
                     </Button>
                 </View>
                 <Button
