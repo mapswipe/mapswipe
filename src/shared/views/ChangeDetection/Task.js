@@ -138,7 +138,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
                     <SatImage
                         overlayText="Before"
                         overlayTextStyle={styles.overlayText}
-                        source={{ uri: task.urlA }}
+                        source={{ uri: task.url }}
                         style={styles.topImage}
                     />
                     <SatImage
