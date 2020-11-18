@@ -121,7 +121,7 @@ export type ChangeDetectionTaskType = {
     projectId: string,
     referenceAnswer: ?number,
     taskId: string,
-    urlA: string,
+    url: string,
     urlB: string,
 };
 
