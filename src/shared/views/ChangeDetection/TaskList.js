@@ -86,6 +86,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     width: GLOBAL.SCREEN_WIDTH,
                 }}
                 data={group.tasks}
+                decelerationRate="fast"
                 disableIntervalMomentum
                 keyExtractor={(task) => task.taskId}
                 horizontal

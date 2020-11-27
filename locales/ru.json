@@ -64,9 +64,9 @@
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% УЖЕ СДЕЛАНО {{contributorCount}} ТАКИМИ ЖЕ УЧАСТНИКАМИ КАК ВЫ",
     "userProgressForProject": "{{userProgress}}% от этого проекта",
-    "quotaReachedWarning": "Выберите другой проект на экране со списком миссий",
+    "quotaReachedWarning": "Выбрать другой проект на экране со списком миссий",
     "map now": "Начать",
-    "chooseAnotherProject": "Выберите другой проект",
+    "chooseAnotherProject": "Выбрать другой проект",
     "tutorial": "Руководство"
   },
   "mappingHeader": {
@@ -96,7 +96,7 @@
   "CDInstructionScreen": {
     "instructions": "Инструкции",
     "your task": "Задание:",
-    "lookingFor": "Вы ищите {' '} <1>ивзменения в застройке</1>. Это является ярким индикатором изменения численности населения.",
+    "lookingFor": "Вы ищите {' '} <1>изменения в застройке</1>. Это является ярким индикатором изменения численности населения.",
     "perform task": "Как выполнять задание:",
     "noChanges": "Если никаких изменений нет, просто{' '} <1>перелистните</1> на страницу со следующими изображениями",
     "seeChanges": "Если вы видите изменения в застройке,{' '} <1>коснитесь один раз</1>{' '} и квадрат станет зеленым",
@@ -110,7 +110,7 @@
     "viewInstructions": "Посмотреть инструкции"
   },
   "ProjectLevelScreen": {
-    "iUnderstand": "Я понимаю"
+    "iUnderstand": "Понятно"
   },
   "IndividualCard": {
     "swipe down mark red": "Перелистните ВНИЗ чтобы отметить все 6 квадратов КРАСНЫМ",
