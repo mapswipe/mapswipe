@@ -12,7 +12,6 @@ import type {
 import { Path, Shape, Surface } from '@react-native-community/art';
 import tilebelt from '@mapbox/tilebelt';
 import ScaleBar from '../../common/ScaleBar';
-import { COLOR_DEEP_BLUE } from '../../constants';
 import type {
     BBOX,
     ImageCoordsPoint,
@@ -438,6 +437,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const path = this.getTaskGeometryPath(task, this.zoomLevel);
 
         if (project.tileServer.url.includes('googleapis')) {
+            // use the latitude of the first point in the shape as reference for the scalebar
+            // it's not exactly correct, but the difference is negligible
+            const latitude = coords[0][1];
             return (
                 <Animated.View
                     {...this.panResponder.panHandlers}
@@ -466,6 +468,13 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     >
                         <Shape d={path} stroke="red" strokeWidth={2} />
                     </Surface>
+                    <ScaleBar
+                        alignToBottom={false}
+                        latitude={latitude}
+                        useScreenWidth
+                        visible
+                        zoomLevel={this.zoomLevel}
+                    />
                 </Animated.View>
             );
         }
@@ -575,6 +584,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     />
                 </Surface>
                 <ScaleBar
+                    alignToBottom
                     latitude={latitude}
                     useScreenWidth
                     visible
