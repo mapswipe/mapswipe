@@ -22,7 +22,7 @@ export type PixelCoordsPoint = [PixelCoordsX, PixelCoordsY];
 // top left of a tile, as [x, y]
 export type ImageCoordsPoint = [number, number];
 
-// zom levels are always integers (typically 1 to 20-21)
+// zoom levels are always integers (typically 1 to 20-21)
 export type ZoomLevel = number;
 
 export type Polygon = Array<Point>;
