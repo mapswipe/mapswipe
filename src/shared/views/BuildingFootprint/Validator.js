@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     },
 });
 
-const FOOTPRINT_NO_BUILDING = 0;
-const FOOTPRINT_BUILDING = 1;
+const FOOTPRINT_NO = 0;
+const FOOTPRINT_YES = 1;
 const FOOTPRINT_NOT_SURE = 2;
 const FOOTPRINT_BAD_IMAGERY = 3;
 
@@ -231,11 +231,11 @@ class _Validator extends React.Component<Props, State> {
                 />
                 <View style={styles.sideBySideButtons}>
                     <Button
-                        onPress={() => this.nextTask(FOOTPRINT_BUILDING)}
+                        onPress={() => this.nextTask(FOOTPRINT_YES)}
                         style={[
                             {
                                 backgroundColor:
-                                    selectedResult === FOOTPRINT_BUILDING
+                                    selectedResult === FOOTPRINT_YES
                                         ? buttonBGColorSelected
                                         : buttonBGColor,
                             },
@@ -252,11 +252,11 @@ class _Validator extends React.Component<Props, State> {
                         </View>
                     </Button>
                     <Button
-                        onPress={() => this.nextTask(FOOTPRINT_NO_BUILDING)}
+                        onPress={() => this.nextTask(FOOTPRINT_NO)}
                         style={[
                             {
                                 backgroundColor:
-                                    selectedResult === FOOTPRINT_NO_BUILDING
+                                    selectedResult === FOOTPRINT_NO
                                         ? buttonBGColorSelected
                                         : buttonBGColor,
                             },
