@@ -7,11 +7,16 @@ import GLOBAL from '../Globals';
 
 type Props = {
     latitude: number,
+    // true if we should use the screen_width to size the scale bar instead of
+    // using the tile size. This is useful for building footprint projects
+    // with TMS imagery as we use a few tricks there to cover the entire screen
+    // with imagery
+    useScreenWidth: boolean,
     visible: boolean,
     zoomLevel: number,
 };
 
-const getScaleBar = (meters, feet, tileWidth) => {
+const getScaleBar = (meters, feet, tileWidth, referenceSize) => {
     /*
      * produce a shape like
      * |       |
@@ -21,8 +26,8 @@ const getScaleBar = (meters, feet, tileWidth) => {
     const top = 0;
     const mid = 16;
     // convert meters and feet into "pixels" so that we draw at the correct scale!
-    const metersPx = (meters / tileWidth) * GLOBAL.TILE_SIZE;
-    const feetPx = (feet / tileWidth) * GLOBAL.TILE_SIZE;
+    const metersPx = (meters / tileWidth) * referenceSize;
+    const feetPx = (feet / tileWidth) * referenceSize;
     const bottom = top + 2 * (mid - top);
     const p = Path().moveTo(0, top);
     p.lineTo(0, bottom);
@@ -36,7 +41,7 @@ const getScaleBar = (meters, feet, tileWidth) => {
 };
 
 export default (props: Props) => {
-    const { latitude, visible, zoomLevel } = props;
+    const { latitude, useScreenWidth, visible, zoomLevel } = props;
 
     // calculate the width of one tile (in meters)
     // this magic formula comes from
@@ -70,19 +75,20 @@ export default (props: Props) => {
             break;
     }
 
-    const p = getScaleBar(meters, feet, tileWidth);
+    const referenceSize = useScreenWidth
+        ? GLOBAL.SCREEN_WIDTH
+        : GLOBAL.TILE_SIZE;
+    const p = getScaleBar(meters, feet, tileWidth, referenceSize);
     return (
         <View
             style={{
-                height: GLOBAL.TILE_SIZE / 5,
-                width: GLOBAL.TILE_SIZE,
                 opacity: visible ? 0.8 : 0,
                 position: 'absolute',
-                bottom: 20,
+                bottom: useScreenWidth ? 0 : 20,
                 left: 10,
             }}
         >
-            <Surface height={GLOBAL.TILE_SIZE / 5} width={GLOBAL.TILE_SIZE}>
+            <Surface height={GLOBAL.TILE_SIZE / 5} width={referenceSize}>
                 <Shape
                     d={p}
                     stroke="rgba(255, 255, 255, 0.6)"
