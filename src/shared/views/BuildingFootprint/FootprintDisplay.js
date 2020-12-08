@@ -11,6 +11,7 @@ import type {
 } from 'react-native/Libraries/Interaction/PanResponder';
 import { Path, Shape, Surface } from '@react-native-community/art';
 import tilebelt from '@mapbox/tilebelt';
+import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import ScaleBar from '../../common/ScaleBar';
 import type {
     BBOX,
@@ -344,13 +345,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
 
     getTileUrl = (tile: Tile): string => {
         const { project } = this.props;
-        const quadKey = tilebelt.tileToQuadkey(tile);
-        // $FlowFixMe
-        const url = project.tileServer.url
-            .replace('{quad_key}', quadKey)
-            // $FlowFixMe
-            .replace('{key}', project.tileServer.apiKey);
-        return url;
+        const { apiKey, name, url } = project.tileServer;
+        return getTileUrlFromCoordsAndTileserver(...tile, url, name, apiKey);
     };
 
     getTaskCenter = (task: BuildingFootprintTaskType): LonLatPoint => {
