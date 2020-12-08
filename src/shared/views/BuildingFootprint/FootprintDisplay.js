@@ -350,6 +350,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     };
 
     getTaskCenter = (task: BuildingFootprintTaskType): LonLatPoint => {
+        // for projects that use google imagery, we can optimise the nunber of images
+        // downloaded by relying on an optional `center` attribute in the task, which allows
+        // us to center the imagery there instead of on the centroid of the geometry.
+        // When multiple tasks are located within close proximity, this can substantially
+        // reduce the cost in imagery API calls
+        // This center attribute is not used with TMS imagery for the time being.
         if (task.center) {
             return task.center;
         }
