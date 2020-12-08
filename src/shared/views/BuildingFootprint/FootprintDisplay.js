@@ -32,7 +32,7 @@ import type {
 const GLOBAL = require('../../Globals');
 
 // tileSize is only used for tile based imagery (ie: everything but google)
-const tileSize = GLOBAL.SCREEN_WIDTH / 1;
+const tileSize = GLOBAL.SCREEN_WIDTH;
 
 const styles = StyleSheet.create({
     tileImg: {
