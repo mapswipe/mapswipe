@@ -6,18 +6,23 @@ import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import Button from 'apsl-react-native-button';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
-import { COLOR_WHITE } from '../../constants';
+import TutorialBox from '../../common/Tutorial';
+import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
+import TutorialIntroScreen from '../Mapper/TutorialIntro';
+import { tutorialModes, COLOR_WHITE } from '../../constants';
 import GLOBAL from '../../Globals';
 
 import type {
     BuildingFootprintGroupType,
     BuildingFootprintTaskType,
+    NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
+    TutorialContent,
 } from '../../flow-types';
 
 // in order to allow enough screen height for satellite imagery on small
@@ -87,9 +92,12 @@ const FOOTPRINT_BAD_IMAGERY = 3;
 type Props = {
     completeGroup: () => void,
     group: BuildingFootprintGroupType,
+    navigation: NavigationProp,
     project: SingleImageryProjectType,
     results: ResultMapType,
+    screens: Array<TutorialContent>,
     submitResult: (number, string) => void,
+    tutorial: boolean,
     updateProgress: (number) => void,
 };
 
@@ -102,12 +110,21 @@ type State = {
 type taskGenType = Generator<string, void, void>;
 
 class _Validator extends React.Component<Props, State> {
+    // the index of the screen currently seen
+    // starts at -tutorialIntroWidth, gets to 0 when we arrive at the interactive part
+    currentScreen: number;
+
     // props.group.tasks are now gzipped and base64 encoded on the server
     // so we need to decode and gunzip them into a JSON string which is then
     // parsed into an array. for this project type, we do not load the tasks
     // directly, instead we do the above process and then work with the result
     // which is stored in expandedTasks
     expandedTasks: Array<BuildingFootprintTaskType>;
+
+    // a reference to the flatlist, only used in tutorial mode
+    flatlist: ?FlatList<React.Node>;
+
+    scrollEnabled: boolean;
 
     taskGen: taskGenType;
 
@@ -116,11 +133,18 @@ class _Validator extends React.Component<Props, State> {
     // past tasks they haven't provided an answer for yet
     tasksDone: number;
 
+    // the number of screens (in width) that the tutorial intro covers
+    tutorialIntroWidth: number;
+
     constructor(props: Props) {
         super(props);
         this.state = {
             currentTaskIndex: 0,
         };
+        this.tutorialIntroWidth = 2;
+        this.currentScreen = -this.tutorialIntroWidth;
+        // this remains false until the tutorial tasks are completed
+        this.scrollEnabled = false;
         this.tasksDone = -1;
         this.setupTasksList(props.group.tasks);
     }
@@ -151,6 +175,16 @@ class _Validator extends React.Component<Props, State> {
         return ''; // to keep flow and eslint happy
     };
 
+    getCurrentScreen = () => {
+        // return the screen number for the tutorial examples.
+        // The screens before the start of the content are numbered negatively
+        // which allows to check whether we're showing an example or not
+        const { currentScreen } = this;
+        // const { group } = this.props;
+        // const currentScreen = Math.floor((currentX - group.xMin) / 2);
+        return currentScreen;
+    };
+
     nextTask = (result: ?number): boolean => {
         // update state to point to the next task in the list, and
         // save result if one was provided.
@@ -160,6 +194,7 @@ class _Validator extends React.Component<Props, State> {
             completeGroup,
             group,
             submitResult,
+            tutorial,
             updateProgress,
         } = this.props;
         const { currentTaskIndex } = this.state;
@@ -178,12 +213,37 @@ class _Validator extends React.Component<Props, State> {
         }
         if (currentTaskIndex + 1 >= this.expandedTasks.length) {
             // no more tasks in the group, show the "LoadMore" screen
-            completeGroup();
+            if (tutorial && this.flatlist) {
+                // we've gone through all the tutorial tasks, move on
+                // to the tutorial outro screens which are just after the
+                // main screen with examples (hence the +1 below)
+                this.scrollEnabled = true;
+                this.flatlist.scrollToOffset({
+                    offset: 360 * (this.tutorialIntroWidth + 1),
+                });
+                this.forceUpdate(); // to pickup the change in scrollEnabled
+            } else {
+                completeGroup();
+            }
             return false;
         }
-        updateProgress(currentTaskIndex / group.numberOfTasks);
+        updateProgress((1 + currentTaskIndex) / group.numberOfTasks);
         this.setState({ currentTaskIndex: currentTaskIndex + 1 });
         return false;
+    };
+
+    onMomentumScrollEnd = (event: Object) => {
+        this.currentScreen = Math.round(
+            event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
+                this.tutorialIntroWidth,
+        );
+        if (this.currentScreen >= 0) {
+            // this is hacky, but the FlatList doesn't get rerendered here
+            // until the user taps a button on the "action" screen, so scrollEnabled
+            // doesn't pick up that it should be false. This makes sure it checks the
+            // prop again
+            this.forceUpdate();
+        }
     };
 
     previousTask = (): boolean => {
@@ -200,12 +260,9 @@ class _Validator extends React.Component<Props, State> {
     };
 
     /* eslint-disable global-require */
-    render = () => {
-        const { project, results } = this.props;
+    renderValidator = () => {
+        const { group, project, results, screens, tutorial } = this.props;
         const { currentTaskIndex } = this.state;
-        if (!this.expandedTasks) {
-            return <LoadingIcon />;
-        }
         const currentTask = this.expandedTasks[currentTaskIndex];
         // if tasks have a center attribute, we know they're grouped by 9
         // so we look a bit further ahead to prefetch imagery
@@ -220,6 +277,24 @@ class _Validator extends React.Component<Props, State> {
         if (results) {
             selectedResult = results[currentTask.taskId];
         }
+
+        let tutorialContent: ?TutorialContent;
+        const tutorialMode = tutorialModes.instructions;
+        if (tutorial && group.tasks) {
+            if (currentTaskIndex >= this.expandedTasks.length) {
+                // we've reached the end, hide the tutorial text
+                tutorialContent = undefined;
+            } else {
+                const currentScreen = this.getCurrentScreen();
+                if (currentScreen >= 0) {
+                    // $FlowFixMe
+                    tutorialContent = screens[currentTaskIndex][tutorialMode];
+                } else {
+                    tutorialContent = null;
+                }
+            }
+        }
+
         return (
             <View style={styles.container}>
                 <FootprintDisplay
@@ -297,8 +372,66 @@ class _Validator extends React.Component<Props, State> {
                 >
                     Bad imagery
                 </Button>
+                {tutorial &&
+                    tutorialContent &&
+                    this.getCurrentScreen() >= 0 && (
+                        <TutorialBox
+                            content={tutorialContent}
+                            boxType={tutorialModes.instructions}
+                        />
+                    )}
             </View>
         );
+    };
+
+    render = () => {
+        const { group, navigation, tutorial } = this.props;
+        const { projectId } = group;
+        if (!this.expandedTasks) {
+            return <LoadingIcon />;
+        }
+
+        if (tutorial) {
+            // in tutorial mode, we embed the validator component in
+            // a flatlist so that we can scroll through the intro/outro
+            // screens
+            return (
+                <>
+                    <FlatList
+                        data={[true]}
+                        horizontal
+                        initialNumToRender={1}
+                        ListFooterComponent={
+                            <TutorialEndScreen
+                                group={group}
+                                navigation={navigation}
+                                projectId={projectId}
+                            />
+                        }
+                        ListHeaderComponent={
+                            <TutorialIntroScreen
+                                exampleImage1={null}
+                                exampleImage2={null}
+                                lookFor="stuff"
+                                tutorial={tutorial}
+                            />
+                        }
+                        onMomentumScrollEnd={this.onMomentumScrollEnd}
+                        // eslint-disable-next-line no-return-assign
+                        ref={(r) => (this.flatlist = r)}
+                        renderItem={this.renderValidator}
+                        pagingEnabled
+                        scrollEnabled={
+                            this.scrollEnabled || this.getCurrentScreen() < 0
+                        }
+                        windowSize={1}
+                    />
+                </>
+            );
+        }
+        // if not in tutorial, we don't need the FlatList at all
+        // so we just render the validator directly
+        return this.renderValidator();
     };
 }
 
@@ -307,26 +440,42 @@ const mapStateToProps = (state, ownProps) => ({
     group: ownProps.group,
     project: ownProps.project,
     results: get(
-        state.results[ownProps.project.projectId],
+        state.results[ownProps.tutorialId],
         ownProps.group.groupId,
         null,
     ),
+    tutorial: ownProps.tutorial,
     submitResult: ownProps.submitResult,
 });
 
 export default compose(
     firebaseConnect((props) => {
         if (props.group) {
-            const { groupId } = props.group;
-            const { projectId } = props.project;
+            const { groupId, projectId } = props.group;
+            const prefix = props.tutorial ? 'tutorial' : 'projects';
             if (groupId !== undefined) {
-                return [
-                    {
-                        type: 'once',
-                        path: `v2/tasks/${projectId}/${groupId}`,
-                        storeAs: `projects/${projectId}/groups/${groupId}/tasks`,
-                    },
-                ];
+                const r = props.results;
+                // also wait for the startTime timestamp to be set (by START_GROUP)
+                // if we don't wait, when opening a project for the second time
+                // group is already set from before, so the tasks listener is often
+                // set before the groups one, which results in tasks being received
+                // before the group. The groups then remove the tasks list from
+                // redux, and we end up not being able to show anything.
+                // This is a bit hackish, and may not work in all situations, like
+                // on slow networks.
+                if (
+                    r[projectId] &&
+                    r[projectId][groupId] &&
+                    r[projectId][groupId].startTime
+                ) {
+                    return [
+                        {
+                            type: 'once',
+                            path: `v2/tasks/${projectId}/${groupId}`,
+                            storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
+                        },
+                    ];
+                }
             }
         }
         return [];

@@ -87,7 +87,21 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
 
     /* eslint-enable global-require */
     render() {
-        const { navigation } = this.props;
+        const { navigation, ...otherProps } = this.props;
+        const projectObj = navigation.getParam('project', false);
+        const tutorial = navigation.getParam('tutorial', false);
+        // check that the project data has a tutorialId set (in firebase)
+        // in which case, we use it as the tutorial (all projects should have one)
+        let tutorialId;
+        if (projectObj.tutorialId !== undefined) {
+            tutorialId = projectObj.tutorialId;
+        } else {
+            console.warn('No tutorial defined for the project');
+            // we should never get to this point, as we catch the lack of tutorial
+            // earlier, but just in case: abort and go back to the previous screen,
+            // this is a bit ugly, but will prevent a crash for now
+            navigation.pop();
+        }
         return (
             <ProjectLevelScreen
                 Component={Validator}
@@ -96,6 +110,9 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
                 randomSeed={this.randomSeed}
                 screenName="BuildingFootprintScreen"
                 submitResultFunction={submitFootprint}
+                tutorial={tutorial}
+                tutorialId={tutorialId}
+                {...otherProps}
             />
         );
     }

@@ -89,6 +89,23 @@ export type SingleImageryProjectType = {
     zoomLevel: number,
 };
 
+export type BuildingFootprintProjectType = {
+    categories: ?CategoriesType,
+    contributorCount: number,
+    created: number,
+    image: string,
+    isFeatured: boolean,
+    lookFor: string,
+    maxTasksPerUser: ?number,
+    name: string,
+    projectDetails: string,
+    projectId: string,
+    projectType: 2,
+    progress: number,
+    status: string,
+    tileServer: TileServerType,
+};
+
 export type ChangeDetectionProjectType = {
     categories: ?CategoriesType,
     contributorCount: number,
@@ -108,7 +125,10 @@ export type ChangeDetectionProjectType = {
 };
 
 // projects all have the same structure
-export type ProjectType = SingleImageryProjectType | ChangeDetectionProjectType;
+export type ProjectType =
+    | SingleImageryProjectType
+    | BuildingFootprintProjectType
+    | ChangeDetectionProjectType;
 
 export type ProjectMapType = { [project_id: string]: ProjectType };
 

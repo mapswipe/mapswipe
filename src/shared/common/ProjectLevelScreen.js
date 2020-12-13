@@ -18,11 +18,14 @@ import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
 import type {
+    BuildingFootprintProjectType,
     CategoriesType,
+    ChangeDetectionProjectType,
     GroupType,
     NavigationProp,
-    ProjectType,
+    ResultMapType,
     TranslationFunction,
+    TutorialContent,
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -73,9 +76,12 @@ type Props = {
     onCancelGroup: ({}) => void,
     onStartGroup: ({}) => void,
     onSubmitResult: (Object) => void,
+    results: ResultMapType,
+    screens: Array<TutorialContent>,
     screenName: string,
     t: TranslationFunction,
     tutorial: boolean,
+    tutorialId: string,
     tutorialHelpContent: React.ComponentType<any>,
 };
 
@@ -96,7 +102,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     progress: ?BottomProgress;
 
-    project: ProjectType;
+    project: BuildingFootprintProjectType | ChangeDetectionProjectType;
 
     constructor(props: Props) {
         super(props);
@@ -121,18 +127,16 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 });
                 // the component props are updated when group is received
                 // and then when tasks are received
-                if (group.tasks !== undefined) {
-                    onStartGroup({
-                        groupId: group.groupId,
-                        projectId: group.projectId,
-                        startTime: GLOBAL.DB.getTimestamp(),
-                    });
-                    // eslint-disable-next-line react/no-did-update-set-state
-                    this.setState({
-                        groupCompleted: false,
-                    });
-                    if (this.progress) this.progress.updateProgress(0);
-                }
+                onStartGroup({
+                    groupId: group.groupId,
+                    projectId: group.projectId,
+                    startTime: GLOBAL.DB.getTimestamp(),
+                });
+                // eslint-disable-next-line react/no-did-update-set-state
+                this.setState({
+                    groupCompleted: false,
+                });
+                if (this.progress) this.progress.updateProgress(0);
             }
         }
     };
@@ -290,7 +294,10 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             Component,
             group,
             navigation,
+            results,
+            screens,
             tutorial,
+            tutorialId,
         } = this.props;
         const { groupCompleted, waitingForNextGroup } = this.state;
         if (!group || waitingForNextGroup) {
@@ -325,10 +332,14 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     categories={tutorial ? categories : null}
                     completeGroup={this.completeGroup}
                     group={group}
+                    navigation={navigation}
                     project={this.project}
+                    results={results}
+                    screens={screens}
                     submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
+                    tutorialId={tutorialId}
                 />
                 <BottomProgress
                     ref={(r) => {
