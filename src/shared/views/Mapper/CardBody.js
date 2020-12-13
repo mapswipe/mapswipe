@@ -590,6 +590,8 @@ class _CardBody extends React.PureComponent<Props, State> {
                         <TutorialBox
                             content={tutorialContent}
                             boxType={tutorialMode}
+                            bottomOffset="80%"
+                            topOffset="15%"
                         />
                     )}
                 {tutorial && showAnswerButtonIsVisible && (

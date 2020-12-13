@@ -378,6 +378,8 @@ class _Validator extends React.Component<Props, State> {
                         <TutorialBox
                             content={tutorialContent}
                             boxType={tutorialModes.instructions}
+                            bottomOffset="45%"
+                            topOffset="5%"
                         />
                     )}
             </View>
