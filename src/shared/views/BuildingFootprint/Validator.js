@@ -219,7 +219,7 @@ class _Validator extends React.Component<Props, State> {
                 // main screen with examples (hence the +1 below)
                 this.scrollEnabled = true;
                 this.flatlist.scrollToOffset({
-                    offset: 360 * (this.tutorialIntroWidth + 1),
+                    offset: GLOBAL.SCREEN_WIDTH * (this.tutorialIntroWidth + 1),
                 });
                 this.forceUpdate(); // to pickup the change in scrollEnabled
             } else {
