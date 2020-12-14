@@ -53,33 +53,30 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
     /* eslint-disable global-require */
     getNormalHelpContent = () => (
         <>
-            <Text style={styles.header}>How To Contribute</Text>
+            <Text style={styles.header}>{t('howToContribute')}</Text>
             <View style={styles.tutRow}>
                 <Text style={styles.tutPar}>
-                    Look at the red shape on top of the imagery and decide if it
-                    matches the building underneath it. Tap one of the 3 buttons
-                    to answer:
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={[styles.tutText, { color: COLOR_GREEN }]}>
-                    Looks good: the shape matches the image
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={[styles.tutText, { color: COLOR_YELLOW }]}>
-                    Needs adjustment if they don&apos;t align properly
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={[styles.tutText, { color: COLOR_RED }]}>
-                    No building if the shape doesn&apos;t overlap with any
-                    building
+                    {t('squareContainsBuildings')}
                 </Text>
             </View>
             <View style={styles.tutRow}>
                 <Text style={styles.tutText}>
-                    If unsure, answer &quot;Needs adjustment&quot;
+                    {t('instructionsYes')}
+                </Text>
+            </View>
+            <View style={styles.tutRow}>
+                <Text style={styles.tutText}>
+                    {t('instructionsNo')}
+                </Text>
+            </View>
+            <View style={styles.tutRow}>
+                <Text style={styles.tutText}>
+                    {t('instructionsNotSure')}
+                </Text>
+            </View>
+            <View style={styles.tutRow}>
+                <Text style={styles.tutText}>
+                    {t('instructionsBadImagery')}
                 </Text>
             </View>
         </>
