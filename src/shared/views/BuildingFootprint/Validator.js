@@ -12,7 +12,7 @@ import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
-import TutorialIntroScreen from '../Mapper/TutorialIntro';
+import TutorialIntroScreen from './TutorialIntro';
 import { tutorialModes, COLOR_WHITE } from '../../constants';
 import GLOBAL from '../../Globals';
 
@@ -141,7 +141,7 @@ class _Validator extends React.Component<Props, State> {
         this.state = {
             currentTaskIndex: 0,
         };
-        this.tutorialIntroWidth = 2;
+        this.tutorialIntroWidth = 1;
         this.currentScreen = -this.tutorialIntroWidth;
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;

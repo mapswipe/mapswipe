@@ -162,5 +162,12 @@
     "readyToStart": "You're ready to start MapSwiping!",
     "startMapping": "Start mapping",
     "completedTutorial": "You're now equipped with all you need to contribute to humanitarian mapping using the app. You can come back any time for a refresher."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Let's learn how to map with some examples",
+      "youllSeeASquare": "You'll see a square on an image. Use the buttons to answer:",
+      "squareContainsBuildings": "Does the square contain any buildings?",
+      "squareWillMove": "The square will move around the image as you progress, following a grid like this:",
+      "swipeToGetStarted": "Swipe to get started"
   }
 }
