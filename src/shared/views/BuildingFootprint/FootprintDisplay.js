@@ -1,6 +1,13 @@
 // @flow
 import * as React from 'react';
-import { Animated, Image, PanResponder, StyleSheet, View } from 'react-native';
+import {
+    Animated,
+    Image,
+    PanResponder,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 import {
     type LayoutEvent,
     type PressEvent,
@@ -13,6 +20,7 @@ import { Path, Shape, Surface } from '@react-native-community/art';
 import tilebelt from '@mapbox/tilebelt';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import ScaleBar from '../../common/ScaleBar';
+import { COLOR_WHITE } from '../../constants';
 import type {
     BBOX,
     ImageCoordsPoint,
@@ -35,6 +43,16 @@ const GLOBAL = require('../../Globals');
 const tileSize = GLOBAL.SCREEN_WIDTH;
 
 const styles = StyleSheet.create({
+    attribution: {
+        color: COLOR_WHITE,
+        fontSize: 7,
+        fontWeight: '300',
+    },
+    attributionView: {
+        backgroundColor: '#444444',
+        padding: 1,
+        position: 'absolute',
+    },
     tileImg: {
         height: tileSize,
         position: 'absolute',
@@ -500,14 +518,14 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const tiles = this.getTilesFromScreenCorners(corners, this.zoomLevel);
         const tileUrls = tiles.map(this.getTileUrl);
 
-        // multiply the screen size by the decimal part of the tile coords
-        // NEXT: this shift makes no sense, why is it working?
-        // shouldn't we shift in relation to centroid (we do!!)
-        // can we use the tileSize in the pixel calculations to replace the hard coded 256?
-        // this should allow building tiles that are always big enough to cover the entire screen
-
+        // the TMS display fetches 4 tiles from the imagery provider, and sizes
+        // each one to the same width as the phone's screen. then we shift the
+        // resulting image so that the shape's center is roughly aligned with
+        // the center of the screen
         const shiftX = (swCornerTile[0] % 1) * tileSize;
         const shiftY = (swCornerTile[1] % 1) * tileSize;
+
+        const attribution = project.tileServer.credits;
         return (
             <View
                 {...this.panResponder.panHandlers}
@@ -592,6 +610,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     visible
                     zoomLevel={this.zoomLevel}
                 />
+                <View style={styles.attributionView}>
+                    <Text style={styles.attribution}>{attribution}</Text>
+                </View>
             </View>
         );
     };
