@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { withTranslation } from 'react-i18next';
 import ProjectLevelScreen from '../../common/ProjectLevelScreen';
 import { submitFootprint } from '../../actions/index';
 import Validator from './Validator';
-import type { NavigationProp } from '../../flow-types';
-import { COLOR_GREEN, COLOR_RED, COLOR_YELLOW } from '../../constants';
+import type { NavigationProp, TranslationFunction } from '../../flow-types';
 
 const styles = StyleSheet.create({
     header: {
@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
 
 type Props = {
     navigation: NavigationProp,
+    t: TranslationFunction,
 };
 
 /* eslint-disable react/destructuring-assignment */
-export default class BuildingFootprintScreen extends React.Component<Props> {
+class _BuildingFootprintScreen extends React.Component<Props> {
     randomSeed: number;
 
     constructor(props: Object) {
@@ -51,36 +52,35 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
     }
 
     /* eslint-disable global-require */
-    getNormalHelpContent = () => (
-        <>
-            <Text style={styles.header}>{t('howToContribute')}</Text>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    {t('squareContainsBuildings')}
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutText}>
-                    {t('instructionsYes')}
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutText}>
-                    {t('instructionsNo')}
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutText}>
-                    {t('instructionsNotSure')}
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutText}>
-                    {t('instructionsBadImagery')}
-                </Text>
-            </View>
-        </>
-    );
+    getNormalHelpContent = () => {
+        const { t } = this.props;
+        return (
+            <>
+                <Text style={styles.header}>{t('howToContribute')}</Text>
+                <View style={styles.tutRow}>
+                    <Text style={styles.tutPar}>
+                        {t('squareContainsBuildings')}
+                    </Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Text style={styles.tutText}>{t('instructionsYes')}</Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Text style={styles.tutText}>{t('instructionsNo')}</Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Text style={styles.tutText}>
+                        {t('instructionsNotSure')}
+                    </Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Text style={styles.tutText}>
+                        {t('instructionsBadImagery')}
+                    </Text>
+                </View>
+            </>
+        );
+    };
 
     /* eslint-enable global-require */
     render() {
@@ -114,3 +114,7 @@ export default class BuildingFootprintScreen extends React.Component<Props> {
         );
     }
 }
+
+export default withTranslation('BFInstructionsScreen')(
+    _BuildingFootprintScreen,
+);
