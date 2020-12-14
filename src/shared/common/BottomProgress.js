@@ -40,7 +40,6 @@ export default class BottomProgress extends React.Component<{}, BPState> {
 
     render() {
         const { progress } = this.state;
-        //console.log('render PB', progress);
         return (
             <View style={styles.swipeNavBottom}>
                 <Progress.Bar

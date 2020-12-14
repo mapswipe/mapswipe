@@ -51,26 +51,26 @@ const styles = StyleSheet.create({
 
 type Props = {
     content: TutorialContent,
+    bottomOffset: string,
     boxType: string,
+    topOffset: string,
 };
 
 type State = {
     position: string,
 };
 
-const topOffset = '15%';
-const bottomOffset = '80%';
-
 export default class TutorialBox extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            position: topOffset,
+            position: props.topOffset,
         };
     }
 
     moveBox = () => {
         let { position } = this.state;
+        const { bottomOffset, topOffset } = this.props;
         if (position === topOffset) {
             position = bottomOffset;
         } else {

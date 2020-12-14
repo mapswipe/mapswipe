@@ -562,6 +562,12 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                         tutorial: true,
                                     });
                                     break;
+                                case BUILDING_FOOTPRINTS:
+                                    navigation.push('BuildingFootprintScreen', {
+                                        project,
+                                        tutorial: true,
+                                    });
+                                    break;
                                 default:
                                     Alert.alert(
                                         'Coming soon!',
