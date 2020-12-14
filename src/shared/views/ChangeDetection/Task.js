@@ -159,6 +159,8 @@ export default class ChangeDetectionTask extends React.PureComponent<
                             icon: 'fixme',
                         }}
                         boxType="fixme"
+                        bottomOffset="45%"
+                        topOffset="5%"
                     />
                 )}
             </>
