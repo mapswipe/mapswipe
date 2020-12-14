@@ -169,5 +169,12 @@
       "squareContainsBuildings": "Does the square contain any buildings?",
       "squareWillMove": "The square will move around the image as you progress, following a grid like this:",
       "swipeToGetStarted": "Swipe to get started"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Don't worry if you're unsure about a square.",
+    "youCanAlwaysTapUnsure": "Remember, you can always tap the 'Not sure' button",
+    "everyImageViewedBy": "Every image is viewed by at least 3 MapSwipers, so it's ok if you think you've missed something",
+    "wantToChangeYourAnswer": "Want to change your answer?",
+    "youCanSwipeBack": "You can swipe back to change your previous answers. Then tap or swipe forward again to get back to where you were."
   }
 }

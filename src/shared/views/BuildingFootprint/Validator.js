@@ -13,6 +13,7 @@ import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
+import BuildingFootprintTutorialOutro from './TutorialOutro';
 import { tutorialModes, COLOR_WHITE } from '../../constants';
 import GLOBAL from '../../Globals';
 
@@ -407,6 +408,7 @@ class _Validator extends React.Component<Props, State> {
                             <TutorialEndScreen
                                 group={group}
                                 navigation={navigation}
+                                OutroScreen={BuildingFootprintTutorialOutro}
                                 projectId={projectId}
                             />
                         }
