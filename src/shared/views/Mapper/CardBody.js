@@ -11,6 +11,7 @@ import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
 import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
+import TutorialOutroScreen from '../../common/Tutorial/TutorialOutro';
 import ScaleBar from '../../common/ScaleBar';
 import IndividualCard from './IndividualCard';
 import TutorialIntroScreen from './TutorialIntro';
@@ -529,6 +530,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                             <TutorialEndScreen
                                 group={group}
                                 navigation={navigation}
+                                OutroScreen={TutorialOutroScreen}
                                 projectId={projectId}
                             />
                         ) : (
