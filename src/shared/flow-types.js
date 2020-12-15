@@ -5,12 +5,35 @@ import BottomProgress from './common/BottomProgress';
 
 // geographic types
 
+// a single point whose coordinates can be expressed in latitude/longitude
+// in geographic pixel coordinates or in image pixel coordinates
 export type Point = [number, number];
 
-export type Polygon = Array<Point>;
+// coordinates expressed in latitude, longitude (in degrees)
+export type Latitude = number;
+export type Longitude = number;
+export type LonLatPoint = [Longitude, Latitude];
+// coordinates expressed in pixel coordinates (x, y, from "top left" of the globe)
+export type PixelCoordsX = number;
+export type PixelCoordsY = number;
+export type PixelCoordsPoint = [PixelCoordsX, PixelCoordsY];
 
+// coordinates in "image coords", ie: measured in pixels from the
+// top left of a tile, as [x, y]
+export type ImageCoordsPoint = [number, number];
+
+// zoom levels are always integers (typically 1 to 20-21)
+export type ZoomLevel = number;
+
+export type Polygon = Array<Point>;
+export type LonLatPolygon = Array<LonLatPoint>;
+
+// bounding box limits as [West, South, East, North]
+// aka [left, bottom, right, top]
 export type BBOX = [number, number, number, number];
 
+// tile reference (only works for TMS tiles) expressed as
+// x, y, zoom
 export type Tile = [number, number, number];
 
 // dependencies types
@@ -66,6 +89,23 @@ export type SingleImageryProjectType = {
     zoomLevel: number,
 };
 
+export type BuildingFootprintProjectType = {
+    categories: ?CategoriesType,
+    contributorCount: number,
+    created: number,
+    image: string,
+    isFeatured: boolean,
+    lookFor: string,
+    maxTasksPerUser: ?number,
+    name: string,
+    projectDetails: string,
+    projectId: string,
+    projectType: 2,
+    progress: number,
+    status: string,
+    tileServer: TileServerType,
+};
+
 export type ChangeDetectionProjectType = {
     categories: ?CategoriesType,
     contributorCount: number,
@@ -85,7 +125,10 @@ export type ChangeDetectionProjectType = {
 };
 
 // projects all have the same structure
-export type ProjectType = SingleImageryProjectType | ChangeDetectionProjectType;
+export type ProjectType =
+    | SingleImageryProjectType
+    | BuildingFootprintProjectType
+    | ChangeDetectionProjectType;
 
 export type ProjectMapType = { [project_id: string]: ProjectType };
 
@@ -108,6 +151,7 @@ export type BuiltAreaTaskType = {
 
 // used only by projects of type BUILDING_FOOTPRINTS (type 2)
 export type BuildingFootprintTaskType = {
+    center: ?Point,
     groupId: string,
     geojson: { type: string, coordinates: { [number]: Polygon } },
     projectId: string,
@@ -121,7 +165,7 @@ export type ChangeDetectionTaskType = {
     projectId: string,
     referenceAnswer: ?number,
     taskId: string,
-    urlA: string,
+    url: string,
     urlB: string,
 };
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Image, StyleSheet } from 'react-native';
-// import { COLOR_BLACK, COLOR_WHITE } from '../../constants';
 
 const styles = StyleSheet.create({
     greenCheckMark: {
@@ -84,6 +83,15 @@ export const SwipeIconWhite = () => {
     return (
         <Image
             source={require('../../views/assets/swipeleft_icon_white.png')}
+            style={styles.tutImage}
+        />
+    );
+};
+
+export const SwipeRightIconWhite = () => {
+    return (
+        <Image
+            source={require('../../views/assets/swiperight_icon_white.png')}
             style={styles.tutImage}
         />
     );

@@ -138,7 +138,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
                     <SatImage
                         overlayText="Before"
                         overlayTextStyle={styles.overlayText}
-                        source={{ uri: task.urlA }}
+                        source={{ uri: task.url }}
                         style={styles.topImage}
                     />
                     <SatImage
@@ -159,6 +159,8 @@ export default class ChangeDetectionTask extends React.PureComponent<
                             icon: 'fixme',
                         }}
                         boxType="fixme"
+                        bottomOffset="45%"
+                        topOffset="5%"
                     />
                 )}
             </>

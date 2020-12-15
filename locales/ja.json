@@ -5,8 +5,8 @@
   },
   "signup": {
     "chooseUsername": "あなたのユーザーネームを選んでください",
-    "passwordError": "パスワードは6文字以上で作成してください",
-    "usernameError": "ユーザーネームは4文字以上にしてください",
+    "passwordError": "パスワードは最低でも6文字必要です",
+    "usernameError": "ユーザーネームは最低でも4文字必要です",
     "errorOnSignup": "エラーまたはサインアップ",
     "usernameErrorMessage": "ユーザーネームは4文字以上必要です",
     "usernameNotEmail": "ユーザーネームをメールアドレスにすることはできません",
@@ -46,6 +46,7 @@
     "Level X": "レベル {{level}}",
     "youve completed x tasks": "あなたはこれまでに{{contributions}}個のタスクをコンプリートしました！",
     "x tasks (s swipes) until the next level": "次のレベルまであと {{sqkm}} タスク ({{swipes}}スワイプ）",
+    "yourTeam": "あなたのチーム: {{teamName}}",
     "changeLanguage": "言語の変更",
     "mapswipe website": "マップスワイプのウェブサイト",
     "missingmaps website": "ミッシングマップのウェブサイト",
@@ -57,9 +58,15 @@
     "no keep my account": "いいえ、アカウントを残します",
     "yes delete it": "はい、このアカウントを消します"
   },
+  "projectList": {
+    "progress pc by x mappers": "{{mappersCount}}人のマッパーによって{{progress}}%終わっています"
+  },
   "projectView": {
-    "x pc global progress by n mappers": "あなたのような世界中のマッパー {{project.contributorCount}} 人によって、現在 {{projectProgress}}% 完了",
+    "x pc global progress by n mappers": "あなたのようなマッパーによるグローバルな進歩",
+    "userProgressForProject": "このプロジェクトのために",
+    "quotaReachedWarning": "ミッション画面から別のプロジェクトを選択してください",
     "map now": "今すぐマッピングする",
+    "chooseAnotherProject": "他のプロジェクトを選んで",
     "tutorial": "作業の説明"
   },
   "mappingHeader": {
@@ -70,7 +77,9 @@
     "finishedGroup": "素晴らしい！このグループを終了させました。",
     "letsGo": "さあ、いってみよう！",
     "completeSession": "セッションを完了させる",
-    "continueMapping": "マッピングを続ける"
+    "continueMapping": "マッピングを続ける",
+    "sync alert": "同期アラート",
+    "sync alert message": "タスクを同期しています...アプリを閉じないでください。"
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "マップスワイプへようこそ",
@@ -83,5 +92,75 @@
     "dataUse": "データは、ミッシングマップで活動しているボランティアの人々がオープンストリートマップ上で必要なところに集中してマッピングをするために使われています。",
     "saveLives": "命を救う",
     "mapHelps": "この地図は人道的支援活動を指揮するのに役立てられ、命を救います　"
+  },
+  "CDInstructionScreen": {
+    "instructions": "手順",
+    "your task": "あなたのタスク：",
+    "lookingFor": "”changes in buildings”を探しています。これは、人口規模の変化の明確な指標として機能します。",
+    "perform task": "どのようにタスクを達成するか",
+    "noChanges": "変更がなければ、{''}スワイプして次の写真に移動します",
+    "seeChanges": "建物に変化が見られる場合は、{''}を1回タップ{''}すると、タイルが緑色に変わります。",
+    "unsure": "わかりませんか？{''} 2回タップ{''}すると、タイルが黄色に変わります",
+    "badImagery": "どちらかの画像に雲が覆っている場合など、画像の問題の際は{''} 3回タップすると{''}、タイルが赤に変わります",
+    "holdZoom": "画像をもっと詳しく見る必要がある場合は、画像を長押しすると、もう少しズームインします。",
+    "hint": "ヒント",
+    "differentImagery": "異なる出所の画像が使用されることもあります。画像の配置が少し異なる場合や、解像度が異なる場合があります。集落と建物の明確な変化を探していることを忘れないでください{''}同じ建物がそこにあるように見えても、新しい屋根がある場合、これは「変更なし」のシナリオになります。次の画像にスワイプするだけです。"
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "手順を見る"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "理解した"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "下にスワイプして6つのタイルすべてを赤でマークします。",
+    "swipe up undo": "上をスワイプして、やり直し"
+  },
+  "LoadingIcon": {
+    "loading": "ローディング中"
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "答えを見る"
+  },
+  "Tutorial": {
+    "incomplete": "未完成",
+    "maybe": "おそらく",
+    "instructions1": "どのように貢献していくか",
+    "instructions2": "タップして選択",
+    "instructions3": "簡単なミッションに記載されている機能を探します。探しているものが見つかったら、各タイルをタップします。 1YES1の場合は1回、2 {{twoTaps}} 2の場合は2回、3BAD IMAGERY3（雲など）の場合は3回タップします。",
+    "instructions4": "ナビゲートするにはスワイプ",
+    "instructions5": "マップの一部が完成したら、スワイプして次のマップにスクロールします。",
+    "instructions6": "ズームするには画面を止める",
+    "instructions7": "タイルを押したままにして、タイルを拡大します。",
+    "instructions8": "クレジット",
+    "tutorial1": "チュートリアルへようこそ",
+    "tutorial2": "これにより、数分でMapSwipeのウィザードになります。",
+    "tutorial3": "画面の指示に従い、左にスワイプして続行します。",
+    "tutorial4": "もし指示が邪魔な場合は、メッセージボックスをタップして移動します。",
+    "tutorial5": "理解する"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "このチュートリアルでは、MapSwipeの使用方法を説明します。基本的な手順は次のとおりです。",
+    "noChanges": "画像に関連するものがない場合は、次の画面にスワイプするだけです。",
+    "seeChanges": "いずれかの画像に何かが表示されている場合は、1回タップして正方形を緑色に変えます。",
+    "unsure": "何が見えるかわからない時は、正方形を2回タップして正方形を黄色にします。",
+    "badImagery": "画像に問題がある場合は、3回タップして正方形を赤くします。",
+    "tapAgain": "再度タップすると、正方形が元の状態に戻ります。",
+    "WhatToLookFor": "何を探すべきか",
+    "YouAreLookingFor": "あなたは探している",
+    "FromTheGround": "地面から見ると、次のようになります。",
+    "ImagesFromAbove": "しかし、表示される画像は上からそれを示しており、次のようになります。",
+    "SwipeToContinue": "スワイプして続ける"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "マスの中に何があるのかよくわからなくても心配しないでください。",
+    "youCanAlwaysTapTwice": "何が見えているのか不確かな時はいつでも、2回タップして黄色のブロックとして申告できることを忘れないでください",
+    "everyImageViewedBy": "全ての画像は複数の人に見られますので、何か見落としてしまっても気にしないでください",
+    "holdZoom": "長押しでマスを拡大することができます。タップすると元に戻ります。"
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "あなたはマップスワイプを始めることができます！",
+    "startMapping": "マッピングを始める",
+    "completedTutorial": "このアプリでヒューマニタリアンマッピングに貢献するために必要なことはすべてそろいました。いつでも確認に戻ってくることができます。"
   }
 }

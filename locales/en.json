@@ -162,5 +162,27 @@
     "readyToStart": "You're ready to start MapSwiping!",
     "startMapping": "Start mapping",
     "completedTutorial": "You're now equipped with all you need to contribute to humanitarian mapping using the app. You can come back any time for a refresher."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Let's learn how to map with some examples",
+      "youllSeeASquare": "You'll see a square on an image. Use the buttons to answer:",
+      "squareContainsBuildings": "Does the square contain any buildings?",
+      "squareWillMove": "The square will move around the image as you progress, following a grid like this:",
+      "swipeToGetStarted": "Swipe to get started"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Don't worry if you're unsure about a square.",
+    "youCanAlwaysTapUnsure": "Remember, you can always tap the 'Not sure' button",
+    "everyImageViewedBy": "Every image is viewed by at least 3 MapSwipers, so it's ok if you think you've missed something",
+    "wantToChangeYourAnswer": "Want to change your answer?",
+    "youCanSwipeBack": "You can swipe back to change your previous answers. Then tap or swipe forward again to get back to where you were."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "How To Contribute",
+    "squareContainsBuildings": "Does the square contain any buildings? Use the buttons to answer:",
+    "instructionsYes": "Yes: when there is a building or part of a building in the square",
+    "instructionsNo": "No: when there are no buildings in the square",
+    "instructionsNotSure": "Not sure: when your not certain if it's a building or not",
+    "instructionsBadImagery": "Bad imagery: when there is cloud cover or issues with the imagery"
   }
 }

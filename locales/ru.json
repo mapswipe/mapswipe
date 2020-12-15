@@ -4,7 +4,7 @@
     "more": "Другое"
   },
   "signup": {
-    "chooseUsername": "Выберите имя пользователя",
+    "chooseUsername": "Введите имя пользователя",
     "passwordError": "Пароль должен содержать минимум 6 символов",
     "usernameError": "Имя пользователя должно содержать минимум 4 символа",
     "errorOnSignup": "Ошибка при регистрации",
@@ -26,7 +26,7 @@
     "problemLoggingIn": "Проблема со входом в",
     "errorResetPass": "Ошибка сброса пароля",
     "enterYourEmail": "Введите свою эл. почту",
-    "choosePassword": "Выберите свой пароль",
+    "choosePassword": "Введите пароль",
     "enterYourPassword": "Введите свой пароль",
     "IagreeToPrivacyNotice": "Я согласен с <1>Условиями использования</1>",
     "contributionWarningOnSignup": "* Все данные, которые вы помогаете создать в MapSwipe, открытые и доступны каждому. Ваше имя отображается публично, но пароль и почтовый адрес никогда не будут переданы кому-либо.",
@@ -48,8 +48,8 @@
     "x tasks (s swipes) until the next level": "{{sqkm}} заданий ({{swipes}} перелистываний) до следующего уровня",
     "yourTeam": "Ваша группа: {{teamName}}",
     "changeLanguage": "Изменить язык",
-    "mapswipe website": "MapSwipe сайт",
-    "missingmaps website": "Missing Maps сайт",
+    "mapswipe website": "Сайт проекта MapSwipe",
+    "missingmaps website": "Сайт проекта Missing Maps",
     "email us": "Напишите нам",
     "sign out": "Выход",
     "delete my account": "Удалить мой аккаунт",
@@ -64,9 +64,9 @@
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% УЖЕ СДЕЛАНО {{contributorCount}} ТАКИМИ ЖЕ УЧАСТНИКАМИ КАК ВЫ",
     "userProgressForProject": "{{userProgress}}% от этого проекта",
-    "quotaReachedWarning": "Выберите другой проект на экране со списком миссий",
+    "quotaReachedWarning": "Выбрать другой проект на экране со списком миссий",
     "map now": "Начать",
-    "chooseAnotherProject": "Выберите другой проект",
+    "chooseAnotherProject": "Выбрать другой проект",
     "tutorial": "Руководство"
   },
   "mappingHeader": {
@@ -83,7 +83,7 @@
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Добро пожаловать в MapSwipe",
-    "helpImprove": "Помогите улучшить работу гуманитарных миссий используя свой смартфон",
+    "helpImprove": "Помогайте улучшить работу гуманитарных миссий используя свой смартфон",
     "partMissingMaps": "Часть проекта Missing Maps",
     "withMissingMaps": "Вместе с проектом Missing Maps мы хотим нанести на карту уязвимые сообщества",
     "swipe": "Пролистните экран",
@@ -96,7 +96,7 @@
   "CDInstructionScreen": {
     "instructions": "Инструкции",
     "your task": "Задание:",
-    "lookingFor": "Вы ищите {' '} <1>ивзменения в застройке</1>. Это является ярким индикатором изменения численности населения.",
+    "lookingFor": "Вы ищите {' '} <1>изменения в застройке</1>. Это является ярким индикатором изменения численности населения.",
     "perform task": "Как выполнять задание:",
     "noChanges": "Если никаких изменений нет, просто{' '} <1>перелистните</1> на страницу со следующими изображениями",
     "seeChanges": "Если вы видите изменения в застройке,{' '} <1>коснитесь один раз</1>{' '} и квадрат станет зеленым",
@@ -110,7 +110,7 @@
     "viewInstructions": "Посмотреть инструкции"
   },
   "ProjectLevelScreen": {
-    "iUnderstand": "Я понимаю"
+    "iUnderstand": "Понятно"
   },
   "IndividualCard": {
     "swipe down mark red": "Перелистните ВНИЗ чтобы отметить все 6 квадратов КРАСНЫМ",

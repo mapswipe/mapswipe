@@ -557,7 +557,13 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                     });
                                     break;
                                 case CHANGE_DETECTION:
-                                    navigation.push('ChangeDetectionScreen', {
+                                    navigation.push('CDInstructionsScreen', {
+                                        project,
+                                        tutorial: true,
+                                    });
+                                    break;
+                                case BUILDING_FOOTPRINTS:
+                                    navigation.push('BuildingFootprintScreen', {
                                         project,
                                         tutorial: true,
                                     });

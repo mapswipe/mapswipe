@@ -7,7 +7,6 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
-import TutorialOutroScreen from './TutorialOutro';
 import { TickWhiteOnGreen } from './icons';
 import { cancelGroup, completeTutorial } from '../../actions';
 import type {
@@ -70,6 +69,7 @@ type Props = {
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
     onCompleteTutorial: (number) => void,
+    OutroScreen: React.ComponentType<any>,
     projectId: string,
     projectType: number,
     t: TranslationFunction,
@@ -102,11 +102,11 @@ class TutorialEndScreen extends React.Component<Props> {
     };
 
     render() {
-        const { t } = this.props;
+        const { OutroScreen, t } = this.props;
         return (
             <View style={styles.twoScreensWidth}>
                 <View style={styles.oneScreenWidth}>
-                    <TutorialOutroScreen />
+                    <OutroScreen />
                 </View>
                 <View style={styles.oneScreenWidth}>
                     <View style={styles.congratulationsSlide}>
