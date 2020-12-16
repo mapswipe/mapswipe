@@ -32,6 +32,8 @@ matrix:
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.17.3
         - export PATH="$HOME/.yarn/bin:$PATH"
         - gem install bundler
+        # force manual license acceptance when switching to build-tools 29
+        - yes | sdkmanager "platforms;android-28"
       install:
         - yarn install --frozen-lockfile
         - touch $HOME/.android/repositories.cfg
@@ -43,7 +45,9 @@ matrix:
           - tools
           - platform-tools
           - build-tools-28.0.3
+          - build-tools-29.0.3
           - android-28
+          - android-29
           - extra-android-m2repository
           - extra-google-google_play_services
           - extra-google-m2repository
