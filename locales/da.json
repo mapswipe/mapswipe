@@ -1,0 +1,188 @@
+{
+  "mainHeader": {
+    "missions": "Missioner",
+    "more": "Mere"
+  },
+  "signup": {
+    "chooseUsername": "Vælg dit brugernavn",
+    "passwordError": "Adgangskoden skal være på mindst 6 tegn",
+    "usernameError": "Brugernavnet skal være på mindst 4 tegn",
+    "errorOnSignup": "Fejl ved tilmelding",
+    "usernameErrorMessage": "Dit brugernavn skal være på mindst 4 tegn",
+    "usernameNotEmail": "Dit brugernavn kan ikke være din email",
+    "usernamePublic": "Dit brugernavn vil være synligt offentligt",
+    "success": "Succes",
+    "welcomeToMapSwipe": "Velkommen til MapSwipe, {{username}}",
+    "emailAlreadyUsed": "Denne email benyttes allerede af en anden konto",
+    "emailInvalid": "Emailadressen er ugyldig",
+    "problemSigningUp": "Problem ved kontooprettelsen",
+    "errorOnSignUp": "Fejl ved kontooprettelsen",
+    "checkYourEmail": "Tjek din mailbox",
+    "noAccountFoundForEmail": "Ingen konto blev fundet for denne email",
+    "problemResettingPassword": "Problem med at nulstille din adgangskode",
+    "errorLogIn": "Fejl ved login",
+    "invalidEmailPassword": "ugyldigt emailadresse eller passord",
+    "accountDisabled": "Konto er slukket",
+    "problemLoggingIn": "Problem med at logge ind",
+    "errorResetPass": "Fejl ved nulstilling af adgangskode",
+    "enterYourEmail": "indtast din email",
+    "choosePassword": "vælg et passord",
+    "enterYourPassword": "indtast dit passord",
+    "IagreeToPrivacyNotice": "Jeg er enig i  <1>Privacy Notice</1>",
+    "contributionWarningOnSignup": "* Alle de data du bidrager med til MapSwipe er åbne og ilgængelige for enhver.  Dit brugernavn er offentligt, mens vi aldrig vil dele din email eller adgangskode med nogen. ",
+    "signUp": "Tilmeld dig",
+    "loginExistingAccount": "Log ind på en eksisterende konto",
+    "login": "Log ind",
+    "forgotPassword": "Har du glemt dit passord?",
+    "createNewAccount": "Opret ny konto",
+    "sendResetEmailWarning": "* Vi vil sende dig en email, så du kan nulstille din adgangskode",
+    "sendResetEmail": "Send nulstillings-email",
+    "backToLogin": "Tilbage til log ind"
+  },
+  "login": {
+    "enterUsername": "indtast dit brugernavn"
+  },
+  "profileScreen": {
+    "Level X": "Level {{level}}",
+    "youve completed x tasks": "Du har klaret {{contributions}} opgaver!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} opgaver ({{swipes}} swipes) inden du når næste level",
+    "yourTeam": "Dit hold: {{teamName}}",
+    "changeLanguage": "Skift sprog",
+    "mapswipe website": "MapSwipes hjemmeside",
+    "missingmaps website": "Missing Maps hjemmeside",
+    "email us": "Email os",
+    "sign out": "Log ud",
+    "delete my account": "Slet min konto",
+    "delete account question": "Slet konto?",
+    "delete account warning": "Du vil miste alle dine resultater og mærkater. Dine bidrag vil fortsat være tilgængelige som public domain, men de vil ikke længere være knyttet til din konto \nØnsker du at fortsætte?",
+    "no keep my account": "Nej, behold min konto.",
+    "yes delete it": "Ja, slet min konto."
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% af {{mappersCount}} mappere"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% GLOBALT RESULTAT AF  {{contributorCount}} MAPPERE SOM DIG.",
+    "userProgressForProject": "{{userProgress}}% for dette projekt",
+    "quotaReachedWarning": "Vælg et andet projekt fra oversigten med missioner",
+    "map now": "Map nu",
+    "chooseAnotherProject": "Vælg et andet projekt",
+    "tutorial": "Vejledning"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Du søger efter: "
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Glimrende. Du har gennemført vejledningen. Du er nu klar til at lave noget mapping!",
+    "finishedGroup": "Godt klaret. Du har afsluttet denne gruppe.",
+    "letsGo": "Lad os begynde!",
+    "completeSession": "Afslut opgaven",
+    "continueMapping": "Fortsæt med at mappe",
+    "sync alert": "Sync alarm",
+    "sync alert message": "Synkroniserer dine bidrag... Luk ikke appen."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Velkommen til MapSwipe",
+    "helpImprove": "Hjælp med at forbedre nødhjælps-indsatser, fra din telefon",
+    "partMissingMaps": "En del af Missing Maps",
+    "withMissingMaps": "Med Missing Maps er det vores mål at hjælpe verdens sårbare områder på verdenskortet",
+    "swipe": "Swipe",
+    "completeTasks": "Klar opgaver ved at swipe gennem luftfotos over områder, der har brug for mapping",
+    "createData": "Opret vigtige data ",
+    "dataUse": "Disse data bruges til at styrke fokus for de frivillige i Missing Maps og for at tilføre detaljer til OpenStreetMap",
+    "saveLives": "Red liv",
+    "mapHelps": "Kortet hjælper organisationer med at koordinere de humanitære indsatser og redde liv"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instruktioner",
+    "your task": "Din opgave: ",
+    "lookingFor": "Du skal kigge efter {' '} <1>ændringer i bygninger</1>. Dette er en klar indikator for en ændring i befolkningstallet.",
+    "perform task": "Sådan løses opgaven: ",
+    "noChanges": "Hvis der ikke er nogle ændringer, så blot {' '} <1>swipe</1> videre til de næste billeder",
+    "seeChanges": "Hvis du ser ændringer i bygninger,{' '} <1>tap en gang</1>{' '} så feltet bliver grønt",
+    "unsure": "Usikker?{' '} <1>Tap to gange</1>{' '} og feltet vil blive gult",
+    "badImagery": "Problemer med billedet, som fx hvis området er dækket af skyer?{' '} <1>Tap tre gange </1>{' '} og feltet vil blive rødt",
+    "holdZoom": "Hvis du har brug for at se billedet lidt tættere på, så tap og hold fingeren på billedet, hvorved det blive en smule forstørret.",
+    "hint": "Tip: ",
+    "differentImagery": "Vi benytter forskellige billedkilder, og det kan betyde at der kan være forskel fra projekt til projekt i billedernes vinkel og opløsning. Men husk at du blot skal kigge efter {' '}<1> afgørende ændringer af beboelsesområder og bygninger</1>{' '} så hvis det ser ud til at de samme bygninger stadig er der, men at der måske er skiftet tag på et af husene, vil det være et 'no change' scenarie, og du skal blot swipe videre til det næste billede."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Vis instruktioner"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Jeg forstår"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Swipe NED for at markere alle 6 felter røde.",
+    "swipe up undo": "Swipe OP for at fortryde."
+  },
+  "LoadingIcon": {
+    "loading": "Indlæser..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Vis svar"
+  },
+  "Tutorial": {
+    "incomplete": "UFÆRDIG",
+    "maybe": "MÅSKE",
+    "instructions1": "Sådan bidrager du",
+    "instructions2": "TAP FOR AT VÆLGE",
+    "instructions3": "Se efter de ting, der er beskrevet i missionen. Tap på de felter, hvor du finder det du leder efter. Tap en gang for <1>JA </1>, to gange for <3>{{twoTaps}}</3>, og tre gange  for <5>DÅRLIGT BILLEDE</5> (som fx skyer).",
+    "instructions4": "SWIPE FOR AT NAVIGERE",
+    "instructions5": "Når du er færdig med et stykke af kortet, skal du blot swipe for at få det næste. ",
+    "instructions6": "HOLD FOR AT FORSTØRRE",
+    "instructions7": "Hold fingeren på et felt, for at få det forstørret.",
+    "instructions8": "Kredit",
+    "tutorial1": "Velkommen til denne vejledning!",
+    "tutorial2": "Den gør dig til en troldmand på MapSwipe på et øjeblik.",
+    "tutorial3": "Blot følg instruktionerne på skærmen, og swipe til venstre for at fortsætte.",
+    "tutorial4": "Hvis instruktionerne står i vejen skal du blot tappe på boksen for at flytte den.",
+    "tutorial5": "Jeg forstår."
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Denne vejledning vil lære dig at bruge MapSwipe. Her er de grundlæggende trin:  ",
+    "noChanges": "Hvis der ikke er noget relevant på billedet skal du blot  <1>swipe</1> til de næste billeder",
+    "seeChanges": "Hvis du ser noget på et af billederne,  <1>tap en gang, for at gøre feltet grønt </1>.",
+    "unsure": "Er du ikke sikker på hvad du ser? <1>Tap to gange for at gøre feltet gult </1>",
+    "badImagery": "Hvis der er problemer med billederne, <1>tap tre gange, for at gøre feltet rødt </1>",
+    "tapAgain": "Tap igen, for at bringe feltet tilbage til sit udgangspunkt.",
+    "WhatToLookFor": "Hvad skal du kigge efter",
+    "YouAreLookingFor": "Du skal kigge efter {{lookFor}}",
+    "FromTheGround": "Ved jorden, ser det sådan her ud: ",
+    "ImagesFromAbove": "Men billederne som du kigger på, viser tingene fra oven, og derfor ser det sådan her ud: ",
+    "SwipeToContinue": "Swipe for at fortsætte"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Du skal ikke bekymre dig, hvis du er usikker på, hvad du ser i et felt. ",
+    "youCanAlwaysTapTwice": "Husk, at du altid kan trykke to gange for at markere feltet gult, hvis du er i tvivl. ",
+    "everyImageViewedBy": "Alle billeder bliver set igennem af flere personer, så du skal ikke bekymre dig, hvis du misser noget.",
+    "holdZoom": "Du kan trykke og holde på ethvert felt, for at forstørre det. Og trykke igen for at lukke forstørrelsen."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Du er klar til at starte MapSwiping!",
+    "startMapping": "Start mapping",
+    "completedTutorial": "Du er nu udstyret med alt hvad du har brug for, for at kunne bidrage med humanitær mapping i appen. Du kan altid komme tilbage hertil, for at få en genopfrisker."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Lad os lære hvordan man mapper, med nogle eksempler",
+      "youllSeeASquare": "Du vil se et felt på billedet. Klik på knapperne for at svare:",
+      "squareContainsBuildings": "Indeholder feltet nogle bygninger?",
+      "squareWillMove": "Feltet vil flytte sig rundt, efterhånden som du kommer videre, på følgende måde:",
+      "swipeToGetStarted": "Swipe for at komme i gang"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Vær ikke bekymret, hvis du er usikker på et felt.",
+    "youCanAlwaysTapUnsure": "Husk at du altid kan vælge at være 'Ikke sikker'. ",
+    "everyImageViewedBy": "Hvert billlede bliver set igennem af mindst 3 Mapswipers, så det er ok hvis du tænker at du har misset noget.",
+    "wantToChangeYourAnswer": "Har du lyst til at ændre dit svar?",
+    "youCanSwipeBack": "Du kan swipe tilbage for at ændre dine tidligere svar. Tap eller swipe derefter frem igen, for at komme til der hvor du var. "
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Sådan bidrager du",
+    "squareContainsBuildings": "Indeholder feltet nogle bygninger? Brug knapperne for at svare:",
+    "instructionsYes": "Ja: når der er en bygning eller dele af en bygning i feltet.",
+    "instructionsNo": "Nej: når der ikke er bygninger i feltet",
+    "instructionsNotSure": "Ikke sikker: når du ikke er sikker på om der er en bygning eller ej",
+    "instructionsBadImagery": "Dårligt billede: hvis der er skyer der dækker, eller hvis der er problemer med billedet"
+  }
+}
