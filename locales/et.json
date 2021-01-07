@@ -1,0 +1,188 @@
+{
+  "mainHeader": {
+    "missions": "Ülesanded",
+    "more": "Veel"
+  },
+  "signup": {
+    "chooseUsername": "Vali omale kasutajanimi",
+    "passwordError": "Salasõna pikkus peab olema vähemalt 6 tähemärki",
+    "usernameError": "Kasutajanime pikkus peab olema vähemalt 4 tähemärki",
+    "errorOnSignup": "Viga registreerumisel",
+    "usernameErrorMessage": "Sinu kasutajanimes peab olema vähemalt 4 tähemärki",
+    "usernameNotEmail": "Sinu kasutajanimeks ei või olla e-posti aadress",
+    "usernamePublic": "Sinu kasutajanimi on avalikult nähtav",
+    "success": "Korras",
+    "welcomeToMapSwipe": "Tere tulemast MapSwipe kasutajaks, {{username}}",
+    "emailAlreadyUsed": "E-posti aadress on juba kasutusel",
+    "emailInvalid": "Vigane e-posti aadress",
+    "problemSigningUp": "Viga registreerumisel",
+    "errorOnSignUp": "Viga registreerumisel",
+    "checkYourEmail": "Kontrolli oma e-posti",
+    "noAccountFoundForEmail": "Selle e-posti aadressiga seotud kontot ei leidu",
+    "problemResettingPassword": "Viga salasõna lähtestamisel",
+    "errorLogIn": "Viga sisse logimisel",
+    "invalidEmailPassword": "Vale e-posti aadress või salasõna",
+    "accountDisabled": "Konto eemaldatud",
+    "problemLoggingIn": "Viga sisse logimisel",
+    "errorResetPass": "Viga salasõna lähtestamisel",
+    "enterYourEmail": "Sisesta oma e-posti aadress",
+    "choosePassword": "Vali omale salasõna",
+    "enterYourPassword": "Sisesta salasõna",
+    "IagreeToPrivacyNotice": "Nõustun <1>privaatsusteatisega</1>",
+    "contributionWarningOnSignup": "* Kõik MapSwipe'i lisatud andmed on kõigile avatud ja kättesaadavad. Sinu kasutajanimi on avalik, kuid sinu e-posti aadressi ja parooli ei jagata kunagi kellegagi.",
+    "signUp": "Registreeru",
+    "loginExistingAccount": "Logi sisse",
+    "login": "Logi sisse",
+    "forgotPassword": "Unustasid oma salasõna?",
+    "createNewAccount": "Loo uus konto",
+    "sendResetEmailWarning": "* Saadame sulle e-kirja sinu salasõna lähtestamiseks",
+    "sendResetEmail": "Saada lähtestamise e-kiri uuesti",
+    "backToLogin": "Tagasi sisse logimisele"
+  },
+  "login": {
+    "enterUsername": "Sisesta oma kasutajanimi"
+  },
+  "profileScreen": {
+    "Level X": "Tase {{level}}",
+    "youve completed x tasks": "Oled täitnud {{contrib}} ülesannet!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} ülesannet ({{swipes}} sirvimist) järgmise tasemeni",
+    "yourTeam": "Sinu meeskond: {{teamName}}",
+    "changeLanguage": "Vaheta keelt",
+    "mapswipe website": "MapSwipe koduleht",
+    "missingmaps website": "Missing Maps koduleht",
+    "email us": "Saada meile e-kiri",
+    "sign out": "Logi välja",
+    "delete my account": "Kustutan oma konto",
+    "delete account question": "Kustutada konto?",
+    "delete account warning": "Kaotad kõik oma edusammud ja märgid. Sinu kaastööd jäävad avalikuks, kuid pole enam sinu kontoga seotud.\nKas soovid jätkata?",
+    "no keep my account": "Ei, säilitan oma konto",
+    "yes delete it": "Jah, kustutan selle!"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% {{mappersCount}} kaardistajalt"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% ÜLEMAAILMNE PROGRESS {{contributorCount}} KAARDISTAJALT NAGU SINA.",
+    "userProgressForProject": "{{userProgress}}% selles projektis",
+    "quotaReachedWarning": "Vali ülesannete vaates mõni teine projekt",
+    "map now": "Kaardista",
+    "chooseAnotherProject": "Vali projekt",
+    "tutorial": "Õpetus"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Otsid:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Hästi. Oled õppe läbinud ja valmis kaardistama!",
+    "finishedGroup": "Suurepärane töö! Lõpetasid selle grupi.",
+    "letsGo": "Lähme!",
+    "completeSession": "Lõpeta kaardistamine",
+    "continueMapping": "Jätka kaardistamist",
+    "sync alert": "Sünkroniseerimisteade",
+    "sync alert message": "Ülesannete sünkroniseerimine... Ära sulge rakendust."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Tere tulemast MapSwipe-i",
+    "helpImprove": "Aita parandada humanitaarabi mugavalt omas telefonis",
+    "partMissingMaps": "Missing Maps osa",
+    "withMissingMaps": "Missing Maps abil püüame maailma haavatavamad kogukonnad kaardile tuua",
+    "swipe": "Sirvi",
+    "completeTasks": "Soorita ülesandeid, sirvides kaardistamist vajavate alade satelliidipilte",
+    "createData": "Loo sisukaid andmeid",
+    "dataUse": "Neid andmeid kasutatakse Missing Maps vabatahtlike jõupingutuste koondamiseks OpenStreetMapile detailide lisamiseks",
+    "saveLives": "Päästa elusid",
+    "mapHelps": "Kaart aitab organisatsioonidel koordineerida humanitaarabi ja päästa elusid"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Juhised",
+    "your task": "Sinu ülesanne:",
+    "lookingFor": "Otsid {' '} <1>muudatusi hoonete osas</1>. See näitab selgelt elanike arvu muutust.",
+    "perform task": "Kuidas ülesannet sooritada:",
+    "noChanges": "Kui muudatusi pole, siis lihtsalt{' '} <1>sirvi</1> järgmisi pilte",
+    "seeChanges": "Kui märkad muutusi hoonete osas,{' '} <1>puuta üks kord</1>{' '} ja ruut muutub roheliseks",
+    "unsure": "Ei ole kindel?{' '} <1>Puuduta kaks korda</1>{' '} ja ruut muutub kollaseks",
+    "badImagery": "Pildimaterjali viga, näiteks kui pildil olevad pildid katavad vaadet?{' '} <1>Puuduta kolm korda</1>{' '} ja ruut muutub punaseks.",
+    "holdZoom": "Kui soovid pildimaterjali lähemalt vaadelda, puuduta ja hoia ruutu ning seda suurendatakse veidi.",
+    "hint": "Vihje:",
+    "differentImagery": "Mõnikord on kasutatud erinevaid pildiallikaid. Kujutised võivad olla joondatud veidi erinevalt või erineva eraldusvõimega. Pea meeles, et otsid {' '} <1>kindlat muudatust asulates ja hoonetes</1> {' '}, nii et kui tundub, et seal on samad hooned, kuid võib-olla mõnel on uus katus, siis tegelikult muutust ei ole ja sirvi lihtsalt järgmist pilti."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Vaata juhendit"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Saan aru"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Tõmba sõrmega ALLA, et märkida kõik 6 ruutu PUNASEKS",
+    "swipe up undo": "Tõmba sõrmega ÜLES tühistamiseks."
+  },
+  "LoadingIcon": {
+    "loading": "Laadimine..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Näita vastuseid"
+  },
+  "Tutorial": {
+    "incomplete": "POOLELI",
+    "maybe": "VÕIB-OLLA",
+    "instructions1": "Kuidas panustada",
+    "instructions2": "PUUDUTA VALIMISEKS",
+    "instructions3": "Otsi ülesande iseloomustuses kirjeldatud objekte. Puuduta igat ruutu, millel leiad otsitava. Puuduta ühe korra kui <1>JAH</1>, kaks korda kui <3>{{twoTaps}}</3> ja kolm korda kui <5>HALB PILDIMATERJAL</5> (näiteks pilved).",
+    "instructions4": "SIRVI NAVIGEERIMISEKS",
+    "instructions5": "Kui oled mõne kaardi osaga valmis, liigu sõrmega tõmmates järgmisele.",
+    "instructions6": "HOIA SUURENDAMISEKS",
+    "instructions7": "Ruudu suurendamiseks puuduta seda ja hoia.",
+    "instructions8": "Tiitrid",
+    "tutorial1": "Tere tulemast juhendmaterjali!",
+    "tutorial2": "See peaks sinust mõne minutiga MapSwipe meistri tegema.",
+    "tutorial3": "Järgi lihtsalt ekraanil kuvatavaid juhiseid ja jätkamiseks tõmba sõrmega ekraanil paremalt vasakule.",
+    "tutorial4": "Kui juhised segavad vaadet, lihtsalt puuduta teadet selle teisaldamiseks.",
+    "tutorial5": "Saan aru"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Selles juhendis õpetatakse MapSwipe'i kasutama. Siin on põhisammud:",
+    "noChanges": "Kui piltidel ei ole midagi asjakohast, lihtsalt <1>tõmba sõrmega vasakule</1> järgmisele ekraanile liikumiseks",
+    "seeChanges": "Kui märkad mõnel pildil midagi asjakohast, <1>puuduta korra, et muuta ruut roheliseks</1>.",
+    "unsure": "Pole nähtavas kindel? <1>Puuduta kaks korda, et muuta ruut kollaseks</1>",
+    "badImagery": "Kui on probleem pildimaterjaliga, <1>puuduta kolm korda, et muuta ruut punaseks</1>",
+    "tapAgain": "Puuduta veel korra, et taastada ruudu algne olek.",
+    "WhatToLookFor": "Mida otsida",
+    "YouAreLookingFor": "Otsid {{lookFor}}",
+    "FromTheGround": "Maapinnal paistab see selliselt:",
+    "ImagesFromAbove": "Aga sulle kuvatavatel piltidel paistab see ülaltvaates selline:",
+    "SwipeToContinue": "Tõmba sõrmega jätkamiseks"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Ära muretse kui sa pole kindel, mida ruudus näed.",
+    "youCanAlwaysTapTwice": "Pea meeles, kui pole ruudul nähtava osas kindel, võid alati puudutada ruutu kaks korda selle kollaseks märkimiseks",
+    "everyImageViewedBy": "Iga pilt vaadatakse üle mitme inimese poolt, seega ära muretse kui midagi võis jääda märkamata",
+    "holdZoom": "Iga ruudu suurendamiseks võid seda puudutada ja sõrme paigal hoida. Puuduta uuesti suurenduse eemaldamiseks."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Oled valmis kaarte sirvima!",
+    "startMapping": "Alusta kaardistamist",
+    "completedTutorial": "Nüüd on sul kõik vajalik rakenduse abil humanitaarkaardistamisse panustamiseks. Võid värskendamiseks igal ajal tagasi tulla."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Õpime kaardistamist mõnede näidete abil",
+      "youllSeeASquare": "Näed pildil ruutu. Vasta nuppude abil:",
+      "squareContainsBuildings": "Kas sellel ruudul paistab mõni hoone?",
+      "squareWillMove": "Ruut liigub pildil ringi vastavalt sinu edenemisele, järgides ruudustikku näiteks nii:",
+      "swipeToGetStarted": "Tõmba sõrmega alustamiseks"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Ära muretse kui sa pole ruudu osas kindel.",
+    "youCanAlwaysTapUnsure": "Pea meeles, et võid alati vajutada 'Pole kindel' nuppu",
+    "everyImageViewedBy": "Iga pilt vaadatakse üle vähemalt 3 kaardistaja poolt, seega pole muret kui tunned, et jätsid midagi vahele",
+    "wantToChangeYourAnswer": "Soovid oma vastust muuta?",
+    "youCanSwipeBack": "Varasemate vastuste muutmiseks tõmba sõrmega tagasi. Seejärel puuduta või tõmba sõrmega uuesti edasi, et naasta endisele kohale."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Kuidas panustada",
+    "squareContainsBuildings": "Kas sellel ruudul paistab mõni hoone? Vastamiseks kasuta nuppe:",
+    "instructionsYes": "Jah: kui ruudul on terve hoone või osa sellest",
+    "instructionsNo": "Ei: kui ruudul ei ole hooneid",
+    "instructionsNotSure": "Pole kindel: kui sa pole kindel, kas see on hoone või mitte",
+    "instructionsBadImagery": "Vigane pildimaterjal: kui seal on pilvkate või muud probleemid pildimaterjaliga"
+  }
+}
