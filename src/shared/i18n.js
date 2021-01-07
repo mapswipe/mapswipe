@@ -2,9 +2,11 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translationCS from '../../locales/cs';
+import translationDA from '../../locales/da';
 import translationDE from '../../locales/de';
 import translationEN from '../../locales/en';
 import translationES from '../../locales/es';
+import translationET from '../../locales/et';
 // eslint-disable-next-line camelcase
 import translationFA_AF from '../../locales/fa_AF';
 import translationFR from '../../locales/fr';
@@ -19,9 +21,11 @@ import translationZH from '../../locales/zh';
 
 const resources = {
     cs: translationCS,
+    da: translationDA,
     de: translationDE,
     en: translationEN,
     es: translationES,
+    et: translationET,
     fa_AF: translationFA_AF,
     fr: translationFR,
     hu: translationHU,

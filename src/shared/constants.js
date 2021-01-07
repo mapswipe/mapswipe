@@ -31,7 +31,9 @@ export const supportedLanguages = [
     // follows (hopefully) the order in which they are displayed
     // in wikipedia's list of languages (left side toolbar)
     { code: 'cs', name: 'Čeština' },
+    { code: 'da', name: 'Dansk' },
     { code: 'de', name: 'Deutsch' },
+    { code: 'et', name: 'Eesti' },
     { code: 'en', name: 'English' },
     { code: 'es', name: 'Español' },
     { code: 'fa_AF', name: 'دری- افغانستان' },
