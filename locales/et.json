@@ -44,8 +44,8 @@
   },
   "profileScreen": {
     "Level X": "Tase {{level}}",
-    "youve completed x tasks": "Oled täitnud {{contrib}} ülesannet!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} ülesannet ({{swipes}} sirvimist) järgmise tasemeni",
+    "youve completed x tasks": "Oled teinud {{contributions}} tööd!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tööd ({{swipes}} sirvimist) järgmise tasemeni",
     "yourTeam": "Sinu meeskond: {{teamName}}",
     "changeLanguage": "Vaheta keelt",
     "mapswipe website": "MapSwipe koduleht",
@@ -79,7 +79,7 @@
     "completeSession": "Lõpeta kaardistamine",
     "continueMapping": "Jätka kaardistamist",
     "sync alert": "Sünkroniseerimisteade",
-    "sync alert message": "Ülesannete sünkroniseerimine... Ära sulge rakendust."
+    "sync alert message": "Töö sünkroniseerimine... Ära sulge rakendust."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Tere tulemast MapSwipe-i",
