@@ -44,7 +44,7 @@
   },
   "profileScreen": {
     "Level X": "Tase {{level}}",
-    "youve completed x tasks": "Oled täitnud {{contrib}} ülesannet!",
+    "youve completed x tasks": "Oled teinud {{contributions}} tööd!",
     "x tasks (s swipes) until the next level": "{{sqkm}} ülesannet ({{swipes}} sirvimist) järgmise tasemeni",
     "yourTeam": "Sinu meeskond: {{teamName}}",
     "changeLanguage": "Vaheta keelt",
