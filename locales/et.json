@@ -4,7 +4,7 @@
     "more": "Veel"
   },
   "signup": {
-    "chooseUsername": "Vali omale kasutajanimi",
+    "chooseUsername": "Vali kasutajanimi",
     "passwordError": "Salasõna pikkus peab olema vähemalt 6 tähemärki",
     "usernameError": "Kasutajanime pikkus peab olema vähemalt 4 tähemärki",
     "errorOnSignup": "Viga registreerumisel",
@@ -25,8 +25,8 @@
     "accountDisabled": "Konto eemaldatud",
     "problemLoggingIn": "Viga sisse logimisel",
     "errorResetPass": "Viga salasõna lähtestamisel",
-    "enterYourEmail": "Sisesta oma e-posti aadress",
-    "choosePassword": "Vali omale salasõna",
+    "enterYourEmail": "Sisesta e-posti aadress",
+    "choosePassword": "Vali salasõna",
     "enterYourPassword": "Sisesta salasõna",
     "IagreeToPrivacyNotice": "Nõustun <1>privaatsusteatisega</1>",
     "contributionWarningOnSignup": "* Kõik MapSwipe'i lisatud andmed on kõigile avatud ja kättesaadavad. Sinu kasutajanimi on avalik, kuid sinu e-posti aadressi ja parooli ei jagata kunagi kellegagi.",
@@ -44,8 +44,8 @@
   },
   "profileScreen": {
     "Level X": "Tase {{level}}",
-    "youve completed x tasks": "Oled täitnud {{contrib}} ülesannet!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} ülesannet ({{swipes}} sirvimist) järgmise tasemeni",
+    "youve completed x tasks": "Oled teinud {{contributions}} tööd!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tööd ({{swipes}} sirvimist) järgmise tasemeni",
     "yourTeam": "Sinu meeskond: {{teamName}}",
     "changeLanguage": "Vaheta keelt",
     "mapswipe website": "MapSwipe koduleht",
@@ -62,7 +62,7 @@
     "progress pc by x mappers": "{{progress}}% {{mappersCount}} kaardistajalt"
   },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% ÜLEMAAILMNE PROGRESS {{contributorCount}} KAARDISTAJALT NAGU SINA.",
+    "x pc global progress by n mappers": "{{projectProgress}}% PROGRESS {{contributorCount}} KAARDISTAJALT NAGU SINA.",
     "userProgressForProject": "{{userProgress}}% selles projektis",
     "quotaReachedWarning": "Vali ülesannete vaates mõni teine projekt",
     "map now": "Kaardista",
@@ -79,7 +79,7 @@
     "completeSession": "Lõpeta kaardistamine",
     "continueMapping": "Jätka kaardistamist",
     "sync alert": "Sünkroniseerimisteade",
-    "sync alert message": "Ülesannete sünkroniseerimine... Ära sulge rakendust."
+    "sync alert message": "Töö sünkroniseerimine... Ära sulge rakendust."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Tere tulemast MapSwipe-i",
@@ -87,7 +87,7 @@
     "partMissingMaps": "Missing Maps osa",
     "withMissingMaps": "Missing Maps abil püüame maailma haavatavamad kogukonnad kaardile tuua",
     "swipe": "Sirvi",
-    "completeTasks": "Soorita ülesandeid, sirvides kaardistamist vajavate alade satelliidipilte",
+    "completeTasks": "Tee kaastööd, sirvides kaardistamist vajavate alade satelliidipilte",
     "createData": "Loo sisukaid andmeid",
     "dataUse": "Neid andmeid kasutatakse Missing Maps vabatahtlike jõupingutuste koondamiseks OpenStreetMapile detailide lisamiseks",
     "saveLives": "Päästa elusid",
@@ -95,9 +95,9 @@
   },
   "CDInstructionScreen": {
     "instructions": "Juhised",
-    "your task": "Sinu ülesanne:",
+    "your task": "Sinu töö:",
     "lookingFor": "Otsid {' '} <1>muudatusi hoonete osas</1>. See näitab selgelt elanike arvu muutust.",
-    "perform task": "Kuidas ülesannet sooritada:",
+    "perform task": "Kuidas kaastööd teha:",
     "noChanges": "Kui muudatusi pole, siis lihtsalt{' '} <1>sirvi</1> järgmisi pilte",
     "seeChanges": "Kui märkad muutusi hoonete osas,{' '} <1>puuta üks kord</1>{' '} ja ruut muutub roheliseks",
     "unsure": "Ei ole kindel?{' '} <1>Puuduta kaks korda</1>{' '} ja ruut muutub kollaseks",
@@ -154,7 +154,7 @@
   },
   "TutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Ära muretse kui sa pole kindel, mida ruudus näed.",
-    "youCanAlwaysTapTwice": "Pea meeles, kui pole ruudul nähtava osas kindel, võid alati puudutada ruutu kaks korda selle kollaseks märkimiseks",
+    "youCanAlwaysTapTwice": "Pea meeles, et võid alati puudutada ruutu kaks korda selle kollaseks märkimiseks kui pole ruudul nähtava osas kindel",
     "everyImageViewedBy": "Iga pilt vaadatakse üle mitme inimese poolt, seega ära muretse kui midagi võis jääda märkamata",
     "holdZoom": "Iga ruudu suurendamiseks võid seda puudutada ja sõrme paigal hoida. Puuduta uuesti suurenduse eemaldamiseks."
   },
@@ -175,7 +175,7 @@
     "youCanAlwaysTapUnsure": "Pea meeles, et võid alati vajutada 'Pole kindel' nuppu",
     "everyImageViewedBy": "Iga pilt vaadatakse üle vähemalt 3 kaardistaja poolt, seega pole muret kui tunned, et jätsid midagi vahele",
     "wantToChangeYourAnswer": "Soovid oma vastust muuta?",
-    "youCanSwipeBack": "Varasemate vastuste muutmiseks tõmba sõrmega tagasi. Seejärel puuduta või tõmba sõrmega uuesti edasi, et naasta endisele kohale."
+    "youCanSwipeBack": "Varasemate vastuste muutmiseks tõmba sõrmega tagasi. Seejärel puuduta või tõmba sõrmega edasi, et naasta endisele kohale."
   },
   "BFInstructionsScreen" : {
     "howToContribute": "Kuidas panustada",
