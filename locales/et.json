@@ -44,8 +44,8 @@
   },
   "profileScreen": {
     "Level X": "Tase {{level}}",
-    "youve completed x tasks": "Oled täitnud {{contrib}} ülesannet!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} ülesannet ({{swipes}} sirvimist) järgmise tasemeni",
+    "youve completed x tasks": "Oled teinud {{contributions}} tööd!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tööd ({{swipes}} sirvimist) järgmise tasemeni",
     "yourTeam": "Sinu meeskond: {{teamName}}",
     "changeLanguage": "Vaheta keelt",
     "mapswipe website": "MapSwipe koduleht",
