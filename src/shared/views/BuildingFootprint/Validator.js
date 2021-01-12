@@ -345,7 +345,7 @@ class _Validator extends React.Component<Props, State> {
                         ]}
                         textStyle={styles.bigSquareButtonText}
                     >
-                        {`\u2715\n` + t('No')}
+                        {`\u2715\n${t('No')}`}
                     </Button>
                 </View>
                 <Button
