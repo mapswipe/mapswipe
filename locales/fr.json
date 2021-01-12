@@ -109,8 +109,17 @@
   "CDBodyScreen": {
     "viewInstructions": "Voir les instructions"
   },
+  "CDValidator": {
+    "Yes": "Oui",
+    "No": "Non",
+    "NotSure": "Pas sûr.e",
+    "BadImagery": "Mauvaise imagerie"
+  },
   "ProjectLevelScreen": {
-    "iUnderstand": "J'ai compris"
+    "iUnderstand": "J'ai compris",
+    "StopMappingAndReturn": "Arrêter et retourner au menu?",
+    "ContinueMapping": "Continuer à cartographier",
+    "BackToMenu": "Retour au menu"
   },
   "IndividualCard": {
     "swipe down mark red": "Faites glisser vers le BAS pour marquer les 6 images en ROUGE",
@@ -162,5 +171,27 @@
     "readyToStart": "Vous êtes prêt.e à MapSwiper!",
     "startMapping": "Commencer à cartographier",
     "completedTutorial": "Vous savez maintenant tout ce qu'il faut pour contribuer à la cartographie humanitaire avec l'appli. Vous pouvez revenir à ce tutoriel à n'importe quel moment."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Apprenons à cartographier avec quelques exemples",
+      "youllSeeASquare": "Vous verrez un carré à l'écran. Utilisez les boutons pour répondre:",
+      "squareContainsBuildings": "Le carré contient-il un bâtiment?",
+      "squareWillMove": "Le carré va parcourir l'image quand vous cartographiez, comme ceci:",
+      "swipeToGetStarted": "Faites glisser pour commencer"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Ne vous inquiétez pas si vous hésitez sur un carré.",
+    "youCanAlwaysTapUnsure": "Souvenez-vous que vous pouvez toujours utiliser le bouton 'Pas sûr.e'",
+    "everyImageViewedBy": "Chaque image est vue par au moins 3 MapSwipers, donc pas d'inquiétude si vous manquez quelque chose",
+    "wantToChangeYourAnswer": "Vous voulez changer votre réponse?",
+    "youCanSwipeBack": "Vous pouvez glisser en arrière pour changer vos réponses précédentes. Tapez glissez dans l'autre sens pour revenir où vous en étiez."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Comment contribuer",
+    "squareContainsBuildings": "Le carré contient-il un/des bâtiment(s)? Utilisez les boutons pour répondre:",
+    "instructionsYes": "Oui: s'il y a un bâtiment ou des parties de bâtiments dans le carré",
+    "instructionsNo": "Non: s'il n'y a aucun bâtiment dans le carré",
+    "instructionsNotSure": "Pas sûr.e: si vous ne savez pas quoi répondre",
+    "instructionsBadImagery": "Mauvaise imagerie: s'il y'a des nuages ou un problème avec l'imagerie"
   }
 }
