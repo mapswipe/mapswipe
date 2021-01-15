@@ -109,8 +109,17 @@
   "CDBodyScreen": {
     "viewInstructions": "Vaata juhendit"
   },
+  "CDValidator": {
+    "Yes": "Jah",
+    "No": "Ei",
+    "NotSure": "Pole kindel",
+    "BadImagery": "Pildi viga"
+  },
   "ProjectLevelScreen": {
-    "iUnderstand": "Saan aru"
+    "iUnderstand": "Saan aru",
+    "StopMappingAndReturn": "Lõpeta kaardistamine ja pöördu menüüsse?",
+    "ContinueMapping": "Jätka kaardistamist",
+    "BackToMenu": "Tagasi menüüsse"
   },
   "IndividualCard": {
     "swipe down mark red": "Tõmba ALLA, et märkida kõik 6 ruutu PUNASEKS",
