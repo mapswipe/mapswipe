@@ -270,7 +270,8 @@ class _Validator extends React.Component<Props, State> {
         const currentTask = this.expandedTasks[currentTaskIndex];
         // if tasks have a center attribute, we know they're grouped by 9
         // so we look a bit further ahead to prefetch imagery
-        const prefetchOffset = currentTask.center ? 9 : 1;
+        // FIXME: temporarily force it to 9, no matter what
+        const prefetchOffset = currentTask.center ? 9 : 9;
         const prefetchTask = this.expandedTasks[
             currentTaskIndex + prefetchOffset
         ];
