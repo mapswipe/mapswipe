@@ -109,8 +109,17 @@
   "CDBodyScreen": {
     "viewInstructions": "View instructions"
   },
+  "CDValidator": {
+    "Yes": "Yes",
+    "No": "No",
+    "NotSure": "Not sure",
+    "BadImagery": "Bad imagery"
+  },
   "ProjectLevelScreen": {
-    "iUnderstand": "I understand"
+    "iUnderstand": "I understand",
+    "StopMappingAndReturn": "Stop mapping and return to the menu?",
+    "ContinueMapping": "Continue mapping",
+    "BackToMenu": "Back to menu"
   },
   "IndividualCard": {
     "swipe down mark red": "Swipe DOWN to mark all 6 tiles RED.",

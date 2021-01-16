@@ -228,17 +228,20 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     renderBackConfirmationModal = () => {
-        const content = <Text>Stop mapping and return to the menu?</Text>;
+        const { t } = this.props;
+        const content = (
+            <Text>{t('ProjectLevelScreen:StopMappingAndReturn')}</Text>
+        );
 
         return (
             <BackConfirmationModal
-                cancelButtonText="Continue mapping"
+                cancelButtonText={t('ContinueMapping')}
                 cancelButtonCallback={() => {
                     // $FlowFixMe
                     this.backConfirmationModal.close();
                 }}
                 content={content}
-                exitButtonText="Back to menu"
+                exitButtonText={t('BackToMenu')}
                 exitButtonCallback={this.returnToView}
                 getRef={(r) => {
                     this.backConfirmationModal = r;

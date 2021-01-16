@@ -86,6 +86,11 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     // Only then can we pull imagery
     imageryHeight: number;
 
+    // keep a set of prefetched imagery urls to avoid sending the request multiple
+    // times for a single image. It's not clear from RN docs whether the prefetch
+    // method prevents duplicate requests, so let's do it here to be safe
+    prefetchedUrls: Set<string>;
+
     // for now, this is hardcoded at 19
     zoomLevel: ZoomLevel;
 
@@ -107,6 +112,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         };
         this.imageryHeight = 0;
         this.zoomLevel = 19;
+        this.prefetchedUrls = new Set();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -129,6 +135,20 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     this.imageryHeight,
                 );
                 Image.prefetch(prefetchUrl);
+            } else {
+                // all other, tile-based, imagery
+                const { tileUrls } = this.getTMSImageryUrls(
+                    prefetchTask,
+                    this.zoomLevel,
+                );
+                tileUrls.map((url) => {
+                    if (!this.prefetchedUrls.has(url)) {
+                        Image.prefetch(url);
+                        this.prefetchedUrls.add(url);
+                    }
+                    // return something to keep flow happy
+                    return null;
+                });
             }
         }
     }
@@ -353,7 +373,10 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         ];
     };
 
-    getTilesFromScreenCorners = (corners: LonLatPolygon, z: ZoomLevel) => {
+    getTilesFromScreenCorners = (
+        corners: LonLatPolygon,
+        z: ZoomLevel,
+    ): Array<Tile> => {
         const sw = tilebelt.pointToTile(corners[0][0], corners[0][1], z);
         const nw = [sw[0], sw[1] - 1, z];
         const ne = [nw[0] + 1, nw[1], z];
@@ -406,6 +429,39 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return imageUrl;
     };
 
+    getTMSImageryUrls = (task: BuildingFootprintTaskType, zoom: ZoomLevel) => {
+        // return the 4 urls of the images to display for a task and the X, Y shifts
+        // to be applied to center them on the given center point
+
+        // get 4 tiles at zoomLevel and shift them as needed
+        const center = this.getTaskGeometryCentroid(
+            task.geojson.coordinates[0],
+        );
+        const latitude = center[1];
+        const screenBBox = this.getScreenBBoxFromCenter(center, this.zoomLevel);
+        // build footprint polyline
+        // const p = this.getPolygon(coords, screenBBox);
+        // const path = this.getTaskGeometryPath(task, this.zoomLevel);
+        const corners = this.BBOXToCoords(screenBBox);
+        const swCornerTile = tilebelt.pointToTileFraction(
+            corners[0][0],
+            corners[0][1],
+            zoom,
+        );
+        const tiles = this.getTilesFromScreenCorners(corners, this.zoomLevel);
+        // $FlowFixMe
+        const tileUrls = tiles.map(this.getTileUrl);
+
+        // the TMS display fetches 4 tiles from the imagery provider, and sizes
+        // each one to the same width as the phone's screen. then we shift the
+        // resulting image so that the shape's center is roughly aligned with
+        // the center of the screen
+        const shiftX = (swCornerTile[0] % 1) * tileSize;
+        const shiftY = (swCornerTile[1] % 1) * tileSize;
+
+        return { tileUrls, shiftX, shiftY, latitude };
+    };
+
     getTaskGeometryPath = (
         task: BuildingFootprintTaskType,
         zoom: ZoomLevel,
@@ -447,18 +503,20 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             );
         }
         const coords = task.geojson.coordinates[0];
-        const imageUrl = this.getGoogleImageryUrl(
-            project.tileServer.url,
-            task,
-            this.zoomLevel,
-            GLOBAL.SCREEN_WIDTH,
-            this.imageryHeight,
-        );
+        // get the path to be drawn on top of the imagery, as it's the same for all
+        // types of imagery
         const path = this.getTaskGeometryPath(task, this.zoomLevel);
 
         if (project.tileServer.url.includes('googleapis')) {
             // use the latitude of the first point in the shape as reference for the scalebar
             // it's not exactly correct, but the difference is negligible
+            const imageUrl = this.getGoogleImageryUrl(
+                project.tileServer.url,
+                task,
+                this.zoomLevel,
+                GLOBAL.SCREEN_WIDTH,
+                this.imageryHeight,
+            );
             const latitude = coords[0][1];
             return (
                 <Animated.View
@@ -502,28 +560,10 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // all other imagery sources work with 4 tiles shown at the same time
         // which we stretch so that 1 tile is exactly the width of the screen.
         // This
-        // get 4 tiles at zoomLevel and shift them as needed
-        const center = this.getTaskGeometryCentroid(coords);
-        const latitude = center[1];
-        const screenBBox = this.getScreenBBoxFromCenter(center, this.zoomLevel);
-        // build footprint polyline
-        // const p = this.getPolygon(coords, screenBBox);
-        // const path = this.getTaskGeometryPath(task, this.zoomLevel);
-        const corners = this.BBOXToCoords(screenBBox);
-        const swCornerTile = tilebelt.pointToTileFraction(
-            corners[0][0],
-            corners[0][1],
+        const { tileUrls, shiftX, shiftY, latitude } = this.getTMSImageryUrls(
+            task,
             this.zoomLevel,
         );
-        const tiles = this.getTilesFromScreenCorners(corners, this.zoomLevel);
-        const tileUrls = tiles.map(this.getTileUrl);
-
-        // the TMS display fetches 4 tiles from the imagery provider, and sizes
-        // each one to the same width as the phone's screen. then we shift the
-        // resulting image so that the shape's center is roughly aligned with
-        // the center of the screen
-        const shiftX = (swCornerTile[0] % 1) * tileSize;
-        const shiftY = (swCornerTile[1] % 1) * tileSize;
 
         const attribution = project.tileServer.credits;
         return (

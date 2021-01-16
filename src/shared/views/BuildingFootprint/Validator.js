@@ -8,6 +8,7 @@ import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import Button from 'apsl-react-native-button';
+import { withTranslation } from 'react-i18next';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
@@ -23,6 +24,7 @@ import type {
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
+    TranslationFunction,
     TutorialContent,
 } from '../../flow-types';
 
@@ -98,6 +100,7 @@ type Props = {
     results: ResultMapType,
     screens: Array<TutorialContent>,
     submitResult: (number, string) => void,
+    t: TranslationFunction,
     tutorial: boolean,
     updateProgress: (number) => void,
 };
@@ -262,12 +265,13 @@ class _Validator extends React.Component<Props, State> {
 
     /* eslint-disable global-require */
     renderValidator = () => {
-        const { group, project, results, screens, tutorial } = this.props;
+        const { group, project, results, screens, t, tutorial } = this.props;
         const { currentTaskIndex } = this.state;
         const currentTask = this.expandedTasks[currentTaskIndex];
         // if tasks have a center attribute, we know they're grouped by 9
         // so we look a bit further ahead to prefetch imagery
-        const prefetchOffset = currentTask.center ? 9 : 1;
+        // FIXME: temporarily force it to 9, no matter what
+        const prefetchOffset = currentTask.center ? 9 : 9;
         const prefetchTask = this.expandedTasks[
             currentTaskIndex + prefetchOffset
         ];
@@ -324,7 +328,9 @@ class _Validator extends React.Component<Props, State> {
                                 source={require('../assets/checkmark_white.png')}
                                 style={styles.checkmark}
                             />
-                            <Text style={styles.bigSquareButtonText}>Yes</Text>
+                            <Text style={styles.bigSquareButtonText}>
+                                {t('Yes')}
+                            </Text>
                         </View>
                     </Button>
                     <Button
@@ -340,7 +346,7 @@ class _Validator extends React.Component<Props, State> {
                         ]}
                         textStyle={styles.bigSquareButtonText}
                     >
-                        {`\u2715\nNo`}
+                        {`\u2715\n${t('No')}`}
                     </Button>
                 </View>
                 <Button
@@ -356,7 +362,7 @@ class _Validator extends React.Component<Props, State> {
                     ]}
                     textStyle={styles.longNarrowButtonText}
                 >
-                    Not sure
+                    {t('NotSure')}
                 </Button>
                 <Button
                     onPress={() => this.nextTask(FOOTPRINT_BAD_IMAGERY)}
@@ -371,7 +377,7 @@ class _Validator extends React.Component<Props, State> {
                     ]}
                     textStyle={styles.longNarrowButtonText}
                 >
-                    Bad imagery
+                    {t('BadImagery')}
                 </Button>
                 {tutorial &&
                     tutorialContent &&
@@ -453,6 +459,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(
+    withTranslation('CDValidator'),
     firebaseConnect((props) => {
         if (props.group) {
             const { groupId, projectId } = props.group;

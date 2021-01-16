@@ -162,5 +162,27 @@
     "readyToStart": "Jste připraveni začít s MapSwipe!",
     "startMapping": "Začít mapovat",
     "completedTutorial": "Nyní víte vše, co potřebujete, abyste přispěli k humanitárnímu mapování pomocí této aplikace. Pro připomenutí se sem můžete kdykoli vrátit."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Naučme se, jak mapovat na několika příkladech",
+      "youllSeeASquare": "Na obrázku uvidíte čtverec. Pomocí tlačítek odpovězte:",
+      "squareContainsBuildings": "Obsahuje čtverec nějaké budovy?",
+      "squareWillMove": "Čtverec se bude pohybovat kolem obrázku, jak budete postupovat, podle následující mřížky:",
+      "swipeToGetStarted": "Začněte přejetím prstem"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Nebojte se, pokud si nejste jisti čtvercem.",
+    "youCanAlwaysTapUnsure": "Pamatujte, že vždy můžete klepnout na tlačítko „Nejsem si jistý“",
+    "everyImageViewedBy": "Každý obrázek je zobrazen minimálně 3 MapSwipery, takže je v pořádku, pokud si myslíte, že vám něco uniklo",
+    "wantToChangeYourAnswer": "Chcete změnit svoji odpověď?",
+    "youCanSwipeBack": "Přejetím zpět můžete změnit své předchozí odpovědi. Poté se klepnutím nebo přejetím dopředu vrátíte zpět na místo, kde jste byli."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Jak přispět",
+    "squareContainsBuildings": "Obsahuje čtverec nějaké budovy? Pomocí tlačítek odpovězte:",
+    "instructionsYes": "Ano: když je na čtverci budova nebo její část",
+    "instructionsNo": "Ne: když ve čtverci nejsou žádné budovy",
+    "instructionsNotSure": "Nejste si jisti: když si nejste jisti, zda je to budova nebo ne",
+    "instructionsBadImagery": "Špatné snímky: když je oblačnost nebo problémy se snímky"
   }
 }
