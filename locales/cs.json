@@ -109,8 +109,17 @@
   "CDBodyScreen": {
     "viewInstructions": "Zobrazit instrukce"
   },
+  "CDValidator": {
+    "Yes": "Ano",
+    "No": "Ne",
+    "NotSure": "Nejsem si jist",
+    "BadImagery": "Špatný obrázek"
+  },
   "ProjectLevelScreen": {
-    "iUnderstand": "Rozumím"
+    "iUnderstand": "Rozumím",
+    "StopMappingAndReturn": "Zastavit mapování a vrátit se do nabídky?",
+    "ContinueMapping": "Pokračovat v mapování",
+    "BackToMenu": "Zpět do menu"
   },
   "IndividualCard": {
     "swipe down mark red": "Přejetím prstem dolů označíte všech 6 dlaždic ČERVENĚ.",
