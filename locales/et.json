@@ -29,7 +29,7 @@
     "choosePassword": "Vali salasõna",
     "enterYourPassword": "Sisesta salasõna",
     "IagreeToPrivacyNotice": "Nõustun <1>privaatsusteatisega</1>",
-    "contributionWarningOnSignup": "* Kõik MapSwipe'i lisatud andmed on kõigile avatud ja kättesaadavad. Sinu kasutajanimi on avalik, kuid sinu e-posti aadressi ja parooli ei jagata kunagi kellegagi.",
+    "contributionWarningOnSignup": "* Kõik MapSwipe'i lisatud andmed, ka Sinu kasutajanimi on avalikud. Sinu e-posti aadressi ja parooli siiski loomulikult kunagi avalikult ei jagata.",
     "signUp": "Registreeru",
     "loginExistingAccount": "Logi sisse",
     "login": "Logi sisse",
