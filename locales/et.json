@@ -29,7 +29,7 @@
     "choosePassword": "Vali salasõna",
     "enterYourPassword": "Sisesta salasõna",
     "IagreeToPrivacyNotice": "Nõustun <1>privaatsusteatisega</1>",
-    "contributionWarningOnSignup": "* Kõik MapSwipe'i lisatud andmed on kõigile avatud ja kättesaadavad. Sinu kasutajanimi on avalik, kuid sinu e-posti aadressi ja parooli ei jagata kunagi kellegagi.",
+    "contributionWarningOnSignup": "* Kõik MapSwipe'i lisatud andmed, ka Sinu kasutajanimi on avalikud. Sinu e-posti aadressi ja parooli siiski loomulikult kunagi avalikult ei jagata.",
     "signUp": "Registreeru",
     "loginExistingAccount": "Logi sisse",
     "login": "Logi sisse",
@@ -44,8 +44,8 @@
   },
   "profileScreen": {
     "Level X": "Tase {{level}}",
-    "youve completed x tasks": "Oled teinud {{contributions}} tööd!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} tööd ({{swipes}} sirvimist) järgmise tasemeni",
+    "youve completed x tasks": "Oled näinud {{contributions}} pilti!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} pilti ({{swipes}} sirvimist) järgmise tasemeni",
     "yourTeam": "Sinu meeskond: {{teamName}}",
     "changeLanguage": "Vaheta keelt",
     "mapswipe website": "MapSwipe koduleht",
@@ -62,7 +62,7 @@
     "progress pc by x mappers": "{{progress}}% {{mappersCount}} kaardistajalt"
   },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% PROGRESS {{contributorCount}} KAARDISTAJALT NAGU SINA.",
+    "x pc global progress by n mappers": "{{projectProgress}}% PROGRESS {{contributorCount}} KAARDISTAJALT NAGU SINA",
     "userProgressForProject": "{{userProgress}}% selles projektis",
     "quotaReachedWarning": "Vali ülesannete vaates mõni teine projekt",
     "map now": "Kaardista",
@@ -78,8 +78,8 @@
     "letsGo": "Lähme!",
     "completeSession": "Lõpeta kaardistamine",
     "continueMapping": "Jätka kaardistamist",
-    "sync alert": "Sünkroniseerimisteade",
-    "sync alert message": "Töö sünkroniseerimine... Ära sulge rakendust."
+    "sync alert": "Sünkroonimisteade",
+    "sync alert message": "Töö sünkroonimine... Ära sulge rakendust."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Tere tulemast MapSwipe-i",
