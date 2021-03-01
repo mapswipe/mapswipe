@@ -63,7 +63,10 @@
   },
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% PROGRESSO GLOBAL {{contributorCount}} CARTÓGRAFOS COMO VOCÊ.",
+    "userProgressForProject": "{{userProgress}}% para este projecto",
+    "quotaReachedWarning": "Escolher outro projecto do ecrã de missões",
     "map now": "Mapear agora",
+    "chooseAnotherProject": "Escolha outro projecto",
     "tutorial": "Tutorial"
   },
   "mappingHeader": {
@@ -106,8 +109,17 @@
   "CDBodyScreen": {
     "viewInstructions": "Ver instruções"
   },
+  "CDValidator": {
+    "Yes": "Sim",
+    "No": "Não",
+    "NotSure": "Não tenho a certeza",
+    "BadImagery": "Má imagem"
+  },
   "ProjectLevelScreen": {
-    "iUnderstand": "Eu entendi"
+    "iUnderstand": "Eu entendi",
+    "StopMappingAndReturn": "Parar a cartografia e voltar ao menu?",
+    "ContinueMapping": "Continuar a cartografar",
+    "BackToMenu": "Voltar ao menu"
   },
   "IndividualCard": {
     "swipe down mark red": "Deslize para BAIXO para marcar todos os 6 ladrilhos a ENCARNADO.",
@@ -115,6 +127,9 @@
   },
   "LoadingIcon": {
     "loading": "A carregar..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Mostrar respostas"
   },
   "Tutorial": {
     "incomplete": "INCOMPLETO",
@@ -132,5 +147,51 @@
     "tutorial3": "Apenas siga as instruções no ecrã e deslize para a esquerda para continuar.",
     "tutorial4": "Se as instruções estão a obstruir, apenas toque na caixa de mensagem para as mover",
     "tutorial5": "Eu entendi"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Este tutorial irá ensiná-lo a usar o MapSwipe. Aqui estão as etapas básicas: ",
+    "noChanges": "Se não existe nada relevante nas imagens, simplesmente <1> deslize </1> para o próximo ecrã",
+    "seeChanges": "Se vê algo numa das imagens, <1> toque uma vez para tornar o quadrado verde </1>.",
+    "unsure": "Não está seguro do que vê? <1> Toque duas vezes para tornar o quadrado amarelo </1>",
+    "badImagery": "Se existe um problema com a imagem, <1> toque três vezes para tornar o quadrado vermelho </1>",
+    "tapAgain": "Toque outra vez para o quadrado voltar ao estado original.",
+    "WhatToLookFor": "O que procurar",
+    "YouAreLookingFor": "Está à procura de {{lookFor}}",
+    "FromTheGround": "Do solo, parece isto: ",
+    "ImagesFromAbove": "Mas as imagens que verá serão de cima e terão a seguinte aparência:",
+    "SwipeToContinue": "Deslizar para continuar"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Não se preocupe se não está seguro do que vê num quadrado.",
+    "youCanAlwaysTapTwice": "Lembre-se de que sempre poderá tocar duas vezes para marcar amarelo se não está seguro do que vê",
+    "everyImageViewedBy": "Cada imagem é vista por várias pessoas, por isso não se preocupe se lhe escapou algo.",
+    "holdZoom": "Poderá manter pressionado qualquer quadrado para aproximar. Presione outra vez para cancelar."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Está pronto para iniciar o MapSwiping!",
+    "startMapping": "Iniciar a mapear",
+    "completedTutorial": "Está agora equipado com tudo o que necessita para contribuir com a cartografia humanitária utilizando esta aplicação. Pode voltar sempre que quiser para uma actualização."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Vamos aprender como mapear com alguns exemplos",
+      "youllSeeASquare": "Verá um quadrado numa imagem. Use os botões para responder:",
+      "squareContainsBuildings": "O quadrado contém algum edifício?",
+      "squareWillMove": "Conforme você avança os quadrados vão-se movendo pelas imagens, seguindo uma grelha como esta:",
+      "swipeToGetStarted": "Deslizar para começar"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Não se preocupe se não tem certeza sobre um quadrado.",
+    "youCanAlwaysTapUnsure": "Lembre-se, que sempre pode tocar o botão 'Não tenho a certeza'",
+    "everyImageViewedBy": "Cada imagem é vista pelo menos por 3 MapSwipers, por este motivo não há problema se lhe escapar algo",
+    "wantToChangeYourAnswer": "Quer alterar a sua resposta?",
+    "youCanSwipeBack": "Pode sempre deslizar para trás para alterar a sua resposta. Depois poderá tocar ou deslizar para a frente para voltar onde estava."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Como Contribuir",
+    "squareContainsBuildings": "O quadrado contém algum edifício? Utilize os botões para responder:",
+    "instructionsYes": "Sim: quando existe um edifício ou parte dele num quadrado",
+    "instructionsNo": "Não: quando não existem edifícios num quadrado",
+    "instructionsNotSure": "Não tenho a certeza: Quando não temos a certeza se existe ou não um edifício",
+    "instructionsBadImagery": "Má imagem: Quando existem nuvens ou problemas com a imagem"
   }
 }
