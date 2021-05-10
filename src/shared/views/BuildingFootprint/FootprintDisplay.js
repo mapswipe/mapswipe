@@ -92,7 +92,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     prefetchedUrls: Set<string>;
 
     // for now, this is hardcoded at 19
-    zoomLevel: ZoomLevel;
+    // zoomLevel: ZoomLevel;
 
     constructor(props: Props) {
         super(props);
@@ -111,7 +111,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             animatedMarginRight: new Animated.Value(0),
         };
         this.imageryHeight = 0;
-        this.zoomLevel = 19;
+        this.zoomLevel = 16;
         this.prefetchedUrls = new Set();
     }
 
@@ -231,6 +231,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
      * Get the building bounding box (in real coordinates)
      */
     getBuildingBBox = (coords: LonLatPolygon): BBOX => {
+        // This only works if the geometry type is 'POLYGON'.
+        // A geometry of type 'MULTIPOLYGON' will not work here
         const lons = coords.map((p) => p[0]).sort();
         const lats = coords.map((p) => p[1]).sort();
         return [lons[0], lats[0], lons[lons.length - 1], lats[lats.length - 1]];
@@ -462,6 +464,38 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return { tileUrls, shiftX, shiftY, latitude };
     };
 
+    /*
+     * Get the zoom level that fits to the size of the object
+     */
+    getZoomLevelFromCoords = (coords: LonLatPolygon): BBOX => {
+        const bbox = this.getBuildingBBox(coords)
+
+        // check for if bounding box fits into a single tile in width and height
+        // at a given zoom level
+        // start to check for zoom level 19 and
+        // then go to lower levels when needed
+        // zoom level 19 is considered here as the maximum zoom that we support
+        // zoom level 14 is the minimum zoom level
+        let tileZ = 19
+        while (tileZ >= 14) {
+            // get the tiles for the bbox coordinates
+            let tileAFraction = tilebelt.pointToTileFraction(bbox[0], bbox[1], tileZ)
+            let tileBFraction = tilebelt.pointToTileFraction(bbox[2], bbox[3], tileZ)
+
+            // check if bbox fits into one tile at this zoom level
+            // need to check in x and y dimensions
+            let y_difference = Math.abs(tileAFraction[0] - tileBFraction[0])
+            let x_difference = Math.abs(tileAFraction[1] - tileBFraction[1])
+
+            if ( y_difference < 1 &&  x_difference < 1) {
+                // x dimension and y dimension fit into a box with the size of one tile
+                break
+            }
+            tileZ -= 1
+        }
+        return tileZ
+    };
+
     getTaskGeometryPath = (
         task: BuildingFootprintTaskType,
         zoom: ZoomLevel,
@@ -503,6 +537,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             );
         }
         const coords = task.geojson.coordinates[0];
+
+        this.zoomLevel = this.getZoomLevelFromCoords(coords)
         // get the path to be drawn on top of the imagery, as it's the same for all
         // types of imagery
         const path = this.getTaskGeometryPath(task, this.zoomLevel);
