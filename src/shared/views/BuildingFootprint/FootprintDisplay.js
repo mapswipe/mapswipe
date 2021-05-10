@@ -91,9 +91,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     // method prevents duplicate requests, so let's do it here to be safe
     prefetchedUrls: Set<string>;
 
-    // for now, this is hardcoded at 19
-    // zoomLevel: ZoomLevel;
-
     constructor(props: Props) {
         super(props);
         // swipeThreshold defines how much movement is needed to start considering the event
@@ -111,7 +108,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             animatedMarginRight: new Animated.Value(0),
         };
         this.imageryHeight = 0;
-        this.zoomLevel = 16;
         this.prefetchedUrls = new Set();
     }
 
@@ -130,7 +126,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 const prefetchUrl = this.getGoogleImageryUrl(
                     project.tileServer.url,
                     prefetchTask,
-                    this.zoomLevel,
                     GLOBAL.SCREEN_WIDTH,
                     this.imageryHeight,
                 );
@@ -138,8 +133,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             } else {
                 // all other, tile-based, imagery
                 const { tileUrls } = this.getTMSImageryUrls(
-                    prefetchTask,
-                    this.zoomLevel,
+                    prefetchTask
                 );
                 tileUrls.map((url) => {
                     if (!this.prefetchedUrls.has(url)) {
@@ -408,7 +402,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     getGoogleImageryUrl = (
         urlTemplate: string,
         task: BuildingFootprintTaskType,
-        zoom: ZoomLevel,
         width: number, // in pixels
         height: number, // in pixels
     ) => {
@@ -417,6 +410,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // so we need a different logic, as we can't just pull 4 images
         // (each call costs money, and would include a credit line)
         const googleSize = `${width}x${height}`;
+        const coords = task.geojson.coordinates[0];
+        const zoom = this.getZoomLevelFromCoords(coords);
         // some projects include a `center` attribute in the task which defines
         // the center point of the imagery to use. This allows some optimisation
         // of number of imagery requests by reusing the same image for multiple
@@ -431,16 +426,19 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return imageUrl;
     };
 
-    getTMSImageryUrls = (task: BuildingFootprintTaskType, zoom: ZoomLevel) => {
+    getTMSImageryUrls = (task: BuildingFootprintTaskType) => {
         // return the 4 urls of the images to display for a task and the X, Y shifts
         // to be applied to center them on the given center point
+
+        const coords = task.geojson.coordinates[0];
+        const zoom = this.getZoomLevelFromCoords(coords);
 
         // get 4 tiles at zoomLevel and shift them as needed
         const center = this.getTaskGeometryCentroid(
             task.geojson.coordinates[0],
         );
         const latitude = center[1];
-        const screenBBox = this.getScreenBBoxFromCenter(center, this.zoomLevel);
+        const screenBBox = this.getScreenBBoxFromCenter(center, zoom);
         // build footprint polyline
         // const p = this.getPolygon(coords, screenBBox);
         // const path = this.getTaskGeometryPath(task, this.zoomLevel);
@@ -450,7 +448,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             corners[0][1],
             zoom,
         );
-        const tiles = this.getTilesFromScreenCorners(corners, this.zoomLevel);
+        const tiles = this.getTilesFromScreenCorners(corners, zoom);
         // $FlowFixMe
         const tileUrls = tiles.map(this.getTileUrl);
 
@@ -467,7 +465,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     /*
      * Get the zoom level that fits to the size of the object
      */
-    getZoomLevelFromCoords = (coords: LonLatPolygon): BBOX => {
+    getZoomLevelFromCoords = (coords: LonLatPolygon): ZoomLevel => {
         const bbox = this.getBuildingBBox(coords)
 
         // check for if bounding box fits into a single tile in width and height
@@ -538,10 +536,10 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         }
         const coords = task.geojson.coordinates[0];
 
-        this.zoomLevel = this.getZoomLevelFromCoords(coords)
+        const zoomLevel = this.getZoomLevelFromCoords(coords)
         // get the path to be drawn on top of the imagery, as it's the same for all
         // types of imagery
-        const path = this.getTaskGeometryPath(task, this.zoomLevel);
+        const path = this.getTaskGeometryPath(task, zoomLevel);
 
         if (project.tileServer.url.includes('googleapis')) {
             // use the latitude of the first point in the shape as reference for the scalebar
@@ -549,7 +547,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             const imageUrl = this.getGoogleImageryUrl(
                 project.tileServer.url,
                 task,
-                this.zoomLevel,
                 GLOBAL.SCREEN_WIDTH,
                 this.imageryHeight,
             );
@@ -587,7 +584,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         latitude={latitude}
                         useScreenWidth
                         visible
-                        zoomLevel={this.zoomLevel}
+                        zoomLevel={zoomLevel}
                     />
                 </Animated.View>
             );
@@ -597,8 +594,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // which we stretch so that 1 tile is exactly the width of the screen.
         // This
         const { tileUrls, shiftX, shiftY, latitude } = this.getTMSImageryUrls(
-            task,
-            this.zoomLevel,
+            task
         );
 
         const attribution = project.tileServer.credits;
@@ -684,7 +680,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     latitude={latitude}
                     useScreenWidth
                     visible
-                    zoomLevel={this.zoomLevel}
+                    zoomLevel={zoomLevel}
                 />
                 <View style={styles.attributionView}>
                     <Text style={styles.attribution}>{attribution}</Text>
