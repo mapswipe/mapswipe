@@ -78,6 +78,7 @@ export default class SatImage extends React.Component<Props, State> {
 
     render() {
         const { source } = this.state;
+        console.log(this.state.source.uri)
         const {
             interactive,
             onToggleTile,
@@ -105,6 +106,7 @@ export default class SatImage extends React.Component<Props, State> {
                         results={0}
                         style={styles.imageBackground}
                         tile={task}
+                        source={source}
                         tutorial={false}
                     />
                 ) : (
