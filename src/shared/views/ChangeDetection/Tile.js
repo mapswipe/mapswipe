@@ -137,18 +137,13 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     getImgSource = () => {
-        const { tile } = this.props;
-        return { uri: tile.url };
+        const { source } = this.props;
+        return { uri: source.uri };
     };
 
-    getOsmBuildingsUrl = () => {
-        const { tile } = this.props;
-        return { uri: tile.urlB };
-    };
 
     zoomRender = () => {
         const imageSource = this.getImgSource();
-        const osmBuildingsImageSource = this.getOsmBuildingsUrl();
         return (
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
@@ -160,16 +155,6 @@ export class _Tile extends React.PureComponent<Props> {
                     }}
                     source={imageSource}
                 >
-                    <ImageBackground
-                        style={{
-                            height: 300,
-                            width: 300,
-                            borderWidth: 0.5,
-                            borderColor: 'rgba(255,255,255,0.2)',
-                            opacity: 0.7,
-                        }}
-                        source={osmBuildingsImageSource}
-                    />
                 </ImageBackground>
             </TouchableHighlight>
         );
@@ -201,36 +186,17 @@ export class _Tile extends React.PureComponent<Props> {
         const imageSource = this.getImgSource();
         let comp;
 
-        if (this.getOsmBuildingsUrl() !== undefined) {
-            comp = (
-                <ImageBackground
-                    style={styles.buildingStyle}
-                    source={this.getOsmBuildingsUrl()}
-                >
-                    <View
-                        style={[
-                            styles.tileOverlay,
-                            { backgroundColor: overlayColor },
-                        ]}
-                        key={`view-${taskId}`}
-                    >
-                        {animatedRows}
-                    </View>
-                </ImageBackground>
-            );
-        } else {
-            comp = (
-                <View
-                    style={[
-                        styles.tileOverlay,
-                        { backgroundColor: overlayColor },
-                    ]}
-                    key={`view-${taskId}`}
-                >
-                    {animatedRows}
-                </View>
-            );
-        }
+        comp = (
+            <View
+                style={[
+                    styles.tileOverlay,
+                    { backgroundColor: overlayColor },
+                ]}
+                key={`view-${taskId}`}
+            >
+                {animatedRows}
+            </View>
+        );
 
         return (
             <TouchableHighlight

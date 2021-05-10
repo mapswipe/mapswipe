@@ -105,6 +105,7 @@ export default class SatImage extends React.Component<Props, State> {
                         results={0}
                         style={styles.imageBackground}
                         tile={task}
+                        source={source}
                         tutorial={false}
                     />
                 ) : (
