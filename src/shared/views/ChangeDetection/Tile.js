@@ -161,8 +161,6 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     render() {
-        console.log("I'm a tile.")
-        console.log(this.props)
         const {
             results,
             style,
