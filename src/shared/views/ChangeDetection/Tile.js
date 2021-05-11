@@ -44,11 +44,6 @@ const styles = StyleSheet.create({
         opacity: 0.3,
         aspectRatio: 1,
     },
-    buildingStyle: {
-        borderWidth: 0.5,
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-        opacity: 0.7,
-    },
 });
 
 type Props = {
@@ -141,7 +136,6 @@ export class _Tile extends React.PureComponent<Props> {
         return { uri: source.uri };
     };
 
-
     zoomRender = () => {
         const imageSource = this.getImgSource();
         return (
@@ -154,8 +148,7 @@ export class _Tile extends React.PureComponent<Props> {
                         borderColor: 'rgba(255,255,255,0.2)',
                     }}
                     source={imageSource}
-                >
-                </ImageBackground>
+                />
             </TouchableHighlight>
         );
     };
@@ -184,14 +177,9 @@ export class _Tile extends React.PureComponent<Props> {
             );
         }
         const imageSource = this.getImgSource();
-        let comp;
-
-        comp = (
+        const comp = (
             <View
-                style={[
-                    styles.tileOverlay,
-                    { backgroundColor: overlayColor },
-                ]}
+                style={[styles.tileOverlay, { backgroundColor: overlayColor }]}
                 key={`view-${taskId}`}
             >
                 {animatedRows}
