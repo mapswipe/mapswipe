@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import {
     ImageBackground,
+    Image,
     View,
     StyleSheet,
     TouchableHighlight,
@@ -52,6 +53,7 @@ type Props = {
     onToggleTile: (ResultType) => void,
     results: number,
     style: ViewStyleProp,
+    source: Image.ImageSourcePropType,
     tutorial: boolean,
 };
 
