@@ -132,9 +132,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 Image.prefetch(prefetchUrl);
             } else {
                 // all other, tile-based, imagery
-                const { tileUrls } = this.getTMSImageryUrls(
-                    prefetchTask
-                );
+                const { tileUrls } = this.getTMSImageryUrls(prefetchTask);
                 tileUrls.map((url) => {
                     if (!this.prefetchedUrls.has(url)) {
                         Image.prefetch(url);
@@ -466,7 +464,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
      * Get the zoom level that fits to the size of the object
      */
     getZoomLevelFromCoords = (coords: LonLatPolygon): ZoomLevel => {
-        const bbox = this.getBuildingBBox(coords)
+        const bbox = this.getBuildingBBox(coords);
 
         // check for if bounding box fits into a single tile in width and height
         // at a given zoom level
@@ -474,24 +472,32 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // then go to lower levels when needed
         // zoom level 19 is considered here as the maximum zoom that we support
         // zoom level 14 is the minimum zoom level
-        let tileZ = 19
+        let tileZ = 19;
         while (tileZ >= 14) {
             // get the tiles for the bbox coordinates
-            let tileAFraction = tilebelt.pointToTileFraction(bbox[0], bbox[1], tileZ)
-            let tileBFraction = tilebelt.pointToTileFraction(bbox[2], bbox[3], tileZ)
+            const tileAFraction = tilebelt.pointToTileFraction(
+                bbox[0],
+                bbox[1],
+                tileZ,
+            );
+            const tileBFraction = tilebelt.pointToTileFraction(
+                bbox[2],
+                bbox[3],
+                tileZ,
+            );
 
             // check if bbox fits into one tile at this zoom level
             // need to check in x and y dimensions
-            let y_difference = Math.abs(tileAFraction[0] - tileBFraction[0])
-            let x_difference = Math.abs(tileAFraction[1] - tileBFraction[1])
+            const yDifference = Math.abs(tileAFraction[0] - tileBFraction[0]);
+            const xDifference = Math.abs(tileAFraction[1] - tileBFraction[1]);
 
-            if ( y_difference < 1 &&  x_difference < 1) {
+            if (yDifference < 1 && xDifference < 1) {
                 // x dimension and y dimension fit into a box with the size of one tile
-                break
+                break;
             }
-            tileZ -= 1
+            tileZ -= 1;
         }
-        return tileZ
+        return tileZ;
     };
 
     getTaskGeometryPath = (
@@ -536,7 +542,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         }
         const coords = task.geojson.coordinates[0];
 
-        const zoomLevel = this.getZoomLevelFromCoords(coords)
+        const zoomLevel = this.getZoomLevelFromCoords(coords);
         // get the path to be drawn on top of the imagery, as it's the same for all
         // types of imagery
         const path = this.getTaskGeometryPath(task, zoomLevel);
@@ -594,7 +600,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // which we stretch so that 1 tile is exactly the width of the screen.
         // This
         const { tileUrls, shiftX, shiftY, latitude } = this.getTMSImageryUrls(
-            task
+            task,
         );
 
         const attribution = project.tileServer.credits;
