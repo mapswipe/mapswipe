@@ -179,14 +179,6 @@ export class _Tile extends React.PureComponent<Props> {
             );
         }
         const imageSource = this.getImgSource();
-        const comp = (
-            <View
-                style={[styles.tileOverlay, { backgroundColor: overlayColor }]}
-                key={`view-${taskId}`}
-            >
-                {animatedRows}
-            </View>
-        );
 
         return (
             <TouchableHighlight
@@ -200,7 +192,15 @@ export class _Tile extends React.PureComponent<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    {comp}
+                    <View
+                        style={[
+                            styles.tileOverlay,
+                            { backgroundColor: overlayColor },
+                        ]}
+                        key={`view-${taskId}`}
+                    >
+                        {animatedRows}
+                    </View>
                 </ImageBackground>
             </TouchableHighlight>
         );
