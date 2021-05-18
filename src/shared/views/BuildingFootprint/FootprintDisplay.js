@@ -119,7 +119,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             prefetchTask !== prevProps.prefetchTask &&
             prefetchTask !== undefined
         ) {
-            console.log("prefetch images")
+            console.log('prefetch images');
             if (
                 project.tileServer.url.includes('googleapis') &&
                 this.imageryHeight !== 0
@@ -143,10 +143,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     return null;
                 });
             }
+        } else {
+            console.log('will not prefetch imagery');
         }
-       else {
-        console.log("will not prefetch imagery")
-       }
     }
 
     onLayout = (event: LayoutEvent) => {
@@ -406,7 +405,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         task: BuildingFootprintTaskType,
         width: number, // in pixels
         height: number, // in pixels
-        zoom: ZoomLevel
+        zoom: ZoomLevel,
     ) => {
         // return the url required to download imagery
         // google imagery is returned as a single image of the size we want
@@ -554,7 +553,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 task,
                 GLOBAL.SCREEN_WIDTH,
                 this.imageryHeight,
-                zoomLevel
+                zoomLevel,
             );
             const latitude = coords[0][1];
             return (
@@ -600,7 +599,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // which we stretch so that 1 tile is exactly the width of the screen.
         // This
         const { tileUrls, shiftX, shiftY, latitude } = this.getTMSImageryUrls(
-            task, zoomLevel
+            task,
+            zoomLevel,
         );
 
         const attribution = project.tileServer.credits;
