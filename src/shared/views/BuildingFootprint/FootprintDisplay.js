@@ -119,6 +119,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             prefetchTask !== prevProps.prefetchTask &&
             prefetchTask !== undefined
         ) {
+            console.log("prefetch images")
             if (
                 project.tileServer.url.includes('googleapis') &&
                 this.imageryHeight !== 0
@@ -143,6 +144,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 });
             }
         }
+       else {
+        console.log("will not prefetch imagery")
+       }
     }
 
     onLayout = (event: LayoutEvent) => {
@@ -402,14 +406,13 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         task: BuildingFootprintTaskType,
         width: number, // in pixels
         height: number, // in pixels
+        zoom: ZoomLevel
     ) => {
         // return the url required to download imagery
         // google imagery is returned as a single image of the size we want
         // so we need a different logic, as we can't just pull 4 images
         // (each call costs money, and would include a credit line)
         const googleSize = `${width}x${height}`;
-        const coords = task.geojson.coordinates[0];
-        const zoom = this.getZoomLevelFromCoords(coords);
         // some projects include a `center` attribute in the task which defines
         // the center point of the imagery to use. This allows some optimisation
         // of number of imagery requests by reusing the same image for multiple
@@ -424,12 +427,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return imageUrl;
     };
 
-    getTMSImageryUrls = (task: BuildingFootprintTaskType) => {
+    getTMSImageryUrls = (task: BuildingFootprintTaskType, zoom: ZoomLevel) => {
         // return the 4 urls of the images to display for a task and the X, Y shifts
         // to be applied to center them on the given center point
-
-        const coords = task.geojson.coordinates[0];
-        const zoom = this.getZoomLevelFromCoords(coords);
 
         // get 4 tiles at zoomLevel and shift them as needed
         const center = this.getTaskGeometryCentroid(
@@ -541,7 +541,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             );
         }
         const coords = task.geojson.coordinates[0];
-
         const zoomLevel = this.getZoomLevelFromCoords(coords);
         // get the path to be drawn on top of the imagery, as it's the same for all
         // types of imagery
@@ -555,6 +554,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 task,
                 GLOBAL.SCREEN_WIDTH,
                 this.imageryHeight,
+                zoomLevel
             );
             const latitude = coords[0][1];
             return (
@@ -600,7 +600,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // which we stretch so that 1 tile is exactly the width of the screen.
         // This
         const { tileUrls, shiftX, shiftY, latitude } = this.getTMSImageryUrls(
-            task,
+            task, zoomLevel
         );
 
         const attribution = project.tileServer.credits;
