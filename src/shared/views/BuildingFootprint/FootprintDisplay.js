@@ -120,6 +120,10 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             prefetchTask !== undefined
         ) {
             console.log('prefetch images');
+
+            const coords = prefetchTask.geojson.coordinates[0];
+            const zoomLevel = this.getZoomLevelFromCoords(coords);
+
             if (
                 project.tileServer.url.includes('googleapis') &&
                 this.imageryHeight !== 0
@@ -129,11 +133,15 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     prefetchTask,
                     GLOBAL.SCREEN_WIDTH,
                     this.imageryHeight,
+                    zoomLevel,
                 );
                 Image.prefetch(prefetchUrl);
             } else {
                 // all other, tile-based, imagery
-                const { tileUrls } = this.getTMSImageryUrls(prefetchTask);
+                const { tileUrls } = this.getTMSImageryUrls(
+                    prefetchTask,
+                    zoomLevel,
+                );
                 tileUrls.map((url) => {
                     if (!this.prefetchedUrls.has(url)) {
                         Image.prefetch(url);
