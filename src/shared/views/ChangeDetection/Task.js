@@ -164,18 +164,21 @@ export default class ChangeDetectionTask extends React.PureComponent<
                         style={styles.bottomImage}
                         task={task}
                     />
+                    {tutorial && tutorialContent && (
+                        <TutorialBox
+                            content={tutorialContent}
+                            boxType={tutorialMode}
+                            bottomOffset="45%"
+                            topOffset="5%"
+                        />
+                    )}
+                    {tutorial && showAnswerButtonIsVisible && (
+                        <ShowAnswersButton
+                            onPress={this.showAnswers}
+                        />
+                    )}
                 </View>
-                {tutorial && tutorialContent && (
-                    <TutorialBox
-                        content={tutorialContent}
-                        boxType={tutorialMode}
-                        bottomOffset="45%"
-                        topOffset="5%"
-                    />
-                )}
-                {tutorial && showAnswerButtonIsVisible && (
-                    <ShowAnswersButton onPress={this.showAnswers} />
-                )}
+
             </>
         );
     };

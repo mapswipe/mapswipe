@@ -3,7 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
@@ -19,6 +19,13 @@ import type {
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
+
+const styles = StyleSheet.create({
+    slide: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
 
 type Props = {
     screens: Array<TutorialContent>,
@@ -253,7 +260,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             <FlatList
                 style={{
                     height: '100%',
-                    width: GLOBAL.SCREEN_WIDTH,
+                    width: GLOBAL.SCREEN_WIDTH
                 }}
                 data={group.tasks}
                 decelerationRate="fast"
