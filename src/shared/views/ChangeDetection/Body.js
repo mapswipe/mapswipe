@@ -67,6 +67,8 @@ type State = {
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
+    currentX: number;
+
     backConfirmationModal: ?React.ComponentType<void>;
 
     HelpModal: ?React.ComponentType<void>;
@@ -78,6 +80,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.project = props.navigation.getParam('project');
+        // the number of screens that the initial tutorial intro covers
         this.state = {
             groupCompleted: false,
         };
@@ -223,8 +226,13 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             tutorial,
         } = this.props;
         const { groupCompleted } = this.state;
+
         if (!group) {
             return <LoadingIcon />;
+        }
+
+        if (tutorial) {
+            console.log('we are in tutorial mode.')
         }
 
         if (groupCompleted) {

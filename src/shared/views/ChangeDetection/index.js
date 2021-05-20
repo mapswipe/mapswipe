@@ -152,6 +152,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
             // this is a bit ugly, but will prevent a crash for now
             otherProps.navigation.pop();
         }
+
         return (
             <ChangeDetectionBody
                 navigation={navigation}

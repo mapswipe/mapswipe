@@ -56,6 +56,69 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         return progress;
     };
 
+    getCurrentScreen = () => {
+        // return the screen number for the tutorial examples.
+        // The screens before the start of the content are numbered negatively
+        // which allows to check whether we're showing an example or not
+        // TODO: clean up the progress calculation, as we are using a few different
+        // numbers that are all confusing
+        const { currentX } = this;
+        console.log(currentX)
+
+        const { group } = this.props;
+
+        console.log('get xmin: ' + group.xMin)
+
+        const currentScreen = Math.floor((currentX - group.xMin));
+        return currentScreen;
+    };
+
+    onMomentumScrollEnd = (event: Object) => {
+        // update the page number for the tutorial
+        // we don't do this in onScroll as each scroll
+        // triggers dozens of these events, whereas this happens
+        // only once per page
+        const {
+            group: { xMax, xMin },
+            tutorial,
+        } = this.props;
+        const progress = this.onScroll(event);
+        if (tutorial) {
+            // determine current taskX for tutorial
+            const min = parseInt(xMin, 10);
+            const max = parseInt(xMax, 10);
+            // FIXME: currentX is incorrect after xMax because of next line
+            this.currentX = Math.ceil(min + (max - min) * progress);
+            // getCurrentScreen returns an incorrect value after the last sample screen
+            const currentScreen = Math.round(
+                event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
+                    this.tutorialIntroWidth,
+            );
+            console.log(
+                'currentScreen',
+                currentScreen,
+                this.getCurrentScreen(),
+            );
+            if (currentScreen >= 0) {
+                // we changed page, reset state variables
+                // $FlowFixMe
+                if (currentScreen >= this.tasksPerScreen.length) {
+                    this.scrollEnabled = true;
+                } else {
+                    this.scrollEnabled = false;
+                    this.tapsRegistered = 0; // remember to offset by 1 (see above)
+                    this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
+                        currentScreen,
+                    );
+                    this.setState({
+                        tutorialMode: tutorialModes.instructions,
+                        showAnswerButtonIsVisible: false,
+                    });
+                }
+            };
+        }
+    };
+
     toNextGroup = () => {
         const { navigation, updateProgress } = this.props;
         navigation.navigate('ChangeDetectionScreen');
@@ -66,6 +129,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     };
 
     render = () => {
+        const { currentX } = this;
         const {
             categories,
             group,
@@ -78,6 +142,23 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }
+
+        let tutorialContent: ?TutorialContent;
+        if (tutorial && group.tasks) {
+            if (currentX >= group.xMax) {
+                // we've reached the end, hide the tutorial text
+                tutorialContent = undefined;
+            } else {
+                const currentScreen = this.getCurrentScreen();
+                if (currentScreen >= 0) {
+                    tutorialContent = screens[currentScreen][tutorialMode];
+                } else {
+                    tutorialContent = null;
+                }
+            }
+        }
+
+        console.log(tutorialContent)
 
         return (
             <FlatList
@@ -101,6 +182,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     />
                 }
                 onScroll={this.onScroll}
+                onMomentumScrollEnd={this.onMomentumScrollEnd}
                 pagingEnabled
                 // eslint-disable-next-line no-return-assign
                 ref={(r) => (this.flatlist = r)}
