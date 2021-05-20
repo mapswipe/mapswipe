@@ -23,7 +23,6 @@ import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TaskList from './TaskList';
 import type {
-    CategoriesType,
     ChangeDetectionGroupType,
     NavigationProp,
     ProjectType,
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    categories: CategoriesType,
+    screens: Array<TutorialContent>,
     group: { [group_id: string]: ChangeDetectionGroupType },
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
@@ -218,7 +217,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     render = () => {
         const {
-            categories,
+            screens,
             group,
             navigation,
             results,
@@ -259,7 +258,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 />
                 {backConfirmationModal}
                 <TaskList
-                    categories={tutorial ? categories : null}
+                    screens={tutorial ? screens : null}
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
                     navigation={navigation}

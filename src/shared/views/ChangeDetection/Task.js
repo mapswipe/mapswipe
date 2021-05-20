@@ -45,7 +45,7 @@ const minSwipeLength = 0.2;
 const swipeToSizeRatio = 2;
 
 type Props = {
-    categories: CategoriesType,
+    screens: Array<TutorialContent>,
     //commitCompletedGroup: () => void,
     index: number,
     onToggleTile: (ResultType) => void,
@@ -102,7 +102,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
     };
 
     render = () => {
-        const { categories, index, onToggleTile, task, tutorial } = this.props;
+        const { screens, index, onToggleTile, task, tutorial } = this.props;
         const { tutorialMode } = this.state;
         if (!task) {
             return <LoadingIcon />;
@@ -112,12 +112,22 @@ export default class ChangeDetectionTask extends React.PureComponent<
             return <LoadingIcon />;
         }
 
-        let tutorialText: string = '';
+        let tutorialContent: ?TutorialContent;
+
+
+        console.log('tutorial: ' + tutorial)
+
+        console.log('task')
+        console.log(task)
 
         if (tutorial && task) {
-            const { category } = task;
+            const { screen } = task;
+            console.log('screen: ' + screen)
+            const tutorialMode = 'hint'
+            console.log(screens[screen-1])
             // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
-            tutorialText = categories[category][tutorialMode];
+            tutorialContent = screens[screen-1][tutorialMode];
+            console.log(tutorialContent)
         }
 
         return (
@@ -151,7 +161,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
                         task={task}
                     />
                 </View>
-                {tutorial && tutorialText !== '' && (
+                {tutorial && tutorialContent && (
                     <TutorialBox
                         content={{
                             description: 'fixme',

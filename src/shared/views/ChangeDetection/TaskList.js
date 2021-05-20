@@ -6,12 +6,11 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { FlatList } from 'react-native';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
-// import TutorialBox from '../../common/Tutorial';
+import TutorialBox from '../../common/Tutorial';
 import ChangeDetectionTask from './Task';
 import { toggleMapTile } from '../../actions/index';
 
 import type {
-    CategoriesType,
     ChangeDetectionGroupType,
     ChangeDetectionTaskType,
     NavigationProp,
@@ -21,7 +20,7 @@ import type {
 const GLOBAL = require('../../Globals');
 
 type Props = {
-    categories: CategoriesType,
+    screens: Array<TutorialContent>,
     group: ChangeDetectionGroupType,
     isSendingResults: boolean,
     navigation: NavigationProp,
@@ -89,19 +88,16 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             const max = parseInt(xMax, 10);
             // FIXME: currentX is incorrect after xMax because of next line
             this.currentX = Math.ceil(min + (max - min) * progress);
-            // getCurrentScreen returns an incorrect value after the last sample screen
-            const currentScreen = Math.round(
-                event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
-                    this.tutorialIntroWidth,
-            );
+            // TODO: getCurrentScreen returns an incorrect value after the last sample screen
+            const currentScreen = this.getCurrentScreen()
             console.log(
                 'currentScreen',
                 currentScreen,
-                this.getCurrentScreen(),
             );
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
+                /*
                 if (currentScreen >= this.tasksPerScreen.length) {
                     this.scrollEnabled = true;
                 } else {
@@ -114,7 +110,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                         tutorialMode: tutorialModes.instructions,
                         showAnswerButtonIsVisible: false,
                     });
-                }
+                } */
             };
         }
     };
@@ -131,34 +127,17 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     render = () => {
         const { currentX } = this;
         const {
-            categories,
             group,
             isSendingResults,
             navigation,
             onToggleTile,
             submitResult,
+            screens,
             tutorial,
         } = this.props;
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }
-
-        let tutorialContent: ?TutorialContent;
-        if (tutorial && group.tasks) {
-            if (currentX >= group.xMax) {
-                // we've reached the end, hide the tutorial text
-                tutorialContent = undefined;
-            } else {
-                const currentScreen = this.getCurrentScreen();
-                if (currentScreen >= 0) {
-                    tutorialContent = screens[currentScreen][tutorialMode];
-                } else {
-                    tutorialContent = null;
-                }
-            }
-        }
-
-        console.log(tutorialContent)
 
         return (
             <FlatList
@@ -188,12 +167,12 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 ref={(r) => (this.flatlist = r)}
                 renderItem={({ item, index }) => (
                     <ChangeDetectionTask
-                        categories={categories}
+                        screens={screens}
                         index={index}
                         onToggleTile={onToggleTile}
                         submitResult={submitResult}
                         task={item}
-                        tutorial={false}
+                        tutorial={tutorial}
                     />
                 )}
                 snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
