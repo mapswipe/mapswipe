@@ -3,6 +3,7 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
+import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import SatImage from '../../common/SatImage';
 import { COLOR_DARK_GRAY, COLOR_LIGHT_GRAY } from '../../constants';
 import { tutorialModes } from '../../constants';
@@ -55,6 +56,7 @@ type Props = {
 
 type State = {
     tutorialMode: $Keys<typeof tutorialModes>,
+    showAnswerButtonIsVisible: boolean,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -78,6 +80,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
         super(props);
         this.state = {
             tutorialMode: tutorialModes.instructions,
+            showAnswerButtonIsVisible: true,
         };
         this.tasksDone = 0;
         this.imageSize = 250;
@@ -95,9 +98,27 @@ export default class ChangeDetectionTask extends React.PureComponent<
         }
     };
 
+    showAnswers = () => {
+        const { task, onToggleTile } = this.props;
+        // set each tile to its reference value
+        // $FlowFixMe
+        onToggleTile({
+            groupId: task.groupId,
+            resultId: task.taskId,
+            // $FlowFixMe
+            result: task.referenceAnswer,
+            projectId: task.projectId,
+        });
+        this.scrollEnabled = true;
+        this.setState({
+            tutorialMode: tutorialModes.hint,
+            showAnswerButtonIsVisible: false,
+        });
+    };
+
     render = () => {
         const { screens, index, onToggleTile, task, tutorial } = this.props;
-        const { tutorialMode } = this.state;
+        const { tutorialMode, showAnswerButtonIsVisible } = this.state;
         if (!task) {
             return <LoadingIcon />;
         }
@@ -151,6 +172,9 @@ export default class ChangeDetectionTask extends React.PureComponent<
                         bottomOffset="45%"
                         topOffset="5%"
                     />
+                )}
+                {tutorial && showAnswerButtonIsVisible && (
+                    <ShowAnswersButton onPress={this.showAnswers} />
                 )}
             </>
         );

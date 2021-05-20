@@ -7,6 +7,7 @@ import { FlatList } from 'react-native';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
+import { tutorialModes } from '../../constants';
 import ChangeDetectionTask from './Task';
 import { toggleMapTile } from '../../actions/index';
 
@@ -37,6 +38,46 @@ type State = {
 class _ChangeDetectionTaskList extends React.Component<Props, State> {
     flatlist: ?FlatList<ChangeDetectionTaskType>;
 
+    currentX: number;
+
+    firstTouch: Object;
+
+    previousTouch: Object;
+
+    scrollEnabled: boolean;
+
+    tapsExpected: number;
+
+    tapsRegistered: number;
+
+    tasksPerScreen: ?Array<Array<BuiltAreaTaskType>>;
+
+    tutorialIntroWidth: number;
+
+    constructor(props: Props) {
+        super(props);
+        this.flatlist = null;
+        this.scrollEnabled = !props.tutorial;
+        this.tasksPerScreen = 1;
+        // we expect the user to do at least X taps/swipes on the screen to match the
+        // expected results. We calculate this for each screen when we reach it, and
+        // store it here so we can show the "show Answers" button if they've tapped more
+        // than they should have in a "perfect" response.
+        this.tapsExpected = 0;
+        // keep a record of how many taps the user has done on the screen,
+        // so we can show the answers button after X interactions (only for tutorial)
+        this.tapsRegistered = 0;
+        // the number of screens that the initial tutorial intro covers
+        this.tutorialIntroWidth = 2;
+        this.currentX =
+            parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
+        this.state = {
+            showAnswerButtonIsVisible: false,
+            showScaleBar: !props.tutorial,
+            tutorialMode: tutorialModes.instructions,
+        };
+    }
+
     onScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
@@ -62,14 +103,37 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // TODO: clean up the progress calculation, as we are using a few different
         // numbers that are all confusing
         const { currentX } = this;
-        console.log(currentX)
-
         const { group } = this.props;
-
-        console.log('get xmin: ' + group.xMin)
-
         const currentScreen = Math.floor((currentX - group.xMin));
         return currentScreen;
+    };
+
+    getNumberOfTapsExpectedForScreen = (screenNumber) => {
+        // calculate how many taps/swipes the user is expected to do
+        // to get the correct result by summing up reference answers for each
+        // tile of the screen
+        let result = 0;
+        if (this.tasksPerScreen) {
+            console.log('tps', this.tasksPerScreen, screenNumber);
+            // $FlowFixMe
+            if (this.tasksPerScreen[screenNumber]) {
+                result = this.tasksPerScreen[screenNumber].reduce(
+                    (sum, task) => sum + task.referenceAnswer,
+                    0,
+                );
+            } else {
+                // FIXME: in some unclear edge cases, the screenNumber is not
+                // set properly, leading to the above reduce crashing
+                // in that case, we just force a zero value, which is not perfect
+                // but allows the user to move forward
+                return 0;
+            }
+        }
+        if (result === 18) {
+            // the user should be swiping down, only 1 action expected
+            result = 1;
+        }
+        return result;
     };
 
     onMomentumScrollEnd = (event: Object) => {
@@ -97,22 +161,67 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
-                /*
-                if (currentScreen >= this.tasksPerScreen.length) {
+                if (currentScreen >= this.tasksPerScreen) {
                     this.scrollEnabled = true;
                 } else {
                     this.scrollEnabled = false;
                     this.tapsRegistered = 0; // remember to offset by 1 (see above)
-                    this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
-                        currentScreen,
-                    );
+                    this.tapsExpected = 1
                     this.setState({
                         tutorialMode: tutorialModes.instructions,
                         showAnswerButtonIsVisible: false,
                     });
-                } */
+                }
             };
         }
+    };
+
+    handleTutorialScrollCapture = (event: Object) => {
+        // Only used when running the tutorial
+        // when scrolling is disabled, determine if the user
+        // tried to scroll, and respond accordingly
+        const e = event.nativeEvent;
+        const { tutorial } = this.props;
+        const currentScreen = this.getCurrentScreen();
+        if (
+            tutorial &&
+            currentScreen >= 0 &&
+            // $FlowFixMe
+            currentScreen < this.tasksPerScreen &&
+            !this.scrollEnabled
+        ) {
+            // swiping is disabled in the flatlist component, so we need to detect swipes
+            // by ourselves. This relies on capturing touch events, and figuring what is
+            // happening
+            if (
+                this.firstTouch === undefined ||
+                (e.identifier === this.previousTouch.identifier &&
+                    e.timestamp - this.previousTouch.timestamp > 100)
+            ) {
+                // during a swipe, events are fired at about 15-30ms interval
+                // so at more than 100ms interval, we probably have a new touch event
+                // this is probably the start of a swipe
+                this.firstTouch = e;
+                this.previousTouch = e;
+            } else {
+                // we're swiping! The finger is probably moving across the screen, so
+                // we are receiving a stream of events that are very close to each other
+                // in time
+                const swipeX = e.pageX - this.firstTouch.pageX;
+                const swipeY = e.pageY - this.firstTouch.pageY;
+                this.previousTouch = e;
+                if (
+                    -swipeX > GLOBAL.SCREEN_WIDTH * 0.2 &&
+                    -swipeX > 3 * Math.abs(swipeY)
+                ) {
+                    this.checkTutorialAnswers();
+                    // we have a horizontal left swipe, claim this touch
+                    return true;
+                }
+            }
+        }
+        // we're not interested in this touch, leave it to some other component
+        return false;
     };
 
     toNextGroup = () => {
@@ -138,6 +247,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }
+        console.log(this.scrollEnabled)
 
         return (
             <FlatList
@@ -162,6 +272,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 }
                 onScroll={this.onScroll}
                 onMomentumScrollEnd={this.onMomentumScrollEnd}
+                onMoveShouldSetResponderCapture={
+                        this.handleTutorialScrollCapture
+                    }
                 pagingEnabled
                 // eslint-disable-next-line no-return-assign
                 ref={(r) => (this.flatlist = r)}
@@ -175,6 +288,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                         tutorial={tutorial}
                     />
                 )}
+                scrollEnabled={
+                    this.scrollEnabled || this.getCurrentScreen() < 0
+                }
                 snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                 showsHorizontalScrollIndicator={false}
             />
