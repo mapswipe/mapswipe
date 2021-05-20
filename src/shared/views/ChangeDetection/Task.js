@@ -5,7 +5,7 @@ import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
 import SatImage from '../../common/SatImage';
 import { COLOR_DARK_GRAY, COLOR_LIGHT_GRAY } from '../../constants';
-
+import { tutorialModes } from '../../constants';
 import type {
     CategoriesType,
     ChangeDetectionTaskType,
@@ -53,12 +53,6 @@ type Props = {
     tutorial: boolean,
 };
 
-const tutorialModes = {
-    pre: 'pre',
-    post_correct: 'post_correct',
-    post_wrong: 'post_wrong',
-};
-
 type State = {
     tutorialMode: $Keys<typeof tutorialModes>,
 };
@@ -83,7 +77,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
     constructor(props: Props) {
         super(props);
         this.state = {
-            tutorialMode: tutorialModes.pre,
+            tutorialMode: tutorialModes.instructions,
         };
         this.tasksDone = 0;
         this.imageSize = 250;
@@ -113,21 +107,10 @@ export default class ChangeDetectionTask extends React.PureComponent<
         }
 
         let tutorialContent: ?TutorialContent;
-
-
-        console.log('tutorial: ' + tutorial)
-
-        console.log('task')
-        console.log(task)
-
         if (tutorial && task) {
             const { screen } = task;
-            console.log('screen: ' + screen)
-            const tutorialMode = 'hint'
-            console.log(screens[screen-1])
             // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
             tutorialContent = screens[screen-1][tutorialMode];
-            console.log(tutorialContent)
         }
 
         return (
@@ -163,12 +146,8 @@ export default class ChangeDetectionTask extends React.PureComponent<
                 </View>
                 {tutorial && tutorialContent && (
                     <TutorialBox
-                        content={{
-                            description: 'fixme',
-                            title: 'fixme',
-                            icon: 'fixme',
-                        }}
-                        boxType="fixme"
+                        content={tutorialContent}
+                        boxType={tutorialMode}
                         bottomOffset="45%"
                         topOffset="5%"
                     />
