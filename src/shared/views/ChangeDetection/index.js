@@ -139,6 +139,19 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     /* eslint-enable global-require */
     render() {
         const { navigation, tutorial } = this.props;
+        const projectObj = navigation.getParam('project', false);
+        // check that the project data has a tutorialId set (in firebase)
+        // in which case, we use it as the tutorial (all projects should have one)
+        let tutorialId;
+        if (projectObj.tutorialId !== undefined) {
+            tutorialId = projectObj.tutorialId;
+        } else {
+            console.warn('No tutorial defined for the project');
+            // we should never get to this point, as we catch the lack of tutorial
+            // earlier, but just in case: abort and go back to the previous screen,
+            // this is a bit ugly, but will prevent a crash for now
+            otherProps.navigation.pop();
+        }
         return (
             <ChangeDetectionBody
                 navigation={navigation}
@@ -147,6 +160,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
                 screenName="_ChangeDetectionScreen"
                 submitResultFunction={submitChange}
                 tutorial={tutorial}
+                tutorialId={tutorialId}
                 tutorialHelpContent={this.tutorialHelpContent}
             />
         );

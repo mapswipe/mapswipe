@@ -59,6 +59,7 @@ type Props = {
     screenName: string,
     t: TranslationFunction,
     tutorial: boolean,
+    tutorialId: string,
 };
 
 type State = {
