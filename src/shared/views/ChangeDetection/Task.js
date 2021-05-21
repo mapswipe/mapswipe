@@ -96,9 +96,9 @@ export default class ChangeDetectionTask extends React.PureComponent<
         console.log(task.referenceAnswer)
 
         if (task.referenceAnswer === answer) {
-            this.setState({ tutorialMode: tutorialModes.post_correct });
+            this.setState({ tutorialMode: tutorialModes.success });
         } else {
-            this.setState({ tutorialMode: tutorialModes.post_wrong });
+            this.setState({ tutorialMode: tutorialModes.hint });
         }
 
     };
@@ -119,6 +119,27 @@ export default class ChangeDetectionTask extends React.PureComponent<
             tutorialMode: tutorialModes.hint,
             showAnswerButtonIsVisible: false,
         });
+    };
+
+    onMomentumScrollEnd = (event: Object) => {
+        // update the page number for the tutorial
+        // we don't do this in handleScroll as each scroll
+        // triggers dozens of these events, whereas this happens
+        // only once per page
+        const {
+            group: { xMax, xMin },
+            tutorial,
+        } = this.props;
+        const progress = this.onScroll(event);
+        if (tutorial) {
+            const currentScreen = this.getCurrentScreen();
+
+            if (currentScreen >= 0) {
+                // we changed page, reset state variables
+                // $FlowFixMe
+                console.log('test')
+            }
+        }
     };
 
 
@@ -143,6 +164,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
         return (
             <>
                 <View
+
                     style={{
                         alignItems: 'center',
                         flex: 1,

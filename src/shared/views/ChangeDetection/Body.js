@@ -90,7 +90,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     }
 
     componentDidUpdate = (prevProps) => {
-        const { group, onStartGroup } = this.props;
+        const { group, onStartGroup, results } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
                 // the component props are updated when group is received
@@ -223,6 +223,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             results,
             t,
             tutorial,
+            tutorialId,
         } = this.props;
         const { groupCompleted } = this.state;
 
@@ -267,6 +268,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
+                    tutorialId={tutorialId}
                 />
                 <View>
                     <TouchableWithoutFeedback

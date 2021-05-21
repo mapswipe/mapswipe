@@ -38,6 +38,7 @@ type Props = {
     results: ResultMapType,
     submitResult: (number, string) => void,
     tutorial: boolean,
+    tutorialId: string,
     updateProgress: (number) => void,
 };
 
@@ -118,8 +119,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         return currentScreen;
     };
 
-    checkTutorialAnswers = (answer: ?number): boolean => {
-        const { group } = this.props;
+    checkTutorialAnswers = (): boolean => {
+        const { group, results } = this.props;
 
         const currentScreen = this.getCurrentScreen()
         console.log('current screen: ' + currentScreen)
@@ -127,8 +128,14 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
         console.log('reference answer: ' + referenceAnswer)
 
-        const fake_answer = 0
-        if (referenceAnswer === fake_answer) {
+        const taskId = group['tasks'][currentScreen]['taskId']
+        console.log('taskId :' + taskId)
+
+        const answer = results[taskId]
+        console.log('answer: ' + answer)
+
+
+        if (referenceAnswer === answer) {
             console.log('the answer was correct.')
             console.log('enable scroll')
             this.scrollEnabled = true;
@@ -143,6 +150,27 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
         return true
     };
+
+/*    onMomentumScrollEnd = (event: Object) => {
+        // update the page number for the tutorial
+        // we don't do this in handleScroll as each scroll
+        // triggers dozens of these events, whereas this happens
+        // only once per page
+        const {
+            group: { xMax, xMin },
+            tutorial,
+        } = this.props;
+        const progress = this.onScroll(event);
+        if (tutorial) {
+            const currentScreen = this.getCurrentScreen();
+
+            if (currentScreen >= 0) {
+                // we changed page, reset state variables
+                // $FlowFixMe
+                console.log('test')
+            }
+        }
+    };*/
 
     handleTutorialScrollCapture = (event: Object) => {
         // Only used when running the tutorial
@@ -246,7 +274,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     />
                 }
                 onScroll={this.onScroll}
-                onMomentumScrollEnd={this.onMomentumScrollEnd}
+                //onMomentumScrollEnd={this.onMomentumScrollEnd}
                 onMoveShouldSetResponderCapture={
                         this.handleTutorialScrollCapture
                     }
