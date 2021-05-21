@@ -91,6 +91,26 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         };
     }
 
+    componentDidUpdate = (oldProps: Props) => {
+        const { results, tutorial } = this.props;
+        const { tutorialMode } = this.state;
+        const currentScreen = this.getCurrentScreen();
+        if (tutorial && results !== oldProps.results && currentScreen >= 0) {
+            // we're cheating here: we use the fact that props are updated when the user
+            // taps a tile to check the answers, instead of responding to the tap event.
+            // This is to avoid having to pass callbacks around all the way down to the tiles.
+            // to prevent mistaking prop updates for taps, we check that at least one result
+            // is non-zero
+
+            const allCorrect = this.checkTutorialAnswers();
+            console.log('all correct: '+ allCorrect)
+            if (allCorrect === true) {
+                this.setState({ tutorialMode: tutorialModes.success });
+                console.log('answer is correct in update')
+            }
+        }
+    };
+
     onScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
@@ -121,56 +141,38 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     checkTutorialAnswers = (): boolean => {
         const { group, results } = this.props;
+        console.log(group)
 
-        const currentScreen = this.getCurrentScreen()
-        console.log('current screen: ' + currentScreen)
+        if (group['tasks']) {
+            const currentScreen = this.getCurrentScreen()
+            console.log('current screen: ' + currentScreen)
 
-        const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
-        console.log('reference answer: ' + referenceAnswer)
+            const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
+            console.log('reference answer: ' + referenceAnswer)
 
-        const taskId = group['tasks'][currentScreen]['taskId']
-        console.log('taskId :' + taskId)
+            const taskId = group['tasks'][currentScreen]['taskId']
+            console.log('taskId :' + taskId)
 
-        const answer = results[taskId]
-        console.log('answer: ' + answer)
+            const answer = results[taskId]
+            console.log('answer: ' + answer)
 
 
-        if (referenceAnswer === answer) {
-            console.log('the answer was correct.')
-            console.log('enable scroll')
-            this.scrollEnabled = true;
-            this.setState({ tutorialMode: tutorialModes.success });
-
-        } else {
-            console.log('the answer was not correct.')
-            console.log('disable scroll')
-            this.scrollEnabled = false;
-            this.setState({ tutorialMode: tutorialModes.hint });
-        }
-
-        return true
-    };
-
-/*    onMomentumScrollEnd = (event: Object) => {
-        // update the page number for the tutorial
-        // we don't do this in handleScroll as each scroll
-        // triggers dozens of these events, whereas this happens
-        // only once per page
-        const {
-            group: { xMax, xMin },
-            tutorial,
-        } = this.props;
-        const progress = this.onScroll(event);
-        if (tutorial) {
-            const currentScreen = this.getCurrentScreen();
-
-            if (currentScreen >= 0) {
-                // we changed page, reset state variables
-                // $FlowFixMe
-                console.log('test')
+            if (referenceAnswer === answer) {
+                console.log('the answer was correct.')
+                console.log('enable scroll')
+                this.scrollEnabled = true;
+                this.setState({ tutorialMode: tutorialModes.success });
+                return true
+            } else {
+                console.log('the answer was not correct.')
+                console.log('disable scroll')
+                this.scrollEnabled = false;
+                this.setState({ tutorialMode: tutorialModes.hint });
+                return false
             }
         }
-    };*/
+        return true
+    };
 
     handleTutorialScrollCapture = (event: Object) => {
         // Only used when running the tutorial
@@ -245,6 +247,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             screens,
             tutorial,
         } = this.props;
+        const { tutorialMode, showAnswerButtonIsVisible } = this.state;
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }

@@ -88,21 +88,6 @@ export default class ChangeDetectionTask extends React.PureComponent<
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     }
 
-    checkTutorialAnswer = (answer: number ) => {
-        const { task } = this.props;
-        // $FlowFixMe
-
-        console.log(answer)
-        console.log(task.referenceAnswer)
-
-        if (task.referenceAnswer === answer) {
-            this.setState({ tutorialMode: tutorialModes.success });
-        } else {
-            this.setState({ tutorialMode: tutorialModes.hint });
-        }
-
-    };
-
     showAnswers = () => {
         const { task, onToggleTile } = this.props;
         // set each tile to its reference value
@@ -120,28 +105,6 @@ export default class ChangeDetectionTask extends React.PureComponent<
             showAnswerButtonIsVisible: false,
         });
     };
-
-    onMomentumScrollEnd = (event: Object) => {
-        // update the page number for the tutorial
-        // we don't do this in handleScroll as each scroll
-        // triggers dozens of these events, whereas this happens
-        // only once per page
-        const {
-            group: { xMax, xMin },
-            tutorial,
-        } = this.props;
-        const progress = this.onScroll(event);
-        if (tutorial) {
-            const currentScreen = this.getCurrentScreen();
-
-            if (currentScreen >= 0) {
-                // we changed page, reset state variables
-                // $FlowFixMe
-                console.log('test')
-            }
-        }
-    };
-
 
     render = () => {
         const { screens, index, onToggleTile, task, tutorial } = this.props;
