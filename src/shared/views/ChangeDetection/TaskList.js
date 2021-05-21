@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { FlatList, StyleSheet } from 'react-native';
+import get from 'lodash.get';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
@@ -15,6 +16,7 @@ import type {
     ChangeDetectionGroupType,
     ChangeDetectionTaskType,
     NavigationProp,
+    ResultMapType,
     ResultType,
 } from '../../flow-types';
 
@@ -33,6 +35,7 @@ type Props = {
     isSendingResults: boolean,
     navigation: NavigationProp,
     onToggleTile: (ResultType) => void,
+    results: ResultMapType,
     submitResult: (number, string) => void,
     tutorial: boolean,
     updateProgress: (number) => void,
@@ -40,6 +43,7 @@ type Props = {
 
 type State = {
     groupCompleted: boolean,
+    tutorialMode: $Keys<typeof tutorialModes>,
 };
 
 class _ChangeDetectionTaskList extends React.Component<Props, State> {
@@ -75,7 +79,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // so we can show the answers button after X interactions (only for tutorial)
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
-        this.tutorialIntroWidth = 2;
+        this.tutorialIntroWidth = 0;
+        this.currentScreen = 0  //- this.tutorialIntroWidth;
         this.currentX =
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
@@ -88,7 +93,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     onScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
-        const { group, updateProgress } = this.props;
+        const { group, results,  updateProgress } = this.props;
         const {
             contentOffset: { x },
         } = event.nativeEvent;
@@ -107,80 +112,36 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // return the screen number for the tutorial examples.
         // The screens before the start of the content are numbered negatively
         // which allows to check whether we're showing an example or not
-        // TODO: clean up the progress calculation, as we are using a few different
-        // numbers that are all confusing
-        const { currentX } = this;
-        const { group } = this.props;
-        const currentScreen = Math.floor((currentX - group.xMin));
+        const { currentScreen } = this;
+        // const { group } = this.props;
+        // const currentScreen = Math.floor((currentX - group.xMin) / 2);
         return currentScreen;
     };
 
-    getNumberOfTapsExpectedForScreen = (screenNumber) => {
-        // calculate how many taps/swipes the user is expected to do
-        // to get the correct result by summing up reference answers for each
-        // tile of the screen
-        let result = 0;
-        if (this.tasksPerScreen) {
-            console.log('tps', this.tasksPerScreen, screenNumber);
-            // $FlowFixMe
-            if (this.tasksPerScreen[screenNumber]) {
-                result = this.tasksPerScreen[screenNumber].reduce(
-                    (sum, task) => sum + task.referenceAnswer,
-                    0,
-                );
-            } else {
-                // FIXME: in some unclear edge cases, the screenNumber is not
-                // set properly, leading to the above reduce crashing
-                // in that case, we just force a zero value, which is not perfect
-                // but allows the user to move forward
-                return 0;
-            }
-        }
-        if (result === 18) {
-            // the user should be swiping down, only 1 action expected
-            result = 1;
-        }
-        return result;
-    };
+    checkTutorialAnswers = (answer: ?number): boolean => {
+        const { group } = this.props;
 
-    onMomentumScrollEnd = (event: Object) => {
-        // update the page number for the tutorial
-        // we don't do this in onScroll as each scroll
-        // triggers dozens of these events, whereas this happens
-        // only once per page
-        const {
-            group: { xMax, xMin },
-            tutorial,
-        } = this.props;
-        const progress = this.onScroll(event);
-        if (tutorial) {
-            // determine current taskX for tutorial
-            const min = parseInt(xMin, 10);
-            const max = parseInt(xMax, 10);
-            // FIXME: currentX is incorrect after xMax because of next line
-            this.currentX = Math.ceil(min + (max - min) * progress);
-            // TODO: getCurrentScreen returns an incorrect value after the last sample screen
-            const currentScreen = this.getCurrentScreen()
-            console.log(
-                'currentScreen',
-                currentScreen,
-            );
-            if (currentScreen >= 0) {
-                // we changed page, reset state variables
-                // $FlowFixMe
-                if (currentScreen >= this.tasksPerScreen) {
-                    this.scrollEnabled = true;
-                } else {
-                    this.scrollEnabled = false;
-                    this.tapsRegistered = 0; // remember to offset by 1 (see above)
-                    this.tapsExpected = 1
-                    this.setState({
-                        tutorialMode: tutorialModes.instructions,
-                        showAnswerButtonIsVisible: false,
-                    });
-                }
-            };
+        const currentScreen = this.getCurrentScreen()
+        console.log('current screen: ' + currentScreen)
+
+        const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
+        console.log('reference answer: ' + referenceAnswer)
+
+        const fake_answer = 0
+        if (referenceAnswer === fake_answer) {
+            console.log('the answer was correct.')
+            console.log('enable scroll')
+            this.scrollEnabled = true;
+            this.setState({ tutorialMode: tutorialModes.success });
+
+        } else {
+            console.log('the answer was not correct.')
+            console.log('disable scroll')
+            this.scrollEnabled = false;
+            this.setState({ tutorialMode: tutorialModes.hint });
         }
+
+        return true
     };
 
     handleTutorialScrollCapture = (event: Object) => {
@@ -200,6 +161,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // swiping is disabled in the flatlist component, so we need to detect swipes
             // by ourselves. This relies on capturing touch events, and figuring what is
             // happening
+
+            console.log('we need to check the answer to enable swiping')
+
             if (
                 this.firstTouch === undefined ||
                 (e.identifier === this.previousTouch.identifier &&
@@ -214,6 +178,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 // we're swiping! The finger is probably moving across the screen, so
                 // we are receiving a stream of events that are very close to each other
                 // in time
+                console.log('we are swiping.')
                 const swipeX = e.pageX - this.firstTouch.pageX;
                 const swipeY = e.pageY - this.firstTouch.pageY;
                 this.previousTouch = e;
@@ -226,6 +191,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     return true;
                 }
             }
+
         }
         // we're not interested in this touch, leave it to some other component
         return false;
@@ -254,7 +220,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }
-        console.log(this.scrollEnabled)
+
+        console.log('scroll enabled: ' + this.scrollEnabled)
+        console.log('current screen in render: ' + this.getCurrentScreen())
 
         return (
             <FlatList
@@ -309,6 +277,12 @@ const mapStateToProps = (state, ownProps) => ({
     commitCompletedGroup: ownProps.commitCompletedGroup,
     group: ownProps.group,
     isSendingResults: state.ui.user.isSendingResults,
+    results: get(
+        state.results[ownProps.tutorialId],
+        ownProps.group.groupId,
+        null,
+    ),
+    tutorial: ownProps.tutorial,
     submitResult: ownProps.submitResult,
 });
 

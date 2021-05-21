@@ -88,14 +88,19 @@ export default class ChangeDetectionTask extends React.PureComponent<
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     }
 
-    checkTutorialAnswers = (answer: number) => {
+    checkTutorialAnswer = (answer: number ) => {
         const { task } = this.props;
         // $FlowFixMe
+
+        console.log(answer)
+        console.log(task.referenceAnswer)
+
         if (task.referenceAnswer === answer) {
             this.setState({ tutorialMode: tutorialModes.post_correct });
         } else {
             this.setState({ tutorialMode: tutorialModes.post_wrong });
         }
+
     };
 
     showAnswers = () => {
@@ -115,6 +120,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
             showAnswerButtonIsVisible: false,
         });
     };
+
 
     render = () => {
         const { screens, index, onToggleTile, task, tutorial } = this.props;
@@ -183,3 +189,5 @@ export default class ChangeDetectionTask extends React.PureComponent<
         );
     };
 }
+
+
