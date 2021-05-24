@@ -3,7 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 import get from 'lodash.get';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
@@ -19,16 +19,10 @@ import type {
     NavigationProp,
     ResultMapType,
     ResultType,
+    TutorialContent,
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
-
-const styles = StyleSheet.create({
-    slide: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-});
 
 type Props = {
     screens: Array<TutorialContent>,
@@ -39,7 +33,6 @@ type Props = {
     results: ResultMapType,
     submitResult: (number, string) => void,
     tutorial: boolean,
-    tutorialId: string,
     updateProgress: (number) => void,
 };
 
@@ -65,7 +58,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     tapsRegistered: number;
 
-    tasksPerScreen: ?Array<Array<BuiltAreaTaskType>>;
+    tasksPerScreen: ?Array<Array<ChangeDetectionTaskType>>;
 
     tutorialIntroWidth: number;
 
@@ -84,20 +77,18 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
         this.tutorialIntroWidth = 0;
-        this.currentScreen = 0  //- this.tutorialIntroWidth;
+        this.currentScreen = 0; //- this.tutorialIntroWidth;
         this.currentX =
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
             showAnswerButtonIsVisible: false,
             tutorialBoxIsVisible: props.tutorial,
-            showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
         };
     }
 
     componentDidUpdate = (oldProps: Props) => {
         const { results, tutorial } = this.props;
-        const { tutorialMode, showAnswerButtonIsVisible } = this.state;
         const currentScreen = this.getCurrentScreen();
         if (tutorial && results !== oldProps.results && currentScreen >= 0) {
             // we're cheating here: we use the fact that props are updated when the user
@@ -106,14 +97,14 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // to prevent mistaking prop updates for taps, we check that at least one result
             // is non-zero
             const allCorrect = this.checkTutorialAnswers();
-            console.log('all correct: '+ allCorrect)
+            console.log(`all correct: ${allCorrect}`);
         }
     };
 
     onScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
-        const { group, results,  updateProgress } = this.props;
+        const { group, updateProgress } = this.props;
         const {
             contentOffset: { x },
         } = event.nativeEvent;
@@ -143,7 +134,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             const min = parseInt(xMin, 10);
             const max = parseInt(xMax, 10);
 
-            console.log('max: ' + max)
+            console.log(`max: ${max}`);
 
             // FIXME: currentX is incorrect after xMax because of next line
             this.currentX = Math.ceil(min + (max - min) * progress);
@@ -167,11 +158,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     showAnswerButtonIsVisible: false,
                 });
             }
-            this.setState({
-                showScaleBar: progress < 0.99 && currentScreen >= 0,
-            });
-        } else {
-            this.setState({ showScaleBar: progress < 0.99 });
         }
     };
 
@@ -181,7 +167,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // which allows to check whether we're showing an example or not
         const { currentX } = this;
         const { group } = this.props;
-        const currentScreen = Math.floor((currentX - group.xMin));
+        const currentScreen = Math.floor(currentX - group.xMin);
         return currentScreen;
     };
 
@@ -191,8 +177,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // set each tile to its reference value
         // $FlowFixMe
 
-        const taskId = group['tasks'][currentScreen]['taskId']
-        const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
+        const { taskId } = group.tasks[currentScreen];
+        const { referenceAnswer } = group.tasks[currentScreen];
 
         onToggleTile({
             groupId: group.groupId,
@@ -211,18 +197,18 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     checkTutorialAnswers = (): boolean => {
         const { group, results } = this.props;
-        const { tutorialBoxIsVisible, tutorialMode } = this.state;
-        if (group['tasks']) {
-            const currentScreen = this.getCurrentScreen()
-            const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
-            const taskId = group['tasks'][currentScreen]['taskId']
-            const answer = results[taskId]
+        const { tutorialMode } = this.state;
+        if (group.tasks) {
+            const currentScreen = this.getCurrentScreen();
+            const { referenceAnswer } = group.tasks[currentScreen];
+            const { taskId } = group.tasks[currentScreen];
+            const answer = results[taskId];
 
-            if (answer === referenceAnswer ) {
+            if (answer === referenceAnswer) {
                 this.scrollEnabled = true;
                 if (tutorialMode === tutorialModes.instructions) {
                     // the user got it on her own
-                    console.log('the user got it right')
+                    console.log('the user got it right');
                     this.setState({
                         tutorialMode: tutorialModes.success,
                         showAnswerButtonIsVisible: false,
@@ -230,33 +216,33 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     });
                 } else {
                     // the user used the show answers button
-                    console.log('used show answers button')
+                    console.log('used show answers button');
                     this.setState({
                         tutorialMode: tutorialModes.hint,
                         showAnswerButtonIsVisible: false,
                         tutorialBoxIsVisible: true,
                     });
                 }
-                return true
-            } else if (answer < referenceAnswer) {
+                return true;
+            }
+            if (answer < referenceAnswer) {
                 // the user might still get it right
                 // and get to the correct answer
                 this.scrollEnabled = false;
                 this.setState({ tutorialMode: tutorialModes.instructions });
-                return false
-            } else {
-                // the answer was not correct
-                // and the
-                this.scrollEnabled = false;
-                this.setState({
-                    tutorialMode: tutorialModes.hint,
-                    showAnswerButtonIsVisible: true,
-                    tutorialBoxIsVisible: false,
-                });
-                return false
+                return false;
             }
+            // the answer was not correct
+            // and the
+            this.scrollEnabled = false;
+            this.setState({
+                tutorialMode: tutorialModes.hint,
+                showAnswerButtonIsVisible: true,
+                tutorialBoxIsVisible: false,
+            });
+            return false;
         }
-        return true
+        return true;
     };
 
     handleTutorialScrollCapture = (event: Object) => {
@@ -277,7 +263,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // by ourselves. This relies on capturing touch events, and figuring what is
             // happening
 
-            console.log('we need to check the answer to enable swiping')
+            console.log('we need to check the answer to enable swiping');
 
             if (
                 this.firstTouch === undefined ||
@@ -293,7 +279,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 // we're swiping! The finger is probably moving across the screen, so
                 // we are receiving a stream of events that are very close to each other
                 // in time
-                console.log('we are swiping.')
+                console.log('we are swiping.');
                 const swipeX = e.pageX - this.firstTouch.pageX;
                 const swipeY = e.pageY - this.firstTouch.pageY;
                 this.previousTouch = e;
@@ -306,7 +292,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     return true;
                 }
             }
-
         }
         // we're not interested in this touch, leave it to some other component
         return false;
@@ -332,7 +317,11 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             screens,
             tutorial,
         } = this.props;
-        const { tutorialMode, showAnswerButtonIsVisible, tutorialBoxIsVisible } = this.state;
+        const {
+            tutorialMode,
+            showAnswerButtonIsVisible,
+            tutorialBoxIsVisible,
+        } = this.state;
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }
@@ -343,70 +332,67 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             tutorialContent = screens[currentScreen][tutorialMode];
         }
 
-        console.log('current screen in render: ' + this.getCurrentScreen())
-        console.log('current x: ' + currentX)
-        console.log('scroll enabled: ' + this.scrollEnabled)
-        console.log('tutorial mode: ' + tutorialMode)
-        console.log('tutorial content')
-        console.log(tutorialContent)
-        console.log('show answer button: ' + showAnswerButtonIsVisible)
+        console.log(`current screen in render: ${this.getCurrentScreen()}`);
+        console.log(`current x: ${currentX}`);
+        console.log(`scroll enabled: ${this.scrollEnabled}`);
+        console.log(`tutorial mode: ${tutorialMode}`);
+        console.log('tutorial content');
+        console.log(tutorialContent);
+        console.log(`show answer button: ${showAnswerButtonIsVisible}`);
 
         return (
             <>
-            <FlatList
-                style={{
-                    height: '100%',
-                    width: GLOBAL.SCREEN_WIDTH
-                }}
-                data={group.tasks}
-                decelerationRate="fast"
-                disableIntervalMomentum
-                keyExtractor={(task) => task.taskId}
-                horizontal
-                initialNumToRender={1}
-                ListFooterComponent={
-                    <LoadMoreCard
-                        group={group}
-                        navigation={navigation}
-                        toNextGroup={this.toNextGroup}
-                        projectId={group.projectId}
-                        tutorial={tutorial}
-                    />
-                }
-                onScroll={this.onScroll}
-                onMomentumScrollEnd={this.onMomentumScrollEnd}
-                onMoveShouldSetResponderCapture={
+                <FlatList
+                    style={{
+                        height: '100%',
+                        width: GLOBAL.SCREEN_WIDTH,
+                    }}
+                    data={group.tasks}
+                    decelerationRate="fast"
+                    disableIntervalMomentum
+                    keyExtractor={(task) => task.taskId}
+                    horizontal
+                    initialNumToRender={1}
+                    ListFooterComponent={
+                        <LoadMoreCard
+                            group={group}
+                            navigation={navigation}
+                            toNextGroup={this.toNextGroup}
+                            projectId={group.projectId}
+                            tutorial={tutorial}
+                        />
+                    }
+                    onScroll={this.onScroll}
+                    onMomentumScrollEnd={this.onMomentumScrollEnd}
+                    onMoveShouldSetResponderCapture={
                         this.handleTutorialScrollCapture
                     }
-                pagingEnabled
-                // eslint-disable-next-line no-return-assign
-                ref={(r) => (this.flatlist = r)}
-                renderItem={({ item, index }) => (
-                    <ChangeDetectionTask
-                        screens={screens}
-                        index={index}
-                        onToggleTile={onToggleTile}
-                        submitResult={submitResult}
-                        task={item}
-                        tutorial={tutorial}
-                    />
-                )}
-                scrollEnabled={
-                    this.scrollEnabled || this.getCurrentScreen() < 0
-                }
-                snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
-                showsHorizontalScrollIndicator={false}
-            />
-            {tutorial &&
-                tutorialBoxIsVisible && (
+                    pagingEnabled
+                    // eslint-disable-next-line no-return-assign
+                    ref={(r) => (this.flatlist = r)}
+                    renderItem={({ item, index }) => (
+                        <ChangeDetectionTask
+                            index={index}
+                            onToggleTile={onToggleTile}
+                            submitResult={submitResult}
+                            task={item}
+                        />
+                    )}
+                    scrollEnabled={
+                        this.scrollEnabled || this.getCurrentScreen() < 0
+                    }
+                    snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
+                    showsHorizontalScrollIndicator={false}
+                />
+                {tutorial && tutorialBoxIsVisible && (
                     <TutorialBox
                         content={tutorialContent}
                         boxType={tutorialMode}
                         bottomOffset="45%"
                         topOffset="5%"
                     />
-            )}
-            {tutorial && showAnswerButtonIsVisible && (
+                )}
+                {tutorial && showAnswerButtonIsVisible && (
                     <ShowAnswersButton onPress={this.showAnswers} />
                 )}
             </>

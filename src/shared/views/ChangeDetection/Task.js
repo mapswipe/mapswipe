@@ -2,16 +2,10 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import LoadingIcon from '../LoadingIcon';
-import TutorialBox from '../../common/Tutorial';
-import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import SatImage from '../../common/SatImage';
 import { COLOR_DARK_GRAY, COLOR_LIGHT_GRAY } from '../../constants';
-import { tutorialModes } from '../../constants';
-import type {
-    CategoriesType,
-    ChangeDetectionTaskType,
-    ResultType,
-} from '../../flow-types';
+
+import type { ChangeDetectionTaskType, ResultType } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -46,26 +40,16 @@ const minSwipeLength = 0.2;
 const swipeToSizeRatio = 2;
 
 type Props = {
-    screens: Array<TutorialContent>,
     //commitCompletedGroup: () => void,
     index: number,
     onToggleTile: (ResultType) => void,
     task: ChangeDetectionTaskType,
-    tutorial: boolean,
-};
-
-type State = {
-    tutorialMode: $Keys<typeof tutorialModes>,
-    showAnswerButtonIsVisible: boolean,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
 type taskGenType = Generator<string, void, void>;
 
-export default class ChangeDetectionTask extends React.PureComponent<
-    Props,
-    State,
-> {
+export default class ChangeDetectionTask extends React.PureComponent<Props> {
     imageSize: number;
 
     lockedSize: number;
@@ -78,10 +62,6 @@ export default class ChangeDetectionTask extends React.PureComponent<
 
     constructor(props: Props) {
         super(props);
-        this.state = {
-            tutorialMode: tutorialModes.instructions,
-            showAnswerButtonIsVisible: true,
-        };
         this.tasksDone = 0;
         this.imageSize = 250;
         this.swipeThreshold = this.imageSize * minSwipeLength;
@@ -89,8 +69,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
     }
 
     render = () => {
-        const { screens, index, onToggleTile, task, tutorial } = this.props;
-        const { tutorialMode, showAnswerButtonIsVisible } = this.state;
+        const { index, onToggleTile, task } = this.props;
         if (!task) {
             return <LoadingIcon />;
         }
@@ -99,17 +78,9 @@ export default class ChangeDetectionTask extends React.PureComponent<
             return <LoadingIcon />;
         }
 
-        let tutorialContent: ?TutorialContent;
-        if (tutorial && task) {
-            const { screen } = task;
-            // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
-            tutorialContent = screens[screen-1][tutorialMode];
-        }
-
         return (
             <>
                 <View
-
                     style={{
                         alignItems: 'center',
                         flex: 1,
@@ -142,5 +113,3 @@ export default class ChangeDetectionTask extends React.PureComponent<
         );
     };
 }
-
-

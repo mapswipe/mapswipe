@@ -28,6 +28,7 @@ import type {
     ProjectType,
     ResultMapType,
     TranslationFunction,
+    TutorialContent,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -90,7 +91,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     }
 
     componentDidUpdate = (prevProps) => {
-        const { group, onStartGroup, results } = this.props;
+        const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
                 // the component props are updated when group is received
@@ -232,7 +233,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         }
 
         if (tutorial) {
-            console.log('we are in tutorial mode.')
+            console.log('we are in tutorial mode.');
         }
 
         if (groupCompleted) {

@@ -150,7 +150,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
             // we should never get to this point, as we catch the lack of tutorial
             // earlier, but just in case: abort and go back to the previous screen,
             // this is a bit ugly, but will prevent a crash for now
-            otherProps.navigation.pop();
+            navigation.pop();
         }
 
         return (
