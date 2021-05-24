@@ -2,7 +2,13 @@ name: Build the app for Android and iOS
 
   # CI for MapSwipe app
   #
-  # This runs on each push, and does different things depending on the branch and tags of the current commit
+  # This runs on each push, and does different things depending on
+  # the branch and tags of the current commit.
+  #
+  # Secrets come from environment variables from github.
+  # Files containing secrets are base64 encoded, and their content
+  # loaded from a secret env var.
+
 on: [push]
 
 jobs:
@@ -37,6 +43,10 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.3'
+      - name: Decode sentry.properties
+        env:
+          SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
+        run: echo "$SENTRY_PROPERTIES" | base64 -d > ./android/sentry.properties
       - name: Jetify react files
         run: yarn jetifier
       - name: Increase filesystem inotify watch limit
