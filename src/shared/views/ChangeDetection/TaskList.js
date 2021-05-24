@@ -37,7 +37,6 @@ type Props = {
 };
 
 type State = {
-    groupCompleted: boolean,
     showAnswerButtonIsVisible: boolean,
     tutorialBoxIsVisible: boolean,
     tutorialMode: $Keys<typeof tutorialModes>,
@@ -47,6 +46,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     flatlist: ?FlatList<ChangeDetectionTaskType>;
 
     currentX: number;
+
+    currentScreen: number;
 
     firstTouch: Object;
 
@@ -58,7 +59,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     tapsRegistered: number;
 
-    tasksPerScreen: ?Array<Array<ChangeDetectionTaskType>>;
+    tasksPerScreen: number;
 
     tutorialIntroWidth: number;
 
@@ -97,7 +98,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // to prevent mistaking prop updates for taps, we check that at least one result
             // is non-zero
             const allCorrect = this.checkTutorialAnswers();
-            console.log(`all correct: ${allCorrect}`);
         }
     };
 
@@ -202,8 +202,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             const currentScreen = this.getCurrentScreen();
             const { referenceAnswer } = group.tasks[currentScreen];
             const { taskId } = group.tasks[currentScreen];
-            const answer = results[taskId];
-
+            const answer = parseInt(results[taskId]);
             if (answer === referenceAnswer) {
                 this.scrollEnabled = true;
                 if (tutorialMode === tutorialModes.instructions) {
@@ -225,7 +224,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 }
                 return true;
             }
-            if (answer < referenceAnswer) {
+            if (referenceAnswer && answer < referenceAnswer) {
                 // the user might still get it right
                 // and get to the correct answer
                 this.scrollEnabled = false;
@@ -334,11 +333,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
         console.log(`current screen in render: ${this.getCurrentScreen()}`);
         console.log(`current x: ${currentX}`);
-        console.log(`scroll enabled: ${this.scrollEnabled}`);
         console.log(`tutorial mode: ${tutorialMode}`);
         console.log('tutorial content');
         console.log(tutorialContent);
-        console.log(`show answer button: ${showAnswerButtonIsVisible}`);
 
         return (
             <>
@@ -384,7 +381,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                     showsHorizontalScrollIndicator={false}
                 />
-                {tutorial && tutorialBoxIsVisible && (
+                {tutorial && tutorialBoxIsVisible && tutorialContent && (
                     <TutorialBox
                         content={tutorialContent}
                         boxType={tutorialMode}
