@@ -39,6 +39,8 @@ jobs:
           ruby-version: '2.7.3'
       - name: Jetify react files
         run: yarn jetifier
+      - name: Increase filesystem inotify watch limit
+        run: sudo sysctl fs.inotify.max_user_watches=524288
       - name: Build dev APK
         run: yarn buildDev
 
