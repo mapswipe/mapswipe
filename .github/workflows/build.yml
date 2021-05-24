@@ -16,12 +16,13 @@ jobs:
         with:
           node-version: '16.1.0'
       - name: Install javascript dependencies
-        run: yarn install --frozen-lockfile
+        uses: bahmutov/npm-install@v1
       - name: Lint the code
         run: yarn lint
       - name: Check typing of code
         run: yarn flow
-
+      - name: Lint JSON translation files
+        run: yarn lintJson
 
   release-android:
     name: Build and release Android app
@@ -30,10 +31,16 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: '8.12'
-      - uses: actions/setup-ruby@v1
+          node-version: '16.1.0'
+      - name: Install javascript packages
+        uses: bahmutov/npm-install@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.x'
+      - name: Jetify react files
+        run: yarn jetifier
+      - name: Build dev APK
+        run: yarn buildDev
 
   release-ios:
     name: Build and release iOS app
@@ -42,11 +49,11 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
-      - uses: actions/setup-ruby@v1
+          node-version: '16.1.0'
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.x'
       - name: Install Fastlane
         run: bundle install
-      - name: Install packages
-        run: yarn install
+      - name: Install javascript packages
+        uses: bahmutov/npm-install@v1
