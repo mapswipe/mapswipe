@@ -3,9 +3,7 @@
   # CI for MapSwipe app
   #
   # This runs on each push, and does different things depending on the branch and tags of the current commit
-    on:
-      release:
-        type: [published]
+    on: [push]
 
     jobs:
 
