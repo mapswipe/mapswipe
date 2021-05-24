@@ -1,84 +1,52 @@
-  name: Build the app for Android and iOS
+name: Build the app for Android and iOS
 
   # CI for MapSwipe app
   #
   # This runs on each push, and does different things depending on the branch and tags of the current commit
-    on: [push]
+on: [push]
 
-    jobs:
+jobs:
 
-      check-syntax:
-        name: Validate code format and types before building
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v1
-          - uses: actions/setup-node@v1
-            with:
-              node-version: '8.12'
-          - name: Install javascript dependencies
-            run: yarn install --frozen-lockfile
-          - name: Lint the code
-            run: yarn lint
-          - name: Check typing of code
-            run: yarn flow
+  check-syntax:
+    name: Validate code format and types before building
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '8.12'
+      - name: Install javascript dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint the code
+        run: yarn lint
+      - name: Check typing of code
+        run: yarn flow
 
 
-      release-android:
-        name: Build and release Android app
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v1
-          - uses: actions/setup-node@v1
-            with:
-              node-version: '8.12'
-          - uses: actions/setup-ruby@v1
-            with:
-              ruby-version: '2.x'
-        - tar xvf secrets.tar --exclude android/gradle.properties
-        # to prevent overwriting gradle.properties with the file from the tarball
-        # we concatenate it to the end of the existing file (from git repo)
-        - tar xvfO secrets.tar android/gradle.properties >> android/gradle.properties
-        - nvm install node
-        - node --version
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.17.3
-        - export PATH="$HOME/.yarn/bin:$PATH"
-        - gem install bundler
-        # force manual license acceptance when switching to build-tools 29
-        - yes | sdkmanager "platforms;android-28"
-      install:
-        - yarn install --frozen-lockfile
-        - touch $HOME/.android/repositories.cfg
-        # yes | sdkmanager 'system-images;android-28;google_apis;x86'
-        # yes | sdkmanager 'system-images;android-25;google_apis;armeabi-v7a'
-        - bundle install
-          - name: 
-            run: openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
-          - name: 
-            run: 
-          - name: 
-            run: 
-          - name: 
-            run: 
+  release-android:
+    name: Build and release Android app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '8.12'
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.x'
 
-          - name: Setup react-native kernel and increase watchers
-            run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-          - name: Install Fastlane
-            run: bundle install
-          - name: Install packages
-            run: yarn install
-
-      release-ios:
-        name: Build and release iOS app
-        runs-on: macOS-latest
-        steps:
-          - uses: actions/checkout@v1
-          - uses: actions/setup-node@v1
-            with:
-              node-version: '10.x'
-          - uses: actions/setup-ruby@v1
-            with:
-              ruby-version: '2.x'
-          - name: Install Fastlane
-            run: bundle install
-          - name: Install packages
-            run: yarn install
+  release-ios:
+    name: Build and release iOS app
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.x'
+      - name: Install Fastlane
+        run: bundle install
+      - name: Install packages
+        run: yarn install
