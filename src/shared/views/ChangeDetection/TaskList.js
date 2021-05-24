@@ -97,7 +97,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // This is to avoid having to pass callbacks around all the way down to the tiles.
             // to prevent mistaking prop updates for taps, we check that at least one result
             // is non-zero
-            const allCorrect = this.checkTutorialAnswers();
+            this.checkTutorialAnswers();
         }
     };
 
@@ -202,7 +202,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             const currentScreen = this.getCurrentScreen();
             const { referenceAnswer } = group.tasks[currentScreen];
             const { taskId } = group.tasks[currentScreen];
-            const answer = parseInt(results[taskId]);
+            const answer = parseInt(results[taskId], 10);
             if (answer === referenceAnswer) {
                 this.scrollEnabled = true;
                 if (tutorialMode === tutorialModes.instructions) {
