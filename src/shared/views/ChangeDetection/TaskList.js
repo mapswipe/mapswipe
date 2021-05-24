@@ -99,21 +99,14 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const { results, tutorial } = this.props;
         const { tutorialMode, showAnswerButtonIsVisible } = this.state;
         const currentScreen = this.getCurrentScreen();
-
-
         if (tutorial && results !== oldProps.results && currentScreen >= 0) {
             // we're cheating here: we use the fact that props are updated when the user
             // taps a tile to check the answers, instead of responding to the tap event.
             // This is to avoid having to pass callbacks around all the way down to the tiles.
             // to prevent mistaking prop updates for taps, we check that at least one result
             // is non-zero
-
             const allCorrect = this.checkTutorialAnswers();
             console.log('all correct: '+ allCorrect)
-            //if (allCorrect === true) {
-            //    this.setState({ tutorialMode: tutorialModes.success });
-            //    console.log('answer is correct in update')
-            //}
         }
     };
 
@@ -218,23 +211,32 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     checkTutorialAnswers = (): boolean => {
         const { group, results } = this.props;
-        console.log(group)
-
+        const { tutorialBoxIsVisible, tutorialMode } = this.state;
         if (group['tasks']) {
             const currentScreen = this.getCurrentScreen()
             const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
             const taskId = group['tasks'][currentScreen]['taskId']
             const answer = results[taskId]
 
-            if (answer === referenceAnswer) {
-                console.log('the answer was correct.')
-                console.log('enable scroll')
+            if (answer === referenceAnswer ) {
                 this.scrollEnabled = true;
-                this.setState({
-                    tutorialMode: tutorialModes.success,
-                    showAnswerButtonIsVisible: false,
-                    tutorialBoxIsVisible: true,
-                });
+                if (tutorialMode === tutorialModes.instructions) {
+                    // the user got it on her own
+                    console.log('the user got it right')
+                    this.setState({
+                        tutorialMode: tutorialModes.success,
+                        showAnswerButtonIsVisible: false,
+                        tutorialBoxIsVisible: true,
+                    });
+                } else {
+                    // the user used the show answers button
+                    console.log('used show answers button')
+                    this.setState({
+                        tutorialMode: tutorialModes.hint,
+                        showAnswerButtonIsVisible: false,
+                        tutorialBoxIsVisible: true,
+                    });
+                }
                 return true
             } else if (answer < referenceAnswer) {
                 // the user might still get it right
@@ -243,8 +245,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 this.setState({ tutorialMode: tutorialModes.instructions });
                 return false
             } else {
-                console.log('the answer was not correct.')
-                console.log('disable scroll')
+                // the answer was not correct
+                // and the
                 this.scrollEnabled = false;
                 this.setState({
                     tutorialMode: tutorialModes.hint,
