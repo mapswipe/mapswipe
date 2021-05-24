@@ -88,24 +88,6 @@ export default class ChangeDetectionTask extends React.PureComponent<
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     }
 
-    showAnswers = () => {
-        const { task, onToggleTile } = this.props;
-        // set each tile to its reference value
-        // $FlowFixMe
-        onToggleTile({
-            groupId: task.groupId,
-            resultId: task.taskId,
-            // $FlowFixMe
-            result: task.referenceAnswer,
-            projectId: task.projectId,
-        });
-        this.scrollEnabled = true;
-        this.setState({
-            tutorialMode: tutorialModes.hint,
-            showAnswerButtonIsVisible: false,
-        });
-    };
-
     render = () => {
         const { screens, index, onToggleTile, task, tutorial } = this.props;
         const { tutorialMode, showAnswerButtonIsVisible } = this.state;
@@ -155,21 +137,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
                         style={styles.bottomImage}
                         task={task}
                     />
-                    {tutorial && tutorialContent && (
-                        <TutorialBox
-                            content={tutorialContent}
-                            boxType={tutorialMode}
-                            bottomOffset="45%"
-                            topOffset="5%"
-                        />
-                    )}
-                    {tutorial && showAnswerButtonIsVisible && (
-                        <ShowAnswersButton
-                            onPress={this.showAnswers}
-                        />
-                    )}
                 </View>
-
             </>
         );
     };

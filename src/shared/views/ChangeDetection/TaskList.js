@@ -9,6 +9,7 @@ import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
 import { tutorialModes } from '../../constants';
+import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import ChangeDetectionTask from './Task';
 import { toggleMapTile } from '../../actions/index';
 
@@ -44,6 +45,8 @@ type Props = {
 
 type State = {
     groupCompleted: boolean,
+    showAnswerButtonIsVisible: boolean,
+    tutorialBoxIsVisible: boolean,
     tutorialMode: $Keys<typeof tutorialModes>,
 };
 
@@ -86,6 +89,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
             showAnswerButtonIsVisible: false,
+            tutorialBoxIsVisible: props.tutorial,
             showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
         };
@@ -93,8 +97,10 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     componentDidUpdate = (oldProps: Props) => {
         const { results, tutorial } = this.props;
-        const { tutorialMode } = this.state;
+        const { tutorialMode, showAnswerButtonIsVisible } = this.state;
         const currentScreen = this.getCurrentScreen();
+
+
         if (tutorial && results !== oldProps.results && currentScreen >= 0) {
             // we're cheating here: we use the fact that props are updated when the user
             // taps a tile to check the answers, instead of responding to the tap event.
@@ -104,10 +110,10 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
             const allCorrect = this.checkTutorialAnswers();
             console.log('all correct: '+ allCorrect)
-            if (allCorrect === true) {
-                this.setState({ tutorialMode: tutorialModes.success });
-                console.log('answer is correct in update')
-            }
+            //if (allCorrect === true) {
+            //    this.setState({ tutorialMode: tutorialModes.success });
+            //    console.log('answer is correct in update')
+            //}
         }
     };
 
@@ -129,14 +135,85 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         return progress;
     };
 
+    onMomentumScrollEnd = (event: Object) => {
+        // update the page number for the tutorial
+        // we don't do this in handleScroll as each scroll
+        // triggers dozens of these events, whereas this happens
+        // only once per page
+        const {
+            group: { xMax, xMin },
+            tutorial,
+        } = this.props;
+        const progress = this.onScroll(event);
+        if (tutorial) {
+            // determine current taskX for tutorial
+            const min = parseInt(xMin, 10);
+            const max = parseInt(xMax, 10);
+
+            console.log('max: ' + max)
+
+            // FIXME: currentX is incorrect after xMax because of next line
+            this.currentX = Math.ceil(min + (max - min) * progress);
+            // getCurrentScreen returns an incorrect value after the last sample screen
+            const currentScreen = Math.round(
+                event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
+                    this.tutorialIntroWidth,
+            );
+            console.log(
+                'currentScreen',
+                currentScreen,
+                (this.currentX - min) / 2,
+                this.getCurrentScreen(),
+            );
+            if (currentScreen >= 0) {
+                // we changed page, reset state variables
+                // $FlowFixMe
+                this.scrollEnabled = false;
+                this.setState({
+                    tutorialMode: tutorialModes.instructions,
+                    showAnswerButtonIsVisible: false,
+                });
+            }
+            this.setState({
+                showScaleBar: progress < 0.99 && currentScreen >= 0,
+            });
+        } else {
+            this.setState({ showScaleBar: progress < 0.99 });
+        }
+    };
+
     getCurrentScreen = () => {
         // return the screen number for the tutorial examples.
         // The screens before the start of the content are numbered negatively
         // which allows to check whether we're showing an example or not
-        const { currentScreen } = this;
-        // const { group } = this.props;
-        // const currentScreen = Math.floor((currentX - group.xMin) / 2);
+        const { currentX } = this;
+        const { group } = this.props;
+        const currentScreen = Math.floor((currentX - group.xMin));
         return currentScreen;
+    };
+
+    showAnswers = () => {
+        const { onToggleTile, group } = this.props;
+        const currentScreen = this.getCurrentScreen();
+        // set each tile to its reference value
+        // $FlowFixMe
+
+        const taskId = group['tasks'][currentScreen]['taskId']
+        const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
+
+        onToggleTile({
+            groupId: group.groupId,
+            resultId: taskId,
+            // $FlowFixMe
+            result: referenceAnswer,
+            projectId: group.projectId,
+        });
+        this.scrollEnabled = true;
+        this.setState({
+            tutorialMode: tutorialModes.hint,
+            showAnswerButtonIsVisible: false,
+            tutorialBoxIsVisible: true,
+        });
     };
 
     checkTutorialAnswers = (): boolean => {
@@ -145,29 +222,35 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
         if (group['tasks']) {
             const currentScreen = this.getCurrentScreen()
-            console.log('current screen: ' + currentScreen)
-
             const referenceAnswer = group['tasks'][currentScreen]['referenceAnswer']
-            console.log('reference answer: ' + referenceAnswer)
-
             const taskId = group['tasks'][currentScreen]['taskId']
-            console.log('taskId :' + taskId)
-
             const answer = results[taskId]
-            console.log('answer: ' + answer)
 
-
-            if (referenceAnswer === answer) {
+            if (answer === referenceAnswer) {
                 console.log('the answer was correct.')
                 console.log('enable scroll')
                 this.scrollEnabled = true;
-                this.setState({ tutorialMode: tutorialModes.success });
+                this.setState({
+                    tutorialMode: tutorialModes.success,
+                    showAnswerButtonIsVisible: false,
+                    tutorialBoxIsVisible: true,
+                });
                 return true
+            } else if (answer < referenceAnswer) {
+                // the user might still get it right
+                // and get to the correct answer
+                this.scrollEnabled = false;
+                this.setState({ tutorialMode: tutorialModes.instructions });
+                return false
             } else {
                 console.log('the answer was not correct.')
                 console.log('disable scroll')
                 this.scrollEnabled = false;
-                this.setState({ tutorialMode: tutorialModes.hint });
+                this.setState({
+                    tutorialMode: tutorialModes.hint,
+                    showAnswerButtonIsVisible: true,
+                    tutorialBoxIsVisible: false,
+                });
                 return false
             }
         }
@@ -247,15 +330,27 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             screens,
             tutorial,
         } = this.props;
-        const { tutorialMode, showAnswerButtonIsVisible } = this.state;
+        const { tutorialMode, showAnswerButtonIsVisible, tutorialBoxIsVisible } = this.state;
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
         }
+        const currentScreen = this.getCurrentScreen();
+        let tutorialContent: ?TutorialContent;
+        if (tutorial) {
+            // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
+            tutorialContent = screens[currentScreen][tutorialMode];
+        }
 
-        console.log('scroll enabled: ' + this.scrollEnabled)
         console.log('current screen in render: ' + this.getCurrentScreen())
+        console.log('current x: ' + currentX)
+        console.log('scroll enabled: ' + this.scrollEnabled)
+        console.log('tutorial mode: ' + tutorialMode)
+        console.log('tutorial content')
+        console.log(tutorialContent)
+        console.log('show answer button: ' + showAnswerButtonIsVisible)
 
         return (
+            <>
             <FlatList
                 style={{
                     height: '100%',
@@ -277,7 +372,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     />
                 }
                 onScroll={this.onScroll}
-                //onMomentumScrollEnd={this.onMomentumScrollEnd}
+                onMomentumScrollEnd={this.onMomentumScrollEnd}
                 onMoveShouldSetResponderCapture={
                         this.handleTutorialScrollCapture
                     }
@@ -300,6 +395,19 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                 showsHorizontalScrollIndicator={false}
             />
+            {tutorial &&
+                tutorialBoxIsVisible && (
+                    <TutorialBox
+                        content={tutorialContent}
+                        boxType={tutorialMode}
+                        bottomOffset="45%"
+                        topOffset="5%"
+                    />
+            )}
+            {tutorial && showAnswerButtonIsVisible && (
+                    <ShowAnswersButton onPress={this.showAnswers} />
+                )}
+            </>
         );
     };
 }
