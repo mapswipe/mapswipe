@@ -36,7 +36,7 @@ jobs:
         uses: bahmutov/npm-install@v1
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.x'
+          ruby-version: '2.7.3'
       - name: Jetify react files
         run: yarn jetifier
       - name: Build dev APK
@@ -52,7 +52,7 @@ jobs:
           node-version: '16.1.0'
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.x'
+          ruby-version: '2.7.3'
       - name: Install Fastlane
         run: bundle install
       - name: Install javascript packages
