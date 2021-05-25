@@ -47,6 +47,10 @@ jobs:
         env:
           SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
         run: echo "$SENTRY_PROPERTIES" | base64 -d > ./android/sentry.properties
+      - name: Decode google-services.json
+        env:
+          FILE_ANDROID_GOOGLE_SERVICES_DEV: ${{ secrets.FILE_ANDROID_GOOGLE_SERVICES_DEV }}
+        run: echo "$FILE_ANDROID_GOOGLE_SERVICES_DEV" | base64 -d > ./android/app/src/dev/google-services.json
       - name: Jetify react files
         run: yarn jetifier
       - name: Increase filesystem inotify watch limit
