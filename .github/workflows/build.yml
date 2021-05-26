@@ -70,10 +70,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '16.1.0'
+      - name: Install javascript packages
+        uses: bahmutov/npm-install@v1
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.3'
       - name: Install Fastlane
         run: bundle install
-      - name: Install javascript packages
-        uses: bahmutov/npm-install@v1
