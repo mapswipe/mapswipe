@@ -10,6 +10,8 @@ import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
 import { tutorialModes } from '../../constants';
 import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
+import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
+import TutorialOutroScreen from '../../common/Tutorial/TutorialOutro';
 import ChangeDetectionTask from './Task';
 import { toggleMapTile } from '../../actions/index';
 
@@ -55,10 +57,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     scrollEnabled: boolean;
 
-    tapsExpected: number;
-
-    tapsRegistered: number;
-
     tasksPerScreen: number;
 
     tutorialIntroWidth: number;
@@ -68,14 +66,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         this.flatlist = null;
         this.scrollEnabled = !props.tutorial;
         this.tasksPerScreen = 1;
-        // we expect the user to do at least X taps/swipes on the screen to match the
-        // expected results. We calculate this for each screen when we reach it, and
-        // store it here so we can show the "show Answers" button if they've tapped more
-        // than they should have in a "perfect" response.
-        this.tapsExpected = 0;
-        // keep a record of how many taps the user has done on the screen,
-        // so we can show the answers button after X interactions (only for tutorial)
-        this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
         this.tutorialIntroWidth = 0;
         this.currentScreen = 0; //- this.tutorialIntroWidth;
@@ -89,9 +79,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     }
 
     componentDidUpdate = (oldProps: Props) => {
-        const { results, tutorial } = this.props;
+        const { results, tutorial, screens } = this.props;
         const currentScreen = this.getCurrentScreen();
-        if (tutorial && results !== oldProps.results && currentScreen > 0) {
+        if (tutorial && results !== oldProps.results && currentScreen > 0 && currentScreen < Object.keys(screens).length) {
             // we're cheating here: we use the fact that props are updated when the user
             // taps a tile to check the answers, instead of responding to the tap event.
             // This is to avoid having to pass callbacks around all the way down to the tiles.
@@ -143,21 +133,15 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // FIXME: currentX is incorrect after xMax because of next line
             this.currentX = Math.ceil(min + (max - min) * progress);
             // getCurrentScreen returns an incorrect value after the last sample screen
-            const currentScreen = Math.round(
-                event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
-                    this.tutorialIntroWidth,
-            );
-            console.log(
-                'currentScreen',
-                currentScreen,
-                (this.currentX - min) / 2,
-                this.getCurrentScreen(),
-            );
+            const currentScreen = this.getCurrentScreen()
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
                 this.scrollEnabled = false;
-                if (progress === 1.0) {
+                if (progress >= 1.0) {
+                    // don't display the tutorial box at the last screen
+                    // this is the screen with the button to start real mapping
+                    this.scrollEnabled = true
                     this.setState({
                         tutorialBoxIsVisible: false,
                         showAnswerButtonIsVisible: false,
@@ -280,13 +264,13 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // when scrolling is disabled, determine if the user
         // tried to scroll, and respond accordingly
         const e = event.nativeEvent;
-        const { tutorial } = this.props;
+        const { tutorial, screens } = this.props;
         const currentScreen = this.getCurrentScreen();
         if (
             tutorial &&
             currentScreen >= 0 &&
             // $FlowFixMe
-            currentScreen < this.tasksPerScreen &&
+            currentScreen < Object.keys(screens).length &&
             !this.scrollEnabled
         ) {
             // swiping is disabled in the flatlist component, so we need to detect swipes
@@ -357,17 +341,21 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         }
         const currentScreen = this.getCurrentScreen();
         let tutorialContent: ?TutorialContent;
-        if (tutorial) {
+
+        console.log(Object.keys(screens).length)
+
+        if (tutorial && currentScreen < Object.keys(screens).length ) {
             // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
+             console.log('current screen: ' + currentScreen)
+             console.log(screens)
+             console.log(tutorialMode)
             tutorialContent = screens[currentScreen][tutorialMode];
         }
 
-        console.log(`current screen in render: ${this.getCurrentScreen()}`);
-        console.log(`current x: ${currentX}`);
-        console.log(`tutorial mode: ${tutorialMode}`);
-        console.log('tutorial content');
-        console.log(tutorialContent);
+        console.log('tutorial content:')
+        console.log(tutorialContent)
 
+        console.log(`current screen in render: ${this.getCurrentScreen()}`);
         return (
             <>
                 <FlatList
@@ -382,14 +370,33 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     horizontal
                     initialNumToRender={1}
                     ListFooterComponent={
-                        <LoadMoreCard
-                            group={group}
-                            navigation={navigation}
-                            toNextGroup={this.toNextGroup}
-                            projectId={group.projectId}
-                            tutorial={tutorial}
-                        />
+                        tutorial ? (
+                            <TutorialEndScreen
+                                group={group}
+                                navigation={navigation}
+                                OutroScreen={TutorialOutroScreen}
+                                projectId={group.projectId}
+                            />
+                        ) : (
+                            <LoadMoreCard
+                                group={group}
+                                navigation={navigation}
+                                toNextGroup={this.toNextGroup}
+                                projectId={group.projectId}
+                                tutorial={tutorial}
+                            />
+                        )
                     }
+//                    ListHeaderComponent={
+//                        tutorial ? (
+//                            <TutorialIntroScreen
+//                                exampleImage1={exampleImage1}
+//                                exampleImage2={exampleImage2}
+//                                lookFor={lookFor}
+//                                tutorial={tutorial}
+//                            />
+//                        ) : null
+//                    }
                     onScroll={this.onScroll}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     onMoveShouldSetResponderCapture={
