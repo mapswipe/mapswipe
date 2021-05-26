@@ -52,6 +52,13 @@ jobs:
           FILE_ANDROID_GOOGLE_SERVICES_DEV: ${{ secrets.FILE_ANDROID_GOOGLE_SERVICES_DEV }}
         run: echo "$FILE_ANDROID_GOOGLE_SERVICES_DEV" | base64 -d > ./android/app/src/dev/google-services.json
       - name: Decode the dev release keystore file
+        # passwords and secrets used for decrypting this keystore file
+        # MAPSWIPE_RELEASE_STORE_FILE=mapswipe-dev-release-key.keystore
+        # MAPSWIPE_RELEASE_KEY_ALIAS=mapswipe-dev-key-alias
+        # MAPSWIPE_RELEASE_STORE_PASSWORD=xxx
+        # MAPSWIPE_RELEASE_KEY_PASSWORD=xxx
+        # All vars are taken from actions env vars, prefixed with ORG_GRADLE_PROJECT_
+        # See https://docs.gradle.org/5.6.4/userguide/build_environment.html#sec:project_properties
         env:
           FILE_ANDROID_DEV_RELEASE_KEYSTORE: ${{ secrets.FILE_ANDROID_DEV_RELEASE_KEYSTORE }}
         run: echo "$FILE_ANDROID_DEV_RELEASE_KEYSTORE" | base64 -d > ./android/app/mapswipe-dev-release-key.keystore
