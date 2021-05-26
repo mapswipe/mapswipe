@@ -52,7 +52,7 @@ jobs:
           FILE_ANDROID_GOOGLE_SERVICES_DEV: ${{ secrets.FILE_ANDROID_GOOGLE_SERVICES_DEV }}
         run: echo "$FILE_ANDROID_GOOGLE_SERVICES_DEV" | base64 -d > ./android/app/src/dev/google-services.json
       - name: Decode the dev release keystore file
-        # passwords and secrets used for decrypting this keystore file
+        # passwords and secrets used for decrypting this keystore file (in the build step further down)
         # MAPSWIPE_RELEASE_STORE_FILE=mapswipe-dev-release-key.keystore
         # MAPSWIPE_RELEASE_KEY_ALIAS=mapswipe-dev-key-alias
         # MAPSWIPE_RELEASE_STORE_PASSWORD=xxx
@@ -72,7 +72,7 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_PASSWORD }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD }}
-        run: yarn buildDev
+        run: cd android && ./gradlew properties && cd .. && yarn buildDev
 
   release-ios:
     name: Build and release iOS app
