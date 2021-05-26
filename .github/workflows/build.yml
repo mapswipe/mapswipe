@@ -55,10 +55,6 @@ jobs:
         env:
           FILE_ANDROID_DEV_RELEASE_KEYSTORE: ${{ secrets.FILE_ANDROID_DEV_RELEASE_KEYSTORE }}
         run: echo "$FILE_ANDROID_DEV_RELEASE_KEYSTORE" | base64 -d > ./android/app/mapswipe-dev-release-key.keystore
-      - name: Decode gradle.properties
-        env:
-          FILE_ANDROID_GRADLE_PROPERTIES: ${{ secrets.FILE_ANDROID_GRADLE_PROPERTIES }}
-        run: echo "$FILE_ANDROID_GRADLE_PROPERTIES" | base64 -d > ./android/gradle.properties
       - name: Jetify react files
         run: yarn jetifier
       - name: Increase filesystem inotify watch limit
