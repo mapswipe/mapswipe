@@ -69,8 +69,15 @@ jobs:
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-dev-release-key.keystore ./android/app/mapswipe-dev-release-key.keystore.gpg
+      - name: Get the tag value from github
+        # see https://stackoverflow.com/a/58178121/1138710
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - name: Save git version so the app can show it to users
-        run: sed -ri "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -ri "s/TAG/$GITHUB_REF/" debugInfo.json
+        env:
+          # we need this hack because github default env vars don't include the tag itself
+          GIT_TAG: ${{ steps.vars.outputs.tag }}
+        run: sed -ri "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -ri "s/TAG/$GIT_TAG/" debugInfo.json
       - name: Jetify react files
         run: yarn jetifier
       - name: Increase filesystem inotify watch limit
@@ -102,5 +109,15 @@ jobs:
         run: bundle install
       - name: Install cocoapods
         run: gem install xcpretty cocoapods
+      - name: Get the tag value from github
+        # see https://stackoverflow.com/a/58178121/1138710
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - name: Save git version so the app can show it to users
-        run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GITHUB_REF/" debugInfo.json
+        env:
+          GIT_TAG: ${{ steps.vars.outputs.tag }}
+        run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
+      - name: Build the app and run unit tests
+        # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
+        # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
+        run: bundle exec fastlane test
