@@ -47,10 +47,14 @@ jobs:
         env:
           SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
         run: echo "$SENTRY_PROPERTIES" | base64 -d > ./android/sentry.properties
-      - name: Decode google-services.json
+      - name: Decode development google-services.json
         env:
           FILE_ANDROID_GOOGLE_SERVICES_DEV: ${{ secrets.FILE_ANDROID_GOOGLE_SERVICES_DEV }}
         run: echo "$FILE_ANDROID_GOOGLE_SERVICES_DEV" | base64 -d > ./android/app/src/dev/google-services.json
+      - name: Decode production google-services.json
+        env:
+          FILE_ANDROID_GOOGLE_SERVICES_PRODUCTION: ${{ secrets.FILE_ANDROID_GOOGLE_SERVICES_PRODUCTION }}
+        run: echo "$FILE_ANDROID_GOOGLE_SERVICES_PRODUCTION" | base64 -d > ./android/app/src/production/google-services.json
       - name: Decode the dev release keystore file
         # passwords and secrets used for decrypting this keystore file (in the build step further down)
         # MAPSWIPE_RELEASE_STORE_FILE=mapswipe-dev-release-key.keystore
