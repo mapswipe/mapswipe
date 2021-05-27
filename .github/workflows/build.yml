@@ -117,6 +117,8 @@ jobs:
         env:
           GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
+      - name: Setup keychain and certificates
+        run: ./scripts/ios_setup_certificates_for_ci.sh
       - name: Build the app and run unit tests
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
