@@ -69,6 +69,10 @@ jobs:
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-dev-release-key.keystore ./android/app/mapswipe-dev-release-key.keystore.gpg
+      - name: Decode the production release keystore file
+        env:
+          FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
+        run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-production-release-key.keystore ./android/app/mapswipe-production-release-key.keystore.gpg
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
         id: vars
