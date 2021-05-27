@@ -121,6 +121,10 @@ jobs:
         env:
           GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
+      - name: Decode the RSA key for use with ssh
+        env:
+          FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
+        run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci.gpg
       - name: Setup keychain and certificates
         run: ./scripts/ios_setup_certificates_for_ci.sh
       - name: Build the app and run unit tests
