@@ -76,6 +76,8 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD }}
         run: yarn buildDev
+      - name: Build production APK
+        run: yarn buildProd
 
   release-ios:
     name: Build and release iOS app
