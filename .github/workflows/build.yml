@@ -60,7 +60,7 @@ jobs:
         # All vars are taken from actions env vars, prefixed with ORG_GRADLE_PROJECT_
         # See https://docs.gradle.org/5.6.4/userguide/build_environment.html#sec:project_properties
         env:
-          FILE_DECRYPTION_PASSPHRASE: ${ secrets.FILE_DECRYPTION_PASSPHRASE }}
+          FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-dev-release-key.keystore ./android/app/mapswipe-dev-release-key.keystore.gpg
       - name: TEMP
         run: wc ./android/app/mapswipe-dev-release-key.keystore
