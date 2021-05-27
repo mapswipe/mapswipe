@@ -69,6 +69,8 @@ jobs:
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-dev-release-key.keystore ./android/app/mapswipe-dev-release-key.keystore.gpg
+      - name: Save git version so the app can show it to users
+        run: sed -ri "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -ri "s/TAG/$GITHUB_REF/" debugInfo.json
       - name: Jetify react files
         run: yarn jetifier
       - name: Increase filesystem inotify watch limit
@@ -100,3 +102,5 @@ jobs:
         run: bundle install
       - name: Install cocoapods
         run: gem install xcpretty cocoapods
+      - name: Save git version so the app can show it to users
+        run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GITHUB_REF/" debugInfo.json
