@@ -153,6 +153,10 @@ jobs:
         env:
           GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
+      - name: Decode sentry.properties
+        env:
+          SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
+        run: echo "$SENTRY_PROPERTIES" | base64 -d > ./ios/cfg/sentry.properties
       - name: Decode development GoogleService-Info.plist
         env:
           FILE_IOS_GOOGLE_SERVICES_DEV: ${{ secrets.FILE_IOS_GOOGLE_SERVICES_DEV }}
