@@ -143,4 +143,7 @@ jobs:
       - name: Build the app and run unit tests
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
+        env:
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane test
