@@ -165,6 +165,10 @@ jobs:
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci.gpg
+      - name: Add gitlab to ssh_known_hosts
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
       - name: Setup keychain and certificates
         run: ./scripts/ios_setup_certificates_for_ci.sh
       - name: Build the app and run unit tests
