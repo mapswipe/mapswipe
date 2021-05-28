@@ -175,8 +175,6 @@ jobs:
         env:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-      - name: Setup keychain and certificates
-        run: ./scripts/ios_setup_certificates_for_ci.sh
       - name: Build the app and run unit tests
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
