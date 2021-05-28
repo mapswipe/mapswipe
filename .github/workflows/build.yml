@@ -170,7 +170,9 @@ jobs:
       - name: Decode the RSA key for use with ssh
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
-        run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci.gpg
+        run: |
+          gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci.gpg
+          chmod 600 ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
       - name: Add gitlab to ssh_known_hosts
         env:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
