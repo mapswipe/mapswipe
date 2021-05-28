@@ -8,6 +8,8 @@ name: Build the app for Android and iOS
   # Secrets come from environment variables from github.
   # Files containing secrets are base64 encoded, and their content
   # loaded from a secret env var.
+  # For binary files, this does not seem to work, so we use gpg to hide them.
+  # (See comments below)
   #
   # Releases:
   # They should always be created using the script in ./scripts/version.sh
