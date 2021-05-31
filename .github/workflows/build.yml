@@ -181,7 +181,6 @@ jobs:
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since we had issues launching the simulator, but the app is being compiled.
         env:
-          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane test
       - name: Release to testflight
@@ -190,11 +189,13 @@ jobs:
         # both tag and branch, so for now we will rely on the user not tagging randomly
         if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-beta')
         env:
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane beta
       - name: Release to AppStore
         # only deploy a release on a beta tag
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         env:
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane release
