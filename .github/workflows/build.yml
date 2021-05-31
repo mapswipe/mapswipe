@@ -15,6 +15,13 @@ name: Build the app for Android and iOS
   # They should always be created using the script in ./scripts/version.sh
   # which will run a few checks and tag commits appropriately.
 
+  # Note about code duplication/reuse and restricting which step is running when.
+  # github actions does not support any good way to factor out code so it can be written once
+  # and reused in multiple places:
+  # YAML anchors are not supported (https://github.community/t/support-for-yaml-anchors/16128/56)
+  # "composite" actions can reuse "runs" but not other actions, so we would end up rewriting a bunch
+  # of code anyway.
+  # For now, we rely on `if:` checks to try and limit what runs on each push
 on: [push]
 
 jobs:
