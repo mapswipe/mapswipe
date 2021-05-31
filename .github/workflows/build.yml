@@ -122,13 +122,14 @@ jobs:
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Release to PlayStore
-        uses: maierj/fastlane-action@v2.0.1
         # only deploy a release on a non-beta tag
         # FIXME: there does not seem to be a way with github actions (as of may 2021) to get
         # both tag and branch, so for now we will rely on the user not tagging randomly
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
-        with:
-          lane: 'deploy'
+        env:
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        run: cd android && bundle exec fastlane deploy
 
   release-ios:
     name: Build and release iOS app
