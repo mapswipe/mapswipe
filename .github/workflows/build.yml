@@ -179,7 +179,7 @@ jobs:
         run: echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
       - name: Build the app and run unit tests
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
-        # Actual Tests have been disabled since Travis has issues launching the simulator, but the app is being compiled.
+        # Actual Tests have been disabled since we had issues launching the simulator, but the app is being compiled.
         env:
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
