@@ -191,7 +191,7 @@ jobs:
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since we had issues launching the simulator, but the app is being compiled.
         # only build locally if not on a tagged commit, as the next fastlane runs will run the build anyway
-        if: !startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/heads/')
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane test
