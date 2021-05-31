@@ -64,9 +64,10 @@ tag="$versionNumber($buildNumber)"
 current_branch=`git branch --show-current`
 if [[ "$current_branch" = "master" ]]; then
     echo "On branch "master", doing a  production release"
-    tag="$tag-beta"
 else
     echo "On branch $current_branch, doing a beta release"
+    # add a "beta" extension to the git tag
+    tag="$tag-beta"
 fi
 
 # get a final  confirmation to allow user to bail out
