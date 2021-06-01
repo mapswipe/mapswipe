@@ -1,6 +1,14 @@
 # Notes about the deployment process
 
-All deployments are done from [travis](https://travis-ci.org/mapswipe/mapswipe) which is linked to the `mapswipe` github project.
+All deployments are done by continuous integration/deployment with [github actions](https://github.com/mapswipe/mapswipe/actions).
+
+You should never publish an update of the app directly from your machine, this is to save developers from having to setup the appropriate environment, and saves us from having to share a bunch of passwords and keyfiles with everyone.
+
+To release a new version of the app, use the script made for it:
+```bash
+bash scripts/version.sh
+```
+and follow the prompts.
 
 ## Secrets management
 
