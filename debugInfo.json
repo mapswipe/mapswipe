@@ -1,4 +1,4 @@
 {
-    "gitHash": "TRAVIS_COMMIT",
-    "gitTag": "TRAVIS_TAG"
+    "gitHash": "COMMIT",
+    "gitTag": "TAG"
 }
