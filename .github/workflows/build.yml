@@ -1,0 +1,53 @@
+name: Build the app for Android and iOS
+
+  # CI for MapSwipe app
+  #
+  # This runs on each push, and does different things depending on
+  # the branch and tags of the current commit.
+  #
+  # Secrets come from environment variables from github.
+  # Files containing secrets are base64 encoded, and their content
+  # loaded from a secret env var.
+  # For binary files, this does not seem to work, so we use gpg to hide them.
+  # (See comments below)
+  #
+  # Releases:
+  # They should always be created using the script in ./scripts/version.sh
+  # which will run a few checks and tag commits appropriately.
+
+  # Note about code duplication/reuse and restricting which step is running when.
+  # github actions does not support any good way to factor out code so it can be written once
+  # and reused in multiple places:
+  # YAML anchors are not supported (https://github.community/t/support-for-yaml-anchors/16128/56)
+  # "composite" actions can reuse "runs" but not other actions, so we would end up rewriting a bunch
+  # of code anyway.
+  # For now, we rely on `if:` checks to try and limit what runs on each push
+  #
+  # Note the action is split into 3 files and 3 workflows (at this moment, we can't define
+  # multiple workflows in a single file).
+  # - this file runs simple linting and syntax checks
+  # - android.yml runs android specific build/deploy
+  # - ios.yml does the same for ios specific work
+  # All 3 should run in parallel, but we are then able to restart each of them independantly
+  # if there is a failure for any reason.
+
+on: [push]
+
+jobs:
+
+  check-syntax:
+    name: Validate code format and types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16.1.0'
+      - name: Install javascript dependencies
+        uses: bahmutov/npm-install@v1
+      - name: Lint the code
+        run: yarn lint
+      - name: Check typing of code
+        run: yarn flow
+      - name: Lint JSON translation files
+        run: yarn lintJson
