@@ -5,19 +5,193 @@
   },
   "signup": {
     "chooseUsername": "Válassz egy felhasználónevet",
-    "passwordError": "A jelszó legalább 7 karakter legyen",
-    "usernameError": "A felhasználónév legalább 5 karakter legyen",
-    "usernamePublic": "Felhasználóneved nyilvánosan látható lesz"
+    "passwordError": "A jelszónak legalább 6 karakterből kell állnia",
+    "usernameError": "A felhasználónévnek legalább 4 karakterből kell állnia",
+    "errorOnSignup": "Hiba történt a regisztráció során",
+    "usernameErrorMessage": "A felhasználónévnek legalább 4 karakter hosszúnak kell lennie",
+    "usernameNotEmail": "A felhasználónév nem lehet e-mail-cím",
+    "usernamePublic": "Felhasználóneved nyilvánosan látható lesz",
+    "success": "Sikerült",
+    "welcomeToMapSwipe": "Isten hozott a MapSwipe-ban, {{username}}!",
+    "emailAlreadyUsed": "Ezt az e-mail-címet már egy másik fiók is használja",
+    "emailInvalid": "Az e-mail-cím érvénytelen",
+    "problemSigningUp": "Probléma merült fel a regisztráció során",
+    "errorOnSignUp": "Hiba történt a regisztráció során",
+    "checkYourEmail": "Nézd meg az e-mailjeidet",
+    "noAccountFoundForEmail": "Ehhez az e-mail-címhez nem tartozik fiók",
+    "problemResettingPassword": "Hiba történt a jelszó alaphelyzetbe állításakor",
+    "errorLogIn": "Hiba történt a bejelentkezéskor",
+    "invalidEmailPassword": "Érvénytelen e-mail vagy jelszó",
+    "accountDisabled": "Fiók letiltva",
+    "problemLoggingIn": "Hiba történt a bejelentkezéskor",
+    "errorResetPass": "Hiba történt a jelszó alaphelyzetbe állításakor",
+    "enterYourEmail": "Írd be az e-mail-címed",
+    "choosePassword": "Válassz egy jelszót",
+    "enterYourPassword": "Írd be a jelszavadat",
+    "IagreeToPrivacyNotice": "Elfogadom az <1>adatvédelmi közleményt</1>",
+    "contributionWarningOnSignup": "* A MapSwipe-pal szerkesztett összes adat nyílt és mindenki számára elérhető. A felhasználóneved nyilvános, de az e-mail-címed és a jelszavad soha nem lesz megosztva senkivel.",
+    "signUp": "Regisztráció",
+    "loginExistingAccount": "Bejelentkezés meglévő fiókba",
+    "login": "Bejelentkezés",
+    "forgotPassword": "Elfelejtetted a jelszavad?",
+    "createNewAccount": "Új fiók létrehozása",
+    "sendResetEmailWarning": "* A jelszavad alaphelyzetbe állításához küldünk egy e-mailt",
+    "sendResetEmail": "Alaphelyzetbe állító e-mail küldése",
+    "backToLogin": "Vissza a bejelentkezéshez"
   },
   "login": {
     "enterUsername": "Add meg a felhasználóneved"
   },
   "profileScreen": {
+    "Level X": "{{level}}. szint",
+    "youve completed x tasks": "Elvégeztél {{contributions}} feladatot!",
+    "x tasks (s swipes) until the next level": "A következő szintig {{sqkm}} feladat ({{swipes}} pöccintés) van hátra",
+    "yourTeam": "Csapatod: {{teamName}}",
     "changeLanguage": "Nyelv módosítása",
     "mapswipe website": "A MapSwipe weboldala",
     "missingmaps website": "A Missing Maps weboldala",
-    "email us": "Írjon nekünk",
+    "email us": "Írj nekünk",
     "sign out": "Kijelentkezés",
-    "delete my account": "Fiókom törlése"
+    "delete my account": "Fiókom törlése",
+    "delete account question": "Törlődjék a fiók?",
+    "delete account warning": "Minden teljesítményed és jelvényed el fog veszni. A szerkesztéseid megmaradnak, de nem fognak többé a fiókodhoz kötődni.\nBiztosan folytatod?",
+    "no keep my account": "Nem, maradjon meg a fiókom",
+    "yes delete it": "Igen, törlődjön!"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{mappersCount}} térképező elvégzett {{progress}}%-ot"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{contributorCount}} HOZZÁD HASONLÓ TÉRKÉPEZŐ ELVÉGZETT GLOBÁLISAN {{projectProgress}}%-OT",
+    "userProgressForProject": "A projekt készültsége {{userProgress}}%",
+    "quotaReachedWarning": "Másik projekt kiválasztása a küldetések képernyőn",
+    "map now": "Térképezés most",
+    "chooseAnotherProject": "Másik projekt kiválasztása",
+    "tutorial": "Oktatóanyag"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Ezt keresed:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "OK, az oktatóanyagot befejezted. Most már készen állsz egy kis térképezésre!",
+    "finishedGroup": "Remek! Ezt a csoportot befejezted.",
+    "letsGo": "Rajta!",
+    "completeSession": "Munkamenet befejezése",
+    "continueMapping": "Térképezés folytatása",
+    "sync alert": "Szinkronizálási riasztás",
+    "sync alert message": "Feladataid éppen szinkronizálódnak… Ne zárd be az alkalmazást."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Isten hozott a MapSwipe-ban!",
+    "helpImprove": "Segíts jobb válaszokat adni a humanitárius katasztrófahelyzetekre a telefonod kényelméből",
+    "partMissingMaps": "A Missing Maps része",
+    "withMissingMaps": "A Missing Maps (hiányzó térképek) projekttel a világ legsérülékenyebb közösségeit szeretnénk feltenni a térképre",
+    "swipe": "Pöccints",
+    "completeTasks": "A feladatok elvégzéséhez lépegess végig a feltérképezendő területek műholdképein",
+    "createData": "Hozz létre értelmes adatokat",
+    "dataUse": "Az adatok arra szolgálnak, hogy a Missing Maps önkéntesei  az OpenStreetMap térkép szerkesztéséért tett erőfeszítéseit fókuszálhassák",
+    "saveLives": "Ments életeket",
+    "mapHelps": "A térkép segélyszervezeteket támogat abban, hogy humanitárius erőfeszítéseiket összehangolják és életeket mentsenek"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Utasítások",
+    "your task": "Feladataid:",
+    "lookingFor": "<1>Épületek változásait</1>{' '} kell keresned. Ez egyértelműen jelzi a népességszám változását.",
+    "perform task": "Hogyan végezd el a feladatot?",
+    "noChanges": "Ha nincs változás, egyszerűen{' '} <1>húzd el</1> a képernyőt a következő fényképhez",
+    "seeChanges": "Ha azt látod, hogy az épületek módosultak,{' '} <1>koppints egyszer</1>{' '} a csempére, ami ki fog zöldülni.",
+    "unsure": "Bizonytalan vagy?{' '} <1>Koppints kétszer</1>,{' '} s a csempe sárga lesz.",
+    "badImagery": "Baj van a képpel? (Például valamelyik képen felhők takarják el a földfelszínt.){' '} <1>Koppints háromszor</1>,{' '} és a csempe vörös lesz.",
+    "holdZoom": "Ha közelebbről szeretnél megnézni egy felvételt, koppints rá és tartsd rajta az ujjad egy kicsi, így megjelenik róla egy nagyítás.",
+    "hint": "Tanács:",
+    "differentImagery": "Néha különböző légi felvételek jelennek meg. Lehet, hogy a képek ezért kissé más elrendezésűek, vagy más a felbontásuk. Ne feledd, hogy{' '}<1> határozott változásokat keresel a településeken és épületekben</1>{' '}. Ha tehát úgy néz ki, hogy a képen ugyanazok az épületek vannak, de mintha lecserélték volna a tetőjüket, akkor ez egy „nincs változás” forgatókönyv. Ilyenkor egyszerűen húzd be a következő képet."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Utasítások megtekintése"
+  },
+  "CDValidator": {
+    "Yes": "Igen",
+    "No": "Nem",
+    "NotSure": "Bizonytalan",
+    "BadImagery": "Rossz műholdkép"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Értem",
+    "StopMappingAndReturn": "Abbahagyod a térképezést, és visszatérsz a menühöz?",
+    "ContinueMapping": "Térképezés folytatása",
+    "BackToMenu": "Vissza a menühöz"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Mind a 6 csempe vörösként való megjelöléséhez húzd LE a képernyőt.",
+    "swipe up undo": "Visszavonáshoz húzd FEL a képernyőt."
+  },
+  "LoadingIcon": {
+    "loading": "Betöltés…"
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Válaszok megjelenítése"
+  },
+  "Tutorial": {
+    "incomplete": "HIÁNYOS",
+    "maybe": "TALÁN",
+    "instructions1": "Hogyan működhetsz közre?",
+    "instructions2": "KOPPINTS A KIJELÖLÉSHEZ",
+    "instructions3": "Keresd meg a küldetésben felsorolt funkciókat. Koppints rá minden olyan csempére, ahol megtaláltad azt, amit keresel. Egy koppintás: <1>IGEN</1>, két koppintás: <3>{{twoTaps}}</3>, három koppintás: <5>ROSSZ MŰHOLDKÉP</5> (például felhős).",
+    "instructions4": "NAVIGÁLÁSHOZ HÚZD EL A KÉPERNYŐT",
+    "instructions5": "Ha a térkép egy darabjával elkészültél, az elhúzásával továbbgörgethetsz a következő darabra.",
+    "instructions6": "NAGYÍTÁSHOZ NYOMD HOSSZAN",
+    "instructions7": "A csembe kinagyításához tarts rajta az ujjad.",
+    "instructions8": "Alkotók",
+    "tutorial1": "Üdvözlünk az oktatóanyagban!",
+    "tutorial2": "Pár perc alatt MapSwipe-varázsló leszel!",
+    "tutorial3": "Csupán kövesd a képernyőn megjelenő utasításokat, és a folytatáshoz húzd el balra a képernyőt.",
+    "tutorial4": "Ha az utasítás útban van, koppints rá, és odébb ugrik.",
+    "tutorial5": "Értem"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Ez az oktatóanyag megtanít a MapSwipe használatára. Íme az első lépések:",
+    "noChanges": "Ha a képen nincs semmi lényeges, akkor egyszerűen <1>húzd el</1> a képernyőt a következő megjelenítéséhez.",
+    "seeChanges": "Ha az egyik képen észreveszel valamit, <1>koppints rá egyszer, hogy zöldre váltson</1>.",
+    "unsure": "Nem vagy egészen biztos abban, hogy mit látsz? <1>Koppints rá kétszer, és sárga lesz</1>.",
+    "badImagery": "Ha valami gond van a műholdképpel, <1>koppints rá háromszor, hogy vörös legyen</1>.",
+    "tapAgain": "Ha még egyszer rákoppintasz, visszaváltozik az eredeti állapotára.",
+    "WhatToLookFor": "Mit keress?",
+    "YouAreLookingFor": "Ezt keresed:",
+    "FromTheGround": "A terepen így néz ki:",
+    "ImagesFromAbove": "Az általad látott képek viszont föntről mutatják, ahonnan így fest:",
+    "SwipeToContinue": "Húzd el a folytatáshoz"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Ne aggódj, ha bizonytalan vagy abban, hogy mit is látsz egy négyzetben.",
+    "youCanAlwaysTapTwice": "Ne feledd, hogy bármikor koppinthatsz duplán, ha nem vagy biztos a dolgodban",
+    "everyImageViewedBy": "Minden képet sokan átnéznek, így nem érdemes azon aggódnod, hogy valami elkerülte a figyelmedet",
+    "holdZoom": "Ha lenyomva tartasz egy képet, akkor megjelenik róla egy nagyítás. Koppints rá újra, és eltűnik."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Most már készen állsz a térképezésre!",
+    "startMapping": "Térképezés elkezdése",
+    "completedTutorial": "Most már minden tudással rendelkezel ahhoz, hogy az alkalmazás segítségével közreműködj a humanitárius célú térképészetben. Ha elbizonytalanodsz, bármikor visszatérhetsz, hogy felfrissítsd a tudásod."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Lássunk néhány példát!",
+      "youllSeeASquare": "Egy négyzetet fogsz látni egy képen. Válaszolj a gombokkal:",
+      "squareContainsBuildings": "Van-e a négyzetben épület?",
+      "squareWillMove": "Ahogy haladsz, a négyzet egy hálót követve mozogni fog a kép körül, így:",
+      "swipeToGetStarted": "Húzd el a kezdéshez"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Nyugalom, nem baj, ha egy négyzetet illetően bizonytalan vagy.",
+    "youCanAlwaysTapUnsure": "Ne feledd, hogy bármikor rákoppinthatsz a „Bizonytalan” gombra",
+    "everyImageViewedBy": "Minden képet legalább 3 hozzád hasonló MapSwipe felhasználó megnéz, így nem gond, ha esetleg valamit kihagysz.",
+    "wantToChangeYourAnswer": "Szeretnéd módosítani a válaszodat?",
+    "youCanSwipeBack": "Korábbi válaszaid módosításához visszafelé is lépegethetsz. Aztán a képernyő elhúzásával visszatérhetsz oda, ahol éppen jártál."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Hogyan működhetsz közre?",
+    "squareContainsBuildings": "Látsz-e a négyzetben épületet? Válaszolj a gombokkal:",
+    "instructionsYes": "Igen: a négyzetben van épület (vagy épületrész)",
+    "instructionsNo": "Nem: a négyzetben nincs épület",
+    "instructionsNotSure": "Bizonytalan: nem tudod egyértelműen eldönteni, hogy épületet látsz-e",
+    "instructionsBadImagery": "Rossz műholdkép: felhős vagy más probléma miatt nem látható a földfelszín"
   }
 }
