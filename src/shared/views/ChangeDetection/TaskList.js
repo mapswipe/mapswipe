@@ -373,16 +373,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             />
                         )
                     }
-                    //                    ListHeaderComponent={
-                    //                        tutorial ? (
-                    //                            <TutorialIntroScreen
-                    //                                exampleImage1={exampleImage1}
-                    //                                exampleImage2={exampleImage2}
-                    //                                lookFor={lookFor}
-                    //                                tutorial={tutorial}
-                    //                            />
-                    //                        ) : null
-                    //                    }
                     onScroll={this.onScroll}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     onMoveShouldSetResponderCapture={
@@ -409,8 +399,11 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     <TutorialBox
                         content={tutorialContent}
                         boxType={tutorialMode}
-                        bottomOffset="45%"
-                        topOffset="5%"
+                        // This is a hack to display the TutorialBox
+                        // in the center when loading the tutorial.
+                        // We just flipped bottomOffset and topOffset values.
+                        bottomOffset="7.5%"
+                        topOffset="45%"
                     />
                 )}
                 {tutorial && showAnswerButtonIsVisible && (
