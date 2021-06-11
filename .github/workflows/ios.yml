@@ -54,7 +54,7 @@ jobs:
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: |
-          gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/fastlane/AuthKey_4B2GC5YX57.p8 ./ios/cfg/MapSwipe_apple_release_key_AuthKey_4B2GC5YX57.p8.gpg
+          gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/AuthKey_4B2GC5YX57.p8 ./ios/cfg/MapSwipe_apple_release_key_AuthKey_4B2GC5YX57.p8.gpg
       - name: Add gitlab to ssh_known_hosts
         env:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
