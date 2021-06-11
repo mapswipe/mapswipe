@@ -825,7 +825,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
@@ -856,7 +856,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1233,7 +1233,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				FIREBASE_CONFIG_EXTENSION = dev;
 				HEADER_SEARCH_PATHS = (
