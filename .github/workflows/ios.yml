@@ -12,8 +12,6 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
-      - name: List available versions of Xcode
-        run: ls -n /Applications/ | grep Xcode*
       - uses: actions/setup-node@v1
         with:
           node-version: '16.1.0'
