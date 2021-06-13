@@ -51,8 +51,8 @@ From 0.61 onwards, there is a helper tool that improves the process a lot:
 - delete `ios/Podfile.lock`
 - run `yarn install` to upgrade javascript dependencies and create a new `yarn.lock`.
 - (on macOS only) run `pod install` to generate a new `Podfile.lock`. If you don't have a mac, you can cheat by using the CI build to get the desired output:
-    + in `.travis.yml`, under the apple build job, add the following lines after `cd ios`:
-    + `- bundle exec pod install`
+    + in `.github/workflows/ios.yml`, after the cocoapods install step, add a step that does the following:
+    + `cd ios && bundle exec pod install`
     + `- cat Podfile.lock`
     + push to a new throwaway branch.
     + copy/paste the output of `cat Podfile.lock` back into your local file and commit the result.
