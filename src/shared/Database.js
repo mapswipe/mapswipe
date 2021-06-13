@@ -1,5 +1,5 @@
 // @flow
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
 import levels from './Levels';
 
 export default {

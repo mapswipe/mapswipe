@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Image } from 'react-native';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import Button from 'apsl-react-native-button';
 import SplashScreen from 'react-native-splash-screen';
 import Swiper from 'react-native-swiper';

@@ -4,7 +4,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
 import ScrollableTabView, {
     DefaultTabBar,

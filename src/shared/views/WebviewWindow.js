@@ -9,7 +9,7 @@
 import React from 'react';
 import { View, Image, TouchableHighlight } from 'react-native';
 import { WebView } from 'react-native-webview';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import type { NavigationProp } from '../flow-types';
 import { COLOR_DEEP_BLUE } from '../constants';
 

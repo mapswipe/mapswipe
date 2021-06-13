@@ -3,7 +3,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { Trans, withTranslation } from 'react-i18next';
 import {
