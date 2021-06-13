@@ -1,7 +1,5 @@
 module.exports = {
-    server: {
-        enableVisualizer: true,
-    },
+    server: {},
     transformer: {
         getTransformOptions: async () => ({
             transform: {
