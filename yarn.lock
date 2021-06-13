@@ -7769,11 +7769,6 @@ open@^6.2.0:
   dependencies:
     is-wsl "^1.1.0"
 
-opencollective-postinstall@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
-  integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
-
 opn@^5.4.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"
@@ -8336,14 +8331,6 @@ react-native-codegen@^0.0.6:
     flow-parser "^0.121.0"
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
-
-react-native-firebase@~5.5.7:
-  version "5.5.7"
-  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.5.7.tgz#d03d69c774af280c80c63bede59f65c5f7e8f26c"
-  integrity sha512-vWUdF6lE22iKSE1gh3bxzzfcA7OCoY1VLASF/XFAlXdGzw4/ksRrdcgdItkNSUnrYG3+pB46ah+OaTHPENPmuQ==
-  dependencies:
-    opencollective-postinstall "^2.0.0"
-    prop-types "^15.7.2"
 
 react-native-gesture-handler@^1.6.0:
   version "1.6.0"

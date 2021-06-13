@@ -7,19 +7,11 @@ import com.facebook.react.PackageList;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
-import io.invertase.firebase.RNFirebasePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import io.sentry.RNSentryPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.database.RNFirebaseDatabasePackage;
-import io.invertase.firebase.auth.RNFirebaseAuthPackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
-import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
-import io.invertase.firebase.instanceid.RNFirebaseInstanceIdPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -42,12 +34,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
-      packages.add(new RNFirebaseMessagingPackage());
-      packages.add(new RNFirebaseNotificationsPackage());
-      packages.add(new RNFirebaseAuthPackage());
-      packages.add(new RNFirebaseDatabasePackage());
-      packages.add(new RNFirebaseAnalyticsPackage());
-      packages.add(new RNFirebaseInstanceIdPackage());
       return packages;
     }
 

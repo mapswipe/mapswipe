@@ -10,14 +10,6 @@ platform :ios, '10.0'
 
 target 'mapswipe' do
 
-  # Pods for mapswipe
-  pod 'Firebase/Core', '~> 6.21.0'
-
-  pod 'Firebase/Auth', '~> 6.21.0'
-  pod 'Firebase/Database', '~> 6.21.0'
-  pod 'Firebase/Messaging', '~> 6.21.0'
-  pod 'GoogleIDFASupport', '~> 3.14.0'
-
   config = use_native_modules!
 
   use_react_native!(

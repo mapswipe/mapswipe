@@ -248,8 +248,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-firebase')
-    implementation platform("com.google.firebase:firebase-bom:22.2.1")
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -266,11 +264,6 @@ dependencies {
         exclude group:'com.facebook.flipper'
     }
 
-    implementation "com.google.android.gms:play-services-base:17.0.0"
-    implementation "com.google.firebase:firebase-core:17.0.1"
-    implementation "com.google.firebase:firebase-database:17.0.0"
-    implementation "com.google.firebase:firebase-auth:17.0.0"
-    implementation "com.google.firebase:firebase-messaging:19.0.0"
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
     implementation "androidx.multidex:multidex:2.0.1"
