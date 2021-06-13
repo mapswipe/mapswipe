@@ -165,7 +165,6 @@
 				AB02782921DFD2AC00F713BA /* debug.xcconfig */,
 				AB02782821DFD2AC00F713BA /* prod.xcconfig */,
 				13B07FAE1A68108700A75B9A /* mapswipe */,
-				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* mapswipeTests */,
 				AB02778B21D7E68B00F713BA /* mapswipeUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
