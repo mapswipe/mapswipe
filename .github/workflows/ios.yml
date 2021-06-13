@@ -26,9 +26,9 @@ jobs:
         run: bundle install
       - name: Install cocoapods
         run: gem install xcpretty cocoapods
-      - name: TEMP: manually run pod install
+      - name: TEMP manually run pod install
         run: cd ios && bundle exec pod install
-      - name: TEMP: get updated podfile.lock
+      - name: TEMP get updated podfile.lock
         run: cat Podfile.lock; cat ios/Podfile.lock
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
