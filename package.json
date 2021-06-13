@@ -23,7 +23,7 @@
     "@mapbox/tilebelt": "^1.0.1",
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.6.1",
-    "@react-native-community/cli": "^3.0.0",
+    "@react-native-community/cli": "^5.0.0",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-native-community/netinfo": "^4.0.0",
     "@react-native-community/viewpager": "^3.3.0",
