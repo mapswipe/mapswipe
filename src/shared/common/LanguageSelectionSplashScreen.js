@@ -81,7 +81,7 @@ type Props = {
     i18n: Object,
     languageCode: string,
     navigation: NavigationProp,
-    onSelectLanguage: (string) => void,
+    onSelectLanguage: string => void,
     t: TranslationFunction,
 };
 
@@ -126,7 +126,7 @@ class _LanguageSelectionSplashScreen extends React.Component<Props> {
                 ? 'en'
                 : languageCode;
         const languageName = supportedLanguages.filter(
-            (item) => item.code === actualLangCode,
+            item => item.code === actualLangCode,
         )[0].name;
 
         return (
@@ -166,7 +166,7 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onSelectLanguage: (languageCode: string) => {
         dispatch(selectLanguage(languageCode));
     },

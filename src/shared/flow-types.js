@@ -234,7 +234,7 @@ export type UserProfile = {
 
 export type Mapper = {
     closeTilePopup: () => void,
-    openTilePopup: (any) => void,
+    openTilePopup: any => void,
     progress: BottomProgress,
     project: ProjectType,
 };

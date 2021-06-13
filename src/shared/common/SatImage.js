@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     interactive: boolean,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     overlayText: string,
     overlayTextStyle: TextStyleProp,
     source: Image.ImageSourcePropType,
@@ -56,7 +56,7 @@ export default class SatImage extends React.Component<Props, State> {
         }
     }
 
-    onError = (evt) => {
+    onError = evt => {
         const { source } = this.state;
         const {
             nativeEvent: { error },

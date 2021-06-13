@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     navigation: NavigationProp,
-    onWelcomeComplete: (any) => any,
+    onWelcomeComplete: any => any,
     t: TranslationFunction,
     welcomeCompleted: boolean,
 };
@@ -111,7 +111,7 @@ const mapStateToProps = (state, ownProps) => ({
     welcomeCompleted: state.ui.user.welcomeCompleted,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onWelcomeComplete: () => {
         dispatch(completeWelcome());
     },
@@ -123,7 +123,7 @@ export default withTranslation('welcomeScreen')(
 );
 
 type WelcomeCardProps = {
-    onCompletion: (any) => any,
+    onCompletion: any => any,
     t: TranslationFunction,
 };
 
@@ -149,7 +149,7 @@ class WelcomeCardView extends React.Component<
                 showsButtons={false}
                 loop={false}
                 /* $FlowFixMe */
-                ref={(r) => {
+                ref={r => {
                     this.swiper = r;
                 }}
             >

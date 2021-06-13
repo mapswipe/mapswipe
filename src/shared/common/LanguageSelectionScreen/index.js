@@ -60,7 +60,7 @@ type Props = {
     i18n: any,
     languageCode: string,
     navigation: NavigationProp,
-    onSelectLanguage: (string) => void,
+    onSelectLanguage: string => void,
 };
 
 /* eslint-disable global-require */
@@ -89,7 +89,7 @@ class _LanguageSelectionScreen extends React.Component<Props> {
         const { languageCode, navigation } = this.props;
 
         const items = [];
-        supportedLanguages.forEach((langData) => {
+        supportedLanguages.forEach(langData => {
             items.push(
                 <LanguageItem
                     key={langData.code}
@@ -135,7 +135,7 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onSelectLanguage: (languageCode: string) => {
         dispatch(selectLanguage(languageCode));
     },

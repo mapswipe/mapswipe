@@ -225,7 +225,7 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         firebase
             .set(fbPath, objToUpload)
             .then(() => dispatch(commitGroupSuccess(projectId, groupId)))
-            .catch((error) =>
+            .catch(error =>
                 dispatch(commitGroupFailed(projectId, groupId, error)),
             );
     };

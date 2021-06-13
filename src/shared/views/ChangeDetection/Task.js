@@ -48,7 +48,7 @@ type Props = {
     categories: CategoriesType,
     //commitCompletedGroup: () => void,
     index: number,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     task: ChangeDetectionTaskType,
     tutorial: boolean,
 };

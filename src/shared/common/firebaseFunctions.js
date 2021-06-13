@@ -10,7 +10,7 @@ export const firebaseConnectGroup = (tutorialId?: string) =>
     // the tutorialId parameter is not really used at this point, but we keep it
     // for now, as it potentially allows setting a default value for tutorials
     // quite easily.
-    firebaseConnect((props) => {
+    firebaseConnect(props => {
         const tutorial = props.navigation.getParam('tutorial', false);
         let tutorialProjectId;
         // TODO: revisit this later, once the new tutorial format is used everywhere
@@ -112,7 +112,7 @@ export const mapStateToPropsForGroups = (tutorialId?: string) =>
             const groupsAvailable = Object.keys(groups);
             // eslint-disable-next-line prefer-destructuring
             const groupsToPickFrom = groupsAvailable.filter(
-                (g) => !groupsMapped.includes(g),
+                g => !groupsMapped.includes(g),
             );
             groupId =
                 groupsToPickFrom[

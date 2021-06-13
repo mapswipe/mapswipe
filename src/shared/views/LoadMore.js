@@ -51,11 +51,11 @@ type Props = {
     group: GroupType,
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
-    onCommitGroup: (GroupInfo) => void,
+    onCommitGroup: GroupInfo => void,
     projectId: string,
     results: ResultMapType,
     t: TranslationFunction,
-    toNextGroup: (void) => void,
+    toNextGroup: void => void,
     tutorial: boolean,
 };
 
@@ -155,7 +155,7 @@ const mapStateToProps = (state, ownProps) => ({
     results: state.results,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onCancelGroup(groupDetails) {
         dispatch(cancelGroup(groupDetails));
     },

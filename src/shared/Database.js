@@ -68,7 +68,7 @@ export default {
         let toReturn = 1;
         try {
             const parent = this;
-            Object.keys(levels).forEach((level) => {
+            Object.keys(levels).forEach(level => {
                 if (exp > levels[parent.maxLevel]) {
                     toReturn = parent.maxLevel;
                 } else if (

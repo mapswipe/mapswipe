@@ -31,7 +31,7 @@ type Props = {
     exitButtonText: string,
     cancelButtonCallback: () => void,
     cancelButtonText: string,
-    getRef: (any) => void,
+    getRef: any => void,
 };
 
 export default class ConfirmationModal extends React.Component<Props> {
@@ -53,7 +53,7 @@ export default class ConfirmationModal extends React.Component<Props> {
                 style={styles.modal}
                 backdropType="blur"
                 position="center"
-                ref={(r) => {
+                ref={r => {
                     getRef(r);
                 }}
             >

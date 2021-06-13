@@ -20,7 +20,7 @@ const GLOBAL = require('../Globals');
 type Props = {
     firebase: Object,
     navigation: NavigationProp,
-    t: (string) => string,
+    t: string => string,
 };
 
 class _ProjectNav extends React.Component<Props> {

@@ -72,10 +72,10 @@ type Props = {
     Component: React.ComponentType<any>,
     group: { [group_id: string]: GroupType },
     navigation: NavigationProp,
-    getNormalHelpContent: (string) => React.ComponentType<any>,
+    getNormalHelpContent: string => React.ComponentType<any>,
     onCancelGroup: ({}) => void,
     onStartGroup: ({}) => void,
-    onSubmitResult: (Object) => void,
+    onSubmitResult: Object => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
     screenName: string,
@@ -117,7 +117,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
@@ -243,7 +243,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 content={content}
                 exitButtonText={t('BackToMenu')}
                 exitButtonCallback={this.returnToView}
-                getRef={(r) => {
+                getRef={r => {
                     this.backConfirmationModal = r;
                 }}
             />
@@ -270,7 +270,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 style={[styles.modal, styles.HelpModal]}
                 backdropType="blur"
                 position="center"
-                ref={(r) => {
+                ref={r => {
                     this.HelpModal = r;
                 }}
             >
@@ -345,7 +345,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     tutorialId={tutorialId}
                 />
                 <BottomProgress
-                    ref={(r) => {
+                    ref={r => {
                         this.progress = r;
                     }}
                 />

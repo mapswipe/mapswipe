@@ -125,7 +125,7 @@ class Main extends React.Component<Props, State> {
         // check if the user has allowed receiving notifications
         fb.messaging()
             .hasPermission()
-            .then((enabled) => {
+            .then(enabled => {
                 if (enabled) {
                     // user has already given permission to notifications
                     parent.getNotificationToken();
@@ -208,7 +208,7 @@ class Main extends React.Component<Props, State> {
                         style={[style.modal, style.modal3]}
                         backdropType="blur"
                         position="center"
-                        ref={(r) => {
+                        ref={r => {
                             this.modal3 = r;
                         }}
                         isDisabled={isDisabled}
@@ -234,7 +234,7 @@ class Main extends React.Component<Props, State> {
                         </Button>
                     </Modal>
                     <MessageBarAlert
-                        ref={(r) => {
+                        ref={r => {
                             this.alert = r;
                         }}
                     />
@@ -302,7 +302,7 @@ const StartNavigator = createAppContainer(
     ),
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     languageCode: state.ui.user.languageCode,
 });
 

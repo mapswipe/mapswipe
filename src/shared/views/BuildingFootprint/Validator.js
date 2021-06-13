@@ -102,7 +102,7 @@ type Props = {
     submitResult: (number, string) => void,
     t: TranslationFunction,
     tutorial: boolean,
-    updateProgress: (number) => void,
+    updateProgress: number => void,
 };
 
 type State = {
@@ -428,7 +428,7 @@ class _Validator extends React.Component<Props, State> {
                         }
                         onMomentumScrollEnd={this.onMomentumScrollEnd}
                         // eslint-disable-next-line no-return-assign
-                        ref={(r) => (this.flatlist = r)}
+                        ref={r => (this.flatlist = r)}
                         renderItem={this.renderValidator}
                         pagingEnabled
                         scrollEnabled={
@@ -460,7 +460,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default compose(
     withTranslation('CDValidator'),
-    firebaseConnect((props) => {
+    firebaseConnect(props => {
         if (props.group) {
             const { groupId, projectId } = props.group;
             const prefix = props.tutorial ? 'tutorial' : 'projects';

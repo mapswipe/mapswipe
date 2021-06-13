@@ -54,7 +54,7 @@ type Props = {
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
     onStartGroup: ({}) => void,
-    onSubmitResult: (Object) => void,
+    onSubmitResult: Object => void,
     results: ResultMapType,
     screenName: string,
     t: TranslationFunction,
@@ -86,7 +86,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
@@ -205,7 +205,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 content={content}
                 exitButtonText={t('ProjectLevelScreen:BackToMenu')}
                 exitButtonCallback={this.returnToView}
-                getRef={(r) => {
+                getRef={r => {
                     this.backConfirmationModal = r;
                 }}
             />
@@ -279,7 +279,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     </TouchableWithoutFeedback>
                 </View>
                 <BottomProgress
-                    ref={(r) => {
+                    ref={r => {
                         this.progress = r;
                     }}
                 />

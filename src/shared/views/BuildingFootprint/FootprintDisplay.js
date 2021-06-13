@@ -141,7 +141,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     prefetchTask,
                     this.zoomLevel,
                 );
-                tileUrls.map((url) => {
+                tileUrls.map(url => {
                     if (!this.prefetchedUrls.has(url)) {
                         Image.prefetch(url);
                         this.prefetchedUrls.add(url);
@@ -215,12 +215,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     getPolygon = (coords: Polygon, screenBBox: BBOX): Path => {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
         // geographic coords to screen pixels
-        const lon2x = (lon) =>
+        const lon2x = lon =>
             ((lon - minLon) / (maxLon - minLon)) * this.imageryHeight;
-        const lat2y = (lat) =>
+        const lat2y = lat =>
             (1 - (lat - minLat) / (maxLat - minLat)) * this.imageryHeight;
         const p = Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
-        coords.forEach((corner) => {
+        coords.forEach(corner => {
             p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
         });
         p.close();
@@ -231,8 +231,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
      * Get the building bounding box (in real coordinates)
      */
     getBuildingBBox = (coords: LonLatPolygon): BBOX => {
-        const lons = coords.map((p) => p[0]).sort();
-        const lats = coords.map((p) => p[1]).sort();
+        const lons = coords.map(p => p[0]).sort();
+        const lats = coords.map(p => p[1]).sort();
         return [lons[0], lats[0], lons[lons.length - 1], lats[lats.length - 1]];
     };
 
@@ -242,7 +242,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             .slice(0, -1)
             .reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
         // $FlowFixMe
-        return centroid.map((c) => c / (coords.length - 1));
+        return centroid.map(c => c / (coords.length - 1));
     };
 
     // return a bouding box to zoom to as [W, S, E, N]
@@ -311,7 +311,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const minY = centerPixelCoords[1] - this.imageryHeight / 2;
 
         // geographic coords to screen pixels
-        const taskImageCoords = taskCoords.map((tc) =>
+        const taskImageCoords = taskCoords.map(tc =>
             this.pixelCoordsToImageCoords(
                 this.latLonZoomToPixelCoords(tc, zoom),
                 minX,
@@ -320,7 +320,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         );
 
         const p = Path().moveTo(taskImageCoords[0][0], taskImageCoords[0][1]);
-        taskImageCoords.forEach((corner) => {
+        taskImageCoords.forEach(corner => {
             p.lineTo(corner[0], corner[1]);
         });
         return p;
@@ -348,7 +348,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const minY = centerPixelCoords[1] - tileSize / 2;
 
         // geographic coords to screen pixels
-        const taskImageCoords = taskCoords.map((tc) =>
+        const taskImageCoords = taskCoords.map(tc =>
             this.pixelCoordsToImageCoords(
                 this.latLonZoomToPixelCoords(tc, zoom, GLOBAL.SCREEN_WIDTH),
                 minX,
@@ -357,7 +357,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         );
 
         const p = Path().moveTo(taskImageCoords[0][0], taskImageCoords[0][1]);
-        taskImageCoords.forEach((corner) => {
+        taskImageCoords.forEach(corner => {
             p.lineTo(corner[0], corner[1]);
         });
         return p;

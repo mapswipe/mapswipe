@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     langData: LanguageData,
-    onSelectLanguage: (string) => void,
+    onSelectLanguage: string => void,
     selected: boolean,
 };
 

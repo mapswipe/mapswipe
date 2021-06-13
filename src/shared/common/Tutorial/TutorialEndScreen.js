@@ -68,7 +68,7 @@ type Props = {
     group: GroupType,
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
-    onCompleteTutorial: (number) => void,
+    onCompleteTutorial: number => void,
     OutroScreen: React.ComponentType<any>,
     projectId: string,
     projectType: number,
@@ -138,7 +138,7 @@ const mapStateToProps = (state, ownProps) => ({
     results: state.results,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onCancelGroup(groupDetails) {
         dispatch(cancelGroup(groupDetails));
     },

@@ -106,7 +106,7 @@ type Props = {
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({}) => void,
-    onMarkHelpBoxSeen: (void) => void,
+    onMarkHelpBoxSeen: void => void,
     onStartGroup: ({}) => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
@@ -194,7 +194,7 @@ class _Mapper extends React.Component<Props, State> {
         this.HelpModal.close();
     };
 
-    openTilePopup = (tile) => {
+    openTilePopup = tile => {
         this.setState({
             poppedUpTile: tile,
         });
@@ -306,7 +306,7 @@ class _Mapper extends React.Component<Props, State> {
                 style={[styles.modal, styles.HelpModal]}
                 backdropType="blur"
                 position="center"
-                ref={(r) => {
+                ref={r => {
                     this.HelpModal = r;
                 }}
             >
@@ -377,7 +377,7 @@ class _Mapper extends React.Component<Props, State> {
                     zoomLevel={this.project.zoomLevel}
                 />
                 <BottomProgress
-                    ref={(r) => {
+                    ref={r => {
                         this.progress = r;
                     }}
                 />
@@ -386,7 +386,7 @@ class _Mapper extends React.Component<Props, State> {
                     style={styles.tilePopup}
                     entry="bottom"
                     position="center"
-                    ref={(r) => {
+                    ref={r => {
                         this.tilePopup = r;
                     }}
                 >
@@ -398,7 +398,7 @@ class _Mapper extends React.Component<Props, State> {
     /* eslint-enable global-require */
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onCancelGroup(groupDetails) {
         dispatch(cancelGroup(groupDetails));
     },
@@ -413,7 +413,7 @@ const mapDispatchToProps = (dispatch) => ({
 const Mapper = compose(
     withTranslation('Tutorial'),
     firebaseConnectGroup(),
-    connect((state) => ({
+    connect(state => ({
         hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1,
     })),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),

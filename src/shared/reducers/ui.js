@@ -41,7 +41,7 @@ export const getLevelForContributionCount = (count: number) => {
         } else {
             Object.keys(Levels)
                 .slice(0, 35)
-                .forEach((level) => {
+                .forEach(level => {
                     if (
                         count >= Levels[level].expRequired &&
                         count < Levels[parseInt(level, 10) + 1].expRequired

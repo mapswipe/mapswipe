@@ -203,7 +203,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 // $FlowFixMe
                 exitButtonCallback={this.deleteUserAccount}
                 exitButtonText={t('yes delete it')}
-                getRef={(r) => {
+                getRef={r => {
                     this.deleteAccountConfirmationModal = r;
                 }}
             />

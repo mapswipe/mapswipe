@@ -8,7 +8,7 @@ class ConnectionManager {
 
         console.log('Connection manager initialized');
 
-        NetInfo.addEventListener((state) => {
+        NetInfo.addEventListener(state => {
             parent.networkState = state.type;
         });
     }

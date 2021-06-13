@@ -431,7 +431,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         const { isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
-        chunks.forEach((chunk) => {
+        chunks.forEach(chunk => {
             renderQueue.push(chunk, '\n');
         });
 
@@ -594,7 +594,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     style={[style.modal, style.offlineModal]}
                     backdropType="blur"
                     position="center"
-                    ref={(r) => {
+                    ref={r => {
                         this.offlineModal = r;
                     }}
                     isDisabled={isDisabled}

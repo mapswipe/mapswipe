@@ -274,7 +274,7 @@ class _RecommendedCards extends React.Component<Props> {
                 style={[style.modal, style.modal3]}
                 backdropType="blur"
                 position="top"
-                ref={(r) => {
+                ref={r => {
                     this.tutorialModal = r;
                 }}
             >
@@ -335,7 +335,7 @@ class _RecommendedCards extends React.Component<Props> {
                 {this.renderAnnouncement()}
                 {projects
                     .filter(
-                        (p) =>
+                        p =>
                             // keep only projects whose type we currently support
                             p.value &&
                             p.value.projectType &&
@@ -349,7 +349,7 @@ class _RecommendedCards extends React.Component<Props> {
                             ),
                     )
                     .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
-                    .map((project) => (
+                    .map(project => (
                         <ProjectCard
                             navigation={navigation}
                             project={project.value}

@@ -37,14 +37,14 @@ type Props = {
     isSendingResults: boolean,
     lookFor: string,
     navigation: NavigationProp,
-    onToggleTile: (BuiltAreaTaskType) => void,
+    onToggleTile: BuiltAreaTaskType => void,
     openTilePopup: () => void,
     projectId: number,
     results: ResultMapType,
     tileServer: TileServerType,
     tileServerB: TileServerType,
     tutorial: boolean,
-    updateProgress: (number) => void,
+    updateProgress: number => void,
     zoomLevel: number,
 };
 
@@ -203,7 +203,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         } else {
             // in tutorial mode, the tasks are loaded from firebase, as there is extra data
             // we cannot interpolate from the group level info
-            tasks.forEach((task) => {
+            tasks.forEach(task => {
                 // place the task in the screens array
                 const dX = parseInt(task.taskX, 10) - minx;
                 const screen = Math.floor(dX / 2);
@@ -285,7 +285,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             return false;
         }
         const Xs = [currentX, currentX + 1];
-        const tilesToCheck = group.tasks.filter((t) =>
+        const tilesToCheck = group.tasks.filter(t =>
             Xs.includes(parseInt(t.taskX, 10)),
         );
         const allCorrect = tilesToCheck.reduce(
@@ -355,7 +355,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         return false;
     };
 
-    getNumberOfTapsExpectedForScreen = (screenNumber) => {
+    getNumberOfTapsExpectedForScreen = screenNumber => {
         // calculate how many taps/swipes the user is expected to do
         // to get the correct result by summing up reference answers for each
         // tile of the screen
@@ -441,7 +441,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         const currentScreen = this.getCurrentScreen();
         if (this.tasksPerScreen) {
             const visibleTiles = this.tasksPerScreen[currentScreen];
-            visibleTiles.forEach((tile) => {
+            visibleTiles.forEach(tile => {
                 // $FlowFixMe
                 onToggleTile({
                     groupId: tile.groupId,
@@ -522,7 +522,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                         offset: GLOBAL.TILE_SIZE * 2 * index,
                         index,
                     })}
-                    keyExtractor={(screen) => screen[0].taskId}
+                    keyExtractor={screen => screen[0].taskId}
                     horizontal
                     initialNumToRender={1}
                     ListFooterComponent={
@@ -561,7 +561,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     }
                     pagingEnabled
                     // eslint-disable-next-line no-return-assign
-                    ref={(r) => (this.flatlist = r)}
+                    ref={r => (this.flatlist = r)}
                     renderItem={({ item, index }) => (
                         <IndividualCard
                             card={item}
@@ -604,8 +604,8 @@ class _CardBody extends React.PureComponent<Props, State> {
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    onToggleTile: (tileInfo) => {
+const mapDispatchToProps = dispatch => ({
+    onToggleTile: tileInfo => {
         dispatch(toggleMapTile(tileInfo));
     },
 });
@@ -626,7 +626,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(
-    firebaseConnect((props) => {
+    firebaseConnect(props => {
         if (props.group) {
             const { groupId, projectId } = props.group;
             const prefix = props.tutorial ? 'tutorial' : 'projects';

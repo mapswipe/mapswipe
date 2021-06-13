@@ -25,10 +25,10 @@ type Props = {
     group: ChangeDetectionGroupType,
     isSendingResults: boolean,
     navigation: NavigationProp,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     submitResult: (number, string) => void,
     tutorial: boolean,
-    updateProgress: (number) => void,
+    updateProgress: number => void,
 };
 
 type State = {
@@ -88,7 +88,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 data={group.tasks}
                 decelerationRate="fast"
                 disableIntervalMomentum
-                keyExtractor={(task) => task.taskId}
+                keyExtractor={task => task.taskId}
                 horizontal
                 initialNumToRender={1}
                 ListFooterComponent={
@@ -103,7 +103,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 onScroll={this.onScroll}
                 pagingEnabled
                 // eslint-disable-next-line no-return-assign
-                ref={(r) => (this.flatlist = r)}
+                ref={r => (this.flatlist = r)}
                 renderItem={({ item, index }) => (
                     <ChangeDetectionTask
                         categories={categories}
@@ -128,14 +128,14 @@ const mapStateToProps = (state, ownProps) => ({
     submitResult: ownProps.submitResult,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    onToggleTile: (tileInfo) => {
+const mapDispatchToProps = dispatch => ({
+    onToggleTile: tileInfo => {
         dispatch(toggleMapTile(tileInfo));
     },
 });
 
 export default compose(
-    firebaseConnect((props) => {
+    firebaseConnect(props => {
         // wait for the group data to be available in redux-firebase
         if (props.group) {
             const { groupId, projectId } = props.group;
