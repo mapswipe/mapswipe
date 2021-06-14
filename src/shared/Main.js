@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import fb from '@react-native-firebase/app';
-import type { Notification } from 'react-native-firebase';
+// import type { Notification } from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -176,7 +176,7 @@ class Main extends React.Component<Props, State> {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    async getNotificationToken() {
+    /*async getNotificationToken() {
         const fcmToken = await fb.messaging().getToken();
         if (__DEV__) {
             console.log('FCM token', fcmToken);
@@ -190,7 +190,7 @@ class Main extends React.Component<Props, State> {
         } catch (error) {
             console.log('permission to receive notifications rejected');
         }
-    }
+    }*/
 
     openModal3(level: number) {
         this.setState({
