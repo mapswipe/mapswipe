@@ -185,6 +185,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 // IndividualCard
-export default withTranslation('IndividualCard')(
+export default (withTranslation('IndividualCard')(
     connect(mapStateToProps, mapDispatchToProps)(_IndividualCard),
-);
+): any);

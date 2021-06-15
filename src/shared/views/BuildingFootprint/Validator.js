@@ -458,7 +458,7 @@ const mapStateToProps = (state, ownProps) => ({
     submitResult: ownProps.submitResult,
 });
 
-export default compose(
+export default (compose(
     withTranslation('CDValidator'),
     firebaseConnect(props => {
         if (props.group) {
@@ -492,4 +492,4 @@ export default compose(
         return [];
     }),
     connect(mapStateToProps),
-)(_Validator);
+)(_Validator): any);

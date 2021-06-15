@@ -6,7 +6,7 @@
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import get from 'lodash.get';
 
-export const firebaseConnectGroup = (tutorialId?: string) =>
+export const firebaseConnectGroup = (tutorialId?: string): any =>
     // the tutorialId parameter is not really used at this point, but we keep it
     // for now, as it potentially allows setting a default value for tutorials
     // quite easily.

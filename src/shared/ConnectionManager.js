@@ -20,7 +20,7 @@ class ConnectionManager {
      * currently does not take into account bad cellphone receiption
      * @returns {boolean}
      */
-    isOnline() {
+    isOnline(): boolean {
         return this.networkState !== 'none';
     }
 
@@ -28,11 +28,11 @@ class ConnectionManager {
      * Whether the user is on wifi
      * @returns {boolean}
      */
-    isOnWifi() {
+    isOnWifi(): boolean {
         return this.networkState === 'wifi';
     }
 }
 
-const cm = new ConnectionManager();
+const cm: ConnectionManager = new ConnectionManager();
 
 export default cm;

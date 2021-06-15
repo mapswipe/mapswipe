@@ -147,8 +147,8 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('TutorialEndScreen'),
     firebaseConnect(),
     connect(mapStateToProps, mapDispatchToProps),
-)(TutorialEndScreen);
+)(TutorialEndScreen): any);

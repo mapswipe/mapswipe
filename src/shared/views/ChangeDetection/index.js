@@ -50,7 +50,7 @@ type Props = {
 export default class ChangeDetectionScreen extends React.Component<Props> {
     randomSeed: number;
 
-    tutorialHelpContent = (
+    tutorialHelpContent: React.Node = (
         <View>
             <Text style={styles.tutPar}>Welcome to the tutorial!</Text>
             <View style={styles.tutRow}>
@@ -84,7 +84,9 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     }
 
     /* eslint-disable global-require */
-    getNormalHelpContent = (creditString: string) => (
+    getNormalHelpContent: (creditString: string) => React.Node = (
+        creditString: string,
+    ) => (
         <>
             <Text style={styles.header}>How To Contribute</Text>
             <View style={styles.tutRow}>
@@ -137,7 +139,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     );
 
     /* eslint-enable global-require */
-    render() {
+    render(): React.Node {
         const { navigation, tutorial } = this.props;
         return (
             <ChangeDetectionBody

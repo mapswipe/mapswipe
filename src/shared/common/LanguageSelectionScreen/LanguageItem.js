@@ -31,7 +31,7 @@ type Props = {
 };
 
 /* eslint-disable global-require */
-const LanguageItem = (props: Props) => {
+const LanguageItem = (props: Props): React.Node => {
     const { langData, onSelectLanguage, selected } = props;
     return (
         <TouchableHighlight onPress={() => onSelectLanguage(langData.code)}>

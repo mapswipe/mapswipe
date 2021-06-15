@@ -31,14 +31,14 @@ export default class BottomProgress extends React.Component<{}, BPState> {
         };
     }
 
-    updateProgress = (progress: number) => {
+    updateProgress: (progress: number) => void = (progress: number) => {
         //console.log('update PB', progress);
         this.setState({
             progress,
         });
     };
 
-    render() {
+    render(): React.Node {
         const { progress } = this.state;
         return (
             <View style={styles.swipeNavBottom}>

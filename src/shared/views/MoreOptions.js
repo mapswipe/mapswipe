@@ -385,7 +385,7 @@ const enhance = compose(
     connect(mapStateToProps),
 );
 
-export default enhance(_MoreOptions);
+export default (enhance(_MoreOptions): any);
 
 type SBState = {
     offset: number,

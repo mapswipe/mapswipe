@@ -33,7 +33,7 @@ const defaultUserState = {
 
 const maxLevel = 36;
 
-export const getLevelForContributionCount = (count: number) => {
+export const getLevelForContributionCount = (count: number): number => {
     let toReturn = 1;
     try {
         if (count > Levels[maxLevel].expRequired) {

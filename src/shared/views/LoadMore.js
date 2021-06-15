@@ -164,8 +164,8 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('loadMoreScreen'),
     firebaseConnect(),
     connect(mapStateToProps, mapDispatchToProps),
-)(_LoadMoreCard);
+)(_LoadMoreCard): any);

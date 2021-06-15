@@ -91,7 +91,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     }
 
-    checkTutorialAnswers = (answer: number) => {
+    checkTutorialAnswers: (answer: number) => void = (answer: number) => {
         const { task } = this.props;
         // $FlowFixMe
         if (task.referenceAnswer === answer) {
@@ -101,7 +101,7 @@ export default class ChangeDetectionTask extends React.PureComponent<
         }
     };
 
-    render = () => {
+    render: () => React.Node = () => {
         const { categories, index, onToggleTile, task, tutorial } = this.props;
         const { tutorialMode } = this.state;
         if (!task) {

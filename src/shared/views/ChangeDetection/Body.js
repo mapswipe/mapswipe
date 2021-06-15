@@ -300,8 +300,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('CDBodyScreen'),
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
-)(_ChangeDetectionBody);
+)(_ChangeDetectionBody): any);

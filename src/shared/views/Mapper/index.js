@@ -428,7 +428,7 @@ export default class MapperScreen extends React.Component<Props> {
         this.randomSeed = Math.random();
     }
 
-    render() {
+    render(): React.Node {
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);
         // check that the project data has a tutorialId set (in firebase)

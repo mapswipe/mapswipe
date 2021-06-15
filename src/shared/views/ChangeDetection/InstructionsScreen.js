@@ -208,4 +208,6 @@ class CDInstructionsScreen extends React.Component<Props> {
     }
 }
 
-export default withTranslation('CDInstructionsScreen')(CDInstructionsScreen);
+export default (withTranslation('CDInstructionsScreen')(
+    CDInstructionsScreen,
+): any);

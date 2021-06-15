@@ -115,6 +115,6 @@ class _BuildingFootprintScreen extends React.Component<Props> {
     }
 }
 
-export default withTranslation('BFInstructionsScreen')(
+export default (withTranslation('BFInstructionsScreen')(
     _BuildingFootprintScreen,
-);
+): any);

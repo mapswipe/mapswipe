@@ -366,8 +366,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('ProjectLevelScreen'),
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
-)(ProjectLevelScreen);
+)(ProjectLevelScreen): any);

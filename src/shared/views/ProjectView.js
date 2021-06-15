@@ -1,4 +1,5 @@
 // @flow
+import type { Node } from 'react';
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -239,7 +240,7 @@ type Props = {
 };
 
 /* eslint-disable react/destructuring-assignment */
-const ProjectView = (props: Props) => (
+const ProjectView = (props: Props): Node => (
     <ProjectHeader
         style={style.headerContainer}
         navigation={props.navigation}

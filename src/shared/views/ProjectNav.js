@@ -60,8 +60,8 @@ const mapStateToProps = (state, ownProps) => ({
     auth: state.firebase.auth,
 });
 
-export default compose(
+export default (compose(
     withTranslation('mainHeader'),
     connect(mapStateToProps),
     firebaseConnect(),
-)(_ProjectNav);
+)(_ProjectNav): any);

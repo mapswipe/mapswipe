@@ -172,9 +172,9 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default withTranslation()(
+export default (withTranslation()(
     connect(
         mapStateToProps,
         mapDispatchToProps,
     )(_LanguageSelectionSplashScreen),
-);
+): any);

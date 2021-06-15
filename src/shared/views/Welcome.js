@@ -118,9 +118,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 // WelcomeScreen
-export default withTranslation('welcomeScreen')(
+export default (withTranslation('welcomeScreen')(
     connect(mapStateToProps, mapDispatchToProps)(_WelcomeScreen),
-);
+): any);
 
 type WelcomeCardProps = {
     onCompletion: any => any,

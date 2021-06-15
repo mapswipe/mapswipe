@@ -694,4 +694,4 @@ const enhance = compose(
     connect(mapStateToProps),
 );
 
-export default enhance(_Login);
+export default (enhance(_Login): any);

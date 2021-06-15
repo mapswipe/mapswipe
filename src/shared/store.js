@@ -37,7 +37,7 @@ const persistedReducers = persistReducer(persistConfig, reducers);
 
 // the initial state argument is only used for jest
 // direct imports of createNewStore should only happen in tests
-export const createNewStore = (initialState?: {} = {}) =>
+export const createNewStore = (initialState?: {} = {}): any =>
     createStore(
         persistedReducers,
         initialState,
@@ -50,6 +50,6 @@ export const createNewStore = (initialState?: {} = {}) =>
 const store = createNewStore();
 const persistor = persistStore(store);
 
-export default function setupStore() {
+export default function setupStore(): { persistor: any, store: any } {
     return { store, persistor };
 }

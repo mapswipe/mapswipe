@@ -625,7 +625,7 @@ const mapStateToProps = (state, ownProps) => ({
     zoomLevel: ownProps.zoomLevel,
 });
 
-export default compose(
+export default (compose(
     firebaseConnect(props => {
         if (props.group) {
             const { groupId, projectId } = props.group;
@@ -660,4 +660,4 @@ export default compose(
         return [];
     }),
     connect(mapStateToProps, mapDispatchToProps),
-)(_CardBody);
+)(_CardBody): any);

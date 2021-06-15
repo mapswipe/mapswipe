@@ -38,7 +38,7 @@ export default class ConfirmationModal extends React.Component<Props> {
     /*
      * A modal box used to confirm actions, such as leaving the mapper...
      */
-    render() {
+    render(): React.Node {
         const {
             cancelButtonCallback,
             cancelButtonText,

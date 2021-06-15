@@ -134,7 +134,7 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default compose(
+export default (compose(
     firebaseConnect(props => {
         // wait for the group data to be available in redux-firebase
         if (props.group) {
@@ -168,4 +168,4 @@ export default compose(
         return [];
     }),
     connect(mapStateToProps, mapDispatchToProps),
-)(_ChangeDetectionTaskList);
+)(_ChangeDetectionTaskList): any);

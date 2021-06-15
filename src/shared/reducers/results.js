@@ -8,14 +8,14 @@ import {
     TOGGLE_MAP_TILE,
 } from '../actions/index';
 import type { Action } from '../actions/index';
-import type { ResultMapType } from '../flow-types';
+import type { ResultMapType, ResultType } from '../flow-types';
 
 const defaultResultsState = {};
 
 export default function results(
     state: ResultMapType = defaultResultsState,
     action: Action,
-) {
+): ResultMapType | { ... } | { [string]: ResultType } {
     switch (action.type) {
         case SUBMIT_BUILDING_FOOTPRINT:
         case SUBMIT_CHANGE:

@@ -88,6 +88,6 @@ const TutorialIntroScreen = (props: Props) => {
     );
 };
 
-export default withTranslation('BuildingFootprintTutorialIntroScreen')(
+export default (withTranslation('BuildingFootprintTutorialIntroScreen')(
     TutorialIntroScreen,
-);
+): any);

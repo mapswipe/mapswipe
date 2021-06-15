@@ -374,7 +374,7 @@ const mapStateToProps = (state, ownProps) => ({
     teamName: state.firebase.data.teamName,
 });
 
-export default compose(
+export default (compose(
     // this only supplies the firebase object in the props, the actual connection
     // to projects and announcement is done in componentDidMount
     // so that we can disable updates while mapping to prevent updates from other
@@ -382,4 +382,4 @@ export default compose(
     firebaseConnect(), //() => [
     // connect to redux store
     connect(mapStateToProps),
-)(_RecommendedCards);
+)(_RecommendedCards): any);
