@@ -4,7 +4,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { getFirebase } from 'react-redux-firebase';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
 
