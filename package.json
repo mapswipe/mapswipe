@@ -15,7 +15,7 @@
     "runAndroid": "cd android && ./gradlew installDevDebug && adb -d shell am start -n org.missingmaps.mapswipe.dev/org.missingmaps.mapswipe.MainActivity ; cd ..",
     "start": "react-native start",
     "test": "jest --forceExit",
-    "postinstall": "jetifier",
+    "postinstall": "patch-package && jetifier",
     "preversion": "echo 'yarn version is disabled. Please use ./scripts/version.sh instead.'; exit 1"
   },
   "dependencies": {
@@ -36,6 +36,8 @@
     "i18next": "^19.0.0",
     "lodash.get": "^4.4.2",
     "pako": "^1.0.11",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react": "17.0.1",
     "react-i18next": "^11.5.0",
     "react-native": "0.64.2",
