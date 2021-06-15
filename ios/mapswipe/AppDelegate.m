@@ -5,8 +5,8 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
-#import "RNFirebaseNotifications.h"
-#import "RNFirebaseMessaging.h"
+/* #import "RNFirebaseNotifications.h" */
+/* #import "RNFirebaseMessaging.h" */
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -38,7 +38,7 @@ static void InitializeFlipper(UIApplication *application) {
 
   [FIRApp configure];
 
-  [RNFirebaseNotifications configure];
+  /* [RNFirebaseNotifications configure]; */
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"mapswipe"
@@ -60,6 +60,7 @@ static void InitializeFlipper(UIApplication *application) {
 }
 
 // notification stuff
+/*
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
   [[RNFirebaseNotifications instance] didReceiveLocalNotification:notification];
 }
@@ -72,6 +73,7 @@ fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHand
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
 }
+*/
 // end notification stuff
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
