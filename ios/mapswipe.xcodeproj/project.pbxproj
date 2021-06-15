@@ -69,7 +69,7 @@
 		ABDD495922036AE60025486F /* mapswipe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mapswipe.entitlements; path = mapswipe/mapswipe.entitlements; sourceTree = "<group>"; };
 		B1A0E8A60355A1A570941ABE /* libPods-mapswipeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B834AF9018442F4BFC5A22A9 /* Pods-mapswipe.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe.beta.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe/Pods-mapswipe.beta.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RnDiffApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = mapswipe/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9E8B7CB818144B286E4344D /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
