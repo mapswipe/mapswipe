@@ -319,4 +319,4 @@ const mapStateToProps = state => ({
     languageCode: state.ui.user.languageCode,
 });
 
-export default withTranslation()(connect(mapStateToProps)(Main));
+export default (withTranslation()(connect(mapStateToProps)(Main)): any);
