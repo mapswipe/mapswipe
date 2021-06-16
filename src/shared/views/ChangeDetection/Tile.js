@@ -55,6 +55,8 @@ type Props = {
     style: ViewStyleProp,
     source: Image.ImageSourcePropType,
     tutorial: boolean,
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
 };
 
 export class _Tile extends React.PureComponent<Props> {
@@ -81,8 +83,8 @@ export class _Tile extends React.PureComponent<Props> {
 
     onPressButton = () => {
         // called when a tile is tapped
-        const { mapper, results } = this.props;
-        mapper.closeTilePopup();
+        const { closeTilePopup, results } = this.props;
+        closeTilePopup();
         // find the tile status from redux results
         let tileStatus = results;
         tileStatus = (tileStatus + 1) % 4;
@@ -90,13 +92,14 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     onDismissZoom = () => {
-        const { mapper } = this.props;
-        mapper.closeTilePopup();
+        const { closeTilePopup } = this.props;
+        closeTilePopup();
     };
 
     onLongPress = () => {
-        const { mapper } = this.props;
-        mapper.openTilePopup(this.zoomRender());
+        console.log("long press")
+        const { openTilePopup } = this.props;
+        openTilePopup(this.zoomRender());
     };
 
     /**
@@ -139,7 +142,9 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     zoomRender = () => {
+        console.log('zoom render')
         const imageSource = this.getImgSource();
+        console.log(imageSource)
         return (
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
@@ -224,7 +229,8 @@ const mapStateToProps = (state, ownProps) => {
         results = state.results[projectId][groupId][taskId];
     }
     return {
-        mapper: ownProps.mapper,
+        closeTilePopup: ownProps.closeTilePopup,
+        openTilePopup: ownProps.openTilePopup,
         results,
         tile: ownProps.tile,
         tutorial: ownProps,

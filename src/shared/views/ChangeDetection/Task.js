@@ -44,6 +44,8 @@ type Props = {
     index: number,
     onToggleTile: (ResultType) => void,
     task: ChangeDetectionTaskType,
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -69,7 +71,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
     }
 
     render = () => {
-        const { index, onToggleTile, task } = this.props;
+        const { index, onToggleTile, task, openTilePopup, closeTilePopup } = this.props;
         if (!task) {
             return <LoadingIcon />;
         }
@@ -98,6 +100,8 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         overlayTextStyle={styles.overlayText}
                         source={{ uri: task.url }}
                         style={styles.topImage}
+                        closeTilePopup={closeTilePopup}
+                        openTilePopup={openTilePopup}
                     />
                     <SatImage
                         interactive
@@ -107,6 +111,8 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         source={{ uri: task.urlB }}
                         style={styles.bottomImage}
                         task={task}
+                        closeTilePopup={closeTilePopup}
+                        openTilePopup={openTilePopup}
                     />
                 </View>
             </>

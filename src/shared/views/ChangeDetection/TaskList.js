@@ -36,6 +36,8 @@ type Props = {
     submitResult: (number, string) => void,
     tutorial: boolean,
     updateProgress: (number) => void,
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
 };
 
 type State = {
@@ -326,6 +328,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             submitResult,
             screens,
             tutorial,
+            openTilePopup,
+            closeTilePopup,
         } = this.props;
         const {
             tutorialMode,
@@ -385,6 +389,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                         <ChangeDetectionTask
                             index={index}
                             onToggleTile={onToggleTile}
+                            closeTilePopup={closeTilePopup}
+                            openTilePopup={openTilePopup}
                             submitResult={submitResult}
                             task={item}
                         />
