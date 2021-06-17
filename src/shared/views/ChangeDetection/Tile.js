@@ -21,6 +21,11 @@ import {
     COLOR_YELLOW,
 } from '../../constants';
 import type { ResultType, BuiltAreaTaskType } from '../../flow-types';
+import {
+    NumberedTapIconTile1,
+    NumberedTapIconTile2,
+    NumberedTapIconTile3,
+} from '../../common/Tutorial/icons';
 
 const styles = StyleSheet.create({
     animatedText: {
@@ -159,6 +164,22 @@ export class _Tile extends React.PureComponent<Props> {
         );
     };
 
+    renderTapIcon = () => {
+        const { results } = this.props;
+        const tileStatus = results;
+
+        if (tileStatus === 1) {
+            return <NumberedTapIconTile1 />;
+        }
+        if (tileStatus === 2) {
+            return <NumberedTapIconTile2 />;
+        }
+        if (tileStatus === 3) {
+            return <NumberedTapIconTile3 />;
+        }
+        return null;
+    };
+
     render() {
         const {
             results,
@@ -183,6 +204,7 @@ export class _Tile extends React.PureComponent<Props> {
             );
         }
         const imageSource = this.getImgSource();
+        const tapIcon = this.renderTapIcon();
 
         return (
             <TouchableHighlight
@@ -196,6 +218,7 @@ export class _Tile extends React.PureComponent<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
+                    {tapIcon}
                     <View
                         style={[
                             styles.tileOverlay,
