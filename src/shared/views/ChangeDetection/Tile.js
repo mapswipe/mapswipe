@@ -20,7 +20,7 @@ import {
     COLOR_TRANSPARENT,
     COLOR_YELLOW,
 } from '../../constants';
-import type { Mapper, ResultType, BuiltAreaTaskType } from '../../flow-types';
+import type { ResultType, BuiltAreaTaskType } from '../../flow-types';
 
 const styles = StyleSheet.create({
     animatedText: {
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
 
 type Props = {
     tile: BuiltAreaTaskType,
-    mapper: Mapper,
     onToggleTile: (ResultType) => void,
     results: number,
     style: ViewStyleProp,
@@ -97,7 +96,7 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     onLongPress = () => {
-        console.log("long press")
+        console.log('long press');
         const { openTilePopup } = this.props;
         openTilePopup(this.zoomRender());
     };
@@ -142,9 +141,9 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     zoomRender = () => {
-        console.log('zoom render')
+        console.log('zoom render');
         const imageSource = this.getImgSource();
-        console.log(imageSource)
+        console.log(imageSource);
         return (
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground

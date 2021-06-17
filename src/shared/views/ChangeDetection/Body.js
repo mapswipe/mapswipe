@@ -87,6 +87,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     project: ProjectType;
 
+    tilePopup: ?React.ComponentType<void>;
+
     constructor(props: Props) {
         super(props);
         this.project = props.navigation.getParam('project');
@@ -205,8 +207,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     openTilePopup = (tile) => {
-        console.log('open tile popup')
-        console.log(tile)
+        console.log('open tile popup');
+        console.log(tile);
         this.setState({
             poppedUpTile: tile,
         });
@@ -257,8 +259,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         } = this.props;
         const { groupCompleted, poppedUpTile } = this.state;
 
-        console.log('poppedUpTile')
-        console.log(poppedUpTile)
+        console.log('poppedUpTile');
+        console.log(poppedUpTile);
 
         if (!group) {
             return <LoadingIcon />;

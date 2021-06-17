@@ -90,7 +90,7 @@ export default class SatImage extends React.Component<Props, State> {
             style,
             task,
             openTilePopup,
-            closeTilePopup
+            closeTilePopup,
         } = this.props;
 
         return (
