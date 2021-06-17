@@ -100,6 +100,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         overlayTextStyle={styles.overlayText}
                         source={{ uri: task.url }}
                         style={styles.topImage}
+                        task={task}
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
                     />

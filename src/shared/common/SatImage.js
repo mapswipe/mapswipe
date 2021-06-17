@@ -108,10 +108,13 @@ export default class SatImage extends React.Component<Props, State> {
                         openTilePopup={openTilePopup}
                     />
                 ) : (
-                    <Image
-                        onError={this.onError}
-                        source={source}
+                    <Tile
                         style={styles.imageBackground}
+                        tile={task}
+                        source={source}
+                        tutorial={false}
+                        closeTilePopup={closeTilePopup}
+                        openTilePopup={openTilePopup}
                     />
                 )}
             </View>
