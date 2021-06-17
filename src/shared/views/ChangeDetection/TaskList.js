@@ -332,12 +332,12 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             tutorial,
             openTilePopup,
             closeTilePopup,
-            zoomLevel
+            zoomLevel,
         } = this.props;
         const {
             tutorialMode,
             showAnswerButtonIsVisible,
-            tutorialBoxIsVisible
+            tutorialBoxIsVisible,
         } = this.state;
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
@@ -359,7 +359,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             ) *
             (180 / Math.PI);
 
-        console.log(latitude)
+        console.log(latitude);
 
         return (
             <>
@@ -408,7 +408,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             openTilePopup={openTilePopup}
                             submitResult={submitResult}
                             task={item}
-                            zoomLevel={zoomLevel}
                         />
                     )}
                     scrollEnabled={
@@ -421,7 +420,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     alignToBottom={false}
                     latitude={latitude}
                     useScreenWidth={false}
-                    visible={true}
+                    visible
                     zoomLevel={zoomLevel}
                 />
                 {tutorial && tutorialBoxIsVisible && tutorialContent && (

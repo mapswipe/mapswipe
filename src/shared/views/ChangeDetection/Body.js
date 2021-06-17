@@ -95,7 +95,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         // the number of screens that the initial tutorial intro covers
         this.state = {
             groupCompleted: false,
-            poppedUpTile: null
+            poppedUpTile: null,
         };
     }
 
