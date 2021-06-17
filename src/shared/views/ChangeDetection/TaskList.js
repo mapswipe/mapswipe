@@ -87,6 +87,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const currentScreen = this.getCurrentScreen();
         if (
             tutorial &&
+            results &&
             results !== oldProps.results &&
             currentScreen > 0 &&
             currentScreen < screens.length
