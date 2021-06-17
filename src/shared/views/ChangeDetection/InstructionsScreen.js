@@ -85,7 +85,7 @@ type Props = {
 };
 
 /* eslint-disable global-require */
-class CDInstructionsScreen extends React.Component<Props> {
+class CDInstructionScreen extends React.Component<Props> {
     componentDidMount() {
         const { navigation } = this.props;
         BackHandler.addEventListener('hardwareBackPress', () =>
@@ -120,8 +120,8 @@ class CDInstructionsScreen extends React.Component<Props> {
                 <ScrollView style={styles.container}>
                     <Text style={styles.header}>{t('your task')}</Text>
                     <Text style={styles.tutParagraph}>
-                        <Trans i18nKey="CDInstructionsScreen:lookingFor">
-                            You&apos;re looking for{' '}
+                        <Trans i18nKey="CDInstructionScreen:lookingFor">
+                            You&apos;re looking for
                             <Text style={{ fontWeight: 'bold' }}>
                                 changes in buildings
                             </Text>
@@ -136,11 +136,11 @@ class CDInstructionsScreen extends React.Component<Props> {
                             style={styles.tutImage}
                         />
                         <Text style={styles.tutText}>
-                            <Trans i18nKey="CDInstructionsScreen:noChanges">
-                                If there are no changes, simply{' '}
+                            <Trans i18nKey="CDInstructionScreen:noChanges">
+                                If there are no changes, simply
                                 <Text style={{ fontWeight: 'bold' }}>
                                     swipe
-                                </Text>{' '}
+                                </Text>
                                 to the next photos
                             </Trans>
                         </Text>
@@ -148,11 +148,11 @@ class CDInstructionsScreen extends React.Component<Props> {
                     <View style={styles.tutRow}>
                         <NumberedTapIconWhite1 />
                         <Text style={styles.tutText}>
-                            <Trans i18nKey="CDInstructionsScreen:seeChanges">
-                                If you see a change in buildings,{' '}
+                            <Trans i18nKey="CDInstructionScreen:seeChanges">
+                                If you see a change in buildings,
                                 <Text style={{ fontWeight: 'bold' }}>
                                     tap once
-                                </Text>{' '}
+                                </Text>
                                 and the tile turns green
                             </Trans>
                         </Text>
@@ -160,11 +160,11 @@ class CDInstructionsScreen extends React.Component<Props> {
                     <View style={styles.tutRow}>
                         <NumberedTapIconWhite2 />
                         <Text style={styles.tutText}>
-                            <Trans i18nKey="CDInstructionsScreen:unsure">
-                                Unsure?{' '}
+                            <Trans i18nKey="CDInstructionScreen:unsure">
+                                Unsure?
                                 <Text style={{ fontWeight: 'bold' }}>
                                     Tap twice
-                                </Text>{' '}
+                                </Text>
                                 and the tile will turn yellow
                             </Trans>
                         </Text>
@@ -172,12 +172,12 @@ class CDInstructionsScreen extends React.Component<Props> {
                     <View style={styles.tutRow}>
                         <NumberedTapIconWhite3 />
                         <Text style={styles.tutText}>
-                            <Trans i18nKey="CDInstructionsScreen:badImagery">
+                            <Trans i18nKey="CDInstructionScreen:badImagery">
                                 Imagery issue, like if either image has clouds
-                                covering the view?{' '}
+                                covering the view?
                                 <Text style={{ fontWeight: 'bold' }}>
                                     Tap three times
-                                </Text>{' '}
+                                </Text>
                                 and the tile will turn red
                             </Trans>
                         </Text>
@@ -187,14 +187,14 @@ class CDInstructionsScreen extends React.Component<Props> {
 
                     <Text style={styles.header}>{t('hint')}</Text>
                     <Text style={styles.tutParagraph}>
-                        <Trans i18nKey="CDInstructionsScreen:differentImagery">
+                        <Trans i18nKey="CDInstructionScreen:differentImagery">
                             Sometimes different imagery sources will have been
                             used. The images may be aligned slightly differently
                             or might be a different resolution. Remember,
-                            you&apos;re looking for{' '}
+                            you&apos;re looking for
                             <Text style={{ fontWeight: 'bold' }}>
                                 definite changes in settlements and buildings
-                            </Text>{' '}
+                            </Text>
                             so if it looks like the same buildings are there,
                             but maybe there&apos;s a new roof, then this would
                             be a &quot;no change&quot; scenario and you&apos;d
@@ -208,4 +208,4 @@ class CDInstructionsScreen extends React.Component<Props> {
     }
 }
 
-export default withTranslation('CDInstructionsScreen')(CDInstructionsScreen);
+export default withTranslation('CDInstructionScreen')(CDInstructionScreen);

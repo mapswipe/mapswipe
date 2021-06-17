@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Trans } from 'react-i18next';
 import LoadingIcon from '../LoadingIcon';
 import SatImage from '../../common/SatImage';
 import { COLOR_DARK_GRAY, COLOR_LIGHT_GRAY } from '../../constants';
@@ -102,7 +103,9 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                     }}
                 >
                     <SatImage
-                        overlayText="Before"
+                        overlayText={
+                            <Trans i18nKey="CDTaskScreen:before">Before</Trans>
+                        }
                         overlayTextStyle={styles.overlayText}
                         source={{ uri: task.url }}
                         style={styles.topImage}
@@ -113,7 +116,9 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                     <SatImage
                         interactive
                         onToggleTile={onToggleTile}
-                        overlayText="After"
+                        overlayText={
+                            <Trans i18nKey="CDTaskScreen:after">After</Trans>
+                        }
                         overlayTextStyle={styles.overlayText}
                         source={{ uri: task.urlB }}
                         style={styles.bottomImage}
