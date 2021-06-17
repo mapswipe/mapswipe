@@ -38,6 +38,7 @@ type Props = {
     updateProgress: (number) => void,
     closeTilePopup: () => void,
     openTilePopup: () => void,
+    zoomLevel: number,
 };
 
 type State = {
@@ -330,11 +331,12 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             tutorial,
             openTilePopup,
             closeTilePopup,
+            zoomLevel
         } = this.props;
         const {
             tutorialMode,
             showAnswerButtonIsVisible,
-            tutorialBoxIsVisible,
+            tutorialBoxIsVisible
         } = this.state;
         if (!group || !group.tasks || isSendingResults) {
             return <LoadingIcon />;
@@ -345,7 +347,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
             tutorialContent = screens[currentScreen][tutorialMode];
         }
-
         return (
             <>
                 <FlatList
@@ -393,6 +394,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             openTilePopup={openTilePopup}
                             submitResult={submitResult}
                             task={item}
+                            zoomLevel={zoomLevel}
                         />
                     )}
                     scrollEnabled={
@@ -431,6 +433,7 @@ const mapStateToProps = (state, ownProps) => ({
     ),
     tutorial: ownProps.tutorial,
     submitResult: ownProps.submitResult,
+    zoomLevel: ownProps.zoomLevel,
 });
 
 const mapDispatchToProps = (dispatch) => ({

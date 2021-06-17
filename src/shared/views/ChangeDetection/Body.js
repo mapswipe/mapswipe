@@ -95,7 +95,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         // the number of screens that the initial tutorial intro covers
         this.state = {
             groupCompleted: false,
-            poppedUpTile: null,
+            poppedUpTile: null
         };
     }
 
@@ -282,6 +282,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
+
         return (
             <View style={styles.mappingContainer}>
                 <Header
@@ -306,6 +307,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     tutorialId={tutorialId}
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
+                    zoomLevel={this.project.zoomLevel}
                 />
                 <View>
                     <TouchableWithoutFeedback
