@@ -104,6 +104,7 @@ export type BuildingFootprintProjectType = {
     progress: number,
     status: string,
     tileServer: TileServerType,
+    zoomLevel: number,
 };
 
 export type ChangeDetectionProjectType = {
@@ -122,6 +123,7 @@ export type ChangeDetectionProjectType = {
     status: string,
     tileServerA: TileServerType,
     tileServerB: TileServerType,
+    zoomLevel: number,
 };
 
 // projects all have the same structure

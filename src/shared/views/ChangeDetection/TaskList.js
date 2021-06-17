@@ -12,6 +12,7 @@ import { tutorialModes } from '../../constants';
 import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialOutroScreen from '../../common/Tutorial/TutorialOutro';
+import ScaleBar from '../../common/ScaleBar';
 import ChangeDetectionTask from './Task';
 import { toggleMapTile } from '../../actions/index';
 
@@ -347,6 +348,19 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
             tutorialContent = screens[currentScreen][tutorialMode];
         }
+
+        // calculate the latitude of the top row of the group for the scalebar
+        // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+        // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
+        // lat_deg = lat_rad * 180.0 / π
+        const latitude =
+            Math.atan(
+                Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
+            ) *
+            (180 / Math.PI);
+
+        console.log(latitude)
+
         return (
             <>
                 <FlatList
@@ -402,6 +416,13 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     }
                     snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                     showsHorizontalScrollIndicator={false}
+                />
+                <ScaleBar
+                    alignToBottom={false}
+                    latitude={latitude}
+                    useScreenWidth={false}
+                    visible={true}
+                    zoomLevel={zoomLevel}
                 />
                 {tutorial && tutorialBoxIsVisible && tutorialContent && (
                     <TutorialBox

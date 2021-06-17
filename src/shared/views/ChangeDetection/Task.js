@@ -3,7 +3,6 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import LoadingIcon from '../LoadingIcon';
 import SatImage from '../../common/SatImage';
-import ScaleBar from '../../common/ScaleBar';
 import { COLOR_DARK_GRAY, COLOR_LIGHT_GRAY } from '../../constants';
 
 import type { ChangeDetectionTaskType, ResultType } from '../../flow-types';
@@ -47,7 +46,6 @@ type Props = {
     task: ChangeDetectionTaskType,
     closeTilePopup: () => void,
     openTilePopup: () => void,
-    zoomLevel: number,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -79,7 +77,6 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
             task,
             openTilePopup,
             closeTilePopup,
-            zoomLevel
         } = this.props;
         if (!task) {
             return <LoadingIcon />;
@@ -88,18 +85,6 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
         if (task === undefined) {
             return <LoadingIcon />;
         }
-
-        // calculate the latitude of the top row of the group for the scalebar
-        // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-        // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
-        // lat_deg = lat_rad * 180.0 / π
-        const latitude =
-            Math.atan(
-                Math.sinh(Math.PI * (1 - (2 * task.taskY) / 2 ** zoomLevel)),
-            ) *
-            (180 / Math.PI);
-
-        console.log(latitude)
 
         return (
             <>
@@ -135,13 +120,6 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         task={task}
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
-                    />
-                    <ScaleBar
-                        alignToBottom={false}
-                        latitude={latitude}
-                        useScreenWidth={false}
-                        visible={true}
-                        zoomLevel={zoomLevel}
                     />
                 </View>
             </>
