@@ -51,7 +51,7 @@ platform :ios do
       in_house: false
     )
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
-    build_app(scheme: "mapswipe", configuration: "Beta", clean: true)
+    build_app(scheme: "mapswipe", configuration: "Beta", clean: true, include_symbols: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com",
                          app_identifier: "org.missingmaps.mapswipe-dev",
                          skip_waiting_for_build_processing: true
