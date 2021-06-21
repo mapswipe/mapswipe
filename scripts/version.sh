@@ -26,8 +26,7 @@ if [[ ! -d ".git" ]]; then
 fi
 
 # Prevent accidentally pushing random changes
-#diff=`git diff-index HEAD | wc -l`
-diff=0
+diff=`git diff-index HEAD | wc -l`
 if [[ $diff -gt 0 ]]; then
     echo "There are modified files in your working copy (or staged in the index). Please commit or stash them and rerun this command."
     exit 1

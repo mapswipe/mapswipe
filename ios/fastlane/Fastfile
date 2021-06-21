@@ -6,11 +6,11 @@ platform :ios do
   before_all do |lane|
     if lane != :matchDev && lane != :matchProd
       cocoapods(repo_update: true, silent: true)
-    end 
+    end
   end
 
   desc "Update dev certificates locally"
-  lane :matchDev do 
+  lane :matchDev do
       match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
   end
 
@@ -50,18 +50,6 @@ platform :ios do
       duration: 1200,
       in_house: false
     )
-
-
-
-  NEXT: is there some architecture problem? like arm code not built, or something?
-
-
-  fastlane dsym_zip, can we upload it somewhere so we can download it inxcode later for debugging?
-
-
-
-
-    
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Beta", clean: true, include_symbols: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com",
