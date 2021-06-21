@@ -50,6 +50,18 @@ platform :ios do
       duration: 1200,
       in_house: false
     )
+
+
+
+  NEXT: is there some architecture problem? like arm code not built, or something?
+
+
+  fastlane dsym_zip, can we upload it somewhere so we can download it inxcode later for debugging?
+
+
+
+
+    
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Beta", clean: true, include_symbols: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com",
