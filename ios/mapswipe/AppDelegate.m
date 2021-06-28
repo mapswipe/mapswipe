@@ -4,7 +4,6 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "RNSplashScreen.h"
 /* #import "RNFirebaseNotifications.h" */
 /* #import "RNFirebaseMessaging.h" */
 
@@ -54,7 +53,6 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [RNSplashScreen show];
 
   return YES;
 }

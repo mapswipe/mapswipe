@@ -17,7 +17,6 @@ import {
 import Button from 'apsl-react-native-button';
 // $FlowFixMe
 import CheckBox from 'react-native-check-box';
-import SplashScreen from 'react-native-splash-screen';
 import { MessageBarManager } from 'react-native-message-bar';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
@@ -152,7 +151,7 @@ class _Login extends React.Component<Props, State> {
 
     componentDidMount() {
         const { auth, navigation } = this.props;
-        SplashScreen.hide();
+        // SplashScreen.hide();
         if (isLoaded(auth)) {
             if (!isEmpty(auth)) {
                 this.setState({ loadingNext: true });

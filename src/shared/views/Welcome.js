@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import fb from '@react-native-firebase/app';
 import Button from 'apsl-react-native-button';
-import SplashScreen from 'react-native-splash-screen';
 import Swiper from 'react-native-swiper';
 import { NavigationActions } from 'react-navigation';
 import { withTranslation } from 'react-i18next';
@@ -68,14 +67,14 @@ class _WelcomeScreen extends React.Component<Props> {
         if (welcomeCompleted) {
             this.finishWelcomeScreens();
         } else {
-            SplashScreen.hide();
+            // SplashScreen.hide();
         }
     }
 
     componentDidUpdate() {
         const { welcomeCompleted } = this.props;
         if (welcomeCompleted === undefined) {
-            SplashScreen.hide();
+            // SplashScreen.hide();
         }
     }
 
