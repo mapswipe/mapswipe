@@ -42,6 +42,9 @@ jobs:
       - name: TEMP get updated podfile.lock
         run: cat ios/Podfile.lock
 
+      - name: TEMP git diff
+        run: git diff
+
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
         id: vars
