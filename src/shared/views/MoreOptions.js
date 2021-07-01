@@ -269,11 +269,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         {t('youve completed x tasks', { contributions })}
                     </Text>
                 </View>
-                <LevelProgress
-                    kmTillNextLevel={kmTillNextLevel}
-                    progress={progress}
-                    text={levelProgressText}
-                />
+                <LevelProgress progress={progress} text={levelProgressText} />
                 {teamId && (
                     <View style={styles.row}>
                         <Text

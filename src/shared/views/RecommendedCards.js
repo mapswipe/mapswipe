@@ -112,14 +112,19 @@ const announcementQuery = {
 };
 
 class _RecommendedCards extends React.Component<Props> {
+    // $FlowFixMe
     tutorialModal: ?Modal;
 
+    // $FlowFixMe
     willBlurAnnouncementSubscription: NavigationEventSubscription;
 
+    // $FlowFixMe
     willFocusAnnouncementSubscription: NavigationEventSubscription;
 
+    // $FlowFixMe
     willBlurProjectSubscription: NavigationEventSubscription;
 
+    // $FlowFixMe
     willFocusProjectSubscription: NavigationEventSubscription;
 
     componentDidMount() {

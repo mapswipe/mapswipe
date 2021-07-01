@@ -40,7 +40,7 @@ export function completeTutorial(projectType: number): CompleteTutorial {
     return { type: TUTORIAL_COMPLETED, projectType };
 }
 
-type SelectLanguage = { type: typeof SELECT_LANGUAGE };
+type SelectLanguage = { type: typeof SELECT_LANGUAGE, languageCode: string };
 // dispatched when the user changes the language of the app
 export function selectLanguage(languageCode: string): SelectLanguage {
     return { type: SELECT_LANGUAGE, languageCode };
@@ -184,6 +184,7 @@ export type GroupInfo = {
 
 type CommitGroup = { type: typeof COMMIT_GROUP };
 export type Action =
+    // $FlowFixMe
     | actionTypes.SET_PROFILE
     | AuthStatusAvailable
     | CommitGroup

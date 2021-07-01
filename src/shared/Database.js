@@ -4,12 +4,6 @@ import levels from './Levels';
 
 export default {
     /**
-     * Variable to access internal functions through promises.
-     */
-
-    dbParent: this,
-
-    /**
      * Stores all the tasks that still need pushing to the database
      */
 

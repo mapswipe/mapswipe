@@ -37,6 +37,7 @@ const persistedReducers = persistReducer(persistConfig, reducers);
 
 // the initial state argument is only used for jest
 // direct imports of createNewStore should only happen in tests
+// $FlowFixMe
 export const createNewStore = (initialState?: {} = {}): any =>
     createStore(
         persistedReducers,

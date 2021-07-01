@@ -5,6 +5,7 @@
 // data structure. This should prevent too much code reuse, and variety of bugs...
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import get from 'lodash.get';
+import type { GroupType, ResultType } from '../flow-types';
 
 export const firebaseConnectGroup = (tutorialId?: string): any =>
     // the tutorialId parameter is not really used at this point, but we keep it
@@ -59,7 +60,18 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
         return [];
     });
 
-export const mapStateToPropsForGroups = (tutorialId?: string) =>
+type PropsForGroup = {
+    exampleImage1: string,
+    exampleImage2: string,
+    screens: Array<any>,
+    group: GroupType,
+    navigation: any,
+    onInfoPress: () => void,
+    results: Array<ResultType>,
+    tutorial: boolean,
+};
+
+export const mapStateToPropsForGroups = (tutorialId?: string): PropsForGroup =>
     // This function is a common mapStateToProps used to fetch groups from firebase.
     // It looks at a few things to decide which group to fetch, based on the project
     // object that is passed as an argument to the navigation object.

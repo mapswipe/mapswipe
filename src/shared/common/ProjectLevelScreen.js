@@ -70,11 +70,15 @@ const styles = StyleSheet.create({
 type Props = {
     categories: CategoriesType,
     Component: React.ComponentType<any>,
-    group: { [group_id: string]: GroupType },
+    group: GroupType,
     navigation: NavigationProp,
     getNormalHelpContent: string => React.ComponentType<any>,
-    onCancelGroup: ({}) => void,
-    onStartGroup: ({}) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onStartGroup: ({
+        groupId: string,
+        projectId: string,
+        startTime: string,
+    }) => void,
     onSubmitResult: Object => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,

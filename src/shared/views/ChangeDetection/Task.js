@@ -49,6 +49,8 @@ type Props = {
     //commitCompletedGroup: () => void,
     index: number,
     onToggleTile: ResultType => void,
+    // eslint-disable-next-line react/no-unused-prop-types
+    submitResult: (number, string) => void,
     task: ChangeDetectionTaskType,
     tutorial: boolean,
 };

@@ -91,10 +91,11 @@ type State = {
 };
 
 class Main extends React.Component<Props, State> {
-    alert: ?React.ComponentType<{}>;
+    alert: ?React.Component<{}>;
 
     checkInterval: IntervalID;
 
+    // $FlowFixMe
     modal3: ?Modal;
 
     removeNotificationListener: any;

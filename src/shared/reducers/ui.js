@@ -21,9 +21,11 @@ const defaultUserState = {
     hasSeenHelpBoxType1: false,
     // if the user has gone through tutorial for projectType N, set the array below at N-1 to true
     hasSeenTutorial: defaultHasSeenTutorial,
+    isSendingResults: false,
     kmTillNextLevel: 0,
     languageCode: undefined,
     level: 1,
+    loggedIn: false,
     progress: 0,
     username: '',
     teamId: undefined,
@@ -61,7 +63,10 @@ export const getLevelForContributionCount = (count: number): number => {
     return parseInt(toReturn, 10);
 };
 
-const getProgress = (taskContributionCount: number, level: number) => {
+const getProgress = (
+    taskContributionCount: number,
+    level: number,
+): { kmTillNextLevel: number, percentage: number } => {
     if (level === maxLevel) {
         // the user has reached the end...
         return { kmTillNextLevel: 999999999, percentage: 1 };

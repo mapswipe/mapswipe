@@ -11,6 +11,7 @@ import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { LanguageData } from '../../flow-types';
 
 const styles = StyleSheet.create({
+    // $FlowFixMe
     checkmark: {
         height: 40,
         marginVertical: 5,
@@ -49,6 +50,7 @@ const LanguageItem = (props: Props): React.Node => {
                         style={styles.checkmark}
                     />
                 ) : (
+                    // $FlowFixMe
                     <View style={styles.checkmark} />
                 )}
                 <Text

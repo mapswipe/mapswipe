@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 type Props = {
     group: GroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
     onCompleteTutorial: number => void,
     OutroScreen: React.ComponentType<any>,
     projectId: string,

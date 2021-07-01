@@ -219,6 +219,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     /*
      * Get the polygon to draw over the image
      */
+    // $FlowFixMe
     getPolygon = (coords: Polygon, screenBBox: BBOX): Path => {
         const [minLon, minLat, maxLon, maxLat] = screenBBox;
         // geographic coords to screen pixels
@@ -315,10 +316,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return [pointPixelCoords[0] - minX, pointPixelCoords[1] - minY];
     };
 
+    // $FlowFixMe
     getGooglePolygonFromCenter = (
         center: Point,
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
+        // $FlowFixMe
     ): Path => {
         // get the polygon in ART Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
@@ -348,10 +351,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return p;
     };
 
+    // $FlowFixMe
     getTMSPolygonFromCenter = (
         center: Point,
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
+        // $FlowFixMe
     ): Path => {
         // get the polygon in ART Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
@@ -502,9 +507,11 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return { tileUrls, shiftX, shiftY, latitude };
     };
 
+    // $FlowFixMe
     getTaskGeometryPath = (
         task: BuildingFootprintTaskType,
         zoom: ZoomLevel,
+        // $FlowFixMe
     ): Path => {
         const { project } = this.props;
         if (project.tileServer.url.includes('googleapis')) {

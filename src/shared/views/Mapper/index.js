@@ -105,9 +105,13 @@ type Props = {
     exampleImage2: string,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
     onMarkHelpBoxSeen: void => void,
-    onStartGroup: ({}) => void,
+    onStartGroup: ({
+        groupId: string,
+        projectId: string,
+        startTime: string,
+    }) => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
     hasSeenHelpBoxType1: boolean,
@@ -253,8 +257,8 @@ class _Mapper extends React.Component<Props, State> {
                                 YES
                             </Text>
                             , twice for&nbsp;
+                            {/* $FlowFixMe */}
                             <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                                {/* $FlowFixMe */}
                                 {twoTaps}
                             </Text>
                             , and three times for&nbsp;

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 type Props = {
     group: GroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
     onCommitGroup: GroupInfo => void,
     projectId: string,
     results: ResultMapType,

@@ -60,6 +60,7 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     firstTouch: Object;
 
+    // $FlowFixMe
     flatlist: ?FlatList<IndividualCard>;
 
     previousTouch: Object;
@@ -365,6 +366,8 @@ class _CardBody extends React.PureComponent<Props, State> {
             // $FlowFixMe
             if (this.tasksPerScreen[screenNumber]) {
                 result = this.tasksPerScreen[screenNumber].reduce(
+                    /* $FlowFixMe  we should break up the task type definition
+                    into tutorial / non-tutorial */
                     (sum, task) => sum + task.referenceAnswer,
                     0,
                 );
@@ -555,6 +558,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     }
                     maxToRenderPerBatch={3}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
+                    // $FlowFixMe
                     onScroll={this.handleScroll}
                     onMoveShouldSetResponderCapture={
                         this.handleTutorialScrollCapture

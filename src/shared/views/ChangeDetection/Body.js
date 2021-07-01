@@ -50,10 +50,14 @@ const styles = StyleSheet.create({
 
 type Props = {
     categories: CategoriesType,
-    group: { [group_id: string]: ChangeDetectionGroupType },
+    group: ChangeDetectionGroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
-    onStartGroup: ({}) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onStartGroup: ({
+        groupId: string,
+        projectId: string,
+        startTime: string,
+    }) => void,
     onSubmitResult: Object => void,
     results: ResultMapType,
     screenName: string,

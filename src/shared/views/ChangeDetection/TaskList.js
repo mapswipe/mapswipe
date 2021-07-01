@@ -100,6 +100,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                         tutorial={tutorial}
                     />
                 }
+                // $FlowFixMe
                 onScroll={this.onScroll}
                 pagingEnabled
                 // eslint-disable-next-line no-return-assign

@@ -262,6 +262,7 @@ type HeaderState = {
 };
 
 class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
+    // $FlowFixMe
     offlineModal: ?Modal;
 
     constructor(props) {
