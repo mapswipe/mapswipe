@@ -35,7 +35,9 @@ static void InitializeFlipper(UIApplication *application) {
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
-  [FIRApp configure];
+  if ([FIRApp defaultApp] == nil) {
+      [FIRApp configure];
+  }
 
   /* [RNFirebaseNotifications configure]; */
 
