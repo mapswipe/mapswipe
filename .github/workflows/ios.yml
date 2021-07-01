@@ -12,6 +12,8 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
+      - name: List available versions of Xcode
+        run: ls -n /Applications/ | grep Xcode*
       - uses: actions/setup-node@v1
         with:
           node-version: '16.1.0'
@@ -50,6 +52,11 @@ jobs:
         run: |
           gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci.gpg
           chmod 600 ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+      - name: Decode the apple connect apicert
+        env:
+          FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
+        run: |
+          gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/AuthKey_4B2GC5YX57.p8 ./ios/cfg/MapSwipe_apple_release_key_AuthKey_4B2GC5YX57.p8.gpg
       - name: Add gitlab to ssh_known_hosts
         env:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
@@ -60,6 +67,8 @@ jobs:
         # only build locally if not on a tagged commit, as the next fastlane runs will run the build anyway
         if: startsWith(github.ref, 'refs/heads/')
         env:
+          # select the version of Xcode we want
+          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane test
       - name: Release to testflight
@@ -68,6 +77,7 @@ jobs:
         # both tag and branch, so for now we will rely on the user not tagging randomly
         if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-beta')
         env:
+          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane beta
@@ -75,6 +85,7 @@ jobs:
         # only deploy a release on a beta tag
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         env:
+          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane release

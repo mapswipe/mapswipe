@@ -499,7 +499,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\nexport SENTRY_PROPERTIES=cfg/sentry.prod.properties\nelse\nexport SENTRY_PROPERTIES=cfg/sentry.properties\nfi\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "# Copy over the prod GoogleService-Info.plist for Release builds\nset -e\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\nexport SENTRY_PROPERTIES=cfg/sentry.prod.properties\nelse\nexport SENTRY_PROPERTIES=cfg/sentry.properties\nfi\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		0B71E133F524097237C2A9FA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -540,7 +540,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=cfg/sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "set -e\nexport SENTRY_PROPERTIES=cfg/sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		2FC725822560A504FEB40C0A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -825,7 +825,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 14;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
@@ -856,7 +856,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1233,7 +1233,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				FIREBASE_CONFIG_EXTENSION = dev;
 				HEADER_SEARCH_PATHS = (
