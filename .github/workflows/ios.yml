@@ -33,18 +33,6 @@ jobs:
       - name: Install cocoapods
         run: gem install xcpretty cocoapods
 
-      - name: TEMP manually run pod install
-        env:
-          # pod install seems to rely on Xcode for something, make sure we use the same version throughout the process
-          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
-        run: cd ios && bundle exec pod install
-
-      - name: TEMP get updated podfile.lock
-        run: cat ios/Podfile.lock
-
-      - name: TEMP git diff
-        run: git diff
-
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
         id: vars
@@ -124,9 +112,6 @@ jobs:
         with:
           name: build.log
           path: ~/Library/Logs/gym/*.log
-
-      - name: Find output files
-        run: cd ios && ls -la
 
       - name: Upload release assets
         if: startsWith(github.ref, 'refs/tags/')
