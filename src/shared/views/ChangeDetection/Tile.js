@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 type Props = {
     tile: BuiltAreaTaskType,
     mapper: Mapper,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     results: number,
     style: ViewStyleProp,
     source: Image.ImageSourcePropType,
@@ -120,7 +120,7 @@ export class _Tile extends React.PureComponent<Props> {
         return texts[random];
     }
 
-    storeResult = (result) => {
+    storeResult = result => {
         const {
             onToggleTile,
             tile: { taskId, projectId, groupId },
@@ -231,8 +231,8 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    onToggleTile: (tileInfo) => {
+const mapDispatchToProps = dispatch => ({
+    onToggleTile: tileInfo => {
         dispatch(toggleMapTile(tileInfo));
     },
 });

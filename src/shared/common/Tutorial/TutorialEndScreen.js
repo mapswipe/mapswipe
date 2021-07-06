@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
 type Props = {
     group: GroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
-    onCompleteTutorial: (number) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onCompleteTutorial: number => void,
     OutroScreen: React.ComponentType<any>,
     projectId: string,
     projectType: number,
@@ -138,7 +138,7 @@ const mapStateToProps = (state, ownProps) => ({
     results: state.results,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onCancelGroup(groupDetails) {
         dispatch(cancelGroup(groupDetails));
     },
@@ -147,8 +147,8 @@ const mapDispatchToProps = (dispatch) => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('TutorialEndScreen'),
     firebaseConnect(),
     connect(mapStateToProps, mapDispatchToProps),
-)(TutorialEndScreen);
+)(TutorialEndScreen): any);

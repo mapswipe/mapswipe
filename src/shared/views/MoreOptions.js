@@ -4,7 +4,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
 import {
     Alert,
@@ -203,7 +203,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 // $FlowFixMe
                 exitButtonCallback={this.deleteUserAccount}
                 exitButtonText={t('yes delete it')}
-                getRef={(r) => {
+                getRef={r => {
                     this.deleteAccountConfirmationModal = r;
                 }}
             />
@@ -269,11 +269,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         {t('youve completed x tasks', { contributions })}
                     </Text>
                 </View>
-                <LevelProgress
-                    kmTillNextLevel={kmTillNextLevel}
-                    progress={progress}
-                    text={levelProgressText}
-                />
+                <LevelProgress progress={progress} text={levelProgressText} />
                 {teamId && (
                     <View style={styles.row}>
                         <Text
@@ -385,7 +381,7 @@ const enhance = compose(
     connect(mapStateToProps),
 );
 
-export default enhance(_MoreOptions);
+export default (enhance(_MoreOptions): any);
 
 type SBState = {
     offset: number,

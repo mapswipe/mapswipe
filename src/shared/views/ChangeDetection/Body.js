@@ -50,11 +50,15 @@ const styles = StyleSheet.create({
 
 type Props = {
     screens: Array<TutorialContent>,
-    group: { [group_id: string]: ChangeDetectionGroupType },
+    group: ChangeDetectionGroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
-    onStartGroup: ({}) => void,
-    onSubmitResult: (Object) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onStartGroup: ({
+        groupId: string,
+        projectId: string,
+        startTime: string,
+    }) => void,
+    onSubmitResult: Object => void,
     results: ResultMapType,
     screenName: string,
     t: TranslationFunction,
@@ -90,7 +94,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
@@ -209,7 +213,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 content={content}
                 exitButtonText={t('ProjectLevelScreen:BackToMenu')}
                 exitButtonCallback={this.returnToView}
-                getRef={(r) => {
+                getRef={r => {
                     this.backConfirmationModal = r;
                 }}
             />
@@ -218,10 +222,10 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     render = () => {
         const {
-            screens,
             group,
             navigation,
             results,
+            screens,
             t,
             tutorial,
             tutorialId,
@@ -230,10 +234,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
         if (!group) {
             return <LoadingIcon />;
-        }
-
-        if (tutorial) {
-            console.log('we are in tutorial mode.');
         }
 
         if (groupCompleted) {
@@ -290,7 +290,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     </TouchableWithoutFeedback>
                 </View>
                 <BottomProgress
-                    ref={(r) => {
+                    ref={r => {
                         this.progress = r;
                     }}
                 />
@@ -311,8 +311,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('CDBodyScreen'),
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
-)(_ChangeDetectionBody);
+)(_ChangeDetectionBody): any);

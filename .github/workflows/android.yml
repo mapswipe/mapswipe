@@ -12,26 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - uses: actions/setup-node@v1
         with:
           node-version: '16.1.0'
+
       - name: Install javascript packages
         uses: bahmutov/npm-install@v1
+
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.3'
+
       - name: Decode sentry.properties
         env:
           SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
         run: echo "$SENTRY_PROPERTIES" | base64 -d > ./android/sentry.properties
+
       - name: Decode development google-services.json
         env:
           FILE_ANDROID_GOOGLE_SERVICES_DEV: ${{ secrets.FILE_ANDROID_GOOGLE_SERVICES_DEV }}
         run: echo "$FILE_ANDROID_GOOGLE_SERVICES_DEV" | base64 -d > ./android/app/src/dev/google-services.json
+
       - name: Decode production google-services.json
         env:
           FILE_ANDROID_GOOGLE_SERVICES_PRODUCTION: ${{ secrets.FILE_ANDROID_GOOGLE_SERVICES_PRODUCTION }}
         run: mkdir -p ./android/app/src/production ; echo "$FILE_ANDROID_GOOGLE_SERVICES_PRODUCTION" | base64 -d > ./android/app/src/production/google-services.json
+
       - name: Decode the dev release keystore file
         # passwords and secrets used for decrypting this keystore file (in the build step further down)
         # MAPSWIPE_RELEASE_STORE_FILE=mapswipe-dev-release-key.keystore
@@ -46,23 +53,29 @@ jobs:
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-dev-release-key.keystore ./android/app/mapswipe-dev-release-key.keystore.gpg
+
       - name: Decode the production release keystore file
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-production-release-key.keystore ./android/app/mapswipe-production-release-key.keystore.gpg
+
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
       - name: Save git version so the app can show it to users
         env:
           # we need this hack because github default env vars don't include the tag itself
           GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: sed -ri "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -ri "s/TAG/$GIT_TAG/" debugInfo.json
+
       - name: Jetify react files
         run: yarn jetifier
+
       - name: Increase filesystem inotify watch limit
         run: sudo sysctl fs.inotify.max_user_watches=524288
+
       - name: Build dev APK
         env:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_ALIAS: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_ALIAS }}
@@ -70,6 +83,7 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD }}
         run: yarn buildDev
+
       - name: Build production APK
         # only build the release APK on "production" tags
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
@@ -79,6 +93,7 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD }}
         run: yarn buildProd
+
       - name: Upload APK to Github releases (beta build)
         uses: ncipollo/release-action@v1
         if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-beta')
@@ -87,6 +102,7 @@ jobs:
           # mark it as prerelease as it's a beta/dev build
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload APK to Github releases (production build)
         uses: ncipollo/release-action@v1
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
@@ -94,6 +110,7 @@ jobs:
           artifacts: "./android/app/build/outputs/apk/production/release/app-production-release.apk"
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Release to PlayStore
         # only deploy a release on a non-beta tag
         # FIXME: there does not seem to be a way with github actions (as of may 2021) to get

@@ -31,11 +31,11 @@ type Props = {
     group: ChangeDetectionGroupType,
     isSendingResults: boolean,
     navigation: NavigationProp,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     results: ResultMapType,
     submitResult: (number, string) => void,
     tutorial: boolean,
-    updateProgress: (number) => void,
+    updateProgress: number => void,
 };
 
 type State = {
@@ -352,7 +352,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     data={group.tasks}
                     decelerationRate="fast"
                     disableIntervalMomentum
-                    keyExtractor={(task) => task.taskId}
+                    keyExtractor={task => task.taskId}
                     horizontal
                     initialNumToRender={1}
                     ListFooterComponent={
@@ -373,16 +373,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             />
                         )
                     }
-                    //                    ListHeaderComponent={
-                    //                        tutorial ? (
-                    //                            <TutorialIntroScreen
-                    //                                exampleImage1={exampleImage1}
-                    //                                exampleImage2={exampleImage2}
-                    //                                lookFor={lookFor}
-                    //                                tutorial={tutorial}
-                    //                            />
-                    //                        ) : null
-                    //                    }
+                    // $FlowFixMe
                     onScroll={this.onScroll}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     onMoveShouldSetResponderCapture={
@@ -390,7 +381,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     }
                     pagingEnabled
                     // eslint-disable-next-line no-return-assign
-                    ref={(r) => (this.flatlist = r)}
+                    ref={r => (this.flatlist = r)}
                     renderItem={({ item, index }) => (
                         <ChangeDetectionTask
                             index={index}
@@ -434,14 +425,14 @@ const mapStateToProps = (state, ownProps) => ({
     submitResult: ownProps.submitResult,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    onToggleTile: (tileInfo) => {
+const mapDispatchToProps = dispatch => ({
+    onToggleTile: tileInfo => {
         dispatch(toggleMapTile(tileInfo));
     },
 });
 
-export default compose(
-    firebaseConnect((props) => {
+export default (compose(
+    firebaseConnect(props => {
         // wait for the group data to be available in redux-firebase
         if (props.group) {
             const { groupId, projectId } = props.group;
@@ -474,4 +465,4 @@ export default compose(
         return [];
     }),
     connect(mapStateToProps, mapDispatchToProps),
-)(_ChangeDetectionTaskList);
+)(_ChangeDetectionTaskList): any);

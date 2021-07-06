@@ -42,7 +42,9 @@ const swipeToSizeRatio = 2;
 type Props = {
     //commitCompletedGroup: () => void,
     index: number,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
+    // eslint-disable-next-line react/no-unused-prop-types
+    submitResult: (number, string) => void,
     task: ChangeDetectionTaskType,
 };
 
@@ -68,7 +70,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     }
 
-    render = () => {
+    render: () => React.Node = () => {
         const { index, onToggleTile, task } = this.props;
         if (!task) {
             return <LoadingIcon />;

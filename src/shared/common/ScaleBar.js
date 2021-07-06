@@ -42,7 +42,7 @@ const getScaleBar = (meters, feet, tileWidth, referenceSize) => {
     return p;
 };
 
-export default (props: Props) => {
+export default (props: Props): React.Node => {
     const {
         alignToBottom,
         latitude,

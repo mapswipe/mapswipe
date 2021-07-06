@@ -46,4 +46,4 @@ const mapStateToProps = (state, ownProps) => ({
 
 const enhance = compose(firebaseConnect(), connect(mapStateToProps));
 
-export default enhance(_AppLoadingScreen);
+export default (enhance(_AppLoadingScreen): any);

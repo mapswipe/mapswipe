@@ -12,55 +12,70 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: List available versions of Xcode
         run: ls -n /Applications/ | grep Xcode*
+
       - uses: actions/setup-node@v1
         with:
           node-version: '16.1.0'
+
       - name: Install javascript packages
         uses: bahmutov/npm-install@v1
+
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.3'
+
       - name: Install Fastlane
         run: bundle install
+
       - name: Install cocoapods
         run: gem install xcpretty cocoapods
+
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
       - name: Save git version so the app can show it to users
         env:
           GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
+
       - name: Decode sentry.properties
         env:
           SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
         run: echo "$SENTRY_PROPERTIES" | base64 -d > ./ios/cfg/sentry.properties
+
       - name: Decode development GoogleService-Info.plist
         env:
           FILE_IOS_GOOGLE_SERVICES_DEV: ${{ secrets.FILE_IOS_GOOGLE_SERVICES_DEV }}
         run: echo "$FILE_IOS_GOOGLE_SERVICES_DEV" | base64 -d > ./ios/cfg/GoogleService-Info.dev.plist
+
       - name: Decode production GoogleService-Info.plist
         env:
           FILE_IOS_GOOGLE_SERVICES_PRD: ${{ secrets.FILE_IOS_GOOGLE_SERVICES_PRD }}
         run: echo "$FILE_IOS_GOOGLE_SERVICES_PRD" | base64 -d > ./ios/cfg/GoogleService-Info.prd.plist
+
       - name: Decode the RSA key for use with ssh
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: |
           gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci.gpg
           chmod 600 ./ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+
       - name: Decode the apple connect apicert
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: |
           gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/AuthKey_4B2GC5YX57.p8 ./ios/cfg/MapSwipe_apple_release_key_AuthKey_4B2GC5YX57.p8.gpg
+
       - name: Add gitlab to ssh_known_hosts
         env:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
       - name: Build the app and run unit tests
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
         # Actual Tests have been disabled since we had issues launching the simulator, but the app is being compiled.
@@ -71,6 +86,7 @@ jobs:
           DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane test
+
       - name: Release to testflight
         # only deploy a release on a non-beta tag
         # FIXME: there does not seem to be a way with github actions (as of may 2021) to get
@@ -81,6 +97,7 @@ jobs:
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane beta
+
       - name: Release to AppStore
         # only deploy a release on a beta tag
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
@@ -89,3 +106,20 @@ jobs:
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane release
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build.log
+          path: ~/Library/Logs/gym/*.log
+
+      - name: Upload release assets
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          files: |
+            ios/mapswipe.ipa
+            ios/mapswipe.app.dSYM.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

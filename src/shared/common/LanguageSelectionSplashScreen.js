@@ -9,7 +9,6 @@ import {
     View,
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import SplashScreen from 'react-native-splash-screen';
 import Button from 'apsl-react-native-button';
 import {
     COLOR_DARK_GRAY,
@@ -81,7 +80,7 @@ type Props = {
     i18n: Object,
     languageCode: string,
     navigation: NavigationProp,
-    onSelectLanguage: (string) => void,
+    onSelectLanguage: string => void,
     t: TranslationFunction,
 };
 
@@ -96,7 +95,7 @@ class _LanguageSelectionSplashScreen extends React.Component<Props> {
         const { languageCode, navigation } = this.props;
         if (languageCode === undefined || languageCode === 'xx') {
             // no language selected, show this screen
-            SplashScreen.hide();
+            // SplashScreen.hide();
         } else {
             // the user has already picked a language, move on to the next screen
             navigation.navigate('WelcomeScreen');
@@ -126,7 +125,7 @@ class _LanguageSelectionSplashScreen extends React.Component<Props> {
                 ? 'en'
                 : languageCode;
         const languageName = supportedLanguages.filter(
-            (item) => item.code === actualLangCode,
+            item => item.code === actualLangCode,
         )[0].name;
 
         return (
@@ -166,15 +165,15 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onSelectLanguage: (languageCode: string) => {
         dispatch(selectLanguage(languageCode));
     },
 });
 
-export default withTranslation()(
+export default (withTranslation()(
     connect(
         mapStateToProps,
         mapDispatchToProps,
     )(_LanguageSelectionSplashScreen),
-);
+): any);

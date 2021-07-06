@@ -4,7 +4,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { getFirebase } from 'react-redux-firebase';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
 
@@ -37,7 +37,8 @@ const persistedReducers = persistReducer(persistConfig, reducers);
 
 // the initial state argument is only used for jest
 // direct imports of createNewStore should only happen in tests
-export const createNewStore = (initialState?: {} = {}) =>
+// $FlowFixMe
+export const createNewStore = (initialState?: {} = {}): any =>
     createStore(
         persistedReducers,
         initialState,
@@ -50,6 +51,6 @@ export const createNewStore = (initialState?: {} = {}) =>
 const store = createNewStore();
 const persistor = persistStore(store);
 
-export default function setupStore() {
+export default function setupStore(): { persistor: any, store: any } {
     return { store, persistor };
 }

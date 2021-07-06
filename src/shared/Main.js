@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 import {
     Image,
     SafeAreaView,
@@ -9,8 +9,8 @@ import {
     View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import fb from 'react-native-firebase';
-import type { Notification } from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
+// import type { Notification } from 'react-native-firebase';
 import Button from 'apsl-react-native-button';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -91,10 +91,11 @@ type State = {
 };
 
 class Main extends React.Component<Props, State> {
-    alert: ?React.ComponentType<{}>;
+    alert: ?React.Component<{}>;
 
     checkInterval: IntervalID;
 
+    // $FlowFixMe
     modal3: ?Modal;
 
     removeNotificationListener: any;
@@ -116,6 +117,15 @@ class Main extends React.Component<Props, State> {
         const { i18n, languageCode } = this.props;
         // setup Firebase Notifications so we can receive them
         // A channel is required for android 8+
+        /*
+         * Disable notifications while we upgrade to RNFirebase v6
+         * as the package has been extracted from the main repo
+         * so we need to find an alternative library to support this
+         * As the upgrade process is already super messy, I'm turning
+         * this off temporarily to be able to complete something.
+         *
+         * More info: https://rnfirebase.io/migrating-to-v6#notifications
+         *
         const channel = new fb.notifications.Android.Channel(
             'main_channel',
             'mapswipe main channel',
@@ -125,7 +135,7 @@ class Main extends React.Component<Props, State> {
         // check if the user has allowed receiving notifications
         fb.messaging()
             .hasPermission()
-            .then((enabled) => {
+            .then(enabled => {
                 if (enabled) {
                     // user has already given permission to notifications
                     parent.getNotificationToken();
@@ -142,6 +152,7 @@ class Main extends React.Component<Props, State> {
                 notif.android.setChannelId('main_channel').setSound('default');
                 fb.notifications().displayNotification(notif);
             });
+        */
         fb.analytics().logEvent('mapswipe_open');
         MessageBarManager.registerMessageBar(parent.alert);
 
@@ -159,11 +170,14 @@ class Main extends React.Component<Props, State> {
 
     componentWillUnmount() {
         clearInterval(this.checkInterval);
-        this.removeNotificationListener();
+        /*
+         * See comment above about notifications
+         */
+        //this.removeNotificationListener();
     }
 
     // eslint-disable-next-line class-methods-use-this
-    async getNotificationToken() {
+    /*async getNotificationToken() {
         const fcmToken = await fb.messaging().getToken();
         if (__DEV__) {
             console.log('FCM token', fcmToken);
@@ -177,7 +191,7 @@ class Main extends React.Component<Props, State> {
         } catch (error) {
             console.log('permission to receive notifications rejected');
         }
-    }
+    }*/
 
     openModal3(level: number) {
         this.setState({
@@ -208,7 +222,7 @@ class Main extends React.Component<Props, State> {
                         style={[style.modal, style.modal3]}
                         backdropType="blur"
                         position="center"
-                        ref={(r) => {
+                        ref={r => {
                             this.modal3 = r;
                         }}
                         isDisabled={isDisabled}
@@ -234,7 +248,7 @@ class Main extends React.Component<Props, State> {
                         </Button>
                     </Modal>
                     <MessageBarAlert
-                        ref={(r) => {
+                        ref={r => {
                             this.alert = r;
                         }}
                     />
@@ -302,8 +316,8 @@ const StartNavigator = createAppContainer(
     ),
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     languageCode: state.ui.user.languageCode,
 });
 
-export default withTranslation()(connect(mapStateToProps)(Main));
+export default (withTranslation()(connect(mapStateToProps)(Main)): any);

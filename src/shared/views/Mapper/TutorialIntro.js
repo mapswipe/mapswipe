@@ -173,4 +173,6 @@ const TutorialIntroScreen = (props: Props) => {
     );
 };
 
-export default withTranslation('TutorialIntroScreen')(TutorialIntroScreen);
+export default (withTranslation('TutorialIntroScreen')(
+    TutorialIntroScreen,
+): any);
