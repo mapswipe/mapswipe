@@ -23,12 +23,12 @@ import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TaskList from './TaskList';
 import type {
-    CategoriesType,
     ChangeDetectionGroupType,
     NavigationProp,
     ProjectType,
     ResultMapType,
     TranslationFunction,
+    TutorialContent,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    categories: CategoriesType,
+    screens: Array<TutorialContent>,
     group: ChangeDetectionGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
@@ -63,6 +63,7 @@ type Props = {
     screenName: string,
     t: TranslationFunction,
     tutorial: boolean,
+    tutorialId: string,
 };
 
 type State = {
@@ -70,6 +71,8 @@ type State = {
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
+    currentX: number;
+
     backConfirmationModal: ?React.ComponentType<void>;
 
     HelpModal: ?React.ComponentType<void>;
@@ -81,6 +84,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.project = props.navigation.getParam('project');
+        // the number of screens that the initial tutorial intro covers
         this.state = {
             groupCompleted: false,
         };
@@ -218,14 +222,16 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     render = () => {
         const {
-            categories,
             group,
             navigation,
             results,
+            screens,
             t,
             tutorial,
+            tutorialId,
         } = this.props;
         const { groupCompleted } = this.state;
+
         if (!group) {
             return <LoadingIcon />;
         }
@@ -254,7 +260,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 />
                 {backConfirmationModal}
                 <TaskList
-                    categories={tutorial ? categories : null}
+                    screens={tutorial ? screens : null}
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
                     navigation={navigation}
@@ -263,6 +269,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
+                    tutorialId={tutorialId}
                 />
                 <View>
                     <TouchableWithoutFeedback
