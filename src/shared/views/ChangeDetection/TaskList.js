@@ -351,7 +351,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             tutorialContent = screens[currentScreen][tutorialMode];
         }
 
-        let latitude: number
+        let latitude: number;
         if (tutorial) {
             // In tutorial mode we set latitude to the equator.
             // The group.yMin value for the tutorial tasks is not correct.
@@ -363,12 +363,14 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             // lat_deg = lat_rad * 180.0 / π
             latitude =
                 Math.atan(
-                    Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
+                    Math.sinh(
+                        Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel),
+                    ),
                 ) *
                 (180 / Math.PI);
         }
 
-        console.log('latitude: ' + latitude);
+        console.log(`latitude: ${latitude}`);
 
         return (
             <>
