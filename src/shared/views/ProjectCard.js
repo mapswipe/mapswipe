@@ -255,4 +255,4 @@ class ProjectCard extends React.Component<Props, State> {
     }
 }
 
-export default withTranslation('projectList')(ProjectCard);
+export default (withTranslation('projectList')(ProjectCard): any);

@@ -81,7 +81,7 @@ fi
 
 # run checks before creating the new version
 yarn lint
-yarn flow
+# yarn flow
 # FIXME: restore yarn test here, they're broken right now because of native-testing-library, it seems
 
 # update package.json with the new version and build numbers
@@ -95,7 +95,7 @@ if [[ "$OSTYPE" =~ "darwin*" ]]; then
 else
   # update the various ios files from linux. There is no native tool there to do this,
   # so we rely on sed...
-    plistFiles="ios/mapswipe-tvOS/Info.plist ios/mapswipe-tvOSTests/Info.plist ios/mapswipe/Info.plist ios/mapswipeTests/Info.plist ios/mapswipeUITests/Info.plist"
+    plistFiles="ios/mapswipe/Info.plist ios/mapswipeTests/Info.plist ios/mapswipeUITests/Info.plist"
     for f in $plistFiles
     do
         sed -i -e "/CFBundleShortVersionString<\/key>$/{n;s/\(.*\)<string>.*<\/string>/\1<string>$versionNumber<\/string>/}" $f

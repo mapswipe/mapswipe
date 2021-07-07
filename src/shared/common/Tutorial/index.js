@@ -68,7 +68,7 @@ export default class TutorialBox extends React.Component<Props, State> {
         };
     }
 
-    moveBox = () => {
+    moveBox: () => void = () => {
         let { position } = this.state;
         const { bottomOffset, topOffset } = this.props;
         if (position === topOffset) {
@@ -79,7 +79,7 @@ export default class TutorialBox extends React.Component<Props, State> {
         this.setState({ position });
     };
 
-    renderIcon() {
+    renderIcon(): null | React.Node {
         const {
             content: { icon },
         } = this.props;
@@ -101,7 +101,7 @@ export default class TutorialBox extends React.Component<Props, State> {
         }
     }
 
-    render() {
+    render(): React.Node {
         const {
             boxType,
             content: { title, description },

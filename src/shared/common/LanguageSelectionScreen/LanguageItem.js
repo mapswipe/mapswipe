@@ -11,6 +11,7 @@ import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { LanguageData } from '../../flow-types';
 
 const styles = StyleSheet.create({
+    // $FlowFixMe
     checkmark: {
         height: 40,
         marginVertical: 5,
@@ -26,12 +27,12 @@ const styles = StyleSheet.create({
 
 type Props = {
     langData: LanguageData,
-    onSelectLanguage: (string) => void,
+    onSelectLanguage: string => void,
     selected: boolean,
 };
 
 /* eslint-disable global-require */
-const LanguageItem = (props: Props) => {
+const LanguageItem = (props: Props): React.Node => {
     const { langData, onSelectLanguage, selected } = props;
     return (
         <TouchableHighlight onPress={() => onSelectLanguage(langData.code)}>
@@ -49,6 +50,7 @@ const LanguageItem = (props: Props) => {
                         style={styles.checkmark}
                     />
                 ) : (
+                    // $FlowFixMe
                     <View style={styles.checkmark} />
                 )}
                 <Text

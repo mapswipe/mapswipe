@@ -47,7 +47,7 @@ export function getTileUrlFromCoordsAndTileserver(
     tileServerName: string,
     apiKey: string,
     wmtsLayerName: ?string,
-) {
+): string {
     // build a tile's full URL from components and a python template URL
     let url = '';
     if (tileServerName === 'bing') {

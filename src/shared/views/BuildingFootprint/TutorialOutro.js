@@ -100,4 +100,6 @@ const TutorialOutroScreen = (props: Props) => {
     );
 };
 
-export default withTranslation('BFTutorialOutroScreen')(TutorialOutroScreen);
+export default (withTranslation('BFTutorialOutroScreen')(
+    TutorialOutroScreen,
+): any);

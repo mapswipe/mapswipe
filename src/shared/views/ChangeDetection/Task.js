@@ -43,7 +43,9 @@ const swipeToSizeRatio = 2;
 type Props = {
     //commitCompletedGroup: () => void,
     index: number,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
+    // eslint-disable-next-line react/no-unused-prop-types
+    submitResult: (number, string) => void,
     task: ChangeDetectionTaskType,
     closeTilePopup: () => void,
     openTilePopup: () => void,

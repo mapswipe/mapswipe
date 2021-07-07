@@ -4,12 +4,12 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
 import ScrollableTabView, {
     DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
-import SplashScreen from 'react-native-splash-screen';
+import RNBootSplash from 'react-native-bootsplash';
 import RecommendedCards from './RecommendedCards';
 import MoreOptions from './MoreOptions';
 import type { NavigationProp } from '../flow-types';
@@ -20,7 +20,7 @@ const GLOBAL = require('../Globals');
 type Props = {
     firebase: Object,
     navigation: NavigationProp,
-    t: (string) => string,
+    t: string => string,
 };
 
 class _ProjectNav extends React.Component<Props> {
@@ -28,7 +28,7 @@ class _ProjectNav extends React.Component<Props> {
         fb.analytics().logEvent('app_home_seen');
         const { firebase } = this.props;
         firebase.updateProfile({ lastAppUse: GLOBAL.DB.getTimestamp() });
-        SplashScreen.hide();
+        RNBootSplash.hide();
     }
 
     render() {
@@ -60,8 +60,8 @@ const mapStateToProps = (state, ownProps) => ({
     auth: state.firebase.auth,
 });
 
-export default compose(
+export default (compose(
     withTranslation('mainHeader'),
     connect(mapStateToProps),
     firebaseConnect(),
-)(_ProjectNav);
+)(_ProjectNav): any);

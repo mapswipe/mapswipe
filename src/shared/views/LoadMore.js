@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
 type Props = {
     group: GroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
-    onCommitGroup: (GroupInfo) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onCommitGroup: GroupInfo => void,
     projectId: string,
     results: ResultMapType,
     t: TranslationFunction,
-    toNextGroup: (void) => void,
+    toNextGroup: void => void,
     tutorial: boolean,
 };
 
@@ -155,7 +155,7 @@ const mapStateToProps = (state, ownProps) => ({
     results: state.results,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onCancelGroup(groupDetails) {
         dispatch(cancelGroup(groupDetails));
     },
@@ -164,8 +164,8 @@ const mapDispatchToProps = (dispatch) => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('loadMoreScreen'),
     firebaseConnect(),
     connect(mapStateToProps, mapDispatchToProps),
-)(_LoadMoreCard);
+)(_LoadMoreCard): any);

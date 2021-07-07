@@ -40,7 +40,7 @@ type LPProps = {
 };
 
 // LevelProgress
-export default (props: LPProps) => {
+export default (props: LPProps): React.Node => {
     const { progress, text } = props;
     return (
         <View style={styles.barRow}>

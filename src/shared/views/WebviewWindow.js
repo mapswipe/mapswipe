@@ -1,4 +1,5 @@
 // @flow
+import type { Node } from 'react';
 /**
  * The WebviewWindow is the component that opens when you call anything with a webview in it.
  * eg: {this.props.navigation.push('WebViewWindow', { uri: this.state.announcement.url })
@@ -9,7 +10,7 @@
 import React from 'react';
 import { View, Image, TouchableHighlight } from 'react-native';
 import { WebView } from 'react-native-webview';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import type { NavigationProp } from '../flow-types';
 import { COLOR_DEEP_BLUE } from '../constants';
 
@@ -40,7 +41,7 @@ type Props = {
 };
 
 // WebviewWindow
-export default (props: Props) => {
+export default (props: Props): Node => {
     const { navigation } = props;
     const uri = navigation.getParam('uri', 'https://www.mapswipe.org/');
     fb.analytics().logEvent('link_click', { uri });

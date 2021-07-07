@@ -9,7 +9,7 @@ describe('Test various utility functions', () => {
             { in: 99.6, out: '99' },
             { in: 100.2, out: '100' },
         ];
-        checks.forEach((check) => {
+        checks.forEach(check => {
             const p1 = getProjectProgressForDisplay(check.in);
             expect(p1).toEqual(check.out);
         });
@@ -22,7 +22,7 @@ describe('Test various utility functions', () => {
             { in: 1, out: 1 },
             { in: 1999999999, out: 36 },
         ];
-        checks.forEach((check) => {
+        checks.forEach(check => {
             const level = getLevelForContributionCount(check.in);
             expect(level).toEqual(check.out);
         });

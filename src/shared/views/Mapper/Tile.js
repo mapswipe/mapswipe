@@ -64,7 +64,7 @@ type Props = {
     closeTilePopup: () => void,
     openTilePopup: () => void,
     tile: BuiltAreaTaskType,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     results: number,
     tutorial: boolean,
 };
@@ -138,7 +138,7 @@ export class _Tile extends React.Component<Props> {
         return texts[random];
     }
 
-    storeResult = (result) => {
+    storeResult = result => {
         const {
             onToggleTile,
             tile: { taskId, projectId, groupId },
@@ -151,7 +151,7 @@ export class _Tile extends React.Component<Props> {
         });
     };
 
-    parseUrlIfItContainsCredentials = (rawUrl) => {
+    parseUrlIfItContainsCredentials = rawUrl => {
         // check if we have a basic http auth scheme in the url and
         // send the credentials via headers if so, as react-native's
         // http clients don't seem to support the url scheme.
@@ -313,8 +313,8 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    onToggleTile: (tileInfo) => {
+const mapDispatchToProps = dispatch => ({
+    onToggleTile: tileInfo => {
         dispatch(toggleMapTile(tileInfo));
     },
 });
