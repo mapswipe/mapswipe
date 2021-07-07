@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import Button from 'apsl-react-native-button';
+import RNBootSplash from 'react-native-bootsplash';
 import {
     COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
@@ -95,7 +96,7 @@ class _LanguageSelectionSplashScreen extends React.Component<Props> {
         const { languageCode, navigation } = this.props;
         if (languageCode === undefined || languageCode === 'xx') {
             // no language selected, show this screen
-            // SplashScreen.hide();
+            RNBootSplash.hide();
         } else {
             // the user has already picked a language, move on to the next screen
             navigation.navigate('WelcomeScreen');

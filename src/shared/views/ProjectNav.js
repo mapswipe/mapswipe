@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 import ScrollableTabView, {
     DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
+import RNBootSplash from 'react-native-bootsplash';
 import RecommendedCards from './RecommendedCards';
 import MoreOptions from './MoreOptions';
 import type { NavigationProp } from '../flow-types';
@@ -27,7 +28,7 @@ class _ProjectNav extends React.Component<Props> {
         fb.analytics().logEvent('app_home_seen');
         const { firebase } = this.props;
         firebase.updateProfile({ lastAppUse: GLOBAL.DB.getTimestamp() });
-        // SplashScreen.hide();
+        RNBootSplash.hide();
     }
 
     render() {
