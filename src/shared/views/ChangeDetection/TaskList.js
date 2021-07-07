@@ -36,7 +36,7 @@ type Props = {
     results: ResultMapType,
     submitResult: (number, string) => void,
     tutorial: boolean,
-    updateProgress: (number) => void,
+    updateProgress: number => void,
     closeTilePopup: () => void,
     openTilePopup: () => void,
     zoomLevel: number,
@@ -114,6 +114,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const width = group.tasks
             ? group.tasks.length * GLOBAL.SCREEN_WIDTH * 0.8
             : 0;
+        // $FlowFixMe
         const progress = width === 0 ? 0 : x / width;
         updateProgress(progress);
         return progress;
@@ -393,6 +394,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             />
                         )
                     }
+                    // $FlowFixMe
                     onScroll={this.onScroll}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
                     onMoveShouldSetResponderCapture={
@@ -468,6 +470,7 @@ export default (compose(
         // wait for the group data to be available in redux-firebase
         if (props.group) {
             const { groupId, projectId } = props.group;
+            // $FlowFixMe
             const prefix = props.tutorial ? 'tutorial' : 'projects';
             if (groupId !== undefined) {
                 const r = props.results;

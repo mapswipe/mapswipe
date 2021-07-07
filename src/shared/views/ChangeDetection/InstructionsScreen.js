@@ -208,4 +208,5 @@ class CDInstructionScreen extends React.Component<Props> {
     }
 }
 
+// $FlowFixMe
 export default withTranslation('CDInstructionScreen')(CDInstructionScreen);

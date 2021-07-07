@@ -210,7 +210,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         }
     };
 
-    openTilePopup = (tile) => {
+    openTilePopup = tile => {
         console.log('open tile popup');
         console.log(tile);
         this.setState({
@@ -336,7 +336,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     style={styles.tilePopup}
                     entry="bottom"
                     position="center"
-                    ref={(r) => {
+                    ref={r => {
                         this.tilePopup = r;
                     }}
                 >

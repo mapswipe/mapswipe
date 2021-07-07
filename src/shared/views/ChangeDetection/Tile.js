@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     tile: BuiltAreaTaskType,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     results: number,
     style: ViewStyleProp,
     source: Image.ImageSourcePropType,

@@ -73,6 +73,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     }
 
+    // $FlowFixMe
     render = () => {
         const {
             index,
