@@ -13,9 +13,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		49A306398ABEB902C781FA2F /* libPods-mapswipe-mapswipeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50A4EAC03F7178A1863EB48 /* libPods-mapswipe-mapswipeTests.a */; };
 		702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8B7CB818144B286E4344D /* libz.tbd */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		AB02778D21D7E68B00F713BA /* mapswipeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB02778C21D7E68B00F713BA /* mapswipeUITests.m */; };
 		B15BEE5B9DE16769017FE3C8 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B80A323A64B3D449577DD80 /* libPods-mapswipe.a */; };
+		DDC821B92695C1A0005972B2 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDC821B82695C1A0005972B2 /* BootSplash.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +50,6 @@
 		1E0592B88B5096FD530933DC /* Pods-mapswipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe/Pods-mapswipe.release.xcconfig"; sourceTree = "<group>"; };
 		4B367EA46057A01F3A55E705 /* Pods-mapswipe-mapswipeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-mapswipeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-mapswipeTests/Pods-mapswipe-mapswipeTests.release.xcconfig"; sourceTree = "<group>"; };
 		6919884CDA1AAC6D77D9B78E /* Pods-mapswipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe/Pods-mapswipe.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = mapswipe/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB02778A21D7E68B00F713BA /* mapswipeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mapswipeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB02778C21D7E68B00F713BA /* mapswipeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mapswipeUITests.m; sourceTree = "<group>"; };
 		AB02778E21D7E68B00F713BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,6 +66,7 @@
 		B8CD42ED3A111B03ADE4A3DF /* Pods-mapswipe-mapswipeTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe-mapswipeTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-mapswipe-mapswipeTests/Pods-mapswipe-mapswipeTests.beta.xcconfig"; sourceTree = "<group>"; };
 		C9E8B7CB818144B286E4344D /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		D50A4EAC03F7178A1863EB48 /* libPods-mapswipe-mapswipeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipe-mapswipeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDC821B82695C1A0005972B2 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = mapswipe/BootSplash.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -124,7 +124,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				DDC821B82695C1A0005972B2 /* BootSplash.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = mapswipe;
@@ -334,7 +334,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				DDC821B92695C1A0005972B2 /* BootSplash.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
