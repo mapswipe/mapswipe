@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
     },
 });
+const GLOBAL = require('../../Globals');
 
 type Props = {
     tile: BuiltAreaTaskType,
@@ -150,11 +151,17 @@ export class _Tile extends React.PureComponent<Props> {
         const imageSource = this.getImgSource();
         console.log(imageSource);
         return (
-            <TouchableHighlight onPress={this.onDismissZoom}>
+            <TouchableHighlight onPress={this.onDismissZoom}
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
                 <ImageBackground
                     style={{
-                        height: 300,
-                        width: 300,
+                        position: "absolute",
+                        height: 0.95 * GLOBAL.SCREEN_WIDTH,
+                        width: 0.95 * GLOBAL.SCREEN_WIDTH,
                         borderWidth: 0.5,
                         borderColor: 'rgba(255,255,255,0.2)',
                     }}

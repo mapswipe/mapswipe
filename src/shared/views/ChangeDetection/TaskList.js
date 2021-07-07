@@ -351,17 +351,24 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             tutorialContent = screens[currentScreen][tutorialMode];
         }
 
-        // calculate the latitude of the top row of the group for the scalebar
-        // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-        // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
-        // lat_deg = lat_rad * 180.0 / π
-        const latitude =
-            Math.atan(
-                Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
-            ) *
-            (180 / Math.PI);
+        let latitude: number
+        if (tutorial) {
+            // In tutorial mode we set latitude to the equator.
+            // The group.yMin value for the tutorial tasks is not correct.
+            latitude = 0.0;
+        } else {
+            // calculate the latitude of the top row of the group for the scalebar
+            // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+            // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
+            // lat_deg = lat_rad * 180.0 / π
+            latitude =
+                Math.atan(
+                    Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
+                ) *
+                (180 / Math.PI);
+        }
 
-        console.log(latitude);
+        console.log('latitude: ' + latitude);
 
         return (
             <>
