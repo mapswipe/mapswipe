@@ -8,6 +8,7 @@ import Button from 'apsl-react-native-button';
 import Swiper from 'react-native-swiper';
 import { NavigationActions } from 'react-navigation';
 import { withTranslation } from 'react-i18next';
+import RNBootSplash from 'react-native-bootsplash';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
@@ -67,14 +68,14 @@ class _WelcomeScreen extends React.Component<Props> {
         if (welcomeCompleted) {
             this.finishWelcomeScreens();
         } else {
-            // SplashScreen.hide();
+            RNBootSplash.hide();
         }
     }
 
     componentDidUpdate() {
         const { welcomeCompleted } = this.props;
         if (welcomeCompleted === undefined) {
-            // SplashScreen.hide();
+            RNBootSplash.hide();
         }
     }
 
