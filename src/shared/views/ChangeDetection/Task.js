@@ -12,20 +12,18 @@ const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     bottomImage: {
-        // this style might break on very elongated screens
-        // with aspect ratio higher than 16:9, where the images
-        // might be cropped on the sides (as of writing this,
-        // only a couple of phones fall into that group, so we
-        // ignore them for now)
-        // see https://stackoverflow.com/a/23009368/1138710
+        // Adding a maxHeight to make sure that tiles fit
+        // also on very long phones.
         alignItems: 'center',
         aspectRatio: 1,
         height: '49%',
+        maxHeight: GLOBAL.SCREEN_WIDTH * 0.8,
     },
     topImage: {
         alignItems: 'center',
         aspectRatio: 1,
         height: '49%',
+        maxHeight: GLOBAL.SCREEN_WIDTH * 0.8,
     },
     overlayText: {
         color: COLOR_LIGHT_GRAY,

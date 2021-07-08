@@ -370,8 +370,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 (180 / Math.PI);
         }
 
-        console.log(`latitude: ${latitude}`);
-
         return (
             <>
                 <FlatList
@@ -496,6 +494,7 @@ export default (compose(
                     r[projectId][groupId] &&
                     r[projectId][groupId].startTime
                 ) {
+                    console.log(r);
                     return [
                         {
                             type: 'once',

@@ -48,11 +48,13 @@ const styles = StyleSheet.create({
         width: GLOBAL.SCREEN_WIDTH,
     },
     tilePopup: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        height: 300,
-        width: 300,
+        justifyContent: 'center',
+        alignItems: 'center',
+        //position: 'absolute',
+        //top: 0,
+        //left: 0,
+        //height: 300,
+        //width: 300,
         backgroundColor: 'transparent',
     },
 });
@@ -121,6 +123,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     projectId: group.projectId,
                     startTime: GLOBAL.DB.getTimestamp(),
                 });
+                console.log('start time:');
+                console.log(GLOBAL.DB.getTimestamp());
                 if (group.tasks !== undefined) {
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
@@ -263,10 +267,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         } = this.props;
         const { groupCompleted, poppedUpTile } = this.state;
 
-        console.log('poppedUpTile');
-        console.log(poppedUpTile);
-
         if (!group) {
+            console.log('no group information available.');
             return <LoadingIcon />;
         }
 

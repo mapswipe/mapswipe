@@ -151,20 +151,11 @@ export class _Tile extends React.PureComponent<Props> {
         const imageSource = this.getImgSource();
         console.log(imageSource);
         return (
-            <TouchableHighlight
-                onPress={this.onDismissZoom}
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
+            <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
                     style={{
-                        position: 'absolute',
                         height: 0.95 * GLOBAL.SCREEN_WIDTH,
                         width: 0.95 * GLOBAL.SCREEN_WIDTH,
-                        borderWidth: 0.5,
-                        borderColor: 'rgba(255,255,255,0.2)',
                     }}
                     source={imageSource}
                 />
