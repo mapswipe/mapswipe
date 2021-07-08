@@ -48,13 +48,10 @@ const styles = StyleSheet.create({
         width: GLOBAL.SCREEN_WIDTH,
     },
     tilePopup: {
+        // Make sure that popped up tile is displayed in
+        // the center of the screen
         justifyContent: 'center',
         alignItems: 'center',
-        //position: 'absolute',
-        //top: 0,
-        //left: 0,
-        //height: 300,
-        //width: 300,
         backgroundColor: 'transparent',
     },
 });

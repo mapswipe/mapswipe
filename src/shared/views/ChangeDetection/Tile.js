@@ -154,6 +154,7 @@ export class _Tile extends React.PureComponent<Props> {
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
                     style={{
+                        // the popped up tile almost entirely fills the screen
                         height: 0.95 * GLOBAL.SCREEN_WIDTH,
                         width: 0.95 * GLOBAL.SCREEN_WIDTH,
                     }}
