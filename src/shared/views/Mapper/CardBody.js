@@ -421,9 +421,8 @@ class _CardBody extends React.PureComponent<Props, State> {
                 } else {
                     this.scrollEnabled = false;
                     this.tapsRegistered = 0; // remember to offset by 1 (see above)
-                    this.tapsExpected = this.getNumberOfTapsExpectedForScreen(
-                        currentScreen,
-                    );
+                    this.tapsExpected =
+                        this.getNumberOfTapsExpectedForScreen(currentScreen);
                     this.setState({
                         tutorialMode: tutorialModes.instructions,
                         showAnswerButtonIsVisible: false,
@@ -463,11 +462,8 @@ class _CardBody extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {
-            showAnswerButtonIsVisible,
-            showScaleBar,
-            tutorialMode,
-        } = this.state;
+        const { showAnswerButtonIsVisible, showScaleBar, tutorialMode } =
+            this.state;
         const { currentX } = this;
         const {
             closeTilePopup,

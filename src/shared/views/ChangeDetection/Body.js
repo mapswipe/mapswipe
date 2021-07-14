@@ -221,15 +221,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     render = () => {
-        const {
-            group,
-            navigation,
-            results,
-            screens,
-            t,
-            tutorial,
-            tutorialId,
-        } = this.props;
+        const { group, navigation, results, screens, t, tutorial, tutorialId } =
+            this.props;
         const { groupCompleted } = this.state;
 
         if (!group) {

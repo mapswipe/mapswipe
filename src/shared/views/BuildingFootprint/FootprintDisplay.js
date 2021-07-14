@@ -103,8 +103,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         this.swipeThreshold = GLOBAL.TILE_SIZE * 0.02;
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
-            onMoveShouldSetPanResponderCapture: this
-                .handleMoveShouldSetPanResponder,
+            onMoveShouldSetPanResponderCapture:
+                this.handleMoveShouldSetPanResponder,
             onPanResponderRelease: this.handlePanResponderEnd,
         });
         this.state = {

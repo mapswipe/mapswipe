@@ -232,7 +232,8 @@ class _MoreOptions extends React.Component<MOProps> {
             )
                 ? profile.taskContributionCount
                 : 0;
-        const deleteAccountConfirmationModal = this.renderDeleteAccountConfirmationModal();
+        const deleteAccountConfirmationModal =
+            this.renderDeleteAccountConfirmationModal();
 
         // determine the text to show on the level progress bar
         let kmTillNextLevelToShow = kmTillNextLevel;

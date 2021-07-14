@@ -193,8 +193,10 @@ type GenericGroupType<T> = {
 };
 
 export type BuiltAreaGroupType = GenericGroupType<BuiltAreaTaskType>;
-export type BuildingFootprintGroupType = GenericGroupType<BuildingFootprintTaskType>;
-export type ChangeDetectionGroupType = GenericGroupType<ChangeDetectionTaskType>;
+export type BuildingFootprintGroupType =
+    GenericGroupType<BuildingFootprintTaskType>;
+export type ChangeDetectionGroupType =
+    GenericGroupType<ChangeDetectionTaskType>;
 
 export type GroupType =
     | BuiltAreaGroupType

@@ -255,12 +255,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     renderHelpModal = () => {
-        const {
-            getNormalHelpContent,
-            t,
-            tutorial,
-            tutorialHelpContent,
-        } = this.props;
+        const { getNormalHelpContent, t, tutorial, tutorialHelpContent } =
+            this.props;
         let content = '';
         if (!tutorial) {
             const creditString = this.getCreditString();

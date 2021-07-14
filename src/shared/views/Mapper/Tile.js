@@ -155,7 +155,8 @@ export class _Tile extends React.Component<Props> {
         // check if we have a basic http auth scheme in the url and
         // send the credentials via headers if so, as react-native's
         // http clients don't seem to support the url scheme.
-        const urlPattern = /^(?<proto>http|https):\/\/(?<username>.+):(?<password>.+)@(?<url>.+)$/;
+        const urlPattern =
+            /^(?<proto>http|https):\/\/(?<username>.+):(?<password>.+)@(?<url>.+)$/;
         const match = rawUrl.match(urlPattern);
         if (match) {
             const { proto, username, password, url } = match.groups;
