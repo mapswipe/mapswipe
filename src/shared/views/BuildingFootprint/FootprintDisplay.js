@@ -513,7 +513,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     /*
      * Get the zoom level that fits to the size of the object
      */
-    getZoomLevelFromCoords = (coords: LonLatPolygon): ZoomLevel => {
+    getZoomLevelFromCoords: (coords: LonLatPolygon) => ZoomLevel = (
+        coords: LonLatPolygon,
+    ): ZoomLevel => {
         const bbox = this.getBuildingBBox(coords);
 
         // check for if bounding box fits into a single tile in width and height
