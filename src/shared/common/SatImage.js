@@ -25,6 +25,8 @@ type Props = {
     source: Image.ImageSourcePropType,
     style: ImageStyleProp,
     task: ChangeDetectionTaskType,
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
 };
 
 type State = {
@@ -35,6 +37,8 @@ export default class SatImage extends React.Component<Props, State> {
     static defaultProps = {
         interactive: false,
         onToggleTile: () => null,
+        closeTilePopup: () => null,
+        openTilePopup: () => null,
     };
 
     // An image component that works like a standard image, except
@@ -85,34 +89,32 @@ export default class SatImage extends React.Component<Props, State> {
             overlayTextStyle,
             style,
             task,
+            openTilePopup,
+            closeTilePopup,
         } = this.props;
-        const fakeMapper = {
-            closeTilePopup: () => {
-                console.log('close zoom');
-            },
-            openTilePopup: () => {
-                console.log('open zoom');
-            },
-        };
 
         return (
             <View style={style}>
                 <Text style={overlayTextStyle}>{overlayText}</Text>
                 {interactive ? (
                     <Tile
-                        mapper={fakeMapper}
                         onToggleTile={onToggleTile}
                         results={0}
                         style={styles.imageBackground}
                         tile={task}
                         source={source}
                         tutorial={false}
+                        closeTilePopup={closeTilePopup}
+                        openTilePopup={openTilePopup}
                     />
                 ) : (
-                    <Image
-                        onError={this.onError}
-                        source={source}
+                    <Tile
                         style={styles.imageBackground}
+                        tile={task}
+                        source={source}
+                        tutorial={false}
+                        closeTilePopup={closeTilePopup}
+                        openTilePopup={openTilePopup}
                     />
                 )}
             </View>

@@ -12,6 +12,7 @@ import { tutorialModes } from '../../constants';
 import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialOutroScreen from '../../common/Tutorial/TutorialOutro';
+import ScaleBar from '../../common/ScaleBar';
 import ChangeDetectionTask from './Task';
 import { toggleMapTile } from '../../actions/index';
 
@@ -36,6 +37,9 @@ type Props = {
     submitResult: (number, string) => void,
     tutorial: boolean,
     updateProgress: number => void,
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
+    zoomLevel: number,
 };
 
 type State = {
@@ -83,6 +87,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const currentScreen = this.getCurrentScreen();
         if (
             tutorial &&
+            results &&
             results !== oldProps.results &&
             currentScreen > 0 &&
             currentScreen < screens.length
@@ -109,6 +114,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const width = group.tasks
             ? group.tasks.length * GLOBAL.SCREEN_WIDTH * 0.8
             : 0;
+        // $FlowFixMe
         const progress = width === 0 ? 0 : x / width;
         updateProgress(progress);
         return progress;
@@ -326,6 +332,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             submitResult,
             screens,
             tutorial,
+            openTilePopup,
+            closeTilePopup,
+            zoomLevel,
         } = this.props;
         const {
             tutorialMode,
@@ -340,6 +349,25 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         if (tutorial && currentScreen < screens.length) {
             // $FlowFixMe see https://stackoverflow.com/a/54010838/1138710
             tutorialContent = screens[currentScreen][tutorialMode];
+        }
+
+        let latitude: number;
+        if (tutorial) {
+            // In tutorial mode we set latitude to the equator.
+            // The group.yMin value for the tutorial tasks is not correct.
+            latitude = 0.0;
+        } else {
+            // calculate the latitude of the top row of the group for the scalebar
+            // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+            // lat_rad = arctan(sinh(π * (1 - 2 * ytile / n)))
+            // lat_deg = lat_rad * 180.0 / π
+            latitude =
+                Math.atan(
+                    Math.sinh(
+                        Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel),
+                    ),
+                ) *
+                (180 / Math.PI);
         }
 
         return (
@@ -386,6 +414,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                         <ChangeDetectionTask
                             index={index}
                             onToggleTile={onToggleTile}
+                            closeTilePopup={closeTilePopup}
+                            openTilePopup={openTilePopup}
                             submitResult={submitResult}
                             task={item}
                         />
@@ -396,12 +426,22 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                     showsHorizontalScrollIndicator={false}
                 />
+                <ScaleBar
+                    alignToBottom={false}
+                    latitude={latitude}
+                    useScreenWidth={false}
+                    visible
+                    zoomLevel={zoomLevel}
+                />
                 {tutorial && tutorialBoxIsVisible && tutorialContent && (
                     <TutorialBox
                         content={tutorialContent}
                         boxType={tutorialMode}
-                        bottomOffset="45%"
-                        topOffset="5%"
+                        // This is a hack to display the TutorialBox
+                        // in the center when loading the tutorial.
+                        // We just flipped bottomOffset and topOffset values.
+                        bottomOffset="7.5%"
+                        topOffset="45%"
                     />
                 )}
                 {tutorial && showAnswerButtonIsVisible && (
@@ -423,6 +463,7 @@ const mapStateToProps = (state, ownProps) => ({
     ),
     tutorial: ownProps.tutorial,
     submitResult: ownProps.submitResult,
+    zoomLevel: ownProps.zoomLevel,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -436,6 +477,7 @@ export default (compose(
         // wait for the group data to be available in redux-firebase
         if (props.group) {
             const { groupId, projectId } = props.group;
+            // $FlowFixMe
             const prefix = props.tutorial ? 'tutorial' : 'projects';
             if (groupId !== undefined) {
                 const r = props.results;
@@ -452,6 +494,7 @@ export default (compose(
                     r[projectId][groupId] &&
                     r[projectId][groupId].startTime
                 ) {
+                    console.log(r);
                     return [
                         {
                             type: 'once',

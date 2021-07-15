@@ -12,6 +12,14 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: 40,
     },
+    tileImage: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+        height: '15%',
+        resizeMode: 'contain',
+        width: '15%',
+    },
 });
 
 /* eslint-disable global-require */
@@ -156,6 +164,36 @@ export const PressAndHoldIcon = () => {
         <Image
             source={require('../../views/assets/icon_hold.png')}
             style={styles.tutImage}
+        />
+    );
+};
+
+export const NumberedTapIconTile1 = () => {
+    return (
+        <Image
+            source={require('../../views/assets/1_Tap_verify-verified-check.png')}
+            style={styles.tileImage}
+            fadeDuration={0}
+        />
+    );
+};
+
+export const NumberedTapIconTile2 = () => {
+    return (
+        <Image
+            source={require('../../views/assets/2_Tap_question-mark-round-line.png')}
+            style={styles.tileImage}
+            fadeDuration={0}
+        />
+    );
+};
+
+export const NumberedTapIconTile3 = () => {
+    return (
+        <Image
+            source={require('../../views/assets/3_Tap_red-x-line.png')}
+            style={styles.tileImage}
+            fadeDuration={0}
         />
     );
 };
