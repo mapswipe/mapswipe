@@ -85,9 +85,12 @@ export default {
 
     /**
      * Returns the firebase timestamp
+     * We need to make sure that the timestamps are in ISO 8601 format.
+     * Otherwise only the results, but not the timestamps will be uploaded into Firebase.
+     * Results without timestamps will be dropped by the back end.
      */
     getTimestamp(): any {
-        return firebase.database().getServerTime();
+        return firebase.database().getServerTime().toISOString();
     },
 
     /**
