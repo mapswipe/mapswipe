@@ -6,14 +6,13 @@ import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import fb from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
-import ScrollableTabView, {
-    DefaultTabBar,
-} from 'react-native-scrollable-tab-view';
 import RNBootSplash from 'react-native-bootsplash';
 import RecommendedCards from './RecommendedCards';
 import MoreOptions from './MoreOptions';
+import ScrollableTabView from '../common/ScrollableTabView/ScrollableTabView';
+import DefaultTabBar from '../common/ScrollableTabView/DefaultTabBar';
 import type { NavigationProp } from '../flow-types';
-import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY } from '../constants';
+import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -37,11 +36,11 @@ class _ProjectNav extends React.Component<Props> {
             <ScrollableTabView
                 tabBarActiveTextColor="#ffffff"
                 tabBarInactiveTextColor={COLOR_LIGHT_GRAY}
-                tabBarUnderlineStyle={{ backgroundColor: '#ee0000' }}
                 renderTabBar={() => (
                     <DefaultTabBar
                         backgroundColor={COLOR_DEEP_BLUE}
                         style={{ borderBottomWidth: 0 }}
+                        tabBarUnderlineStyle={{ backgroundColor: COLOR_RED }}
                     />
                 )}
             >
