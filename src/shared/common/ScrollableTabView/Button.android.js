@@ -1,19 +1,21 @@
-/* eslint-disable */
-const React = require('react');
-const ReactNative = require('react-native');
+import * as React from 'react';
+import { TouchableNativeFeedback } from 'react-native';
 
-const { TouchableNativeFeedback } = ReactNative;
+type Props = {
+    children: React.ReactNode,
+};
 
-const Button = props => {
+const Button = (props: Props) => {
+    const { children } = props;
     return (
         <TouchableNativeFeedback
             delayPressIn={0}
             background={TouchableNativeFeedback.SelectableBackground()} // eslint-disable-line new-cap
             {...props}
         >
-            {props.children}
+            {children}
         </TouchableNativeFeedback>
     );
 };
 
-module.exports = Button;
+export default Button;

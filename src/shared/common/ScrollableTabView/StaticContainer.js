@@ -1,18 +1,22 @@
-/* eslint-disable */
-const React = require('react');
+import React from 'react';
 
-class StaticContainer extends React.Component {
-    shouldComponentUpdate(nextProps: Object): boolean {
+type Props = {
+    shouldUpdate: boolean,
+    children: React.ReactNode,
+};
+
+class StaticContainer extends React.Component<Props> {
+    shouldComponentUpdate(nextProps: Props): boolean {
         return !!nextProps.shouldUpdate;
     }
 
-    render(): ?ReactElement {
-        const child = this.props.children;
-        if (child === null || child === false) {
+    render(): ?React.ReactElement {
+        const { children } = this.props;
+        if (children === null || children === false) {
             return null;
         }
-        return React.Children.only(child);
+        return React.Children.only(children);
     }
 }
 
-module.exports = StaticContainer;
+export default StaticContainer;

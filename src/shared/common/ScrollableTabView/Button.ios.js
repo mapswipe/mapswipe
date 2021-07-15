@@ -1,11 +1,13 @@
-/* eslint-disable */
-const React = require('react');
-const ReactNative = require('react-native');
+import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
 
-const { TouchableOpacity } = ReactNative;
-
-const Button = props => {
-    return <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
+type Props = {
+    children: React.ReactNode,
 };
 
-module.exports = Button;
+const Button = (props: Props) => {
+    const { children } = props;
+    return <TouchableOpacity {...props}>{children}</TouchableOpacity>;
+};
+
+export default Button;

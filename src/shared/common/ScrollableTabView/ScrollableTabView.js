@@ -1,8 +1,7 @@
 /* eslint-disable */
-const React = require('react');
+import * as React from 'react';
+import { ViewPropTypes } from 'react-native';
 
-const { Component } = React;
-const { ViewPropTypes } = (ReactNative = require('react-native'));
 const createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
 
@@ -24,9 +23,9 @@ import type {
     PagerViewOnPageSelectedEventData,
 } from 'react-native-pager-view';
 
-const SceneComponent = require('./SceneComponent');
-const DefaultTabBar = require('./DefaultTabBar');
-const ScrollableTabBar = require('./ScrollableTabBar');
+import SceneComponent from './SceneComponent';
+import DefaultTabBar from './DefaultTabBar';
+import ScrollableTabBar from './ScrollableTabBar';
 
 const AnimatedViewPagerAndroid =
     Platform.OS === 'android'
