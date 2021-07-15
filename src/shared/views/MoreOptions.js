@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 30,
-        padding: Platform.OS === 'ios' ? 0 : 12,
-        marginTop: 10,
+        padding: 0,
+        margin: 5,
         borderWidth: 0,
     },
     row: {
