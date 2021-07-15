@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Trans } from 'react-i18next';
 import LoadingIcon from '../LoadingIcon';
 import SatImage from '../../common/SatImage';
 import { COLOR_DARK_GRAY, COLOR_LIGHT_GRAY } from '../../constants';
@@ -11,20 +12,18 @@ const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     bottomImage: {
-        // this style might break on very elongated screens
-        // with aspect ratio higher than 16:9, where the images
-        // might be cropped on the sides (as of writing this,
-        // only a couple of phones fall into that group, so we
-        // ignore them for now)
-        // see https://stackoverflow.com/a/23009368/1138710
+        // Adding a maxHeight to make sure that tiles fit
+        // also on very long phones.
         alignItems: 'center',
         aspectRatio: 1,
         height: '49%',
+        maxHeight: GLOBAL.SCREEN_WIDTH * 0.8,
     },
     topImage: {
         alignItems: 'center',
         aspectRatio: 1,
         height: '49%',
+        maxHeight: GLOBAL.SCREEN_WIDTH * 0.8,
     },
     overlayText: {
         color: COLOR_LIGHT_GRAY,
@@ -46,6 +45,8 @@ type Props = {
     // eslint-disable-next-line react/no-unused-prop-types
     submitResult: (number, string) => void,
     task: ChangeDetectionTaskType,
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -70,8 +71,15 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
         this.lockedSize = this.swipeThreshold * swipeToSizeRatio;
     }
 
-    render: () => React.Node = () => {
-        const { index, onToggleTile, task } = this.props;
+    // $FlowFixMe
+    render = () => {
+        const {
+            index,
+            onToggleTile,
+            task,
+            openTilePopup,
+            closeTilePopup,
+        } = this.props;
         if (!task) {
             return <LoadingIcon />;
         }
@@ -96,19 +104,28 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                     }}
                 >
                     <SatImage
-                        overlayText="Before"
+                        overlayText={
+                            <Trans i18nKey="CDTaskScreen:before">Before</Trans>
+                        }
                         overlayTextStyle={styles.overlayText}
                         source={{ uri: task.url }}
                         style={styles.topImage}
+                        task={task}
+                        closeTilePopup={closeTilePopup}
+                        openTilePopup={openTilePopup}
                     />
                     <SatImage
                         interactive
                         onToggleTile={onToggleTile}
-                        overlayText="After"
+                        overlayText={
+                            <Trans i18nKey="CDTaskScreen:after">After</Trans>
+                        }
                         overlayTextStyle={styles.overlayText}
                         source={{ uri: task.urlB }}
                         style={styles.bottomImage}
                         task={task}
+                        closeTilePopup={closeTilePopup}
+                        openTilePopup={openTilePopup}
                     />
                 </View>
             </>

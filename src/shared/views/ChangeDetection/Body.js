@@ -36,6 +36,7 @@ import {
     // CHANGE_DETECTION,
 } from '../../constants';
 
+const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
 
 /* eslint-disable global-require */
@@ -45,6 +46,13 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DEEP_BLUE,
         flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
+    },
+    tilePopup: {
+        // Make sure that popped up tile is displayed in
+        // the center of the screen
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
     },
 });
 
@@ -68,6 +76,7 @@ type Props = {
 
 type State = {
     groupCompleted: boolean,
+    poppedUpTile: React.Node,
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
@@ -81,12 +90,15 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     project: ProjectType;
 
+    tilePopup: ?React.ComponentType<void>;
+
     constructor(props: Props) {
         super(props);
         this.project = props.navigation.getParam('project');
         // the number of screens that the initial tutorial intro covers
         this.state = {
             groupCompleted: false,
+            poppedUpTile: null,
         };
     }
 
@@ -108,6 +120,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     projectId: group.projectId,
                     startTime: GLOBAL.DB.getTimestamp(),
                 });
+                console.log('start time:');
+                console.log(GLOBAL.DB.getTimestamp());
                 if (group.tasks !== undefined) {
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
@@ -197,6 +211,24 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         }
     };
 
+    openTilePopup = tile => {
+        console.log('open tile popup');
+        console.log(tile);
+        this.setState({
+            poppedUpTile: tile,
+        });
+        // $FlowFixMe
+        this.tilePopup.open();
+    };
+
+    closeTilePopup = () => {
+        this.setState({
+            poppedUpTile: <View />,
+        });
+        // $FlowFixMe
+        this.tilePopup.close();
+    };
+
     renderBackConfirmationModal = () => {
         const { t } = this.props;
         const content = (
@@ -223,9 +255,10 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     render = () => {
         const { group, navigation, results, screens, t, tutorial, tutorialId } =
             this.props;
-        const { groupCompleted } = this.state;
+        const { groupCompleted, poppedUpTile } = this.state;
 
         if (!group) {
+            console.log('no group information available.');
             return <LoadingIcon />;
         }
 
@@ -241,6 +274,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
+
         return (
             <View style={styles.mappingContainer}>
                 <Header
@@ -263,6 +297,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
                     tutorialId={tutorialId}
+                    closeTilePopup={this.closeTilePopup}
+                    openTilePopup={this.openTilePopup}
+                    zoomLevel={this.project.zoomLevel}
                 />
                 <View>
                     <TouchableWithoutFeedback
@@ -287,6 +324,16 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                         this.progress = r;
                     }}
                 />
+                <Modal
+                    style={styles.tilePopup}
+                    entry="bottom"
+                    position="center"
+                    ref={r => {
+                        this.tilePopup = r;
+                    }}
+                >
+                    {poppedUpTile}
+                </Modal>
             </View>
         );
     };

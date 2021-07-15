@@ -96,18 +96,22 @@
   "CDInstructionScreen": {
     "instructions": "Juhised",
     "your task": "Sinu töö:",
-    "lookingFor": "Otsid {' '} <1>muudatusi hoonete osas</1>. See näitab selgelt elanike arvu muutust.",
+    "lookingFor": "Otsid <1>muudatusi ehitistes</1>. See on selge märk elanikkonna suuruse muudatusest.",
     "perform task": "Kuidas kaastööd teha:",
-    "noChanges": "Kui muudatusi pole, siis lihtsalt{' '} <1>sirvi</1> järgmisi pilte",
-    "seeChanges": "Kui märkad muutusi hoonete osas,{' '} <1>puuta üks kord</1>{' '} ja ruut muutub roheliseks",
-    "unsure": "Ei ole kindel?{' '} <1>Puuduta kaks korda</1>{' '} ja ruut muutub kollaseks",
-    "badImagery": "Pildimaterjali viga, näiteks kui pildil olevad pildid katavad vaadet?{' '} <1>Puuduta kolm korda</1>{' '} ja ruut muutub punaseks.",
+    "noChanges": "Muudatuste puudumisel lihtsalt <1>lohista</1> ette järgmine foto",
+    "seeChanges": "Kui näed muudatusi ehitistes, <1>puuduta korra</1> ja ruut muutub roheliseks",
+    "unsure": "Ebakindel? <1>Puuduta kaks korda</1> ja ruut muutub kollaseks",
+    "badImagery": "Pildi viga, näiteks pilved katavad vaadet? <1>Puuduta kolm korda</1> ja ruut muutub punaseks",
     "holdZoom": "Kui soovid pildimaterjali lähemalt vaadelda, puuduta ja hoia ruutu selle veidi suurendamiseks.",
     "hint": "Vihje:",
-    "differentImagery": "Mõnikord on kasutatud erinevaid pildiallikaid. Kujutised võivad olla joondatud veidi erinevalt või erineva eraldusvõimega. Pea meeles, et otsid {' '} <1>kindlat muudatust asulates ja hoonetes</1> {' '}, nii et kui tundub, et seal on samad hooned, kuid võib-olla mõnel on uus katus, siis tegelikult muutust ei ole ja sirvi lihtsalt järgmist pilti."
+    "differentImagery": "Mõnikord on kasutatud erinevaid pildiallikaid. Pildid võivad olla veidi erinevalt joondatud või erineva resolutsiooniga. Pea meeles, et otsid <1>määratud muutusi asulates ja hoonetes</1> , nii et kui tundub, et hooned on samad, kuid võib-olla on uus katus, siis lihtsalt \"ei olegi muutusi\" ja võid libistada ette järgmise pildi."
   },
   "CDBodyScreen": {
     "viewInstructions": "Vaata juhendit"
+  },
+  "CDTaskScreen": {
+    "before": "Ennem",
+    "after": "Pärast"
   },
   "CDValidator": {
     "Yes": "Jah",
