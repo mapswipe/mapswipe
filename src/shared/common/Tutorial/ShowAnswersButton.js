@@ -37,4 +37,4 @@ const ShowAnswersButton = (props: Props) => {
     );
 };
 
-export default withTranslation('ShowAnswersButton')(ShowAnswersButton);
+export default (withTranslation('ShowAnswersButton')(ShowAnswersButton): any);

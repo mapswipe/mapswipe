@@ -1,20 +1,14 @@
 // @flow
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
 import levels from './Levels';
 
 export default {
     /**
-     * Variable to access internal functions through promises.
-     */
-
-    dbParent: this,
-
-    /**
      * Stores all the tasks that still need pushing to the database
      */
 
-    taskResults: [],
-    groupCompletes: [],
+    taskResults: ([]: Array<any>),
+    groupCompletes: ([]: Array<any>),
 
     /**
      * These functions determine whether there is a level up that needs to be popped up.
@@ -22,7 +16,7 @@ export default {
 
     pendingLvlUp: -1,
 
-    getPendingLevelUp() {
+    getPendingLevelUp(): any {
         return this.pendingLvlUp;
     },
 
@@ -37,7 +31,7 @@ export default {
      * Returns the current level of the user
      * @returns {*}
      */
-    getLevel() {
+    getLevel(): any {
         return this.getLevelForExp(this.distance);
     },
 
@@ -45,7 +39,7 @@ export default {
      * Returns the entire level object, mainly for showing the badge
      * @returns {*}
      */
-    getLevelObject() {
+    getLevelObject(): any {
         return levels[this.getLevel()];
     },
 
@@ -68,7 +62,7 @@ export default {
         let toReturn = 1;
         try {
             const parent = this;
-            Object.keys(levels).forEach((level) => {
+            Object.keys(levels).forEach(level => {
                 if (exp > levels[parent.maxLevel]) {
                     toReturn = parent.maxLevel;
                 } else if (
@@ -91,9 +85,13 @@ export default {
 
     /**
      * Returns the firebase timestamp
+     * We need to make sure that the timestamps are in ISO 8601 format.
+     * This should look like this: "2021-07-15T15:49:00.324Z".
+     * Otherwise only the results, but not the timestamps will be uploaded into Firebase.
+     * Results without timestamps will be dropped by the back end.
      */
-    getTimestamp() {
-        return firebase.database().getServerTime();
+    getTimestamp(): string {
+        return firebase.database().getServerTime().toISOString();
     },
 
     /**
@@ -101,13 +99,13 @@ export default {
      * to see if the user has already used MapSwipe before.
      * @returns {Promise}
      */
-    offlineGroups: [],
+    offlineGroups: ([]: Array<any>),
     interval: null,
 
-    totalRequests: {},
-    totalRequestsOutstanding2: {},
-    totalRequestsOutstandingByGroup: {},
-    isDownloading: {},
+    totalRequests: ({}: { ... }),
+    totalRequestsOutstanding2: ({}: { ... }),
+    totalRequestsOutstandingByGroup: ({}: { ... }),
+    isDownloading: ({}: { ... }),
 
     /**
      * Whether the project has any offline groups

@@ -40,7 +40,7 @@ export function completeTutorial(projectType: number): CompleteTutorial {
     return { type: TUTORIAL_COMPLETED, projectType };
 }
 
-type SelectLanguage = { type: typeof SELECT_LANGUAGE };
+type SelectLanguage = { type: typeof SELECT_LANGUAGE, languageCode: string };
 // dispatched when the user changes the language of the app
 export function selectLanguage(languageCode: string): SelectLanguage {
     return { type: SELECT_LANGUAGE, languageCode };
@@ -147,12 +147,17 @@ export function commitGroupFailed(
 }
 
 type CommitTaskSuccess = { type: typeof COMMIT_TASK_SUCCESS, taskId: number };
-export function commitTaskSuccess(taskId: string) {
+export function commitTaskSuccess(
+    taskId: string,
+): { taskId: string, type: string } {
     return { type: COMMIT_TASK_SUCCESS, taskId };
 }
 
 type CommitTaskFailed = { type: typeof COMMIT_TASK_FAILED, taskId: number };
-export function commitTaskFailed(taskId: string, error: {}) {
+export function commitTaskFailed(
+    taskId: string,
+    error: {},
+): { error: {}, taskId: string, type: string } {
     return { type: COMMIT_TASK_FAILED, taskId, error };
 }
 
@@ -179,6 +184,7 @@ export type GroupInfo = {
 
 type CommitGroup = { type: typeof COMMIT_GROUP };
 export type Action =
+    // $FlowFixMe
     | actionTypes.SET_PROFILE
     | AuthStatusAvailable
     | CommitGroup
@@ -225,7 +231,7 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         firebase
             .set(fbPath, objToUpload)
             .then(() => dispatch(commitGroupSuccess(projectId, groupId)))
-            .catch((error) =>
+            .catch(error =>
                 dispatch(commitGroupFailed(projectId, groupId, error)),
             );
     };

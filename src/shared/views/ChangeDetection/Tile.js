@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import {
     ImageBackground,
+    Image,
     View,
     StyleSheet,
     TouchableHighlight,
@@ -19,7 +20,12 @@ import {
     COLOR_TRANSPARENT,
     COLOR_YELLOW,
 } from '../../constants';
-import type { Mapper, ResultType, BuiltAreaTaskType } from '../../flow-types';
+import type { ResultType, BuiltAreaTaskType } from '../../flow-types';
+import {
+    NumberedTapIconTile1,
+    NumberedTapIconTile2,
+    NumberedTapIconTile3,
+} from '../../common/Tutorial/icons';
 
 const styles = StyleSheet.create({
     animatedText: {
@@ -44,20 +50,18 @@ const styles = StyleSheet.create({
         opacity: 0.3,
         aspectRatio: 1,
     },
-    buildingStyle: {
-        borderWidth: 0.5,
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-        opacity: 0.7,
-    },
 });
+const GLOBAL = require('../../Globals');
 
 type Props = {
     tile: BuiltAreaTaskType,
-    mapper: Mapper,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     results: number,
     style: ViewStyleProp,
+    source: Image.ImageSourcePropType,
     tutorial: boolean,
+    closeTilePopup: () => void,
+    openTilePopup: () => void,
 };
 
 export class _Tile extends React.PureComponent<Props> {
@@ -84,8 +88,8 @@ export class _Tile extends React.PureComponent<Props> {
 
     onPressButton = () => {
         // called when a tile is tapped
-        const { mapper, results } = this.props;
-        mapper.closeTilePopup();
+        const { closeTilePopup, results } = this.props;
+        closeTilePopup();
         // find the tile status from redux results
         let tileStatus = results;
         tileStatus = (tileStatus + 1) % 4;
@@ -93,13 +97,14 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     onDismissZoom = () => {
-        const { mapper } = this.props;
-        mapper.closeTilePopup();
+        const { closeTilePopup } = this.props;
+        closeTilePopup();
     };
 
     onLongPress = () => {
-        const { mapper } = this.props;
-        mapper.openTilePopup(this.zoomRender());
+        console.log('long press');
+        const { openTilePopup } = this.props;
+        openTilePopup(this.zoomRender());
     };
 
     /**
@@ -123,7 +128,7 @@ export class _Tile extends React.PureComponent<Props> {
         return texts[random];
     }
 
-    storeResult = (result) => {
+    storeResult = result => {
         const {
             onToggleTile,
             tile: { taskId, projectId, groupId },
@@ -137,42 +142,42 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     getImgSource = () => {
-        const { tile } = this.props;
-        return { uri: tile.url };
-    };
-
-    getOsmBuildingsUrl = () => {
-        const { tile } = this.props;
-        return { uri: tile.urlB };
+        const { source } = this.props;
+        return { uri: source.uri };
     };
 
     zoomRender = () => {
+        console.log('zoom render');
         const imageSource = this.getImgSource();
-        const osmBuildingsImageSource = this.getOsmBuildingsUrl();
+        console.log(imageSource);
         return (
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
                     style={{
-                        height: 300,
-                        width: 300,
-                        borderWidth: 0.5,
-                        borderColor: 'rgba(255,255,255,0.2)',
+                        // the popped up tile almost entirely fills the screen
+                        height: 0.95 * GLOBAL.SCREEN_WIDTH,
+                        width: 0.95 * GLOBAL.SCREEN_WIDTH,
                     }}
                     source={imageSource}
-                >
-                    <ImageBackground
-                        style={{
-                            height: 300,
-                            width: 300,
-                            borderWidth: 0.5,
-                            borderColor: 'rgba(255,255,255,0.2)',
-                            opacity: 0.7,
-                        }}
-                        source={osmBuildingsImageSource}
-                    />
-                </ImageBackground>
+                />
             </TouchableHighlight>
         );
+    };
+
+    renderTapIcon = () => {
+        const { results } = this.props;
+        const tileStatus = results;
+
+        if (tileStatus === 1) {
+            return <NumberedTapIconTile1 />;
+        }
+        if (tileStatus === 2) {
+            return <NumberedTapIconTile2 />;
+        }
+        if (tileStatus === 3) {
+            return <NumberedTapIconTile3 />;
+        }
+        return null;
     };
 
     render() {
@@ -199,38 +204,7 @@ export class _Tile extends React.PureComponent<Props> {
             );
         }
         const imageSource = this.getImgSource();
-        let comp;
-
-        if (this.getOsmBuildingsUrl() !== undefined) {
-            comp = (
-                <ImageBackground
-                    style={styles.buildingStyle}
-                    source={this.getOsmBuildingsUrl()}
-                >
-                    <View
-                        style={[
-                            styles.tileOverlay,
-                            { backgroundColor: overlayColor },
-                        ]}
-                        key={`view-${taskId}`}
-                    >
-                        {animatedRows}
-                    </View>
-                </ImageBackground>
-            );
-        } else {
-            comp = (
-                <View
-                    style={[
-                        styles.tileOverlay,
-                        { backgroundColor: overlayColor },
-                    ]}
-                    key={`view-${taskId}`}
-                >
-                    {animatedRows}
-                </View>
-            );
-        }
+        const tapIcon = this.renderTapIcon();
 
         return (
             <TouchableHighlight
@@ -244,7 +218,16 @@ export class _Tile extends React.PureComponent<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    {comp}
+                    {tapIcon}
+                    <View
+                        style={[
+                            styles.tileOverlay,
+                            { backgroundColor: overlayColor },
+                        ]}
+                        key={`view-${taskId}`}
+                    >
+                        {animatedRows}
+                    </View>
                 </ImageBackground>
             </TouchableHighlight>
         );
@@ -268,15 +251,16 @@ const mapStateToProps = (state, ownProps) => {
         results = state.results[projectId][groupId][taskId];
     }
     return {
-        mapper: ownProps.mapper,
+        closeTilePopup: ownProps.closeTilePopup,
+        openTilePopup: ownProps.openTilePopup,
         results,
         tile: ownProps.tile,
         tutorial: ownProps,
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    onToggleTile: (tileInfo) => {
+const mapDispatchToProps = dispatch => ({
+    onToggleTile: tileInfo => {
         dispatch(toggleMapTile(tileInfo));
     },
 });

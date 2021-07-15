@@ -3,12 +3,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Image } from 'react-native';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import Button from 'apsl-react-native-button';
-import SplashScreen from 'react-native-splash-screen';
 import Swiper from 'react-native-swiper';
 import { NavigationActions } from 'react-navigation';
 import { withTranslation } from 'react-i18next';
+import RNBootSplash from 'react-native-bootsplash';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import { completeWelcome } from '../actions/index';
 import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     navigation: NavigationProp,
-    onWelcomeComplete: (any) => any,
+    onWelcomeComplete: any => any,
     t: TranslationFunction,
     welcomeCompleted: boolean,
 };
@@ -68,14 +68,14 @@ class _WelcomeScreen extends React.Component<Props> {
         if (welcomeCompleted) {
             this.finishWelcomeScreens();
         } else {
-            SplashScreen.hide();
+            RNBootSplash.hide();
         }
     }
 
     componentDidUpdate() {
         const { welcomeCompleted } = this.props;
         if (welcomeCompleted === undefined) {
-            SplashScreen.hide();
+            RNBootSplash.hide();
         }
     }
 
@@ -111,19 +111,19 @@ const mapStateToProps = (state, ownProps) => ({
     welcomeCompleted: state.ui.user.welcomeCompleted,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onWelcomeComplete: () => {
         dispatch(completeWelcome());
     },
 });
 
 // WelcomeScreen
-export default withTranslation('welcomeScreen')(
+export default (withTranslation('welcomeScreen')(
     connect(mapStateToProps, mapDispatchToProps)(_WelcomeScreen),
-);
+): any);
 
 type WelcomeCardProps = {
-    onCompletion: (any) => any,
+    onCompletion: any => any,
     t: TranslationFunction,
 };
 
@@ -149,7 +149,7 @@ class WelcomeCardView extends React.Component<
                 showsButtons={false}
                 loop={false}
                 /* $FlowFixMe */
-                ref={(r) => {
+                ref={r => {
                     this.swiper = r;
                 }}
             >

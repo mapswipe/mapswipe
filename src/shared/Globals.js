@@ -9,8 +9,8 @@ import {
 } from './constants';
 
 // FIXME: check the old calculation to include status bar and soft menu
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
+const screenHeight: number = Dimensions.get('window').height;
+const screenWidth: number = Dimensions.get('window').width;
 
 const tilesPerViewX = 2;
 const tilesPerViewY = 3;
@@ -19,7 +19,7 @@ const tileViewHeight = screenHeight - 40 - 30; // 40 is top bar, 30 is bottom ba
 // determine the size of a tile for built area projects
 const tileHeight = tileViewHeight / tilesPerViewY;
 const tileWidth = screenWidth / tilesPerViewX;
-const tileSize = Math.min(tileHeight, tileWidth);
+const tileSize: number = Math.min(tileHeight, tileWidth);
 
 module.exports = {
     SCREEN_WIDTH: screenWidth,

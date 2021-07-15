@@ -6,11 +6,11 @@ platform :ios do
   before_all do |lane|
     if lane != :matchDev && lane != :matchProd
       cocoapods(repo_update: true, silent: true)
-    end 
+    end
   end
 
   desc "Update dev certificates locally"
-  lane :matchDev do 
+  lane :matchDev do
       match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
   end
 
@@ -43,8 +43,15 @@ platform :ios do
 
   desc "Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created"
   lane :beta do
+    app_store_connect_api_key(
+      key_id: "4B2GC5YX57",
+      issuer_id: "69a6de7b-aa28-47e3-e053-5b8c7c11a4d1",
+      key_filepath: "./AuthKey_4B2GC5YX57.p8",
+      duration: 1200,
+      in_house: false
+    )
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false)
-    build_app(scheme: "mapswipe", configuration: "Beta", clean: true)
+    build_app(scheme: "mapswipe", configuration: "Beta", clean: true, include_symbols: true)
     upload_to_testflight(username: "mapswipe.dev@gmail.com",
                          app_identifier: "org.missingmaps.mapswipe-dev",
                          skip_waiting_for_build_processing: true

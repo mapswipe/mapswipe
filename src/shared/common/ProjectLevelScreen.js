@@ -70,12 +70,16 @@ const styles = StyleSheet.create({
 type Props = {
     categories: CategoriesType,
     Component: React.ComponentType<any>,
-    group: { [group_id: string]: GroupType },
+    group: GroupType,
     navigation: NavigationProp,
-    getNormalHelpContent: (string) => React.ComponentType<any>,
-    onCancelGroup: ({}) => void,
-    onStartGroup: ({}) => void,
-    onSubmitResult: (Object) => void,
+    getNormalHelpContent: string => React.ComponentType<any>,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onStartGroup: ({
+        groupId: string,
+        projectId: string,
+        startTime: string,
+    }) => void,
+    onSubmitResult: Object => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
     screenName: string,
@@ -117,7 +121,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
@@ -243,7 +247,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 content={content}
                 exitButtonText={t('BackToMenu')}
                 exitButtonCallback={this.returnToView}
-                getRef={(r) => {
+                getRef={r => {
                     this.backConfirmationModal = r;
                 }}
             />
@@ -270,7 +274,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 style={[styles.modal, styles.HelpModal]}
                 backdropType="blur"
                 position="center"
-                ref={(r) => {
+                ref={r => {
                     this.HelpModal = r;
                 }}
             >
@@ -345,7 +349,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     tutorialId={tutorialId}
                 />
                 <BottomProgress
-                    ref={(r) => {
+                    ref={r => {
                         this.progress = r;
                     }}
                 />
@@ -366,8 +370,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('ProjectLevelScreen'),
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
-)(ProjectLevelScreen);
+)(ProjectLevelScreen): any);

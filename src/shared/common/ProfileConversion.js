@@ -13,7 +13,7 @@ export default (firebase: Object) => {
         .database()
         .ref(userRef)
         .once('value')
-        .then((snapshot) => {
+        .then(snapshot => {
             const prof = snapshot.val();
             if (prof === null) {
                 // no old profile, it's already in v2 format

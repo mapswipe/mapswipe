@@ -3,7 +3,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { Trans, withTranslation } from 'react-i18next';
 import {
@@ -17,8 +17,8 @@ import {
 import Button from 'apsl-react-native-button';
 // $FlowFixMe
 import CheckBox from 'react-native-check-box';
-import SplashScreen from 'react-native-splash-screen';
 import { MessageBarManager } from 'react-native-message-bar';
+import RNBootSplash from 'react-native-bootsplash';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
@@ -152,7 +152,7 @@ class _Login extends React.Component<Props, State> {
 
     componentDidMount() {
         const { auth, navigation } = this.props;
-        SplashScreen.hide();
+        RNBootSplash.hide();
         if (isLoaded(auth)) {
             if (!isEmpty(auth)) {
                 this.setState({ loadingNext: true });
@@ -229,7 +229,7 @@ class _Login extends React.Component<Props, State> {
                 fb.analytics().logEvent('account_created');
                 navigation.navigate('MainNavigator');
             })
-            .catch((error) => {
+            .catch(error => {
                 let errorMsg;
                 // error codes from https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#createUserWithEmailAndPassword
                 switch (error.code) {
@@ -269,7 +269,7 @@ class _Login extends React.Component<Props, State> {
         const parent = this;
         firebase
             .login({ email, password })
-            .then((userCredentials) => {
+            .then(userCredentials => {
                 const username = userCredentials.user.user.displayName;
                 MessageBarManager.showAlert({
                     title: t('signup:success'),
@@ -280,7 +280,7 @@ class _Login extends React.Component<Props, State> {
                 convertProfileToV2Format(firebase);
                 parent.props.navigation.navigate('MainNavigator');
             })
-            .catch((error) => {
+            .catch(error => {
                 let errorMessage;
                 // error codes from
                 // https://rnfirebase.io/docs/v5.x.x/auth/reference/auth#signInWithEmailAndPassword
@@ -331,7 +331,7 @@ class _Login extends React.Component<Props, State> {
                 });
                 fb.analytics().logEvent('pass_reset_request');
             })
-            .catch((error) => {
+            .catch(error => {
                 let errorMessage;
                 switch (error.code) {
                     case 'auth/user-not-found':
@@ -394,7 +394,7 @@ class _Login extends React.Component<Props, State> {
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={(text) =>
+                    onChangeText={text =>
                         this.setState({
                             showUsernameError:
                                 text.length < MIN_USERNAME_LENGTH,
@@ -432,7 +432,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry={false}
                     style={styles.textInput}
-                    onChangeText={(text) =>
+                    onChangeText={text =>
                         this.setState({ email: text.replace(' ', '') })
                     }
                     value={email}
@@ -449,7 +449,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={styles.textInput}
-                    onChangeText={(text) =>
+                    onChangeText={text =>
                         this.setState({
                             password: text,
                             showPasswordError:
@@ -550,7 +550,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     style={[styles.textInput, { marginBottom: 28 }]}
                     secureTextEntry={false}
-                    onChangeText={(text) =>
+                    onChangeText={text =>
                         this.setState({ email: text.replace(' ', '') })
                     }
                     value={email}
@@ -564,7 +564,7 @@ class _Login extends React.Component<Props, State> {
                     placeholderTextColor={COLOR_WHITE}
                     secureTextEntry
                     style={[styles.textInput, { marginBottom: 30 }]}
-                    onChangeText={(text) => this.setState({ password: text })}
+                    onChangeText={text => this.setState({ password: text })}
                     value={password}
                 />
                 <Text style={styles.legalText}>
@@ -626,7 +626,7 @@ class _Login extends React.Component<Props, State> {
                     placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={(text) =>
+                    onChangeText={text =>
                         this.setState({ email: text.replace(' ', '') })
                     }
                     value={email}
@@ -694,4 +694,4 @@ const enhance = compose(
     connect(mapStateToProps),
 );
 
-export default enhance(_Login);
+export default (enhance(_Login): any);

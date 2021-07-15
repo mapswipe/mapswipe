@@ -8,7 +8,7 @@ const ui = combineReducers({
     user,
 });
 
-const rootReducers = combineReducers({
+const rootReducers: any = combineReducers({
     firebase: firebaseReducer,
     results,
     ui,

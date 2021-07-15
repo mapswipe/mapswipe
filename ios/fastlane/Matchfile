@@ -6,6 +6,10 @@ clone_branch_directly true
 app_identifier("org.missingmaps.mapswipe")
 username("mapswipe.dev@gmail.com") # Your Apple Developer Portal username
 
+# Tell fastlane where the private key to access gitlab over ssh
+# for signing certificates is.
+git_private_key("cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci")
+
 team_id("N4W28E5PA4")
 
 # For all available options run `fastlane match --help`

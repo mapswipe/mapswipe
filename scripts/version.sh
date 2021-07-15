@@ -54,21 +54,34 @@ if [[ ! "$buildNumber" =~ $build_check ]]; then
     exit 1
 fi
 
+echo
 echo "Releasing version $versionNumber build $buildNumber"
 
 tag="$versionNumber($buildNumber)"
 
-echo "Release version in beta or Prod ?"
-  select yn in "Beta" "Prod"; do
-    case $yn in
-      Beta ) tag="$tag-beta"; break;;
-      Prod ) break;;
-    esac
-  done
+# ensure we only get production releases from the master branch
+# any other branch will yield a beta release
+current_branch=`git branch --show-current`
+if [[ "$current_branch" = "master" ]]; then
+    echo "On branch "master", doing a  production release"
+else
+    echo "On branch $current_branch, doing a beta release"
+    # add a "beta" extension to the git tag
+    tag="$tag-beta"
+fi
+
+# get a final  confirmation to allow user to bail out
+read -p "All set? (y/n) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    echo "Aborting"
+    exit 1
+fi
 
 # run checks before creating the new version
 yarn lint
-yarn flow
+# yarn flow
 # FIXME: restore yarn test here, they're broken right now because of native-testing-library, it seems
 
 # update package.json with the new version and build numbers
@@ -82,7 +95,7 @@ if [[ "$OSTYPE" =~ "darwin*" ]]; then
 else
   # update the various ios files from linux. There is no native tool there to do this,
   # so we rely on sed...
-    plistFiles="ios/mapswipe-tvOS/Info.plist ios/mapswipe-tvOSTests/Info.plist ios/mapswipe/Info.plist ios/mapswipeTests/Info.plist ios/mapswipeUITests/Info.plist"
+    plistFiles="ios/mapswipe/Info.plist ios/mapswipeTests/Info.plist ios/mapswipeUITests/Info.plist"
     for f in $plistFiles
     do
         sed -i -e "/CFBundleShortVersionString<\/key>$/{n;s/\(.*\)<string>.*<\/string>/\1<string>$versionNumber<\/string>/}" $f
