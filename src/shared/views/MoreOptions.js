@@ -15,7 +15,6 @@ import {
     StyleSheet,
     Image,
     TouchableWithoutFeedback,
-    Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
