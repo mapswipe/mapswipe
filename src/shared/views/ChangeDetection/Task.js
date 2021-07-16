@@ -73,13 +73,8 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
 
     // $FlowFixMe
     render = () => {
-        const {
-            index,
-            onToggleTile,
-            task,
-            openTilePopup,
-            closeTilePopup,
-        } = this.props;
+        const { index, onToggleTile, task, openTilePopup, closeTilePopup } =
+            this.props;
         if (!task) {
             return <LoadingIcon />;
         }

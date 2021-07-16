@@ -15,6 +15,7 @@ import Button from 'apsl-react-native-button';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { withTranslation } from 'react-i18next';
+import Modal from 'react-native-modalbox';
 import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
@@ -30,7 +31,6 @@ import { COLOR_DEEP_BLUE } from './constants';
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
 const { MessageBarManager } = require('react-native-message-bar');
-const Modal = require('react-native-modalbox');
 
 const ProjectView = require('./views/ProjectView');
 const GLOBAL = require('./Globals');

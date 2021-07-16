@@ -147,9 +147,10 @@ export function commitGroupFailed(
 }
 
 type CommitTaskSuccess = { type: typeof COMMIT_TASK_SUCCESS, taskId: number };
-export function commitTaskSuccess(
+export function commitTaskSuccess(taskId: string): {
     taskId: string,
-): { taskId: string, type: string } {
+    type: string,
+} {
     return { type: COMMIT_TASK_SUCCESS, taskId };
 }
 

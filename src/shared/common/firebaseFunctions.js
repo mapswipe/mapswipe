@@ -71,7 +71,8 @@ type PropsForGroup = {
     tutorial: boolean,
 };
 
-export const mapStateToPropsForGroups = (tutorialId?: string): PropsForGroup =>
+export const mapStateToPropsForGroups =
+    (tutorialId?: string): PropsForGroup =>
     // This function is a common mapStateToProps used to fetch groups from firebase.
     // It looks at a few things to decide which group to fetch, based on the project
     // object that is passed as an argument to the navigation object.
@@ -110,9 +111,8 @@ export const mapStateToPropsForGroups = (tutorialId?: string): PropsForGroup =>
             if (tutorial) {
                 // we pick some items from the tutorial project instead of the initial
                 // project object
-                ({ exampleImage1, exampleImage2, screens } = data[prefix][
-                    projectId
-                ]);
+                ({ exampleImage1, exampleImage2, screens } =
+                    data[prefix][projectId]);
             }
         }
         if (groups && isLoaded(groups)) {

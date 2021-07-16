@@ -77,8 +77,8 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
-            onMoveShouldSetPanResponderCapture: this
-                .handleMoveShouldSetPanResponder,
+            onMoveShouldSetPanResponderCapture:
+                this.handleMoveShouldSetPanResponder,
             onPanResponderGrant: this.handlePanResponderGrant,
             onPanResponderRelease: this.handlePanResponderEnd,
             onPanResponderTerminate: this.handlePanResponderTerminate,

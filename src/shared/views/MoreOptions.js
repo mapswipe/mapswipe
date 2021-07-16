@@ -15,7 +15,6 @@ import {
     StyleSheet,
     Image,
     TouchableWithoutFeedback,
-    Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
@@ -48,8 +47,8 @@ const styles = StyleSheet.create({
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 30,
-        padding: Platform.OS === 'ios' ? 0 : 12,
-        marginTop: 10,
+        padding: 0,
+        margin: 5,
         borderWidth: 0,
     },
     row: {
@@ -232,7 +231,8 @@ class _MoreOptions extends React.Component<MOProps> {
             )
                 ? profile.taskContributionCount
                 : 0;
-        const deleteAccountConfirmationModal = this.renderDeleteAccountConfirmationModal();
+        const deleteAccountConfirmationModal =
+            this.renderDeleteAccountConfirmationModal();
 
         // determine the text to show on the level progress bar
         let kmTillNextLevelToShow = kmTillNextLevel;
