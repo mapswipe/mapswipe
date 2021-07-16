@@ -40,8 +40,7 @@ import type {
     TranslationFunction,
     UserProfile,
 } from '../flow-types';
-
-const Modal = require('react-native-modalbox');
+import Modal from 'react-native-modalbox';
 const GLOBAL = require('../Globals');
 
 /* eslint-disable global-require */

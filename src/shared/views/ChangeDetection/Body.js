@@ -36,7 +36,7 @@ import {
     // CHANGE_DETECTION,
 } from '../../constants';
 
-const Modal = require('react-native-modalbox');
+import Modal from 'react-native-modalbox';
 const GLOBAL = require('../../Globals');
 
 /* eslint-disable global-require */

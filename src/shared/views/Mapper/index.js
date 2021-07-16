@@ -25,7 +25,7 @@ import type {
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
 
-const Modal = require('react-native-modalbox');
+import Modal from 'react-native-modalbox';
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
