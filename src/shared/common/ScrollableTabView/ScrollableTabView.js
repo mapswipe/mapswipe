@@ -232,13 +232,13 @@ class ScrollableTabView extends React.Component<Props, State> {
         });
     }
 
-    _onMomentumScrollBeginAndEnd(e) {
+    _onMomentumScrollBeginAndEnd = e => {
         const offsetX = e.nativeEvent.contentOffset.x;
         const page = Math.round(offsetX / this.state.containerWidth);
         if (this.state.currentPage !== page) {
             this._updateSelectedPage(page);
         }
-    }
+    };
 
     _updateSelectedPage = nextPage => {
         let localNextPage = nextPage;
