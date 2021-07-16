@@ -24,6 +24,9 @@ jobs:
         with:
           ruby-version: '2.7.3'
 
+      - name: Install Fastlane
+        run: bundle install
+
       - name: Decode sentry.properties
         env:
           SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
