@@ -5,7 +5,7 @@
   react/no-access-state-in-setstate,
   class-methods-use-this */
 import * as React from 'react';
-import { Dimensions, View, Animated, Platform, StyleSheet } from 'react-native';
+import { View, Animated, Platform, StyleSheet } from 'react-native';
 
 // const TimerMixin = require('react-timer-mixin');
 import PagerView from 'react-native-pager-view';
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
+const GLOBAL = require('../../Globals');
 
 const AnimatedViewPagerAndroid =
     Platform.OS === 'android'
@@ -70,7 +71,7 @@ class ScrollableTabView extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        const windowWidth = Dimensions.get('window').width;
+        const windowWidth = GLOBAL.SCREEN_WIDTH;
         let scrollValue;
         let scrollXIOS;
         let positionAndroid;

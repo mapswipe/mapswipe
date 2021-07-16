@@ -8,7 +8,8 @@ const { View, Animated, StyleSheet, ScrollView, Text, Platform, Dimensions } =
     ReactNative;
 const Button = require('./Button');
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
+const GLOBAL = require('../../Globals');
+const WINDOW_WIDTH = GLOBAL.SCREEN_WIDTH;
 
 const ScrollableTabBar = createReactClass({
     propTypes: {
