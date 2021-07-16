@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { withTranslation } from 'react-i18next';
+import Modal from 'react-native-modalbox';
 import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
@@ -36,7 +37,6 @@ import {
     // CHANGE_DETECTION,
 } from '../../constants';
 
-import Modal from 'react-native-modalbox';
 const GLOBAL = require('../../Globals');
 
 /* eslint-disable global-require */

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { Trans, withTranslation } from 'react-i18next';
+import Modal from 'react-native-modalbox';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
     firebaseConnectGroup,
@@ -25,7 +26,6 @@ import type {
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
 
-import Modal from 'react-native-modalbox';
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({

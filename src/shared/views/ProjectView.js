@@ -20,6 +20,7 @@ import Button from 'apsl-react-native-button';
 
 // $FlowFixMe
 import Markdown from 'react-native-simple-markdown';
+import Modal from 'react-native-modalbox';
 import ConnectionManager from '../ConnectionManager';
 import {
     BUILDING_FOOTPRINTS,
@@ -40,7 +41,7 @@ import type {
     TranslationFunction,
     UserProfile,
 } from '../flow-types';
-import Modal from 'react-native-modalbox';
+
 const GLOBAL = require('../Globals');
 
 /* eslint-disable global-require */
