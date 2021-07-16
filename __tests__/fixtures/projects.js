@@ -17,8 +17,7 @@ export default {
             contributorCount: 0,
             created: 1557402812.975345,
             tileServer: {
-                url:
-                    'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                 name: 'bing',
                 apiKey: 'someapikey',
             },
@@ -29,8 +28,7 @@ export default {
             numberOfTasks: 6255,
             groupSize: 20,
             groupMaxSize: 0,
-            image:
-                'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
+            image: 'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
             isFeatured: false,
         },
         '-LeHBeL2stS355zoovrJ': {
@@ -46,8 +44,7 @@ export default {
             zoomLevel: 14,
             tileServer: {
                 wmtsLayerName: 'FALSE_COLOR',
-                url:
-                    'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
+                url: 'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
                 name: 'sinergise',
                 apiKey: 'someapikey',
             },
@@ -58,8 +55,7 @@ export default {
             numberOfTasks: 108,
             groupSize: 50,
             groupMaxSize: 0,
-            image:
-                'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+            image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
             isFeatured: false,
         },
         '-LeHBeH7KCvowivQWxy-': {
@@ -74,8 +70,7 @@ export default {
             created: 1557230970.982896,
             zoomLevel: 18,
             tileServer: {
-                url:
-                    'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                 name: 'bing',
                 apiKey: 'someapikey',
             },
@@ -86,8 +81,7 @@ export default {
             numberOfTasks: 15120,
             groupSize: 50,
             groupMaxSize: 0,
-            image:
-                'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+            image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
             isFeatured: true,
         },
     },
@@ -106,8 +100,7 @@ export default {
                 created: 1557230970.982896,
                 zoomLevel: 18,
                 tileServer: {
-                    url:
-                        'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                    url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                     name: 'bing',
                     apiKey: 'someapikey',
                 },
@@ -118,8 +111,7 @@ export default {
                 numberOfTasks: 15120,
                 groupSize: 50,
                 groupMaxSize: 0,
-                image:
-                    'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+                image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
                 isFeatured: true,
             },
         },
@@ -138,8 +130,7 @@ export default {
                 zoomLevel: 14,
                 tileServer: {
                     wmtsLayerName: 'FALSE_COLOR',
-                    url:
-                        'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
+                    url: 'https://services.sentinel-hub.com/ogc/wmts/{key}?request=getTile&tilematrixset=PopularWebMercator256&tilematrix={z}&tilecol={x}&tilerow={y}&layer={name}',
                     name: 'sinergise',
                     apiKey: 'someapikey',
                 },
@@ -150,8 +141,7 @@ export default {
                 numberOfTasks: 108,
                 groupSize: 50,
                 groupMaxSize: 0,
-                image:
-                    'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
+                image: 'http://www.redcrosseth.org/media/k2/items/cache/5a05a447acfdf6fcc40548cc4c1cea8d_L.jpg',
                 isFeatured: false,
             },
         },
@@ -169,8 +159,7 @@ export default {
                 contributorCount: 0,
                 created: 1557402812.975345,
                 tileServer: {
-                    url:
-                        'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
+                    url: 'http://t0.tiles.virtualearth.net/tiles/a{quad_key}.jpeg?g=854&mkt=en-US&token={key}',
                     name: 'bing',
                     apiKey: 'someapikey',
                 },
@@ -181,8 +170,7 @@ export default {
                 numberOfTasks: 6255,
                 groupSize: 20,
                 groupMaxSize: 0,
-                image:
-                    'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
+                image: 'https://disastermappers.files.wordpress.com/2017/01/msf_bild_aweil2.jpeg?w=680',
                 isFeatured: false,
             },
         },

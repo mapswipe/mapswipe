@@ -79,4 +79,4 @@ class LoadingComponent extends React.Component<Props, State> {
     }
 }
 
-export default withTranslation('LoadingIcon')(LoadingComponent);
+export default (withTranslation('LoadingIcon')(LoadingComponent): any);

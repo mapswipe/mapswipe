@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { withTranslation } from 'react-i18next';
+import Modal from 'react-native-modalbox';
 import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
@@ -23,12 +24,12 @@ import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TaskList from './TaskList';
 import type {
-    CategoriesType,
     ChangeDetectionGroupType,
     NavigationProp,
     ProjectType,
     ResultMapType,
     TranslationFunction,
+    TutorialContent,
 } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -46,26 +47,41 @@ const styles = StyleSheet.create({
         flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
+    tilePopup: {
+        // Make sure that popped up tile is displayed in
+        // the center of the screen
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+    },
 });
 
 type Props = {
-    categories: CategoriesType,
-    group: { [group_id: string]: ChangeDetectionGroupType },
+    screens: Array<TutorialContent>,
+    group: ChangeDetectionGroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
-    onStartGroup: ({}) => void,
-    onSubmitResult: (Object) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onStartGroup: ({
+        groupId: string,
+        projectId: string,
+        startTime: string,
+    }) => void,
+    onSubmitResult: Object => void,
     results: ResultMapType,
     screenName: string,
     t: TranslationFunction,
     tutorial: boolean,
+    tutorialId: string,
 };
 
 type State = {
     groupCompleted: boolean,
+    poppedUpTile: React.Node,
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
+    currentX: number;
+
     backConfirmationModal: ?React.ComponentType<void>;
 
     HelpModal: ?React.ComponentType<void>;
@@ -74,11 +90,15 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     project: ProjectType;
 
+    tilePopup: ?React.ComponentType<void>;
+
     constructor(props: Props) {
         super(props);
         this.project = props.navigation.getParam('project');
+        // the number of screens that the initial tutorial intro covers
         this.state = {
             groupCompleted: false,
+            poppedUpTile: null,
         };
     }
 
@@ -86,7 +106,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = prevProps => {
         const { group, onStartGroup } = this.props;
         if (prevProps.group !== group) {
             if (isLoaded(group) && !isEmpty(group)) {
@@ -100,6 +120,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     projectId: group.projectId,
                     startTime: GLOBAL.DB.getTimestamp(),
                 });
+                console.log('start time:');
+                console.log(GLOBAL.DB.getTimestamp());
                 if (group.tasks !== undefined) {
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
@@ -189,6 +211,24 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         }
     };
 
+    openTilePopup = tile => {
+        console.log('open tile popup');
+        console.log(tile);
+        this.setState({
+            poppedUpTile: tile,
+        });
+        // $FlowFixMe
+        this.tilePopup.open();
+    };
+
+    closeTilePopup = () => {
+        this.setState({
+            poppedUpTile: <View />,
+        });
+        // $FlowFixMe
+        this.tilePopup.close();
+    };
+
     renderBackConfirmationModal = () => {
         const { t } = this.props;
         const content = (
@@ -205,7 +245,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 content={content}
                 exitButtonText={t('ProjectLevelScreen:BackToMenu')}
                 exitButtonCallback={this.returnToView}
-                getRef={(r) => {
+                getRef={r => {
                     this.backConfirmationModal = r;
                 }}
             />
@@ -213,16 +253,12 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     render = () => {
-        const {
-            categories,
-            group,
-            navigation,
-            results,
-            t,
-            tutorial,
-        } = this.props;
-        const { groupCompleted } = this.state;
+        const { group, navigation, results, screens, t, tutorial, tutorialId } =
+            this.props;
+        const { groupCompleted, poppedUpTile } = this.state;
+
         if (!group) {
+            console.log('no group information available.');
             return <LoadingIcon />;
         }
 
@@ -238,6 +274,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
+
         return (
             <View style={styles.mappingContainer}>
                 <Header
@@ -250,7 +287,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 />
                 {backConfirmationModal}
                 <TaskList
-                    categories={tutorial ? categories : null}
+                    screens={tutorial ? screens : null}
                     commitCompletedGroup={this.commitCompletedGroup}
                     group={group}
                     navigation={navigation}
@@ -259,6 +296,10 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     submitResult={this.submitResult}
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
+                    tutorialId={tutorialId}
+                    closeTilePopup={this.closeTilePopup}
+                    openTilePopup={this.openTilePopup}
+                    zoomLevel={this.project.zoomLevel}
                 />
                 <View>
                     <TouchableWithoutFeedback
@@ -279,10 +320,20 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     </TouchableWithoutFeedback>
                 </View>
                 <BottomProgress
-                    ref={(r) => {
+                    ref={r => {
                         this.progress = r;
                     }}
                 />
+                <Modal
+                    style={styles.tilePopup}
+                    entry="bottom"
+                    position="center"
+                    ref={r => {
+                        this.tilePopup = r;
+                    }}
+                >
+                    {poppedUpTile}
+                </Modal>
             </View>
         );
     };
@@ -300,8 +351,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
 });
 
-export default compose(
+export default (compose(
     withTranslation('CDBodyScreen'),
     firebaseConnectGroup(),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
-)(_ChangeDetectionBody);
+)(_ChangeDetectionBody): any);

@@ -1,9 +1,10 @@
 // @flow
+import type { Node } from 'react';
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import {
     Text,
     View,
@@ -19,6 +20,7 @@ import Button from 'apsl-react-native-button';
 
 // $FlowFixMe
 import Markdown from 'react-native-simple-markdown';
+import Modal from 'react-native-modalbox';
 import ConnectionManager from '../ConnectionManager';
 import {
     BUILDING_FOOTPRINTS,
@@ -40,7 +42,6 @@ import type {
     UserProfile,
 } from '../flow-types';
 
-const Modal = require('react-native-modalbox');
 const GLOBAL = require('../Globals');
 
 /* eslint-disable global-require */
@@ -239,7 +240,7 @@ type Props = {
 };
 
 /* eslint-disable react/destructuring-assignment */
-const ProjectView = (props: Props) => (
+const ProjectView = (props: Props): Node => (
     <ProjectHeader
         style={style.headerContainer}
         navigation={props.navigation}
@@ -261,6 +262,7 @@ type HeaderState = {
 };
 
 class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
+    // $FlowFixMe
     offlineModal: ?Modal;
 
     constructor(props) {
@@ -431,7 +433,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         const { isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
-        chunks.forEach((chunk) => {
+        chunks.forEach(chunk => {
             renderQueue.push(chunk, '\n');
         });
 
@@ -557,7 +559,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                     });
                                     break;
                                 case CHANGE_DETECTION:
-                                    navigation.push('CDInstructionsScreen', {
+                                    navigation.push('ChangeDetectionScreen', {
                                         project,
                                         tutorial: true,
                                     });
@@ -594,7 +596,7 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                     style={[style.modal, style.offlineModal]}
                     backdropType="blur"
                     position="center"
-                    ref={(r) => {
+                    ref={r => {
                         this.offlineModal = r;
                     }}
                     isDisabled={isDisabled}

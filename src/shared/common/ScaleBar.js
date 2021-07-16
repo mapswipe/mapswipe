@@ -42,14 +42,9 @@ const getScaleBar = (meters, feet, tileWidth, referenceSize) => {
     return p;
 };
 
-export default (props: Props) => {
-    const {
-        alignToBottom,
-        latitude,
-        useScreenWidth,
-        visible,
-        zoomLevel,
-    } = props;
+export default (props: Props): React.Node => {
+    const { alignToBottom, latitude, useScreenWidth, visible, zoomLevel } =
+        props;
 
     // calculate the width of one tile (in meters)
     // this magic formula comes from

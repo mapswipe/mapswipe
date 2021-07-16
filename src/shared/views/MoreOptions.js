@@ -4,7 +4,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
-import fb from 'react-native-firebase';
+import fb from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
 import {
     Alert,
@@ -15,7 +15,6 @@ import {
     StyleSheet,
     Image,
     TouchableWithoutFeedback,
-    Platform,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
@@ -48,8 +47,8 @@ const styles = StyleSheet.create({
     otherButton: {
         width: GLOBAL.SCREEN_WIDTH,
         height: 30,
-        padding: Platform.OS === 'ios' ? 0 : 12,
-        marginTop: 10,
+        padding: 0,
+        margin: 5,
         borderWidth: 0,
     },
     row: {
@@ -203,7 +202,7 @@ class _MoreOptions extends React.Component<MOProps> {
                 // $FlowFixMe
                 exitButtonCallback={this.deleteUserAccount}
                 exitButtonText={t('yes delete it')}
-                getRef={(r) => {
+                getRef={r => {
                     this.deleteAccountConfirmationModal = r;
                 }}
             />
@@ -232,7 +231,8 @@ class _MoreOptions extends React.Component<MOProps> {
             )
                 ? profile.taskContributionCount
                 : 0;
-        const deleteAccountConfirmationModal = this.renderDeleteAccountConfirmationModal();
+        const deleteAccountConfirmationModal =
+            this.renderDeleteAccountConfirmationModal();
 
         // determine the text to show on the level progress bar
         let kmTillNextLevelToShow = kmTillNextLevel;
@@ -269,11 +269,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         {t('youve completed x tasks', { contributions })}
                     </Text>
                 </View>
-                <LevelProgress
-                    kmTillNextLevel={kmTillNextLevel}
-                    progress={progress}
-                    text={levelProgressText}
-                />
+                <LevelProgress progress={progress} text={levelProgressText} />
                 {teamId && (
                     <View style={styles.row}>
                         <Text
@@ -385,7 +381,7 @@ const enhance = compose(
     connect(mapStateToProps),
 );
 
-export default enhance(_MoreOptions);
+export default (enhance(_MoreOptions): any);
 
 type SBState = {
     offset: number,

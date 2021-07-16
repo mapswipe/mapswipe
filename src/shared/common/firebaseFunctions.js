@@ -5,12 +5,13 @@
 // data structure. This should prevent too much code reuse, and variety of bugs...
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import get from 'lodash.get';
+import type { GroupType, ResultType } from '../flow-types';
 
-export const firebaseConnectGroup = (tutorialId?: string) =>
+export const firebaseConnectGroup = (tutorialId?: string): any =>
     // the tutorialId parameter is not really used at this point, but we keep it
     // for now, as it potentially allows setting a default value for tutorials
     // quite easily.
-    firebaseConnect((props) => {
+    firebaseConnect(props => {
         const tutorial = props.navigation.getParam('tutorial', false);
         let tutorialProjectId;
         // TODO: revisit this later, once the new tutorial format is used everywhere
@@ -59,7 +60,19 @@ export const firebaseConnectGroup = (tutorialId?: string) =>
         return [];
     });
 
-export const mapStateToPropsForGroups = (tutorialId?: string) =>
+type PropsForGroup = {
+    exampleImage1: string,
+    exampleImage2: string,
+    screens: Array<any>,
+    group: GroupType,
+    navigation: any,
+    onInfoPress: () => void,
+    results: Array<ResultType>,
+    tutorial: boolean,
+};
+
+export const mapStateToPropsForGroups =
+    (tutorialId?: string): PropsForGroup =>
     // This function is a common mapStateToProps used to fetch groups from firebase.
     // It looks at a few things to decide which group to fetch, based on the project
     // object that is passed as an argument to the navigation object.
@@ -98,9 +111,8 @@ export const mapStateToPropsForGroups = (tutorialId?: string) =>
             if (tutorial) {
                 // we pick some items from the tutorial project instead of the initial
                 // project object
-                ({ exampleImage1, exampleImage2, screens } = data[prefix][
-                    projectId
-                ]);
+                ({ exampleImage1, exampleImage2, screens } =
+                    data[prefix][projectId]);
             }
         }
         if (groups && isLoaded(groups)) {
@@ -112,7 +124,7 @@ export const mapStateToPropsForGroups = (tutorialId?: string) =>
             const groupsAvailable = Object.keys(groups);
             // eslint-disable-next-line prefer-destructuring
             const groupsToPickFrom = groupsAvailable.filter(
-                (g) => !groupsMapped.includes(g),
+                g => !groupsMapped.includes(g),
             );
             groupId =
                 groupsToPickFrom[

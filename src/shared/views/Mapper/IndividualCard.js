@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 type ICProps = {
     card: Array<BuiltAreaTaskType>,
     closeTilePopup: () => void,
-    onToggleTile: (ResultType) => void,
+    onToggleTile: ResultType => void,
     openTilePopup: () => void,
     t: TranslationFunction,
     tutorial: boolean,
@@ -77,8 +77,8 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
-            onMoveShouldSetPanResponderCapture: this
-                .handleMoveShouldSetPanResponder,
+            onMoveShouldSetPanResponderCapture:
+                this.handleMoveShouldSetPanResponder,
             onPanResponderGrant: this.handlePanResponderGrant,
             onPanResponderRelease: this.handlePanResponderEnd,
             onPanResponderTerminate: this.handlePanResponderTerminate,
@@ -102,9 +102,9 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         this.setState({ showSwipeHelp: true });
     };
 
-    setAllTilesTo = (value) => {
+    setAllTilesTo = value => {
         const { card, onToggleTile } = this.props;
-        card.forEach((tile) => {
+        card.forEach(tile => {
             onToggleTile({
                 groupId: tile.groupId,
                 resultId: tile.taskId,
@@ -149,7 +149,7 @@ class _IndividualCard extends React.Component<ICProps, ICState> {
         const { showSwipeHelp } = this.state;
 
         const tiles = [];
-        card.forEach((tile) => {
+        card.forEach(tile => {
             tiles.push(
                 <Tile
                     closeTilePopup={closeTilePopup}
@@ -178,13 +178,13 @@ const mapStateToProps = (state, ownProps) => ({
     tutorial: ownProps.tutorial,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    onToggleTile: (tileInfo) => {
+const mapDispatchToProps = dispatch => ({
+    onToggleTile: tileInfo => {
         dispatch(toggleMapTile(tileInfo));
     },
 });
 
 // IndividualCard
-export default withTranslation('IndividualCard')(
+export default (withTranslation('IndividualCard')(
     connect(mapStateToProps, mapDispatchToProps)(_IndividualCard),
-);
+): any);

@@ -80,7 +80,7 @@ const onPressDebugBox = () => {
 };
 
 /* eslint-disable global-require */
-const Header = (props: Props) => {
+const Header = (props: Props): React.Node => {
     const { lookFor, onBackPress, onInfoPress } = props;
     const { t } = useTranslation('mappingHeader');
     return (
@@ -115,7 +115,7 @@ const Header = (props: Props) => {
 };
 
 Header.defaultProps = {
-    onInfoPress: () => undefined,
+    onInfoPress: (): void => undefined,
 };
 
 export default Header;

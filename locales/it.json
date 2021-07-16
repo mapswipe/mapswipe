@@ -1,0 +1,201 @@
+{
+  "mainHeader": {
+    "missions": "Missioni",
+    "more": "Altro"
+  },
+  "signup": {
+    "chooseUsername": "Scegli il tuo nome utente",
+    "passwordError": "La password deve essere lunga almeno 6 caratteri",
+    "usernameError": "Il nome utente deve essere lungo almeno 4 caratteri",
+    "errorOnSignup": "Errore durante la registrazione",
+    "usernameErrorMessage": "Il tuo nome utente deve contenere almeno 4 caratteri",
+    "usernameNotEmail": "Il tuo nome utente non può essere un indirizzo e-mail",
+    "usernamePublic": "Il tuo nome utente sarà visibile pubblicamente",
+    "success": "Successo",
+    "welcomeToMapSwipe": "Benvenuto/a su MapSwipe, {{username}}",
+    "emailAlreadyUsed": "Indirizzo e-mail già utilizzato da un’altra utenza",
+    "emailInvalid": "Indirizzo e-mail non valido",
+    "problemSigningUp": "Problema durante la registrazione",
+    "errorOnSignUp": "Errore durante la registrazione",
+    "checkYourEmail": "Controlla la tua posta",
+    "noAccountFoundForEmail": "Nessuna utenza trovata per questo indirizzo e-mail",
+    "problemResettingPassword": "Problema durante la reimpostazione della tua password",
+    "errorLogIn": "Errore durante l’accesso",
+    "invalidEmailPassword": "Indirizzo e-mail o password non validi",
+    "accountDisabled": "Utenza disabilitata",
+    "problemLoggingIn": "Problema durante l’accesso",
+    "errorResetPass": "Errore durante la reimpostazione della password",
+    "enterYourEmail": "Inserisci il tuo indirizzo e-mail",
+    "choosePassword": "Scegli una password",
+    "enterYourPassword": "Inserisci la password",
+    "IagreeToPrivacyNotice": "Accetto la <1>normativa sulla privacy</1>",
+    "contributionWarningOnSignup": "* Tutti i dati che inserirai in MapSwipe sono liberi e disponibili a chiunque. Il tuo nome utente è pubblico ma il tuo indirizzo e-mail e la password non saranno mai condivisi con qualcuno.",
+    "signUp": "Registrati",
+    "loginExistingAccount": "Accedi con una utenza già esistente",
+    "login": "Accedi",
+    "forgotPassword": "Hai dimenticato la password?",
+    "createNewAccount": "Crea una nuova utenza",
+    "sendResetEmailWarning": "* Ti invieremo una e-mail per reimpostare la tua password",
+    "sendResetEmail": "Invia e-mail di reimpostazione",
+    "backToLogin": "Torna all’accesso"
+  },
+  "login": {
+    "enterUsername": "Inserisci il tuo nome utente"
+  },
+  "profileScreen": {
+    "Level X": "Livello {{level}}",
+    "youve completed x tasks": "Hai completato {{contributions}} compiti!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} compiti ({{swipes}} scorrimenti) per il prossimo livello",
+    "yourTeam": "La tua squadra: {{teamName}}",
+    "changeLanguage": "Cambia lingua",
+    "mapswipe website": "Sito web MapSwipe",
+    "missingmaps website": "Sito web Missing Maps",
+    "email us": "Inviaci una e-mail",
+    "sign out": "Esci",
+    "delete my account": "Cancella la mia utenza",
+    "delete account question": "Cancellare l’utenza?",
+    "delete account warning": "Perderai tutti i progressi fatti finora e le tue medaglie. Le tue contribuzioni rimarranno pubbliche ma non saranno più associate alla tua utenza.\nVuoi continuare?",
+    "no keep my account": "No, tieni la mia utenza",
+    "yes delete it": "Sì, cancellala!"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% da {{mappersCount}} mappatori"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% PROGRESSO GLOBALE DA {{contributorCount}} MAPPATORI COME TE.",
+    "userProgressForProject": "{{userProgress}}% per questo progetto",
+    "quotaReachedWarning": "Scegli un altro progetto dalle schermate delle missioni",
+    "map now": "Mappa adesso",
+    "chooseAnotherProject": "Scegli un altro progetto",
+    "tutorial": "Tutorial"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Stai cercando:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Bene. Hai completato il tutorial. Sei pronto per iniziare a mappare!",
+    "finishedGroup": "Bel lavoro! Hai completato questo gruppo.",
+    "letsGo": "Andiamo!",
+    "completeSession": "Completa la sessione",
+    "continueMapping": "Continua a mappare",
+    "sync alert": "Avviso di sincronizzazione",
+    "sync alert message": "Sincronizzazione dei tuoi compiti… Non chiudere l’app."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Bevenuto/a su MapSwipe",
+    "helpImprove": "Aiuta a migliorare gli interventi umanitari comodamente dal tuo smartphone",
+    "partMissingMaps": "Fa parte di Missing Maps",
+    "withMissingMaps": "Lo scopo di Missing Maps è quello di mettere sulla mappa le comunità più vulnerabili del mondo",
+    "swipe": "Scorri",
+    "completeTasks": "Completa i compiti scorrendo attraverso le immagini satellitari di aree che richiedono di essere mappate",
+    "createData": "Crea dati significativi",
+    "dataUse": "I dati vengono utilizzati per focalizzare l’impegno dei volontari di Missing Maps per aggiungere dettagli su OpenStreetMap",
+    "saveLives": "Salva delle vite",
+    "mapHelps": "La mappa aiuta le organizzazioni a coordinare l’impegno umanitario e a salvare delle vite"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Istruzioni",
+    "your task": "Il tuo compito:",
+    "lookingFor": "Stai cercando<1>modifiche agli edifici</1>. Ciò è un chiaro indicatore per un cambiamento demografico.",
+    "perform task": "Come lavorare a questo compito:",
+    "noChanges": "Se non vi sono modifiche, <1>scorri</1> semplicemente verso nel prossime foto",
+    "seeChanges": "Se vedi un cambiamento negli edifici, <1>tocca una volta</1> e la mattonella diventerà verde",
+    "unsure": "Non sei sicuro? <1>Tocca due volte</1> e la mattonella diventerà gialla",
+    "badImagery": "Ci sono problemi con le immagini, come ad esempio delle nuvole che coprono la visuale? <1>Tocca tre volte</1> e la mattonella diverrà rossa.",
+    "holdZoom": "Se necessiti di vedere l’immagina da più vicino, toccala e tieni premuto e la vedrai un po’ più ingrandita.",
+    "hint": "Consiglio:",
+    "differentImagery": "Talvolta saranno utilizzate fonti di immagini differenti. Le immagini potrebbero essere leggermente disallineate o con risoluzione diversa. Ricordati: stai cercando <1>cambiamenti marcati in edifici e insediamenti</1> quindi se ti sembrano gli stessi edifici, ma forse uno ha un tetto nuovo, allora si tratta di un caso di 'nessuna modifica' e dovresti semplicemente scorrere alla prossima immagine."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Vedi istruzioni"
+  },
+  "CDTaskScreen": {
+    "before": "Prima",
+    "after": "Dopo"
+  },
+  "CDValidator": {
+    "Yes": "Sì",
+    "No": "No",
+    "NotSure": "Non sono sicuro",
+    "BadImagery": "Immagini errate"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Ho capito",
+    "StopMappingAndReturn": "Vuoi smettere di mappare e ritornare al menù?",
+    "ContinueMapping": "Continua a mappare",
+    "BackToMenu": "Torna al menù"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Scorri verso il BASSO per segnare tutte e 6 le mattonelle in ROSSO.",
+    "swipe up undo": "Scorri verso l’ALTO per annullare."
+  },
+  "LoadingIcon": {
+    "loading": "Caricamento…"
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Mostra le risposte"
+  },
+  "Tutorial": {
+    "incomplete": "INCOMPLETO",
+    "maybe": "FORSE",
+    "instructions1": "Come contribuire",
+    "instructions2": "TOCCA PER SELEZIONARE",
+    "instructions3": "Cerca gli elementi elencati nella descrizione della tua missione. Tocca ogni mattonella dove trovi quello che stai cercando. Tocca una volta per <1>Sì</1>, due volte per <3>{{twoTaps}}</3> e tre volte per <5>IMMAGINI ERRATE</5> (ad esempio con nuvole).",
+    "instructions4": "SCORRI PER NAVIGARE",
+    "instructions5": "Quando hai finito con quella parte della mappa, scorri verso la prossima.",
+    "instructions6": "TIENI PREMUTO PER INGRANDIRE",
+    "instructions7": "Tieni premuto una mattonella per ingrandirla.",
+    "instructions8": "Crediti",
+    "tutorial1": "Benvenuti nel tutorial!",
+    "tutorial2": "Dovrebbe farti diventare un mago di MapSipe in pochi minuti.",
+    "tutorial3": "Basta che segui le istruzioni sullo schermo, scorri a sinistra per continuare.",
+    "tutorial4": "Se le istruzioni ti bloccano la visuale, tocca la casella del messaggio per spostarla.",
+    "tutorial5": "Ho capito"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Questo tutorial ti insegnerà a usare MapSwipe. Ecco le prime cose da sapere:",
+    "noChanges": "Se non c’è niente di rilevante nelle immagini, <1>scorri</1> semplicemente verso la prossima schermata",
+    "seeChanges": "Se vedi qualcosa in una delle immagini, <1>tocca una volta per rendere verde un quadrato</1>.",
+    "unsure": "Non sei sicuro di quello che vedi? <1>Tocca due volte per rendere giallo il quadrato</1>",
+    "badImagery": "Se vi sono problemi con le immagini, <1>tocca tre volte per rendere rosso il quadrato</1>",
+    "tapAgain": "Tocca di nuovo per far ritornare il quadrato al suo stato iniziale.",
+    "WhatToLookFor": "Cosa cercare",
+    "YouAreLookingFor": "Stai cercando {{lookFor}}",
+    "FromTheGround": "Da terra, sembra così:",
+    "ImagesFromAbove": "Ma dalle immagini che ti verranno mostrate li vedrai dall’alto e appariranno così:",
+    "SwipeToContinue": "Scorri per continuare"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Non preoccuparti se non sei sicuro di quello che vedi in un quadrato.",
+    "youCanAlwaysTapTwice": "Ricordati, puoi sempre toccare due volte per segnare di giallo la mattonella per indicare che non sei sicuro di quello che vedi",
+    "everyImageViewedBy": "Ogni immagine viene vista da più persone, quindi non preoccuparti se hai perso qualcosa",
+    "holdZoom": "Puoi premere e tenere premuto un qualsiasi quadrato per ingrandirlo. Tocca di nuovo per annullare."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Sei pronto per iniziare a MapSwipare!",
+    "startMapping": "Inizia a mappare",
+    "completedTutorial": "Adesso possiedi tutto quello di cui hai bisogno per contribuire alla mappatura umanitaria usando l’app. Puoi tornare quando vuoi per dare una ripassata."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Impariamo a mappare con qualche esempio",
+      "youllSeeASquare": "Vedrai un quadrato con un’immagine. Usa i pulsanti per rispondere:",
+      "squareContainsBuildings": "Il quadrato contiene uno o più edifci?",
+      "squareWillMove": "Proseguendo nel lavoro, il quadrato si muoverà lungo l’immagine, seguendo una griglia come questa:",
+      "swipeToGetStarted": "Scorri per iniziare"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Non preoccuparti se non sei sicuro su un quadrato.",
+    "youCanAlwaysTapUnsure": "Ricordati, puoi sempre toccare il pulsante 'Non sono sicuro'",
+    "everyImageViewedBy": "Ogni immagine viene vista da almeno 3 utenti di MapSwipe, pertanto va tutto bene se hai mancato qualcosa.",
+    "wantToChangeYourAnswer": "Vuoi cambiare la tua risposta?",
+    "youCanSwipeBack": "Puoi scorrere indietro per cambiare le tue risposte precedenti. Poi tocca o scorri in avanti di nuovo per tornare a dove eri rimasto."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Come contribuire",
+    "squareContainsBuildings": "Il quadrato contiene degli edifici? Usa i pulsanti per rispondere:",
+    "instructionsYes": "Sì: quando è presente un edificio o parte di esso in un quadrato",
+    "instructionsNo": "No: quando non sono presenti edifici nel quadrato",
+    "instructionsNotSure": "No sono sicuro: quando non sei sicuro se si tratta di un edificio o meno",
+    "instructionsBadImagery": "Immagini errate: quando una nuvola copre la visuale o vi sono dei problemi con le immagini"
+  }
+}

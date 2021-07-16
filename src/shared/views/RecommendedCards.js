@@ -112,14 +112,19 @@ const announcementQuery = {
 };
 
 class _RecommendedCards extends React.Component<Props> {
+    // $FlowFixMe
     tutorialModal: ?Modal;
 
+    // $FlowFixMe
     willBlurAnnouncementSubscription: NavigationEventSubscription;
 
+    // $FlowFixMe
     willFocusAnnouncementSubscription: NavigationEventSubscription;
 
+    // $FlowFixMe
     willBlurProjectSubscription: NavigationEventSubscription;
 
+    // $FlowFixMe
     willFocusProjectSubscription: NavigationEventSubscription;
 
     componentDidMount() {
@@ -131,6 +136,7 @@ class _RecommendedCards extends React.Component<Props> {
     }
 
     componentWillUnmount() {
+        const { firebase } = this.props;
         this.willFocusAnnouncementSubscription.remove();
         this.willBlurAnnouncementSubscription.remove();
         if (this.willFocusProjectSubscription !== undefined) {
@@ -139,6 +145,17 @@ class _RecommendedCards extends React.Component<Props> {
         if (this.willBlurProjectSubscription !== undefined) {
             this.willBlurProjectSubscription.remove();
         }
+        // stop watching the projects and announcement events,
+        // so that when logging out and back in, we don't have
+        // leftover listeners from the previous session
+        const { type, path, storeAs, ...options } = projectsQuery;
+        firebase.unWatchEvent(type, path, storeAs, options);
+        firebase.unWatchEvent(
+            announcementQuery.type,
+            announcementQuery.path,
+            announcementQuery.storeAs,
+            { queryId: announcementQuery.queryId },
+        );
     }
 
     componentDidUpdate = (oldProps: Props) => {
@@ -274,7 +291,7 @@ class _RecommendedCards extends React.Component<Props> {
                 style={[style.modal, style.modal3]}
                 backdropType="blur"
                 position="top"
-                ref={(r) => {
+                ref={r => {
                     this.tutorialModal = r;
                 }}
             >
@@ -335,7 +352,7 @@ class _RecommendedCards extends React.Component<Props> {
                 {this.renderAnnouncement()}
                 {projects
                     .filter(
-                        (p) =>
+                        p =>
                             // keep only projects whose type we currently support
                             p.value &&
                             p.value.projectType &&
@@ -349,7 +366,7 @@ class _RecommendedCards extends React.Component<Props> {
                             ),
                     )
                     .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
-                    .map((project) => (
+                    .map(project => (
                         <ProjectCard
                             navigation={navigation}
                             project={project.value}
@@ -374,7 +391,7 @@ const mapStateToProps = (state, ownProps) => ({
     teamName: state.firebase.data.teamName,
 });
 
-export default compose(
+export default (compose(
     // this only supplies the firebase object in the props, the actual connection
     // to projects and announcement is done in componentDidMount
     // so that we can disable updates while mapping to prevent updates from other
@@ -382,4 +399,4 @@ export default compose(
     firebaseConnect(), //() => [
     // connect to redux store
     connect(mapStateToProps),
-)(_RecommendedCards);
+)(_RecommendedCards): any);

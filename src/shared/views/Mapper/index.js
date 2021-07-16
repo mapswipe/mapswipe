@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { Trans, withTranslation } from 'react-i18next';
+import Modal from 'react-native-modalbox';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
     firebaseConnectGroup,
@@ -25,7 +26,6 @@ import type {
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
 
-const Modal = require('react-native-modalbox');
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
@@ -105,9 +105,13 @@ type Props = {
     exampleImage2: string,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
-    onCancelGroup: ({}) => void,
-    onMarkHelpBoxSeen: (void) => void,
-    onStartGroup: ({}) => void,
+    onCancelGroup: ({ groupId: string, projectId: string }) => void,
+    onMarkHelpBoxSeen: void => void,
+    onStartGroup: ({
+        groupId: string,
+        projectId: string,
+        startTime: string,
+    }) => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
     hasSeenHelpBoxType1: boolean,
@@ -194,7 +198,7 @@ class _Mapper extends React.Component<Props, State> {
         this.HelpModal.close();
     };
 
-    openTilePopup = (tile) => {
+    openTilePopup = tile => {
         this.setState({
             poppedUpTile: tile,
         });
@@ -253,8 +257,8 @@ class _Mapper extends React.Component<Props, State> {
                                 YES
                             </Text>
                             , twice for&nbsp;
+                            {/* $FlowFixMe */}
                             <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                                {/* $FlowFixMe */}
                                 {twoTaps}
                             </Text>
                             , and three times for&nbsp;
@@ -306,7 +310,7 @@ class _Mapper extends React.Component<Props, State> {
                 style={[styles.modal, styles.HelpModal]}
                 backdropType="blur"
                 position="center"
-                ref={(r) => {
+                ref={r => {
                     this.HelpModal = r;
                 }}
             >
@@ -377,7 +381,7 @@ class _Mapper extends React.Component<Props, State> {
                     zoomLevel={this.project.zoomLevel}
                 />
                 <BottomProgress
-                    ref={(r) => {
+                    ref={r => {
                         this.progress = r;
                     }}
                 />
@@ -386,7 +390,7 @@ class _Mapper extends React.Component<Props, State> {
                     style={styles.tilePopup}
                     entry="bottom"
                     position="center"
-                    ref={(r) => {
+                    ref={r => {
                         this.tilePopup = r;
                     }}
                 >
@@ -398,7 +402,7 @@ class _Mapper extends React.Component<Props, State> {
     /* eslint-enable global-require */
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     onCancelGroup(groupDetails) {
         dispatch(cancelGroup(groupDetails));
     },
@@ -413,7 +417,7 @@ const mapDispatchToProps = (dispatch) => ({
 const Mapper = compose(
     withTranslation('Tutorial'),
     firebaseConnectGroup(),
-    connect((state) => ({
+    connect(state => ({
         hasSeenHelpBoxType1: state.ui.user.hasSeenHelpBoxType1,
     })),
     connect(mapStateToPropsForGroups(), mapDispatchToProps),
@@ -428,7 +432,7 @@ export default class MapperScreen extends React.Component<Props> {
         this.randomSeed = Math.random();
     }
 
-    render() {
+    render(): React.Node {
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);
         // check that the project data has a tutorialId set (in firebase)

@@ -102,7 +102,7 @@ type Props = {
     submitResult: (number, string) => void,
     t: TranslationFunction,
     tutorial: boolean,
-    updateProgress: (number) => void,
+    updateProgress: number => void,
 };
 
 type State = {
@@ -194,13 +194,8 @@ class _Validator extends React.Component<Props, State> {
         // save result if one was provided.
         // Return a bool indicating whether we've reached the end of
         // the array of tasks
-        const {
-            completeGroup,
-            group,
-            submitResult,
-            tutorial,
-            updateProgress,
-        } = this.props;
+        const { completeGroup, group, submitResult, tutorial, updateProgress } =
+            this.props;
         const { currentTaskIndex } = this.state;
         if (result !== null && result !== undefined) {
             // the user tapped a button, save result and update how far
@@ -272,9 +267,8 @@ class _Validator extends React.Component<Props, State> {
         // so we look a bit further ahead to prefetch imagery
         // FIXME: temporarily force it to 9, no matter what
         const prefetchOffset = currentTask.center ? 9 : 9;
-        const prefetchTask = this.expandedTasks[
-            currentTaskIndex + prefetchOffset
-        ];
+        const prefetchTask =
+            this.expandedTasks[currentTaskIndex + prefetchOffset];
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
@@ -428,7 +422,7 @@ class _Validator extends React.Component<Props, State> {
                         }
                         onMomentumScrollEnd={this.onMomentumScrollEnd}
                         // eslint-disable-next-line no-return-assign
-                        ref={(r) => (this.flatlist = r)}
+                        ref={r => (this.flatlist = r)}
                         renderItem={this.renderValidator}
                         pagingEnabled
                         scrollEnabled={
@@ -458,9 +452,9 @@ const mapStateToProps = (state, ownProps) => ({
     submitResult: ownProps.submitResult,
 });
 
-export default compose(
+export default (compose(
     withTranslation('CDValidator'),
-    firebaseConnect((props) => {
+    firebaseConnect(props => {
         if (props.group) {
             const { groupId, projectId } = props.group;
             const prefix = props.tutorial ? 'tutorial' : 'projects';
@@ -492,4 +486,4 @@ export default compose(
         return [];
     }),
     connect(mapStateToProps),
-)(_Validator);
+)(_Validator): any);
