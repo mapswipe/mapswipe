@@ -36,6 +36,13 @@ platform :ios do
 
   desc "Build production version and upload to appstore. This step is executed when a tag on master is created"
   lane :release do
+    app_store_connect_api_key(
+      key_id: "4B2GC5YX57",
+      issuer_id: "69a6de7b-aa28-47e3-e053-5b8c7c11a4d1",
+      key_filepath: "./AuthKey_4B2GC5YX57.p8",
+      duration: 1200,
+      in_house: false
+    )
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Release", clean: true)
     upload_to_app_store(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe", force: is_ci)
