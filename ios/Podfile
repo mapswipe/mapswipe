@@ -8,6 +8,11 @@ source 'https://cdn.cocoapods.org/'
 
 platform :ios, '12.0'
 
+# Disable use of AdId with analytics
+# See #527 and
+# https://rnfirebase.io/analytics/usage#disable-ad-id-usage-on-ios
+$RNFirebaseAnalyticsWithoutAdIdSupport=true
+
 target 'mapswipe' do
 
   config = use_native_modules!
