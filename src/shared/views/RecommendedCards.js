@@ -136,6 +136,7 @@ class _RecommendedCards extends React.Component<Props> {
     }
 
     componentWillUnmount() {
+        const { firebase } = this.props;
         this.willFocusAnnouncementSubscription.remove();
         this.willBlurAnnouncementSubscription.remove();
         if (this.willFocusProjectSubscription !== undefined) {
@@ -144,6 +145,17 @@ class _RecommendedCards extends React.Component<Props> {
         if (this.willBlurProjectSubscription !== undefined) {
             this.willBlurProjectSubscription.remove();
         }
+        // stop watching the projects and announcement events,
+        // so that when logging out and back in, we don't have
+        // leftover listeners from the previous session
+        const { type, path, storeAs, ...options } = projectsQuery;
+        firebase.unWatchEvent(type, path, storeAs, options);
+        firebase.unWatchEvent(
+            announcementQuery.type,
+            announcementQuery.path,
+            announcementQuery.storeAs,
+            { queryId: announcementQuery.queryId },
+        );
     }
 
     componentDidUpdate = (oldProps: Props) => {
