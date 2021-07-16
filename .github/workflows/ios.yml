@@ -128,7 +128,6 @@ jobs:
         with:
           prerelease: true
           files: |
-            ios/mapswipe.ipa
             ios/mapswipe.app.dSYM.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
