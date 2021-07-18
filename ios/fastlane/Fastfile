@@ -45,7 +45,10 @@ platform :ios do
     )
     match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false)
     build_app(scheme: "mapswipe", configuration: "Release", clean: true)
-    upload_to_app_store(username: "mapswipe.dev@gmail.com", app_identifier: "org.missingmaps.mapswipe", force: is_ci)
+    upload_to_app_store(username: "mapswipe.dev@gmail.com",
+                        app_identifier: "org.missingmaps.mapswipe",
+                        force: is_ci,
+                        precheck_include_in_app_purchases: false)
   end
 
   desc "Build the beta version and upload it to testflight. This step is executed when a tag on any branch is created"
