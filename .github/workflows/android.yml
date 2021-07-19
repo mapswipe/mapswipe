@@ -58,12 +58,14 @@ jobs:
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-dev-release-key.keystore ./android/app/mapswipe-dev-release-key.keystore.gpg
 
       - name: Decode the production release keystore file
+        # this is the file used by yarn buildProd
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-production-release-key.keystore ./android/app/mapswipe-production-release-key.keystore.gpg
 
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
+        # the output of this step is used in the next one
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
@@ -80,6 +82,7 @@ jobs:
         run: sudo sysctl fs.inotify.max_user_watches=524288
 
       - name: Build dev APK
+        # this build uses mapswipe-dev-release-key.keystore
         env:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_ALIAS: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_DEV_RELEASE_KEY_ALIAS }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_DEV_RELEASE_KEY_PASSWORD }}
@@ -89,6 +92,7 @@ jobs:
 
       - name: Build production APK
         # only build the release APK on "production" tags
+        # This build uses mapswipe-production-release-key.keystore
         # The apk produced by this step is used by subsequent steps to:
         # - upload to github
         # - upload to playstore
