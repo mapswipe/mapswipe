@@ -98,6 +98,7 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_STORE_PASSWORD }}
         run: |
           ls -l android/app/ | sed 's/-/+/g'
+          env | sed 's/key/YYY/g'
           yarn buildProd
 
       - name: Upload APK to Github releases (beta build)
