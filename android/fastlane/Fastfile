@@ -19,16 +19,8 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    gradle(
-      task: "clean assembleProductionRelease",
-      print_command: false,
-      properties: {
-        "android.injected.signing.store.file" => ENV['PWD'] + "/app/mapswipe-production-release-key.keystore",
-        "android.injected.signing.store.password" => ENV['MAPSWIPE_PRODUCTION_KEYSTORE_PASSWORD'],
-        "android.injected.signing.key.alias" => ENV['MAPSWIPE_PRODUCTION_KEY_ALIAS'],
-        "android.injected.signing.key.password" => ENV['MAPSWIPE_PRODUCTION_KEY_ALIAS_PASSWORD'],
-      }
-    )
+    # this step assumes that the build has already been done by a previous step in the CI process
+    # via the `yarn buildProd` command
     upload_to_play_store(track: 'internal', apk: 'app/build/outputs/apk/production/release/app-production-release.apk')
   end
 end

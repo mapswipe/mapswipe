@@ -1,6 +1,11 @@
 # MapSwipe
 
-[![Build Status](https://travis-ci.org/mapswipe/mapswipe.svg?branch=ios-build)](https://travis-ci.org/mapswipe/mapswipe)
+**The badges refer to the `dev` branch**
+
+[![Syntax & Linting](https://github.com/mapswipe/mapswipe/actions/workflows/build.yml/badge.svg?branch=dev&event=push)](https://github.com/mapswipe/mapswipe/actions/workflows/build.yml)
+[![Android build](https://github.com/mapswipe/mapswipe/actions/workflows/android.yml/badge.svg?branch=dev&event=push)](https://github.com/mapswipe/mapswipe/actions/workflows/android.yml)
+[![iOS build](https://github.com/mapswipe/mapswipe/actions/workflows/ios.yml/badge.svg?branch=dev&event=push)](https://github.com/mapswipe/mapswipe/actions/workflows/ios.yml)
+
 
 Welcome to the MapSwipe app. This is the app that is distributed through [mapswipe.org](http://mapswipe.org) as well as through the Google Play and Apple stores. It was initially developed by Doctors without Borders as part of the Missing Maps project.
 
