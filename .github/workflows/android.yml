@@ -114,6 +114,11 @@ jobs:
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Decode the google api key file
+        env:
+          FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
+        run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/google_play_api_key.json ./android/google_play_api_key.json.gpg
+
       - name: Release to PlayStore
         # only deploy a release on a non-beta tag
         # FIXME: there does not seem to be a way with github actions (as of may 2021) to get
