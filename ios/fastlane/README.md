@@ -30,7 +30,7 @@ fastlane ios matchProd
 ```
 fastlane ios test
 ```
-Build the app and run the tests defined for the mapswipe scheme. Used in Travis to trigger the CI step.
+Build the app and run the tests defined for the mapswipe scheme. Used in github actions to trigger the CI step.
 ### ios release
 ```
 fastlane ios release
