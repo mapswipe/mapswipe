@@ -50,8 +50,6 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
                     type: 'once',
                     path: `v2/groups/${projectId}`,
                     queryParams: [
-                        // TODO: change back to 15 groups
-                        // for debugging the number has been reduced to 5
                         'limitToLast=15',
                         'orderByChild=requiredCount',
                     ],
@@ -127,34 +125,27 @@ export const mapStateToPropsForGroups =
             // that firebase returns. This would result in a crash, but it's quite unlikely, so
             // we'll quietly ignore it for now :)
             const groupsAvailable = Object.keys(groups);
-            //console.log('groupsAvailable', groupsAvailable);
-            //console.log('groupMapped', groupsMapped);
             // eslint-disable-next-line prefer-destructuring
             const groupsToPickFrom = groupsAvailable.filter(
                 g => !groupsMapped.includes(g),
             );
-            //console.log('groupsToPickFrom', groupsToPickFrom);
-            //console.log('groups still available: ', groupsToPickFrom.length)
-            //console.log('randomSeed', ownProps.randomSeed);
             groupId =
                 groupsToPickFrom[
                     Math.floor(ownProps.randomSeed * groupsToPickFrom.length)
                 ];
-            // console.log('groupIdSelected', groupId);
-            /*
-            console.log(
-                'FFFFFb data',
-                get(state.firebase.data, `${prefix}.${projectId}.groups`),
-            );
-            */
-
             if (groupsToPickFrom.length === 1) {
                 groupsToPickFromBool = false;
             }
             if (groupsToPickFrom.length === 0) {
+                // We should not reach this point, as we check the number of groups available.
+                // But, if we reach this point, this will give the user a loading icon
+                // and the user is struck.
                 console.log(
                     'groups are loaded already, but there are no groups to pick from.',
                 );
+                console.log('groupsToPickFrom', groupsToPickFrom)
+                console.log('groupsAvailable', groupsAvailable);
+                console.log('groupMapped', groupsMapped);
             }
         }
         const group = get(

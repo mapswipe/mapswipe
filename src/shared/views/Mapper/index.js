@@ -170,7 +170,6 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     handleBackPress = () => {
-        console.log('back press!');
         this.returnToView();
         return true;
     };
@@ -187,9 +186,6 @@ class _Mapper extends React.Component<Props, State> {
                 groupId: group.groupId,
                 projectId: group.projectId,
             });
-            navigation.pop();
-        }
-        if (!group) {
             navigation.pop();
         }
     };
@@ -351,9 +347,6 @@ class _Mapper extends React.Component<Props, State> {
         } = this.props;
         const { poppedUpTile } = this.state;
 
-        // console.log('watchers', firebase._);
-        // only show the mapping component once we have downloaded the group data
-
         // $FlowFixMe
         const creditString =
             this.project.tileServer.credits || 'Unknown imagery source';
@@ -366,6 +359,8 @@ class _Mapper extends React.Component<Props, State> {
                     onBackPress={this.returnToView}
                     onInfoPress={this.openHelpModal}
                 />
+                // The card body will be displayed when
+                // group information is available.
                 {group && (
                     <CardBody
                         closeTilePopup={this.closeTilePopup}
@@ -387,6 +382,8 @@ class _Mapper extends React.Component<Props, State> {
                         groupsToPickFrom={groupsToPickFromBool}
                     />
                 )}
+                // The loading icon will be displayed whenever
+                // no group information is available.
                 {!group && <LoadingIcon />}
                 <BottomProgress
                     ref={r => {

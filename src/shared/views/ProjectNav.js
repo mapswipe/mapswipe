@@ -31,8 +31,7 @@ class _ProjectNav extends React.Component<Props> {
     }
 
     render() {
-        const { firebase, navigation, t } = this.props;
-        console.log('watchers', firebase._);
+        const { navigation, t } = this.props;
         return (
             <ScrollableTabView
                 tabBarActiveTextColor="#ffffff"
