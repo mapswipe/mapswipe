@@ -80,7 +80,7 @@ See [the android page](develop-android.md#version-numbering) for details.
 
 The CI build process relies on [fastlane](https://docs.fastlane.tools) tools to build the app, sign it, and upload it to the beta system (`testflight`) or to the real app store.
 
-At this point, the fastlane setup is built around the premise that you won't be deploying app updates from your computer, but only via travis. The docs below may not make sense for your own laptop.
+At this point, the fastlane setup is built around the premise that you won't be deploying app updates from your computer, but only via github actions. The docs below may not make sense for your own laptop.
 
 ### Deployment
 
@@ -93,11 +93,11 @@ There are 2 different apps:
 - mapswipe, which talks to the the main `msf-mapswipe` firebase instance. It is the one pushed to public users.
 - mapswipe-dev has the exact same code base, but points to the `dev-mapswipe` firebase instance. It is the version used in development, and is shared with beta-testers via `testflight`. It never goes to the appstore, so general users will never see it. This variant has a sepia icon to spot the difference easily.
 
-Travis runs like this:
+Github Actions run like this:
 
 - on every `git push`, the tests are run, and the app is compiled, to verify that there are no broken dependencies, etc...
-- on all pushes with a tag (except on the `master` branch), it also deploys the `dev` version to the appstore connect, for beta-testers to review.
-- on a push to `master` with a tag, it does all the above, but also deploys the production version to the appstore (this requires a final manual step, plus a review by apple which takes 1-2 days).
+- on all pushes with a tag (except on the `master` branch), it also deploys the `dev` version to testflight, for beta-testers to review.
+- on a push to `master` with a tag, it does all the above (except the upload to testflight), but also deploys the production version to the appstore (this requires a final manual step, plus a review by apple which takes 1-2 days).
 
 ### Getting users to test the beta version
 
@@ -113,19 +113,6 @@ For the app build that actually goes to the App Store, a review by Apple is also
 Before being able to deploy the app to the apple store (or testflight, for beta testing), the code needs to be signed.
 
 The signing certificate and keys are shared on a private [gitlab repository](https://gitlab.com/mapswipe/ios-certificates) according to a system called [match](https://docs.fastlane.tools/codesigning/getting-started/#using-match). You most likely won't need access to this repo unless you're modifying the keys. Please contact one of the project admins to obtain access if needed.
-
-We hit some problems during setup, for which travis has a [workaround](https://docs.travis-ci.com/user/common-build-problems/#mac-macos-mavericks-109-code-signing-errors). The code below is copied in `.travis.yml` to make this work.
-
-```sh
-KEY_CHAIN=ios-build.keychain
-security create-keychain -p travis $KEY_CHAIN
-# Make the keychain the default so identities are found
-security default-keychain -s $KEY_CHAIN
-# Unlock the keychain
-security unlock-keychain -p travis $KEY_CHAIN
-# Set keychain locking timeout to 3600 seconds
-security set-keychain-settings -t 3600 -u $KEY_CHAIN
-```
 
 Once the certificates are downloaded, the app can be built. See `ios/fastlane/Fastfile` for details.
 

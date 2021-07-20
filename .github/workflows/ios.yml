@@ -52,10 +52,12 @@ jobs:
           GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
 
-      - name: Decode sentry.properties
+      - name: Decode sentry.properties (and prod version)
         env:
           SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
-        run: echo "$SENTRY_PROPERTIES" | base64 -d > ./ios/cfg/sentry.properties
+        run: |
+          echo "$SENTRY_PROPERTIES" | base64 -d > ./ios/cfg/sentry.properties
+          cp ./ios/cfg/sentry.properties ./ios/cfg/sentry.prod.properties
 
       - name: Decode development GoogleService-Info.plist
         env:
@@ -128,7 +130,6 @@ jobs:
         with:
           prerelease: true
           files: |
-            ios/mapswipe.ipa
             ios/mapswipe.app.dSYM.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

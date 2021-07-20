@@ -1,7 +1,8 @@
-
 # Notes about building release version locally
 
-All deployments are done from [travis](https://travis-ci.org/mapswipe/mapswipe) which is linked to the `mapswipe` github project.
+All deployments are done from [Github Actions](https://github.com/mapswipe/mapswipe/actions).
+
+You should **NOT** try to release from your local machine, except by using the script under `./scripts/version.sh`.
 
 ## Secrets management
 
@@ -26,10 +27,6 @@ In `mapswipe/package.json`, there's this line:
 ```
 "runAndroid": "cd android && ./gradlew installDevDebug && adb -d shell am start -n org.missingmaps.mapswipe.dev/org.missingmaps.mapswipe.MainActivity ; cd ..",
 ``` 
-replace `installDevDebug` with `installDevRelease` it will install the release version on your phone/emulator
+replace `installDevDebug` with `installDevRelease` it will install the release version on your phone/emulator.
 
-most likely it will complain that there is an incompatible version on your phone, in which case you need to uninstall the dev app before running `yarn runAndroid`
-
-
-
-
+Most likely it will complain that there is an incompatible version on your phone, in which case you need to uninstall the dev app before running `yarn runAndroid`
