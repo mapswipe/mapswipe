@@ -4,7 +4,6 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
-import { isLoaded } from 'react-redux-firebase';
 import Button from 'apsl-react-native-button';
 import { Trans, withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
@@ -119,6 +118,7 @@ type Props = {
     t: TranslationFunction,
     tutorial: boolean,
     tutorialId: string,
+    groupsToPickFromBool: boolean,
 };
 
 type State = {
@@ -170,6 +170,7 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     handleBackPress = () => {
+        console.log('back press!');
         this.returnToView();
         return true;
     };
@@ -186,6 +187,9 @@ class _Mapper extends React.Component<Props, State> {
                 groupId: group.groupId,
                 projectId: group.projectId,
             });
+            navigation.pop();
+        }
+        if (!group) {
             navigation.pop();
         }
     };
@@ -337,25 +341,18 @@ class _Mapper extends React.Component<Props, State> {
         const {
             exampleImage1,
             exampleImage2,
-            firebase,
             group,
             navigation,
             results,
             screens,
             tutorial,
             tutorialId,
+            groupsToPickFromBool,
         } = this.props;
         const { poppedUpTile } = this.state;
 
         // console.log('watchers', firebase._);
         // only show the mapping component once we have downloaded the group data
-        if (!group) {
-            if (!isLoaded(group)) {
-                // BUG
-                console.log('Mapper LoadingIcon BUGBUG');
-            }
-            return <LoadingIcon />;
-        }
 
         // $FlowFixMe
         const creditString =
@@ -369,24 +366,28 @@ class _Mapper extends React.Component<Props, State> {
                     onBackPress={this.returnToView}
                     onInfoPress={this.openHelpModal}
                 />
-                <CardBody
-                    closeTilePopup={this.closeTilePopup}
-                    exampleImage1={exampleImage1}
-                    exampleImage2={exampleImage2}
-                    group={group}
-                    lookFor={this.project.lookFor}
-                    navigation={navigation}
-                    openTilePopup={this.openTilePopup}
-                    projectId={group.projectId}
-                    results={results}
-                    screens={tutorial ? screens : null}
-                    tileServer={this.project.tileServer}
-                    tileServerB={this.project.tileServerB}
-                    tutorial={tutorial}
-                    tutorialId={tutorialId}
-                    updateProgress={this.updateProgress}
-                    zoomLevel={this.project.zoomLevel}
-                />
+                {group && (
+                    <CardBody
+                        closeTilePopup={this.closeTilePopup}
+                        exampleImage1={exampleImage1}
+                        exampleImage2={exampleImage2}
+                        group={group}
+                        lookFor={this.project.lookFor}
+                        navigation={navigation}
+                        openTilePopup={this.openTilePopup}
+                        projectId={group.projectId}
+                        results={results}
+                        screens={tutorial ? screens : null}
+                        tileServer={this.project.tileServer}
+                        tileServerB={this.project.tileServerB}
+                        tutorial={tutorial}
+                        tutorialId={tutorialId}
+                        updateProgress={this.updateProgress}
+                        zoomLevel={this.project.zoomLevel}
+                        groupsToPickFrom={groupsToPickFromBool}
+                    />
+                )}
+                {!group && <LoadingIcon />}
                 <BottomProgress
                     ref={r => {
                         this.progress = r;

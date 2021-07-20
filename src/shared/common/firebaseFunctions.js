@@ -50,6 +50,8 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
                     type: 'once',
                     path: `v2/groups/${projectId}`,
                     queryParams: [
+                        // TODO: change back to 15 groups
+                        // for debugging the number has been reduced to 5
                         'limitToLast=15',
                         'orderByChild=requiredCount',
                     ],
@@ -80,6 +82,9 @@ export const mapStateToPropsForGroups =
     // $FlowFixMe
     (state, ownProps) => {
         let tutorialProjectId;
+        let groupsToPickFromBool;
+        groupsToPickFromBool = true;
+
         // ownProps are the props passed to the Mapper or ChangeDetection component
         if (tutorialId === undefined) {
             tutorialProjectId = ownProps.tutorialId;
@@ -122,36 +127,56 @@ export const mapStateToPropsForGroups =
             // that firebase returns. This would result in a crash, but it's quite unlikely, so
             // we'll quietly ignore it for now :)
             const groupsAvailable = Object.keys(groups);
-            console.log('groupsAvailable', groupsAvailable);
-            console.log('groupMapped', groupsMapped);
+            //console.log('groupsAvailable', groupsAvailable);
+            //console.log('groupMapped', groupsMapped);
             // eslint-disable-next-line prefer-destructuring
             const groupsToPickFrom = groupsAvailable.filter(
                 g => !groupsMapped.includes(g),
             );
-            console.log('groupsToPickFrom', groupsToPickFrom);
-            console.log('randomSeed', ownProps.randomSeed);
+            //console.log('groupsToPickFrom', groupsToPickFrom);
+            //console.log('groups still available: ', groupsToPickFrom.length)
+            //console.log('randomSeed', ownProps.randomSeed);
             groupId =
                 groupsToPickFrom[
                     Math.floor(ownProps.randomSeed * groupsToPickFrom.length)
                 ];
-            console.log('groupIdSelected', groupId);
+            // console.log('groupIdSelected', groupId);
+            /*
             console.log(
                 'FFFFFb data',
                 get(state.firebase.data, `${prefix}.${projectId}.groups`),
             );
+            */
+
+            if (groupsToPickFrom.length === 1) {
+                groupsToPickFromBool = false;
+            }
+            if (groupsToPickFrom.length === 0) {
+                console.log(
+                    'groups are loaded already, but there are no groups to pick from.',
+                );
+            }
         }
+        const group = get(
+            state.firebase.data,
+            `${prefix}.${projectId}.groups.${groupId}`,
+        );
+
+        if (!isLoaded(groups) && !group) {
+            // this is okay, we just try again untill the groups are loaded.
+            console.log('groups are not loaded yet and group is not available');
+        }
+
         return {
             exampleImage1,
             exampleImage2,
             screens,
-            group: get(
-                state.firebase.data,
-                `${prefix}.${projectId}.groups.${groupId}`,
-            ),
+            group,
             navigation: ownProps.navigation,
             onInfoPress: ownProps.onInfoPress,
             results: state.results,
             tutorial,
+            groupsToPickFromBool,
         };
     };
 

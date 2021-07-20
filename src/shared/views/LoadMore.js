@@ -57,6 +57,7 @@ type Props = {
     t: TranslationFunction,
     toNextGroup: void => void,
     tutorial: boolean,
+    groupsToPickFrom: boolean,
 };
 
 class _LoadMoreCard extends React.Component<Props> {
@@ -122,13 +123,22 @@ class _LoadMoreCard extends React.Component<Props> {
     };
 
     render() {
-        const { t, tutorial } = this.props;
+        const { t, tutorial, groupsToPickFrom } = this.props;
         return (
             <View style={styles.congratulationsSlide}>
-                <Text style={styles.finishedText}>
-                    {tutorial ? t('completedTutorial') : t('finishedGroup')}
-                </Text>
-
+                {groupsToPickFrom && (
+                    <Text style={styles.finishedText}>
+                        {tutorial ? t('completedTutorial') : t('finishedGroup')}
+                    </Text>
+                )}
+                {!groupsToPickFrom && (
+                    <Text style={styles.finishedText}>
+                        Amazing job! You have mapped 15 groups in a row. Go back
+                        to the project screen to sync your work and get the
+                        latest data. You will then be able to map even more
+                        groups.
+                    </Text>
+                )}
                 <Button
                     style={styles.moreButton}
                     onPress={this.onComplete}
@@ -136,7 +146,7 @@ class _LoadMoreCard extends React.Component<Props> {
                 >
                     {tutorial ? t('letsGo') : t('completeSession')}
                 </Button>
-                {tutorial || (
+                {tutorial || !groupsToPickFrom || (
                     <Button
                         style={styles.moreButton}
                         onPress={this.onMore}
