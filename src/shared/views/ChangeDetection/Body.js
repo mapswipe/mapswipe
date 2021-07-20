@@ -72,6 +72,7 @@ type Props = {
     t: TranslationFunction,
     tutorial: boolean,
     tutorialId: string,
+    groupsToPickFromBool: boolean,
 };
 
 type State = {
@@ -253,14 +254,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, results, screens, t, tutorial, tutorialId } =
+        const { group, navigation, results, screens, t, tutorial, tutorialId, groupsToPickFromBool } =
             this.props;
         const { groupCompleted, poppedUpTile } = this.state;
-
-        if (!group) {
-            console.log('no group information available.');
-            return <LoadingIcon />;
-        }
 
         if (groupCompleted) {
             return (
@@ -286,21 +282,25 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     onInfoPress={this.onInfoPress}
                 />
                 {backConfirmationModal}
-                <TaskList
-                    screens={tutorial ? screens : null}
-                    commitCompletedGroup={this.commitCompletedGroup}
-                    group={group}
-                    navigation={navigation}
-                    project={this.project}
-                    results={results}
-                    submitResult={this.submitResult}
-                    updateProgress={this.updateProgress}
-                    tutorial={tutorial}
-                    tutorialId={tutorialId}
-                    closeTilePopup={this.closeTilePopup}
-                    openTilePopup={this.openTilePopup}
-                    zoomLevel={this.project.zoomLevel}
-                />
+                {group && (
+                    <TaskList
+                        screens={tutorial ? screens : null}
+                        commitCompletedGroup={this.commitCompletedGroup}
+                        group={group}
+                        navigation={navigation}
+                        project={this.project}
+                        results={results}
+                        submitResult={this.submitResult}
+                        updateProgress={this.updateProgress}
+                        tutorial={tutorial}
+                        tutorialId={tutorialId}
+                        closeTilePopup={this.closeTilePopup}
+                        openTilePopup={this.openTilePopup}
+                        zoomLevel={this.project.zoomLevel}
+                        groupsToPickFrom={groupsToPickFromBool}
+                    />
+                )}
+                {!group && <LoadingIcon />}
                 <View>
                     <TouchableWithoutFeedback
                         onPress={() => {

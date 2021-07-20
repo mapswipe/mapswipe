@@ -143,7 +143,7 @@ export const mapStateToPropsForGroups =
                 console.log(
                     'groups are loaded already, but there are no groups to pick from.',
                 );
-                console.log('groupsToPickFrom', groupsToPickFrom)
+                console.log('groupsToPickFrom', groupsToPickFrom);
                 console.log('groupsAvailable', groupsAvailable);
                 console.log('groupMapped', groupsMapped);
             }
