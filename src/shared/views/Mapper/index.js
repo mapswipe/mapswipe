@@ -359,8 +359,6 @@ class _Mapper extends React.Component<Props, State> {
                     onBackPress={this.returnToView}
                     onInfoPress={this.openHelpModal}
                 />
-                // The card body will be displayed when
-                // group information is available.
                 {group && (
                     <CardBody
                         closeTilePopup={this.closeTilePopup}
@@ -382,8 +380,6 @@ class _Mapper extends React.Component<Props, State> {
                         groupsToPickFrom={groupsToPickFromBool}
                     />
                 )}
-                // The loading icon will be displayed whenever
-                // no group information is available.
                 {!group && <LoadingIcon />}
                 <BottomProgress
                     ref={r => {
