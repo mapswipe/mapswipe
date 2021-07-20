@@ -122,14 +122,23 @@ export const mapStateToPropsForGroups =
             // that firebase returns. This would result in a crash, but it's quite unlikely, so
             // we'll quietly ignore it for now :)
             const groupsAvailable = Object.keys(groups);
+            console.log('groupsAvailable', groupsAvailable);
+            console.log('groupMapped', groupsMapped);
             // eslint-disable-next-line prefer-destructuring
             const groupsToPickFrom = groupsAvailable.filter(
                 g => !groupsMapped.includes(g),
             );
+            console.log('groupsToPickFrom', groupsToPickFrom);
+            console.log('randomSeed', ownProps.randomSeed);
             groupId =
                 groupsToPickFrom[
                     Math.floor(ownProps.randomSeed * groupsToPickFrom.length)
                 ];
+            console.log('groupIdSelected', groupId);
+            console.log(
+                'FFFFFb data',
+                get(state.firebase.data, `${prefix}.${projectId}.groups`),
+            );
         }
         return {
             exampleImage1,

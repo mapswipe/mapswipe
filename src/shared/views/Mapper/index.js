@@ -4,6 +4,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
+import { isLoaded } from 'react-redux-firebase';
 import Button from 'apsl-react-native-button';
 import { Trans, withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
@@ -336,6 +337,7 @@ class _Mapper extends React.Component<Props, State> {
         const {
             exampleImage1,
             exampleImage2,
+            firebase,
             group,
             navigation,
             results,
@@ -345,8 +347,13 @@ class _Mapper extends React.Component<Props, State> {
         } = this.props;
         const { poppedUpTile } = this.state;
 
+        // console.log('watchers', firebase._);
         // only show the mapping component once we have downloaded the group data
         if (!group) {
+            if (!isLoaded(group)) {
+                // BUG
+                console.log('Mapper LoadingIcon BUGBUG');
+            }
             return <LoadingIcon />;
         }
 
