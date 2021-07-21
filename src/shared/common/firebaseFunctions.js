@@ -109,34 +109,28 @@ export const mapStateToPropsForGroups =
         const prefix = tutorial ? 'tutorial' : 'projects';
         const { data } = state.firebase;
 
-        console.log('Data', data)
-        //console.log('projects', data["projects"])
-        console.log('projectId', projectId)
+        // console.log('projectId', projectId)
         let groups = null
         groups = get(
             state.firebase.data,
             `groups.${projectId}`,
         );
-        console.log('groups', groups)
+        // console.log('groups', groups)
 
-        if (data[prefix]) {
-            if (tutorial) {
-                // we pick some items from the tutorial project instead of the initial
-                // project object
-                ({ exampleImage1, exampleImage2, screens } =
-                    data[prefix][projectId]);
-            }
+        if (tutorial) {
+            // we pick some items from the tutorial project instead of the initial
+            // project object
+            ({ exampleImage1, exampleImage2, screens } =
+                data[prefix][projectId]);
         }
+
         if (groups && isLoaded(groups)) {
             // we have a few groups to choose from, remove the ones the user has already worked on
             // and pick the first one left, as we now know the user hasn't already worked on it
             // FIXME: there is a rare edge case where the user has already mapped all the groups
             // that firebase returns. This would result in a crash, but it's quite unlikely, so
             // we'll quietly ignore it for now :)
-
-            console.log('groups for project', groups)
             const groupsAvailable = Object.keys(groups);
-            console.log('groupsAvailable', groupsAvailable);
             // eslint-disable-next-line prefer-destructuring
             const groupsToPickFrom = groupsAvailable.filter(
                 g => !groupsMapped.includes(g),
