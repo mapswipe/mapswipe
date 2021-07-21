@@ -314,6 +314,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     projectId={group.projectId}
                     toNextGroup={this.toNextGroup}
                     tutorial={tutorial}
+                    continueMappingButtonVisible
                 />
             );
         }
