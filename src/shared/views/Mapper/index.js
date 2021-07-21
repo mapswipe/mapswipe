@@ -119,6 +119,7 @@ type Props = {
     tutorial: boolean,
     tutorialId: string,
     groupsToPickFromBool: boolean,
+    firebase: Object,
 };
 
 type State = {
@@ -344,6 +345,7 @@ class _Mapper extends React.Component<Props, State> {
             tutorial,
             tutorialId,
             groupsToPickFromBool,
+            firebase
         } = this.props;
         const { poppedUpTile } = this.state;
 
@@ -351,6 +353,8 @@ class _Mapper extends React.Component<Props, State> {
         const creditString =
             this.project.tileServer.credits || 'Unknown imagery source';
         const introModal = this.renderIntroModal(creditString);
+
+        console.log('<<<<<<<  firebase watchers in mapper: ', firebase._.watchers)
 
         return (
             <View style={styles.mappingContainer}>

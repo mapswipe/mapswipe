@@ -137,6 +137,7 @@ type Props = {
     cardIndex: number,
     navigation: NavigationProp,
     t: TranslationFunction,
+    firebase: Object,
 };
 
 type State = {
@@ -183,12 +184,12 @@ class ProjectCard extends React.Component<Props, State> {
     }
 
     handlePress = () => {
-        const { navigation, project } = this.props;
-        navigation.push('ProjectView', { project });
+        const { navigation, project, firebase } = this.props;
+        navigation.push('ProjectView', { project, firebase });
     };
 
     render() {
-        const { project, cardIndex, t } = this.props;
+        const { project, cardIndex, t, firebase } = this.props;
         const { hasOfflineGroups } = this.state;
         // show progress = 0 if we somehow get a negative value
         const progress = getProjectProgressForDisplay(project.progress);

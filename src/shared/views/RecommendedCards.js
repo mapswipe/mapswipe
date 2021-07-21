@@ -174,7 +174,8 @@ class _RecommendedCards extends React.Component<Props> {
         // set teamId to null if we positively don't have one
         // then check here is we're not undefined, and set the listeners from then
         // and  not before
-        const { teamId } = this.props;
+        const { teamId, firebase } = this.props;
+        console.log('<<<<<<< firebase watchers in recommended card', firebase._.watchers);
         if (teamId !== undefined) {
             // teamId starts undefined, and we set it to either null if no team is assigned
             // or the teamId string. Here we check that we have indeed set the value before
@@ -194,12 +195,14 @@ class _RecommendedCards extends React.Component<Props> {
         this.willFocusAnnouncementSubscription = navigation.addListener(
             'willFocus',
             () => {
+                console.log("will focus announcements")
                 firebase.watchEvent(type, path, storeAs, options);
             },
         );
         this.willBlurAnnouncementSubscription = navigation.addListener(
             'willBlur',
             () => {
+                console.log("will blur announcements")
                 firebase.unWatchEvent(type, path, storeAs, options);
             },
         );
@@ -232,12 +235,16 @@ class _RecommendedCards extends React.Component<Props> {
             this.willFocusProjectSubscription = navigation.addListener(
                 'willFocus',
                 () => {
+                    console.log("will focus projects")
+                    console.log(type, path, storeAs, options)
                     firebase.watchEvent(type, path, storeAs, options);
                 },
             );
             this.willBlurProjectSubscription = navigation.addListener(
                 'willBlur',
                 () => {
+                    console.log("will blur projects")
+                    console.log(type, path, storeAs, options)
                     firebase.unWatchEvent(type, path, storeAs, options);
                 },
             );
@@ -343,7 +350,7 @@ class _RecommendedCards extends React.Component<Props> {
     };
 
     render() {
-        const { navigation, projects } = this.props;
+        const { navigation, projects, firebase } = this.props;
         if (!isLoaded(projects)) {
             return <LoadingIcon key="icon" />;
         }
@@ -384,6 +391,7 @@ class _RecommendedCards extends React.Component<Props> {
                             project={project.value}
                             key={project.key}
                             cardIndex={project.key}
+                            firebase={firebase}
                         />
                     ))}
                 {this.renderHelpModal()}

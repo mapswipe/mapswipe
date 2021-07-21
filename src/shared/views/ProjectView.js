@@ -237,6 +237,7 @@ const style = StyleSheet.create({
 
 type Props = {
     navigation: NavigationProp,
+    firebease: Object
 };
 
 /* eslint-disable react/destructuring-assignment */
@@ -429,13 +430,17 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
     }
 
     render() {
-        const { navigation, profile, project, t } = this.props;
+        const { navigation, profile, project, t, firebase } = this.props;
         const { isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
         chunks.forEach(chunk => {
             renderQueue.push(chunk, '\n');
         });
+
+
+        console.log('<<<<<<< firebase watchers on project view: ', firebase._.watchers)
+
 
         // show progress = 0 if we somehow get a negative value
         const projectProgress = getProjectProgressForDisplay(project.progress);
@@ -556,12 +561,14 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                                     navigation.push('Mapper', {
                                         project,
                                         tutorial: true,
+                                        firebase
                                     });
                                     break;
                                 case CHANGE_DETECTION:
                                     navigation.push('ChangeDetectionScreen', {
                                         project,
                                         tutorial: true,
+                                        firebase
                                     });
                                     break;
                                 case BUILDING_FOOTPRINTS:

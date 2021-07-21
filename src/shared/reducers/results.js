@@ -18,6 +18,7 @@ export default function results(
 ): ResultMapType | { ... } | { [string]: ResultType } {
     // $FlowFixMe
     console.log('ACTION', action.type, action.path);
+    //console.log(action)
     //if (action.type === '@@reactReduxFirebase/SET_PROFILE') {
     //    console.log(action.profile.contributions['-Mf00KT79qgjSJfyQ4L8']);
     //}
