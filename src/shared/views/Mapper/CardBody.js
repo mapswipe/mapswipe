@@ -525,7 +525,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     })}
                     keyExtractor={screen => screen[0].taskId}
                     horizontal
-                    initialNumToRender={1}
+                    initialNumToRender={3}
                     ListFooterComponent={
                         tutorial ? (
                             <TutorialEndScreen

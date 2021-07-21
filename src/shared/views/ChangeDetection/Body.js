@@ -121,8 +121,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     projectId: group.projectId,
                     startTime: GLOBAL.DB.getTimestamp(),
                 });
-                console.log('start time:');
-                console.log(GLOBAL.DB.getTimestamp());
                 if (group.tasks !== undefined) {
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
@@ -213,8 +211,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     openTilePopup = tile => {
-        console.log('open tile popup');
-        console.log(tile);
         this.setState({
             poppedUpTile: tile,
         });
@@ -254,8 +250,16 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, results, screens, t, tutorial, tutorialId, groupsToPickFromBool } =
-            this.props;
+        const {
+            group,
+            navigation,
+            results,
+            screens,
+            t,
+            tutorial,
+            tutorialId,
+            groupsToPickFromBool,
+        } = this.props;
         const { groupCompleted, poppedUpTile } = this.state;
 
         if (groupCompleted) {
@@ -298,6 +302,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                         openTilePopup={this.openTilePopup}
                         zoomLevel={this.project.zoomLevel}
                         groupsToPickFrom={groupsToPickFromBool}
+                        tileServer={this.project.tileServer}
+                        tileServerB={this.project.tileServerB}
                     />
                 )}
                 {!group && <LoadingIcon />}

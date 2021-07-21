@@ -16,6 +16,11 @@ export default function results(
     state: ResultMapType = defaultResultsState,
     action: Action,
 ): ResultMapType | { ... } | { [string]: ResultType } {
+    // $FlowFixMe
+    console.log('ACTION', action.type, action.path);
+    //if (action.type === '@@reactReduxFirebase/SET_PROFILE') {
+    //    console.log(action.profile.contributions['-Mf00KT79qgjSJfyQ4L8']);
+    //}
     switch (action.type) {
         case SUBMIT_BUILDING_FOOTPRINT:
         case SUBMIT_CHANGE:

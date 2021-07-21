@@ -135,7 +135,7 @@ class _LoadMoreCard extends React.Component<Props> {
                     <Text style={styles.finishedText}>
                         Amazing job! You have mapped 15 groups in a row. Go back
                         to the project screen to sync your work and get the
-                        latest data. You will then be able to map even more
+                        latest tasks. You will then be able to map even more
                         groups.
                     </Text>
                 )}

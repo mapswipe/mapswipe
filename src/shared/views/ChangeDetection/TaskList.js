@@ -15,6 +15,7 @@ import TutorialOutroScreen from '../../common/Tutorial/TutorialOutro';
 import ScaleBar from '../../common/ScaleBar';
 import ChangeDetectionTask from './Task';
 import { toggleMapTile } from '../../actions/index';
+import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 
 import type {
     ChangeDetectionGroupType,
@@ -23,6 +24,7 @@ import type {
     ResultMapType,
     ResultType,
     TutorialContent,
+    TileServerType,
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
@@ -41,6 +43,8 @@ type Props = {
     openTilePopup: () => void,
     zoomLevel: number,
     groupsToPickFrom: boolean,
+    tileServer: TileServerType,
+    tileServerB: TileServerType,
 };
 
 type State = {
@@ -62,7 +66,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     scrollEnabled: boolean;
 
-    tasksPerScreen: number;
+    tasksPerScreen: ?Array<Array<ChangeDetectionTaskType>>;
 
     tutorialIntroWidth: number;
 
@@ -70,7 +74,10 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         super(props);
         this.flatlist = null;
         this.scrollEnabled = !props.tutorial;
-        this.tasksPerScreen = 1;
+
+        //this.tasksPerScreen = 1;
+
+        this.tasksPerScreen = undefined;
         // the number of screens that the initial tutorial intro covers
         this.tutorialIntroWidth = 0;
         this.currentScreen = 0; //- this.tutorialIntroWidth;
@@ -105,15 +112,15 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     onScroll = (event: Object) => {
         // this event is triggered much more than once during scrolling
         // Updating the progress bar here allows a smooth transition
-        const { group, updateProgress } = this.props;
+        const { updateProgress } = this.props;
         const {
             contentOffset: { x },
         } = event.nativeEvent;
         // we don't use the content width from the event as it changes
         // over the lifetime of the FlatList (because it gets updated
         // when the list is rerendered).
-        const width = group.tasks
-            ? group.tasks.length * GLOBAL.SCREEN_WIDTH * 0.8
+        const width = this.tasksPerScreen
+            ? this.tasksPerScreen.length * GLOBAL.SCREEN_WIDTH * 0.8
             : 0;
         // $FlowFixMe
         const progress = width === 0 ? 0 : x / width;
@@ -180,8 +187,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // set each tile to its reference value
         // $FlowFixMe
 
-        const { taskId } = group.tasks[currentScreen];
-        const { referenceAnswer } = group.tasks[currentScreen];
+        const { taskId } = this.tasksPerScreen[currentScreen];
+        const { referenceAnswer } = this.tasksPerScreen[currentScreen];
 
         onToggleTile({
             groupId: group.groupId,
@@ -199,12 +206,12 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     };
 
     checkTutorialAnswers = (): boolean => {
-        const { group, results } = this.props;
+        const { results } = this.props;
         const { tutorialMode } = this.state;
-        if (group.tasks) {
+        if (this.tasksPerScreen) {
             const currentScreen = this.getCurrentScreen();
-            const { referenceAnswer } = group.tasks[currentScreen];
-            const { taskId } = group.tasks[currentScreen];
+            const { referenceAnswer } = this.tasksPerScreen[currentScreen];
+            const { taskId } = this.tasksPerScreen[currentScreen];
             const answer = parseInt(results[taskId], 10);
             if (answer === referenceAnswer) {
                 if (
@@ -324,6 +331,73 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         updateProgress(0);
     };
 
+    generateTasks = () => {
+        // build an array of tasks grouped by 6 so that each
+        // item in the array holds all the info for 1 screen
+        // this array will then be passed to the FlatList.data prop
+        // and each item will be passed to FlatList.renderItem()
+        const {
+            group: { groupId, projectId, xMax, xMin, yMax, yMin, tasks },
+            tileServer,
+            tileServerB,
+            tutorial,
+            zoomLevel,
+        } = this.props;
+        const minx = parseInt(xMin, 10);
+        const maxx = parseInt(xMax, 10);
+        const miny = parseInt(yMin, 10);
+        const maxy = parseInt(yMax, 10);
+        // screens contains items of 6 elements, organized in columns,
+        // sorted by X then Y, so that the first 3 items are 1 column, the
+        // next 3 are the next column to the right of it, etc...
+        const screens = [];
+
+        if (!tutorial) {
+            // in "real" mapping sessions, we don't download tasks from the server,
+            // instead we create them from data in the group object here
+            for (let x = minx; x <= maxx; x += 1) {
+                for (let y = miny; y <= maxy; y += 1) {
+                    const urlB = tileServerB
+                        ? getTileUrlFromCoordsAndTileserver(
+                              x,
+                              y,
+                              zoomLevel,
+                              tileServerB.url,
+                              tileServerB.name,
+                              tileServerB.apiKey,
+                              tileServerB.wmtsLayerName,
+                          )
+                        : undefined;
+                    const task = {
+                        groupId,
+                        projectId,
+                        taskId: `${zoomLevel}-${x}-${y}`,
+                        url: getTileUrlFromCoordsAndTileserver(
+                            x,
+                            y,
+                            zoomLevel,
+                            tileServer.url,
+                            tileServer.name,
+                            tileServer.apiKey,
+                            tileServer.wmtsLayerName,
+                        ),
+                        urlB,
+                    };
+                    // $FlowFixMe
+                    screens.push(task);
+                }
+            }
+        } else {
+            // in tutorial mode, the tasks are loaded from firebase, as there is extra data
+            // we cannot interpolate from the group level info
+            tasks.forEach(task => {
+                // place the task in the screens array
+                screens.push(task);
+            });
+        }
+        return screens;
+    };
+
     render = () => {
         const {
             group,
@@ -343,7 +417,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             showAnswerButtonIsVisible,
             tutorialBoxIsVisible,
         } = this.state;
-        if (!group || !group.tasks || isSendingResults) {
+        if ((tutorial && group.tasks === undefined) || isSendingResults) {
             return <LoadingIcon />;
         }
         const currentScreen = this.getCurrentScreen();
@@ -372,6 +446,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 (180 / Math.PI);
         }
 
+        this.tasksPerScreen = this.generateTasks();
+
         return (
             <>
                 <FlatList
@@ -379,12 +455,12 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                         height: '100%',
                         width: GLOBAL.SCREEN_WIDTH,
                     }}
-                    data={group.tasks}
+                    data={this.tasksPerScreen}
                     decelerationRate="fast"
                     disableIntervalMomentum
                     keyExtractor={task => task.taskId}
                     horizontal
-                    initialNumToRender={1}
+                    initialNumToRender={5}
                     ListFooterComponent={
                         tutorial ? (
                             <TutorialEndScreen
@@ -404,6 +480,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             />
                         )
                     }
+                    maxToRenderPerBatch={3}
                     // $FlowFixMe
                     onScroll={this.onScroll}
                     onMomentumScrollEnd={this.onMomentumScrollEnd}
@@ -428,6 +505,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     }
                     snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                     showsHorizontalScrollIndicator={false}
+                    windowSize={5}
                 />
                 <ScaleBar
                     alignToBottom={false}
@@ -482,7 +560,10 @@ export default (compose(
             const { groupId, projectId } = props.group;
             // $FlowFixMe
             const prefix = props.tutorial ? 'tutorial' : 'projects';
-            if (groupId !== undefined) {
+            // we only load tasks for tutorial mode, otherwise we can just interpolate them
+            // from the group info
+            console.log('firebase connect, tutorial: ', props.tutorial);
+            if (groupId !== undefined && props.tutorial) {
                 const r = props.results;
                 // also wait for the startTime timestamp to be set (by START_GROUP)
                 // if we don't wait, when opening a project for the second time
@@ -497,7 +578,6 @@ export default (compose(
                     r[projectId][groupId] &&
                     r[projectId][groupId].startTime
                 ) {
-                    console.log(r);
                     return [
                         {
                             type: 'once',

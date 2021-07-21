@@ -50,7 +50,7 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
                     type: 'once',
                     path: `v2/groups/${projectId}`,
                     queryParams: [
-                        'limitToLast=15',
+                        'limitToLast=3',
                         'orderByChild=requiredCount',
                     ],
                     storeAs: `projects/${projectId}/groups`,
@@ -134,8 +134,10 @@ export const mapStateToPropsForGroups =
                     Math.floor(ownProps.randomSeed * groupsToPickFrom.length)
                 ];
             if (groupsToPickFrom.length === 1) {
+                // Here we set a boolean to make sure that the users stops mapping.
                 groupsToPickFromBool = false;
             }
+
             if (groupsToPickFrom.length === 0) {
                 // We should not reach this point, as we check the number of groups available.
                 // But, if we reach this point, this will give the user a loading icon
@@ -147,6 +149,7 @@ export const mapStateToPropsForGroups =
                 console.log('groupsAvailable', groupsAvailable);
                 console.log('groupMapped', groupsMapped);
             }
+            console.log('# groupsToPickFrom', groupsToPickFrom.length);
         }
         const group = get(
             state.firebase.data,
@@ -155,7 +158,11 @@ export const mapStateToPropsForGroups =
 
         if (!isLoaded(groups) && !group) {
             // this is okay, we just try again untill the groups are loaded.
-            console.log('groups are not loaded yet and group is not available');
+            console.log(
+                'Groups are not loaded yet and group is not available.',
+                'Wait to receive data from firebase.',
+            );
+            console.log('projectId', projectId);
         }
 
         return {
