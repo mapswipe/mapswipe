@@ -477,7 +477,7 @@ export default (compose(
                         {
                             type: 'once',
                             path: `v2/tasks/${projectId}/${groupId}`,
-                            storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
+                            storeAs: `groups/${projectId}/${groupId}/tasks`,
                         },
                     ];
                 }
