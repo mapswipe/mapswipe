@@ -24,6 +24,9 @@ jobs:
         with:
           ruby-version: '2.7.3'
 
+      - name: Install Fastlane
+        run: bundle install
+
       - name: Decode sentry.properties
         env:
           SENTRY_PROPERTIES: ${{ secrets.FILE_SENTRY_PROPERTIES }}
@@ -55,12 +58,14 @@ jobs:
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-dev-release-key.keystore ./android/app/mapswipe-dev-release-key.keystore.gpg
 
       - name: Decode the production release keystore file
+        # this is the file used by yarn buildProd
         env:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/app/mapswipe-production-release-key.keystore ./android/app/mapswipe-production-release-key.keystore.gpg
 
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
+        # the output of this step is used in the next one
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
@@ -77,6 +82,7 @@ jobs:
         run: sudo sysctl fs.inotify.max_user_watches=524288
 
       - name: Build dev APK
+        # this build uses mapswipe-dev-release-key.keystore
         env:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_ALIAS: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_DEV_RELEASE_KEY_ALIAS }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_DEV_RELEASE_KEY_PASSWORD }}
@@ -86,6 +92,10 @@ jobs:
 
       - name: Build production APK
         # only build the release APK on "production" tags
+        # This build uses mapswipe-production-release-key.keystore
+        # The apk produced by this step is used by subsequent steps to:
+        # - upload to github
+        # - upload to playstore
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         env:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_ALIAS: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_KEY_ALIAS }}
@@ -108,8 +118,13 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         with:
           artifacts: "./android/app/build/outputs/apk/production/release/app-production-release.apk"
-          prerelease: true
+          prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Decode the google api key file
+        env:
+          FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
+        run: gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./android/google_play_api_key.json ./android/google_play_api_key.json.gpg
 
       - name: Release to PlayStore
         # only deploy a release on a non-beta tag

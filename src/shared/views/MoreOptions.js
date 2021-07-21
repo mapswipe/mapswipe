@@ -173,7 +173,7 @@ class _MoreOptions extends React.Component<MOProps> {
     showDebugInfo = () => {
         // a simple alert box that shows the git tag and hash to help
         // with bug reporting
-        // The values are written to a JSON file at build time in travis
+        // The values are written to a JSON file at build time in github actions
         Alert.alert(
             'Debugging info',
             `Version: ${debugInfo.gitTag}\nRevision: ${debugInfo.gitHash}`,

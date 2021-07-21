@@ -14,7 +14,7 @@
 
 # On android, the build.grade script will build a globally unique build number to satisfy
 # the playstore's requirements.
-# This script must be run locally (not on travis) to release a new version.
+# This script must be run locally (not on github actions) to release a new version.
 
 # stop immediately if we encounter any error
 set -e
