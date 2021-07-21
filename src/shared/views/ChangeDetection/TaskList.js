@@ -505,7 +505,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     }
                     snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                     showsHorizontalScrollIndicator={false}
-                    windowSize={5}
                 />
                 <ScaleBar
                     alignToBottom={false}

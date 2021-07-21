@@ -148,8 +148,20 @@ class _RecommendedCards extends React.Component<Props> {
         // stop watching the projects and announcement events,
         // so that when logging out and back in, we don't have
         // leftover listeners from the previous session
+
+        // It seems that this part of the code is only executed a single time.
+        // We would expect that this should be run everytime you select a project
+        // to map on, but this is not the case.
+        // Maybe this code needs to be moved to another place.
+        // I'm not even sure if it is executed.
+        console.log('-----------------------------------------------------------')
+        console.log('component will unmount.')
+        console.log('UNWATCH EVENT')
+        console.log(type, path, storeAs, options)
+        console.log('-----------------------------------------------------------')
         const { type, path, storeAs, ...options } = projectsQuery;
         firebase.unWatchEvent(type, path, storeAs, options);
+
         firebase.unWatchEvent(
             announcementQuery.type,
             announcementQuery.path,
