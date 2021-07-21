@@ -118,6 +118,7 @@ type Props = {
     t: TranslationFunction,
     tutorial: boolean,
     tutorialId: string,
+    continueMapping: boolean,
 };
 
 type State = {
@@ -342,6 +343,7 @@ class _Mapper extends React.Component<Props, State> {
             screens,
             tutorial,
             tutorialId,
+            continueMapping,
         } = this.props;
         const { poppedUpTile } = this.state;
 
@@ -379,6 +381,7 @@ class _Mapper extends React.Component<Props, State> {
                     tutorialId={tutorialId}
                     updateProgress={this.updateProgress}
                     zoomLevel={this.project.zoomLevel}
+                    continueMapping={continueMapping}
                 />
                 <BottomProgress
                     ref={r => {

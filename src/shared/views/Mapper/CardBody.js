@@ -46,6 +46,7 @@ type Props = {
     tutorial: boolean,
     updateProgress: number => void,
     zoomLevel: number,
+    continueMapping: boolean,
 };
 
 type State = {
@@ -478,6 +479,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             screens,
             tutorial,
             zoomLevel,
+            continueMapping,
         } = this.props;
 
         let tutorialContent: ?TutorialContent;
@@ -539,6 +541,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                                 projectId={projectId}
                                 toNextGroup={this.toNextGroup}
                                 tutorial={tutorial}
+                                continueMappingButtonVisible={continueMapping}
                             />
                         )
                     }
