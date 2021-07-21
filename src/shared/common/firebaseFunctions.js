@@ -53,7 +53,7 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
                         'limitToLast=15',
                         'orderByChild=requiredCount',
                     ],
-                    storeAs: `projects/${projectId}/groups`,
+                    storeAs: `groups/${projectId}`,
                 },
             ];
         }
@@ -101,13 +101,12 @@ export const mapStateToPropsForGroups =
         // screens holds the text content for each screen of the tutorial
         let screens = null;
         let groupId = '';
-        let groups;
         let exampleImage1;
         let exampleImage2;
         const prefix = tutorial ? 'tutorial' : 'projects';
         const { data } = state.firebase;
+
         if (data[prefix] && data[prefix][projectId]) {
-            ({ groups } = data[prefix][projectId]);
             if (tutorial) {
                 // we pick some items from the tutorial project instead of the initial
                 // project object
@@ -115,6 +114,9 @@ export const mapStateToPropsForGroups =
                     data[prefix][projectId]);
             }
         }
+
+        const groups = get(state.firebase.data, `groups.${projectId}`);
+
         if (groups && isLoaded(groups)) {
             // we have a few groups to choose from, remove the ones the user has already worked on
             // and pick the first one left, as we now know the user hasn't already worked on it
@@ -131,14 +133,17 @@ export const mapStateToPropsForGroups =
                     Math.floor(ownProps.randomSeed * groupsToPickFrom.length)
                 ];
         }
+
+        const group = get(
+            state.firebase.data,
+            `groups.${projectId}.${groupId}`,
+        );
+
         return {
             exampleImage1,
             exampleImage2,
             screens,
-            group: get(
-                state.firebase.data,
-                `${prefix}.${projectId}.groups.${groupId}`,
-            ),
+            group,
             navigation: ownProps.navigation,
             onInfoPress: ownProps.onInfoPress,
             results: state.results,

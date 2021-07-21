@@ -300,6 +300,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
+                    tileServer={this.project.tileServer}
+                    tileServerB={this.project.tileServerB}
                 />
                 <View>
                     <TouchableWithoutFeedback
