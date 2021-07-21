@@ -134,10 +134,7 @@ class _LoadMoreCard extends React.Component<Props> {
                 )}
                 {!continueMappingButtonVisible && (
                     <Text style={styles.finishedText}>
-                        Amazing job! You have mapped many groups in a row. Go
-                        back to the project screen to sync your work and get the
-                        latest tasks. You will then be able to map even more
-                        groups.
+                        {t('finishedManyGroups')}
                     </Text>
                 )}
 
