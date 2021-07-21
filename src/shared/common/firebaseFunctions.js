@@ -39,7 +39,7 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
                         'limitToLast=1',
                         'orderByChild=requiredCount',
                     ],
-                    storeAs: `tutorial/${tutorialProjectId}/groups`,
+                    storeAs: `groups/${tutorialProjectId}`,
                 },
             ];
         }
@@ -134,10 +134,15 @@ export const mapStateToPropsForGroups =
                 ];
         }
 
-        const group = get(
-            state.firebase.data,
-            `groups.${projectId}.${groupId}`,
-        );
+        let group;
+        if (tutorial) {
+            group = get(
+                state.firebase.data,
+                `groups.${tutorialProjectId}.${groupId}`,
+            );
+        } else {
+            group = get(state.firebase.data, `groups.${projectId}.${groupId}`);
+        }
 
         return {
             exampleImage1,
