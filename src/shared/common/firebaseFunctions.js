@@ -39,7 +39,7 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
                         'limitToLast=1',
                         'orderByChild=requiredCount',
                     ],
-                    storeAs: `tutorial/${tutorialProjectId}/groups`,
+                    storeAs: `groups/${tutorialProjectId}`,
                 },
             ];
         }
@@ -53,7 +53,7 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
                         'limitToLast=3',
                         'orderByChild=requiredCount',
                     ],
-                    storeAs: `projects/${projectId}/groups`,
+                    storeAs: `groups/${projectId}`,
                 },
             ];
         }
@@ -104,13 +104,22 @@ export const mapStateToPropsForGroups =
         // screens holds the text content for each screen of the tutorial
         let screens = null;
         let groupId = '';
-        let groups;
         let exampleImage1;
         let exampleImage2;
         const prefix = tutorial ? 'tutorial' : 'projects';
         const { data } = state.firebase;
-        if (data[prefix] && data[prefix][projectId]) {
-            ({ groups } = data[prefix][projectId]);
+
+        console.log('Data', data)
+        //console.log('projects', data["projects"])
+        console.log('projectId', projectId)
+        let groups = null
+        groups = get(
+            state.firebase.data,
+            `groups.${projectId}`,
+        );
+        console.log('groups', groups)
+
+        if (data[prefix]) {
             if (tutorial) {
                 // we pick some items from the tutorial project instead of the initial
                 // project object
@@ -124,7 +133,10 @@ export const mapStateToPropsForGroups =
             // FIXME: there is a rare edge case where the user has already mapped all the groups
             // that firebase returns. This would result in a crash, but it's quite unlikely, so
             // we'll quietly ignore it for now :)
+
+            console.log('groups for project', groups)
             const groupsAvailable = Object.keys(groups);
+            console.log('groupsAvailable', groupsAvailable);
             // eslint-disable-next-line prefer-destructuring
             const groupsToPickFrom = groupsAvailable.filter(
                 g => !groupsMapped.includes(g),
@@ -153,7 +165,7 @@ export const mapStateToPropsForGroups =
         }
         const group = get(
             state.firebase.data,
-            `${prefix}.${projectId}.groups.${groupId}`,
+            `groups.${projectId}.${groupId}`,
         );
 
         if (!isLoaded(groups) && !group) {
