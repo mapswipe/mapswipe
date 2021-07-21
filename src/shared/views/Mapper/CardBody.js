@@ -629,7 +629,6 @@ export default (compose(
     firebaseConnect(props => {
         if (props.group) {
             const { groupId, projectId } = props.group;
-            const prefix = props.tutorial ? 'tutorial' : 'projects';
             // we only load tasks for tutorial mode, otherwise we can just interpolate them
             // from the group info
             if (groupId !== undefined && props.tutorial) {
@@ -651,7 +650,7 @@ export default (compose(
                         {
                             type: 'once',
                             path: `v2/tasks/${props.projectId}/${groupId}`,
-                            storeAs: `${prefix}/${props.projectId}/groups/${groupId}/tasks`,
+                            storeAs: `groups/${projectId}/${groupId}/tasks`,
                         },
                     ];
                 }

@@ -550,8 +550,6 @@ export default (compose(
         // wait for the group data to be available in redux-firebase
         if (props.group) {
             const { groupId, projectId } = props.group;
-            // $FlowFixMe
-            const prefix = props.tutorial ? 'tutorial' : 'projects';
             if (groupId !== undefined && props.tutorial) {
                 const r = props.results;
                 // also wait for the startTime timestamp to be set (by START_GROUP)
@@ -571,7 +569,7 @@ export default (compose(
                         {
                             type: 'once',
                             path: `v2/tasks/${projectId}/${groupId}`,
-                            storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
+                            storeAs: `groups/${projectId}/${groupId}/tasks`,
                         },
                     ];
                 }
