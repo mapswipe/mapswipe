@@ -26,7 +26,7 @@ import TaskList from './TaskList';
 import type {
     ChangeDetectionGroupType,
     NavigationProp,
-    ProjectType,
+    ChangeDetectionProjectType,
     ResultMapType,
     TranslationFunction,
     TutorialContent,
@@ -88,7 +88,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     progress: ?BottomProgress;
 
-    project: ProjectType;
+    project: ChangeDetectionProjectType;
 
     tilePopup: ?React.ComponentType<void>;
 
@@ -178,25 +178,13 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     getCreditString = (): string => {
         let result = '';
         const defaultCredits = 'Unknown imagery source';
-        switch (this.project.projectType) {
-            // FIXME: for some reason, flow doesn't like the constant being used here
-            case 3: {
-                // CHANGE_DETECTION
-                // we have 2 sets of imagery
-                const creditsA =
-                    this.project.tileServerA.credits || defaultCredits;
-                const creditsB =
-                    this.project.tileServerB.credits || defaultCredits;
-                result = `Before: ${creditsA}\nAfter: ${creditsB}`;
-                break;
-            }
-            case BUILDING_FOOTPRINTS: {
-                result = this.project.tileServer.credits || defaultCredits;
-                break;
-            }
-            default:
-                result = defaultCredits;
-        }
+        // CHANGE_DETECTION
+        // we have 2 sets of imagery
+        const creditsA =
+            this.project.tileServer.credits || defaultCredits;
+        const creditsB =
+            this.project.tileServerB.credits || defaultCredits;
+        result = `Before: ${creditsA}\nAfter: ${creditsB}`;
         return result;
     };
 

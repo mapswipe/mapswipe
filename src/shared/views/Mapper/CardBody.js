@@ -71,7 +71,7 @@ class _CardBody extends React.PureComponent<Props, State> {
 
     tapsRegistered: number;
 
-    tasksPerScreen: ?Array<Array<BuiltAreaTaskType>>;
+    tasksPerScreen: ?Array<BuiltAreaTaskType>;
 
     tutorialIntroWidth: number;
 
@@ -365,6 +365,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             console.log('tps', this.tasksPerScreen.length, screenNumber);
             // $FlowFixMe
             if (this.tasksPerScreen[screenNumber]) {
+                // $FlowFixMe
                 result = this.tasksPerScreen[screenNumber].reduce(
                     /* $FlowFixMe  we should break up the task type definition
                     into tutorial / non-tutorial */
@@ -443,6 +444,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         const currentScreen = this.getCurrentScreen();
         if (this.tasksPerScreen) {
             const visibleTiles = this.tasksPerScreen[currentScreen];
+            // $FlowFixMe
             visibleTiles.forEach(tile => {
                 // $FlowFixMe
                 onToggleTile({
@@ -499,7 +501,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                 }
             }
         }
-
+        // $FlowFixMe
         this.tasksPerScreen = this.generateTasks();
         // calculate the latitude of the top row of the group for the scalebar
         // see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames

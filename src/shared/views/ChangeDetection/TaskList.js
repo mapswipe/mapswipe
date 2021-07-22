@@ -65,7 +65,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
 
     scrollEnabled: boolean;
 
-    tasksPerScreen: ?Array<Array<ChangeDetectionTaskType>>;
+    tasksPerScreen: ?Array<ChangeDetectionTaskType>;
 
     tutorialIntroWidth: number;
 
@@ -182,8 +182,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const currentScreen = this.getCurrentScreen();
         // set each tile to its reference value
         // $FlowFixMe
-
         const { taskId } = this.tasksPerScreen[currentScreen];
+        // $FlowFixMe
         const { referenceAnswer } = this.tasksPerScreen[currentScreen];
 
         onToggleTile({
@@ -206,7 +206,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         const { tutorialMode } = this.state;
         if (this.tasksPerScreen) {
             const currentScreen = this.getCurrentScreen();
+            // $FlowFixMe
             const { referenceAnswer } = this.tasksPerScreen[currentScreen];
+            // $FlowFixMe
             const { taskId } = this.tasksPerScreen[currentScreen];
             const answer = parseInt(results[taskId], 10);
             if (answer === referenceAnswer) {
@@ -351,6 +353,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         if (!tutorial) {
             // in "real" mapping sessions, we don't download tasks from the server,
             // instead we create them from data in the group object here
+            let screen = 0
             for (let x = minx; x <= maxx; x += 1) {
                 for (let y = miny; y <= maxy; y += 1) {
                     const urlB = tileServerB
@@ -380,7 +383,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                         urlB,
                     };
                     // $FlowFixMe
-                    screens.push(task);
+                    screens[screen] = task;
+                    screen += 1
                 }
             }
         } else {
@@ -440,7 +444,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 ) *
                 (180 / Math.PI);
         }
-
+        // $FlowFixMe
         this.tasksPerScreen = this.generateTasks();
 
         return (
