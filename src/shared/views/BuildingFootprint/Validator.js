@@ -457,7 +457,6 @@ export default (compose(
     firebaseConnect(props => {
         if (props.group) {
             const { groupId, projectId } = props.group;
-            const prefix = props.tutorial ? 'tutorial' : 'projects';
             if (groupId !== undefined) {
                 const r = props.results;
                 // also wait for the startTime timestamp to be set (by START_GROUP)

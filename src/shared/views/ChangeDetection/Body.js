@@ -31,11 +31,7 @@ import type {
     TranslationFunction,
     TutorialContent,
 } from '../../flow-types';
-import {
-    COLOR_DEEP_BLUE,
-    BUILDING_FOOTPRINTS,
-    // CHANGE_DETECTION,
-} from '../../constants';
+import { COLOR_DEEP_BLUE } from '../../constants';
 
 const GLOBAL = require('../../Globals');
 
@@ -180,10 +176,8 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         const defaultCredits = 'Unknown imagery source';
         // CHANGE_DETECTION
         // we have 2 sets of imagery
-        const creditsA =
-            this.project.tileServer.credits || defaultCredits;
-        const creditsB =
-            this.project.tileServerB.credits || defaultCredits;
+        const creditsA = this.project.tileServer.credits || defaultCredits;
+        const creditsB = this.project.tileServerB.credits || defaultCredits;
         result = `Before: ${creditsA}\nAfter: ${creditsB}`;
         return result;
     };

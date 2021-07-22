@@ -353,7 +353,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         if (!tutorial) {
             // in "real" mapping sessions, we don't download tasks from the server,
             // instead we create them from data in the group object here
-            let screen = 0
+            let screen = 0;
             for (let x = minx; x <= maxx; x += 1) {
                 for (let y = miny; y <= maxy; y += 1) {
                     const urlB = tileServerB
@@ -384,7 +384,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     };
                     // $FlowFixMe
                     screens[screen] = task;
-                    screen += 1
+                    screen += 1;
                 }
             }
         } else {
