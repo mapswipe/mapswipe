@@ -57,3 +57,4 @@ In short:
 - Demographic data and interests are derived from the `android advertising ID` (TODO: stop collecting it if possible)
 - Android [advertising ID](https://firebase.google.com/docs/analytics/configure-data-collection?platform=android#disable_advertising_id_collection) is not collected anymore (it was until version 2.0.11)
 - SSAID (Android_ID) is [unique to a combination of app-signing key, user and device](https://firebase.google.com/docs/analytics/configure-data-collection?platform=android#disable_ssaid_collection). Until 2.0.11, this was collection by analytics. We've removed it.
+- Analytics data is not used for [personalised advertising](https://firebase.google.com/docs/analytics/configure-data-collection?platform=android#disable_personalized_advertising_features), although we never linked an ad account to the analytics account for MapSwipe.
