@@ -49,6 +49,7 @@ In short:
 - Apple's location service is not used, country is derived from an anonymized IP address
 - As we don't collect IDFA, we do not have access to age, gender, interests of the user ([source](https://support.google.com/firebase/answer/9268042?visit_id=637626397084989644-2548047988&rd=1))
 - We removed IDFV [collection](https://firebase.google.com/docs/analytics/configure-data-collection?platform=ios#disable_idfv_collection) in analytics. IDFV is an apple identifier that seems to uniquely identifier a device, and would allow [tracking usage of various apps of the same provider](https://developer.apple.com/forums/thread/659416) (for instance, track an iOS user across BRC's apps). We don't need this.
+- Analytics data is not used for [personalised advertising](https://firebase.google.com/docs/analytics/configure-data-collection?platform=ios#disable_personalized_advertising_features), although we never linked an ad account to the analytics account for MapSwipe.
 
 #### Android
 
