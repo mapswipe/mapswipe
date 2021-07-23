@@ -55,3 +55,4 @@ In short:
 
 - Each app instance is assigned an `app instance ID` like on iOS
 - Demographic data and interests are derived from the `android advertising ID` (TODO: stop collecting it if possible)
+- Android [advertising ID](https://firebase.google.com/docs/analytics/configure-data-collection?platform=android#disable_advertising_id_collection) is not collected anymore (it was until version 2.0.11)
