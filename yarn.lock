@@ -1626,7 +1626,7 @@
   dependencies:
     deep-assign "^3.0.0"
 
-"@react-native-community/art@^1.1.2", "@react-native-community/art@^1.2.0":
+"@react-native-community/art@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/art/-/art-1.2.0.tgz#386d95393f6042d9006f9d4bc6063fb898794460"
   integrity sha512-a+ZcRGl/BzLa89yi33Mbn5SHavsEXqKUMdbfLf3U8MDLElndPqUetoJyGkv63+BcPO49UMWiQRP1YUz6/zfJ+A==
@@ -7975,12 +7975,11 @@ react-native-pager-view@^5.2.1:
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.3.2.tgz#11c1210c60d3953aecf2588754d465bebe32a858"
   integrity sha512-IYMxRg5gvoyOBhXeo8+LrA2TN1NjxmvTCyaTnbzVIScUTucYZwHL/8raXBi1k3p71JL2WjyA1KW/j6gVDzBOiQ==
 
-react-native-progress@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-4.1.2.tgz#ffb2264ddfeba409c730e36a9791bb7bbe07a00d"
-  integrity sha512-sFHs6k6npWDOyvQoL2NeyOyHb+q1s8iOAOeyzoObN77zkxOAsgJt9FcSJLRq70Mw7qSGNJMFDqCgvYR1huYRwQ==
+react-native-progress@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-5.0.0.tgz#f5ac6ceaeee27f184c660b00f29419e82a9d0ab0"
+  integrity sha512-KjnGIt3r9i5Kn2biOD9fXLJocf0bwxPRxOyAgXEnZTJQU2O+HyzgGFRCbM5h3izm9kKIkSc1txh8aGmMafCD9A==
   dependencies:
-    "@react-native-community/art" "^1.1.2"
     prop-types "^15.7.2"
 
 react-native-reanimated@^2.2.0:
