@@ -15,6 +15,7 @@ MapSwipe uses the following components of [react-native-firebase](rnfirebase.io)
 - `auth`: the app uses it to identify users through their email+password. Once authenticated, the email address is not used anywhere, as firebase provides a userId (which looks like `CWkgnstlmi80ctr3MEiK76abe9H2`) which is the only piece of "user" info we use across the app. We use this identifier to know which user contributed what, and prevent a user from mapping a task more than once. If a user deletes their account, we keep this anonymous userId, but delete the email, meaning there is no way to know who contributed this work anymore.
 - `database`: This firebase realtime database, which is used to store user contributions (when you tap "finish mapping" and see the blue notification at the top of the screen about uploading your results, the app is sending them to firebase)
 - `storage`: we use it to keep user data on the phone between app uses, so that the user doesn't need to login every time they open the app, or see the intro screens again. We also keep the user's language selection for instance.
+- `Cloud messaging`: for remote notifications. As I write this document, cloud messaging has been disabled from the app. It was active until v2.0.11.
 
 MapSwipe does not use any advertising features.
 
