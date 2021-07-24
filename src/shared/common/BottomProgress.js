@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import * as Progress from 'react-native-progress';
+import ProgressBar from 'react-native-progress/Bar';
 import { StyleSheet, View } from 'react-native';
 import {
     COLOR_DARK_GRAY,
@@ -42,7 +42,7 @@ export default class BottomProgress extends React.Component<{}, BPState> {
         const { progress } = this.state;
         return (
             <View style={styles.swipeNavBottom}>
-                <Progress.Bar
+                <ProgressBar
                     animated={false}
                     height={3}
                     width={GLOBAL.SCREEN_WIDTH * 0.98}
