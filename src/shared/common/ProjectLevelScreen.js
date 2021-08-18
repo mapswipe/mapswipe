@@ -203,7 +203,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 // CHANGE_DETECTION
                 // we have 2 sets of imagery
                 const creditsA =
-                    this.project.tileServerA.credits || defaultCredits;
+                    this.project.tileServer.credits || defaultCredits;
                 const creditsB =
                     this.project.tileServerB.credits || defaultCredits;
                 result = `Before: ${creditsA}\nAfter: ${creditsB}`;

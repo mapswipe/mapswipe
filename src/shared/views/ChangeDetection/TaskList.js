@@ -3,12 +3,12 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { FlatList } from 'react-native';
+import { FlatList, View, StyleSheet, Text } from 'react-native';
 import get from 'lodash.get';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
-import { tutorialModes } from '../../constants';
+import { tutorialModes, COLOR_WHITE } from '../../constants';
 import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialOutroScreen from '../../common/Tutorial/TutorialOutro';
@@ -40,6 +40,7 @@ type Props = {
     closeTilePopup: () => void,
     openTilePopup: () => void,
     zoomLevel: number,
+    credits: string,
 };
 
 type State = {
@@ -47,6 +48,21 @@ type State = {
     tutorialBoxIsVisible: boolean,
     tutorialMode: $Keys<typeof tutorialModes>,
 };
+
+const styles = StyleSheet.create({
+    attribution: {
+        color: COLOR_WHITE,
+        fontSize: 7,
+        fontWeight: '300',
+    },
+    attributionView: {
+        backgroundColor: '#444444',
+        padding: 1,
+        position: 'absolute',
+        bottom: 35,
+        alignSelf: 'center',
+    },
+});
 
 class _ChangeDetectionTaskList extends React.Component<Props, State> {
     flatlist: ?FlatList<ChangeDetectionTaskType>;
@@ -335,6 +351,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             openTilePopup,
             closeTilePopup,
             zoomLevel,
+            credits,
         } = this.props;
         const {
             tutorialMode,
@@ -369,6 +386,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 ) *
                 (180 / Math.PI);
         }
+
+        console.log(credits);
 
         return (
             <>
@@ -426,6 +445,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                     showsHorizontalScrollIndicator={false}
                 />
+                <View style={styles.attributionView}>
+                    <Text style={styles.attribution}>{credits}</Text>
+                </View>
                 <ScaleBar
                     alignToBottom={false}
                     latitude={latitude}

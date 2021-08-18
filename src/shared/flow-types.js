@@ -122,7 +122,7 @@ export type ChangeDetectionProjectType = {
     projectType: 3,
     progress: number,
     status: string,
-    tileServerA: TileServerType,
+    tileServer: TileServerType,
     tileServerB: TileServerType,
     zoomLevel: number,
 };

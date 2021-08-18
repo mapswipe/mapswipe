@@ -184,10 +184,10 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 // CHANGE_DETECTION
                 // we have 2 sets of imagery
                 const creditsA =
-                    this.project.tileServerA.credits || defaultCredits;
+                    this.project.tileServer.credits || defaultCredits;
                 const creditsB =
                     this.project.tileServerB.credits || defaultCredits;
-                result = `Before: ${creditsA}\nAfter: ${creditsB}`;
+                result = `Credits: before: ${creditsA} / after: ${creditsB}`;
                 break;
             }
             case BUILDING_FOOTPRINTS: {
@@ -274,6 +274,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
+        const credits = this.getCreditString();
 
         return (
             <View style={styles.mappingContainer}>
@@ -300,6 +301,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
+                    credits={credits}
                 />
                 <View>
                     <TouchableWithoutFeedback
