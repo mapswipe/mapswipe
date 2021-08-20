@@ -400,7 +400,9 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                                 toNextGroup={this.toNextGroup}
                                 projectId={group.projectId}
                                 tutorial={tutorial}
-                                continueMappingButtonVisible={canContinueMapping}
+                                continueMappingButtonVisible={
+                                    canContinueMapping
+                                }
                             />
                         )
                     }

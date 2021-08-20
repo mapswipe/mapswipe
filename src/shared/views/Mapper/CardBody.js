@@ -541,7 +541,9 @@ class _CardBody extends React.PureComponent<Props, State> {
                                 projectId={projectId}
                                 toNextGroup={this.toNextGroup}
                                 tutorial={tutorial}
-                                continueMappingButtonVisible={canContinueMapping}
+                                continueMappingButtonVisible={
+                                    canContinueMapping
+                                }
                             />
                         )
                     }
