@@ -122,7 +122,7 @@ class CDInstructionScreen extends React.Component<Props> {
 
                 <ScrollView style={styles.container}>
                     <Text style={styles.header}>
-                        <Trans i18nKey="CDInstructionScreen:ImageryCredits">
+                        <Trans i18nKey="CDInstructionScreen:imageryCredits">
                             Imagery Credits
                         </Trans>
                     </Text>
