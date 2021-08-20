@@ -72,7 +72,7 @@ type Props = {
     t: TranslationFunction,
     tutorial: boolean,
     tutorialId: string,
-    continueMapping: boolean,
+    canContinueMapping: boolean,
 };
 
 type State = {
@@ -258,7 +258,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             t,
             tutorial,
             tutorialId,
-            continueMapping,
+            canContinueMapping,
         } = this.props;
         const { groupCompleted, poppedUpTile } = this.state;
 
@@ -305,7 +305,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
-                    continueMapping={continueMapping}
+                    canContinueMapping={canContinueMapping}
                 />
                 <View>
                     <TouchableWithoutFeedback

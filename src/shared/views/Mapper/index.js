@@ -343,7 +343,7 @@ class _Mapper extends React.Component<Props, State> {
             screens,
             tutorial,
             tutorialId,
-            continueMapping,
+            canContinueMapping,
         } = this.props;
         const { poppedUpTile } = this.state;
 
@@ -381,7 +381,7 @@ class _Mapper extends React.Component<Props, State> {
                     tutorialId={tutorialId}
                     updateProgress={this.updateProgress}
                     zoomLevel={this.project.zoomLevel}
-                    continueMapping={continueMapping}
+                    canContinueMapping={canContinueMapping}
                 />
                 <BottomProgress
                     ref={r => {

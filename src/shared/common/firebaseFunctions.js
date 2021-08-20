@@ -116,10 +116,9 @@ export const mapStateToPropsForGroups =
             }
         }
 
-        // Here we define a boolean value 'continueMapping' which will tell us,
+        // Here we define a boolean value 'canContinueMapping' which will tell us,
         // if there are more groups available for mapping for this user.
-        let continueMapping;
-        continueMapping = true;
+        let canContinueMapping = true;
         if (groups && isLoaded(groups)) {
             // we have a few groups to choose from, remove the ones the user has already worked on
             // and pick the first one left, as we now know the user hasn't already worked on it
@@ -131,9 +130,9 @@ export const mapStateToPropsForGroups =
             const groupsToPickFrom = groupsAvailable.filter(
                 g => !groupsMapped.includes(g),
             );
-            if (groupsToPickFrom.length === 1) {
+            if (groupsToPickFrom.length <= 1) {
                 // Here we set a boolean to make sure that the users stops mapping.
-                continueMapping = false;
+                canContinueMapping = false;
             }
             groupId =
                 groupsToPickFrom[
@@ -152,7 +151,7 @@ export const mapStateToPropsForGroups =
             onInfoPress: ownProps.onInfoPress,
             results: state.results,
             tutorial,
-            continueMapping,
+            canContinueMapping,
         };
     };
 

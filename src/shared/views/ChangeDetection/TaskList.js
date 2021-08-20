@@ -40,7 +40,7 @@ type Props = {
     closeTilePopup: () => void,
     openTilePopup: () => void,
     zoomLevel: number,
-    continueMapping: boolean,
+    canContinueMapping: boolean,
 };
 
 type State = {
@@ -336,7 +336,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             openTilePopup,
             closeTilePopup,
             zoomLevel,
-            continueMapping,
+            canContinueMapping,
         } = this.props;
         const {
             tutorialMode,
@@ -400,7 +400,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                                 toNextGroup={this.toNextGroup}
                                 projectId={group.projectId}
                                 tutorial={tutorial}
-                                continueMappingButtonVisible={continueMapping}
+                                continueMappingButtonVisible={canContinueMapping}
                             />
                         )
                     }
