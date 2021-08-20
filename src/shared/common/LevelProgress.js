@@ -2,7 +2,7 @@
 /* eslint-disable max-classes-per-file */
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import * as Progress from 'react-native-progress';
+import ProgressBar from 'react-native-progress/Bar';
 import {
     COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,
@@ -44,7 +44,7 @@ export default (props: LPProps): React.Node => {
     const { progress, text } = props;
     return (
         <View style={styles.barRow}>
-            <Progress.Bar
+            <ProgressBar
                 borderRadius={0}
                 borderWidth={0}
                 color={COLOR_DEEP_BLUE}
