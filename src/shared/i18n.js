@@ -11,7 +11,6 @@ import translationET from '../../locales/et';
 import translationFA_AF from '../../locales/fa_AF';
 import translationFR from '../../locales/fr';
 import translationHU from '../../locales/hu';
-import translationIT from '../../locales/it';
 import translationJA from '../../locales/ja';
 import translationNE from '../../locales/ne';
 import translationNL from '../../locales/nl';
@@ -30,7 +29,6 @@ const resources = {
     fa_AF: translationFA_AF,
     fr: translationFR,
     hu: translationHU,
-    it: translationIT,
     ja: translationJA,
     ne: translationNE,
     nl: translationNL,
