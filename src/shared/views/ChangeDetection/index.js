@@ -83,59 +83,6 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
         this.randomSeed = Math.random();
     }
 
-    /* eslint-disable global-require */
-    getNormalHelpContent: (creditString: string) => React.Node = (
-        creditString: string,
-    ) => (
-        <>
-            <Text style={styles.header}>How To Contribute</Text>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    Look at the images before (top) and after (bottom) and
-                    decide whether you see any of the changes mentioned in the
-                    brief at the top of the screen. Swipe anywhere on the screen
-                    to answer:
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Image
-                    source={require('../assets/swiperight_icon_black.png')}
-                    style={styles.tutImage}
-                />
-                <Text style={[styles.tutText, { color: COLOR_GREEN }]}>
-                    Right if you see changes
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Image
-                    source={require('../assets/swipeleft_icon_black.png')}
-                    style={styles.tutImage}
-                />
-                <Text style={[styles.tutText, { color: COLOR_DARK_GRAY }]}>
-                    Left if you don&apos;t see changes
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Image
-                    source={require('../assets/swipedown_icon_black.png')}
-                    style={styles.tutImage}
-                />
-                <Text style={[styles.tutText, { color: COLOR_YELLOW }]}>
-                    Down if you&apos;re unsure
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Image
-                    source={require('../assets/swipeup_icon_black.png')}
-                    style={styles.tutImage}
-                />
-                <Text style={[styles.tutText, { color: COLOR_RED }]}>
-                    Up if there is no image, or it&apos;s cloudy
-                </Text>
-            </View>
-        </>
-    );
-
     /* eslint-enable global-require */
     render(): React.Node {
         const { navigation, tutorial } = this.props;
@@ -156,13 +103,11 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
         return (
             <ChangeDetectionBody
                 navigation={navigation}
-                getNormalHelpContent={this.getNormalHelpContent}
                 randomSeed={this.randomSeed}
                 screenName="_ChangeDetectionScreen"
                 submitResultFunction={submitChange}
                 tutorial={tutorial}
                 tutorialId={tutorialId}
-                tutorialHelpContent={this.tutorialHelpContent}
             />
         );
     }

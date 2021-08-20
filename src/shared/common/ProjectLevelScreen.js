@@ -265,8 +265,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             content = tutorialHelpContent;
         }
 
-        console.log('render help modal from projectLevelScreen')
-
         return (
             <Modal
                 style={[styles.modal, styles.HelpModal]}

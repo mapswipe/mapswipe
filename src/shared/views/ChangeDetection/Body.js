@@ -84,8 +84,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     backConfirmationModal: ?React.ComponentType<void>;
 
-    HelpModal: ?React.ComponentType<void>;
-
     progress: ?BottomProgress;
 
     project: ProjectType;
