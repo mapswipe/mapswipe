@@ -1,0 +1,12 @@
+diff --git a/node_modules/@react-native-firebase/app/lib/common/path.js b/node_modules/@react-native-firebase/app/lib/common/path.js
+index a6d178a..22831b1 100644
+--- a/node_modules/@react-native-firebase/app/lib/common/path.js
++++ b/node_modules/@react-native-firebase/app/lib/common/path.js
+@@ -37,6 +37,6 @@
+ export function pathChild(path, childPath) {
+   const canonicalChildPath = pathPieces(childPath).join('/');
+ 
+-  if (path.length === 0) {
++  if (path.length === 0 || path === '/') {
+     return canonicalChildPath;
+   }

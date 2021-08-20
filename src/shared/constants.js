@@ -30,6 +30,7 @@ export const COLOR_TRANSPARENT_LIGHT_GRAY = 'rgba(238, 242, 251, 0)';
 export const supportedLanguages = [
     // follows (hopefully) the order in which they are displayed
     // in wikipedia's list of languages (left side toolbar)
+    // as shown on https://en.wikipedia.org/wiki/Main_Page
     { code: 'cs', name: 'Čeština' },
     { code: 'da', name: 'Dansk' },
     { code: 'de', name: 'Deutsch' },
@@ -38,6 +39,7 @@ export const supportedLanguages = [
     { code: 'es', name: 'Español' },
     { code: 'fa_AF', name: 'دری- افغانستان' },
     { code: 'fr', name: 'Français' },
+    { code: 'it', name: 'Italiano' },
     { code: 'hu', name: 'Magyar' },
     { code: 'ja', name: '日本語' },
     { code: 'ne', name: 'नेपाली' },
