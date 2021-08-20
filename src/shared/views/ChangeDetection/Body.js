@@ -166,13 +166,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     onInfoPress = () => {
         const { navigation } = this.props;
-        const creditString = this.getCreditString();
-
-        console.log('Credits in get info press ', creditString)
-
         navigation.push('CDInstructionsScreen', {
             project: this.project,
-            creditString: this.getCreditString()
+            creditString: this.getCreditString(),
         });
     };
 
@@ -312,7 +308,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                         onPress={() => {
                             navigation.push('CDInstructionsScreen', {
                                 project: this.project,
-                                creditString: creditString
+                                creditString,
                             });
                         }}
                     >

@@ -17,9 +17,6 @@ import {
     NumberedTapIconWhite2,
     NumberedTapIconWhite3,
 } from '../../common/Tutorial/icons';
-import type {
-    ProjectType,
-} from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -89,7 +86,6 @@ type Props = {
 
 /* eslint-disable global-require */
 class CDInstructionScreen extends React.Component<Props> {
-
     componentDidMount() {
         const { navigation } = this.props;
         BackHandler.addEventListener('hardwareBackPress', () =>
@@ -99,12 +95,9 @@ class CDInstructionScreen extends React.Component<Props> {
 
     render() {
         const { navigation, t } = this.props;
+        const creditString = navigation.getParam('creditString');
 
-        const projectObj = navigation.getParam('project')
-        const creditString = navigation.getParam('creditString')
-
-        console.log('credits in instructions: ', creditString)
-
+        // TODO: use lookFor attribute of project in the text
         return (
             <View style={styles.background}>
                 <View style={styles.swipeNavTop}>
@@ -129,13 +122,11 @@ class CDInstructionScreen extends React.Component<Props> {
 
                 <ScrollView style={styles.container}>
                     <Text style={styles.header}>
-                        <Trans i18nKey="CDInstructionScreen:Credits">
-                            Credits
+                        <Trans i18nKey="CDInstructionScreen:ImageryCredits">
+                            Imagery Credits
                         </Trans>
                     </Text>
-                    <Text style={styles.tutParagraph}>
-                        {creditString}
-                    </Text>
+                    <Text style={styles.tutParagraph}>{creditString}</Text>
 
                     <Text style={styles.header}>{t('your task')}</Text>
                     <Text style={styles.tutParagraph}>

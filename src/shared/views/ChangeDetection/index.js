@@ -1,22 +1,11 @@
 // @flow
 import * as React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { submitChange } from '../../actions/index';
 import ChangeDetectionBody from './Body';
 import type { NavigationProp } from '../../flow-types';
-import {
-    COLOR_GREEN,
-    COLOR_DARK_GRAY,
-    COLOR_RED,
-    COLOR_YELLOW,
-} from '../../constants';
 
 const styles = StyleSheet.create({
-    header: {
-        fontWeight: '700',
-        color: '#212121',
-        fontSize: 18,
-    },
     tutRow: {
         marginTop: 10,
         flexDirection: 'row',
@@ -29,16 +18,6 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         lineHeight: 20,
     },
-    tutText: {
-        fontSize: 13,
-        fontWeight: '600',
-        marginTop: 10,
-        width: 150,
-    },
-    tutImage: {
-        height: 30,
-        resizeMode: 'contain',
-    },
 });
 
 type Props = {
@@ -50,6 +29,7 @@ type Props = {
 export default class ChangeDetectionScreen extends React.Component<Props> {
     randomSeed: number;
 
+    // TODO: this is not used at the moment.
     tutorialHelpContent: React.Node = (
         <View>
             <Text style={styles.tutPar}>Welcome to the tutorial!</Text>
