@@ -118,6 +118,15 @@ class CDInstructionScreen extends React.Component<Props> {
                 </View>
 
                 <ScrollView style={styles.container}>
+                    <Text style={styles.header}>
+                        <Trans i18nKey="CDInstructionScreen:Credits">
+                            Credits
+                        </Trans>
+                    </Text>
+                    <Text style={styles.tutParagraph}>
+                        before: test, after: test
+                    </Text>
+
                     <Text style={styles.header}>{t('your task')}</Text>
                     <Text style={styles.tutParagraph}>
                         <Trans i18nKey="CDInstructionScreen:lookingFor">
@@ -201,6 +210,7 @@ class CDInstructionScreen extends React.Component<Props> {
                             simply swipe to the next image.
                         </Trans>
                     </Text>
+
                     <Text style={styles.header}>&nbsp;</Text>
                 </ScrollView>
             </View>
