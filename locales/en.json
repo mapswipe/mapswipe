@@ -104,7 +104,7 @@
     "badImagery": "Imagery issue, like if either image has clouds covering the view? <1>Tap three times</1> and the tile will turn red",
     "holdZoom": "If you need to see an image more closely, tap and hold the image and it'll zoom in a little more.",
     "hint": "Hint:",
-    "differentImagery": "Sometimes different imagery sources will have been used. The images may be aligned slightly differently or might be a different resolution. Remember, you're looking for <1>definite changes in settlements and buildings</1> so if it looks like the same buildings are there, but maybe there's a new roof, then this would be a 'no change' scenario and you'd simply swipe to the next image."
+    "differentImagery": "Sometimes different imagery sources will have been used. The images may be aligned slightly differently or might be a different resolution. Remember, you're looking for <1>definite changes in settlements and buildings</1> so if it looks like the same buildings are there, but maybe there's a new roof, then this would be a 'no change' scenario and you'd simply swipe to the next image.",
     "imageryCredits": "Imagery Credits"
   },
   "CDBodyScreen": {
