@@ -168,7 +168,14 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     onInfoPress = () => {
         const { navigation } = this.props;
-        navigation.push('CDInstructionsScreen');
+        const creditString = this.getCreditString();
+
+        console.log('Credits in get info press ', creditString)
+
+        navigation.push('CDInstructionsScreen', {
+            project: this.project,
+            creditString: this.getCreditString()
+        });
     };
 
     commitCompletedGroup = () => {
@@ -187,7 +194,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     this.project.tileServer.credits || defaultCredits;
                 const creditsB =
                     this.project.tileServerB.credits || defaultCredits;
-                result = `Credits: before: ${creditsA} / after: ${creditsB}`;
+                result = `Before: ${creditsA}\nAfter: ${creditsB}`;
                 break;
             }
             case BUILDING_FOOTPRINTS: {
@@ -274,7 +281,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
-        const credits = this.getCreditString();
+        const creditString = this.getCreditString();
 
         return (
             <View style={styles.mappingContainer}>
@@ -301,12 +308,14 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
-                    credits={credits}
                 />
                 <View>
                     <TouchableWithoutFeedback
                         onPress={() => {
-                            navigation.push('CDInstructionsScreen');
+                            navigation.push('CDInstructionsScreen', {
+                                project: this.project,
+                                creditString: creditString
+                            });
                         }}
                     >
                         <Text

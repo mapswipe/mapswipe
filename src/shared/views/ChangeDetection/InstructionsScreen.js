@@ -17,6 +17,9 @@ import {
     NumberedTapIconWhite2,
     NumberedTapIconWhite3,
 } from '../../common/Tutorial/icons';
+import type {
+    ProjectType,
+} from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
@@ -86,6 +89,7 @@ type Props = {
 
 /* eslint-disable global-require */
 class CDInstructionScreen extends React.Component<Props> {
+
     componentDidMount() {
         const { navigation } = this.props;
         BackHandler.addEventListener('hardwareBackPress', () =>
@@ -95,6 +99,12 @@ class CDInstructionScreen extends React.Component<Props> {
 
     render() {
         const { navigation, t } = this.props;
+
+        const projectObj = navigation.getParam('project')
+        const creditString = navigation.getParam('creditString')
+
+        console.log('credits in instructions: ', creditString)
+
         return (
             <View style={styles.background}>
                 <View style={styles.swipeNavTop}>
@@ -124,7 +134,7 @@ class CDInstructionScreen extends React.Component<Props> {
                         </Trans>
                     </Text>
                     <Text style={styles.tutParagraph}>
-                        before: test, after: test
+                        {creditString}
                     </Text>
 
                     <Text style={styles.header}>{t('your task')}</Text>

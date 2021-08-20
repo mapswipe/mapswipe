@@ -40,7 +40,6 @@ type Props = {
     closeTilePopup: () => void,
     openTilePopup: () => void,
     zoomLevel: number,
-    credits: string,
 };
 
 type State = {
@@ -48,21 +47,6 @@ type State = {
     tutorialBoxIsVisible: boolean,
     tutorialMode: $Keys<typeof tutorialModes>,
 };
-
-const styles = StyleSheet.create({
-    attribution: {
-        color: COLOR_WHITE,
-        fontSize: 7,
-        fontWeight: '300',
-    },
-    attributionView: {
-        backgroundColor: '#444444',
-        padding: 1,
-        position: 'absolute',
-        bottom: 35,
-        alignSelf: 'center',
-    },
-});
 
 class _ChangeDetectionTaskList extends React.Component<Props, State> {
     flatlist: ?FlatList<ChangeDetectionTaskType>;
@@ -351,7 +335,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             openTilePopup,
             closeTilePopup,
             zoomLevel,
-            credits,
         } = this.props;
         const {
             tutorialMode,
@@ -386,8 +369,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 ) *
                 (180 / Math.PI);
         }
-
-        console.log(credits);
 
         return (
             <>
@@ -445,9 +426,6 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
                     showsHorizontalScrollIndicator={false}
                 />
-                <View style={styles.attributionView}>
-                    <Text style={styles.attribution}>{credits}</Text>
-                </View>
                 <ScaleBar
                     alignToBottom={false}
                     latitude={latitude}

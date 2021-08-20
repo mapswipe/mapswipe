@@ -133,8 +133,6 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
                     Up if there is no image, or it&apos;s cloudy
                 </Text>
             </View>
-            <Text style={styles.header}>Credits</Text>
-            <Text style={styles.tutPar}>{creditString}</Text>
         </>
     );
 
