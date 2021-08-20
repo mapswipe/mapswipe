@@ -118,7 +118,7 @@ type Props = {
     t: TranslationFunction,
     tutorial: boolean,
     tutorialId: string,
-    continueMapping: boolean,
+    canContinueMapping: boolean,
 };
 
 type State = {
