@@ -11,11 +11,11 @@ platform :ios do
 
   desc "Update dev certificates locally"
   lane :matchDev do
-      match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
+      match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: false, verbose: true)
   end
 
   lane :matchProd do
-    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: is_ci)
+    match(type: "appstore", app_identifier: "org.missingmaps.mapswipe", readonly: false, verbose: true)
   end
 
   desc "Build the app and run the tests defined for the mapswipe scheme. Used in github actions to trigger the CI step."

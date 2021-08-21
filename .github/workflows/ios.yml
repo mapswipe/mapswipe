@@ -20,9 +20,6 @@ jobs:
         with:
           node-version: '16.1.0'
 
-      - name: Install javascript packages
-        uses: bahmutov/npm-install@v1
-
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.3'
@@ -41,6 +38,12 @@ jobs:
 
       - name: TEMP get updated podfile.lock
         run: cat ios/Podfile.lock
+
+      - name: TEMP renew dev certificates
+        run: bundle exec fatlane ios matchDev
+
+      - name: TEMP renew prod certificates
+        run: bundle exec fatlane ios matchProd
 
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
