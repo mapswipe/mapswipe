@@ -79,9 +79,13 @@ jobs:
           gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/AuthKey_4B2GC5YX57.p8 ./ios/cfg/MapSwipe_apple_release_key_AuthKey_4B2GC5YX57.p8.gpg
 
       - name: TEMP renew dev certificates
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane ios matchDev
 
       - name: TEMP renew prod certificates
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane ios matchProd
 
       - name: Build the app and run unit tests
