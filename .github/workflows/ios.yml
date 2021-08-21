@@ -43,10 +43,10 @@ jobs:
         run: cat ios/Podfile.lock
 
       - name: TEMP renew dev certificates
-        run: bundle exec fatlane ios matchDev
+        run: bundle exec fastlane ios matchDev
 
       - name: TEMP renew prod certificates
-        run: bundle exec fatlane ios matchProd
+        run: bundle exec fastlane ios matchProd
 
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
