@@ -20,6 +20,11 @@ jobs:
         with:
           node-version: '16.1.0'
 
+      - name: Add gitlab to ssh_known_hosts
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
       - name: Install javascript packages
         uses: bahmutov/npm-install@v1
 
@@ -78,11 +83,6 @@ jobs:
           FILE_DECRYPTION_PASSPHRASE: ${{ secrets.FILE_DECRYPTION_PASSPHRASE }}
         run: |
           gpg --quiet --batch --yes --decrypt --passphrase="$FILE_DECRYPTION_PASSPHRASE" --output ./ios/AuthKey_4B2GC5YX57.p8 ./ios/cfg/MapSwipe_apple_release_key_AuthKey_4B2GC5YX57.p8.gpg
-
-      - name: Add gitlab to ssh_known_hosts
-        env:
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-        run: echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
 
       - name: Build the app and run unit tests
         # The test lane refreshes the development certificates, compiles the app and launches the unit tests.
