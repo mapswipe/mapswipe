@@ -121,11 +121,7 @@ class CDInstructionScreen extends React.Component<Props> {
                 </View>
 
                 <ScrollView style={styles.container}>
-                    <Text style={styles.header}>
-                        <Trans i18nKey="CDInstructionScreen:imageryCredits">
-                            Imagery Credits
-                        </Trans>
-                    </Text>
+                    <Text style={styles.header}>{t('imageryCredits')}</Text>
                     <Text style={styles.tutParagraph}>{creditString}</Text>
 
                     <Text style={styles.header}>{t('your task')}</Text>
