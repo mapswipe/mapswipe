@@ -1,24 +1,8 @@
 // @flow
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { submitChange } from '../../actions/index';
 import ChangeDetectionBody from './Body';
 import type { NavigationProp } from '../../flow-types';
-
-const styles = StyleSheet.create({
-    tutRow: {
-        marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-    },
-    tutPar: {
-        fontSize: 14,
-        color: 'rgba(0,0,0,0.54)',
-        fontWeight: '500',
-        lineHeight: 20,
-    },
-});
 
 type Props = {
     navigation: NavigationProp,
@@ -28,30 +12,6 @@ type Props = {
 /* eslint-disable react/destructuring-assignment */
 export default class ChangeDetectionScreen extends React.Component<Props> {
     randomSeed: number;
-
-    // TODO: this is not used at the moment.
-    tutorialHelpContent: React.Node = (
-        <View>
-            <Text style={styles.tutPar}>Welcome to the tutorial!</Text>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    This should make you a wizard of MapSwipe in a few minutes.
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    Just follow the instructions on the screen, and swipe left
-                    to continue.
-                </Text>
-            </View>
-            <View style={styles.tutRow}>
-                <Text style={styles.tutPar}>
-                    If the instructions are in your way, just tap the message
-                    box to move it.
-                </Text>
-            </View>
-        </View>
-    );
 
     constructor(props: Props) {
         super(props);

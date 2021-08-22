@@ -275,7 +275,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             );
         }
         const backConfirmationModal = this.renderBackConfirmationModal();
-        const creditString = this.getCreditString();
 
         return (
             <View style={styles.mappingContainer}>
@@ -304,14 +303,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     zoomLevel={this.project.zoomLevel}
                 />
                 <View>
-                    <TouchableWithoutFeedback
-                        onPress={() => {
-                            navigation.push('CDInstructionsScreen', {
-                                project: this.project,
-                                creditString,
-                            });
-                        }}
-                    >
+                    <TouchableWithoutFeedback onPress={this.onInfoPress}>
                         <Text
                             style={{
                                 alignSelf: 'center',
