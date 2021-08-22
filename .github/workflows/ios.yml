@@ -83,7 +83,7 @@ jobs:
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: cd ios && bundle exec fastlane ios matchDev
+        run: cd ios && bundle exec fastlane env && bundle exec fastlane ios matchDev
 
       - name: TEMP renew prod certificates
         env:
