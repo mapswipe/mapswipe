@@ -4,7 +4,7 @@
     "more": "Meer"
   },
   "signup": {
-    "chooseUsername": "Kies je gebruikersnaam",
+    "chooseUsername": "Kies uw gebruikersnaam",
     "passwordError": "Wachtwoord moet uit 6 tekens of meer bestaan",
     "usernameError": "Gebruikersnaam moet uit 4 tekens of meer bestaan",
     "errorOnSignup": "Fout bij aanmelden",
@@ -12,12 +12,12 @@
     "usernameNotEmail": "Uw gebruikersnaam mag geen e-mailadres zijn ",
     "usernamePublic": "Uw gebruikersnaam is publiek zichtbaar",
     "success": "Succes",
-    "welcomeToMapSwipe": "Welkom bij MapSwipe, {{gebruikersnaam}}",
+    "welcomeToMapSwipe": "Welkom bij MapSwipe, {{username}}",
     "emailAlreadyUsed": "E-mailadres al gebruikt door een ander account",
     "emailInvalid": "E-mailadres is ongeldig",
     "problemSigningUp": "Probleem met aanmelden",
     "errorOnSignUp": "Fout bij aanmelden",
-    "checkYourEmail": "Check je inbox",
+    "checkYourEmail": "Check uw inbox",
     "noAccountFoundForEmail": "Geen account gevonden voor dit e-mailadres",
     "problemResettingPassword": "Er was een probleem met het resetten van uw wachtwoord",
     "errorLogIn": "Fout bij inloggen",
@@ -43,7 +43,7 @@
     "enterUsername": "Voer uw gebruikersnaam in"
   },
   "profileScreen": {
-    "Level X": "Niveau {{niveau}}",
+    "Level X": "Niveau {{level}}",
     "youve completed x tasks": "U heeft {{contributions}} taken afgerond!",
     "x tasks (s swipes) until the next level": "{{sqkm}} taken ({{swipes}} swipes) tot het volgende niveau",
     "yourTeam": "Uw team: {{teamName}}",
@@ -63,7 +63,10 @@
   },
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% WERELDWIJDE VOORTGANG DANKZIJ {{contributorCount}} VRIJWILLIGERS ZOALS U.",
+    "userProgressForProject": "{{userProgress}}% voor dit project",
+    "quotaReachedWarning": "Kies een ander project vanuit de missie-schermen",
     "map now": "Nu in kaart brengen",
+    "chooseAnotherProject": "Kies een ander project",
     "tutorial": "Handleiding"
   },
   "mappingHeader": {
@@ -80,7 +83,7 @@
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Welkom bij MapSwipe",
-    "helpImprove": "Help vanaf je telefoon humanitaire acties te verbeteren.",
+    "helpImprove": "Help vanaf uw telefoon humanitaire acties te verbeteren.",
     "partMissingMaps": "Onderdeel van Missing Maps",
     "withMissingMaps": "Met Missing Maps zetten we kwetsbare gemeenschappen in de wereld op de kaart",
     "swipe": "Swipe",
@@ -93,21 +96,34 @@
   "CDInstructionScreen": {
     "instructions": "Instructies",
     "your task": "Uw taak:",
-    "lookingFor": "U bent op zoek naar {' '}<1> veranderingen in gebouwen</1>. Dit fungeert als een duidelijke indicator voor een verandering in populatiegrootte. ",
-    "perform task": "Hoe voer je de taak uit:",
-    "noChanges": "Als er geen wijzigingen zijn {' '} <1>Swipe</1> eenvoudig naar de volgende foto's",
-    "seeChanges": "Als u een verandering in gebouwen ziet, {' '}<1>tik dan één keer</1>{' '} en de tegel wordt groen",
-    "unsure": "Weet u het niet zeker? {' '} <1>Tik twee keer</1> {' '} en de tegel wordt geel",
-    "badImagery": "Problemen met satellietbeelden, bijvoorbeeld door wolken die het zicht bedekken?{' '} <1>Tik drie keer</1>{' '} en de tegel wordt rood",
+    "lookingFor": "U bent op zoek naar <1>veranderingen in het aantal gebouwen</1>. Dit functioneert als een duidelijke indicator voor een verandering in bevolkingsgrootte.",
+    "perform task": "Hoe voert u de taak uit:",
+    "noChanges": "Als er geen veranderingen zijn, <1>swipe</1> gewoon naar de volgende foto's",
+    "seeChanges": "Als u een verandering ziet in het aantal gebouwen, <1>tik één keer</1> en de tegel wordt groen.",
+    "unsure": "Weet u het niet zeker? <1>Tik twee keer</1> en de tegel wordt geel",
+    "badImagery": "Probleem met de afbeeldingen, bijvoorbeeld als één van de afbeeldingen wolken heeft die het zicht ontnemen? <1>Tik drie keer</1> en de tegel wordt rood",
     "holdZoom": "Als u een afbeelding van dichterbij wilt zien tikt u op de afbeelding en houdt u deze vast om nog iets meer in te zoomen.",
     "hint": "Hint:",
-    "differentImagery": "Soms zijn er verschillende beeldbronnen gebruikt. De afbeeldingen kunnen daardoor iets anders zijn uitgelijnd of een andere resolutie hebben. Onthoud dat u opzoek bent naar {' '}<1>duidelijke veranderingen in nederzettingen en gebouwen</1>{' '}. Als het lijkt dat gebouwen hetzelfde zijn, maar misschien een nieuw dak hebben, dan is dit een scenario waarbij er niks is verandert. Swipe simpelweg naar de volgende afbeelding. "
+    "differentImagery": "Soms zijn er verschillende afbeeldingsbronnen gebruikt. De afbeeldingen kunnen iets anders uitgelijnd zijn of er kan een verschil in resolutie zijn. Herinner u dat u op zoek bent naar <1>absolute veranderingen in woongebieden en het aantal gebouwen</1>, dus als het eruit ziet alsof dezelfde gebouwen er zijn, maar misschien met een nieuw dak, dan zou dit een 'geen verandering'-scenario zijn en zou u gewoon naar de volgende afbeelding kunnen swipen."
   },
   "CDBodyScreen": {
     "viewInstructions": "Bekijk instructies"
   },
+  "CDTaskScreen": {
+    "before": "Voor",
+    "after": "Na"
+  },
+  "CDValidator": {
+    "Yes": "Ja",
+    "No": "Nee",
+    "NotSure": "Weet ik niet",
+    "BadImagery": "Slechte afbeelding"
+  },
   "ProjectLevelScreen": {
-    "iUnderstand": "Ik begrijp het"
+    "iUnderstand": "Ik begrijp het",
+    "StopMappingAndReturn": "Stoppen met in kaart brengen en teruggaan naar het menu?",
+    "ContinueMapping": "Doorgaan met in kaart brengen",
+    "BackToMenu": "Terug naar menu"
   },
   "IndividualCard": {
     "swipe down mark red": "Swipe OMLAAG om alle 6 tegels ROOD te markeren.",
@@ -115,6 +131,9 @@
   },
   "LoadingIcon": {
     "loading": "Laden..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Laat antwoorden zien"
   },
   "Tutorial": {
     "incomplete": "INCOMPLEET",
@@ -132,5 +151,51 @@
     "tutorial3": "Volg simpelweg de instructies op het scherm en swipe naar links om door te gaan.",
     "tutorial4": "Als de instructies in de weg staan tikt u gewoon op de melding om deze te verplaatsen.",
     "tutorial5": "Ik begrijp het"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Dit tutorial zal u leren hoe u MapSwipe gebruikt. Hier zijn de basis-stappen:",
+    "noChanges": "Als er niets relevants in de afbeeldingen is, <1>swipe</1> gewoon naar het volgende scherm ",
+    "seeChanges": "Als u iets ziet in één van de afbeeldingen, <1>tik één keer om het vierkant groen te maken</1>.",
+    "unsure": "Weet u niet zeker wat u ziet? <1>Tik twee keer om het vierkant geel te maken</1>",
+    "badImagery": "Als er een probleem is met de afbeelding, <1>tik drie keer om het vierkant rood te maken</1>",
+    "tapAgain": "Tik opnieuw om het vierkant terug te zetten in zijn originele staat.",
+    "WhatToLookFor": "Waar naar te zoeken",
+    "YouAreLookingFor": "U bent op zoek naar {{lookFor}}",
+    "FromTheGround": "Vanaf de grond ziet het er zo uit:",
+    "ImagesFromAbove": "Maar de afbeeldingen die u zult zien, zullen dit van boven laten zien, en dan ziet het er zo uit:",
+    "SwipeToContinue": "Swipe om door te gaan"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Maak u geen zorgen als u niet zeker weet wat u ziet in een vierkant.",
+    "youCanAlwaysTapTwice": "Herinner u dat u altijd twee keer kan tikken om de tegel geel te markeren als u niet zeker weet wat u ziet.",
+    "everyImageViewedBy": "Elke afbeelding wordt bekeken door meerdere mensen, dus maak u geen zorgen of u iets gemist heeft.",
+    "holdZoom": "U kunt op elk vierkant drukken en het ingedrukt houden om er naar te zoomen. Tik opnieuw om dit te annuleren."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "U bent klaar om te beginnen met MapSwipen!",
+    "startMapping": "Starten met in kaart brengen",
+    "completedTutorial": "U heeft nu alles wat u nodig hebt om bij te dragen aan het humanitaire in kaart brengen met behulp van de app. U kunt altijd terugkomen voor een opfrisser."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "letsLearnHowToMap": "Laten we leren hoe in kaart te brengen met enkele voorbeelden",
+      "youllSeeASquare": "U zult een vierkant zien op een afbeelding. Gebruik de knoppen om te antwoorden.",
+      "squareContainsBuildings": "Bevat het vierkant gebouwen?",
+      "squareWillMove": "Het vierkant zal in de afbeelding verschuiven wanneer je voortgang maakt en zal een grid volgen zoals hier:",
+      "swipeToGetStarted": "Swipe om te beginnen"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Maak u geen zorgen als u niet zeker bent over een vierkant",
+    "youCanAlwaysTapUnsure": "Herinner dat u altijd op de 'Weet ik niet' knop kan tikken",
+    "everyImageViewedBy": "Elke afbeelding wordt bekeken door ten minste 3 MapSwipers, dus het is ok als u denkt dat u iets gemist hebt.",
+    "wantToChangeYourAnswer": "Wilt u uw antwoord veranderen?",
+    "youCanSwipeBack": "U kunt terugswipen om uw vorige antwoorden te veranderen. Tap of swipe daarna opnieuw vooruit om terug te komen waar u was."
+  },
+  "BFInstructionsScreen" : {
+    "howToContribute": "Hoe bij te dragen",
+    "squareContainsBuildings": "Bevat het vierkant gebouwen? Gebruik de knoppen om te antwoorden:",
+    "instructionsYes": "Ja: wanneer er een gebouw of deel van een gebouw in het vierkant is",
+    "instructionsNo": "Nee: wanneer er geen gebouwen zijn in het vierkant",
+    "instructionsNotSure": "Weet ik niet: wanneer u niet zeker bent of het een gebouw is of niet",
+    "instructionsBadImagery": "Slechte afbeeldingen: wanneer er wolken of problemen met de afbeeldingen zijn"
   }
 }
