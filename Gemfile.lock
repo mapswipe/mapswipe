@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/mapswipe/fastlane.git
-  revision: f9d323799571a83dad4ce3a4c458edc9f92fc37a
-  ref: f9d323799571a83dad4ce3a4c458edc9f92fc37a
+  revision: bfbbdf1b58d3eeea9ab6f3b049b82c4bd5ea4a4f
+  ref: bfbbdf1b58d3eeea9ab6f3b049b82c4bd5ea4a4f
   specs:
     fastlane (2.197.0)
       CFPropertyList (>= 2.3, < 4.0.0)
