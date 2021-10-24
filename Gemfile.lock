@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:mapswipe/fastlane.git
+  remote: https://github.com/mapswipe/fastlane.git
   revision: f9d323799571a83dad4ce3a4c458edc9f92fc37a
   ref: f9d323799571a83dad4ce3a4c458edc9f92fc37a
   specs:
