@@ -112,7 +112,7 @@ jobs:
           # yarn bundleProd
 
       - name: Upload APK to Github releases (beta build)
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.8.10
         if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-beta')
         with:
           artifacts: "./android/app/build/outputs/apk/dev/release/app-dev-release.apk"
@@ -121,7 +121,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload APK to Github releases (production build)
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.8.10
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         with:
           artifacts: "./android/app/build/outputs/apk/production/release/app-production-release.apk"
