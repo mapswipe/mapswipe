@@ -90,7 +90,7 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_DEV_RELEASE_STORE_PASSWORD }}
         run: yarn buildDev
 
-      - name: Build production APK
+      - name: Build production APK and AAB
         # only build the release APK on "production" tags
         # This build uses mapswipe-production-release-key.keystore
         # The apk produced by this step is used by subsequent steps to:
@@ -102,7 +102,14 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_KEY_PASSWORD }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_STORE_FILE }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_STORE_PASSWORD }}
-        run: yarn buildProd
+        run: |
+          # build the APK (which we'll upload to github releases)
+          yarn buildProd
+          # build the AAB (Android App Bundle)
+          # Uploading an AAB requires opting-in to google managed signing keys, which in turn makes it much harder
+          # to upload the same app to a different store. As we do not have to as of November 2021, we keep
+          # using the APK upload, which means the github releases version and the playstore one are the same APK
+          # yarn bundleProd
 
       - name: Upload APK to Github releases (beta build)
         uses: ncipollo/release-action@v1

@@ -22,5 +22,9 @@ platform :android do
     # this step assumes that the build has already been done by a previous step in the CI process
     # via the `yarn buildProd` command
     upload_to_play_store(track: 'internal', apk: 'app/build/outputs/apk/production/release/app-production-release.apk')
+    # Uploading an AAB requires opting-in to google managed signing keys, which in turn makes it much harder
+    # to upload the same app to a different store. As we do not have to as of November 2021, we keep
+    # using the APK upload, which means the github releases version and the playstore one are the same APK
+    # upload_to_play_store(track: 'internal', aab: 'app/build/outputs/bundle/productionRelease/app-production-release.aab')
   end
 end
