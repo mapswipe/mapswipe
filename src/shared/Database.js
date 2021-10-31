@@ -31,7 +31,7 @@ export default {
      * Returns the current level of the user
      * @returns {*}
      */
-    getLevel(): any {
+    getLevel(): number {
         return this.getLevelForExp(this.distance);
     },
 
@@ -59,7 +59,7 @@ export default {
      */
 
     getLevelForExp(exp: number): number {
-        let toReturn = 1;
+        let toReturn: number = 1;
         try {
             const parent = this;
             Object.keys(levels).forEach(level => {
@@ -69,7 +69,7 @@ export default {
                     exp > levels[level].expRequired &&
                     exp < levels[parseInt(level, 10) + 1].expRequired
                 ) {
-                    toReturn = level;
+                    toReturn = parseInt(level, 10);
                 }
             });
             if (toReturn > this.maxLevel) {
