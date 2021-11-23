@@ -23,7 +23,6 @@
   "dependencies": {
     "@mapbox/tilebelt": "^1.0.1",
     "@react-native-async-storage/async-storage": "^1.15.5",
-    "@react-native-community/art": "^1.2.0",
     "@react-native-community/cli": "^5.0.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "^4.0.0",
@@ -55,6 +54,7 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "3.4.0",
     "react-native-simple-markdown": "mapswipe/react-native-simple-markdown#master",
+    "react-native-svg": "^12.1.1",
     "react-native-swiper": "^1.6.0",
     "react-native-webview": "^11.6.4",
     "react-navigation": "^4.4.4",
@@ -90,9 +90,9 @@
     "jest": "^27.0.0",
     "jsonlint": "^1.6.3",
     "metro-react-native-babel-preset": "^0.66.0",
-    "react-native-codegen": "^0.0.7",
     "native-testing-library": "^3.1.2",
     "prettier": "^2.0.5",
+    "react-native-codegen": "^0.0.7",
     "react-test-renderer": "17.0.2",
     "redux-devtools-extension": "^2.13.8",
     "remotedev-rn-debugger": "^0.8.4"
