@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { View } from 'react-native';
-import { Path, Shape, Surface, Text } from '@react-native-community/art';
+import Svg, { Path, Text } from 'react-native-svg';
 
 import GLOBAL from '../Globals';
 
@@ -18,7 +18,7 @@ type Props = {
     zoomLevel: number,
 };
 
-const getScaleBar = (meters, feet, tileWidth, referenceSize) => {
+const getScaleBar = (meters, feet, tileWidth, referenceSize): string => {
     /*
      * produce a shape like
      * |       |
@@ -31,14 +31,17 @@ const getScaleBar = (meters, feet, tileWidth, referenceSize) => {
     const metersPx = (meters / tileWidth) * referenceSize;
     const feetPx = (feet / tileWidth) * referenceSize;
     const bottom = top + 2 * (mid - top);
-    const p = Path().moveTo(0, top);
-    p.lineTo(0, bottom);
-    p.moveTo(0, mid);
-    p.lineTo(metersPx, mid);
-    p.lineTo(metersPx, top);
-    p.moveTo(metersPx, mid);
-    p.lineTo(feetPx * 0.3048, mid);
-    p.lineTo(feetPx * 0.3048, bottom);
+    const parts = [
+        `M0 ${top}`,
+        `L0 ${bottom}`,
+        `M0 ${mid}`,
+        `L${metersPx} ${mid}`,
+        `L${metersPx} ${top}`,
+        `M${metersPx} ${mid}`,
+        `L${feetPx * 0.3048} ${mid}`,
+        `L${feetPx * 0.3048} ${bottom}`,
+    ];
+    const p = parts.join(' ');
     return p;
 };
 
@@ -85,43 +88,39 @@ export default (props: Props): React.Node => {
     return (
         <View
             style={{
-                opacity: visible ? 0.8 : 0,
+                opacity: visible ? 0.5 : 0,
                 position: 'absolute',
                 bottom: alignToBottom ? 0 : 20,
                 left: 10,
             }}
         >
-            <Surface height={GLOBAL.TILE_SIZE / 5} width={referenceSize}>
-                <Shape
-                    d={p}
-                    stroke="rgba(255, 255, 255, 0.6)"
-                    strokeWidth={1}
-                />
+            <Svg height={GLOBAL.TILE_SIZE / 5} width={referenceSize}>
+                <Path d={p} stroke="white" strokeWidth={1} />
                 <Text
                     alignment="left"
-                    fill="rgba(255, 255, 255, 0.6)"
+                    fill="white"
                     font={{
                         fontFamily: 'Helvetica, Arial',
                         fontSize: 13,
                     }}
-                    x={3}
-                    y={0}
+                    x="3"
+                    y="13"
                 >
                     {`${meters}m`}
                 </Text>
                 <Text
                     alignment="left"
-                    fill="rgba(255, 255, 255, 0.6)"
+                    fill="white"
                     font={{
                         fontFamily: 'Helvetica, Arial',
                         fontSize: 13,
                     }}
-                    x={3}
-                    y={17}
+                    x="3"
+                    y="30"
                 >
                     {`${feet}ft`}
                 </Text>
-            </Surface>
+            </Svg>
         </View>
     );
 };
