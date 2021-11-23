@@ -16,7 +16,7 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
-import { Path, Shape, Surface } from '@react-native-community/art';
+import Svg, { Polygon as SvgPolygon } from 'react-native-svg';
 import tilebelt from '@mapbox/tilebelt';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import ScaleBar from '../../common/ScaleBar';
@@ -31,7 +31,6 @@ import type {
     PixelCoordsX,
     PixelCoordsY,
     Point,
-    Polygon,
     SingleImageryProjectType,
     BuildingFootprintTaskType,
     Tile,
@@ -220,25 +219,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     };
 
     /*
-     * Get the polygon to draw over the image
-     */
-    // $FlowFixMe
-    getPolygon = (coords: Polygon, screenBBox: BBOX): Path => {
-        const [minLon, minLat, maxLon, maxLat] = screenBBox;
-        // geographic coords to screen pixels
-        const lon2x = lon =>
-            ((lon - minLon) / (maxLon - minLon)) * this.imageryHeight;
-        const lat2y = lat =>
-            (1 - (lat - minLat) / (maxLat - minLat)) * this.imageryHeight;
-        const p = Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
-        coords.forEach(corner => {
-            p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
-        });
-        p.close();
-        return p;
-    };
-
-    /*
      * Get the building bounding box (in real coordinates)
      */
     getBuildingBBox: (coords: LonLatPolygon) => BBOX = (
@@ -325,7 +305,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
         // $FlowFixMe
-    ): Path => {
+    ): string => {
         // get the polygon in ART Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
         // center: the center as [longitude, latitude]
@@ -347,10 +327,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             ),
         );
 
-        const p = Path().moveTo(taskImageCoords[0][0], taskImageCoords[0][1]);
-        taskImageCoords.forEach(corner => {
-            p.lineTo(corner[0], corner[1]);
-        });
+        const p = taskImageCoords.map(tic => `${tic[0]},${tic[1]}`).join(' ');
         return p;
     };
 
@@ -360,7 +337,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
         // $FlowFixMe
-    ): Path => {
+    ): string => {
         // get the polygon in ART Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
         // center: the center as [longitude, latitude]
@@ -385,11 +362,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 minY,
             ),
         );
-
-        const p = Path().moveTo(taskImageCoords[0][0], taskImageCoords[0][1]);
-        taskImageCoords.forEach(corner => {
-            p.lineTo(corner[0], corner[1]);
-        });
+        const p = taskImageCoords.map(tic => `${tic[0]},${tic[1]}`).join(' ');
         return p;
     };
 
@@ -488,8 +461,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const latitude = center[1];
         const screenBBox = this.getScreenBBoxFromCenter(center, zoom);
         // build footprint polyline
-        // const p = this.getPolygon(coords, screenBBox);
-        // const path = this.getTaskGeometryPath(task, this.zoomLevel);
         const corners = this.BBOXToCoords(screenBBox);
         const swCornerTile = tilebelt.pointToTileFraction(
             corners[0][0],
@@ -557,7 +528,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         task: BuildingFootprintTaskType,
         zoom: ZoomLevel,
         // $FlowFixMe
-    ): Path => {
+    ): string => {
         const { project } = this.props;
         if (project.tileServer.url.includes('googleapis')) {
             // google imagery works in a non-standard way
@@ -598,7 +569,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const zoomLevel = this.getZoomLevelFromCoords(coords);
         // get the path to be drawn on top of the imagery, as it's the same for all
         // types of imagery
-        const path = this.getTaskGeometryPath(task, zoomLevel);
+        const svgPath = this.getTaskGeometryPath(task, zoomLevel);
 
         if (project.tileServer.url.includes('googleapis')) {
             // use the latitude of the first point in the shape as reference for the scalebar
@@ -633,12 +604,25 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         }}
                         source={{ uri: imageUrl }}
                     />
-                    <Surface
+                    <Svg
                         height={this.imageryHeight}
                         width={GLOBAL.SCREEN_WIDTH}
                     >
-                        <Shape d={path} stroke="red" strokeWidth={2} />
-                    </Surface>
+                        <SvgPolygon
+                            points={svgPath}
+                            fill="none"
+                            fillOpacity="0.0"
+                            stroke="black"
+                            strokeWidth="3"
+                        />
+                        <SvgPolygon
+                            points={svgPath}
+                            fill="none"
+                            stroke="white"
+                            strokeDasharray="3, 3"
+                            strokeWidth="1"
+                        />
+                    </Svg>
                     <ScaleBar
                         alignToBottom={false}
                         latitude={latitude}
@@ -659,6 +643,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         );
 
         const attribution = project.tileServer.credits;
+        console.log('fpd render');
         return (
             <View
                 {...this.panResponder.panHandlers}
@@ -724,18 +709,22 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         source={{ uri: tileUrls[3] }}
                     />
                 </View>
-                <Surface
-                    height={GLOBAL.SCREEN_WIDTH}
-                    width={GLOBAL.SCREEN_WIDTH}
-                >
-                    <Shape d={path} stroke="black" strokeWidth={3} />
-                    <Shape
-                        d={path}
-                        stroke="white"
-                        strokeDash={[1, 2]}
-                        strokeWidth={1}
+                <Svg height={GLOBAL.SCREEN_WIDTH} width={GLOBAL.SCREEN_WIDTH}>
+                    <SvgPolygon
+                        points={svgPath}
+                        fill="none"
+                        fillOpacity="0.0"
+                        stroke="black"
+                        strokeWidth="3"
                     />
-                </Surface>
+                    <SvgPolygon
+                        points={svgPath}
+                        fill="none"
+                        stroke="white"
+                        strokeDasharray="3, 3"
+                        strokeWidth="1"
+                    />
+                </Svg>
                 <ScaleBar
                     alignToBottom
                     latitude={latitude}
