@@ -331,6 +331,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 />
                 {backConfirmationModal}
                 {helpModal}
+                <BottomProgress
+                    ref={r => {
+                        this.progress = r;
+                    }}
+                />
                 <Component
                     categories={tutorial ? categories : null}
                     completeGroup={this.completeGroup}
@@ -343,11 +348,6 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
                     tutorialId={tutorialId}
-                />
-                <BottomProgress
-                    ref={r => {
-                        this.progress = r;
-                    }}
                 />
             </View>
         );
