@@ -13,7 +13,7 @@ If this is not what you are doing, you can skip this template.
 - [ ] Any commit to `master` since the last release are also merged into `dev`.
 - [ ] The code is commented enough to be understandable by another developer (someone has reviewed my code)
 - [ ] Reference related issues in the PR description
-- [ [ Check that all translations are included in `src/shared/18n.js` and `src/shared/constant.js`
+- [ ] Check that all translations are included in `src/shared/18n.js` and `src/shared/constant.js`
 - [ ] All translation PRs are merged into `dev`.
 - [ ] Check all security alerts and either close or merge them
 - [ ] Verify outdated dependencies (with `yarn outdated`) and upgrade them
