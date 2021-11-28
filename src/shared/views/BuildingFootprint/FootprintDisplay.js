@@ -6,6 +6,7 @@ import {
     PanResponder,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import {
@@ -42,6 +43,8 @@ const GLOBAL = require('../../Globals');
 // tileSize is only used for tile based imagery (ie: everything but google)
 const tileSize = GLOBAL.SCREEN_WIDTH;
 
+const buttonHeight = GLOBAL.SCREEN_WIDTH * 0.12;
+
 const imgRadius = 10;
 
 const styles = StyleSheet.create({
@@ -60,6 +63,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: tileSize,
     },
+    visibilityButton: {
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderColor: COLOR_WHITE,
+        borderRadius: buttonHeight,
+        borderWidth: 1,
+        height: buttonHeight,
+        width: buttonHeight,
+        left: (GLOBAL.SCREEN_WIDTH - buttonHeight) * 0.45,
+    },
 });
 
 type Props = {
@@ -73,12 +85,15 @@ type Props = {
 type State = {
     animatedMarginLeft: Animated.Value,
     animatedMarginRight: Animated.Value,
+    shapeVisible: boolean,
 };
 
 export default class FootprintDisplay extends React.Component<Props, State> {
     panResponder: PanResponderInstance;
 
     swipeThreshold: number;
+
+    shapeVisible: boolean;
 
     // the imagery is shown as a rectangle, whose size is computed to fill
     // in the screen as much as possible. The width is the same as the screen, and
@@ -108,6 +123,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         this.state = {
             animatedMarginLeft: new Animated.Value(0),
             animatedMarginRight: new Animated.Value(0),
+            shapeVisible: true,
         };
         this.imageryHeight = 0;
         this.prefetchedUrls = new Set();
@@ -552,9 +568,18 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         );
     };
 
+    hideShape: () => void = () => {
+        this.setState({ shapeVisible: false });
+    };
+
+    showShape: () => void = () => {
+        this.setState({ shapeVisible: true });
+    };
+
     render: () => React.Node = () => {
         const { project, task } = this.props;
-        const { animatedMarginLeft, animatedMarginRight } = this.state;
+        const { animatedMarginLeft, animatedMarginRight, shapeVisible } =
+            this.state;
         if (task.geojson === undefined || this.imageryHeight === 0) {
             // data is not ready yet, just show a placeholder
             return (
@@ -584,6 +609,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 zoomLevel,
             );
             const latitude = coords[0][1];
+            /* eslint-disable global-require */
             return (
                 <Animated.View
                     {...this.panResponder.panHandlers}
@@ -610,20 +636,24 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         height={this.imageryHeight}
                         width={GLOBAL.SCREEN_WIDTH * 0.9}
                     >
-                        <SvgPolygon
-                            points={svgPath}
-                            fill="none"
-                            fillOpacity="0.0"
-                            stroke="black"
-                            strokeWidth="3"
-                        />
-                        <SvgPolygon
-                            points={svgPath}
-                            fill="none"
-                            stroke="white"
-                            strokeDasharray="3, 3"
-                            strokeWidth="1"
-                        />
+                        {shapeVisible && (
+                            <>
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    fillOpacity="0.0"
+                                    stroke="black"
+                                    strokeWidth="3"
+                                />
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    stroke="white"
+                                    strokeDasharray="3, 3"
+                                    strokeWidth="1"
+                                />
+                            </>
+                        )}
                     </Svg>
                     <ScaleBar
                         alignToBottom={false}
@@ -633,6 +663,21 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         visible
                         zoomLevel={zoomLevel}
                     />
+                    <TouchableOpacity
+                        onPressIn={() => this.hideShape()}
+                        onPressOut={() => this.showShape()}
+                        style={styles.visibilityButton}
+                    >
+                        <Image
+                            source={require('../assets/hidden.png')}
+                            style={{
+                                alignSelf: 'center',
+                                marginTop: 8,
+                                height: 25,
+                                width: 25,
+                            }}
+                        />
+                    </TouchableOpacity>
                 </Animated.View>
             );
         }
@@ -739,21 +784,40 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         height={GLOBAL.SCREEN_WIDTH}
                         width={GLOBAL.SCREEN_WIDTH}
                     >
-                        <SvgPolygon
-                            points={svgPath}
-                            fill="none"
-                            fillOpacity="0.0"
-                            stroke="black"
-                            strokeWidth="3"
-                        />
-                        <SvgPolygon
-                            points={svgPath}
-                            fill="none"
-                            stroke="white"
-                            strokeDasharray="3, 3"
-                            strokeWidth="1"
-                        />
+                        {shapeVisible && (
+                            <>
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    fillOpacity="0.0"
+                                    stroke="black"
+                                    strokeWidth="3"
+                                />
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    stroke="white"
+                                    strokeDasharray="3, 3"
+                                    strokeWidth="1"
+                                />
+                            </>
+                        )}
                     </Svg>
+                    <TouchableOpacity
+                        onPressIn={() => this.hideShape()}
+                        onPressOut={() => this.showShape()}
+                        style={styles.visibilityButton}
+                    >
+                        <Image
+                            source={require('../assets/hidden.png')}
+                            style={{
+                                alignSelf: 'center',
+                                marginTop: 8,
+                                height: 25,
+                                width: 25,
+                            }}
+                        />
+                    </TouchableOpacity>
                     <ScaleBar
                         alignToBottom={false}
                         latitude={latitude}
