@@ -59,10 +59,7 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         height: buttonHeight,
         width: buttonHeight,
-        // flex: 1,
         marginBottom: buttonMargin,
-        // marginLeft: buttonMargin,
-        // marginRight: buttonMargin,
         marginTop: buttonMargin,
     },
     whiteBold: {
