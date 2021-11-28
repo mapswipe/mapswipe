@@ -6,7 +6,7 @@ import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, View } from 'react-native';
 import Button from 'apsl-react-native-button';
 import { withTranslation } from 'react-i18next';
 import FootprintDisplay from './FootprintDisplay';
@@ -24,17 +24,17 @@ import type {
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
-    TranslationFunction,
     TutorialContent,
 } from '../../flow-types';
 
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
-const buttonMargin = GLOBAL.SCREEN_HEIGHT >= 550 ? 5 : 3;
+const buttonMargin = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 30;
 
-const buttonBGColor = 'rgba(255, 255, 255, 0.2)';
-const buttonBGColorSelected = 'rgba(255, 255, 255, 0.8)';
+const buttonGreen = '#bbcb7d';
+const buttonRed = '#fd5054';
+const buttonGrey = '#adadad';
 
 const styles = StyleSheet.create({
     container: {
@@ -51,38 +51,24 @@ const styles = StyleSheet.create({
     },
     sideBySideButtons: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
+        width: '100%',
     },
-    bigSquareButton: {
-        borderColor: COLOR_WHITE,
-        borderRadius: 20,
-        borderWidth: 2,
-        height: buttonHeight * 2,
-        flex: 1,
+    roundButton: {
+        borderRadius: buttonHeight,
+        borderWidth: 0,
+        height: buttonHeight,
+        width: buttonHeight,
+        // flex: 1,
         marginBottom: buttonMargin,
-        marginLeft: buttonMargin,
-        marginRight: buttonMargin,
+        // marginLeft: buttonMargin,
+        // marginRight: buttonMargin,
         marginTop: buttonMargin,
     },
-    bigSquareButtonText: {
+    whiteBold: {
         alignSelf: 'center',
         color: COLOR_WHITE,
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    longNarrowButton: {
-        borderColor: COLOR_WHITE,
-        borderRadius: 20,
-        borderWidth: 2,
-        color: COLOR_WHITE,
-        height: buttonHeight,
-        marginBottom: buttonMargin,
-        marginLeft: buttonMargin,
-        marginRight: buttonMargin,
-        marginTop: buttonMargin,
-    },
-    longNarrowButtonText: {
-        color: COLOR_WHITE,
+        fontSize: 22,
         fontWeight: 'bold',
     },
 });
@@ -90,7 +76,6 @@ const styles = StyleSheet.create({
 const FOOTPRINT_NO = 0;
 const FOOTPRINT_YES = 1;
 const FOOTPRINT_NOT_SURE = 2;
-const FOOTPRINT_BAD_IMAGERY = 3;
 
 type Props = {
     completeGroup: () => void,
@@ -100,7 +85,6 @@ type Props = {
     results: ResultMapType,
     screens: Array<TutorialContent>,
     submitResult: (number, string) => void,
-    t: TranslationFunction,
     tutorial: boolean,
     updateProgress: number => void,
 };
@@ -260,7 +244,7 @@ class _Validator extends React.Component<Props, State> {
 
     /* eslint-disable global-require */
     renderValidator = () => {
-        const { group, project, results, screens, t, tutorial } = this.props;
+        const { group, project, results, screens, tutorial } = this.props;
         const { currentTaskIndex } = this.state;
         const currentTask = this.expandedTasks[currentTaskIndex];
         // if tasks have a center attribute, we know they're grouped by 9
@@ -310,21 +294,18 @@ class _Validator extends React.Component<Props, State> {
                             {
                                 backgroundColor:
                                     selectedResult === FOOTPRINT_YES
-                                        ? buttonBGColorSelected
-                                        : buttonBGColor,
+                                        ? buttonGreen
+                                        : buttonGreen,
                             },
-                            styles.bigSquareButton,
+                            styles.roundButton,
                         ]}
-                        textStyle={styles.bigSquareButtonText}
+                        textStyle={styles.whiteBold}
                     >
                         <View>
                             <Image
                                 source={require('../assets/checkmark_white.png')}
                                 style={styles.checkmark}
                             />
-                            <Text style={styles.bigSquareButtonText}>
-                                {t('Yes')}
-                            </Text>
                         </View>
                     </Button>
                     <Button
@@ -333,46 +314,31 @@ class _Validator extends React.Component<Props, State> {
                             {
                                 backgroundColor:
                                     selectedResult === FOOTPRINT_NO
-                                        ? buttonBGColorSelected
-                                        : buttonBGColor,
+                                        ? buttonRed
+                                        : buttonRed,
                             },
-                            styles.bigSquareButton,
+                            styles.roundButton,
                         ]}
-                        textStyle={styles.bigSquareButtonText}
+                        textStyle={styles.whiteBold}
                     >
-                        {`\u2715\n${t('No')}`}
+                        {`\u2715`}
+                    </Button>
+                    <Button
+                        onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
+                        style={[
+                            {
+                                backgroundColor:
+                                    selectedResult === FOOTPRINT_NOT_SURE
+                                        ? buttonGrey
+                                        : buttonGrey,
+                            },
+                            styles.roundButton,
+                        ]}
+                        textStyle={styles.whiteBold}
+                    >
+                        ?
                     </Button>
                 </View>
-                <Button
-                    onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                    style={[
-                        {
-                            backgroundColor:
-                                selectedResult === FOOTPRINT_NOT_SURE
-                                    ? buttonBGColorSelected
-                                    : buttonBGColor,
-                        },
-                        styles.longNarrowButton,
-                    ]}
-                    textStyle={styles.longNarrowButtonText}
-                >
-                    {t('NotSure')}
-                </Button>
-                <Button
-                    onPress={() => this.nextTask(FOOTPRINT_BAD_IMAGERY)}
-                    style={[
-                        {
-                            backgroundColor:
-                                selectedResult === FOOTPRINT_BAD_IMAGERY
-                                    ? buttonBGColorSelected
-                                    : buttonBGColor,
-                        },
-                        styles.longNarrowButton,
-                    ]}
-                    textStyle={styles.longNarrowButtonText}
-                >
-                    {t('BadImagery')}
-                </Button>
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 && (
