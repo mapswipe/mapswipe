@@ -9,6 +9,7 @@ type Props = {
     // whether to shift the scale bar a little bit up from the bottom
     alignToBottom: boolean,
     latitude: number,
+    position: 'bottom' | 'top',
     // true if we should use the screen_width to size the scale bar instead of
     // using the tile size. This is useful for building footprint projects
     // with TMS imagery as we use a few tricks there to cover the entire screen
@@ -46,8 +47,14 @@ const getScaleBar = (meters, feet, tileWidth, referenceSize): string => {
 };
 
 export default (props: Props): React.Node => {
-    const { alignToBottom, latitude, useScreenWidth, visible, zoomLevel } =
-        props;
+    const {
+        alignToBottom,
+        latitude,
+        position,
+        useScreenWidth,
+        visible,
+        zoomLevel,
+    } = props;
 
     // calculate the width of one tile (in meters)
     // this magic formula comes from
@@ -87,12 +94,23 @@ export default (props: Props): React.Node => {
     const p = getScaleBar(meters, feet, tileWidth, referenceSize);
     return (
         <View
-            style={{
-                opacity: visible ? 0.5 : 0,
-                position: 'absolute',
-                bottom: alignToBottom ? 0 : 20,
-                left: 10,
-            }}
+            style={[
+                {
+                    opacity: visible ? 0.5 : 0,
+                    position: 'absolute',
+                    left: 10,
+                },
+                {
+                    bottom:
+                        // eslint-disable-next-line no-nested-ternary
+                        position === 'bottom'
+                            ? alignToBottom
+                                ? 0
+                                : 20
+                            : undefined,
+                    top: position === 'top' ? 20 : undefined,
+                },
+            ]}
         >
             <Svg height={GLOBAL.TILE_SIZE / 5} width={referenceSize}>
                 <Path d={p} stroke="white" strokeWidth={1} />

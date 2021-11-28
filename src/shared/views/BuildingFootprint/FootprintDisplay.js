@@ -626,6 +626,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     <ScaleBar
                         alignToBottom={false}
                         latitude={latitude}
+                        position="top"
                         useScreenWidth
                         visible
                         zoomLevel={zoomLevel}
@@ -726,8 +727,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     />
                 </Svg>
                 <ScaleBar
-                    alignToBottom
+                    alignToBottom={false}
                     latitude={latitude}
+                    position="top"
                     useScreenWidth
                     visible
                     zoomLevel={zoomLevel}
