@@ -209,8 +209,19 @@ class _Validator extends React.Component<Props, State> {
         }
         updateProgress((1 + currentTaskIndex) / group.numberOfTasks);
         this.setState({ currentTaskIndex: currentTaskIndex + 1 });
-        return false;
+        return currentTaskIndex >= this.tasksDone;
     };
+
+    canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean } =
+        () => {
+            const { currentTaskIndex } = this.state;
+            return {
+                canSwipeBack: currentTaskIndex > 0,
+                canSwipeForward:
+                    this.tasksDone >= 0 &&
+                    currentTaskIndex < this.tasksDone + 1,
+            };
+        };
 
     onMomentumScrollEnd = (event: Object) => {
         this.currentScreen = Math.round(
@@ -232,7 +243,7 @@ class _Validator extends React.Component<Props, State> {
         const { group, updateProgress } = this.props;
         const { currentTaskIndex } = this.state;
         if (currentTaskIndex > 0) {
-            updateProgress(currentTaskIndex / group.numberOfTasks);
+            updateProgress((currentTaskIndex - 1) / group.numberOfTasks);
             this.setState({ currentTaskIndex: currentTaskIndex - 1 });
             return false;
         }
@@ -278,6 +289,7 @@ class _Validator extends React.Component<Props, State> {
         return (
             <View style={styles.container}>
                 <FootprintDisplay
+                    canSwipe={this.canSwipe}
                     nextTask={this.nextTask}
                     prefetchTask={prefetchTask}
                     previousTask={this.previousTask}

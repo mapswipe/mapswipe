@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean },
     nextTask: () => boolean,
     prefetchTask: BuildingFootprintTaskType,
     previousTask: () => boolean,
@@ -85,6 +86,8 @@ type Props = {
 type State = {
     animatedMarginLeft: Animated.Value,
     animatedMarginRight: Animated.Value,
+    canSwipeBack: boolean,
+    canSwipeForward: boolean,
     shapeVisible: boolean,
 };
 
@@ -123,6 +126,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         this.state = {
             animatedMarginLeft: new Animated.Value(0),
             animatedMarginRight: new Animated.Value(0),
+            canSwipeBack: false,
+            canSwipeForward: false,
             shapeVisible: true,
         };
         this.imageryHeight = 0;
@@ -132,7 +137,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     componentDidUpdate(prevProps: Props) {
         // try to prefetch the next task's imagery so it displays instantly when
         // we reach it
-        const { prefetchTask, project } = this.props;
+        // FIXME: check why prefetching doesn't work
+        const { canSwipe, prefetchTask, project, task } = this.props;
+        if (prevProps.task !== task) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState(canSwipe());
+        }
         if (
             prefetchTask !== prevProps.prefetchTask &&
             prefetchTask !== undefined
@@ -220,7 +230,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         gestureState: GestureState,
     ) => void = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
-        const { nextTask, previousTask } = this.props;
+        const { canSwipe, nextTask, previousTask } = this.props;
         // we only accept swipes longer than 10% of the screen width
         const swipeMinLength = 0.1;
         if (gestureState.dx < -GLOBAL.SCREEN_WIDTH * swipeMinLength) {
@@ -234,6 +244,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 this.bounceImage('right');
             }
         }
+        this.setState(canSwipe());
     };
 
     /*
@@ -578,8 +589,13 @@ export default class FootprintDisplay extends React.Component<Props, State> {
 
     render: () => React.Node = () => {
         const { project, task } = this.props;
-        const { animatedMarginLeft, animatedMarginRight, shapeVisible } =
-            this.state;
+        const {
+            animatedMarginLeft,
+            animatedMarginRight,
+            canSwipeBack,
+            canSwipeForward,
+            shapeVisible,
+        } = this.state;
         if (task.geojson === undefined || this.imageryHeight === 0) {
             // data is not ready yet, just show a placeholder
             return (
@@ -705,15 +721,23 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 }}
             >
                 <View
-                    style={{
-                        backgroundColor: COLOR_WHITE,
-                        borderTopRightRadius: imgRadius,
-                        borderBottomRightRadius: imgRadius,
-                        height: this.imageryHeight,
-                        opacity: 0.2,
-                        marginRight: GLOBAL.SCREEN_WIDTH * 0.02,
-                        width: GLOBAL.SCREEN_WIDTH * 0.03,
-                    }}
+                    style={
+                        // show an outline of "previous image" to hint that we can
+                        // swipe back (or hide it if we can't)
+                        canSwipeBack
+                            ? {
+                                  backgroundColor: COLOR_WHITE,
+                                  borderTopRightRadius: imgRadius,
+                                  borderBottomRightRadius: imgRadius,
+                                  height: this.imageryHeight,
+                                  opacity: 0.2,
+                                  marginRight: GLOBAL.SCREEN_WIDTH * 0.02,
+                                  width: GLOBAL.SCREEN_WIDTH * 0.03,
+                              }
+                            : {
+                                  width: GLOBAL.SCREEN_WIDTH * 0.05,
+                              }
+                    }
                 />
                 <View
                     {...this.panResponder.panHandlers}
@@ -831,15 +855,23 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                     </View>
                 </View>
                 <View
-                    style={{
-                        backgroundColor: COLOR_WHITE,
-                        borderTopLeftRadius: imgRadius,
-                        borderBottomLeftRadius: imgRadius,
-                        height: this.imageryHeight,
-                        opacity: 0.2,
-                        marginLeft: GLOBAL.SCREEN_WIDTH * 0.02,
-                        width: GLOBAL.SCREEN_WIDTH * 0.03,
-                    }}
+                    style={
+                        // show an outline of "next image" to hint that we can
+                        // swipe forward (or hide it if we can't)
+                        canSwipeForward
+                            ? {
+                                  backgroundColor: COLOR_WHITE,
+                                  borderTopLeftRadius: imgRadius,
+                                  borderBottomLeftRadius: imgRadius,
+                                  height: this.imageryHeight,
+                                  opacity: 0.2,
+                                  marginLeft: GLOBAL.SCREEN_WIDTH * 0.02,
+                                  width: GLOBAL.SCREEN_WIDTH * 0.03,
+                              }
+                            : {
+                                  width: GLOBAL.SCREEN_WIDTH * 0.05,
+                              }
+                    }
                 />
             </View>
         );
