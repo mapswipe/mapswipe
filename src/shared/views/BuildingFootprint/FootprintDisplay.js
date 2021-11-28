@@ -42,6 +42,8 @@ const GLOBAL = require('../../Globals');
 // tileSize is only used for tile based imagery (ie: everything but google)
 const tileSize = GLOBAL.SCREEN_WIDTH;
 
+const imgRadius = 10;
+
 const styles = StyleSheet.create({
     attribution: {
         color: COLOR_WHITE,
@@ -590,7 +592,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         height: this.imageryHeight,
                         marginLeft: animatedMarginLeft,
                         marginRight: animatedMarginRight,
-                        width: GLOBAL.SCREEN_WIDTH,
+                        width: GLOBAL.SCREEN_WIDTH * 0.9,
                         overflow: 'hidden',
                     }}
                 >
@@ -599,14 +601,14 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                             left: 0,
                             height: this.imageryHeight,
                             position: 'absolute',
-                            width: GLOBAL.SCREEN_WIDTH,
+                            width: GLOBAL.SCREEN_WIDTH * 0.9,
                             top: 0,
                         }}
                         source={{ uri: imageUrl }}
                     />
                     <Svg
                         height={this.imageryHeight}
-                        width={GLOBAL.SCREEN_WIDTH}
+                        width={GLOBAL.SCREEN_WIDTH * 0.9}
                     >
                         <SvgPolygon
                             points={svgPath}
@@ -644,11 +646,11 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         );
 
         const attribution = project.tileServer.credits;
-        console.log('fpd render');
         return (
             <View
-                {...this.panResponder.panHandlers}
                 style={{
+                    flex: 1,
+                    flexDirection: 'row',
                     // this crops the extra imagery height for phones
                     // where height is smaller than width
                     // while filling the entire screen width with imagery
@@ -658,85 +660,123 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 }}
             >
                 <View
-                    // this view is square, and exactly the size of 4 imagery tiles
-                    // (ie: 2 * 2 tiles)
-                    // so this is drawn "beyond the screen size"
                     style={{
-                        position: 'absolute',
-                        left: -shiftX,
-                        top: -shiftY,
-                        height: tileSize * 2,
-                        width: tileSize * 2,
+                        backgroundColor: COLOR_WHITE,
+                        borderTopRightRadius: imgRadius,
+                        borderBottomRightRadius: imgRadius,
+                        height: this.imageryHeight,
+                        opacity: 0.2,
+                        marginRight: GLOBAL.SCREEN_WIDTH * 0.02,
+                        width: GLOBAL.SCREEN_WIDTH * 0.03,
+                    }}
+                />
+                <View
+                    {...this.panResponder.panHandlers}
+                    style={{
+                        borderRadius: imgRadius,
+                        // this crops the extra imagery height for phones
+                        // where height is smaller than width
+                        // while filling the entire screen width with imagery
+                        height: this.imageryHeight,
+                        overflow: 'hidden',
+                        width: GLOBAL.SCREEN_WIDTH * 0.9,
                     }}
                 >
-                    <Image
-                        style={[
-                            {
-                                left: 0,
-                                top: 0,
-                            },
-                            styles.tileImg,
-                        ]}
-                        source={{ uri: tileUrls[1] }}
+                    <View
+                        // this view is square, and exactly the size of 4 imagery tiles
+                        // (ie: 2 * 2 tiles)
+                        // so this is drawn "beyond the screen size"
+                        style={{
+                            position: 'absolute',
+                            left: -shiftX,
+                            top: -shiftY,
+                            height: tileSize * 2,
+                            width: tileSize * 2,
+                        }}
+                    >
+                        <Image
+                            style={[
+                                {
+                                    left: 0,
+                                    top: 0,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[1] }}
+                        />
+                        <Image
+                            style={[
+                                {
+                                    left: tileSize,
+                                    top: 0,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[2] }}
+                        />
+                        <Image
+                            style={[
+                                {
+                                    left: 0,
+                                    top: tileSize,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[0] }}
+                        />
+                        <Image
+                            style={[
+                                {
+                                    left: tileSize,
+                                    top: tileSize,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[3] }}
+                        />
+                    </View>
+                    <Svg
+                        height={GLOBAL.SCREEN_WIDTH}
+                        width={GLOBAL.SCREEN_WIDTH}
+                    >
+                        <SvgPolygon
+                            points={svgPath}
+                            fill="none"
+                            fillOpacity="0.0"
+                            stroke="black"
+                            strokeWidth="3"
+                        />
+                        <SvgPolygon
+                            points={svgPath}
+                            fill="none"
+                            stroke="white"
+                            strokeDasharray="3, 3"
+                            strokeWidth="1"
+                        />
+                    </Svg>
+                    <ScaleBar
+                        alignToBottom={false}
+                        latitude={latitude}
+                        position="top"
+                        useScreenWidth
+                        visible
+                        zoomLevel={zoomLevel}
                     />
-                    <Image
-                        style={[
-                            {
-                                left: tileSize,
-                                top: 0,
-                            },
-                            styles.tileImg,
-                        ]}
-                        source={{ uri: tileUrls[2] }}
-                    />
-                    <Image
-                        style={[
-                            {
-                                left: 0,
-                                top: tileSize,
-                            },
-                            styles.tileImg,
-                        ]}
-                        source={{ uri: tileUrls[0] }}
-                    />
-                    <Image
-                        style={[
-                            {
-                                left: tileSize,
-                                top: tileSize,
-                            },
-                            styles.tileImg,
-                        ]}
-                        source={{ uri: tileUrls[3] }}
-                    />
+                    <View style={styles.attributionView}>
+                        <Text style={styles.attribution}>{attribution}</Text>
+                    </View>
                 </View>
-                <Svg height={GLOBAL.SCREEN_WIDTH} width={GLOBAL.SCREEN_WIDTH}>
-                    <SvgPolygon
-                        points={svgPath}
-                        fill="none"
-                        fillOpacity="0.0"
-                        stroke="black"
-                        strokeWidth="3"
-                    />
-                    <SvgPolygon
-                        points={svgPath}
-                        fill="none"
-                        stroke="white"
-                        strokeDasharray="3, 3"
-                        strokeWidth="1"
-                    />
-                </Svg>
-                <ScaleBar
-                    alignToBottom={false}
-                    latitude={latitude}
-                    position="top"
-                    useScreenWidth
-                    visible
-                    zoomLevel={zoomLevel}
+                <View
+                    style={{
+                        backgroundColor: COLOR_WHITE,
+                        borderTopLeftRadius: imgRadius,
+                        borderBottomLeftRadius: imgRadius,
+                        height: this.imageryHeight,
+                        opacity: 0.2,
+                        marginLeft: GLOBAL.SCREEN_WIDTH * 0.02,
+                        width: GLOBAL.SCREEN_WIDTH * 0.03,
+                    }}
                 />
-                <View style={styles.attributionView}>
-                    <Text style={styles.attribution}>{attribution}</Text>
-                </View>
             </View>
         );
     };
