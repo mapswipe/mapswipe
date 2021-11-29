@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.missingmaps.mapswipe">
+    package="org.missingmaps.mapswipe"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,9 +15,9 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme">
 
-      <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
-      <meta-data android:name="google_analytics_ssaid_collection_enabled" android:value="false" />
-      <meta-data android:name="google_analytics_default_allow_ad_personalization_signals" android:value="false" />
+      <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" tools:replace="android:value" />
+      <meta-data android:name="google_analytics_ssaid_collection_enabled" android:value="false" tools:replace="android:value"/>
+      <meta-data android:name="google_analytics_default_allow_ad_personalization_signals" android:value="false" tools:replace="android:value"/>
 
       <activity
         android:name=".MainActivity"

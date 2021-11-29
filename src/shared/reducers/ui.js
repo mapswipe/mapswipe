@@ -48,7 +48,7 @@ export const getLevelForContributionCount = (count: number): number => {
                         count >= Levels[level].expRequired &&
                         count < Levels[parseInt(level, 10) + 1].expRequired
                     ) {
-                        toReturn = level;
+                        toReturn = parseInt(level, 10);
                     }
                 });
         }
