@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     },
     roundButton: {
         borderRadius: buttonHeight,
-        borderWidth: 0,
+        borderColor: COLOR_WHITE,
         height: buttonHeight,
         width: buttonHeight,
         marginBottom: buttonMargin,
@@ -301,10 +301,9 @@ class _Validator extends React.Component<Props, State> {
                         onPress={() => this.nextTask(FOOTPRINT_YES)}
                         style={[
                             {
-                                backgroundColor:
-                                    selectedResult === FOOTPRINT_YES
-                                        ? buttonGreen
-                                        : buttonGreen,
+                                backgroundColor: buttonGreen,
+                                borderWidth:
+                                    selectedResult === FOOTPRINT_YES ? 5 : 0,
                             },
                             styles.roundButton,
                         ]}
@@ -321,10 +320,9 @@ class _Validator extends React.Component<Props, State> {
                         onPress={() => this.nextTask(FOOTPRINT_NO)}
                         style={[
                             {
-                                backgroundColor:
-                                    selectedResult === FOOTPRINT_NO
-                                        ? buttonRed
-                                        : buttonRed,
+                                backgroundColor: buttonRed,
+                                borderWidth:
+                                    selectedResult === FOOTPRINT_NO ? 5 : 0,
                             },
                             styles.roundButton,
                         ]}
@@ -336,10 +334,11 @@ class _Validator extends React.Component<Props, State> {
                         onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
                         style={[
                             {
-                                backgroundColor:
+                                backgroundColor: buttonGrey,
+                                borderWidth:
                                     selectedResult === FOOTPRINT_NOT_SURE
-                                        ? buttonGrey
-                                        : buttonGrey,
+                                        ? 5
+                                        : 0,
                             },
                             styles.roundButton,
                         ]}
