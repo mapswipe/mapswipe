@@ -419,7 +419,9 @@ const mapStateToProps = (state, ownProps) => ({
     group: ownProps.group,
     project: ownProps.project,
     results: get(
-        state.results[ownProps.tutorialId],
+        state.results[
+            ownProps.tutorial ? ownProps.tutorialId : ownProps.project.projectId
+        ],
         ownProps.group.groupId,
         null,
     ),
