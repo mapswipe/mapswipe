@@ -290,7 +290,9 @@ class _Validator extends React.Component<Props, State> {
             <View style={styles.container}>
                 <FootprintDisplay
                     canSwipe={this.canSwipe}
+                    currentTaskIndex={currentTaskIndex}
                     nextTask={this.nextTask}
+                    numberOfTasks={group.numberOfTasks}
                     prefetchTask={prefetchTask}
                     previousTask={this.previousTask}
                     project={project}

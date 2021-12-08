@@ -58,19 +58,27 @@ const styles = StyleSheet.create({
         padding: 1,
         position: 'absolute',
     },
+    flashingText: {
+        alignSelf: 'center',
+        color: 'black',
+        fontSize: 28,
+        fontWeight: '600',
+        position: 'absolute',
+        top: 30,
+    },
     tileImg: {
         height: tileSize,
         position: 'absolute',
         width: tileSize,
     },
     visibilityButton: {
+        alignSelf: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         borderColor: COLOR_WHITE,
         borderRadius: buttonHeight,
         borderWidth: 1,
         height: buttonHeight,
         width: buttonHeight,
-        left: (GLOBAL.SCREEN_WIDTH - buttonHeight) * 0.45,
         position: 'absolute',
         bottom: 30,
     },
@@ -78,7 +86,9 @@ const styles = StyleSheet.create({
 
 type Props = {
     canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean },
+    currentTaskIndex: number,
     nextTask: () => boolean,
+    numberOfTasks: number,
     prefetchTask: BuildingFootprintTaskType,
     previousTask: () => boolean,
     project: SingleImageryProjectType,
@@ -90,6 +100,7 @@ type State = {
     animatedMarginRight: Animated.Value,
     canSwipeBack: boolean,
     canSwipeForward: boolean,
+    flashingOpacity: Animated.Value,
     shapeVisible: boolean,
 };
 
@@ -135,6 +146,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             animatedMarginRight: new Animated.Value(0),
             canSwipeBack: false,
             canSwipeForward: false,
+            flashingOpacity: new Animated.Value(0),
             shapeVisible: true,
         };
         this.imageryHeight = 0;
@@ -232,6 +244,23 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         ]).start();
     };
 
+    flashSwipeIndication: () => void = () => {
+        // animate a short text at the top of the image in response to swipes
+        const { flashingOpacity } = this.state;
+        Animated.sequence([
+            Animated.timing(flashingOpacity, {
+                toValue: 1,
+                duration: 50,
+                useNativeDriver: true,
+            }),
+            Animated.timing(flashingOpacity, {
+                toValue: 0,
+                duration: 1000,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
+
     handlePanResponderEnd: (
         event: PressEvent,
         gestureState: GestureState,
@@ -242,11 +271,13 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const swipeMinLength = 0.1;
         if (gestureState.dx < -GLOBAL.SCREEN_WIDTH * swipeMinLength) {
             const bounceAtEnd = nextTask();
+            this.flashSwipeIndication();
             if (bounceAtEnd) {
                 this.bounceImage('left');
             }
         } else if (gestureState.dx > GLOBAL.SCREEN_WIDTH * swipeMinLength) {
             const bounceAtEnd = previousTask();
+            this.flashSwipeIndication();
             if (bounceAtEnd) {
                 this.bounceImage('right');
             }
@@ -600,12 +631,13 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     };
 
     render: () => React.Node = () => {
-        const { project, task } = this.props;
+        const { currentTaskIndex, numberOfTasks, project, task } = this.props;
         const {
             animatedMarginLeft,
             animatedMarginRight,
             canSwipeBack,
             canSwipeForward,
+            flashingOpacity,
             shapeVisible,
         } = this.state;
         if (task.geojson === undefined || this.imageryHeight === 0) {
@@ -851,6 +883,14 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                             }}
                         />
                     </TouchableOpacity>
+                    <Animated.Text
+                        style={[
+                            { opacity: flashingOpacity },
+                            styles.flashingText,
+                        ]}
+                    >
+                        {currentTaskIndex} | {numberOfTasks}
+                    </Animated.Text>
                     <ScaleBar
                         alignToBottom={false}
                         latitude={latitude}
