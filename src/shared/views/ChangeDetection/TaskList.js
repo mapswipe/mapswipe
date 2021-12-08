@@ -429,6 +429,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 <ScaleBar
                     alignToBottom={false}
                     latitude={latitude}
+                    position="bottom"
                     useScreenWidth={false}
                     visible
                     zoomLevel={zoomLevel}
