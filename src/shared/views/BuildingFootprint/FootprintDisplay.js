@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
         height: buttonHeight,
         width: buttonHeight,
         left: (GLOBAL.SCREEN_WIDTH - buttonHeight) * 0.45,
+        position: 'absolute',
+        bottom: 30,
     },
 });
 
