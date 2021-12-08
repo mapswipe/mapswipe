@@ -41,7 +41,7 @@ import type {
 const GLOBAL = require('../../Globals');
 
 // tileSize is only used for tile based imagery (ie: everything but google)
-const tileSize = GLOBAL.SCREEN_WIDTH;
+const tileSize = GLOBAL.SCREEN_WIDTH * 0.9;
 
 const buttonHeight = GLOBAL.SCREEN_WIDTH * 0.12;
 
@@ -110,6 +110,11 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     // times for a single image. It's not clear from RN docs whether the prefetch
     // method prevents duplicate requests, so let's do it here to be safe
     prefetchedUrls: Set<string>;
+
+    // in some cases, the imagery needs to be "forced" down to prevent it from looking cut-off
+    // at the bottom (https://github.com/mapswipe/mapswipe/issues/597). When this happens, this
+    // value is > 0, and indicates how many pixels to shift the SVG shape by.
+    shiftShapeY: number;
 
     constructor(props: Props) {
         super(props);
@@ -255,21 +260,20 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     ): BBOX => {
         const lons = coords.map(p => p[0]).sort();
         const lats = coords.map(p => p[1]).sort();
-        return [lons[0], lats[0], lons[lons.length - 1], lats[lats.length - 1]];
+        return [lons[0], lats[lats.length - 1], lons[lons.length - 1], lats[0]];
     };
 
-    // return the center of the building footprint
-    getTaskGeometryCentroid: (coords: LonLatPolygon) => LonLatPoint = (
-        coords: LonLatPolygon,
-    ): LonLatPoint => {
-        const centroid: Point = coords
-            .slice(0, -1)
-            .reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
-        // $FlowFixMe
-        return centroid.map(c => c / (coords.length - 1));
-    };
+    // return the center of the building footprint's bounding box
+    // We do not use the actual centroid because some weirdly shaped buildings
+    // end up spilling out of the screen
+    getTaskGeometryBoundingBoxCentroid: (coords: LonLatPolygon) => LonLatPoint =
+        (coords: LonLatPolygon): LonLatPoint => {
+            // BBOX as [left, bottom, right, top]
+            const bbox: BBOX = this.getBuildingBBox(coords);
+            return [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+        };
 
-    // return a bouding box to zoom to as [W, S, E, N]
+    // return a bounding box to zoom to as [W, S, E, N]
     // which has the same size as a tile at these coordinates and zoom level
     getScreenBBoxFromCenter: (center: Point, zoom: ZoomLevel) => BBOX = (
         center: Point,
@@ -333,7 +337,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         center: Point,
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
-        // $FlowFixMe
     ): string => {
         // get the polygon in ART Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
@@ -365,20 +368,19 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         center: Point,
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
-        // $FlowFixMe
     ): string => {
-        // get the polygon in ART Path format, expressed in image coordinates,
+        // get the polygon in svg Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
         // center: the center as [longitude, latitude]
         // zoom: standard zoom level
         // taskCoords: the coordinates of the task geometry, each point as [lon, lat]
         // This only works for TMS based imagery, like Bing, maxar...
 
-        // get bounding box coordinates in geographic pixels
+        // get center coordinates in geographic pixels
         const centerPixelCoords = this.latLonZoomToPixelCoords(
             center,
             zoom,
-            GLOBAL.SCREEN_WIDTH,
+            tileSize,
         );
         const minX = centerPixelCoords[0] - tileSize / 2;
         const minY = centerPixelCoords[1] - tileSize / 2;
@@ -386,7 +388,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // geographic coords to screen pixels
         const taskImageCoords = taskCoords.map(tc =>
             this.pixelCoordsToImageCoords(
-                this.latLonZoomToPixelCoords(tc, zoom, GLOBAL.SCREEN_WIDTH),
+                this.latLonZoomToPixelCoords(tc, zoom, tileSize),
                 minX,
                 minY,
             ),
@@ -436,7 +438,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         if (task.center) {
             return task.center;
         }
-        return this.getTaskGeometryCentroid(task.geojson.coordinates[0]);
+        return this.getTaskGeometryBoundingBoxCentroid(
+            task.geojson.coordinates[0],
+        );
     };
 
     getGoogleImageryUrl: (
@@ -484,7 +488,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // to be applied to center them on the given center point
 
         // get 4 tiles at zoomLevel and shift them as needed
-        const center = this.getTaskGeometryCentroid(
+        const center = this.getTaskGeometryBoundingBoxCentroid(
             task.geojson.coordinates[0],
         );
         const latitude = center[1];
@@ -497,7 +501,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             zoom,
         );
         const tiles = this.getTilesFromScreenCorners(corners, zoom);
-        // $FlowFixMe
         const tileUrls = tiles.map(this.getTileUrl);
 
         // the TMS display fetches 4 tiles from the imagery provider, and sizes
@@ -505,7 +508,15 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // resulting image so that the shape's center is roughly aligned with
         // the center of the screen
         const shiftX = (swCornerTile[0] % 1) * tileSize;
-        const shiftY = (swCornerTile[1] % 1) * tileSize;
+        // prevent the imagery from shifting too far up and looking cut-off
+        // at the bottom
+        const shiftY = Math.min(
+            2 * tileSize - this.imageryHeight,
+            (swCornerTile[1] % 1) * tileSize,
+        );
+        // keep track of whether we had to force imagery down to prevent cutoff
+        // if this value is non-null, we need to shift the SVG path by the same value
+        this.shiftShapeY = (swCornerTile[1] % 1) * tileSize - shiftY;
 
         return { tileUrls, shiftX, shiftY, latitude };
     };
@@ -556,12 +567,11 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     getTaskGeometryPath = (
         task: BuildingFootprintTaskType,
         zoom: ZoomLevel,
-        // $FlowFixMe
     ): string => {
         const { project } = this.props;
         if (project.tileServer.url.includes('googleapis')) {
             // google imagery works in a non-standard way
-            const center = this.getTaskCenter(task); // the geometry center
+            const center = this.getTaskCenter(task); // the geometry center as given in the task
             return this.getGooglePolygonFromCenter(
                 center,
                 zoom,
@@ -569,7 +579,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             );
         }
         // all other imagery relies on tiles
-        const center = this.getTaskGeometryCentroid(
+        const center = this.getTaskGeometryBoundingBoxCentroid(
             task.geojson.coordinates[0],
         );
         return this.getTMSPolygonFromCenter(
@@ -804,10 +814,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                             source={{ uri: tileUrls[3] }}
                         />
                     </View>
-                    <Svg
-                        height={GLOBAL.SCREEN_WIDTH}
-                        width={GLOBAL.SCREEN_WIDTH}
-                    >
+                    <Svg height="100%" width="100%" top={this.shiftShapeY}>
                         {shapeVisible && (
                             <>
                                 <SvgPolygon
