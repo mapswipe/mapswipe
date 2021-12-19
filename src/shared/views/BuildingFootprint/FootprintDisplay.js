@@ -17,11 +17,12 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
-import Svg, { Polygon as SvgPolygon } from 'react-native-svg';
+import Svg, { Polygon as SvgPolygon, SvgXml } from 'react-native-svg';
 import tilebelt from '@mapbox/tilebelt';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import ScaleBar from '../../common/ScaleBar';
 import { COLOR_WHITE } from '../../constants';
+import { hide } from '../../common/SvgIcons';
 import type {
     BBOX,
     ImageCoordsPoint,
@@ -728,15 +729,16 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         onPressOut={() => this.showShape()}
                         style={styles.visibilityButton}
                     >
-                        <Image
-                            source={require('../assets/hidden.png')}
+                        <View
                             style={{
                                 alignSelf: 'center',
                                 marginTop: 8,
                                 height: 25,
                                 width: 25,
                             }}
-                        />
+                        >
+                            <SvgXml xml={hide} height="100%" width="100%" />
+                        </View>
                     </TouchableOpacity>
                 </Animated.View>
             );
@@ -873,15 +875,16 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         onPressOut={() => this.showShape()}
                         style={styles.visibilityButton}
                     >
-                        <Image
-                            source={require('../assets/hidden.png')}
+                        <View
                             style={{
                                 alignSelf: 'center',
                                 marginTop: 8,
                                 height: 25,
                                 width: 25,
                             }}
-                        />
+                        >
+                            <SvgXml xml={hide} height="100%" width="100%" />
+                        </View>
                     </TouchableOpacity>
                     <Animated.Text
                         style={[
