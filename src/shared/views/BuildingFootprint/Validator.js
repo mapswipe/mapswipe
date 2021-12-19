@@ -284,6 +284,7 @@ class _Validator extends React.Component<Props, State> {
                     <RoundButtonWithTextBelow
                         color={buttonGreen}
                         iconXmlString={tick}
+                        label="Yes"
                         onPress={() => this.nextTask(FOOTPRINT_YES)}
                         radius={buttonHeight}
                         selected={selectedResult === FOOTPRINT_YES}
@@ -291,6 +292,7 @@ class _Validator extends React.Component<Props, State> {
                     <RoundButtonWithTextBelow
                         color={buttonRed}
                         iconXmlString={cross}
+                        label="No"
                         onPress={() => this.nextTask(FOOTPRINT_NO)}
                         radius={buttonHeight}
                         selected={selectedResult === FOOTPRINT_NO}
@@ -298,6 +300,7 @@ class _Validator extends React.Component<Props, State> {
                     <RoundButtonWithTextBelow
                         color={buttonGrey}
                         iconXmlString={notSure}
+                        label="Not sure"
                         onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
                         radius={buttonHeight}
                         selected={selectedResult === FOOTPRINT_NOT_SURE}
