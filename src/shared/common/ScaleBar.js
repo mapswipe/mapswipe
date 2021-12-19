@@ -10,16 +10,19 @@ type Props = {
     alignToBottom: boolean,
     latitude: number,
     position: 'bottom' | 'top',
-    // true if we should use the screen_width to size the scale bar instead of
-    // using the tile size. This is useful for building footprint projects
-    // with TMS imagery as we use a few tricks there to cover the entire screen
-    // with imagery
-    useScreenWidth: boolean,
+    // the width of a TMS tile in screen pixels. eg. if an imagery tile is the same
+    // width as the screen, then this is GLOBAL.SCREEN_WIDTH
+    referenceSize: number,
     visible: boolean,
     zoomLevel: number,
 };
 
-const getScaleBar = (meters, feet, tileWidth, referenceSize): string => {
+const getScaleBar = (
+    meters,
+    feet,
+    tileWidthInMeters,
+    referenceSize,
+): string => {
     /*
      * produce a shape like
      * |       |
@@ -29,8 +32,8 @@ const getScaleBar = (meters, feet, tileWidth, referenceSize): string => {
     const top = 0;
     const mid = 16;
     // convert meters and feet into "pixels" so that we draw at the correct scale!
-    const metersPx = (meters / tileWidth) * referenceSize;
-    const feetPx = (feet / tileWidth) * referenceSize;
+    const metersPx = (meters / tileWidthInMeters) * referenceSize;
+    const feetPx = (feet / tileWidthInMeters) * referenceSize;
     const bottom = top + 2 * (mid - top);
     const parts = [
         `M0 ${top}`,
@@ -51,7 +54,8 @@ export default (props: Props): React.Node => {
         alignToBottom,
         latitude,
         position,
-        useScreenWidth,
+        referenceSize,
+        // useScreenWidth,
         visible,
         zoomLevel,
     } = props;
@@ -62,36 +66,24 @@ export default (props: Props): React.Node => {
     // This assumes that each image is 256 pixels wide, which may not be
     // the case for specific providers. Adjustments might be needed if
     // this case arises.
-    const tileWidth =
+    const tileWidthInMeters =
         (Math.cos(latitude * (Math.PI / 180)) * 2 * Math.PI * 6378137) /
         2 ** zoomLevel;
     let feet;
     let meters;
-    // we hardcode the scale bar sizes, and pick an appropriate one
-    // for the current zoom level
-    switch (true) {
-        case tileWidth < 70:
-            meters = 30;
-            feet = 100;
-            break;
-        case tileWidth < 110:
-            meters = 50;
-            feet = 200;
-            break;
-        case tileWidth < 180:
-            meters = 100;
-            feet = 300;
-            break;
-        default:
-            meters = 200;
-            feet = 500;
-            break;
+    // calculate scalebar size so that it fits in roughly half the image
+    // display width, while using a rough step function. This may give
+    // somewhat strange results in high latitudes where the rounding
+    // will not look nice.
+    if (tileWidthInMeters < 200) {
+        meters = Math.trunc(tileWidthInMeters / 10 / 2) * 10;
+        feet = Math.round(meters / 0.3048 / 100) * 100;
+    } else {
+        meters = Math.trunc(tileWidthInMeters / 100 / 2) * 100;
+        feet = Math.round(meters / 0.3048 / 100) * 100;
     }
 
-    const referenceSize = useScreenWidth
-        ? GLOBAL.SCREEN_WIDTH
-        : GLOBAL.TILE_SIZE;
-    const p = getScaleBar(meters, feet, tileWidth, referenceSize);
+    const p = getScaleBar(meters, feet, tileWidthInMeters, referenceSize);
     return (
         <View
             style={[

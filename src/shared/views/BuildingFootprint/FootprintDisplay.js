@@ -720,7 +720,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         alignToBottom={false}
                         latitude={latitude}
                         position="top"
-                        useScreenWidth
+                        referenceSize={tileSize}
                         visible
                         zoomLevel={zoomLevel}
                     />
@@ -898,7 +898,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         alignToBottom={false}
                         latitude={latitude}
                         position="top"
-                        useScreenWidth
+                        referenceSize={tileSize}
                         visible
                         zoomLevel={zoomLevel}
                     />

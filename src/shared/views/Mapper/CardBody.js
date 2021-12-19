@@ -582,7 +582,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     alignToBottom={false}
                     latitude={latitude}
                     position="bottom"
-                    useScreenWidth={false}
+                    referenceSize={GLOBAL.TILE_SIZE}
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
