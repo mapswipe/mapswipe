@@ -6,17 +6,18 @@ import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { FlatList, Image, StyleSheet, View } from 'react-native';
-import Button from 'apsl-react-native-button';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
+import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
-import { tutorialModes, COLOR_WHITE } from '../../constants';
+import { tutorialModes } from '../../constants';
 import GLOBAL from '../../Globals';
+import { cross, notSure, tick } from '../../common/SvgIcons';
 
 import type {
     BuildingFootprintGroupType,
@@ -30,7 +31,6 @@ import type {
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
-const buttonMargin = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 30;
 
 const buttonGreen = '#bbcb7d';
 const buttonRed = '#fd5054';
@@ -43,30 +43,10 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
     },
-    checkmark: {
-        alignSelf: 'center',
-        marginBottom: -3,
-        height: 25,
-        width: 25,
-    },
     sideBySideButtons: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         width: '100%',
-    },
-    roundButton: {
-        borderRadius: buttonHeight,
-        borderColor: COLOR_WHITE,
-        height: buttonHeight,
-        width: buttonHeight,
-        marginBottom: buttonMargin,
-        marginTop: buttonMargin,
-    },
-    whiteBold: {
-        alignSelf: 'center',
-        color: COLOR_WHITE,
-        fontSize: 22,
-        fontWeight: 'bold',
     },
 });
 
@@ -285,6 +265,8 @@ class _Validator extends React.Component<Props, State> {
                 }
             }
         }
+        /*
+         */
 
         return (
             <View style={styles.container}>
@@ -299,55 +281,27 @@ class _Validator extends React.Component<Props, State> {
                     task={currentTask}
                 />
                 <View style={styles.sideBySideButtons}>
-                    <Button
+                    <RoundButtonWithTextBelow
+                        color={buttonGreen}
+                        iconXmlString={tick}
                         onPress={() => this.nextTask(FOOTPRINT_YES)}
-                        style={[
-                            {
-                                backgroundColor: buttonGreen,
-                                borderWidth:
-                                    selectedResult === FOOTPRINT_YES ? 5 : 0,
-                            },
-                            styles.roundButton,
-                        ]}
-                        textStyle={styles.whiteBold}
-                    >
-                        <View>
-                            <Image
-                                source={require('../assets/checkmark_white.png')}
-                                style={styles.checkmark}
-                            />
-                        </View>
-                    </Button>
-                    <Button
+                        radius={buttonHeight}
+                        selected={selectedResult === FOOTPRINT_YES}
+                    />
+                    <RoundButtonWithTextBelow
+                        color={buttonRed}
+                        iconXmlString={cross}
                         onPress={() => this.nextTask(FOOTPRINT_NO)}
-                        style={[
-                            {
-                                backgroundColor: buttonRed,
-                                borderWidth:
-                                    selectedResult === FOOTPRINT_NO ? 5 : 0,
-                            },
-                            styles.roundButton,
-                        ]}
-                        textStyle={styles.whiteBold}
-                    >
-                        {`\u2715`}
-                    </Button>
-                    <Button
+                        radius={buttonHeight}
+                        selected={selectedResult === FOOTPRINT_NO}
+                    />
+                    <RoundButtonWithTextBelow
+                        color={buttonGrey}
+                        iconXmlString={notSure}
                         onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                        style={[
-                            {
-                                backgroundColor: buttonGrey,
-                                borderWidth:
-                                    selectedResult === FOOTPRINT_NOT_SURE
-                                        ? 5
-                                        : 0,
-                            },
-                            styles.roundButton,
-                        ]}
-                        textStyle={styles.whiteBold}
-                    >
-                        ?
-                    </Button>
+                        radius={buttonHeight}
+                        selected={selectedResult === FOOTPRINT_NOT_SURE}
+                    />
                 </View>
                 {tutorial &&
                     tutorialContent &&
