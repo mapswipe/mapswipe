@@ -73,6 +73,7 @@ type Props = {
     group: GroupType,
     navigation: NavigationProp,
     getNormalHelpContent: string => React.ComponentType<any>,
+    headerText?: string,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
     onStartGroup: ({
         groupId: string,
@@ -296,6 +297,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             categories,
             Component,
             group,
+            headerText,
             navigation,
             results,
             screens,
@@ -328,6 +330,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                         this.backConfirmationModal.open();
                     }}
                     onInfoPress={this.onInfoPress}
+                    overrideText={headerText}
                 />
                 {backConfirmationModal}
                 {helpModal}

@@ -191,6 +191,7 @@
     "youCanSwipeBack": "You can swipe back to change your previous answers. Then tap or swipe forward again to get back to where you were."
   },
   "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Does the shape outline a building?",
     "howToContribute": "How To Contribute",
     "squareContainsBuildings": "Does the square contain any buildings? Use the buttons to answer:",
     "instructionsYes": "Yes: when there is a building or part of a building in the square",

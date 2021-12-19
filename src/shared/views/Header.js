@@ -66,6 +66,7 @@ type Props = {
     lookFor: string,
     onBackPress: () => void,
     onInfoPress?: () => void,
+    overrideText?: string,
 };
 
 const onPressDebugBox = () => {
@@ -81,14 +82,28 @@ const onPressDebugBox = () => {
 
 /* eslint-disable global-require */
 const Header = (props: Props): React.Node => {
-    const { lookFor, onBackPress, onInfoPress } = props;
+    const { lookFor, onBackPress, onInfoPress, overrideText } = props;
     const { t } = useTranslation('mappingHeader');
     return (
         <View style={styles.swipeNavTop}>
             <TouchableWithoutFeedback onLongPress={onPressDebugBox}>
-                <View>
-                    <Text style={styles.topText}>{t('youAreLookingFor')}</Text>
-                    <Text style={styles.elementText}>{lookFor}</Text>
+                <View
+                    style={{
+                        justifyContent: 'center',
+                        height: '100%',
+                    }}
+                >
+                    {overrideText && (
+                        <Text style={styles.topText}>{overrideText}</Text>
+                    )}
+                    {!overrideText && (
+                        <>
+                            <Text style={styles.topText}>
+                                {t('youAreLookingFor')}
+                            </Text>
+                            <Text style={styles.elementText}>{lookFor}</Text>
+                        </>
+                    )}
                 </View>
             </TouchableWithoutFeedback>
             <TouchableHighlight
