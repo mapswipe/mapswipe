@@ -265,8 +265,6 @@ class _Validator extends React.Component<Props, State> {
                 }
             }
         }
-        /*
-         */
 
         return (
             <View style={styles.container}>
