@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { View } from 'react-native';
-import { Path, Shape, Surface, Text } from '@react-native-community/art';
+import Svg, { Path, Text } from 'react-native-svg';
 
 import GLOBAL from '../Globals';
 
@@ -9,16 +9,20 @@ type Props = {
     // whether to shift the scale bar a little bit up from the bottom
     alignToBottom: boolean,
     latitude: number,
-    // true if we should use the screen_width to size the scale bar instead of
-    // using the tile size. This is useful for building footprint projects
-    // with TMS imagery as we use a few tricks there to cover the entire screen
-    // with imagery
-    useScreenWidth: boolean,
+    position: 'bottom' | 'top',
+    // the width of a TMS tile in screen pixels. eg. if an imagery tile is the same
+    // width as the screen, then this is GLOBAL.SCREEN_WIDTH
+    referenceSize: number,
     visible: boolean,
     zoomLevel: number,
 };
 
-const getScaleBar = (meters, feet, tileWidth, referenceSize) => {
+const getScaleBar = (
+    meters,
+    feet,
+    tileWidthInMeters,
+    referenceSize,
+): string => {
     /*
      * produce a shape like
      * |       |
@@ -28,23 +32,32 @@ const getScaleBar = (meters, feet, tileWidth, referenceSize) => {
     const top = 0;
     const mid = 16;
     // convert meters and feet into "pixels" so that we draw at the correct scale!
-    const metersPx = (meters / tileWidth) * referenceSize;
-    const feetPx = (feet / tileWidth) * referenceSize;
+    const metersPx = (meters / tileWidthInMeters) * referenceSize;
+    const feetPx = (feet / tileWidthInMeters) * referenceSize;
     const bottom = top + 2 * (mid - top);
-    const p = Path().moveTo(0, top);
-    p.lineTo(0, bottom);
-    p.moveTo(0, mid);
-    p.lineTo(metersPx, mid);
-    p.lineTo(metersPx, top);
-    p.moveTo(metersPx, mid);
-    p.lineTo(feetPx * 0.3048, mid);
-    p.lineTo(feetPx * 0.3048, bottom);
+    const parts = [
+        `M0 ${top}`,
+        `L0 ${bottom}`,
+        `M0 ${mid}`,
+        `L${metersPx} ${mid}`,
+        `L${metersPx} ${top}`,
+        `M${metersPx} ${mid}`,
+        `L${feetPx * 0.3048} ${mid}`,
+        `L${feetPx * 0.3048} ${bottom}`,
+    ];
+    const p = parts.join(' ');
     return p;
 };
 
 export default (props: Props): React.Node => {
-    const { alignToBottom, latitude, useScreenWidth, visible, zoomLevel } =
-        props;
+    const {
+        alignToBottom,
+        latitude,
+        position,
+        referenceSize,
+        visible,
+        zoomLevel,
+    } = props;
 
     // calculate the width of one tile (in meters)
     // this magic formula comes from
@@ -52,76 +65,72 @@ export default (props: Props): React.Node => {
     // This assumes that each image is 256 pixels wide, which may not be
     // the case for specific providers. Adjustments might be needed if
     // this case arises.
-    const tileWidth =
+    const tileWidthInMeters =
         (Math.cos(latitude * (Math.PI / 180)) * 2 * Math.PI * 6378137) /
         2 ** zoomLevel;
     let feet;
     let meters;
-    // we hardcode the scale bar sizes, and pick an appropriate one
-    // for the current zoom level
-    switch (true) {
-        case tileWidth < 70:
-            meters = 30;
-            feet = 100;
-            break;
-        case tileWidth < 110:
-            meters = 50;
-            feet = 200;
-            break;
-        case tileWidth < 180:
-            meters = 100;
-            feet = 300;
-            break;
-        default:
-            meters = 200;
-            feet = 500;
-            break;
+    // calculate scalebar size so that it fits in roughly half the image
+    // display width, while using a rough step function, rounding to the nearest
+    // multiple of 10 meters (or 100). We divide by 2 to fit into half the screenwidth.
+    // This may give somewhat strange results in high latitudes where the rounding
+    // will not look nice.
+    if (tileWidthInMeters < 200) {
+        meters = Math.trunc(tileWidthInMeters / 10 / 2) * 10;
+        feet = Math.round(meters / 0.3048 / 100) * 100;
+    } else {
+        meters = Math.trunc(tileWidthInMeters / 100 / 2) * 100;
+        feet = Math.round(meters / 0.3048 / 100) * 100;
     }
 
-    const referenceSize = useScreenWidth
-        ? GLOBAL.SCREEN_WIDTH
-        : GLOBAL.TILE_SIZE;
-    const p = getScaleBar(meters, feet, tileWidth, referenceSize);
+    const p = getScaleBar(meters, feet, tileWidthInMeters, referenceSize);
     return (
         <View
-            style={{
-                opacity: visible ? 0.8 : 0,
-                position: 'absolute',
-                bottom: alignToBottom ? 0 : 20,
-                left: 10,
-            }}
+            style={[
+                {
+                    opacity: visible ? 0.5 : 0,
+                    position: 'absolute',
+                    left: 10,
+                },
+                {
+                    bottom:
+                        // eslint-disable-next-line no-nested-ternary
+                        position === 'bottom'
+                            ? alignToBottom
+                                ? 0
+                                : 20
+                            : undefined,
+                    top: position === 'top' ? 20 : undefined,
+                },
+            ]}
         >
-            <Surface height={GLOBAL.TILE_SIZE / 5} width={referenceSize}>
-                <Shape
-                    d={p}
-                    stroke="rgba(255, 255, 255, 0.6)"
-                    strokeWidth={1}
-                />
+            <Svg height={GLOBAL.TILE_SIZE / 5} width={referenceSize}>
+                <Path d={p} stroke="white" strokeWidth={1} />
                 <Text
                     alignment="left"
-                    fill="rgba(255, 255, 255, 0.6)"
+                    fill="white"
                     font={{
                         fontFamily: 'Helvetica, Arial',
                         fontSize: 13,
                     }}
-                    x={3}
-                    y={0}
+                    x="3"
+                    y="13"
                 >
                     {`${meters}m`}
                 </Text>
                 <Text
                     alignment="left"
-                    fill="rgba(255, 255, 255, 0.6)"
+                    fill="white"
                     font={{
                         fontFamily: 'Helvetica, Arial',
                         fontSize: 13,
                     }}
-                    x={3}
-                    y={17}
+                    x="3"
+                    y="30"
                 >
                     {`${feet}ft`}
                 </Text>
-            </Surface>
+            </Svg>
         </View>
     );
 };
