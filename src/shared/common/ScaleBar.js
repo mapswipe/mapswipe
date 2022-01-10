@@ -55,7 +55,6 @@ export default (props: Props): React.Node => {
         latitude,
         position,
         referenceSize,
-        // useScreenWidth,
         visible,
         zoomLevel,
     } = props;
@@ -72,8 +71,9 @@ export default (props: Props): React.Node => {
     let feet;
     let meters;
     // calculate scalebar size so that it fits in roughly half the image
-    // display width, while using a rough step function. This may give
-    // somewhat strange results in high latitudes where the rounding
+    // display width, while using a rough step function, rounding to the nearest
+    // multiple of 10 meters (or 100). We divide by 2 to fit into half the screenwidth.
+    // This may give somewhat strange results in high latitudes where the rounding
     // will not look nice.
     if (tileWidthInMeters < 200) {
         meters = Math.trunc(tileWidthInMeters / 10 / 2) * 10;

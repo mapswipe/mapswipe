@@ -66,6 +66,9 @@ type Props = {
     lookFor: string,
     onBackPress: () => void,
     onInfoPress?: () => void,
+    // by default we show "you are looking for {lookFor}". This
+    // overrideText allows replacing this entirely, for instance
+    // in the BF project type or tutorials...
     overrideText?: string,
 };
 

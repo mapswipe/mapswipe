@@ -44,6 +44,11 @@ const GLOBAL = require('../../Globals');
 // tileSize is only used for tile based imagery (ie: everything but google)
 const tileSize = GLOBAL.SCREEN_WIDTH * 0.9;
 
+// keeping this value separate from the above as they are semantically different
+// this is the width of the visible imagery area, while above is the width of
+// a tile of imagery. They could in theory not be the same.
+const imageWidth = GLOBAL.SCREEN_WIDTH * 0.9;
+
 const buttonHeight = GLOBAL.SCREEN_WIDTH * 0.12;
 
 const imgRadius = 10;
@@ -679,7 +684,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         height: this.imageryHeight,
                         marginLeft: animatedMarginLeft,
                         marginRight: animatedMarginRight,
-                        width: GLOBAL.SCREEN_WIDTH * 0.9,
+                        width: imageWidth,
                         overflow: 'hidden',
                     }}
                 >
@@ -688,15 +693,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                             left: 0,
                             height: this.imageryHeight,
                             position: 'absolute',
-                            width: GLOBAL.SCREEN_WIDTH * 0.9,
+                            width: imageWidth,
                             top: 0,
                         }}
                         source={{ uri: imageUrl }}
                     />
-                    <Svg
-                        height={this.imageryHeight}
-                        width={GLOBAL.SCREEN_WIDTH * 0.9}
-                    >
+                    <Svg height={this.imageryHeight} width={imageWidth}>
                         {shapeVisible && (
                             <>
                                 <SvgPolygon
@@ -794,7 +796,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         // while filling the entire screen width with imagery
                         height: this.imageryHeight,
                         overflow: 'hidden',
-                        width: GLOBAL.SCREEN_WIDTH * 0.9,
+                        width: imageWidth,
                     }}
                 >
                     <View
