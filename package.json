@@ -50,7 +50,7 @@
     "react-native-modalbox": "^2.0.0",
     "react-native-pager-view": "^5.2.1",
     "react-native-progress": "^5.0.0",
-    "react-native-reanimated": "^2.2.0",
+    "react-native-reanimated": "2.2.4",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "3.4.0",
     "react-native-simple-markdown": "mapswipe/react-native-simple-markdown#master",
@@ -94,8 +94,7 @@
     "prettier": "^2.0.5",
     "react-native-codegen": "^0.0.7",
     "react-test-renderer": "17.0.2",
-    "redux-devtools-extension": "^2.13.8",
-    "remotedev-rn-debugger": "^0.8.4"
+    "redux-devtools-extension": "^2.13.8"
   },
   "jest": {
     "preset": "native-testing-library",
