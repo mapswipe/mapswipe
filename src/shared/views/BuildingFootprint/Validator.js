@@ -6,17 +6,18 @@ import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-import Button from 'apsl-react-native-button';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
+import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
-import { tutorialModes, COLOR_WHITE } from '../../constants';
+import { tutorialModes } from '../../constants';
 import GLOBAL from '../../Globals';
+import { cross, notSure, tick } from '../../common/SvgIcons';
 
 import type {
     BuildingFootprintGroupType,
@@ -24,17 +25,16 @@ import type {
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
-    TranslationFunction,
     TutorialContent,
 } from '../../flow-types';
 
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
-const buttonMargin = GLOBAL.SCREEN_HEIGHT >= 550 ? 5 : 3;
 
-const buttonBGColor = 'rgba(255, 255, 255, 0.2)';
-const buttonBGColorSelected = 'rgba(255, 255, 255, 0.8)';
+const buttonGreen = '#bbcb7d';
+const buttonRed = '#fd5054';
+const buttonGrey = '#adadad';
 
 const styles = StyleSheet.create({
     container: {
@@ -43,54 +43,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
     },
-    checkmark: {
-        alignSelf: 'center',
-        marginBottom: -3,
-        height: 25,
-        width: 25,
-    },
     sideBySideButtons: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    bigSquareButton: {
-        borderColor: COLOR_WHITE,
-        borderRadius: 20,
-        borderWidth: 2,
-        height: buttonHeight * 2,
-        flex: 1,
-        marginBottom: buttonMargin,
-        marginLeft: buttonMargin,
-        marginRight: buttonMargin,
-        marginTop: buttonMargin,
-    },
-    bigSquareButtonText: {
-        alignSelf: 'center',
-        color: COLOR_WHITE,
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    longNarrowButton: {
-        borderColor: COLOR_WHITE,
-        borderRadius: 20,
-        borderWidth: 2,
-        color: COLOR_WHITE,
-        height: buttonHeight,
-        marginBottom: buttonMargin,
-        marginLeft: buttonMargin,
-        marginRight: buttonMargin,
-        marginTop: buttonMargin,
-    },
-    longNarrowButtonText: {
-        color: COLOR_WHITE,
-        fontWeight: 'bold',
+        justifyContent: 'space-evenly',
+        width: '100%',
     },
 });
 
 const FOOTPRINT_NO = 0;
 const FOOTPRINT_YES = 1;
 const FOOTPRINT_NOT_SURE = 2;
-const FOOTPRINT_BAD_IMAGERY = 3;
 
 type Props = {
     completeGroup: () => void,
@@ -100,7 +62,6 @@ type Props = {
     results: ResultMapType,
     screens: Array<TutorialContent>,
     submitResult: (number, string) => void,
-    t: TranslationFunction,
     tutorial: boolean,
     updateProgress: number => void,
 };
@@ -228,8 +189,19 @@ class _Validator extends React.Component<Props, State> {
         }
         updateProgress((1 + currentTaskIndex) / group.numberOfTasks);
         this.setState({ currentTaskIndex: currentTaskIndex + 1 });
-        return false;
+        return currentTaskIndex >= this.tasksDone;
     };
+
+    canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean } =
+        () => {
+            const { currentTaskIndex } = this.state;
+            return {
+                canSwipeBack: currentTaskIndex > 0,
+                canSwipeForward:
+                    this.tasksDone >= 0 &&
+                    currentTaskIndex < this.tasksDone + 1,
+            };
+        };
 
     onMomentumScrollEnd = (event: Object) => {
         this.currentScreen = Math.round(
@@ -251,7 +223,7 @@ class _Validator extends React.Component<Props, State> {
         const { group, updateProgress } = this.props;
         const { currentTaskIndex } = this.state;
         if (currentTaskIndex > 0) {
-            updateProgress(currentTaskIndex / group.numberOfTasks);
+            updateProgress((currentTaskIndex - 1) / group.numberOfTasks);
             this.setState({ currentTaskIndex: currentTaskIndex - 1 });
             return false;
         }
@@ -260,7 +232,7 @@ class _Validator extends React.Component<Props, State> {
 
     /* eslint-disable global-require */
     renderValidator = () => {
-        const { group, project, results, screens, t, tutorial } = this.props;
+        const { group, project, results, screens, tutorial } = this.props;
         const { currentTaskIndex } = this.state;
         const currentTask = this.expandedTasks[currentTaskIndex];
         // if tasks have a center attribute, we know they're grouped by 9
@@ -297,82 +269,41 @@ class _Validator extends React.Component<Props, State> {
         return (
             <View style={styles.container}>
                 <FootprintDisplay
+                    canSwipe={this.canSwipe}
+                    currentTaskIndex={currentTaskIndex}
                     nextTask={this.nextTask}
+                    numberOfTasks={group.numberOfTasks}
                     prefetchTask={prefetchTask}
                     previousTask={this.previousTask}
                     project={project}
                     task={currentTask}
                 />
                 <View style={styles.sideBySideButtons}>
-                    <Button
+                    <RoundButtonWithTextBelow
+                        color={buttonGreen}
+                        iconXmlString={tick}
+                        label="Yes"
                         onPress={() => this.nextTask(FOOTPRINT_YES)}
-                        style={[
-                            {
-                                backgroundColor:
-                                    selectedResult === FOOTPRINT_YES
-                                        ? buttonBGColorSelected
-                                        : buttonBGColor,
-                            },
-                            styles.bigSquareButton,
-                        ]}
-                        textStyle={styles.bigSquareButtonText}
-                    >
-                        <View>
-                            <Image
-                                source={require('../assets/checkmark_white.png')}
-                                style={styles.checkmark}
-                            />
-                            <Text style={styles.bigSquareButtonText}>
-                                {t('Yes')}
-                            </Text>
-                        </View>
-                    </Button>
-                    <Button
+                        radius={buttonHeight}
+                        selected={selectedResult === FOOTPRINT_YES}
+                    />
+                    <RoundButtonWithTextBelow
+                        color={buttonRed}
+                        iconXmlString={cross}
+                        label="No"
                         onPress={() => this.nextTask(FOOTPRINT_NO)}
-                        style={[
-                            {
-                                backgroundColor:
-                                    selectedResult === FOOTPRINT_NO
-                                        ? buttonBGColorSelected
-                                        : buttonBGColor,
-                            },
-                            styles.bigSquareButton,
-                        ]}
-                        textStyle={styles.bigSquareButtonText}
-                    >
-                        {`\u2715\n${t('No')}`}
-                    </Button>
+                        radius={buttonHeight}
+                        selected={selectedResult === FOOTPRINT_NO}
+                    />
+                    <RoundButtonWithTextBelow
+                        color={buttonGrey}
+                        iconXmlString={notSure}
+                        label="Not sure"
+                        onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
+                        radius={buttonHeight}
+                        selected={selectedResult === FOOTPRINT_NOT_SURE}
+                    />
                 </View>
-                <Button
-                    onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                    style={[
-                        {
-                            backgroundColor:
-                                selectedResult === FOOTPRINT_NOT_SURE
-                                    ? buttonBGColorSelected
-                                    : buttonBGColor,
-                        },
-                        styles.longNarrowButton,
-                    ]}
-                    textStyle={styles.longNarrowButtonText}
-                >
-                    {t('NotSure')}
-                </Button>
-                <Button
-                    onPress={() => this.nextTask(FOOTPRINT_BAD_IMAGERY)}
-                    style={[
-                        {
-                            backgroundColor:
-                                selectedResult === FOOTPRINT_BAD_IMAGERY
-                                    ? buttonBGColorSelected
-                                    : buttonBGColor,
-                        },
-                        styles.longNarrowButton,
-                    ]}
-                    textStyle={styles.longNarrowButtonText}
-                >
-                    {t('BadImagery')}
-                </Button>
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 && (
@@ -444,7 +375,9 @@ const mapStateToProps = (state, ownProps) => ({
     group: ownProps.group,
     project: ownProps.project,
     results: get(
-        state.results[ownProps.tutorialId],
+        state.results[
+            ownProps.tutorial ? ownProps.tutorialId : ownProps.project.projectId
+        ],
         ownProps.group.groupId,
         null,
     ),

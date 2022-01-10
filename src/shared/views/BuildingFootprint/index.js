@@ -84,7 +84,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
 
     /* eslint-enable global-require */
     render() {
-        const { navigation, ...otherProps } = this.props;
+        const { navigation, t, ...otherProps } = this.props;
         const projectObj = navigation.getParam('project', false);
         const tutorial = navigation.getParam('tutorial', false);
         // check that the project data has a tutorialId set (in firebase)
@@ -104,6 +104,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                 Component={Validator}
                 navigation={navigation}
                 getNormalHelpContent={this.getNormalHelpContent}
+                headerText={t('doesShapeOutlineABuilding')}
                 randomSeed={this.randomSeed}
                 screenName="BuildingFootprintScreen"
                 submitResultFunction={submitFootprint}
