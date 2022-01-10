@@ -892,7 +892,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                             styles.flashingText,
                         ]}
                     >
-                        {currentTaskIndex} | {numberOfTasks}
+                        {currentTaskIndex + 1} | {numberOfTasks}
                     </Animated.Text>
                     <ScaleBar
                         alignToBottom={false}
