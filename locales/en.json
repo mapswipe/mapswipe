@@ -179,22 +179,25 @@
   "BuildingFootprintTutorialIntroScreen": {
       "useTheButtonsToAnswer": "Use the buttons to answer:",
       "doesTheShapeOutlineABuilding": "Does the shape outline a building?",
-      "tapGreenText": "When the shape does outline a building in the image",
-      "tapRedText": "If the shape doesn't match a building in the image",
-      "tapGrayText": "If you're not sure or there is cloud cover / bad imagery",
+      "everyTimeYouSelectAnOption": "Every time you select an option, you'll be shown a new shape and image.",
+      "tapGreenText": "Yes - the shape does outline a building in the image",
+      "tapRedText": "No - the shape doesn't match a building in the image",
+      "tapGrayText": "Not sure - if you're not sure or there is cloud cover / bad imagery",
       "hideIconText": "Hold down the hide button to remove the shape from the image",
       "letsLearnHowToMap": "Let's learn how to map with some examples",
-      "youllSeeASquare": "You'll see a square on an image. Use the buttons to answer:",
+      "youllSeeASquare": "You'll see a shape on an image. Use the buttons to answer:",
       "squareContainsBuildings": "Does the square contain any buildings?",
       "squareWillMove": "The square will move around the image as you progress, following a grid like this:",
-      "swipeToGetStarted": "Swipe to get started"
+      "swipeToGetStarted": "Swipe to get started",
+      "swipeToContinue": "Swipe to continue"
   },
   "BFTutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "Don't worry if you're unsure about a square.",
+    "dontWorryIfYoureUnsure": "Don't worry if you're unsure about a square",
     "youCanAlwaysTapUnsure": "Remember, you can always tap the 'Not sure' button",
     "everyImageViewedBy": "Every image is viewed by at least 3 MapSwipers, so it's ok if you think you've missed something",
     "wantToChangeYourAnswer": "Want to change your answer?",
-    "youCanSwipeBack": "You can swipe back to change your previous answers. Then tap or swipe forward again to get back to where you were."
+    "youCanSwipeBack": "You can swipe back to change your previous answers. Then tap or swipe forward again to get back to where you were.",
+    "yourPreviousAnswerIsMarked": "Your previous answers are marked with a white circle",
   },
   "BFInstructionsScreen" : {
     "doesShapeOutlineABuilding": "Does the shape outline a building?",
