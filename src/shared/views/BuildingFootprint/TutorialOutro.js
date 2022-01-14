@@ -5,8 +5,10 @@ import { withTranslation } from 'react-i18next';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { TranslationFunction } from '../../flow-types';
 import {
+    GrayUnsureIcon,
+    GreenCheckIcon,
     MapswipeMagnifyingGlassIcon,
-    TapIconWhite,
+    SwipeIconWhite,
     SwipeRightIconWhite,
 } from '../../common/Tutorial/icons';
 
@@ -34,20 +36,20 @@ const styles = StyleSheet.create({
         color: COLOR_WHITE,
         fontWeight: '700',
         fontSize: 18,
-        marginBottom: 20,
-        marginTop: 20,
+        marginBottom: 10,
+        marginTop: 30,
     },
     tutRow: {
-        marginTop: 20,
+        marginTop: 15,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        alignItems: 'center',
     },
     tutText: {
         color: 'white',
         fontSize: 13,
         fontWeight: '600',
-        marginLeft: 5,
+        marginLeft: 10,
         marginTop: 10,
         maxWidth: '85%',
     },
@@ -68,13 +70,21 @@ const TutorialOutroScreen = (props: Props) => {
                         {t('dontWorryIfYoureUnsure')}
                     </Text>
                     <View style={styles.tutRow}>
-                        <TapIconWhite />
+                        <GrayUnsureIcon />
                         <Text style={styles.tutText}>
                             {t('youCanAlwaysTapUnsure')}
                         </Text>
                     </View>
                     <View style={styles.tutRow}>
-                        <MapswipeMagnifyingGlassIcon />
+                        <View
+                            style={{
+                                marginLeft: 5,
+                                marginRight: 5,
+                                marginTop: 10,
+                            }}
+                        >
+                            <MapswipeMagnifyingGlassIcon />
+                        </View>
                         <Text style={styles.tutText}>
                             {t('everyImageViewedBy')}
                         </Text>
@@ -85,15 +95,48 @@ const TutorialOutroScreen = (props: Props) => {
                     </Text>
 
                     <View style={styles.tutRow}>
-                        <SwipeRightIconWhite />
+                        <View
+                            style={{
+                                marginLeft: 5,
+                                marginRight: 5,
+                                marginTop: 10,
+                            }}
+                        >
+                            <SwipeRightIconWhite />
+                        </View>
                         <Text style={styles.tutText}>
                             {t('youCanSwipeBack')}
                         </Text>
                     </View>
 
-                    <Text style={styles.centeredHeader}>
-                        {t('TutorialIntroScreen:SwipeToContinue')}
-                    </Text>
+                    <View style={styles.tutRow}>
+                        <View
+                            style={{
+                                borderColor: COLOR_WHITE,
+                                borderRadius: 50 + 5,
+                                borderWidth: 5,
+                                height: 50 + 2 * 5,
+                                width: 50 + 2 * 5,
+                            }}
+                        >
+                            <GreenCheckIcon />
+                        </View>
+                        <Text style={styles.tutText}>
+                            {t('yourPreviousAnswerIsMarked')}
+                        </Text>
+                    </View>
+
+                    <View
+                        style={[
+                            styles.tutRow,
+                            { alignSelf: 'center', marginTop: 40 },
+                        ]}
+                    >
+                        <Text style={styles.centeredHeader}>
+                            {t('TutorialIntroScreen:SwipeToContinue')}
+                        </Text>
+                        <SwipeIconWhite />
+                    </View>
                 </ScrollView>
             </View>
         </View>
