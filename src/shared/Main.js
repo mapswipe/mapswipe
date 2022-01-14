@@ -19,6 +19,7 @@ import Modal from 'react-native-modalbox';
 import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
+import BFInstructionsScreen from './views/BuildingFootprint/InstructionsScreen';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
 import LanguageSelectionScreen from './common/LanguageSelectionScreen';
@@ -286,6 +287,7 @@ const LoginNavigator = createStackNavigator(
 const MainNavigator = createStackNavigator(
     {
         BuildingFootprintScreen,
+        BFInstructionsScreen,
         ChangeDetectionScreen,
         CDInstructionsScreen,
         LanguageSelectionScreen,

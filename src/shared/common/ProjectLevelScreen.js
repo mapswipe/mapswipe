@@ -187,8 +187,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        // $FlowFixMe
-        this.HelpModal.open();
+        const { navigation } = this.props;
+        navigation.push('BFInstructionsScreen');
     };
 
     completeGroup = () => {
