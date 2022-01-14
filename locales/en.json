@@ -197,7 +197,7 @@
     "everyImageViewedBy": "Every image is viewed by at least 3 MapSwipers, so it's ok if you think you've missed something",
     "wantToChangeYourAnswer": "Want to change your answer?",
     "youCanSwipeBack": "You can swipe back to change your previous answers. Then tap or swipe forward again to get back to where you were.",
-    "yourPreviousAnswerIsMarked": "Your previous answers are marked with a white circle",
+    "yourPreviousAnswerIsMarked": "Your previous answers are marked with a white circle"
   },
   "BFInstructionsScreen" : {
     "doesShapeOutlineABuilding": "Does the shape outline a building?",
