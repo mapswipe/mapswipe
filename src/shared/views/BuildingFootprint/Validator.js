@@ -106,7 +106,7 @@ class _Validator extends React.Component<Props, State> {
         this.state = {
             currentTaskIndex: 0,
         };
-        this.tutorialIntroWidth = 1;
+        this.tutorialIntroWidth = 2;
         this.currentScreen = -this.tutorialIntroWidth;
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
