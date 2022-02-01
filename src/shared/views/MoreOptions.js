@@ -16,7 +16,6 @@ import {
     Image,
     TouchableWithoutFeedback,
 } from 'react-native';
-import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import debugInfo from '../../../debugInfo';
 import ConfirmationModal from '../common/ConfirmationModal';
@@ -29,7 +28,7 @@ import {
     COLOR_RED_OVERLAY,
     COLOR_WHITE,
 } from '../constants';
-import OWN_BUTTON from '../common/Button';
+import Button from '../common/Button';
 
 const GLOBAL = require('../Globals');
 
@@ -295,7 +294,7 @@ class _MoreOptions extends React.Component<MOProps> {
                     </Button>
                 </View>
                 <View style={styles.row}>
-                    <OWN_BUTTON
+                    <Button
                         onPress={() => {
                             navigation.push('WebviewWindow', {
                                 uri: 'https://mapswipe.org/',
@@ -305,7 +304,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         textStyle={styles.buttonText}
                     >
                         {t('mapswipe website')}
-                    </OWN_BUTTON>
+                    </Button>
                 </View>
                 <View style={styles.row}>
                     <Button

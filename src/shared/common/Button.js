@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Text, View, StyleSheet, Pressable, TouchableNativeFeedback} from 'react-native';
+import { Text, View, StyleSheet, Pressable} from 'react-native';
 
-class OWN_BUTTON extends Component{
+class Button extends Component{
   _renderChildren() {
     let childElements = [];
     React.Children.forEach(this.props.children, (item) => {
@@ -65,4 +65,4 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
-module.exports = OWN_BUTTON
+module.exports = Button
