@@ -29,6 +29,7 @@ import {
     COLOR_RED_OVERLAY,
     COLOR_WHITE,
 } from '../constants';
+import OWN_BUTTON from '../common/Button';
 
 const GLOBAL = require('../Globals');
 
@@ -294,7 +295,7 @@ class _MoreOptions extends React.Component<MOProps> {
                     </Button>
                 </View>
                 <View style={styles.row}>
-                    <Button
+                    <OWN_BUTTON
                         onPress={() => {
                             navigation.push('WebviewWindow', {
                                 uri: 'https://mapswipe.org/',
@@ -304,7 +305,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         textStyle={styles.buttonText}
                     >
                         {t('mapswipe website')}
-                    </Button>
+                    </OWN_BUTTON>
                 </View>
                 <View style={styles.row}>
                     <Button
