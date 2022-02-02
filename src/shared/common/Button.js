@@ -1,6 +1,7 @@
 // @flow
+import * as React from 'react';
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 
 // loosely adapted from https://github.com/APSL/react-native-button
@@ -27,16 +28,22 @@ const styles = StyleSheet.create({
     },
 });
 
-class Button extends Component {
-    _renderChildren() {
+type Props = {
+    children: any,
+    onPress: () => any,
+    textStyle: Object,
+    style: Object,
+    testID?: string,
+    isDisabled?: boolean,
+};
+
+class Button extends Component<Props> {
+    renderChildren: Function = (textStyle: Object, children: any) => {
         const childElements = [];
-        React.Children.forEach(this.props.children, item => {
+        React.Children.forEach(children, item => {
             if (typeof item === 'string' || typeof item === 'number') {
                 const element = (
-                    <Text
-                        style={[styles.text, this.props.textStyle]}
-                        key={item}
-                    >
+                    <Text style={[styles.text, textStyle]} key={item}>
                         {item}
                     </Text>
                 );
@@ -46,26 +53,28 @@ class Button extends Component {
             }
         });
         return childElements;
-    }
+    };
 
-    render() {
-        if (this.props.isDisabled === true) {
+    render(): React.Node {
+        const { onPress, style, textStyle, testID, isDisabled, children } =
+            this.props;
+        if (isDisabled === true) {
             return (
-                <View style={[styles.button, this.props.style, styles.opacity]}>
-                    {this._renderChildren()}
+                <View style={[styles.button, style, styles.opacity]}>
+                    {this.renderChildren(textStyle, children)}
                 </View>
             );
         }
-        const extra_attributes = { testID: this.props.testID };
+        const extraAttributes = { testID };
 
         return (
             <Pressable
-                style={[styles.button, this.props.style]}
-                onPress={this.props.onPress}
+                style={[styles.button, style]}
+                onPress={onPress}
                 android_ripple={{ color: 'light-gray' }}
-                {...extra_attributes}
+                {...extraAttributes}
             >
-                {this._renderChildren()}
+                {this.renderChildren(textStyle, children)}
             </Pressable>
         );
     }
