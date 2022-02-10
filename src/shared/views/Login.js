@@ -7,12 +7,13 @@ import fb from '@react-native-firebase/app';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { Trans, withTranslation } from 'react-i18next';
 import {
-    Text,
-    View,
+    Image,
+    Linking,
     ScrollView,
     StyleSheet,
-    Image,
+    Text,
     TextInput,
+    View,
 } from 'react-native';
 import Button from 'apsl-react-native-button';
 // $FlowFixMe
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
 const SCREEN_SIGNUP = 0;
 const SCREEN_LOGIN = 1;
 const SCREEN_FORGOT_PASSWORD = 2;
+const SCREEN_OSM_LOGIN = 3;
 
 const MIN_USERNAME_LENGTH = 4;
 const MIN_PASSWORD_LENGTH = 6;
@@ -128,6 +130,7 @@ type State = {
     screen: number,
     showPasswordError: boolean,
     showUsernameError: boolean,
+    signupOSMPPChecked: boolean,
     signupPPChecked: boolean,
 };
 
@@ -146,6 +149,9 @@ class _Login extends React.Component<Props, State> {
             screen: SCREEN_SIGNUP,
             showPasswordError: false,
             showUsernameError: false,
+            // is the privay policy checkbox checked on the OSM screen
+            signupOSMPPChecked: false,
+            // is the privay policy checkbox checked on the (email+pass) signup screen
             signupPPChecked: false,
         };
     }
@@ -166,6 +172,13 @@ class _Login extends React.Component<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         const { auth, navigation } = this.props;
+        console.log('ROUTE', navigation.state.params);
+        // if arrived here with a deeplink (from the OSM auth page)
+        // handle this before anything else
+        if (navigation.state.params !== undefined) {
+            const { code, error, state, token } = navigation.state.params;
+            this.OSMOauthCallback(code, state, token, error);
+        }
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
                 navigation.navigate('MainNavigator');
@@ -308,6 +321,58 @@ class _Login extends React.Component<Props, State> {
                     loadingNext: false,
                 });
             });
+    };
+
+    OSMOauthCallback = (
+        osmCode: string,
+        osmState: string,
+        fbToken: string,
+        osmError: string,
+    ) => {
+        const { firebase, t } = this.props;
+        console.log('OSM callback', osmCode, osmState, fbToken, osmError);
+        // call /token now, which will get a token from firebase
+        // and redirect here via deeplink
+        if (fbToken === undefined) {
+            console.log('Fetching a token');
+            Linking.openURL(
+                `https://dev-mapswipe.web.app/token?code=${osmCode}&state=${osmState}`,
+            );
+        } else if (fbToken !== undefined) {
+            firebase
+                .auth()
+                .signInWithCustomToken(fbToken)
+                .then(userCredentials => {
+                    // Signed in
+                    const username = userCredentials.user.user.displayName;
+                    MessageBarManager.showAlert({
+                        title: t('signup:success'),
+                        message: t('signup:welcomeToMapSwipe', { username }),
+                        alertType: 'info',
+                    });
+                    fb.analytics().logEvent('account_login');
+                    // FIXME: do we even need this, since this would only
+                    // be used for new accounts?
+                    // convertProfileToV2Format(firebase);
+                })
+                .catch(error => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log('osm auth failed', errorCode, errorMessage);
+                });
+        }
+    };
+
+    handleOSMLogin = () => {
+        this.setState({
+            loadingNext: true,
+        });
+        // call redirect which will send the user to the OSM login page
+        // which in turn will send them back to the app's deeplink
+        // which will take them to OSMOauthCallback
+        Linking.openURL('https://dev-mapswipe.web.app/redirect');
+        // TODO: make deeplinks work on ios
+        // TODO: move fb functions to python workers repo
     };
 
     handlePassReset = () => {
@@ -517,6 +582,15 @@ class _Login extends React.Component<Props, State> {
                 >
                     {t('signup:loginExistingAccount')}
                 </Button>
+
+                <Button
+                    testID="signup_to_osm_button"
+                    style={styles.switchToLogin}
+                    onPress={() => this.switchScreens(SCREEN_OSM_LOGIN)}
+                    textStyle={styles.buttonText}
+                >
+                    {t('signup:loginSignupWithOSM')}
+                </Button>
             </ScrollView>
         );
     };
@@ -653,6 +727,79 @@ class _Login extends React.Component<Props, State> {
         );
     };
 
+    renderOSMLoginScreen = () => {
+        const { signupOSMPPChecked } = this.state;
+        const { navigation, t } = this.props;
+        return (
+            <ScrollView
+                testID="forgot_password_screen"
+                style={styles.container}
+                contentContainerStyle={{
+                    alignItems: 'center',
+                    width: GLOBAL.SCREEN_WIDTH,
+                    backgroundColor: COLOR_DEEP_BLUE,
+                    padding: 20,
+                }}
+            >
+                <Image
+                    style={styles.tutIcon2}
+                    source={require('./assets/loadinganimation.gif')}
+                />
+
+                <Text style={styles.legalText}>
+                    {t('signup:OSMsignupExplanation')}
+                </Text>
+
+                <Button
+                    isDisabled={!signupOSMPPChecked}
+                    style={styles.otherButton}
+                    onPress={this.handleOSMLogin}
+                    textStyle={styles.buttonText}
+                >
+                    {t('signup:loginSignupWithOSM')}
+                </Button>
+
+                <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
+                    <CheckBox
+                        style={{ flex: 1, padding: 5, maxWidth: 30 }}
+                        checkedCheckBoxColor={COLOR_WHITE}
+                        uncheckedCheckBoxColor={COLOR_WHITE}
+                        isChecked={signupOSMPPChecked}
+                        onClick={() =>
+                            this.setState({
+                                signupOSMPPChecked: !signupOSMPPChecked,
+                            })
+                        }
+                    />
+                    <Text style={styles.checkboxLabel}>
+                        <Trans i18nKey="signup:IagreeToPrivacyNotice">
+                            I agree to the
+                            <Text
+                                style={styles.policyLink}
+                                onPress={() => {
+                                    navigation.push('WebviewWindow', {
+                                        uri: 'https://mapswipe.org/privacy',
+                                    });
+                                }}
+                            >
+                                Privacy Notice
+                            </Text>
+                        </Trans>
+                    </Text>
+                </View>
+
+                <Button
+                    testID="osm_to_login_button"
+                    style={styles.switchToLogin}
+                    onPress={() => this.switchScreens(SCREEN_LOGIN)}
+                    textStyle={styles.buttonText}
+                >
+                    {t('signup:loginExistingAccount')}
+                </Button>
+            </ScrollView>
+        );
+    };
+
     render() {
         const { auth } = this.props;
         const { loadingAuth, loadingNext, screen } = this.state;
@@ -661,12 +808,21 @@ class _Login extends React.Component<Props, State> {
         const showLoader = !isLoaded(auth) || loadingAuth || loadingNext;
 
         if (!showLoader) {
-            if (screen === SCREEN_SIGNUP) {
-                content = this.renderSignupScreen();
-            } else if (screen === SCREEN_LOGIN) {
-                content = this.renderLoginScreen();
-            } else if (screen === SCREEN_FORGOT_PASSWORD) {
-                content = this.renderForgotPasswordScreen();
+            switch (screen) {
+                case SCREEN_LOGIN:
+                    content = this.renderLoginScreen();
+                    break;
+                case SCREEN_FORGOT_PASSWORD:
+                    content = this.renderForgotPasswordScreen();
+                    break;
+                case SCREEN_OSM_LOGIN:
+                    content = this.renderOSMLoginScreen();
+                    break;
+                case SCREEN_SIGNUP:
+                    content = this.renderSignupScreen();
+                    break;
+                default:
+                    content = this.renderSignupScreen();
             }
         }
 
