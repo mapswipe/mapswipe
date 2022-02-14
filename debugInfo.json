@@ -1,4 +1,6 @@
 {
+    "oauthHost": "https://dev-mapswipe.web.app",
+    "deeplinkPrefix": "devmapswipe://",
     "gitHash": "COMMIT",
     "gitTag": "TAG"
 }

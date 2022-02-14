@@ -60,7 +60,3 @@ export const tutorialModes = {
     // hint is shown if they press the "show answers" button
     hint: 'hint',
 };
-
-// the prefix used for our deeplink urls,
-// such as 'mapswipe://login/xxx'
-export const deeplinkPrefix = 'devmapswipe://';

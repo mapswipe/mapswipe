@@ -20,6 +20,7 @@ import Button from 'apsl-react-native-button';
 import CheckBox from 'react-native-check-box';
 import { MessageBarManager } from 'react-native-message-bar';
 import RNBootSplash from 'react-native-bootsplash';
+import debugInfo from '../../../debugInfo';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
@@ -336,7 +337,7 @@ class _Login extends React.Component<Props, State> {
         if (fbToken === undefined) {
             console.log('Fetching a token');
             Linking.openURL(
-                `https://dev-mapswipe.web.app/token?code=${osmCode}&state=${osmState}`,
+                `${debugInfo.oauthHost}/token?code=${osmCode}&state=${osmState}`,
             );
         } else if (fbToken !== undefined) {
             firebase
@@ -370,9 +371,7 @@ class _Login extends React.Component<Props, State> {
         // call redirect which will send the user to the OSM login page
         // which in turn will send them back to the app's deeplink
         // which will take them to OSMOauthCallback
-        Linking.openURL('https://dev-mapswipe.web.app/redirect');
-        // TODO: make deeplinks work on ios
-        // TODO: move fb functions to python workers repo
+        Linking.openURL(`${debugInfo.oauthHost}/redirect`);
     };
 
     handlePassReset = () => {

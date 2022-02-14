@@ -28,7 +28,12 @@ import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
 import WebviewWindow from './views/WebviewWindow';
-import { COLOR_DEEP_BLUE, deeplinkPrefix } from './constants';
+import { COLOR_DEEP_BLUE } from './constants';
+import debugInfo from '../../debugInfo';
+
+// the prefix for deeplinks used in OAuth in particular
+// such as "devmapswipe://"
+const { deeplinkPrefix } = debugInfo;
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
 const { MessageBarManager } = require('react-native-message-bar');
