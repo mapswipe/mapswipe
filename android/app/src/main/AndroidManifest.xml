@@ -31,6 +31,7 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
+            <!-- modified at build-time in CI for production build -->
             <data android:scheme="devmapswipe" />
         </intent-filter>
       </activity>
