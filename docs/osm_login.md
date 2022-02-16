@@ -32,29 +32,27 @@ Both the `/redirect` and `/token` URLs are hosted on firebase cloud functions, u
 
 ## Setup steps
 
+> Note: unless you're rebuilding the auth system entirely, you can skip the OSM app creation and move directly to the part
+> related to firebase.
 - create OAuth app on OSM https://github.com/osmlab/osm-auth#getting-keys. You need to be logged in to OSM for this to
   work.
-- https://master.apis.dev.openstreetmap.org/oauth2/applications/ or https://www.openstreetmap.org/oauth2/applications
+  - https://master.apis.dev.openstreetmap.org/oauth2/applications/ or https://www.openstreetmap.org/oauth2/applications
   for production
-- Click "Register new application":
-  - Name: anything humanly understandable, this will be shown to users when they login on OSM,
-    like: "do you allow the application <name> to access your profile info?"
-  - Redirect URIs: "devmapswipe://login/osm" or "mapswipe://login/osm"
-  - Do NOT check "confidential app" as the mobile app is not able to guarantee credential security
-  - Select only the `read_prefs` scope.
-  - Create the application
+  - Click "Register new application":
+    - Name: anything humanly understandable, this will be shown to users when they login on OSM,
+      like: "do you allow the application <name> to access your profile info?"
+    - Redirect URIs: "devmapswipe://login/osm" or "mapswipe://login/osm"
+    - Do NOT check "confidential app" as the mobile app is not able to guarantee credential security
+    - Select only the "Read user preferences" (`read_prefs`) scope.
+    - Create the application
 
-- setup the firebase backend functions. See the docs in the `python-mapswipe-workers` repository.
-- add rules on firebase RTDB
-
+- Setup the firebase backend functions. See the docs in the `python-mapswipe-workers` repository.
+- Add rules on firebase RTDB
 
 
 ## Config for oauth2
 
 We use OAuth2, not OAuth "1", with the "access code" grant type.
-
-## dev osm app
-
 
 ## Testing deeplinks on mapswipe
 
