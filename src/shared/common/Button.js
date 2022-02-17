@@ -3,7 +3,10 @@ import * as React from 'react';
 
 import { Component } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
-import type { ViewStyleProp, TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type {
+    ViewStyleProp,
+    TextStyleProp,
+} from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 // loosely adapted from https://github.com/APSL/react-native-button
 const styles = StyleSheet.create({
