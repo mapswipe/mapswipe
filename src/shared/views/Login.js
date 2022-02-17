@@ -345,16 +345,17 @@ class _Login extends React.Component<Props, State> {
                 .signInWithCustomToken(fbToken)
                 .then(userCredentials => {
                     // Signed in
-                    const username = userCredentials.user.user.displayName;
+                    const username = userCredentials.user.displayName;
+                    // it is difficult to find out if this is a signup or a login
+                    // here. firebase provides a isNewUser boolean, but it seems
+                    // to always be false :( so instead we set the initial user
+                    // profile in the backend function
                     MessageBarManager.showAlert({
                         title: t('signup:success'),
                         message: t('signup:welcomeToMapSwipe', { username }),
                         alertType: 'info',
                     });
                     fb.analytics().logEvent('account_login');
-                    // FIXME: do we even need this, since this would only
-                    // be used for new accounts?
-                    // convertProfileToV2Format(firebase);
                 })
                 .catch(error => {
                     const errorCode = error.code;
