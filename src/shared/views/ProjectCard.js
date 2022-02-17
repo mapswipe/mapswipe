@@ -51,15 +51,6 @@ const style = StyleSheet.create({
         flex: 1,
         overflow: 'hidden',
     },
-    offlineIndicator: {
-        borderWidth: 0,
-        backgroundColor: 'transparent',
-        width: 20,
-        resizeMode: 'contain',
-        right: 5,
-        top: -10,
-        position: 'absolute',
-    },
     bottomTextArea: {
         position: 'absolute',
         flex: 1,
@@ -139,20 +130,7 @@ type Props = {
     t: TranslationFunction,
 };
 
-type State = {
-    hasOfflineGroups: boolean,
-};
-
-class ProjectCard extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            hasOfflineGroups: GLOBAL.DB.hasOfflineGroups(
-                `project-${props.project.projectId}`,
-            ),
-        };
-    }
-
+class ProjectCard extends React.Component<Props> {
     getGradientArray() {
         const { project } = this.props;
         const gradientToPick = parseInt(project.created, 10) % 3;
@@ -189,7 +167,6 @@ class ProjectCard extends React.Component<Props, State> {
 
     render() {
         const { project, cardIndex, t } = this.props;
-        const { hasOfflineGroups } = this.state;
         // show progress = 0 if we somehow get a negative value
         const progress = getProjectProgressForDisplay(project.progress);
         const mappersCount = project.contributorCount || 0;
@@ -216,14 +193,6 @@ class ProjectCard extends React.Component<Props, State> {
                         source={{ uri: project.image }}
                     >
                         <View style={style.overlay}>
-                            <Image
-                                style={[
-                                    style.offlineIndicator,
-                                    { opacity: hasOfflineGroups ? 1 : 0.3 },
-                                ]}
-                                source={require('./assets/offline_icon.png')}
-                            />
-
                             <View
                                 style={
                                     project.isFeatured

@@ -19,16 +19,13 @@ import { withTranslation } from 'react-i18next';
 
 // $FlowFixMe
 import Markdown from 'react-native-simple-markdown';
-import Modal from 'react-native-modalbox';
 import Button from '../common/Button';
-import ConnectionManager from '../ConnectionManager';
 import {
     BUILDING_FOOTPRINTS,
     CHANGE_DETECTION,
     COLOR_DARK_GRAY,
-    COLOR_DEEP_BLUE,
-    COLOR_LIGHT_GRAY,
     COLOR_RED,
+    COLOR_LIGHT_GRAY,
     COLOR_WHITE,
     COMPLETENESS_PROJECT,
     LEGACY_TILES,
@@ -51,18 +48,6 @@ const style = StyleSheet.create({
         fontSize: 13,
         color: COLOR_WHITE,
         fontWeight: '700',
-    },
-    closeButton: {
-        backgroundColor: COLOR_DARK_GRAY,
-        alignItems: 'stretch',
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        position: 'absolute',
-        bottom: 20,
-        left: 20,
-        width: 260,
     },
     projectViewContainer: {
         flex: 1,
@@ -178,47 +163,6 @@ const style = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.1,
     },
-    downloadButton: {
-        backgroundColor: COLOR_DEEP_BLUE,
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-        width: 260,
-    },
-    header: {
-        fontWeight: '700',
-        color: COLOR_DARK_GRAY,
-        fontSize: 18,
-    },
-    tutRow: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        height: 40,
-    },
-    tutPar: {
-        fontSize: 13,
-        color: '#575757',
-        fontWeight: '500',
-        lineHeight: 20,
-    },
-    tutText: {
-        fontSize: 13,
-        fontWeight: '600',
-        color: '#50acd4',
-        marginTop: 5,
-        lineHeight: 20,
-    },
-    modal: {
-        padding: 20,
-    },
-    offlineModal: {
-        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
-        width: 300,
-        backgroundColor: COLOR_WHITE,
-        borderRadius: 2,
-    },
     progressBox: {
         marginBottom: 20,
         marginLeft: -15,
@@ -257,20 +201,8 @@ type HeaderProps = {
     t: TranslationFunction,
 };
 
-type HeaderState = {
-    isDisabled: boolean,
-};
-
-class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
+class _ProjectHeader extends React.Component<HeaderProps> {
     // $FlowFixMe
-    offlineModal: ?Modal;
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isDisabled: true,
-        };
-    }
 
     componentDidMount() {
         fb.analytics().logEvent('project_view_opened');
@@ -301,22 +233,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                 ],
             );
         }
-    };
-
-    openOfflineModal = () => {
-        if (this.offlineModal) {
-            this.offlineModal.open();
-        }
-    };
-
-    closeOfflineModal = () => {
-        if (this.offlineModal) {
-            this.offlineModal.close();
-        }
-    };
-
-    handleLater = () => {
-        this.openOfflineModal();
     };
 
     checkWifiMapping() {
@@ -363,74 +279,8 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
         }
     }
 
-    checkWifiDownload(originalTaskAmount) {
-        const parent = this;
-        // eslint-disable-next-line func-names
-        return function (taskAmount) {
-            console.log(`Starting download with ${taskAmount} tasks.`);
-            if (!ConnectionManager.isOnline()) {
-                Alert.alert(
-                    'Warning: You are offline',
-                    'Connect to a network and try again',
-                    [
-                        {
-                            text: 'Got it',
-                            onPress: () => {
-                                console.log('canceled wifi');
-                                parent.closeOfflineModal();
-                            },
-                        },
-                    ],
-                );
-            } else if (ConnectionManager.isOnWifi()) {
-                console.log(
-                    `We're headed to download${originalTaskAmount} tasks!`,
-                );
-                Alert.alert(
-                    'Be patient!',
-                    'It might take a while for your download to start. ',
-                    [
-                        {
-                            text: 'Ok',
-                            onPress: () => {
-                                parent.closeOfflineModal();
-                            },
-                        },
-                    ],
-                );
-                // TODO: load data for offline work here
-                parent.closeOfflineModal();
-            } else {
-                Alert.alert(
-                    'Warning: You are not on wifi',
-                    'Are you sure you wish to continue this download?',
-                    [
-                        {
-                            text: 'Cancel',
-                            onPress: () => {
-                                console.log('canceled wifi');
-                                parent.closeOfflineModal();
-                            },
-                        },
-                        {
-                            text: 'Continue',
-                            onPress: () => {
-                                console.log(
-                                    `We're headed to download${originalTaskAmount} tasks!`,
-                                );
-                                // TODO: load data for offline work here
-                                parent.closeOfflineModal();
-                            },
-                        },
-                    ],
-                );
-            }
-        };
-    }
-
     render() {
         const { navigation, profile, project, t } = this.props;
-        const { isDisabled } = this.state;
         const renderQueue = [];
         const chunks = project.projectDetails.split('\\n');
         chunks.forEach(chunk => {
@@ -592,65 +442,6 @@ class _ProjectHeader extends React.Component<HeaderProps, HeaderState> {
                         {userCanMap ? t('map now') : t('chooseAnotherProject')}
                     </Button>
                 </View>
-                <Modal
-                    style={[style.modal, style.offlineModal]}
-                    backdropType="blur"
-                    position="center"
-                    ref={r => {
-                        this.offlineModal = r;
-                    }}
-                    isDisabled={isDisabled}
-                >
-                    <Text style={style.header}>Download Options</Text>
-                    <Text style={style.tutPar}>
-                        We will let you know when your download ends, it will be
-                        auto-deleted after completion. Do not close the MapSwipe
-                        app.
-                    </Text>
-                    <View style={style.tutRow}>
-                        <Text style={style.tutText}>
-                            About 10 min of mapping
-                        </Text>
-                    </View>
-                    <Button
-                        style={style.downloadButton}
-                        onPress={this.checkWifiDownload(1000)}
-                        textStyle={style.buttonText}
-                    >
-                        Download 1k tiles (approx 20MB)
-                    </Button>
-                    <View style={style.tutRow}>
-                        <Text style={style.tutText}>
-                            About 40 min of mapping{' '}
-                        </Text>
-                    </View>
-                    <Button
-                        style={style.downloadButton}
-                        onPress={this.checkWifiDownload(4000)}
-                        textStyle={style.buttonText}
-                    >
-                        Download 4k tiles (approx 80MB)
-                    </Button>
-                    <View style={style.tutRow}>
-                        <Text style={style.tutText}>
-                            About 2.5 hrs of mapping
-                        </Text>
-                    </View>
-                    <Button
-                        style={style.downloadButton}
-                        onPress={this.checkWifiDownload(16000)}
-                        textStyle={style.buttonText}
-                    >
-                        Download 16k tiles (approx 320MB)
-                    </Button>
-                    <Button
-                        style={style.closeButton}
-                        onPress={this.closeOfflineModal}
-                        textStyle={style.buttonText}
-                    >
-                        Cancel
-                    </Button>
-                </Modal>
             </ScrollView>
         );
     }
