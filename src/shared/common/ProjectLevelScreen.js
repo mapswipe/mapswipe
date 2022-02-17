@@ -4,7 +4,7 @@ import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
-import Button from 'apsl-react-native-button';
+import Button from './Button';
 import Modal from 'react-native-modalbox';
 import { withTranslation } from 'react-i18next';
 import { cancelGroup, startGroup } from '../actions/index';

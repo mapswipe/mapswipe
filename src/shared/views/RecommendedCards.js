@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import Button from 'apsl-react-native-button';
+import Button from '../common/Button';
 import Modal from 'react-native-modalbox';
 import type { NavigationEventSubscription } from 'react-navigation';
 import ProjectCard from './ProjectCard';

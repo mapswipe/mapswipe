@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Modal from 'react-native-modalbox';
 import { StyleSheet } from 'react-native';
-import Button from 'apsl-react-native-button';
+import Button from './Button';
 import { COLOR_DEEP_BLUE } from '../constants';
 
 const styles = StyleSheet.create({

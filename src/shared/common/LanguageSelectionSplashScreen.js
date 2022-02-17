@@ -9,7 +9,7 @@ import {
     View,
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import Button from 'apsl-react-native-button';
+import Button from './Button';
 import RNBootSplash from 'react-native-bootsplash';
 import {
     COLOR_DARK_GRAY,

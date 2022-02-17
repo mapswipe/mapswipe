@@ -14,7 +14,7 @@ import {
     Image,
     TextInput,
 } from 'react-native';
-import Button from 'apsl-react-native-button';
+import Button from '../common/Button';
 // $FlowFixMe
 import CheckBox from 'react-native-check-box';
 import { MessageBarManager } from 'react-native-message-bar';

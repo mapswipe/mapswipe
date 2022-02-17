@@ -16,7 +16,7 @@ import {
     Alert,
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import Button from 'apsl-react-native-button';
+import Button from '../common/Button';
 
 // $FlowFixMe
 import Markdown from 'react-native-simple-markdown';
