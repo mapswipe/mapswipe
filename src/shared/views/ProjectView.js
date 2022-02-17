@@ -16,11 +16,11 @@ import {
     Alert,
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import Button from '../common/Button';
 
 // $FlowFixMe
 import Markdown from 'react-native-simple-markdown';
 import Modal from 'react-native-modalbox';
+import Button from '../common/Button';
 import ConnectionManager from '../ConnectionManager';
 import {
     BUILDING_FOOTPRINTS,

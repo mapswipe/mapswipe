@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Button from './Button';
 import { SvgXml } from 'react-native-svg';
+import Button from './Button';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../constants';
 import GLOBAL from '../Globals';
 

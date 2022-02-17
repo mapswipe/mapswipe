@@ -6,8 +6,8 @@ import fb from '@react-native-firebase/app';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import Button from '../common/Button';
 import { MessageBarManager } from 'react-native-message-bar';
+import Button from '../common/Button';
 import { cancelGroup, commitGroup, type GroupInfo } from '../actions/index';
 import type {
     GroupType,
