@@ -166,9 +166,9 @@
     "SwipeToContinue": "Swipe om door te gaan"
   },
   "TutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "Maak u geen zorgen als u niet zeker weet wat u ziet in een vierkant.",
+    "dontWorryIfYoureUnsure": "Maakt u zich geen zorgen als u niet zeker weet wat u ziet in een vierkant.",
     "youCanAlwaysTapTwice": "Herinner u dat u altijd twee keer kan tikken om de tegel geel te markeren als u niet zeker weet wat u ziet.",
-    "everyImageViewedBy": "Elke afbeelding wordt bekeken door meerdere mensen, dus maak u geen zorgen of u iets gemist heeft.",
+    "everyImageViewedBy": "Elke afbeelding wordt bekeken door meerdere mensen, dus maakt u zich geen zorgen of u iets gemist heeft.",
     "holdZoom": "U kunt op elk vierkant drukken en het ingedrukt houden om er naar te zoomen. Tik opnieuw om dit te annuleren."
   },
   "TutorialEndScreen": {
@@ -177,20 +177,30 @@
     "completedTutorial": "U heeft nu alles wat u nodig hebt om bij te dragen aan het humanitaire in kaart brengen met behulp van de app. U kunt altijd terugkomen voor een opfrisser."
   },
   "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Gebruik de knoppen om te antwoorden:",
+      "doesTheShapeOutlineABuilding": "Omlijnt de vorm een gebouw?",
+      "everyTimeYouSelectAnOption": "Elke keer dat u een optie selecteert wordt u een nieuwe vorm en afbeelding getoond.",
+      "tapGreenText": "Ja - de vorm omlijnt een gebouw in de afbeelding",
+      "tapRedText": "Nee - de vorm komt niet overeen met een gebouw in de afbeelding",
+      "tapGrayText": "Weet ik niet - Als u niet zeker bent of als er wolken / problemen met de afbeeldingen zijn",
+      "hideIconText": "Houd de verberg-knop ingedrukt om de vorm van de afbeelding af te halen.",
       "letsLearnHowToMap": "Laten we leren hoe in kaart te brengen met enkele voorbeelden",
-      "youllSeeASquare": "U zult een vierkant zien op een afbeelding. Gebruik de knoppen om te antwoorden.",
+      "youllSeeASquare": "U zult een vorm zien op een afbeelding. Gebruik de knoppen om te antwoorden:",
       "squareContainsBuildings": "Bevat het vierkant gebouwen?",
       "squareWillMove": "Het vierkant zal in de afbeelding verschuiven wanneer u voortgang maakt en zal een grid volgen zoals hier:",
-      "swipeToGetStarted": "Swipe om te beginnen"
+      "swipeToGetStarted": "Swipe om te beginnen",
+      "swipeToContinue": "Swipe om door te gaan"
   },
   "BFTutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "Maak u geen zorgen als u niet zeker bent over een vierkant",
+    "dontWorryIfYoureUnsure": "Maakt u zich geen zorgen als u het niet zeker weet voor een vierkant",
     "youCanAlwaysTapUnsure": "Herinner dat u altijd op de 'Weet ik niet' knop kan tikken",
     "everyImageViewedBy": "Elke afbeelding wordt bekeken door ten minste 3 MapSwipers, dus het is ok als u denkt dat u iets gemist hebt.",
     "wantToChangeYourAnswer": "Wilt u uw antwoord veranderen?",
-    "youCanSwipeBack": "U kunt terugswipen om uw vorige antwoorden te veranderen. Tap of swipe daarna opnieuw vooruit om terug te komen waar u was."
+    "youCanSwipeBack": "U kunt terugswipen om uw vorige antwoorden te veranderen. Tap of swipe daarna opnieuw vooruit om terug te komen waar u was.",
+    "yourPreviousAnswerIsMarked": "Uw vorige antwoorden zijn gemarkeerd met een witte cirkel"
   },
   "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Omlijnt de vorm een gebouw?",
     "howToContribute": "Hoe bij te dragen",
     "squareContainsBuildings": "Bevat het vierkant gebouwen? Gebruik de knoppen om te antwoorden:",
     "instructionsYes": "Ja: wanneer er een gebouw of deel van een gebouw in het vierkant is",
