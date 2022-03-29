@@ -2919,14 +2919,6 @@ aproba@^1.0.3:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
-apsl-react-native-button@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/apsl-react-native-button/-/apsl-react-native-button-3.1.1.tgz#313764d84cd9a429d14b329db6639b2c683266a7"
-  integrity sha512-rMk6rLIxXE5xno1Ae6FZqygBUT7nXKSZkCLNMdCXyqiyuWQ+LGXjGargeoTINyuhcoScG7YjCw0fkljBw4q2lw==
-  dependencies:
-    lodash.isequal "^4.1.4"
-    prop-types "^15.5.10"
-
 are-we-there-yet@~1.1.2:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/are-we-there-yet/-/are-we-there-yet-1.1.7.tgz#b15474a932adab4ff8a50d9adfa7e4e926f21146"

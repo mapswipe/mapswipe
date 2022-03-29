@@ -6,7 +6,7 @@ import fb from '@react-native-firebase/app';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import Button from 'apsl-react-native-button';
+import Button from '../Button';
 import { TickWhiteOnGreen } from './icons';
 import { cancelGroup, completeTutorial } from '../../actions';
 import type {
@@ -31,13 +31,17 @@ const styles = StyleSheet.create({
     startButton: {
         alignSelf: 'center',
         backgroundColor: COLOR_RED,
-        fontWeight: 'bold',
         marginTop: 20,
         width: '90%',
         height: 50,
         padding: 12,
         borderRadius: 25,
         borderWidth: 0.1,
+    },
+    startButtonText: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: COLOR_WHITE,
     },
     centeredHeader: {
         alignSelf: 'center',
@@ -121,7 +125,7 @@ class TutorialEndScreen extends React.Component<Props> {
                         <Button
                             style={styles.startButton}
                             onPress={this.onComplete}
-                            textStyle={{ fontSize: 18, color: COLOR_WHITE }}
+                            textStyle={styles.startButtonText}
                         >
                             {t('startMapping')}
                         </Button>
