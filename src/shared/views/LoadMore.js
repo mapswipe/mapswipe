@@ -3,6 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fb from '@react-native-firebase/app';
+import * as Sentry from '@sentry/react-native';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
@@ -74,9 +75,26 @@ class _LoadMoreCard extends React.Component<Props> {
         });
     };
 
+    checkResultsAreExpectedSize = () => {
+        const { group, projectId, results } = this.props;
+        if (group.numberOfTasks != results.results.length){
+            Sentry.addBreadcrumb({
+                message: 'group.numberOfTasks and results.results.length are not the same.',
+                data: {
+                    "group": group,
+                    "results": results,
+                    "projectId": projectId
+                }
+            })
+           Sentry.captureMessage('group.numberOfTasks and results.results.length are not the same', 'warning');
+        }
+    }
+
     commitCompletedGroup = () => {
         // user completed the group: let's commit it to firebase
         const { group, onCommitGroup, projectId, results } = this.props;
+
+        this.checkResultsAreExpectedSize()
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
             fb.analytics().logEvent('complete_group');
