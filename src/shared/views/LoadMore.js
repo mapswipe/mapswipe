@@ -115,9 +115,9 @@ class _LoadMoreCard extends React.Component<Props> {
     commitCompletedGroup = () => {
         const { group, onCommitGroup, projectId, results } = this.props;
 
-        this.checkResultsAreExpectedSize();
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
+            this.checkResultsAreExpectedSize();
             fb.analytics().logEvent('complete_group');
             onCommitGroup({
                 groupId: group.groupId,
