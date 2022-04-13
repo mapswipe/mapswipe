@@ -92,23 +92,30 @@ class _LoadMoreCard extends React.Component<Props> {
         */
 
         const { group, projectId, results } = this.props;
-        if (group.numberOfTasks != (results[projectId][group.groupId].length-1)){
+        if (
+            group.numberOfTasks !==
+            results[projectId][group.groupId].length - 1
+        ) {
             Sentry.addBreadcrumb({
-                message: 'group.numberOfTasks and results.results.length are not the same.',
+                message:
+                    'group.numberOfTasks and results.results.length are not the same.',
                 data: {
-                    "group": group,
-                    "results": results,
-                    "projectId": projectId
-                }
-            })
-           Sentry.captureMessage('group.numberOfTasks and results.results.length are not the same', 'warning');
+                    group,
+                    results,
+                    projectId,
+                },
+            });
+            Sentry.captureMessage(
+                'group.numberOfTasks and results.results.length are not the same',
+                'warning',
+            );
         }
-    }
+    };
 
     commitCompletedGroup = () => {
         const { group, onCommitGroup, projectId, results } = this.props;
 
-        this.checkResultsAreExpectedSize()
+        this.checkResultsAreExpectedSize();
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
             fb.analytics().logEvent('complete_group');
