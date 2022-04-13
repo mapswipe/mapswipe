@@ -76,8 +76,23 @@ class _LoadMoreCard extends React.Component<Props> {
     };
 
     checkResultsAreExpectedSize = () => {
+        /* We want to capture faulty commits to the firebase, one of which happens from too many tasks
+        in a group. #619
+
+        Structure of results Object; it also contains the startTime for each group
+        {
+            "YourProjectId": {
+                "YourGroupId": {
+                    "startTime": "isoT", "t3770": 0, ...., "t3795": 0
+                }
+            }
+        }
+        !!! this can obviously only catch one project with one group, but in theory
+        there can be multiple projects/groups in a result object !!!
+        */
+
         const { group, projectId, results } = this.props;
-        if (group.numberOfTasks != results.results.length){
+        if (group.numberOfTasks != (results[projectId][group.groupId].length-1)){
             Sentry.addBreadcrumb({
                 message: 'group.numberOfTasks and results.results.length are not the same.',
                 data: {
@@ -91,7 +106,6 @@ class _LoadMoreCard extends React.Component<Props> {
     }
 
     commitCompletedGroup = () => {
-        // user completed the group: let's commit it to firebase
         const { group, onCommitGroup, projectId, results } = this.props;
 
         this.checkResultsAreExpectedSize()
