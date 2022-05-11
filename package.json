@@ -1,6 +1,6 @@
 {
   "name": "mapswipe",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "build": "2",
   "private": true,
   "scripts": {
