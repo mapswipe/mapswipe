@@ -128,6 +128,7 @@ type State = {
     email: string,
     loadingAuth: boolean,
     loadingNext: boolean,
+    osmAuthError: ?string,
     screen: number,
     showPasswordError: boolean,
     showUsernameError: boolean,
@@ -147,6 +148,7 @@ class _Login extends React.Component<Props, State> {
             loadingAuth: true, // whether the authentication info is loaded from firebase yet
             loadingNext: false, // whether we're waiting for the next screen to load
             // loadingNext prevents showing the login screen when already authenticated
+            osmAuthError: undefined,
             screen: SCREEN_SIGNUP,
             showPasswordError: false,
             showUsernameError: false,
@@ -173,12 +175,14 @@ class _Login extends React.Component<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         const { auth, navigation } = this.props;
-        console.log('ROUTE', navigation.state.params);
+        console.log('ROUTE', Date(), navigation.state.params, navigation);
         // if arrived here with a deeplink (from the OSM auth page)
         // handle this before anything else
         if (navigation.state.params !== undefined) {
             const { code, error, state, token } = navigation.state.params;
-            this.OSMOauthCallback(code, state, token, error);
+            if (navigation.state.params !== prevProps.navigation.state.params) {
+                this.OSMOauthCallback(code, state, token, error);
+            }
         }
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
@@ -334,12 +338,25 @@ class _Login extends React.Component<Props, State> {
         console.log('OSM callback', osmCode, osmState, fbToken, osmError);
         // call /token now, which will get a token from firebase
         // and redirect here via deeplink
-        if (fbToken === undefined) {
-            console.log('Fetching a token');
-            Linking.openURL(
-                `${debugInfo.oauthHost}/token?code=${osmCode}&state=${osmState}`,
+        if (osmError !== undefined && fbToken === undefined) {
+            console.log(
+                'Error while authenticating with OSM',
+                osmError,
+                fbToken,
             );
+            // FIXME: show the error properly here
+            // the server sends error_description along with error
+            if (osmError === 'access_denied') {
+                // forcefully erase the error state which react-navigation
+                // otherwise keeps across screen reloads
+                // This is expected behaviour in react-navigation v4, but was changed
+                // in v6, see: https://reactnavigation.org/docs/upgrading-from-5.x#params-are-now-overwritten-on-navigation-instead-of-merging
+                // navigation.setParams({ previousError: osmError });
+                // navigation.getParam('previousError', false)
+                this.setState({ loadingNext: false, osmAuthError: osmError });
+            }
         } else if (fbToken !== undefined) {
+            // we got a token from firebase, use it to sign in with firebase
             firebase
                 .auth()
                 .signInWithCustomToken(fbToken)
@@ -369,9 +386,11 @@ class _Login extends React.Component<Props, State> {
         this.setState({
             loadingNext: true,
         });
-        // call redirect which will send the user to the OSM login page
+        // This is the start of the OSM login flow.
+        // Call redirect which will send the user to the OSM login page
         // which in turn will send them back to the app's deeplink
         // which will take them to OSMOauthCallback
+        console.log(`going to ${debugInfo.oauthHost}/redirect`);
         Linking.openURL(`${debugInfo.oauthHost}/redirect`);
     };
 
@@ -728,7 +747,7 @@ class _Login extends React.Component<Props, State> {
     };
 
     renderOSMLoginScreen = () => {
-        const { signupOSMPPChecked } = this.state;
+        const { osmAuthError, signupOSMPPChecked } = this.state;
         const { navigation, t } = this.props;
         return (
             <ScrollView
@@ -788,6 +807,27 @@ class _Login extends React.Component<Props, State> {
                     </Text>
                 </View>
 
+                {osmAuthError !== 'hehe' ? (
+                    <Text
+                        style={[
+                            styles.inputLabel,
+                            {
+                                color:
+                                    osmAuthError !== undefined
+                                        ? COLOR_RED
+                                        : COLOR_WHITE,
+                            },
+                        ]}
+                    >
+                        {t('signup:osmAuthError')}
+                        osmAuthError
+                    </Text>
+                ) : (
+                    <Text style={styles.inputLabel}>
+                        {t('signup:usernamePublic')}
+                    </Text>
+                )}
+
                 <Button
                     testID="osm_to_login_button"
                     style={styles.switchToLogin}
@@ -841,7 +881,6 @@ class _Login extends React.Component<Props, State> {
 const mapStateToProps = (state, ownProps) => ({
     auth: state.firebase.auth,
     navigation: ownProps.navigation,
-    profile: state.firebase.profile,
 });
 
 const enhance = compose(
