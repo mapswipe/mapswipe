@@ -79,7 +79,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         run: |
           sed -ri "s/data android:scheme=\"devmapswipe\"/data android:scheme=\"mapswipe\"/" android/app/src/main/AndroidManifest.xml
-          sed -ri "s/dev-mapswipe.web.app/mapswipe.web.app/" debugInfo.json
+          sed -ri "s/dev-auth.mapswipe.org/auth.mapswipe.org/" debugInfo.json
           sed -ri "s/devmapswipe/mapswipe/" debugInfo.json
 
       - name: Jetify react files
