@@ -23,7 +23,12 @@ import Button from '../common/Button';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
-import { COLOR_DEEP_BLUE, COLOR_RED, COLOR_WHITE } from '../constants';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_RED,
+    COLOR_WHITE,
+    devOsmUrl,
+} from '../constants';
 
 /* eslint-disable global-require */
 
@@ -389,7 +394,6 @@ class _Login extends React.Component<Props, State> {
         // Call redirect which will send the user to the OSM login page
         // which in turn will send them back to the app's deeplink
         // which will take them to OSMOauthCallback
-        console.log(`going to ${debugInfo.oauthHost}/redirect`);
         Linking.openURL(`${debugInfo.oauthHost}/redirect`);
     };
 
@@ -764,10 +768,22 @@ class _Login extends React.Component<Props, State> {
                     source={require('./assets/loadinganimation.gif')}
                 />
 
-                <Text style={styles.legalText}>
+                <Text style={styles.inputLabel}>
                     {t('signup:OSMsignupExplanation')}
                 </Text>
 
+                {debugInfo.oauthHost.includes('dev') && (
+                    <Text
+                        style={[styles.policyLink, { padding: 10 }]}
+                        onPress={() => {
+                            Linking.openURL(devOsmUrl);
+                        }}
+                    >
+                        You are using the DEV app. This will log you in to the
+                        DEVELOPMENT version of OSM, not the main site. (tap here
+                        to create a test OSM account)
+                    </Text>
+                )}
                 <Button
                     isDisabled={!signupOSMPPChecked}
                     style={styles.otherButton}
@@ -806,7 +822,7 @@ class _Login extends React.Component<Props, State> {
                     </Text>
                 </View>
 
-                {osmAuthError !== 'hehe' ? (
+                {osmAuthError !== undefined ? (
                     <Text
                         style={[
                             styles.inputLabel,
