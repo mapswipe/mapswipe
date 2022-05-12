@@ -15,12 +15,11 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import Button from 'apsl-react-native-button';
-// $FlowFixMe
 import CheckBox from 'react-native-check-box';
 import { MessageBarManager } from 'react-native-message-bar';
 import RNBootSplash from 'react-native-bootsplash';
 import debugInfo from '../../../debugInfo';
+import Button from '../common/Button';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, TranslationFunction } from '../flow-types';

@@ -11,11 +11,11 @@ import {
 import { connect } from 'react-redux';
 import fb from '@react-native-firebase/app';
 // import type { Notification } from 'react-native-firebase';
-import Button from 'apsl-react-native-button';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
+import Button from './common/Button';
 import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
