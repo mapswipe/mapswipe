@@ -71,6 +71,9 @@ jobs:
 
       - name: Save git version so the app can show it to users
         # the values default to dev env, so we only change them for production
+        env:
+          # we need this hack because github default env vars don't include the tag itself
+          GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: |
           sed -ri "s/COMMIT/$GITHUB_SHA/" debugInfo.json
           sed -ri "s/TAG/$GIT_TAG/" debugInfo.json
