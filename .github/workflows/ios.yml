@@ -9,7 +9,7 @@ on: [push]
 jobs:
   release-ios:
     name: Build and release iOS app
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
 
@@ -135,7 +135,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          # prerelease: endsWith(github.ref, '-beta')
+          prerelease: ${{ endsWith(github.ref, '-beta') }}
           files: |
             ios/mapswipe.app.dSYM.zip
         env:
