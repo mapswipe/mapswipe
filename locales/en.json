@@ -34,7 +34,7 @@
     "loginExistingAccount": "Log in to an existing account",
     "login": "Login",
     "loginSignupWithOSM": "Login with OpenStreetMap",
-    "OSMsignupExplanation": "You can signup to Mapswipe using your OpenStreetMap account. If you already have a MapSwipe account, this will not link them together! (this will come soon in a future release)",
+    "OSMsignupExplanation": "You can signup to MapSwipe using your OpenStreetMap account. If you already have a MapSwipe account, this will not link them together! (this will come soon in a future release)",
     "forgotPassword": "Forgot your password?",
     "createNewAccount": "Create New Account",
     "sendResetEmailWarning": "* We will send you an email to reset your password",
