@@ -267,11 +267,13 @@ class _ProjectHeader extends React.Component<HeaderProps> {
             case BUILDING_FOOTPRINTS:
                 navigation.push('BuildingFootprintScreen', {
                     project,
+                    tutorial: forceTutorial,
                 });
                 break;
             case CHANGE_DETECTION:
                 navigation.push('ChangeDetectionScreen', {
                     project,
+                    tutorial: forceTutorial,
                 });
                 break;
             default:

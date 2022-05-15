@@ -9,7 +9,7 @@ on: [push]
 jobs:
   release-ios:
     name: Build and release iOS app
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
 
@@ -36,7 +36,7 @@ jobs:
       - name: TEMP manually run pod install
         env:
           # pod install seems to rely on Xcode for something, make sure we use the same version throughout the process
-          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
         run: cd ios && bundle exec pod install
 
       - name: TEMP get updated podfile.lock
@@ -51,6 +51,13 @@ jobs:
         env:
           GIT_TAG: ${{ steps.vars.outputs.tag }}
         run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
+
+      - name: Hardcode OAuth prefix and urls for production version
+        if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
+        run: |
+          sed -i '' "s/string>devmapswipe/string>mapswipe/" ios/mapswipe/Info.plist
+          sed -d '' "s/dev-auth.mapswipe.org/auth.mapswipe.org/" debugInfo.json
+          sed -d '' "s/devmapswipe/mapswipe/" debugInfo.json
 
       - name: Decode sentry.properties (and prod version)
         env:
@@ -94,7 +101,7 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/')
         env:
           # select the version of Xcode we want
-          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane test
 
@@ -104,7 +111,7 @@ jobs:
         # both tag and branch, so for now we will rely on the user not tagging randomly
         if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-beta')
         env:
-          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane beta
@@ -113,7 +120,7 @@ jobs:
         # only deploy a release on a beta tag
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         env:
-          DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane release
@@ -128,7 +135,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          prerelease: endsWith(github.ref, '-beta')
+          prerelease: ${{ endsWith(github.ref, '-beta') }}
           files: |
             ios/mapswipe.app.dSYM.zip
         env:

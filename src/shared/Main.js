@@ -29,6 +29,11 @@ import ProjectNav from './views/ProjectNav';
 import WelcomeScreen from './views/Welcome';
 import WebviewWindow from './views/WebviewWindow';
 import { COLOR_DEEP_BLUE } from './constants';
+import debugInfo from '../../debugInfo';
+
+// the prefix for deeplinks used in OAuth in particular
+// such as "devmapswipe://"
+const { deeplinkPrefix } = debugInfo;
 
 const MessageBarAlert = require('react-native-message-bar').MessageBar;
 const { MessageBarManager } = require('react-native-message-bar');
@@ -218,7 +223,7 @@ class Main extends React.Component<Props, State> {
                     barStyle="light-content"
                 />
                 <View style={style.mainContainer}>
-                    <StartNavigator />
+                    <StartNavigator uriPrefix={deeplinkPrefix} />
                     <Modal
                         style={[style.modal, style.modal3]}
                         backdropType="blur"
@@ -274,7 +279,10 @@ const LoginNavigator = createStackNavigator(
     {
         LanguageSelectionScreen,
         LanguageSelectionSplashScreen,
-        Login,
+        Login: {
+            screen: Login,
+            path: 'login/osm',
+        },
         WebviewWindow,
         WelcomeScreen,
     },
@@ -309,7 +317,10 @@ const StartNavigator = createAppContainer(
     createSwitchNavigator(
         {
             AppLoadingScreen,
-            LoginNavigator,
+            LoginNavigator: {
+                screen: LoginNavigator,
+                path: '',
+            },
             MainNavigator,
         },
         {
