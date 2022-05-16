@@ -1,7 +1,7 @@
 {
   "name": "mapswipe",
-  "version": "2.1.8",
-  "build": "0",
+  "version": "2.1.9",
+  "build": "5",
   "private": true,
   "scripts": {
     "buildDev": "cd android && ./gradlew assembleDevRelease && cd ..",
@@ -32,7 +32,6 @@
     "@react-native-firebase/database": "^12.3.0",
     "@react-native-firebase/storage": "^12.3.0",
     "@sentry/react-native": "^3.1.1",
-    "apsl-react-native-button": "^3.1.1",
     "i18next": "^19.0.0",
     "lodash.get": "^4.4.2",
     "pako": "^1.0.11",
@@ -104,7 +103,7 @@
       "__tests__/fixtures"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|apsl-react-native-button|react-native-firebase|react-native-message-bar|react-native-modalbox|@react-native-community|react-native-check-box|react-native-splash-screen)/)"
+      "node_modules/(?!(react-native|react-native-firebase|react-native-message-bar|react-native-modalbox|@react-native-community|react-native-check-box|react-native-splash-screen)/)"
     ]
   },
   "detox": {

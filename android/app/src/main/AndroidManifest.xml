@@ -27,6 +27,13 @@
         android:exported="true"
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustResize">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <!-- modified at build-time in CI for production build -->
+            <data android:scheme="devmapswipe" />
+        </intent-filter>
       </activity>
 
       <!-- add an empty activity used to show the splashscreen -->

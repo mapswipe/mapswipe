@@ -4,9 +4,9 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
-import Button from 'apsl-react-native-button';
 import { Trans, withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
+import Button from '../../common/Button';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
     firebaseConnectGroup,

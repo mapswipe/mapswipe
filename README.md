@@ -13,8 +13,8 @@ Welcome to the MapSwipe app. This is the app that is distributed through [mapswi
 
 In a nutshell, here is how MapSwipe works:
 
-1. Humanitarian organisations import projects through the importer on [MapSwipe.org](http://mapswipe.org/import)
-1. Our backend workers process those imports and place them on Firebase as projects. It imports them into groups that are safe for the user to cache locally on their phone (ideally 200 tiles). This [image](http://i.imgur.com/giQq43i.jpg "image of grouping") shows an example of how that grouping algorithm works.
+1. Humanitarian organisations set the parameters for projects through a web-based admin interface.
+1. Our backend workers process those projects and place them on Firebase. It imports them into groups that are safe for the user to cache locally on their phone (ideally 200 tiles). This [image](http://i.imgur.com/giQq43i.jpg "image of grouping") shows an example of how that grouping algorithm works.
 1. The app fetches the projects from the /projects reference in Firebase through the JavaScript SDK (don't use http requests to Firebase) and displays them to the user.
 1. The user searches those tiles and classifies them. The results are then synced back to Firebase.
 1. When a user chooses to map an area, he or she is distributed groups of the project. On completion, the user then gets badges for the distance they've mapped.

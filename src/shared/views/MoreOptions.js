@@ -16,7 +16,6 @@ import {
     Image,
     TouchableWithoutFeedback,
 } from 'react-native';
-import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
 import debugInfo from '../../../debugInfo';
 import ConfirmationModal from '../common/ConfirmationModal';
@@ -29,6 +28,7 @@ import {
     COLOR_RED_OVERLAY,
     COLOR_WHITE,
 } from '../constants';
+import Button from '../common/Button';
 
 const GLOBAL = require('../Globals');
 

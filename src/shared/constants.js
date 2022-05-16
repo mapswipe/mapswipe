@@ -60,3 +60,6 @@ export const tutorialModes = {
     // hint is shown if they press the "show answers" button
     hint: 'hint',
 };
+
+// various urls
+export const devOsmUrl = 'https://master.apis.dev.openstreetmap.org/';
