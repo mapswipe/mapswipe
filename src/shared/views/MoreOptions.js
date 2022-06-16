@@ -330,7 +330,17 @@ class _MoreOptions extends React.Component<MOProps> {
                         {t('email us')}
                     </Button>
                 </View>
-
+                <View style={styles.row}>
+                    <Button
+                        onPress={() => {
+                            navigation.push('UserGroupScreen');
+                        }}
+                        style={styles.otherButton}
+                        textStyle={styles.buttonText}
+                    >
+                        User Groups
+                    </Button>
+                </View>
                 <View style={styles.row}>
                     <Button
                         onPress={() => {
