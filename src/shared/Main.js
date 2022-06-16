@@ -23,6 +23,7 @@ import BFInstructionsScreen from './views/BuildingFootprint/InstructionsScreen';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
 import LanguageSelectionScreen from './common/LanguageSelectionScreen';
+import UserGroupScreen from './common/UserGroupScreen';
 import LanguageSelectionSplashScreen from './common/LanguageSelectionSplashScreen';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
@@ -299,6 +300,7 @@ const MainNavigator = createStackNavigator(
         ChangeDetectionScreen,
         CDInstructionsScreen,
         LanguageSelectionScreen,
+        UserGroupScreen,
         ProjectNav,
         ProjectView,
         Mapper,
