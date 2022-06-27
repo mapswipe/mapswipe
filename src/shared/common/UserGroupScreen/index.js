@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import { withTranslation } from 'react-i18next';
 import {
     BackHandler,
     Image,
@@ -12,7 +13,7 @@ import {
     FlatList,
     Button,
 } from 'react-native';
-import type { NavigationProp } from '../../flow-types';
+import type { NavigationProp, TranslationFunction } from '../../flow-types';
 import {
     COLOR_DEEP_BLUE,
     COLOR_WHITE,
@@ -72,11 +73,12 @@ const styles = StyleSheet.create({
     },
 });
 
-const enhance = compose(firebaseConnect());
+const enhance = compose(withTranslation('userGroupScreen'), firebaseConnect());
 
 type Props = {
     navigation: NavigationProp,
     firebase: Object,
+    t: TranslationFunction,
 };
 
 type State = {
@@ -154,7 +156,7 @@ class UserGroupScreen extends React.Component<Props, State> {
     };
 
     render() {
-        const { navigation } = this.props;
+        const { navigation, t } = this.props;
         const {
             userGroups,
             loadingUserGroups,
@@ -194,7 +196,7 @@ class UserGroupScreen extends React.Component<Props, State> {
                             </Text>
                             {userGroupsOfCurrentUser[item.key] ? (
                                 <Button
-                                    title="Leave"
+                                    title={t('leave')}
                                     onPress={() => {
                                         const { firebase } = this.props;
                                         const userId =
@@ -216,7 +218,7 @@ class UserGroupScreen extends React.Component<Props, State> {
                                 />
                             ) : (
                                 <Button
-                                    title="Join"
+                                    title={t('join')}
                                     onPress={() => {
                                         const { firebase } = this.props;
                                         const userId =
