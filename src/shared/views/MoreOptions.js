@@ -338,7 +338,7 @@ class _MoreOptions extends React.Component<MOProps> {
                         style={styles.otherButton}
                         textStyle={styles.buttonText}
                     >
-                        User Groups
+                        {t('user groups')}
                     </Button>
                 </View>
                 <View style={styles.row}>

@@ -58,7 +58,8 @@
     "delete account question": "Delete account?",
     "delete account warning": "You will lose all of your progress and badges. Your contributions will remain public but no longer tied to your account.\nWould you like to continue?",
     "no keep my account": "No, keep my account",
-    "yes delete it": "Yes, delete it!"
+    "yes delete it": "Yes, delete it!",
+    "user groups": "User Groups"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"
@@ -209,5 +210,9 @@
     "instructionsNo": "No: when there are no buildings in the square",
     "instructionsNotSure": "Not sure: when your not certain if it's a building or not",
     "instructionsBadImagery": "Bad imagery: when there is cloud cover or issues with the imagery"
-  }
+  },
+  "userGroupScreen": {
+    "join": "Join",
+    "leave": "Leave",
+  },
 }
