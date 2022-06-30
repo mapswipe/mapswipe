@@ -213,6 +213,6 @@
   },
   "userGroupScreen": {
     "join": "Join",
-    "leave": "Leave",
-  },
+    "leave": "Leave"
+  }
 }
