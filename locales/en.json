@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Missions",
-    "more": "More"
+      "more": "More",
+      "myProfile": "Profile"
   },
   "signup": {
     "chooseUsername": "Choose your username",
@@ -59,7 +60,8 @@
     "delete account warning": "You will lose all of your progress and badges. Your contributions will remain public but no longer tied to your account.\nWould you like to continue?",
     "no keep my account": "No, keep my account",
     "yes delete it": "Yes, delete it!",
-    "user groups": "User Groups"
+    "user groups": "User Groups",
+    "join new group": "Join New Group"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"

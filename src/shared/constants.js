@@ -25,6 +25,7 @@ export const COLOR_WHITE = 'white';
 export const COLOR_DARK_GRAY = '#212121';
 export const COLOR_LIGHT_GRAY = '#eef2fb';
 export const COLOR_TRANSPARENT_LIGHT_GRAY = 'rgba(238, 242, 251, 0)';
+export const COLOR_LIME_BACKGROUND = 'rgb(163, 230, 53)';
 
 // languages
 export const supportedLanguages = [

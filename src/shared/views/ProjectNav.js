@@ -11,6 +11,8 @@ import RecommendedCards from './RecommendedCards';
 import MoreOptions from './MoreOptions';
 import ScrollableTabView from '../common/ScrollableTabView/ScrollableTabView';
 import DefaultTabBar from '../common/ScrollableTabView/DefaultTabBar';
+import MyProfile from './MyProfile';
+
 import type { NavigationProp } from '../flow-types';
 import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
 
@@ -48,6 +50,7 @@ class _ProjectNav extends React.Component<Props> {
                     navigation={navigation}
                     tabLabel={t('missions')}
                 />
+                <MyProfile navigation={navigation} tabLabel={t('myProfile')} />
                 <MoreOptions navigation={navigation} tabLabel={t('more')} />
             </ScrollableTabView>
         );
