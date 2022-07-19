@@ -3,7 +3,15 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { View, StyleSheet, Image, Text, FlatList, Button } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Image,
+    Text,
+    Button,
+    Pressable,
+    ScrollView,
+} from 'react-native';
 import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
 
@@ -21,8 +29,8 @@ import InfoCard from '../common/InfoCard';
 const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
-    background: {
-        backgroundColor: COLOR_WHITE,
+    myProfileScreen: {
+        backgroundColor: COLOR_LIGHT_GRAY,
         flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
@@ -31,7 +39,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         backgroundColor: COLOR_DEEP_BLUE,
-        flex: 0.3,
         padding: '5%',
     },
     avatar: {
@@ -68,7 +75,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'flex-start',
         backgroundColor: COLOR_LIGHT_GRAY,
-        flex: 1,
+        flexGrow: 1,
     },
     statsContainer: {
         flexDirection: 'row',
@@ -83,27 +90,29 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     userGroupsContainer: {
-        backgroundColor: COLOR_WHITE,
+        backgroundColor: COLOR_LIGHT_GRAY,
         flexGrow: 1,
         padding: '2%',
     },
-    userGroupText: {
+    userGroupHeadingText: {
         color: COLOR_DARK_GRAY,
         fontWeight: '800',
         fontSize: 18,
         paddingLeft: '2%',
     },
-    listView: {
+    userGroups: {
+        backgroundColor: COLOR_WHITE,
         flex: 1,
         padding: '2%',
     },
     userGroupItem: {
+        backgroundColor: COLOR_WHITE,
         borderColor: COLOR_LIGHT_GRAY,
         borderBottomWidth: 1,
         padding: '3%',
         flexShrink: 0,
     },
-    userGroupItemText: {
+    userGroupItemTitle: {
         color: COLOR_DARK_GRAY,
         fontSize: 14,
     },
@@ -111,7 +120,6 @@ const styles = StyleSheet.create({
 
 type OwnProps = {
     navigation?: NavigationProp,
-    tabLabel?: string,
 };
 
 type ReduxProps = {
@@ -181,114 +189,122 @@ const userGroups: UserGroup[] = [
     { id: 'groupA', title: 'User Group A' },
     { id: 'groupB', title: 'User Group B' },
     { id: 'groupC', title: 'User Group C' },
-    { id: 'groupD', title: 'User Group A' },
-    { id: 'groupE', title: 'User Group B' },
-    { id: 'groupF', title: 'User Group C' },
+    { id: 'groupD', title: 'User Group D' },
+    { id: 'groupE', title: 'User Group E' },
+    { id: 'groupF', title: 'User Group F' },
 ];
 
-const UserGroupItem = ({ item }: { item: UserGroup }) => {
+type UserGroupItemProps = {
+    item: UserGroup,
+    handleUserGroupClick: (userGroup: UserGroup) => void,
+};
+
+const UserGroupItem = ({ item, handleUserGroupClick }: UserGroupItemProps) => {
     const { title } = item;
 
     return (
-        <View style={styles.userGroupItem}>
-            <Text style={styles.userGroupItemText}>{title}</Text>
-        </View>
+        <Pressable onPress={() => handleUserGroupClick(item)}>
+            <View style={styles.userGroupItem}>
+                <Text style={styles.userGroupItemTitle}>{title}</Text>
+            </View>
+        </Pressable>
     );
 };
 
-function userGroupKeySelector(userGroup: UserGroup) {
-    return userGroup.id;
-}
-
-type State = {};
 type Props = OwnProps & ReduxProps & InjectedProps;
 
-class MyProfile extends React.Component<Props, State> {
-    render() {
-        const { auth, level, t, kmTillNextLevel } = this.props;
-        const levelObject = Levels[level];
-        let kmTillNextLevelToShow = kmTillNextLevel;
-        if (Number.isNaN(kmTillNextLevel)) {
-            kmTillNextLevelToShow = 0;
-        }
-        const swipes = Math.ceil(kmTillNextLevelToShow / 6);
-        const sqkm = kmTillNextLevelToShow.toFixed(0);
-        const levelProgressText = t('x tasks (s swipes) until the next level', {
-            sqkm,
-            swipes,
+function MyProfile(props: Props) {
+    const { navigation, auth, level, t, kmTillNextLevel } = props;
+    const levelObject = Levels[level];
+    let kmTillNextLevelToShow = kmTillNextLevel;
+    if (Number.isNaN(kmTillNextLevel)) {
+        kmTillNextLevelToShow = 0;
+    }
+    const swipes = Math.ceil(kmTillNextLevelToShow / 6);
+    const sqkm = kmTillNextLevelToShow.toFixed(0);
+    const levelProgressText = t('x tasks (s swipes) until the next level', {
+        sqkm,
+        swipes,
+    });
+
+    const handleJoinNewUserGroup = () => {
+        navigation.navigate('JoinUserGroup');
+    };
+
+    const handleUserGroupClick = (userGroup: UserGroup) => {
+        navigation.navigate('UserGroup', {
+            userGroup,
         });
+    };
 
-        const onJoinUserGroup = () => {};
-
-        return (
-            <View style={styles.background}>
-                <View style={styles.header}>
-                    <Image
-                        style={styles.avatar}
-                        key={levelObject.title}
-                        source={levelObject.badge}
-                        accessibilityLabel={levelObject.title}
-                    />
-                    <View style={styles.details}>
-                        <Text numberOfLines={1} style={styles.name}>
-                            {auth.displayName}
+    return (
+        <View style={styles.myProfileScreen}>
+            <View style={styles.header}>
+                <Image
+                    style={styles.avatar}
+                    key={levelObject.title}
+                    source={levelObject.badge}
+                    accessibilityLabel={levelObject.title}
+                />
+                <View style={styles.details}>
+                    <Text numberOfLines={1} style={styles.name}>
+                        {auth.displayName}
+                    </Text>
+                    <View style={styles.level}>
+                        <Text style={styles.levelText}>
+                            {t('Level X', { level })}
                         </Text>
-                        <View style={styles.level}>
-                            <Text style={styles.levelText}>
-                                {t('Level X', { level })}
-                            </Text>
-                            <Text style={styles.levelText}>
-                                ({levelObject.title})
-                            </Text>
-                        </View>
-                        <ProgressBar
-                            borderRadius={0}
-                            borderWidth={0}
-                            color={COLOR_LIME_BACKGROUND}
-                            height={10}
-                            progress={0.1 ?? 0}
-                            unfilledColor={COLOR_WHITE}
-                            width={null}
-                        />
-                        <Text style={styles.progressText}>
-                            {levelProgressText}
+                        <Text style={styles.levelText}>
+                            ({levelObject.title})
                         </Text>
                     </View>
+                    <ProgressBar
+                        borderRadius={0}
+                        borderWidth={0}
+                        color={COLOR_LIME_BACKGROUND}
+                        height={10}
+                        progress={0.1 ?? 0}
+                        unfilledColor={COLOR_WHITE}
+                        width={null}
+                    />
+                    <Text style={styles.progressText}>{levelProgressText}</Text>
                 </View>
-                <View style={styles.content}>
-                    <View style={styles.statsContainer}>
-                        {userStats.map(stat => (
-                            <InfoCard
-                                title={stat.title}
-                                value={stat.value}
-                                style={styles.card}
+            </View>
+            <ScrollView contentContainerStyle={styles.content}>
+                <View style={styles.statsContainer}>
+                    {userStats.map(stat => (
+                        <InfoCard
+                            key={stat.title}
+                            title={stat.title}
+                            value={stat.value}
+                            style={styles.card}
+                        />
+                    ))}
+                </View>
+                <View style={styles.userGroupsContainer}>
+                    <Text numberOfLines={1} style={styles.userGroupHeadingText}>
+                        {t('userGroups')}
+                    </Text>
+                    <View style={styles.userGroups}>
+                        {userGroups.map(userGroup => (
+                            <UserGroupItem
+                                key={userGroup.id}
+                                item={userGroup}
+                                handleUserGroupClick={handleUserGroupClick}
                             />
                         ))}
                     </View>
-                    <View style={styles.userGroupsContainer}>
-                        <Text numberOfLines={1} style={styles.userGroupText}>
-                            {t('user groups')}
-                        </Text>
-                        <FlatList
-                            style={styles.listView}
-                            data={userGroups}
-                            keySelector={userGroupKeySelector}
-                            renderItem={UserGroupItem}
-                            ListFooterComponent={
-                                <Button
-                                    onPress={this.onJoinUserGroup}
-                                    title={t('join new group')}
-                                    accessibilityLabel={t('join new group')}
-                                >
-                                    {t('join new group')}
-                                </Button>
-                            }
-                        />
-                    </View>
+                    <Button
+                        onPress={handleJoinNewUserGroup}
+                        title={t('joinNewGroup')}
+                        accessibilityLabel={t('joinNewGroup')}
+                    >
+                        {t('joinNewGroup')}
+                    </Button>
                 </View>
-            </View>
-        );
-    }
+            </ScrollView>
+        </View>
+    );
 }
 
 export default (enhance(MyProfile): any);
