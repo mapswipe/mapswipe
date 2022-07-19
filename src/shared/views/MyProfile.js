@@ -20,7 +20,7 @@ import {
     COLOR_WHITE,
     COLOR_DEEP_BLUE,
     COLOR_LIGHT_GRAY,
-    COLOR_LIME_BACKGROUND,
+    COLOR_SUCCESS_GREEN,
     COLOR_DARK_GRAY,
 } from '../constants';
 import Levels from '../Levels';
@@ -92,18 +92,15 @@ const styles = StyleSheet.create({
     userGroupsContainer: {
         backgroundColor: COLOR_LIGHT_GRAY,
         flexGrow: 1,
-        padding: '2%',
+        padding: '4%',
     },
     userGroupHeadingText: {
         color: COLOR_DARK_GRAY,
-        fontWeight: '800',
-        fontSize: 18,
-        paddingLeft: '2%',
+        fontWeight: '600',
+        fontSize: 16,
     },
     userGroups: {
-        backgroundColor: COLOR_WHITE,
         flex: 1,
-        padding: '2%',
     },
     userGroupItem: {
         backgroundColor: COLOR_WHITE,
@@ -115,6 +112,9 @@ const styles = StyleSheet.create({
     userGroupItemTitle: {
         color: COLOR_DARK_GRAY,
         fontSize: 14,
+    },
+    joinNewGroup: {
+        marginVertical: '5%',
     },
 });
 
@@ -261,7 +261,7 @@ function MyProfile(props: Props) {
                     <ProgressBar
                         borderRadius={0}
                         borderWidth={0}
-                        color={COLOR_LIME_BACKGROUND}
+                        color={COLOR_SUCCESS_GREEN}
                         height={10}
                         progress={0.1 ?? 0}
                         unfilledColor={COLOR_WHITE}
@@ -294,13 +294,16 @@ function MyProfile(props: Props) {
                             />
                         ))}
                     </View>
-                    <Button
-                        onPress={handleJoinNewUserGroup}
-                        title={t('joinNewGroup')}
-                        accessibilityLabel={t('joinNewGroup')}
-                    >
-                        {t('joinNewGroup')}
-                    </Button>
+                    <View style={styles.joinNewGroup}>
+                        <Button
+                            color={COLOR_SUCCESS_GREEN}
+                            onPress={handleJoinNewUserGroup}
+                            title={t('joinNewGroup')}
+                            accessibilityLabel={t('joinNewGroup')}
+                        >
+                            {t('joinNewGroup')}
+                        </Button>
+                    </View>
                 </View>
             </ScrollView>
         </View>

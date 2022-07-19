@@ -9,6 +9,8 @@ import {
     COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
+    COLOR_SUCCESS_GREEN,
+    COLOR_RED,
 } from '../constants';
 import InfoCard from '../common/InfoCard';
 import type { TranslationFunction } from '../flow-types';
@@ -64,8 +66,8 @@ const styles = StyleSheet.create({
     },
     leaderBoardHeadingText: {
         color: COLOR_DARK_GRAY,
-        fontWeight: '800',
-        fontSize: 18,
+        fontWeight: '600',
+        fontSize: 16,
     },
     leaderBoardItem: {
         backgroundColor: COLOR_WHITE,
@@ -84,8 +86,12 @@ const styles = StyleSheet.create({
     },
     settingsHeadingText: {
         color: COLOR_DARK_GRAY,
-        fontWeight: '800',
-        fontSize: 18,
+        fontWeight: '600',
+        fontSize: 16,
+    },
+    joinNewGroup: {
+        marginHorizontal: '4%',
+        marginVertical: '5%',
     },
 });
 
@@ -181,6 +187,8 @@ function UserGroup(props: Props) {
     const { navigation, t } = props;
 
     const handleLeaveUserGroup = {};
+    const handleJoinNewUserGroup = {};
+    const canJoinUserGroup = true;
 
     return (
         <View style={styles.userGroupContainer}>
@@ -193,6 +201,19 @@ function UserGroup(props: Props) {
                 </Text>
             </View>
             <ScrollView contentContainerStyle={styles.content}>
+                {canJoinUserGroup && (
+                    <View style={styles.joinNewGroup}>
+                        <Button
+                            color={COLOR_SUCCESS_GREEN}
+                            style={styles.joinNewGroupButton}
+                            onPress={handleJoinNewUserGroup}
+                            title={t('joinGroup')}
+                            accessibilityLabel={t('joinGroup')}
+                        >
+                            {t('joinGroup')}
+                        </Button>
+                    </View>
+                )}
                 <View style={styles.userGroupsStatsContainer}>
                     {userGroupStats.map(stat => (
                         <InfoCard
@@ -221,6 +242,7 @@ function UserGroup(props: Props) {
                         {t('settings')}
                     </Text>
                     <Button
+                        color={COLOR_RED}
                         onPress={handleLeaveUserGroup}
                         title={t('leaveGroup')}
                         accessibilityLabel={t('leaveGroup')}

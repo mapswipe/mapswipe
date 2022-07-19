@@ -218,7 +218,8 @@
     "leave": "Leave",
     "leaderBoards": "Leader Boards",
     "settings": "Settings",
-    "leaveGroup": "Leave Group"
+    "leaveGroup": "Leave Group",
+    "joinGroup": "Join Group"
   },
   "searchUserGroup": {
     "joinGroup": "Join Group",
