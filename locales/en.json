@@ -60,8 +60,8 @@
     "delete account warning": "You will lose all of your progress and badges. Your contributions will remain public but no longer tied to your account.\nWould you like to continue?",
     "no keep my account": "No, keep my account",
     "yes delete it": "Yes, delete it!",
-    "user groups": "User Groups",
-    "join new group": "Join New Group"
+    "userGroups": "User Groups",
+    "joinNewGroup": "Join New Group"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"
@@ -215,6 +215,13 @@
   },
   "userGroupScreen": {
     "join": "Join",
-    "leave": "Leave"
+    "leave": "Leave",
+    "leaderBoards": "Leader Boards",
+    "settings": "Settings",
+    "leaveGroup": "Leave Group"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Join Group",
+    "searchUserGroup": "Search User Group"
   }
 }
