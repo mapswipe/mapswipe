@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     joinNewGroup: {
         marginVertical: '5%',
-    },
+    }
 });
 
 type OwnProps = {

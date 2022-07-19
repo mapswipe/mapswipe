@@ -224,5 +224,11 @@
   "searchUserGroup": {
     "joinGroup": "Join Group",
     "searchUserGroup": "Search User Group"
+  },
+  "changeUserName": {
+    "changeUserName": "Change Username",
+    "currentUserName": "Current Username",
+    "newUserName": "New Username",
+    "confirmUserNameChange": "Confirm Username Change"
   }
 }
