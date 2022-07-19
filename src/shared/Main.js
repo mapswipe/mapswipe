@@ -33,6 +33,7 @@ import { COLOR_DEEP_BLUE } from './constants';
 import debugInfo from '../../debugInfo';
 import UserGroup from './views/UserGroup';
 import JoinUserGroup from './views/JoinUserGroup';
+import ChangeUserName from './views/ChangeUserName';
 
 // the prefix for deeplinks used in OAuth in particular
 // such as "devmapswipe://"
@@ -309,6 +310,7 @@ const MainNavigator = createStackNavigator(
         WebviewWindow,
         UserGroup,
         JoinUserGroup,
+        ChangeUserName,
     },
     {
         initialRouteName: 'ProjectNav',
