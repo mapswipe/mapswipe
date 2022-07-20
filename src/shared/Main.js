@@ -34,6 +34,7 @@ import debugInfo from '../../debugInfo';
 import UserGroup from './views/UserGroup';
 import JoinUserGroup from './views/JoinUserGroup';
 import ChangeUserName from './views/ChangeUserName';
+import ChangePassword from './views/ChangePassword';
 
 // the prefix for deeplinks used in OAuth in particular
 // such as "devmapswipe://"
@@ -311,6 +312,7 @@ const MainNavigator = createStackNavigator(
         UserGroup,
         JoinUserGroup,
         ChangeUserName,
+        ChangePassword,
     },
     {
         initialRouteName: 'ProjectNav',
