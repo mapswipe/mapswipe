@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
+import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import { SvgXml } from 'react-native-svg';
 
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import {
@@ -22,11 +24,18 @@ import {
     COLOR_LIGHT_GRAY,
     COLOR_SUCCESS_GREEN,
     COLOR_DARK_GRAY,
+    COLOR_RED,
 } from '../constants';
 import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 
 const GLOBAL = require('../Globals');
+
+const chevronRight = `
+<svg width="17" height="26" viewBox="0 0 17 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3.23404 1L1 3.1L11.5356 13L1 22.9L3.23404 25L16 13L3.23404 1Z" fill="#262626" stroke="#262626" stroke-width="0.942857"/>
+</svg>
+`;
 
 const styles = StyleSheet.create({
     myProfileScreen: {
@@ -90,7 +99,6 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     userGroupsContainer: {
-        backgroundColor: COLOR_LIGHT_GRAY,
         flexGrow: 1,
         padding: '4%',
     },
@@ -115,7 +123,31 @@ const styles = StyleSheet.create({
     },
     joinNewGroup: {
         marginVertical: '5%',
-    }
+    },
+    settingsContainer: {
+        flexGrow: 1,
+        padding: '4%',
+    },
+    button: {
+        borderBottomWidth: 1,
+        borderColor: COLOR_LIGHT_GRAY,
+    },
+    deleteButton: {
+        borderBottomWidth: 1,
+        borderColor: COLOR_LIGHT_GRAY,
+        color: COLOR_RED,
+    },
+    customButtonContainer: {
+        backgroundColor: COLOR_WHITE,
+        padding: '3%',
+    },
+    customButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    dangerButtonText: {
+        color: COLOR_RED,
+    },
 });
 
 type OwnProps = {
@@ -203,13 +235,43 @@ const UserGroupItem = ({ item, handleUserGroupClick }: UserGroupItemProps) => {
     const { title } = item;
 
     return (
-        <Pressable onPress={() => handleUserGroupClick(item)}>
-            <View style={styles.userGroupItem}>
-                <Text style={styles.userGroupItemTitle}>{title}</Text>
-            </View>
+        <Pressable
+            onPress={() => handleUserGroupClick(item)}
+            style={styles.userGroupItem}
+        >
+            <Text style={styles.userGroupItemTitle}>{title}</Text>
         </Pressable>
     );
 };
+
+type CustomButtonProps = {
+    title: string,
+    onPress: () => void,
+    accessibilityLabel: string,
+    style: ViewStyle,
+    type?: 'primary' | 'danger',
+};
+/* eslint-disable global-require */
+function CustomButton(props: CustomButtonProps) {
+    const { title, onPress, accessibilityLabel, style, type } = props;
+    const textStyle = type === 'danger' ? styles.dangerButtonText : undefined;
+    return (
+        <Pressable
+            onPress={onPress}
+            style={[styles.customButtonContainer, style]}
+        >
+            <View
+                style={styles.customButton}
+                accessible
+                accessibilityLabel={accessibilityLabel}
+                accessibilityRole="button"
+            >
+                <Text style={textStyle}>{title}</Text>
+                <SvgXml height="100%" xml={chevronRight} />
+            </View>
+        </Pressable>
+    );
+}
 
 type Props = OwnProps & ReduxProps & InjectedProps;
 
@@ -227,7 +289,7 @@ function MyProfile(props: Props) {
         swipes,
     });
 
-    const handleJoinNewUserGroup = () => {
+    const handleNewUserGroupJoinClick = () => {
         navigation.navigate('JoinUserGroup');
     };
 
@@ -236,6 +298,22 @@ function MyProfile(props: Props) {
             userGroup,
         });
     };
+
+    const handleUserNameChangeClick = () => {
+        navigation.navigate('ChangeUserName');
+    };
+
+    const handlePasswordChangeClick = () => {
+        navigation.navigate('ChangePassword');
+    }
+
+    const handleNotificationsClick = () => {};
+
+    const handleLanguageClick = () => {};
+
+    const handleLogOutClick = () => {};
+
+    const handleDeleteAccountClick = () => {};
 
     return (
         <View style={styles.myProfileScreen}>
@@ -297,13 +375,67 @@ function MyProfile(props: Props) {
                     <View style={styles.joinNewGroup}>
                         <Button
                             color={COLOR_SUCCESS_GREEN}
-                            onPress={handleJoinNewUserGroup}
+                            onPress={handleNewUserGroupJoinClick}
                             title={t('joinNewGroup')}
                             accessibilityLabel={t('joinNewGroup')}
                         >
                             {t('joinNewGroup')}
                         </Button>
                     </View>
+                </View>
+                <View style={styles.settingsContainer}>
+                    <Text numberOfLines={1} style={styles.userGroupHeadingText}>
+                        {t('settings')}
+                    </Text>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handleUserNameChangeClick}
+                        title={t('changeUserName')}
+                        accessibilityLabel={t('changeUserName')}
+                    >
+                        {t('changeUserName')}
+                    </CustomButton>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handlePasswordChangeClick}
+                        title={t('changePassword')}
+                        accessibilityLabel={t('changePassword')}
+                    >
+                        {t('changePassword')}
+                    </CustomButton>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handleNotificationsClick}
+                        title={t('notifications')}
+                        accessibilityLabel={t('notifications')}
+                    >
+                        {t('notifications')}
+                    </CustomButton>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handleLanguageClick}
+                        title={t('language')}
+                        accessibilityLabel={t('language')}
+                    >
+                        {t('language')}
+                    </CustomButton>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handleLogOutClick}
+                        title={t('logOut')}
+                        accessibilityLabel={t('logOut')}
+                    >
+                        {t('logOut')}
+                    </CustomButton>
+                    <CustomButton
+                        style={styles.deleteButton}
+                        onPress={handleDeleteAccountClick}
+                        title={t('deleteAccount')}
+                        accessibilityLabel={t('deleteAccount')}
+                        type="danger"
+                    >
+                        {t('deleteAccount')}
+                    </CustomButton>
                 </View>
             </ScrollView>
         </View>

@@ -61,7 +61,14 @@
     "no keep my account": "No, keep my account",
     "yes delete it": "Yes, delete it!",
     "userGroups": "User Groups",
-    "joinNewGroup": "Join New Group"
+    "joinNewGroup": "Join New Group",
+    "settings": "Settings",
+    "changeUserName": "Change Username",
+    "changePassword": "Change Password",
+    "notifications": "Notifications",
+    "language": "Language",
+    "logOut": "Log Out",
+    "deleteAccount": "Delete Account"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"
