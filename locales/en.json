@@ -230,5 +230,11 @@
     "currentUserName": "Current Username",
     "newUserName": "New Username",
     "confirmUserNameChange": "Confirm Username Change"
+  },
+  "changePassword": {
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPasswordChange": "Confirm Password Change"
   }
 }
