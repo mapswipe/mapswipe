@@ -3,6 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import analytics from '@react-native-firebase/analytics';
 import {
     View,
     StyleSheet,
@@ -11,7 +12,9 @@ import {
     Button,
     Pressable,
     ScrollView,
+    Linking,
 } from 'react-native';
+import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
 import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -148,6 +151,10 @@ const styles = StyleSheet.create({
     dangerButtonText: {
         color: COLOR_RED,
     },
+    infoContainer: {
+        flexGrow: 1,
+        padding: '4%',
+    },
 });
 
 type OwnProps = {
@@ -158,19 +165,15 @@ type ReduxProps = {
     auth: Object,
     level: number,
     kmTillNextLevel: number,
-    profile: {
-        taskContributionCount?: number,
-    },
 };
 
 type InjectedProps = {
     t: TranslationFunction,
+    firebase: Object,
 };
 
 const mapStateToProps = (state): ReduxProps => ({
-    auth: state.firebase.auth,
     level: state.ui.user.level,
-    profile: state.firebase.profile,
     kmTillNextLevel: state.ui.user.kmTillNextLevel,
 });
 
@@ -250,10 +253,20 @@ type CustomButtonProps = {
     accessibilityLabel: string,
     style: ViewStyle,
     type?: 'primary' | 'danger',
+    icon?: React.Node,
+    hideIcon?: boolean,
 };
 /* eslint-disable global-require */
 function CustomButton(props: CustomButtonProps) {
-    const { title, onPress, accessibilityLabel, style, type } = props;
+    const {
+        title,
+        onPress,
+        accessibilityLabel,
+        style,
+        type,
+        icon,
+        hideIcon = false,
+    } = props;
     const textStyle = type === 'danger' ? styles.dangerButtonText : undefined;
     return (
         <Pressable
@@ -267,7 +280,10 @@ function CustomButton(props: CustomButtonProps) {
                 accessibilityRole="button"
             >
                 <Text style={textStyle}>{title}</Text>
-                <SvgXml height="100%" xml={chevronRight} />
+                {!hideIcon && icon && icon}
+                {!hideIcon && !icon && (
+                    <SvgXml height="100%" xml={chevronRight} />
+                )}
             </View>
         </Pressable>
     );
@@ -276,12 +292,10 @@ function CustomButton(props: CustomButtonProps) {
 type Props = OwnProps & ReduxProps & InjectedProps;
 
 function MyProfile(props: Props) {
-    const { navigation, auth, level, t, kmTillNextLevel } = props;
+    const { navigation, level, t, kmTillNextLevel, firebase } = props;
+
     const levelObject = Levels[level];
-    let kmTillNextLevelToShow = kmTillNextLevel;
-    if (Number.isNaN(kmTillNextLevel)) {
-        kmTillNextLevelToShow = 0;
-    }
+    const kmTillNextLevelToShow = kmTillNextLevel || 0;
     const swipes = Math.ceil(kmTillNextLevelToShow / 6);
     const sqkm = kmTillNextLevelToShow.toFixed(0);
     const levelProgressText = t('x tasks (s swipes) until the next level', {
@@ -305,15 +319,55 @@ function MyProfile(props: Props) {
 
     const handlePasswordChangeClick = () => {
         navigation.navigate('ChangePassword');
-    }
+    };
 
     const handleNotificationsClick = () => {};
 
     const handleLanguageClick = () => {};
 
-    const handleLogOutClick = () => {};
+    const handleLogOutClick = () => {
+        analytics().logEvent('sign_out');
+        firebase.logout().then(() => {
+            navigation.navigate('LoginNavigator');
+        });
+    };
 
-    const handleDeleteAccountClick = () => {};
+    const handleDeleteAccountClick = () => {
+        analytics().logEvent('delete_account');
+        const user = firebase.auth().currentUser;
+        firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
+        user.then(() => {
+            MessageBarManager.showAlert({
+                title: t('accountDeleted'),
+                message: t('accountDeletedSuccessMessage'),
+                alertType: 'info',
+            });
+            navigation.navigate('LoginNavigator');
+        }).catch(() => {
+            MessageBarManager.showAlert({
+                title: t('accountDeletionFailed'),
+                message: t('accountDeletionFailedMessage'),
+                alertType: 'error',
+            });
+            navigation.navigate('LoginNavigator');
+        });
+    };
+
+    const handleMapSwipeWebsiteClick = () => {
+        navigation.push('WebviewWindow', {
+            uri: 'https://mapswipe.org/',
+        });
+    };
+
+    const handleMissingMapsClick = () => {
+        navigation.push('WebviewWindow', {
+            uri: 'https://www.missingmaps.org',
+        });
+    };
+
+    const handleEmailClick = () => {
+        Linking.openURL('mailto:info@mapswipe.org');
+    };
 
     return (
         <View style={styles.myProfileScreen}>
@@ -326,7 +380,7 @@ function MyProfile(props: Props) {
                 />
                 <View style={styles.details}>
                     <Text numberOfLines={1} style={styles.name}>
-                        {auth.displayName}
+                        {firebase.auth().currentUser.displayName}
                     </Text>
                     <View style={styles.level}>
                         <Text style={styles.levelText}>
@@ -416,6 +470,7 @@ function MyProfile(props: Props) {
                         onPress={handleLanguageClick}
                         title={t('language')}
                         accessibilityLabel={t('language')}
+                        hideIcon
                     >
                         {t('language')}
                     </CustomButton>
@@ -424,6 +479,7 @@ function MyProfile(props: Props) {
                         onPress={handleLogOutClick}
                         title={t('logOut')}
                         accessibilityLabel={t('logOut')}
+                        hideIcon
                     >
                         {t('logOut')}
                     </CustomButton>
@@ -433,8 +489,35 @@ function MyProfile(props: Props) {
                         title={t('deleteAccount')}
                         accessibilityLabel={t('deleteAccount')}
                         type="danger"
+                        hideIcon
                     >
                         {t('deleteAccount')}
+                    </CustomButton>
+                </View>
+                <View style={styles.infoContainer}>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handleMapSwipeWebsiteClick}
+                        title={t('mapSwipeWebsite')}
+                        accessibilityLabel={t('mapSwipeWebsite')}
+                    >
+                        {t('mapSwipeWebsite')}
+                    </CustomButton>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handleMissingMapsClick}
+                        title={t('missingMaps')}
+                        accessibilityLabel={t('missingMaps')}
+                    >
+                        {t('missingMaps')}
+                    </CustomButton>
+                    <CustomButton
+                        style={styles.button}
+                        onPress={handleEmailClick}
+                        title={t('email')}
+                        accessibilityLabel={t('email')}
+                    >
+                        {t('email')}
                     </CustomButton>
                 </View>
             </ScrollView>
