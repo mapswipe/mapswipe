@@ -323,7 +323,9 @@ function MyProfile(props: Props) {
 
     const handleNotificationsClick = () => {};
 
-    const handleLanguageClick = () => {};
+    const handleLanguageClick = () => {
+        navigation.navigate('LanguageSelection');
+    };
 
     const handleLogOutClick = () => {
         analytics().logEvent('sign_out');

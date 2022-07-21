@@ -250,5 +250,8 @@
     "currentPassword": "Current Password",
     "newPassword": "New Password",
     "confirmPasswordChange": "Confirm Password Change"
+  },
+  "languageSelection": {
+    "languageSelection": "Language"
   }
 }
