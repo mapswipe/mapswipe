@@ -28,6 +28,7 @@ import {
     COLOR_SUCCESS_GREEN,
     COLOR_DARK_GRAY,
     COLOR_RED,
+    supportedLanguages,
 } from '../constants';
 import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
@@ -165,6 +166,7 @@ type ReduxProps = {
     auth: Object,
     level: number,
     kmTillNextLevel: number,
+    languageCode: string,
 };
 
 type InjectedProps = {
@@ -175,6 +177,7 @@ type InjectedProps = {
 const mapStateToProps = (state): ReduxProps => ({
     level: state.ui.user.level,
     kmTillNextLevel: state.ui.user.kmTillNextLevel,
+    languageCode: state.ui.user.languageCode,
 });
 
 const enhance = compose(
@@ -292,7 +295,8 @@ function CustomButton(props: CustomButtonProps) {
 type Props = OwnProps & ReduxProps & InjectedProps;
 
 function MyProfile(props: Props) {
-    const { navigation, level, t, kmTillNextLevel, firebase } = props;
+    const { navigation, level, t, kmTillNextLevel, firebase, languageCode } =
+        props;
 
     const levelObject = Levels[level];
     const kmTillNextLevelToShow = kmTillNextLevel || 0;
@@ -302,6 +306,10 @@ function MyProfile(props: Props) {
         sqkm,
         swipes,
     });
+
+    const selectedLanguage = supportedLanguages.find(
+        language => language.code === languageCode,
+    );
 
     const handleNewUserGroupJoinClick = () => {
         navigation.navigate('JoinUserGroup');
@@ -472,7 +480,7 @@ function MyProfile(props: Props) {
                         onPress={handleLanguageClick}
                         title={t('language')}
                         accessibilityLabel={t('language')}
-                        hideIcon
+                        icon={<Text>{selectedLanguage?.name}</Text>}
                     >
                         {t('language')}
                     </CustomButton>
