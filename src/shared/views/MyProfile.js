@@ -32,6 +32,7 @@ import {
 } from '../constants';
 import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
+import CalendarHeatmap from '../common/CalendarHeatmap';
 
 const GLOBAL = require('../Globals');
 
@@ -127,6 +128,20 @@ const styles = StyleSheet.create({
     },
     joinNewGroup: {
         marginVertical: '5%',
+    },
+    heatmapContainer: {
+        flexGrow: 1,
+        padding: '4%',
+    },
+    heatMapHeading: {
+        color: COLOR_DARK_GRAY,
+        fontWeight: '600',
+        fontSize: 16,
+    },
+    heatMap: {
+        display: 'flex',
+        flexDirection: 'row',
+        height: 90,
     },
     settingsContainer: {
         flexGrow: 1,
@@ -446,6 +461,12 @@ function MyProfile(props: Props) {
                             {t('joinNewGroup')}
                         </Button>
                     </View>
+                </View>
+                <View style={styles.heatmapContainer}>
+                    <Text numberOfLines={1} style={styles.heatMapHeading}>
+                        {t('contributionHeatmap')}
+                    </Text>
+                    <CalendarHeatmap style={styles.heatMap} />
                 </View>
                 <View style={styles.settingsContainer}>
                     <Text numberOfLines={1} style={styles.userGroupHeadingText}>
