@@ -17,9 +17,10 @@ import {
 import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
-import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { SvgXml } from 'react-native-svg';
 
+import type { Node } from 'react';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import {
     COLOR_WHITE,
@@ -154,7 +155,6 @@ const styles = StyleSheet.create({
     deleteButton: {
         borderBottomWidth: 1,
         borderColor: COLOR_LIGHT_GRAY,
-        color: COLOR_RED,
     },
     customButtonContainer: {
         backgroundColor: COLOR_WHITE,
@@ -174,11 +174,10 @@ const styles = StyleSheet.create({
 });
 
 type OwnProps = {
-    navigation?: NavigationProp,
+    navigation: NavigationProp,
 };
 
 type ReduxProps = {
-    auth: Object,
     level: number,
     kmTillNextLevel: number,
     languageCode: string,
@@ -269,9 +268,9 @@ type CustomButtonProps = {
     title: string,
     onPress: () => void,
     accessibilityLabel: string,
-    style: ViewStyle,
+    style: ViewStyleProp,
     type?: 'primary' | 'danger',
-    icon?: React.Node,
+    icon?: Node,
     hideIcon?: boolean,
 };
 /* eslint-disable global-require */
@@ -327,7 +326,7 @@ function MyProfile(props: Props) {
     );
 
     const handleNewUserGroupJoinClick = () => {
-        navigation.navigate('JoinUserGroup');
+        navigation.navigate('SearchUserGroup');
     };
 
     const handleUserGroupClick = (userGroup: UserGroup) => {
@@ -457,9 +456,7 @@ function MyProfile(props: Props) {
                             onPress={handleNewUserGroupJoinClick}
                             title={t('joinNewGroup')}
                             accessibilityLabel={t('joinNewGroup')}
-                        >
-                            {t('joinNewGroup')}
-                        </Button>
+                        />
                     </View>
                 </View>
                 <View style={styles.heatmapContainer}>
@@ -477,43 +474,33 @@ function MyProfile(props: Props) {
                         onPress={handleUserNameChangeClick}
                         title={t('changeUserName')}
                         accessibilityLabel={t('changeUserName')}
-                    >
-                        {t('changeUserName')}
-                    </CustomButton>
+                    />
                     <CustomButton
                         style={styles.button}
                         onPress={handlePasswordChangeClick}
                         title={t('changePassword')}
                         accessibilityLabel={t('changePassword')}
-                    >
-                        {t('changePassword')}
-                    </CustomButton>
+                    />
                     <CustomButton
                         style={styles.button}
                         onPress={handleNotificationsClick}
                         title={t('notifications')}
                         accessibilityLabel={t('notifications')}
-                    >
-                        {t('notifications')}
-                    </CustomButton>
+                    />
                     <CustomButton
                         style={styles.button}
                         onPress={handleLanguageClick}
                         title={t('language')}
                         accessibilityLabel={t('language')}
                         icon={<Text>{selectedLanguage?.name}</Text>}
-                    >
-                        {t('language')}
-                    </CustomButton>
+                    />
                     <CustomButton
                         style={styles.button}
                         onPress={handleLogOutClick}
                         title={t('logOut')}
                         accessibilityLabel={t('logOut')}
                         hideIcon
-                    >
-                        {t('logOut')}
-                    </CustomButton>
+                    />
                     <CustomButton
                         style={styles.deleteButton}
                         onPress={handleDeleteAccountClick}
@@ -521,9 +508,7 @@ function MyProfile(props: Props) {
                         accessibilityLabel={t('deleteAccount')}
                         type="danger"
                         hideIcon
-                    >
-                        {t('deleteAccount')}
-                    </CustomButton>
+                    />
                 </View>
                 <View style={styles.infoContainer}>
                     <CustomButton
@@ -531,25 +516,19 @@ function MyProfile(props: Props) {
                         onPress={handleMapSwipeWebsiteClick}
                         title={t('mapSwipeWebsite')}
                         accessibilityLabel={t('mapSwipeWebsite')}
-                    >
-                        {t('mapSwipeWebsite')}
-                    </CustomButton>
+                    />
                     <CustomButton
                         style={styles.button}
                         onPress={handleMissingMapsClick}
                         title={t('missingMaps')}
                         accessibilityLabel={t('missingMaps')}
-                    >
-                        {t('missingMaps')}
-                    </CustomButton>
+                    />
                     <CustomButton
                         style={styles.button}
                         onPress={handleEmailClick}
                         title={t('email')}
                         accessibilityLabel={t('email')}
-                    >
-                        {t('email')}
-                    </CustomButton>
+                    />
                 </View>
             </ScrollView>
         </View>

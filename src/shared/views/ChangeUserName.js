@@ -62,8 +62,8 @@ type InjectedProps = {
 type Props = OwnProps & InjectedProps;
 
 type State = {
-    currentUserName: string | undefined,
-    newUserName: string | undefined,
+    currentUserName: ?string,
+    newUserName: ?string,
 };
 
 class ChangeUserName extends React.Component<Props, State> {
@@ -130,9 +130,7 @@ class ChangeUserName extends React.Component<Props, State> {
                             onPress={this.handleUserNameChange}
                             title={t('confirmUserNameChange')}
                             accessibilityLabel={t('confirmUserNameChange')}
-                        >
-                            {t('confirmUserNameChange')}
-                        </Button>
+                        />
                     </View>
                 </View>
             </View>

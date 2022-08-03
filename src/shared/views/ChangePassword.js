@@ -62,8 +62,8 @@ type InjectedProps = {
 type Props = OwnProps & InjectedProps;
 
 type State = {
-    currentPassword: string | undefined,
-    newPassword: string | undefined,
+    currentPassword: ?string,
+    newPassword: ?string,
 };
 
 class ChangePassword extends React.Component<Props, State> {
@@ -130,9 +130,7 @@ class ChangePassword extends React.Component<Props, State> {
                             onPress={this.handlePasswordChange}
                             title={t('confirmPasswordChange')}
                             accessibilityLabel={t('confirmPasswordChange')}
-                        >
-                            {t('confirmPasswordChange')}
-                        </Button>
+                        />
                     </View>
                 </View>
             </View>

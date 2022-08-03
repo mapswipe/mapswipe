@@ -16,8 +16,13 @@ import InfoCard from '../common/InfoCard';
 import type { TranslationFunction } from '../flow-types';
 
 type UserGroupItem = {
-    id: string,
-    title: string,
+    key: string,
+    name: string,
+    nameKey: string,
+    description: string,
+    users: {
+        [string]: string,
+    },
 };
 
 const styles = StyleSheet.create({
@@ -170,9 +175,10 @@ const leaderBoards: LeaderBoard[] = [
 const enhance = compose(withTranslation('userGroupScreen'), firebaseConnect());
 
 type OwnProps = {
+    firebase: Object,
     navigation: {
         state: {
-            params: { userGroup?: UserGroupItem },
+            params: { userGroup: UserGroupItem },
         },
     },
 };
@@ -182,76 +188,147 @@ type InjectedProps = {
 };
 
 type Props = OwnProps & InjectedProps;
+type State = {
+    loadingUserGroups: boolean,
+    userGroup: UserGroupItem,
+}
 
-function UserGroup(props: Props) {
-    const { navigation, t } = props;
+class UserGroup extends React.Component<Props, State> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            userGroup: props.navigation.state.params.userGroup,
+            loadingUserGroups: false,
+        };
+    }
 
-    const handleLeaveUserGroup = {};
-    const handleJoinNewUserGroup = {};
-    const canJoinUserGroup = true;
+    loadUserGroup(userGroupId: string) {
+        this.props.firebase
+            .database()
+            .ref(`/v2/userGroups/${userGroupId}`)
+            .once('value', snapshot => {
+                if (snapshot.exists()) {
+                    this.setState({
+                        userGroup: {
 
-    return (
-        <View style={styles.userGroupContainer}>
-            <View style={styles.header}>
+                            key: snapshot.key,
+                            name: snapshot.val().name,
+                            nameKey: snapshot.val().nameKey,
+                            description: snapshot.val().description,
+                            users: snapshot.val().users,
+                        },
+                    });
+                }
+            });
+    }
+
+    handleLeaveUserGroup = () => {
+        const { navigation, t, firebase } = this.props;
+        const { userGroup } = this.state;
+        const userId = firebase.auth().currentUser.uid;
+        const updates = {};
+        updates[
+            `/v2/users/${userId}/userGroups/${userGroup.key}`
+        ] = null;
+        updates[
+            `/v2/userGroups/${userGroup.key}/users/${userId}`
+        ] = null;
+        firebase
+            .database()
+            .ref()
+            .update(updates, () => {
+                this.loadUserGroup(userGroup.key);
+            });
+    };
+
+    handleJoinUserGroup = () => {
+        const { navigation, t, firebase } = this.props;
+        const { userGroup } = this.state;
+        const userId = firebase.auth().currentUser.uid;
+        const updates = {};
+        updates[
+            `/v2/users/${userId}/userGroups/${userGroup.key}`
+        ] = {
+            joinedAt: new Date().getTime(),
+        };
+        updates[
+            `/v2/userGroups/${userGroup.key}/users/${userId}`
+        ] = true;
+        firebase
+            .database()
+            .ref()
+            .update(updates, () => {
+                this.loadUserGroup(userGroup.key);
+            });
+    };
+
+    render() {
+        const { navigation, t, firebase } = this.props;
+        const { userGroup } = this.state;
+        const userId = firebase.auth().currentUser.uid;
+        const isUserMember = userGroup?.users?.[userId];
+
+        return (
+            <View style={styles.userGroupContainer}>
+              <View style={styles.header}>
                 <Text numberOfLines={1} style={styles.userGroupNameLabel}>
-                    {navigation?.state?.params?.userGroup?.title}
+                  {userGroup?.name}
                 </Text>
                 <Text numberOfLines={1} style={styles.membersLabel}>
-                    20 memebers
+                  20 memebers
                 </Text>
-            </View>
-            <ScrollView contentContainerStyle={styles.content}>
-                {canJoinUserGroup && (
+              </View>
+              <ScrollView contentContainerStyle={styles.content}>
+                {!isUserMember && (
                     <View style={styles.joinNewGroup}>
-                        <Button
-                            color={COLOR_SUCCESS_GREEN}
-                            style={styles.joinNewGroupButton}
-                            onPress={handleJoinNewUserGroup}
-                            title={t('joinGroup')}
-                            accessibilityLabel={t('joinGroup')}
-                        >
-                            {t('joinGroup')}
-                        </Button>
+                      <Button
+                        color={COLOR_SUCCESS_GREEN}
+                        onPress={this.handleJoinUserGroup}
+                        title={t('joinGroup')}
+                        accessibilityLabel={t('joinGroup')}
+                      />
                     </View>
                 )}
                 <View style={styles.userGroupsStatsContainer}>
-                    {userGroupStats.map(stat => (
-                        <InfoCard
-                            key={stat.title}
-                            title={stat.title}
-                            value={stat.value}
-                            style={styles.card}
-                        />
-                    ))}
+                  {userGroupStats.map(stat => (
+                      <InfoCard
+                        key={stat.title}
+                        title={stat.title}
+                        value={stat.value}
+                        style={styles.card}
+                      />
+                  ))}
                 </View>
                 <View style={styles.leaderBoardsContainer}>
-                    <Text
-                        numberOfLines={1}
-                        style={styles.leaderBoardHeadingText}
-                    >
-                        {t('leaderBoards')}
-                    </Text>
-                    {leaderBoards.map(user => (
-                        <View key={user.title} style={styles.leaderBoardItem}>
-                            <Text style={styles.userTitle}>{user.title}</Text>
-                        </View>
-                    ))}
+                  <Text
+                    numberOfLines={1}
+                    style={styles.leaderBoardHeadingText}
+                  >
+                    {t('leaderBoards')}
+                  </Text>
+                  {leaderBoards.map(user => (
+                      <View key={user.title} style={styles.leaderBoardItem}>
+                        <Text style={styles.userTitle}>{user.title}</Text>
+                      </View>
+                  ))}
                 </View>
                 <View style={styles.settingsContainer}>
-                    <Text numberOfLines={1} style={styles.settingsHeadingText}>
-                        {t('settings')}
-                    </Text>
-                    <Button
+                  <Text numberOfLines={1} style={styles.settingsHeadingText}>
+                    {t('settings')}
+                  </Text>
+                  {isUserMember && (
+                      <Button
                         color={COLOR_RED}
-                        onPress={handleLeaveUserGroup}
+                        onPress={this.handleLeaveUserGroup}
                         title={t('leaveGroup')}
                         accessibilityLabel={t('leaveGroup')}
-                    >
-                        {t('leaveGroup')}
-                    </Button>
+                      />
+                  )}
                 </View>
-            </ScrollView>
-        </View>
-    );
+              </ScrollView>
+            </View>
+        );
+    }
 }
+
 export default (enhance(UserGroup): any);
