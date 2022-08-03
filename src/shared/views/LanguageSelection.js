@@ -118,7 +118,7 @@ function LanguageSelection(props: Props) {
                             accessibilityLabel={language.name}
                             accessibilityRole="button"
                         >
-                            <Text style={styles.languageTitle}>
+                            <Text>
                                 {language.name}
                             </Text>
                             {languageCode === language.code && (

@@ -32,7 +32,7 @@ import WebviewWindow from './views/WebviewWindow';
 import { COLOR_DEEP_BLUE } from './constants';
 import debugInfo from '../../debugInfo';
 import UserGroup from './views/UserGroup';
-import JoinUserGroup from './views/JoinUserGroup';
+import SearchUserGroup from './views/SearchUserGroup';
 import ChangeUserName from './views/ChangeUserName';
 import ChangePassword from './views/ChangePassword';
 import LanguageSelection from './views/LanguageSelection';
@@ -311,7 +311,7 @@ const MainNavigator = createStackNavigator(
         Mapper,
         WebviewWindow,
         UserGroup,
-        JoinUserGroup,
+        SearchUserGroup,
         ChangeUserName,
         ChangePassword,
         LanguageSelection,

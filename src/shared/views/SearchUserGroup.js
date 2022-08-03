@@ -2,14 +2,15 @@
 import React from 'react';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
-import { View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
+import { firebaseConnect } from 'react-redux-firebase';
+import { Pressable, View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
 import {
     COLOR_WHITE,
     COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
 } from '../constants';
-import type { TranslationFunction } from '../flow-types';
+import type { NavigationProp, TranslationFunction } from '../flow-types';
 
 const styles = StyleSheet.create({
     searchUserGroupContainer: {
@@ -51,57 +52,77 @@ const styles = StyleSheet.create({
     },
 });
 
-type OwnProps = {};
+type OwnProps = {
+    navigation: NavigationProp,
+};
 
 type InjectedProps = {
     t: TranslationFunction,
+    firebase: Object,
 };
 
-const enhance = compose(withTranslation('searchUserGroup'));
-
-type State = {
-    searchText: string | undefined,
-};
+const enhance = compose(withTranslation('searchUserGroup'), firebaseConnect());
 
 type UserGroup = {
-    id: string,
-    title: string,
+    key: string,
+    name: string,
+    nameKey: string,
+    description: string,
+    users: {
+        [string]: string,
+    },
 };
 
-const userGroups: UserGroup[] = [
-    {
-        id: '1',
-        title: 'User Group 1',
-    },
-    {
-        id: '2',
-        title: 'User Group 2',
-    },
-    {
-        id: '3',
-        title: 'User Group 3',
-    },
-    {
-        id: '4',
-        title: 'User Group 4',
-    },
-];
+type State = {
+    searchText: ?string,
+    userGroups: UserGroup[],
+};
+
 
 type Props = OwnProps & InjectedProps;
 
-class JoinUserGroup extends React.Component<Props, State> {
+class SearchUserGroup extends React.Component<Props, State> {
     constructor(props) {
         super(props);
-        this.state = { searchText: undefined };
+        this.state = { searchText: undefined, userGroups: [] };
     }
 
-    handleSearchTextChange = (searchText: string | undefined) => {
+    handleSearchTextChange = (searchText: ?string ) => {
         this.setState({ searchText });
+        const { firebase } = this.props;
+        firebase
+            .database()
+            .ref('/v2/userGroups/')
+            .orderByChild('nameKey')
+            .equalTo(searchText)
+            .once('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    const userGroups: UserGroup[] = [];
+                    snapshot.forEach(item => {
+                        userGroups.push({
+                            key: item.key,
+                            name: item.val().name,
+                            nameKey: item.val().nameKey,
+                            description: item.val().description,
+                            users: item.val().users,
+                        });
+                    });
+                    this.setState({ userGroups });
+                } else {
+                    this.setState({ userGroups: [] });
+                }
+            });
     };
+
+    handleUserGroupClick = (userGroup: UserGroup) => {
+        this.props.navigation.navigate('UserGroup', {
+            userGroup,
+        });
+    }
 
     render() {
         const { t } = this.props;
-        const { searchText } = this.state;
+        const { searchText, userGroups } = this.state;
 
         return (
             <View style={styles.searchUserGroupContainer}>
@@ -122,13 +143,18 @@ class JoinUserGroup extends React.Component<Props, State> {
                     />
                     <View style={styles.userGroupList}>
                         {userGroups.map(userGroup => (
-                            <Text
+                            <Pressable
+                              key={userGroup.nameKey}
+                              onPress={() => this.handleUserGroupClick(userGroup)}
+                            >
+                              <Text
                                 style={styles.userGroupItem}
                                 numberOfLines={1}
-                                key={userGroup.id}
-                            >
-                                {userGroup.title}
-                            </Text>
+                                key={userGroup.nameKey}
+                              >
+                                {userGroup.name}
+                              </Text>
+                            </Pressable>
                         ))}
                     </View>
                 </ScrollView>
@@ -137,4 +163,4 @@ class JoinUserGroup extends React.Component<Props, State> {
     }
 }
 
-export default (enhance(JoinUserGroup): any);
+export default (enhance(SearchUserGroup): any);

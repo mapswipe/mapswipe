@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
+import type { Node } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { COLOR_SUCCESS_GREEN, COLOR_DARK_GRAY } from '../constants';
 
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    style: ViewStyle,
+    style: ViewStyleProp,
 };
 
 function CalendarHeatmap(props: Props) {
@@ -34,4 +35,4 @@ function CalendarHeatmap(props: Props) {
     );
 }
 
-export default CalendarHeatmap;
+export default (CalendarHeatmap: any);
