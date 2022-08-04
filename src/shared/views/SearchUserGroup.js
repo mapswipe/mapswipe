@@ -3,14 +3,22 @@ import React from 'react';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { firebaseConnect } from 'react-redux-firebase';
-import { Pressable, View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
+import {
+    Pressable,
+    View,
+    StyleSheet,
+    ScrollView,
+    Text,
+    TextInput,
+    RefreshControl,
+} from 'react-native';
 import {
     COLOR_WHITE,
     COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
 } from '../constants';
-import type { NavigationProp, TranslationFunction } from '../flow-types';
+import type { TranslationFunction } from '../flow-types';
 
 const styles = StyleSheet.create({
     searchUserGroupContainer: {
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
 });
 
 type OwnProps = {
-    navigation: NavigationProp,
+    navigation: Object,
 };
 
 type InjectedProps = {
@@ -74,30 +82,36 @@ type UserGroup = {
 };
 
 type State = {
-    searchText: ?string,
+    searchText: string,
     userGroups: UserGroup[],
+    loadingUserGroups: boolean,
 };
-
 
 type Props = OwnProps & InjectedProps;
 
 class SearchUserGroup extends React.Component<Props, State> {
     constructor(props) {
         super(props);
-        this.state = { searchText: undefined, userGroups: [] };
+
+        this.state = {
+            loadingUserGroups: false,
+            searchText: '',
+            userGroups: [],
+        };
     }
 
-    handleSearchTextChange = (searchText: ?string ) => {
-        this.setState({ searchText });
+    handleSearchTextChange = (searchText: string) => {
+        this.setState({ searchText, loadingUserGroups: false });
         const { firebase } = this.props;
         firebase
             .database()
             .ref('/v2/userGroups/')
             .orderByChild('nameKey')
-            .equalTo(searchText)
-            .once('value', (snapshot) => {
+            .equalTo(searchText.trim())
+            .once('value', snapshot => {
                 if (snapshot.exists()) {
                     const userGroups: UserGroup[] = [];
+                    console.log(snapshot);
                     snapshot.forEach(item => {
                         userGroups.push({
                             key: item.key,
@@ -111,18 +125,20 @@ class SearchUserGroup extends React.Component<Props, State> {
                 } else {
                     this.setState({ userGroups: [] });
                 }
+                this.setState({ loadingUserGroups: false });
             });
     };
 
     handleUserGroupClick = (userGroup: UserGroup) => {
-        this.props.navigation.navigate('UserGroup', {
+        const { navigation } = this.props;
+        navigation.navigate('UserGroup', {
             userGroup,
         });
-    }
+    };
 
     render() {
         const { t } = this.props;
-        const { searchText, userGroups } = this.state;
+        const { searchText, userGroups, loadingUserGroups } = this.state;
 
         return (
             <View style={styles.searchUserGroupContainer}>
@@ -134,7 +150,17 @@ class SearchUserGroup extends React.Component<Props, State> {
                         {t('joinGroup')}
                     </Text>
                 </View>
-                <ScrollView contentContainerStyle={styles.content}>
+                <ScrollView
+                    contentContainerStyle={styles.content}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={loadingUserGroups}
+                            onRefresh={() =>
+                                this.handleSearchTextChange(searchText)
+                            }
+                        />
+                    }
+                >
                     <TextInput
                         style={styles.userGroupSearchInput}
                         placeholder={t('searchUserGroup')}
@@ -144,16 +170,18 @@ class SearchUserGroup extends React.Component<Props, State> {
                     <View style={styles.userGroupList}>
                         {userGroups.map(userGroup => (
                             <Pressable
-                              key={userGroup.nameKey}
-                              onPress={() => this.handleUserGroupClick(userGroup)}
-                            >
-                              <Text
-                                style={styles.userGroupItem}
-                                numberOfLines={1}
                                 key={userGroup.nameKey}
-                              >
-                                {userGroup.name}
-                              </Text>
+                                onPress={() =>
+                                    this.handleUserGroupClick(userGroup)
+                                }
+                            >
+                                <Text
+                                    style={styles.userGroupItem}
+                                    numberOfLines={1}
+                                    key={userGroup.nameKey}
+                                >
+                                    {userGroup.name}
+                                </Text>
                             </Pressable>
                         ))}
                     </View>

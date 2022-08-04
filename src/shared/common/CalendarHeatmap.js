@@ -1,10 +1,9 @@
 // @flow
 import React from 'react';
-import type { Node } from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import { COLOR_SUCCESS_GREEN, COLOR_DARK_GRAY } from '../constants';
+import { COLOR_SUCCESS_GREEN } from '../constants';
 
 const styles = StyleSheet.create({
     calendarHeatmap: {
