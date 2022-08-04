@@ -191,26 +191,60 @@ type Props = OwnProps & InjectedProps;
 type State = {
     loadingUserGroups: boolean,
     userGroup: UserGroupItem,
-}
+};
 
 class UserGroup extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
             userGroup: props.navigation.state.params.userGroup,
-            loadingUserGroups: false,
         };
     }
 
+    handleLeaveUserGroup = () => {
+        const { firebase } = this.props;
+        const { userGroup } = this.state;
+        const userId = firebase.auth().currentUser.uid;
+        const updates = {};
+        updates[`/v2/users/${userId}/userGroups/${userGroup.key}`] = null;
+        updates[`/v2/userGroups/${userGroup.key}/users/${userId}`] = null;
+
+        firebase
+            .database()
+            .ref()
+            .update(updates, () => {
+                this.loadUserGroup(userGroup.key);
+            });
+    };
+
+    handleJoinUserGroup = () => {
+        const { firebase } = this.props;
+        const { userGroup } = this.state;
+        const userId = firebase.auth().currentUser.uid;
+        const updates = {};
+        updates[`/v2/users/${userId}/userGroups/${userGroup.key}`] = {
+            joinedAt: new Date().getTime(),
+        };
+        updates[`/v2/userGroups/${userGroup.key}/users/${userId}`] = true;
+
+        firebase
+            .database()
+            .ref()
+            .update(updates, () => {
+                this.loadUserGroup(userGroup.key);
+            });
+    };
+
     loadUserGroup(userGroupId: string) {
-        this.props.firebase
+        const { firebase } = this.props;
+
+        firebase
             .database()
             .ref(`/v2/userGroups/${userGroupId}`)
             .once('value', snapshot => {
                 if (snapshot.exists()) {
                     this.setState({
                         userGroup: {
-
                             key: snapshot.key,
                             name: snapshot.val().name,
                             nameKey: snapshot.val().nameKey,
@@ -222,110 +256,78 @@ class UserGroup extends React.Component<Props, State> {
             });
     }
 
-    handleLeaveUserGroup = () => {
-        const { navigation, t, firebase } = this.props;
-        const { userGroup } = this.state;
-        const userId = firebase.auth().currentUser.uid;
-        const updates = {};
-        updates[
-            `/v2/users/${userId}/userGroups/${userGroup.key}`
-        ] = null;
-        updates[
-            `/v2/userGroups/${userGroup.key}/users/${userId}`
-        ] = null;
-        firebase
-            .database()
-            .ref()
-            .update(updates, () => {
-                this.loadUserGroup(userGroup.key);
-            });
-    };
-
-    handleJoinUserGroup = () => {
-        const { navigation, t, firebase } = this.props;
-        const { userGroup } = this.state;
-        const userId = firebase.auth().currentUser.uid;
-        const updates = {};
-        updates[
-            `/v2/users/${userId}/userGroups/${userGroup.key}`
-        ] = {
-            joinedAt: new Date().getTime(),
-        };
-        updates[
-            `/v2/userGroups/${userGroup.key}/users/${userId}`
-        ] = true;
-        firebase
-            .database()
-            .ref()
-            .update(updates, () => {
-                this.loadUserGroup(userGroup.key);
-            });
-    };
-
     render() {
-        const { navigation, t, firebase } = this.props;
+        const { t, firebase } = this.props;
         const { userGroup } = this.state;
         const userId = firebase.auth().currentUser.uid;
         const isUserMember = userGroup?.users?.[userId];
 
         return (
             <View style={styles.userGroupContainer}>
-              <View style={styles.header}>
-                <Text numberOfLines={1} style={styles.userGroupNameLabel}>
-                  {userGroup?.name}
-                </Text>
-                <Text numberOfLines={1} style={styles.membersLabel}>
-                  20 memebers
-                </Text>
-              </View>
-              <ScrollView contentContainerStyle={styles.content}>
-                {!isUserMember && (
-                    <View style={styles.joinNewGroup}>
-                      <Button
-                        color={COLOR_SUCCESS_GREEN}
-                        onPress={this.handleJoinUserGroup}
-                        title={t('joinGroup')}
-                        accessibilityLabel={t('joinGroup')}
-                      />
+                <View style={styles.header}>
+                    <Text numberOfLines={1} style={styles.userGroupNameLabel}>
+                        {userGroup?.name}
+                    </Text>
+                    <Text numberOfLines={1} style={styles.membersLabel}>
+                        {userGroup?.description}
+                    </Text>
+                </View>
+                <ScrollView contentContainerStyle={styles.content}>
+                    {!isUserMember && (
+                        <View style={styles.joinNewGroup}>
+                            <Button
+                                color={COLOR_SUCCESS_GREEN}
+                                onPress={this.handleJoinUserGroup}
+                                title={t('joinGroup')}
+                                accessibilityLabel={t('joinGroup')}
+                            />
+                        </View>
+                    )}
+                    <View style={styles.userGroupsStatsContainer}>
+                        {userGroupStats.map(stat => (
+                            <InfoCard
+                                key={stat.title}
+                                title={stat.title}
+                                value={stat.value}
+                                style={styles.card}
+                            />
+                        ))}
                     </View>
-                )}
-                <View style={styles.userGroupsStatsContainer}>
-                  {userGroupStats.map(stat => (
-                      <InfoCard
-                        key={stat.title}
-                        title={stat.title}
-                        value={stat.value}
-                        style={styles.card}
-                      />
-                  ))}
-                </View>
-                <View style={styles.leaderBoardsContainer}>
-                  <Text
-                    numberOfLines={1}
-                    style={styles.leaderBoardHeadingText}
-                  >
-                    {t('leaderBoards')}
-                  </Text>
-                  {leaderBoards.map(user => (
-                      <View key={user.title} style={styles.leaderBoardItem}>
-                        <Text style={styles.userTitle}>{user.title}</Text>
-                      </View>
-                  ))}
-                </View>
-                <View style={styles.settingsContainer}>
-                  <Text numberOfLines={1} style={styles.settingsHeadingText}>
-                    {t('settings')}
-                  </Text>
-                  {isUserMember && (
-                      <Button
-                        color={COLOR_RED}
-                        onPress={this.handleLeaveUserGroup}
-                        title={t('leaveGroup')}
-                        accessibilityLabel={t('leaveGroup')}
-                      />
-                  )}
-                </View>
-              </ScrollView>
+                    <View style={styles.leaderBoardsContainer}>
+                        <Text
+                            numberOfLines={1}
+                            style={styles.leaderBoardHeadingText}
+                        >
+                            {t('leaderBoards')}
+                        </Text>
+                        {leaderBoards.map(user => (
+                            <View
+                                key={user.title}
+                                style={styles.leaderBoardItem}
+                            >
+                                <Text style={styles.userTitle}>
+                                    {user.title}
+                                </Text>
+                            </View>
+                        ))}
+                    </View>
+                    <View style={styles.settingsContainer}>
+                        <Text
+                            numberOfLines={1}
+                            style={styles.settingsHeadingText}
+                        >
+                            {t('settings')}
+                        </Text>
+                        {isUserMember && (
+                            <Button
+                                color={COLOR_RED}
+                                onPress={this.handleLeaveUserGroup}
+                                title={t('leaveGroup')}
+                                accessibilityLabel={t('leaveGroup')}
+                            />
+                        )}
+                    </View>
+                </ScrollView>
             </View>
         );
     }

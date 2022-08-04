@@ -118,9 +118,7 @@ function LanguageSelection(props: Props) {
                             accessibilityLabel={language.name}
                             accessibilityRole="button"
                         >
-                            <Text>
-                                {language.name}
-                            </Text>
+                            <Text>{language.name}</Text>
                             {languageCode === language.code && (
                                 <SvgXml height="100%" xml={checkMark} />
                             )}
