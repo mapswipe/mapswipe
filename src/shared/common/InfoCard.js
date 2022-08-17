@@ -6,8 +6,12 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import { COLOR_WHITE, COLOR_DARK_GRAY } from '../constants';
 
 const styles = StyleSheet.create({
-    background: {
+    infoCard: {
+        padding: 5,
+    },
+    container: {
         backgroundColor: COLOR_WHITE,
+        padding: 20,
     },
     title: {
         color: COLOR_DARK_GRAY,
@@ -15,6 +19,9 @@ const styles = StyleSheet.create({
     value: {
         fontWeight: 'bold',
         fontSize: 30,
+    },
+    gap: {
+        height: 10,
     },
 });
 
@@ -28,9 +35,12 @@ function InfoCard(props: Props) {
     const { title, value, style } = props;
 
     return (
-        <View style={[styles.background, style]}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.value}>{value}</Text>
+        <View style={[styles.infoCard, style]}>
+            <View style={[styles.container]}>
+                <Text style={styles.title}>{title}</Text>
+                <View style={styles.gap} />
+                <Text style={styles.value}>{value}</Text>
+            </View>
         </View>
     );
 }

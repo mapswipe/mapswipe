@@ -12,6 +12,8 @@ import '@react-native-firebase/database';
 import '@react-native-firebase/storage';
 import * as Sentry from '@sentry/react-native';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
 import './src/shared/i18n';
 import Main from './src/shared/Main';
 import { name as appName } from './app';
@@ -29,6 +31,11 @@ type Props = {};
 
 const { store, persistor } = setupStore();
 
+const client = new ApolloClient({
+    uri: 'https://mapswipe-api.dev.togglecorp.com/graphql/',
+    cache: new InMemoryCache(),
+});
+
 const rrfProps = {
     firebase,
     config: rrfConfig,
@@ -39,13 +46,15 @@ const rrfProps = {
 class ConnectedApp extends React.Component<Props> {
     render() {
         return (
-            <Provider store={store}>
-                <ReactReduxFirebaseProvider {...rrfProps}>
-                    <PersistGate loading={null} persistor={persistor}>
-                        <Main />
-                    </PersistGate>
-                </ReactReduxFirebaseProvider>
-            </Provider>
+            <ApolloProvider client={client}>
+                <Provider store={store}>
+                    <ReactReduxFirebaseProvider {...rrfProps}>
+                        <PersistGate loading={null} persistor={persistor}>
+                            <Main />
+                        </PersistGate>
+                    </ReactReduxFirebaseProvider>
+                </Provider>
+            </ApolloProvider>
         );
     }
 }

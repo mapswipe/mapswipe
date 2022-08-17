@@ -3,44 +3,89 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import { gql, useQuery } from '@apollo/client';
+import auth, { firebase } from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import analytics from '@react-native-firebase/analytics';
 import {
+    Alert,
     View,
     StyleSheet,
     Image,
     Text,
-    Button,
-    Pressable,
     ScrollView,
     Linking,
+    RefreshControl,
 } from 'react-native';
 import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
-import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import { SvgXml } from 'react-native-svg';
 
-import type { Node } from 'react';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import {
     COLOR_WHITE,
     COLOR_DEEP_BLUE,
+    COLOR_BLUE,
     COLOR_LIGHT_GRAY,
     COLOR_SUCCESS_GREEN,
     COLOR_DARK_GRAY,
     COLOR_RED,
+    FONT_WEIGHT_BOLD,
+    FONT_SIZE_LARGE,
+    FONT_SIZE_SMALL,
+    SPACING_EXTRA_SMALL,
+    SPACING_SMALL,
+    SPACING_MEDIUM,
     supportedLanguages,
 } from '../constants';
 import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
+import ClickableListItem from '../common/ClickableListItem';
 
 const GLOBAL = require('../Globals');
 
-const chevronRight = `
-<svg width="17" height="26" viewBox="0 0 17 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M3.23404 1L1 3.1L11.5356 13L1 22.9L3.23404 25L16 13L3.23404 1Z" fill="#262626" stroke="#262626" stroke-width="0.942857"/>
-</svg>
+const USER_STATS = gql`
+    query UserStats($userId: ID) {
+        user(pk: $userId) {
+            userId
+            username
+            contributionStats {
+                taskDate
+                totalSwipe
+            }
+            contributionTime {
+                taskDate
+                totalTime
+            }
+            organizationSwipeStats {
+                organizationName
+                totalSwipe
+            }
+            projectStats {
+                area
+                projectType
+            }
+            projectSwipeStats {
+                projectType
+                totalSwipe
+            }
+            stats {
+                totalMappingProjects
+                totalSwipe
+                totalSwipeTime
+                totalTask
+            }
+            statsLatest {
+                totalSwipe
+                totalSwipeTime
+                totalUserGroup
+            }
+            userGeoContribution {
+                totalContribution
+            }
+        }
+    }
 `;
 
 const styles = StyleSheet.create({
@@ -49,124 +94,101 @@ const styles = StyleSheet.create({
         flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
+
     header: {
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
         backgroundColor: COLOR_DEEP_BLUE,
-        padding: '5%',
+        padding: SPACING_MEDIUM,
     },
+
     avatar: {
-        flex: 2,
+        flexShrink: 0,
         height: 110,
         width: 110,
     },
+
     details: {
-        flex: 4,
+        flexGrow: 1,
         justifyContent: 'center',
-        paddingLeft: '5%',
+        padding: SPACING_MEDIUM,
     },
+
     name: {
-        fontWeight: '800',
+        fontWeight: FONT_WEIGHT_BOLD,
         color: COLOR_WHITE,
-        fontSize: 18,
-        paddingBottom: '6%',
+        fontSize: FONT_SIZE_LARGE,
+        marginVertical: SPACING_SMALL,
     },
+
+    progressDetails: {
+        marginVertical: SPACING_SMALL,
+    },
+
     level: {
         flexDirection: 'row',
-        paddingBottom: '5%',
     },
+
     levelText: {
         color: COLOR_WHITE,
-        fontWeight: '600',
-        fontSize: 14,
-        paddingRight: '2%',
+        fontWeight: FONT_WEIGHT_BOLD,
+        fontSize: FONT_SIZE_SMALL,
     },
+
+    progressBar: {
+        marginVertical: SPACING_EXTRA_SMALL,
+    },
+
     progressText: {
         color: COLOR_WHITE,
-        fontSize: 14,
+        fontSize: FONT_SIZE_SMALL,
     },
+
     content: {
         display: 'flex',
         justifyContent: 'flex-start',
         backgroundColor: COLOR_LIGHT_GRAY,
         flexGrow: 1,
     },
+
     statsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        padding: '2%',
-    },
-    card: {
-        width: '46%',
-        marginHorizontal: '2%',
-        marginVertical: '2%',
-        padding: '4%',
-        borderRadius: 2,
-    },
-    userGroupsContainer: {
-        flexGrow: 1,
-        padding: '4%',
-    },
-    userGroupHeadingText: {
-        color: COLOR_DARK_GRAY,
-        fontWeight: '600',
-        fontSize: 16,
-    },
-    userGroups: {
-        flex: 1,
-    },
-    userGroupItem: {
-        backgroundColor: COLOR_WHITE,
-        borderColor: COLOR_LIGHT_GRAY,
-        borderBottomWidth: 1,
-        padding: '3%',
-        flexShrink: 0,
-    },
-    userGroupItemTitle: {
-        color: COLOR_DARK_GRAY,
-        fontSize: 14,
-    },
-    joinNewGroup: {
-        marginVertical: '5%',
-    },
-    heatmapContainer: {
-        flexGrow: 1,
-        padding: '4%',
-    },
-    heatMapHeading: {
-        color: COLOR_DARK_GRAY,
-        fontWeight: '600',
-        fontSize: 16,
-    },
-    heatMap: {
         display: 'flex',
         flexDirection: 'row',
-        height: 90,
+        flexWrap: 'wrap',
+        padding: SPACING_MEDIUM / 2,
     },
+
+    card: {
+        width: '50%',
+    },
+
+    headingText: {
+        color: COLOR_DARK_GRAY,
+        fontWeight: FONT_WEIGHT_BOLD,
+        paddingVertical: SPACING_SMALL,
+    },
+
+    heatmapContainer: {
+        padding: SPACING_MEDIUM,
+    },
+
+    userGroupsContainer: {
+        padding: SPACING_MEDIUM,
+    },
+
     settingsContainer: {
-        flexGrow: 1,
-        padding: '4%',
+        padding: SPACING_MEDIUM,
     },
-    button: {
-        borderBottomWidth: 1,
-        borderColor: COLOR_LIGHT_GRAY,
+
+    joinGroupButtonText: {
+        color: COLOR_BLUE,
     },
-    deleteButton: {
-        borderBottomWidth: 1,
-        borderColor: COLOR_LIGHT_GRAY,
-    },
-    customButtonContainer: {
-        backgroundColor: COLOR_WHITE,
-        padding: '3%',
-    },
-    customButton: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    dangerButtonText: {
+
+    deleteButtonText: {
         color: COLOR_RED,
     },
+
     infoContainer: {
         flexGrow: 1,
         padding: '4%',
@@ -181,17 +203,25 @@ type ReduxProps = {
     level: number,
     kmTillNextLevel: number,
     languageCode: string,
+    progress: number,
+    profile: Object,
 };
 
 type InjectedProps = {
     t: TranslationFunction,
-    firebase: Object,
 };
 
-const mapStateToProps = (state): ReduxProps => ({
-    level: state.ui.user.level,
+const mapStateToProps = (state, ownProps): ReduxProps => ({
     kmTillNextLevel: state.ui.user.kmTillNextLevel,
     languageCode: state.ui.user.languageCode,
+    level: state.ui.user.level,
+    navigation: ownProps.navigation,
+    profile: state.firebase.profile,
+    progress: state.ui.user.progress,
+
+    // TODO
+    teamId: state.ui.user.teamId,
+    teamName: state.firebase.data.teamName,
 });
 
 const enhance = compose(
@@ -205,112 +235,18 @@ type Stat = {
     value: string,
 };
 
-type UserGroup = {
-    id: string,
-    title: string,
-};
-
-const userStats: Stat[] = [
-    {
-        title: 'Tasks Completed',
-        value: '100',
-    },
-    {
-        title: 'Swipe Quality Score',
-        value: '80%',
-    },
-    {
-        title: 'Total time spent swipping (min)',
-        value: '1893',
-    },
-    {
-        title: 'Cumulative area swiped (sq.km)',
-        value: '83912',
-    },
-    {
-        title: 'Mapping Projects',
-        value: '193',
-    },
-    {
-        title: 'Organization supported',
-        value: '12',
-    },
-];
-
-const userGroups: UserGroup[] = [
-    { id: 'groupA', title: 'User Group A' },
-    { id: 'groupB', title: 'User Group B' },
-    { id: 'groupC', title: 'User Group C' },
-    { id: 'groupD', title: 'User Group D' },
-    { id: 'groupE', title: 'User Group E' },
-    { id: 'groupF', title: 'User Group F' },
-];
-
-type UserGroupItemProps = {
-    item: UserGroup,
-    handleUserGroupClick: (userGroup: UserGroup) => void,
-};
-
-const UserGroupItem = ({ item, handleUserGroupClick }: UserGroupItemProps) => {
-    const { title } = item;
-
-    return (
-        <Pressable
-            onPress={() => handleUserGroupClick(item)}
-            style={styles.userGroupItem}
-        >
-            <Text style={styles.userGroupItemTitle}>{title}</Text>
-        </Pressable>
-    );
-};
-
-type CustomButtonProps = {
-    title: string,
-    onPress: () => void,
-    accessibilityLabel: string,
-    style: ViewStyleProp,
-    type?: 'primary' | 'danger',
-    icon?: Node,
-    hideIcon?: boolean,
-};
-/* eslint-disable global-require */
-function CustomButton(props: CustomButtonProps) {
-    const {
-        title,
-        onPress,
-        accessibilityLabel,
-        style,
-        type,
-        icon,
-        hideIcon = false,
-    } = props;
-    const textStyle = type === 'danger' ? styles.dangerButtonText : undefined;
-    return (
-        <Pressable
-            onPress={onPress}
-            style={[styles.customButtonContainer, style]}
-        >
-            <View
-                style={styles.customButton}
-                accessible
-                accessibilityLabel={accessibilityLabel}
-                accessibilityRole="button"
-            >
-                <Text style={textStyle}>{title}</Text>
-                {!hideIcon && icon && icon}
-                {!hideIcon && !icon && (
-                    <SvgXml height="100%" xml={chevronRight} />
-                )}
-            </View>
-        </Pressable>
-    );
-}
-
 type Props = OwnProps & ReduxProps & InjectedProps;
 
 function MyProfile(props: Props) {
-    const { navigation, level, t, kmTillNextLevel, firebase, languageCode } =
-        props;
+    const {
+        navigation,
+        level,
+        t,
+        kmTillNextLevel,
+        languageCode,
+        progress,
+        profile,
+    } = props;
 
     const levelObject = Levels[level];
     const kmTillNextLevelToShow = kmTillNextLevel || 0;
@@ -321,77 +257,228 @@ function MyProfile(props: Props) {
         swipes,
     });
 
-    const selectedLanguage = supportedLanguages.find(
-        language => language.code === languageCode,
+    const userId = auth().currentUser?.uid;
+
+    const {
+        data: userStatsData,
+        loading: loadingUserStats,
+        refetch: refetchUserStats,
+    } = useQuery(USER_STATS, {
+        skip: !userId,
+        variables: {
+            userId,
+        },
+        onError: error => {
+            console.error(error);
+        },
+    });
+
+    const [userGroups, setUserGroups] = React.useState();
+
+    const loadUserGroups = React.useCallback(async () => {
+        const db = database();
+
+        const userGroupsOfUsersQuery = db.ref(`v2/users/${userId}/userGroups/`);
+
+        try {
+            const userGroupsSnapshot = await userGroupsOfUsersQuery.once(
+                'value',
+            );
+            if (!userGroupsSnapshot.exists()) {
+                return;
+            }
+
+            const userGroupsOfUser = userGroupsSnapshot.val();
+            const groupKeys = Object.keys(userGroupsOfUser);
+            const promises = groupKeys.map(groupKey => {
+                return db.ref(`v2/userGroups/${groupKey}`).once('value');
+            });
+
+            const userGroupSnapshots = await Promise.all(promises);
+            const userGroupsFromFirebase = userGroupSnapshots.map(snapshot => ({
+                groupId: snapshot.key,
+                ...snapshot.val(),
+            }));
+
+            setUserGroups(
+                Object.values(userGroupsFromFirebase).filter(
+                    group => !group.archivedAt,
+                ),
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    }, [userId]);
+
+    const calendarHeatmapData = React.useMemo(() => {
+        const contributionStats = userStatsData?.user?.contributionStats;
+        if (!contributionStats) {
+            return [];
+        }
+
+        const now = new Date();
+        const thirtyDaysBefore = new Date(now);
+        thirtyDaysBefore.setDate(now.getDate() - 30);
+
+        const data = [];
+        const currentDate = new Date(thirtyDaysBefore);
+
+        const MAX_SWIPE_PER_DAY = 100;
+
+        const contributionStatsMap = contributionStats.reduce((acc, val) => {
+            acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
+            return acc;
+        }, {});
+
+        console.info(contributionStatsMap);
+
+        for (let i = 0; i < 30; i += 1) {
+            currentDate.setDate(thirtyDaysBefore.getDate() + i + 1);
+            const yyyy = currentDate.getFullYear();
+            const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(currentDate.getDate()).padStart(2, '0');
+            const dateKey = `${yyyy}-${mm}-${dd}`;
+            console.info(
+                'dateKey',
+                i,
+                dateKey,
+                currentDate.getDate(),
+                now.getDate(),
+            );
+            const currentValue = {
+                key: i,
+                value: contributionStatsMap[dateKey] ?? 0,
+            };
+
+            data.push(currentValue);
+        }
+
+        console.info(currentDate.getTime(), now.getTime());
+
+        return data;
+    }, [userStatsData?.user?.contributionStats]);
+
+    React.useEffect(() => {
+        loadUserGroups();
+    }, [loadUserGroups]);
+
+    const userStats: Stat[] = React.useMemo(() => {
+        const tasksCompleted = profile?.taskContributionCount ?? '-';
+        const projectContributions = profile?.projectContributionCount ?? '-';
+
+        const swipeTime = userStatsData?.user?.contributionTime?.reduce(
+            (sum, contribution) => sum + contribution.totalTime,
+            0,
+        );
+
+        const swipeArea = userStatsData?.user?.projectStats?.reduce(
+            (sum, stat) => sum + (stat.area ?? 0),
+            0,
+        );
+
+        return [
+            {
+                title: 'Tasks Completed',
+                value: tasksCompleted,
+            },
+            {
+                title: 'Swipe Quality Score',
+                value: '-',
+            },
+            {
+                title: 'Total time spent swipping (min)',
+                value: swipeTime,
+            },
+            {
+                title: 'Cumulative area swiped (sq.km)',
+                value: swipeArea?.toFixed(5),
+            },
+            {
+                title: 'Mapping Missions',
+                value: projectContributions,
+            },
+            {
+                title: 'Organization supported',
+                value: '-',
+            },
+        ];
+    }, [profile, userStatsData]);
+
+    const selectedLanguage = React.useMemo(
+        () =>
+            supportedLanguages.find(language => language.code === languageCode),
+        [languageCode],
     );
 
-    const handleNewUserGroupJoinClick = () => {
+    const handleNewUserGroupJoinClick = React.useCallback(() => {
         navigation.navigate('SearchUserGroup');
-    };
+    }, [navigation]);
 
-    const handleUserGroupClick = (userGroup: UserGroup) => {
-        navigation.navigate('UserGroup', {
-            userGroup,
-        });
-    };
+    const handleUserGroupClick = React.useCallback(
+        (userGroupId: string) => {
+            navigation.navigate('UserGroup', { userGroupId });
+        },
+        [navigation],
+    );
 
-    const handleUserNameChangeClick = () => {
+    const handleUserNameChangeClick = React.useCallback(() => {
         navigation.navigate('ChangeUserName');
-    };
+    }, [navigation]);
 
-    const handlePasswordChangeClick = () => {
-        navigation.navigate('ChangePassword');
-    };
-
-    const handleNotificationsClick = () => {};
-
-    const handleLanguageClick = () => {
+    const handleLanguageClick = React.useCallback(() => {
         navigation.navigate('LanguageSelection');
-    };
+    }, [navigation]);
 
-    const handleLogOutClick = () => {
+    const handleLogOutClick = React.useCallback(() => {
         analytics().logEvent('sign_out');
         firebase.logout().then(() => {
             navigation.navigate('LoginNavigator');
         });
-    };
+    }, [navigation]);
 
-    const handleDeleteAccountClick = () => {
+    const deleteUserAccount = React.useCallback(() => {
         analytics().logEvent('delete_account');
-        const user = firebase.auth().currentUser;
-        firebase.database().ref().child(`v2/users/${user.uid}`).off('value');
-        user.then(() => {
-            MessageBarManager.showAlert({
-                title: t('accountDeleted'),
-                message: t('accountDeletedSuccessMessage'),
-                alertType: 'info',
+        const user = auth().currentUser;
+        database().ref().child(`v2/users/${user.uid}`).off('value');
+        user.delete()
+            .then(() => {
+                MessageBarManager.showAlert({
+                    title: t('accountDeleted'),
+                    message: t('accountDeletedSuccessMessage'),
+                    alertType: 'info',
+                });
+                navigation.navigate('LoginNavigator');
+            })
+            .catch(() => {
+                MessageBarManager.showAlert({
+                    title: t('accountDeletionFailed'),
+                    message: t('accountDeletionFailedMessage'),
+                    alertType: 'error',
+                });
+                navigation.navigate('LoginNavigator');
             });
-            navigation.navigate('LoginNavigator');
-        }).catch(() => {
-            MessageBarManager.showAlert({
-                title: t('accountDeletionFailed'),
-                message: t('accountDeletionFailedMessage'),
-                alertType: 'error',
-            });
-            navigation.navigate('LoginNavigator');
-        });
-    };
+    }, [navigation]);
 
-    const handleMapSwipeWebsiteClick = () => {
+    const handleMapSwipeWebsiteClick = React.useCallback(() => {
         navigation.push('WebviewWindow', {
             uri: 'https://mapswipe.org/',
         });
-    };
+    }, [navigation]);
 
-    const handleMissingMapsClick = () => {
+    const handleMissingMapsClick = React.useCallback(() => {
         navigation.push('WebviewWindow', {
             uri: 'https://www.missingmaps.org',
         });
-    };
+    }, [navigation]);
 
-    const handleEmailClick = () => {
+    const handleEmailClick = React.useCallback(() => {
         Linking.openURL('mailto:info@mapswipe.org');
-    };
+    }, []);
+
+    const refreshPage = React.useCallback(() => {
+        refetchUserStats();
+        loadUserGroups();
+    }, [refetchUserStats, loadUserGroups]);
 
     return (
         <View style={styles.myProfileScreen}>
@@ -404,29 +491,43 @@ function MyProfile(props: Props) {
                 />
                 <View style={styles.details}>
                     <Text numberOfLines={1} style={styles.name}>
-                        {firebase.auth().currentUser.displayName}
+                        {auth()?.currentUser?.displayName}
                     </Text>
-                    <View style={styles.level}>
-                        <Text style={styles.levelText}>
-                            {t('Level X', { level })}
-                        </Text>
-                        <Text style={styles.levelText}>
-                            ({levelObject.title})
+                    <View style={styles.progressDetails}>
+                        <View style={styles.level}>
+                            <Text style={styles.levelText}>
+                                {t('Level X', { level })}
+                            </Text>
+                            <Text> </Text>
+                            <Text style={styles.levelText}>
+                                ({levelObject.title})
+                            </Text>
+                        </View>
+                        <ProgressBar
+                            style={styles.progressBar}
+                            borderRadius={0}
+                            borderWidth={0}
+                            color={COLOR_SUCCESS_GREEN}
+                            height={10}
+                            progress={progress ?? 0}
+                            unfilledColor={COLOR_WHITE}
+                            width={null}
+                        />
+                        <Text style={styles.progressText}>
+                            {levelProgressText}
                         </Text>
                     </View>
-                    <ProgressBar
-                        borderRadius={0}
-                        borderWidth={0}
-                        color={COLOR_SUCCESS_GREEN}
-                        height={10}
-                        progress={0.1 ?? 0}
-                        unfilledColor={COLOR_WHITE}
-                        width={null}
-                    />
-                    <Text style={styles.progressText}>{levelProgressText}</Text>
                 </View>
             </View>
-            <ScrollView contentContainerStyle={styles.content}>
+            <ScrollView
+                contentContainerStyle={styles.content}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={loadingUserStats}
+                        onRefresh={refreshPage}
+                    />
+                }
+            >
                 <View style={styles.statsContainer}>
                     {userStats.map(stat => (
                         <InfoCard
@@ -437,97 +538,138 @@ function MyProfile(props: Props) {
                         />
                     ))}
                 </View>
-                <View style={styles.userGroupsContainer}>
-                    <Text numberOfLines={1} style={styles.userGroupHeadingText}>
-                        {t('userGroups')}
-                    </Text>
-                    <View style={styles.userGroups}>
-                        {userGroups.map(userGroup => (
-                            <UserGroupItem
-                                key={userGroup.id}
-                                item={userGroup}
-                                handleUserGroupClick={handleUserGroupClick}
-                            />
-                        ))}
-                    </View>
-                    <View style={styles.joinNewGroup}>
-                        <Button
-                            color={COLOR_SUCCESS_GREEN}
-                            onPress={handleNewUserGroupJoinClick}
-                            title={t('joinNewGroup')}
-                            accessibilityLabel={t('joinNewGroup')}
-                        />
-                    </View>
-                </View>
                 <View style={styles.heatmapContainer}>
-                    <Text numberOfLines={1} style={styles.heatMapHeading}>
+                    <Text style={styles.headingText}>
                         {t('contributionHeatmap')}
                     </Text>
-                    <CalendarHeatmap style={styles.heatMap} />
+                    <CalendarHeatmap data={calendarHeatmapData} />
+                </View>
+                <View style={styles.userGroupsContainer}>
+                    <Text style={styles.headingText}> {t('userGroups')} </Text>
+                    <View>
+                        {userGroups?.map(userGroup => (
+                            <ClickableListItem
+                                key={userGroup.groupId}
+                                name={userGroup.groupId}
+                                title={userGroup.name}
+                                onPress={handleUserGroupClick}
+                            />
+                        ))}
+                        {userGroups?.length === 0 && <Text>No groups yet</Text>}
+                    </View>
+                    <ClickableListItem
+                        textStyle={styles.joinGroupButtonText}
+                        onPress={handleNewUserGroupJoinClick}
+                        title={t('joinNewGroup')}
+                        accessibilityLabel={t('joinNewGroup')}
+                        hideIcon
+                    />
                 </View>
                 <View style={styles.settingsContainer}>
-                    <Text numberOfLines={1} style={styles.userGroupHeadingText}>
-                        {t('settings')}
-                    </Text>
-                    <CustomButton
+                    <Text style={styles.headingText}> {t('settings')} </Text>
+                    <ClickableListItem
                         style={styles.button}
                         onPress={handleUserNameChangeClick}
                         title={t('changeUserName')}
-                        accessibilityLabel={t('changeUserName')}
                     />
-                    <CustomButton
+                    <ClickableListItem
                         style={styles.button}
-                        onPress={handlePasswordChangeClick}
-                        title={t('changePassword')}
-                        accessibilityLabel={t('changePassword')}
+                        onPress={() => {
+                            Alert.alert(
+                                t('Reset Password'),
+                                t(
+                                    'An email will be sent to your account with the reset link. Are you sure you want to continue?',
+                                ),
+                                [
+                                    {
+                                        text: t('Cancel'),
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: t('OK'),
+                                        onPress: () => {
+                                            auth().sendPasswordResetEmail(
+                                                auth().currentUser.email,
+                                            );
+                                        },
+                                    },
+                                ],
+                            );
+                        }}
+                        title={t('Reset Password')}
                     />
-                    <CustomButton
-                        style={styles.button}
-                        onPress={handleNotificationsClick}
-                        title={t('notifications')}
-                        accessibilityLabel={t('notifications')}
-                    />
-                    <CustomButton
+                    <ClickableListItem
                         style={styles.button}
                         onPress={handleLanguageClick}
                         title={t('language')}
-                        accessibilityLabel={t('language')}
                         icon={<Text>{selectedLanguage?.name}</Text>}
                     />
-                    <CustomButton
+                    <ClickableListItem
                         style={styles.button}
-                        onPress={handleLogOutClick}
-                        title={t('logOut')}
-                        accessibilityLabel={t('logOut')}
+                        onPress={() => {
+                            Alert.alert(
+                                t('sign out'),
+                                t('Are you sure you want to sign out?'),
+                                [
+                                    {
+                                        text: t('Cancel'),
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: t('OK'),
+                                        onPress: () => {
+                                            handleLogOutClick();
+                                        },
+                                        style: 'destructive',
+                                    },
+                                ],
+                            );
+                        }}
+                        title={t('sign out')}
                         hideIcon
                     />
-                    <CustomButton
-                        style={styles.deleteButton}
-                        onPress={handleDeleteAccountClick}
+                    <ClickableListItem
+                        onPress={() => {
+                            Alert.alert(
+                                t('Delete Account?'),
+                                t(
+                                    'Are you sure you want to delete you account? This action cannot be undone!',
+                                ),
+                                [
+                                    {
+                                        text: t('Cancel'),
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: t('OK'),
+                                        onPress: () => {
+                                            deleteUserAccount();
+                                        },
+                                        style: 'destructive',
+                                    },
+                                ],
+                            );
+                        }}
                         title={t('deleteAccount')}
-                        accessibilityLabel={t('deleteAccount')}
-                        type="danger"
+                        textStyle={styles.deleteButtonText}
                         hideIcon
                     />
                 </View>
                 <View style={styles.infoContainer}>
-                    <CustomButton
+                    <ClickableListItem
                         style={styles.button}
                         onPress={handleMapSwipeWebsiteClick}
                         title={t('mapSwipeWebsite')}
-                        accessibilityLabel={t('mapSwipeWebsite')}
                     />
-                    <CustomButton
+                    <ClickableListItem
                         style={styles.button}
                         onPress={handleMissingMapsClick}
                         title={t('missingMaps')}
-                        accessibilityLabel={t('missingMaps')}
                     />
-                    <CustomButton
+                    <ClickableListItem
                         style={styles.button}
                         onPress={handleEmailClick}
                         title={t('email')}
-                        accessibilityLabel={t('email')}
                     />
                 </View>
             </ScrollView>

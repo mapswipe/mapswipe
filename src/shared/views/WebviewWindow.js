@@ -8,31 +8,47 @@ import type { Node } from 'react';
 /* eslint-disable global-require */
 
 import React from 'react';
-import { View, Image, TouchableHighlight } from 'react-native';
+import { View, Image, Text, TouchableHighlight } from 'react-native';
 import { WebView } from 'react-native-webview';
 import fb from '@react-native-firebase/app';
 import type { NavigationProp } from '../flow-types';
-import { COLOR_DEEP_BLUE } from '../constants';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+    FONT_WEIGHT_BOLD,
+    FONT_SIZE_LARGE,
+    SPACING_MEDIUM,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
 const styles = {
+    webView: {
+        flexGrow: 1,
+    },
+
     backButton: {
         width: 20,
         height: 20,
     },
+
     backButtonContainer: {
-        width: 60,
-        height: 60,
-        top: 0,
-        padding: 20,
-        left: 0,
-        position: 'absolute',
+        padding: SPACING_MEDIUM,
     },
+
     swipeNavTop: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
         width: GLOBAL.SCREEN_WIDTH,
-        height: 60,
         backgroundColor: COLOR_DEEP_BLUE,
+    },
+
+    title: {
+        color: COLOR_WHITE,
+        fontWeight: FONT_WEIGHT_BOLD,
+        fontSize: FONT_SIZE_LARGE,
+        padding: SPACING_MEDIUM,
     },
 };
 
@@ -46,7 +62,7 @@ export default (props: Props): Node => {
     const uri = navigation.getParam('uri', 'https://www.mapswipe.org/');
     fb.analytics().logEvent('link_click', { uri });
     return (
-        <View style={{ flex: 1 }}>
+        <View style={styles.webView}>
             <View style={styles.swipeNavTop}>
                 <TouchableHighlight
                     style={styles.backButtonContainer}
@@ -57,6 +73,7 @@ export default (props: Props): Node => {
                         source={require('./assets/backarrow_icon.png')}
                     />
                 </TouchableHighlight>
+                <Text style={styles.title}>{uri}</Text>
             </View>
             <WebView style={{ flex: 1 }} javaScriptEnabled source={{ uri }} />
         </View>
