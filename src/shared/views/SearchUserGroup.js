@@ -17,6 +17,7 @@ import {
     COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
+    SPACING_MEDIUM,
 } from '../constants';
 import type { TranslationFunction } from '../flow-types';
 
@@ -29,23 +30,32 @@ const styles = StyleSheet.create({
         display: 'flex',
         backgroundColor: COLOR_DEEP_BLUE,
         justifyContent: 'center',
-        padding: '5%',
+        padding: SPACING_MEDIUM,
         flexShrink: 0,
-    },
-    searchUserGroupHeading: {
-        fontWeight: '800',
-        color: COLOR_WHITE,
-        fontSize: 18,
     },
     content: {
         display: 'flex',
         flex: 1,
         backgroundColor: COLOR_LIGHT_GRAY,
-        padding: '2%',
     },
-    userGroupSearchInput: {
+    searchContainer: {
+        flexDirection: 'row',
+        padding: SPACING_MEDIUM / 2,
         backgroundColor: COLOR_WHITE,
-        marginBottom: '5%',
+        marginBottom: SPACING_MEDIUM / 2,
+    },
+    searchTextInput: {
+        flexGrow: 1,
+        color: COLOR_DARK_GRAY,
+    },
+    searchButton: {
+        flexShrink: 0,
+        padding: SPACING_MEDIUM,
+    },
+    searchUserGroupHeading: {
+        fontWeight: '800',
+        color: COLOR_WHITE,
+        fontSize: 18,
     },
     userGroupList: {
         display: 'flex',
@@ -56,7 +66,7 @@ const styles = StyleSheet.create({
         borderColor: COLOR_LIGHT_GRAY,
         borderBottomWidth: 1,
         flexShrink: 0,
-        padding: '3%',
+        padding: SPACING_MEDIUM,
     },
 });
 
@@ -71,124 +81,110 @@ type InjectedProps = {
 
 const enhance = compose(withTranslation('searchUserGroup'), firebaseConnect());
 
-type UserGroup = {
-    key: string,
-    name: string,
-    nameKey: string,
-    description: string,
-    users: {
-        [string]: string,
-    },
-};
-
-type State = {
-    searchText: string,
-    userGroups: UserGroup[],
-    loadingUserGroups: boolean,
-};
-
 type Props = OwnProps & InjectedProps;
 
-class SearchUserGroup extends React.Component<Props, State> {
-    constructor(props) {
-        super(props);
+function SearchUserGroup(props: Props) {
+    const { t, firebase, navigation } = props;
+    const [loadingUserGroups, setLoadingUserGroups] = React.useState(false);
+    const [searchText, setSearchText] = React.useState('');
+    const [userGroups, setUserGroups] = React.useState([]);
 
-        this.state = {
-            loadingUserGroups: false,
-            searchText: '',
-            userGroups: [],
-        };
-    }
+    const fetchUserGroups = React.useCallback(() => {
+        if (searchText.length < 3) {
+            return;
+        }
 
-    handleSearchTextChange = (searchText: string) => {
-        this.setState({ searchText, loadingUserGroups: false });
-        const { firebase } = this.props;
+        const queryText = searchText.trim().toLowerCase();
+        setLoadingUserGroups(true);
+        console.info(queryText);
+
         firebase
             .database()
             .ref('/v2/userGroups/')
             .orderByChild('nameKey')
-            .equalTo(searchText.trim())
+            .startAt(queryText)
+            .limitToFirst(5)
             .once('value', snapshot => {
                 if (snapshot.exists()) {
-                    const userGroups: UserGroup[] = [];
-                    console.log(snapshot);
-                    snapshot.forEach(item => {
-                        userGroups.push({
-                            key: item.key,
-                            name: item.val().name,
-                            nameKey: item.val().nameKey,
-                            description: item.val().description,
-                            users: item.val().users,
-                        });
-                    });
-                    this.setState({ userGroups });
+                    const newUserGroups = Object.entries(snapshot.val()).map(
+                        ([key, group]) => ({
+                            key,
+                            ...group,
+                        }),
+                    );
+                    setUserGroups(newUserGroups);
                 } else {
-                    this.setState({ userGroups: [] });
+                    setUserGroups([]);
                 }
-                this.setState({ loadingUserGroups: false });
+
+                setLoadingUserGroups(false);
             });
-    };
+    }, [searchText, firebase]);
 
-    handleUserGroupClick = (userGroup: UserGroup) => {
-        const { navigation } = this.props;
-        navigation.navigate('UserGroup', {
-            userGroup,
-        });
-    };
+    const handleUserGroupClick = React.useCallback(
+        (userGroupId: string) => {
+            navigation.navigate('UserGroup', {
+                userGroupId,
+            });
+        },
+        [navigation],
+    );
 
-    render() {
-        const { t } = this.props;
-        const { searchText, userGroups, loadingUserGroups } = this.state;
-
-        return (
-            <View style={styles.searchUserGroupContainer}>
-                <View style={styles.header}>
-                    <Text
-                        numberOfLines={1}
-                        style={styles.searchUserGroupHeading}
-                    >
-                        {t('joinGroup')}
-                    </Text>
-                </View>
-                <ScrollView
-                    contentContainerStyle={styles.content}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={loadingUserGroups}
-                            onRefresh={() =>
-                                this.handleSearchTextChange(searchText)
-                            }
-                        />
-                    }
-                >
-                    <TextInput
-                        style={styles.userGroupSearchInput}
-                        placeholder={t('searchUserGroup')}
-                        onChangeText={this.handleSearchTextChange}
-                        value={searchText}
-                    />
-                    <View style={styles.userGroupList}>
-                        {userGroups.map(userGroup => (
-                            <Pressable
-                                key={userGroup.nameKey}
-                                onPress={() =>
-                                    this.handleUserGroupClick(userGroup)
-                                }
-                            >
-                                <Text
-                                    style={styles.userGroupItem}
-                                    numberOfLines={1}
-                                    key={userGroup.nameKey}
-                                >
-                                    {userGroup.name}
-                                </Text>
-                            </Pressable>
-                        ))}
-                    </View>
-                </ScrollView>
+    return (
+        <View style={styles.searchUserGroupContainer}>
+            <View style={styles.header}>
+                <Text style={styles.searchUserGroupHeading}>
+                    {t('joinGroup')}
+                </Text>
             </View>
-        );
-    }
+            <ScrollView
+                contentContainerStyle={styles.content}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={loadingUserGroups}
+                        onRefresh={fetchUserGroups}
+                    />
+                }
+            >
+                <View style={styles.searchContainer}>
+                    <TextInput
+                        style={styles.searchTextInput}
+                        placeholder={t('Enter at least 3 characters')}
+                        onChangeText={setSearchText}
+                        value={searchText}
+                        placeholderTextColor="rgba(0, 0, 0, 0.3)"
+                    />
+                    <Pressable
+                        style={({ pressed }) => ({
+                            backgroundColor: pressed
+                                ? COLOR_LIGHT_GRAY
+                                : COLOR_WHITE,
+                            opacity: searchText.length < 3 ? 0.3 : 1,
+                        })}
+                        onPress={fetchUserGroups}
+                        disabled={searchText.length < 3}
+                    >
+                        <Text style={styles.searchButton}>Search</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.userGroupList}>
+                    {userGroups.map(userGroup => (
+                        <Pressable
+                            key={userGroup.nameKey}
+                            onPress={() => handleUserGroupClick(userGroup.key)}
+                        >
+                            <Text
+                                style={styles.userGroupItem}
+                                key={userGroup.nameKey}
+                            >
+                                {userGroup.name}
+                            </Text>
+                        </Pressable>
+                    ))}
+                </View>
+            </ScrollView>
+        </View>
+    );
 }
 
 export default (enhance(SearchUserGroup): any);

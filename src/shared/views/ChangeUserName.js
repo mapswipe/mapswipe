@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { View, StyleSheet, Text, TextInput, Button } from 'react-native';
@@ -8,6 +9,9 @@ import {
     COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
+    SPACING_MEDIUM,
+    FONT_SIZE_LARGE,
+    FONT_WEIGHT_BOLD,
 } from '../constants';
 import type { TranslationFunction } from '../flow-types';
 
@@ -16,38 +20,37 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DARK_GRAY,
         flex: 1,
     },
+
     header: {
         display: 'flex',
         backgroundColor: COLOR_DEEP_BLUE,
-        justifyContent: 'center',
-        padding: '5%',
         flexShrink: 0,
+        padding: SPACING_MEDIUM,
     },
+
     changeUserNameHeading: {
-        fontWeight: '800',
+        fontWeight: FONT_WEIGHT_BOLD,
         color: COLOR_WHITE,
-        fontSize: 18,
-        paddingBottom: '2%',
+        fontSize: FONT_SIZE_LARGE,
     },
+
     content: {
-        display: 'flex',
         flex: 1,
         backgroundColor: COLOR_LIGHT_GRAY,
-        padding: '2%',
+        padding: SPACING_MEDIUM,
     },
+
     input: {
         backgroundColor: COLOR_WHITE,
-        marginBottom: '5%',
-        fontSize: 16,
+        marginVertical: SPACING_MEDIUM,
     },
+
+    actions: {
+        marginTop: 2 * SPACING_MEDIUM,
+    },
+
     label: {
         color: COLOR_DARK_GRAY,
-        fontWeight: '600',
-        fontSize: 16,
-    },
-    confirmUserNameChange: {
-        marginHorizontal: '4%',
-        marginVertical: '5%',
     },
 });
 
@@ -70,17 +73,9 @@ class ChangeUserName extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
-            currentUserName: undefined,
             newUserName: undefined,
         };
     }
-
-    handleCurrentUserNameChange = currentUserName => {
-        this.setState(prevState => ({
-            ...prevState,
-            currentUserName,
-        }));
-    };
 
     handleNewUserNameChange = newUserName => {
         this.setState(prevState => ({
@@ -93,15 +88,13 @@ class ChangeUserName extends React.Component<Props, State> {
 
     render() {
         const { t } = this.props;
-        const { currentUserName, newUserName } = this.state;
+        const { newUserName } = this.state;
+        const userName = auth().currentUser.displayName;
 
         return (
             <View style={styles.changeUserNameScreen}>
                 <View style={styles.header}>
-                    <Text
-                        numberOfLines={1}
-                        style={styles.changeUserNameHeading}
-                    >
+                    <Text style={styles.changeUserNameHeading}>
                         {t('changeUserName')}
                     </Text>
                 </View>
@@ -111,20 +104,18 @@ class ChangeUserName extends React.Component<Props, State> {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        onChangeText={this.handleCurrentUserNameChange}
-                        value={currentUserName}
+                        value={userName}
+                        editable={false}
                         maxLength={128}
                     />
-                    <Text numberOfLines={1} style={styles.label}>
-                        {t('newUserName')}
-                    </Text>
+                    <Text style={styles.label}>{t('newUserName')}</Text>
                     <TextInput
                         style={styles.input}
                         onChangeText={this.handleNewUserNameChange}
                         value={newUserName}
                         maxLength={128}
                     />
-                    <View style={styles.confirmUserNameChange}>
+                    <View style={styles.actions}>
                         <Button
                             color={COLOR_DEEP_BLUE}
                             onPress={this.handleUserNameChange}

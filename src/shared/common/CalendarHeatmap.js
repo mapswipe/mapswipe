@@ -1,34 +1,74 @@
 // @flow
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import { COLOR_SUCCESS_GREEN } from '../constants';
+import {
+    COLOR_SUCCESS_GREEN,
+    COLOR_LIGHT_GRAY,
+    SPACING_MEDIUM,
+} from '../constants';
 
 const styles = StyleSheet.create({
     calendarHeatmap: {
         flexWrap: 'wrap',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        display: 'flex',
+        flexDirection: 'row',
     },
+
     item: {
         backgroundColor: COLOR_SUCCESS_GREEN,
-        height: '32%',
-        width: '9%',
-        margin: 1,
+        borderWidth: 4,
+        borderColor: COLOR_LIGHT_GRAY,
+    },
+
+    break: {
+        width: '100%',
     },
 });
 
 type Props = {
     style: ViewStyleProp,
+    data: Object[],
 };
 
 function CalendarHeatmap(props: Props) {
-    const { style } = props;
+    const { style, data } = props;
+
+    const screenWidth = Dimensions.get('window').width;
+    const itemWidth = Math.min((screenWidth - SPACING_MEDIUM * 2 - 1) / 7, 40);
+
     return (
         <View style={[styles.calendarHeatmap, style]}>
-            {Array.from(Array(30).keys()).map(value => (
-                <View style={styles.item} key={value} />
+            {(!data || data.length) < 5 && (
+                <Text>Not enough data to display heatmap</Text>
+            )}
+            {data.map(datum => (
+                <React.Fragment key={datum.key}>
+                    {datum.key > 0 && datum.key % 7 === 0 && (
+                        <View style={styles.break} />
+                    )}
+                    <View
+                        style={[
+                            styles.item,
+                            {
+                                width: itemWidth,
+                                height: itemWidth,
+                            },
+                        ]}
+                    >
+                        <View
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                opacity: 1 - datum.value,
+                                backgroundColor: COLOR_LIGHT_GRAY,
+                            }}
+                        />
+                    </View>
+                </React.Fragment>
             ))}
         </View>
     );
