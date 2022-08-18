@@ -2,7 +2,7 @@
   "mainHeader": {
     "missions": "Missions",
       "more": "More",
-      "myProfile": "Profile"
+      "userProfile": "Profile"
   },
   "signup": {
     "chooseUsername": "Choose your username",

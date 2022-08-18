@@ -8,10 +8,10 @@ import fb from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
 import RNBootSplash from 'react-native-bootsplash';
 import RecommendedCards from './RecommendedCards';
-import MoreOptions from './MoreOptions';
+// import MoreOptions from './MoreOptions';
 import ScrollableTabView from '../common/ScrollableTabView/ScrollableTabView';
 import DefaultTabBar from '../common/ScrollableTabView/DefaultTabBar';
-import MyProfile from './MyProfile';
+import UserProfile from './UserProfile';
 
 import type { NavigationProp } from '../flow-types';
 import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
@@ -50,8 +50,13 @@ class _ProjectNav extends React.Component<Props> {
                     navigation={navigation}
                     tabLabel={t('missions')}
                 />
-                <MyProfile navigation={navigation} tabLabel={t('myProfile')} />
+                <UserProfile
+                    navigation={navigation}
+                    tabLabel={t('userProfile')}
+                />
+                {/*
                 <MoreOptions navigation={navigation} tabLabel={t('more')} />
+                */}
             </ScrollableTabView>
         );
     }

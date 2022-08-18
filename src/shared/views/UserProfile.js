@@ -43,8 +43,6 @@ import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
 import ClickableListItem from '../common/ClickableListItem';
 
-const GLOBAL = require('../Globals');
-
 const USER_STATS = gql`
     query UserStats($userId: ID) {
         user(pk: $userId) {
@@ -91,15 +89,13 @@ const USER_STATS = gql`
 const styles = StyleSheet.create({
     myProfileScreen: {
         backgroundColor: COLOR_LIGHT_GRAY,
-        flex: 1,
-        width: GLOBAL.SCREEN_WIDTH,
     },
 
     header: {
-        display: 'flex',
         alignItems: 'center',
-        flexDirection: 'row',
         backgroundColor: COLOR_DEEP_BLUE,
+        display: 'flex',
+        flexDirection: 'row',
         padding: SPACING_MEDIUM,
     },
 
@@ -237,7 +233,7 @@ type Stat = {
 
 type Props = OwnProps & ReduxProps & InjectedProps;
 
-function MyProfile(props: Props) {
+function UserProfile(props: Props) {
     const {
         navigation,
         level,
@@ -330,21 +326,12 @@ function MyProfile(props: Props) {
             return acc;
         }, {});
 
-        console.info(contributionStatsMap);
-
         for (let i = 0; i < 30; i += 1) {
-            currentDate.setDate(thirtyDaysBefore.getDate() + i + 1);
+            currentDate.setDate(currentDate.getDate() + 1);
             const yyyy = currentDate.getFullYear();
             const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
             const dd = String(currentDate.getDate()).padStart(2, '0');
             const dateKey = `${yyyy}-${mm}-${dd}`;
-            console.info(
-                'dateKey',
-                i,
-                dateKey,
-                currentDate.getDate(),
-                now.getDate(),
-            );
             const currentValue = {
                 key: i,
                 value: contributionStatsMap[dateKey] ?? 0,
@@ -352,8 +339,6 @@ function MyProfile(props: Props) {
 
             data.push(currentValue);
         }
-
-        console.info(currentDate.getTime(), now.getTime());
 
         return data;
     }, [userStatsData?.user?.contributionStats]);
@@ -366,10 +351,7 @@ function MyProfile(props: Props) {
         const tasksCompleted = profile?.taskContributionCount ?? '-';
         const projectContributions = profile?.projectContributionCount ?? '-';
 
-        const swipeTime = userStatsData?.user?.contributionTime?.reduce(
-            (sum, contribution) => sum + contribution.totalTime,
-            0,
-        );
+        const swipeTime = userStatsData?.user?.stats?.totalSwipeTime;
 
         const swipeArea = userStatsData?.user?.projectStats?.reduce(
             (sum, stat) => sum + (stat.area ?? 0),
@@ -387,11 +369,11 @@ function MyProfile(props: Props) {
             },
             {
                 title: 'Total time spent swipping (min)',
-                value: swipeTime,
+                value: swipeTime ?? '-',
             },
             {
                 title: 'Cumulative area swiped (sq.km)',
-                value: swipeArea?.toFixed(5),
+                value: swipeArea?.toFixed(5) ?? '-',
             },
             {
                 title: 'Mapping Missions',
@@ -677,4 +659,4 @@ function MyProfile(props: Props) {
     );
 }
 
-export default (enhance(MyProfile): any);
+export default (enhance(UserProfile): any);
