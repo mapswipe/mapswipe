@@ -2,6 +2,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import { gql, useQuery } from '@apollo/client';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 
@@ -23,35 +24,78 @@ import {
     COLOR_RED,
     SPACING_MEDIUM,
     FONT_WEIGHT_BOLD,
+    FONT_SIZE_LARGE,
     FONT_SIZE_SMALL,
     SPACING_SMALL,
 } from '../constants';
 import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
+import CalendarHeatmap from '../common/CalendarHeatmap';
 import type { TranslationFunction } from '../flow-types';
+
+const USER_GROUP_STATS = gql`
+    query UserGroupStats($userGroupId: ID) {
+        userGroup(pk: $userGroupId) {
+            contributionStats {
+                taskDate
+                totalSwipe
+            }
+            description
+            name
+            isArchived
+            userGroupId
+            projectSwipeType {
+                projectType
+                totalSwipe
+            }
+            projectTypeStats {
+                area
+                projectType
+            }
+            stats {
+                totalMappingProjects
+                totalSwipe
+                totalSwipeTime
+            }
+            userGroupGeoStats {
+                totalContribution
+            }
+            userGroupLatest {
+                totalContributors
+                totalSwipeTime
+                totalSwipes
+            }
+            userGroupOrganizationStats {
+                organizationName
+                totalSwipe
+            }
+        }
+    }
+`;
 
 const styles = StyleSheet.create({
     userGroup: {
+        height: '100%',
         backgroundColor: COLOR_LIGHT_GRAY,
-        flexGrow: 1,
     },
 
     noUserId: {
+        flexGrow: 1,
         alignItems: 'center',
         padding: SPACING_MEDIUM,
     },
 
     loading: {
+        flexGrow: 1,
         alignItems: 'center',
         padding: SPACING_MEDIUM,
     },
 
     header: {
-        display: 'flex',
         backgroundColor: COLOR_DEEP_BLUE,
+        display: 'flex',
         justifyContent: 'center',
         padding: SPACING_MEDIUM,
-        flexShrink: 0,
     },
 
     headingText: {
@@ -59,21 +103,22 @@ const styles = StyleSheet.create({
         fontWeight: FONT_WEIGHT_BOLD,
         paddingVertical: SPACING_SMALL,
     },
+
     userGroupNameLabel: {
-        fontWeight: '800',
+        fontWeight: FONT_WEIGHT_BOLD,
         color: COLOR_WHITE,
-        fontSize: 18,
-        paddingBottom: '2%',
+        fontSize: FONT_SIZE_LARGE,
     },
+
     membersLabel: {
         color: COLOR_LIGHT_GRAY,
-        fontWeight: '600',
         fontSize: FONT_SIZE_SMALL,
     },
+
     content: {
-        display: 'flex',
-        backgroundColor: COLOR_LIGHT_GRAY,
+        flexGrow: 1,
     },
+
     userGroupsStatsContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -84,28 +129,35 @@ const styles = StyleSheet.create({
     card: {
         width: '50%',
     },
-    membersContainer: {
-        padding: '4%',
+
+    heatmapContainer: {
+        padding: SPACING_MEDIUM,
     },
+
+    membersContainer: {
+        padding: SPACING_MEDIUM,
+    },
+
     leaderBoardItem: {
         backgroundColor: COLOR_WHITE,
         borderColor: COLOR_LIGHT_GRAY,
         borderBottomWidth: 1,
-        padding: '3%',
-        flexShrink: 0,
+        padding: SPACING_MEDIUM,
     },
+
     userTitle: {
         color: COLOR_DARK_GRAY,
         fontSize: FONT_SIZE_SMALL,
     },
+
     settingsContainer: {
-        backgroundColor: COLOR_LIGHT_GRAY,
-        padding: '4%',
+        padding: SPACING_MEDIUM,
     },
+
     joinNewGroup: {
-        marginHorizontal: '4%',
-        marginVertical: '5%',
+        margin: SPACING_MEDIUM,
     },
+
     leaveButtonText: {
         color: COLOR_RED,
     },
@@ -115,33 +167,6 @@ type Stat = {
     title: string,
     value: string,
 };
-
-const userGroupStats: Stat[] = [
-    {
-        title: 'Swipes Completed',
-        value: '100',
-    },
-    {
-        title: 'Swipe Quality Score',
-        value: '80%',
-    },
-    {
-        title: 'Total time spent swipping (min)',
-        value: '1893',
-    },
-    {
-        title: 'Cumulative area swiped (sq.km)',
-        value: '83912',
-    },
-    {
-        title: 'Mapping Projects',
-        value: '193',
-    },
-    {
-        title: 'Organization supported',
-        value: '12',
-    },
-];
 
 type OwnProps = {
     navigation: {
@@ -173,6 +198,20 @@ function UserGroup(props: Props) {
     const [userGroupDetail, setUserGroupDetail] = React.useState();
     const [users, setUsers] = React.useState();
     const userId = auth().currentUser?.uid;
+
+    const {
+        data: userGroupStatsData,
+        loading: loadingUserGroupStats,
+        refetch: refetchUserGroupStats,
+    } = useQuery(USER_GROUP_STATS, {
+        skip: !userGroupId,
+        variables: {
+            userGroupId,
+        },
+        onError: error => {
+            console.error(error);
+        },
+    });
 
     React.useEffect(() => {
         if (!userGroupId) {
@@ -219,29 +258,169 @@ function UserGroup(props: Props) {
 
     const handleLeaveUserGroup = React.useCallback(() => {
         const updates = {};
-        updates[`/v2/users/${userId}/userGroups/${userGroupId}`] = null;
-        updates[`/v2/userGroups/${userGroupId}/users/${userId}`] = null;
-
         database()
-            .ref()
-            .update(updates, () => {
-                console.info('Usergroup left');
-            });
+            .ref('/v2/userGroupMembershipLogs/')
+            .push()
+            .then(
+                logId => {
+                    if (logId) {
+                        updates[
+                            `/v2/users/${userId}/userGroups/${userGroupId}`
+                        ] = null;
+                        updates[
+                            `/v2/userGroups/${userGroupId}/users/${userId}`
+                        ] = null;
+                        updates[`/v2/userGroupMembershipLogs/${logId.key}`] = {
+                            userId,
+                            userGroupId,
+                            action: 'leave',
+                            timestamp: new Date().getTime(),
+                        };
+                        database()
+                            .ref()
+                            .update(
+                                updates,
+                                () => {
+                                    console.info('Usergroup left');
+                                },
+                                () => {
+                                    console.error('Failed to leave Usergroup');
+                                },
+                            );
+                    } else {
+                        console.error(
+                            'Cannot get new key to push membership log',
+                        );
+                    }
+                },
+                () => {
+                    console.error('Failed to leave Usergroup');
+                },
+            );
     }, [userId, userGroupId]);
 
     const handleJoinUserGroup = React.useCallback(() => {
         const updates = {};
-        updates[`/v2/users/${userId}/userGroups/${userGroupId}`] = {
-            joinedAt: new Date().getTime(),
-        };
-        updates[`/v2/userGroups/${userGroupId}/users/${userId}`] = true;
-
         database()
-            .ref()
-            .update(updates, () => {
-                console.info('Usergroup joined');
-            });
-    }, [userId]);
+            .ref('/v2/userGroupMembershipLogs/')
+            .push()
+            .then(
+                logId => {
+                    if (logId) {
+                        updates[
+                            `/v2/users/${userId}/userGroups/${userGroupId}`
+                        ] = true;
+                        updates[
+                            `/v2/userGroups/${userGroupId}/users/${userId}`
+                        ] = true;
+                        updates[`/v2/userGroupMembershipLogs/${logId.key}`] = {
+                            userId,
+                            userGroupId,
+                            action: 'join',
+                            timestamp: new Date().getTime(),
+                        };
+
+                        database()
+                            .ref()
+                            .update(
+                                updates,
+                                () => {
+                                    console.info('Usergroup joined');
+                                },
+                                () => {
+                                    console.error('Failed to join Usergroup');
+                                },
+                            );
+                    } else {
+                        console.error(
+                            'Cannot get new key to push membership log',
+                        );
+                    }
+                },
+                () => {
+                    console.error('Failed to join Usergroup');
+                },
+            );
+    }, [userId, userGroupId]);
+
+    const userGroupStats: Stat[] = React.useMemo(() => {
+        const stats = userGroupStatsData?.userGroup?.stats;
+        const totalSwipeTime = stats?.totalSwipeTime ?? '-';
+        const totalSwipes = stats?.totalSwipe ?? '-';
+        const mappingProjects = stats?.totalMappingProjects ?? '-';
+
+        const swipeArea =
+            userGroupStatsData?.userGroup?.projectTypeStats?.reduce(
+                (sum, stat) => sum + (stat.area ?? 0),
+                0,
+            );
+
+        return [
+            {
+                title: 'Swipes Completed',
+                value: totalSwipes,
+            },
+            {
+                title: 'Swipe Quality Score',
+                value: '-',
+            },
+            {
+                title: 'Total time spent swipping (min)',
+                value: totalSwipeTime,
+            },
+            {
+                title: 'Cumulative area swiped (sq.km)',
+                value: swipeArea?.toFixed(5) ?? '-',
+            },
+            {
+                title: 'Mapping Projects',
+                value: mappingProjects,
+            },
+            {
+                title: 'Organization supported',
+                value: '-',
+            },
+        ];
+    }, [userGroupStatsData]);
+
+    const calendarHeatmapData = React.useMemo(() => {
+        const contributionStats =
+            userGroupStatsData?.userGroup?.contributionStats;
+
+        if (!contributionStats) {
+            return [];
+        }
+
+        const now = new Date();
+        const thirtyDaysBefore = new Date(now);
+        thirtyDaysBefore.setDate(now.getDate() - 30);
+
+        const data = [];
+        const currentDate = new Date(thirtyDaysBefore);
+
+        const MAX_SWIPE_PER_DAY = 100;
+
+        const contributionStatsMap = contributionStats.reduce((acc, val) => {
+            acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
+            return acc;
+        }, {});
+
+        for (let i = 0; i < 30; i += 1) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            const yyyy = currentDate.getFullYear();
+            const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(currentDate.getDate()).padStart(2, '0');
+            const dateKey = `${yyyy}-${mm}-${dd}`;
+            const currentValue = {
+                key: i,
+                value: contributionStatsMap[dateKey] ?? 0,
+            };
+
+            data.push(currentValue);
+        }
+
+        return data;
+    }, [userGroupStatsData?.userGroup?.contributionStats]);
 
     const isUserMember = !!userGroupDetail?.users?.[userId];
 
@@ -262,10 +441,7 @@ function UserGroup(props: Props) {
             {!userGroupDetailPending && userGroupDetail && (
                 <>
                     <View style={styles.header}>
-                        <Text
-                            numberOfLines={1}
-                            style={styles.userGroupNameLabel}
-                        >
+                        <Text style={styles.userGroupNameLabel}>
                             {userGroupDetail?.name}
                         </Text>
                         {userGroupDetail?.description && (
@@ -275,10 +451,14 @@ function UserGroup(props: Props) {
                         )}
                     </View>
                     <ScrollView
-                        contentContainerStyle={styles.content}
+                        style={styles.content}
                         refreshControl={
                             <RefreshControl
-                                refreshing={userGroupDetailPending}
+                                refreshing={
+                                    userGroupDetailPending ||
+                                    loadingUserGroupStats
+                                }
+                                onRefresh={refetchUserGroupStats}
                             />
                         }
                     >
@@ -301,6 +481,12 @@ function UserGroup(props: Props) {
                                     style={styles.card}
                                 />
                             ))}
+                        </View>
+                        <View style={styles.heatmapContainer}>
+                            <Text style={styles.headingText}>
+                                {t('Contribution Heatmap')}
+                            </Text>
+                            <CalendarHeatmap data={calendarHeatmapData} />
                         </View>
                         <View style={styles.membersContainer}>
                             <Text style={styles.headingText}>

@@ -13,7 +13,7 @@ import {
     FONT_SIZE_LARGE,
     FONT_WEIGHT_BOLD,
 } from '../constants';
-import type { TranslationFunction } from '../flow-types';
+import type { NavigationProp, TranslationFunction } from '../flow-types';
 
 const styles = StyleSheet.create({
     changeUserNameScreen: {
@@ -56,7 +56,9 @@ const styles = StyleSheet.create({
 
 const enhance = compose(withTranslation('changeUserName'));
 
-type OwnProps = {};
+type OwnProps = {
+    navigation: NavigationProp,
+};
 
 type InjectedProps = {
     t: TranslationFunction,
@@ -64,69 +66,74 @@ type InjectedProps = {
 
 type Props = OwnProps & InjectedProps;
 
-type State = {
-    currentUserName: ?string,
-    newUserName: ?string,
-};
+function ChangeUserName(props: Props) {
+    const [newUserName, setNewUserName] = React.useState();
 
-class ChangeUserName extends React.Component<Props, State> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            newUserName: undefined,
-        };
-    }
+    const { t, navigation } = props;
+    const userName = auth().currentUser?.displayName;
+    const [updatePending, setUpdatePending] = React.useState(false);
 
-    handleNewUserNameChange = newUserName => {
-        this.setState(prevState => ({
-            ...prevState,
-            newUserName,
-        }));
-    };
+    const handleConfirmButtonClick = React.useCallback(() => {
+        if ((newUserName?.length ?? 0) > 3) {
+            setUpdatePending(true);
+            auth()
+                .currentUser.updateProfile({ displayName: newUserName })
+                .then(
+                    () => {
+                        setUpdatePending(false);
+                        navigation.navigate('UserProfile');
+                    },
+                    () => {
+                        setUpdatePending(false);
+                        console.error('failed to change update user profile');
+                    },
+                );
+        }
+    }, [newUserName]);
 
-    handleUserNameChange = () => {};
-
-    render() {
-        const { t } = this.props;
-        const { newUserName } = this.state;
-        const userName = auth().currentUser.displayName;
-
-        return (
-            <View style={styles.changeUserNameScreen}>
-                <View style={styles.header}>
-                    <Text style={styles.changeUserNameHeading}>
-                        {t('changeUserName')}
-                    </Text>
-                </View>
-                <View style={styles.content}>
-                    <Text numberOfLines={1} style={styles.label}>
-                        {t('currentUserName')}
-                    </Text>
-                    <TextInput
-                        style={styles.input}
-                        value={userName}
-                        editable={false}
-                        maxLength={128}
+    return (
+        <View style={styles.changeUserNameScreen}>
+            <View style={styles.header}>
+                <Text style={styles.changeUserNameHeading}>
+                    {t('changeUserName')}
+                </Text>
+            </View>
+            <View style={styles.content}>
+                <Text numberOfLines={1} style={styles.label}>
+                    {t('currentUserName')}
+                </Text>
+                <TextInput
+                    style={styles.input}
+                    value={userName}
+                    editable={false}
+                    maxLength={128}
+                    disabled={updatePending}
+                />
+                <Text style={styles.label}>{t('newUserName')}</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setNewUserName}
+                    value={newUserName}
+                    maxLength={128}
+                    disabled={updatePending}
+                />
+                <View style={styles.actions}>
+                    <Button
+                        color={COLOR_DEEP_BLUE}
+                        onPress={handleConfirmButtonClick}
+                        title={
+                            updatePending
+                                ? t('Updating Username')
+                                : t('confirmUserNameChange')
+                        }
+                        disabled={
+                            updatePending || (newUserName?.length ?? 0) < 3
+                        }
                     />
-                    <Text style={styles.label}>{t('newUserName')}</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={this.handleNewUserNameChange}
-                        value={newUserName}
-                        maxLength={128}
-                    />
-                    <View style={styles.actions}>
-                        <Button
-                            color={COLOR_DEEP_BLUE}
-                            onPress={this.handleUserNameChange}
-                            title={t('confirmUserNameChange')}
-                            accessibilityLabel={t('confirmUserNameChange')}
-                        />
-                    </View>
                 </View>
             </View>
-        );
-    }
+        </View>
+    );
 }
 
 export default (enhance(ChangeUserName): any);

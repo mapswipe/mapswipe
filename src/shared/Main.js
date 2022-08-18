@@ -22,6 +22,7 @@ import BuildingFootprintScreen from './views/BuildingFootprint';
 import BFInstructionsScreen from './views/BuildingFootprint/InstructionsScreen';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
+import UserProfile from './views/UserProfile';
 import LanguageSelectionScreen from './common/LanguageSelectionScreen';
 import UserGroupScreen from './common/UserGroupScreen';
 import LanguageSelectionSplashScreen from './common/LanguageSelectionSplashScreen';
@@ -315,6 +316,7 @@ const MainNavigator = createStackNavigator(
         ChangeUserName,
         ChangePassword,
         LanguageSelection,
+        UserProfile,
     },
     {
         initialRouteName: 'ProjectNav',

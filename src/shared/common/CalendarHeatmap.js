@@ -18,9 +18,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
 
+    emptyText: {
+        opacity: 0.5,
+    },
+
     item: {
         backgroundColor: COLOR_SUCCESS_GREEN,
-        borderWidth: 4,
+        borderWidth: 3,
         borderColor: COLOR_LIGHT_GRAY,
     },
 
@@ -43,7 +47,9 @@ function CalendarHeatmap(props: Props) {
     return (
         <View style={[styles.calendarHeatmap, style]}>
             {(!data || data.length) < 5 && (
-                <Text>Not enough data to display heatmap</Text>
+                <Text style={styles.emptyText}>
+                    Not enough data to display heatmap
+                </Text>
             )}
             {data.map(datum => (
                 <React.Fragment key={datum.key}>
@@ -63,7 +69,7 @@ function CalendarHeatmap(props: Props) {
                             style={{
                                 width: '100%',
                                 height: '100%',
-                                opacity: 1 - datum.value,
+                                opacity: (1 - datum.value) * 0.95,
                                 backgroundColor: COLOR_LIGHT_GRAY,
                             }}
                         />
