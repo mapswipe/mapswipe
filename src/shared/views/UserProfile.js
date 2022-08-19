@@ -309,38 +309,17 @@ function UserProfile(props: Props) {
     const calendarHeatmapData = React.useMemo(() => {
         const contributionStats = userStatsData?.user?.contributionStats;
         if (!contributionStats) {
-            return [];
+            return {};
         }
 
-        const now = new Date();
-        const thirtyDaysBefore = new Date(now);
-        thirtyDaysBefore.setDate(now.getDate() - 30);
-
-        const data = [];
-        const currentDate = new Date(thirtyDaysBefore);
-
-        const MAX_SWIPE_PER_DAY = 100;
+        const MAX_SWIPE_PER_DAY = 150;
 
         const contributionStatsMap = contributionStats.reduce((acc, val) => {
             acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
             return acc;
         }, {});
 
-        for (let i = 0; i < 30; i += 1) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            const yyyy = currentDate.getFullYear();
-            const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
-            const dd = String(currentDate.getDate()).padStart(2, '0');
-            const dateKey = `${yyyy}-${mm}-${dd}`;
-            const currentValue = {
-                key: i,
-                value: contributionStatsMap[dateKey] ?? 0,
-            };
-
-            data.push(currentValue);
-        }
-
-        return data;
+        return contributionStatsMap;
     }, [userStatsData?.user?.contributionStats]);
 
     React.useEffect(() => {
