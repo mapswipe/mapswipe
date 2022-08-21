@@ -40,7 +40,8 @@ export const FONT_WEIGHT_MEDIUM = '400';
 export const FONT_WEIGHT_BOLD = '600';
 
 // font sizes
-export const FONT_SIZE_SMALL = 14;
+export const FONT_SIZE_EXTRA_SMALL = 11;
+export const FONT_SIZE_SMALL = 13;
 export const FONT_SIZE_MEDIUM = 16;
 export const FONT_SIZE_LARGE = 20;
 export const FONT_SIZE_EXTRA_LARGE = 26;

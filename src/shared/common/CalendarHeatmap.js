@@ -12,6 +12,8 @@ import {
     COLOR_CALENDAR_GRAPH_DAY_L4,
     COLOR_CALENDAR_GRAPH_BACKGROUND,
     COLOR_CALENDAR_GRAPH_BORDER,
+    FONT_SIZE_EXTRA_SMALL,
+    FONT_WEIGHT_BOLD,
 } from '../constants';
 
 const styles = StyleSheet.create({
@@ -52,7 +54,7 @@ function CalendarHeatmap(props: Props) {
     const { style, data } = props;
 
     const screenWidth = Dimensions.get('window').width;
-    const itemWidth = Math.min((screenWidth - SPACING_MEDIUM * 2 - 1) / 7, 36);
+    const itemWidth = Math.min((screenWidth - SPACING_MEDIUM * 2 - 1) / 7, 38);
 
     const now = new Date();
     const dayOfWeek = now.getDay();
@@ -89,9 +91,17 @@ function CalendarHeatmap(props: Props) {
                                 flexDirection: 'row',
                                 justifyContent: 'center',
                                 width: itemWidth,
+                                opacity: 0.5,
                             }}
                         >
-                            <Text>{day}</Text>
+                            <Text
+                                style={{
+                                    fontSize: FONT_SIZE_EXTRA_SMALL,
+                                    fontWeight: FONT_WEIGHT_BOLD,
+                                }}
+                            >
+                                {day}
+                            </Text>
                         </View>
                     );
                 })}
@@ -136,8 +146,7 @@ function CalendarHeatmap(props: Props) {
                                     width: '100%',
                                     height: '100%',
                                     backgroundColor: color,
-                                    borderColor:
-                                        COLOR_CALENDAR_GRAPH_BACKGROUND,
+                                    borderColor: COLOR_CALENDAR_GRAPH_BORDER,
                                     borderWidth: 1,
                                     borderRadius: 5,
                                 }}

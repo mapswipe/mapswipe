@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     },
 
     avatar: {
+        alignSelf: 'flex-start',
         flexShrink: 0,
         height: 110,
         width: 110,
@@ -108,27 +109,37 @@ const styles = StyleSheet.create({
     details: {
         flexGrow: 1,
         justifyContent: 'center',
-        padding: SPACING_MEDIUM,
+        paddingHorizontal: SPACING_MEDIUM,
+        paddingVertical: SPACING_SMALL,
     },
 
     name: {
         fontWeight: FONT_WEIGHT_BOLD,
         color: COLOR_WHITE,
         fontSize: FONT_SIZE_LARGE,
-        marginVertical: SPACING_SMALL,
     },
 
     progressDetails: {
         marginVertical: SPACING_SMALL,
     },
 
-    level: {
+    textContainer: {
         flexDirection: 'row',
+        marginVertical: SPACING_EXTRA_SMALL,
     },
 
     levelText: {
-        color: COLOR_WHITE,
+        flex: 1,
+        flexWrap: 'wrap',
         fontWeight: FONT_WEIGHT_BOLD,
+        color: COLOR_WHITE,
+        fontSize: FONT_SIZE_SMALL,
+    },
+
+    progressText: {
+        flex: 1,
+        flexWrap: 'wrap',
+        color: COLOR_WHITE,
         fontSize: FONT_SIZE_SMALL,
     },
 
@@ -136,16 +147,8 @@ const styles = StyleSheet.create({
         marginVertical: SPACING_EXTRA_SMALL,
     },
 
-    progressText: {
-        color: COLOR_WHITE,
-        fontSize: FONT_SIZE_SMALL,
-    },
-
     content: {
-        display: 'flex',
-        justifyContent: 'flex-start',
         backgroundColor: COLOR_LIGHT_GRAY,
-        flexGrow: 1,
     },
 
     statsContainer: {
@@ -156,7 +159,9 @@ const styles = StyleSheet.create({
     },
 
     card: {
-        width: '50%',
+        flexGrow: 1,
+        minWidth: 140,
+        flexBasis: '50%',
     },
 
     headingText: {
@@ -371,7 +376,7 @@ function UserProfile(props: Props) {
         [languageCode],
     );
 
-    const handleNewUserGroupJoinClick = React.useCallback(() => {
+    const handleExploreGroupClick = React.useCallback(() => {
         navigation.navigate('SearchUserGroup');
     }, [navigation]);
 
@@ -451,17 +456,15 @@ function UserProfile(props: Props) {
                     accessibilityLabel={levelObject.title}
                 />
                 <View style={styles.details}>
-                    <Text numberOfLines={1} style={styles.name}>
+                    <Text style={styles.name}>
                         {auth()?.currentUser?.displayName}
                     </Text>
                     <View style={styles.progressDetails}>
-                        <View style={styles.level}>
+                        <View style={styles.textContainer}>
                             <Text style={styles.levelText}>
-                                {t('Level X', { level })}
-                            </Text>
-                            <Text> </Text>
-                            <Text style={styles.levelText}>
-                                ({levelObject.title})
+                                {`${t('Level X', { level })} (${
+                                    levelObject.title
+                                })`}
                             </Text>
                         </View>
                         <ProgressBar
@@ -474,9 +477,11 @@ function UserProfile(props: Props) {
                             unfilledColor={COLOR_WHITE}
                             width={null}
                         />
-                        <Text style={styles.progressText}>
-                            {levelProgressText}
-                        </Text>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.progressText}>
+                                {levelProgressText}
+                            </Text>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -520,9 +525,9 @@ function UserProfile(props: Props) {
                     </View>
                     <ClickableListItem
                         textStyle={styles.joinGroupButtonText}
-                        onPress={handleNewUserGroupJoinClick}
-                        title={t('joinNewGroup')}
-                        accessibilityLabel={t('joinNewGroup')}
+                        onPress={handleExploreGroupClick}
+                        title={t('exploreGroups')}
+                        accessibilityLabel={t('exploreGroups')}
                         hideIcon
                     />
                 </View>

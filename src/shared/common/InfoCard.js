@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     container: {
+        flexGrow: 1,
         backgroundColor: COLOR_WHITE,
         padding: 20,
     },

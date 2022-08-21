@@ -8,6 +8,7 @@ import database from '@react-native-firebase/database';
 
 import { withTranslation } from 'react-i18next';
 import {
+    Alert,
     View,
     StyleSheet,
     ScrollView,
@@ -27,6 +28,7 @@ import {
     FONT_SIZE_LARGE,
     FONT_SIZE_SMALL,
     SPACING_SMALL,
+    COLOR_YELLOW_OVERLAY,
 } from '../constants';
 import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
@@ -104,6 +106,11 @@ const styles = StyleSheet.create({
         paddingVertical: SPACING_SMALL,
     },
 
+    archivedInfo: {
+        padding: SPACING_MEDIUM,
+        backgroundColor: COLOR_YELLOW_OVERLAY,
+    },
+
     userGroupNameLabel: {
         fontWeight: FONT_WEIGHT_BOLD,
         color: COLOR_WHITE,
@@ -116,18 +123,21 @@ const styles = StyleSheet.create({
     },
 
     content: {
-        flexGrow: 1,
+        backgroundColor: COLOR_LIGHT_GRAY,
     },
 
     userGroupsStatsContainer: {
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'stretch',
         flexWrap: 'wrap',
         padding: SPACING_MEDIUM / 2,
     },
 
     card: {
-        width: '50%',
+        flexGrow: 1,
+        minWidth: 140,
+        flexBasis: '50%',
     },
 
     heatmapContainer: {
@@ -402,6 +412,8 @@ function UserGroup(props: Props) {
     }, [userGroupStatsData?.userGroup?.contributionStats]);
 
     const isUserMember = !!userGroupDetail?.users?.[userId];
+    const isGroupArchived =
+        !!userGroupDetail?.archivedAt || !!userGroupDetail?.archivedBy;
 
     return (
         <View style={styles.userGroup}>
@@ -429,8 +441,13 @@ function UserGroup(props: Props) {
                             </Text>
                         )}
                     </View>
+                    {isGroupArchived && (
+                        <View style={styles.archivedInfo}>
+                            <Text>{t('This group has been archived')}</Text>
+                        </View>
+                    )}
                     <ScrollView
-                        style={styles.content}
+                        contentContainerStyle={styles.content}
                         refreshControl={
                             <RefreshControl
                                 refreshing={
@@ -441,11 +458,29 @@ function UserGroup(props: Props) {
                             />
                         }
                     >
-                        {!isUserMember && (
+                        {!isUserMember && !isGroupArchived && (
                             <View style={styles.joinNewGroup}>
                                 <Button
                                     color={COLOR_SUCCESS_GREEN}
-                                    onPress={handleJoinUserGroup}
+                                    onPress={() => {
+                                        Alert.alert(
+                                            t('Join User Group'),
+                                            t(
+                                                'Are you sure you want to join this group?',
+                                            ),
+                                            [
+                                                {
+                                                    text: t('Cancel'),
+                                                    style: 'cancel',
+                                                },
+                                                {
+                                                    text: t('OK'),
+                                                    onPress:
+                                                        handleJoinUserGroup,
+                                                },
+                                            ],
+                                        );
+                                    }}
                                     title={t('joinGroup')}
                                     accessibilityLabel={t('joinGroup')}
                                 />
@@ -489,7 +524,9 @@ function UserGroup(props: Props) {
                                 ))}
                             {!usersPending && (!users || users?.length === 0) && (
                                 <View>
-                                    <Text>This groups has no members</Text>
+                                    <Text>
+                                        {t('This groups has no member')}
+                                    </Text>
                                 </View>
                             )}
                         </View>
@@ -500,7 +537,25 @@ function UserGroup(props: Props) {
                                 </Text>
                                 <ClickableListItem
                                     textStyle={styles.leaveButtonText}
-                                    onPress={handleLeaveUserGroup}
+                                    onPress={() => {
+                                        Alert.alert(
+                                            t('Leave User Group'),
+                                            t(
+                                                'Are you sure you want to leave this group?\n\nAfter you leave the group, you will still remain on the leaderboard. Contributions you made while a member of the group will still be counted towards the group.  Contributions after you leave will no longer be counted towards the group.',
+                                            ),
+                                            [
+                                                {
+                                                    text: t('Cancel'),
+                                                    style: 'cancel',
+                                                },
+                                                {
+                                                    text: t('OK'),
+                                                    onPress:
+                                                        handleLeaveUserGroup,
+                                                },
+                                            ],
+                                        );
+                                    }}
                                     title={t('leaveGroup')}
                                     accessibilityLabel={t('leaveGroup')}
                                     hideIcon
