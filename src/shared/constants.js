@@ -90,9 +90,3 @@ export const tutorialModes = {
 
 // various urls
 export const devOsmUrl = 'https://master.apis.dev.openstreetmap.org/';
-
-export const chevronRight = `
-<svg width="17" height="26" viewBox="0 0 17 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M3.23404 1L1 3.1L11.5356 13L1 22.9L3.23404 25L16 13L3.23404 1Z" fill="#262626" stroke="#262626" stroke-width="0.942857"/>
-</svg>
-`;

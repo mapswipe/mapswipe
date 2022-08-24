@@ -24,7 +24,6 @@ import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
 import UserProfile from './views/UserProfile';
 import LanguageSelectionScreen from './common/LanguageSelectionScreen';
-import UserGroupScreen from './common/UserGroupScreen';
 import LanguageSelectionSplashScreen from './common/LanguageSelectionSplashScreen';
 import Mapper from './views/Mapper';
 import ProjectNav from './views/ProjectNav';
@@ -35,7 +34,6 @@ import debugInfo from '../../debugInfo';
 import UserGroup from './views/UserGroup';
 import SearchUserGroup from './views/SearchUserGroup';
 import ChangeUserName from './views/ChangeUserName';
-import ChangePassword from './views/ChangePassword';
 import LanguageSelection from './views/LanguageSelection';
 
 // the prefix for deeplinks used in OAuth in particular
@@ -306,7 +304,6 @@ const MainNavigator = createStackNavigator(
         ChangeDetectionScreen,
         CDInstructionsScreen,
         LanguageSelectionScreen,
-        UserGroupScreen,
         ProjectNav,
         ProjectView,
         Mapper,
@@ -314,7 +311,6 @@ const MainNavigator = createStackNavigator(
         UserGroup,
         SearchUserGroup,
         ChangeUserName,
-        ChangePassword,
         LanguageSelection,
         UserProfile,
     },
