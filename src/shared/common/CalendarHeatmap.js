@@ -25,10 +25,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
 
-    emptyText: {
-        opacity: 0.5,
-    },
-
     dayList: {
         flexDirection: 'row',
     },
@@ -76,17 +72,13 @@ function CalendarHeatmap(props: Props) {
 
     return (
         <View style={[styles.calendarHeatmap, style]}>
-            {(!data || data.length) < 5 && (
-                <Text style={styles.emptyText}>
-                    Not enough data to display heatmap
-                </Text>
-            )}
             <View style={styles.dayList}>
                 {Array.from(new Array(7).keys()).map(key => {
                     const day = daysOfWeek[key];
 
                     return (
                         <View
+                            key={key}
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'center',
@@ -110,21 +102,22 @@ function CalendarHeatmap(props: Props) {
             {dateKeys.map((dateKey, index) => {
                 const value = data[dateKey] ?? 0;
                 let color = COLOR_CALENDAR_GRAPH_BACKGROUND;
+                let opacity = 1;
 
-                if (value > 0.1 && value < 0.25) {
-                    color = COLOR_CALENDAR_GRAPH_DAY_L1;
-                }
-
-                if (value >= 0.25 && value < 0.5) {
-                    color = COLOR_CALENDAR_GRAPH_DAY_L2;
-                }
-
-                if (value >= 0.5 && value < 0.75) {
-                    color = COLOR_CALENDAR_GRAPH_DAY_L3;
-                }
-
-                if (value >= 0.75) {
-                    color = COLOR_CALENDAR_GRAPH_DAY_L4;
+                if (value > 0) {
+                    if (value < 0.25) {
+                        color = COLOR_CALENDAR_GRAPH_DAY_L1;
+                        opacity = 0.5 + (value / 0.25 - 0.5);
+                    } else if (value < 0.5) {
+                        color = COLOR_CALENDAR_GRAPH_DAY_L2;
+                        opacity = 0.5 + (value / 0.5 - 0.5);
+                    } else if (value < 0.75) {
+                        color = COLOR_CALENDAR_GRAPH_DAY_L3;
+                        opacity = 0.5 + (value / 0.75 - 0.5);
+                    } else {
+                        color = COLOR_CALENDAR_GRAPH_DAY_L4;
+                        opacity = value;
+                    }
                 }
 
                 return (
@@ -146,6 +139,7 @@ function CalendarHeatmap(props: Props) {
                                     width: '100%',
                                     height: '100%',
                                     backgroundColor: color,
+                                    opacity,
                                     borderColor: COLOR_CALENDAR_GRAPH_BORDER,
                                     borderWidth: 1,
                                     borderRadius: 5,

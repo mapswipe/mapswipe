@@ -20,6 +20,7 @@ import {
 import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
+import { SvgXml } from 'react-native-svg';
 
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import {
@@ -36,8 +37,10 @@ import {
     SPACING_EXTRA_SMALL,
     SPACING_SMALL,
     SPACING_MEDIUM,
+    FONT_SIZE_MEDIUM,
     supportedLanguages,
 } from '../constants';
+import { database as databaseIcon, externalLink } from '../common/SvgIcons';
 import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
@@ -72,7 +75,6 @@ const USER_STATS = gql`
                 totalMappingProjects
                 totalSwipe
                 totalSwipeTime
-                totalTask
             }
             statsLatest {
                 totalSwipe
@@ -88,6 +90,7 @@ const USER_STATS = gql`
 
 const styles = StyleSheet.create({
     myProfileScreen: {
+        height: '100%',
         backgroundColor: COLOR_LIGHT_GRAY,
     },
 
@@ -151,6 +154,22 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_LIGHT_GRAY,
     },
 
+    databaseIcon: {
+        marginRight: SPACING_SMALL,
+    },
+
+    cachedInfo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: SPACING_MEDIUM,
+        marginTop: SPACING_MEDIUM,
+        justifyContent: 'flex-end',
+    },
+
+    infoText: {
+        opacity: 0.5,
+    },
+
     statsContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -178,6 +197,11 @@ const styles = StyleSheet.create({
         padding: SPACING_MEDIUM,
     },
 
+    noGroups: {
+        marginBottom: SPACING_MEDIUM,
+        opacity: 0.5,
+    },
+
     settingsContainer: {
         padding: SPACING_MEDIUM,
     },
@@ -196,6 +220,12 @@ const styles = StyleSheet.create({
     },
 });
 
+type UserGroupType = {
+    name: string,
+    groupId: string,
+    archivedAt: string,
+};
+
 type OwnProps = {
     navigation: NavigationProp,
 };
@@ -206,6 +236,8 @@ type ReduxProps = {
     languageCode: string,
     progress: number,
     profile: Object,
+    navigation: Object,
+    // teamName: string,
 };
 
 type InjectedProps = {
@@ -221,8 +253,8 @@ const mapStateToProps = (state, ownProps): ReduxProps => ({
     progress: state.ui.user.progress,
 
     // TODO
-    teamId: state.ui.user.teamId,
-    teamName: state.firebase.data.teamName,
+    // teamId: state.ui.user.teamId,
+    // teamName: state.firebase.data.teamName,
 });
 
 const enhance = compose(
@@ -234,6 +266,7 @@ const enhance = compose(
 type Stat = {
     title: string,
     value: string,
+    cached?: boolean,
 };
 
 type Props = OwnProps & ReduxProps & InjectedProps;
@@ -274,41 +307,56 @@ function UserProfile(props: Props) {
         },
     });
 
-    const [userGroups, setUserGroups] = React.useState();
+    const [userGroups, setUserGroups] = React.useState([]);
+    (userGroups: UserGroupType[]);
 
-    const loadUserGroups = React.useCallback(async () => {
+    const loadUserGroups = React.useCallback(() => {
         const db = database();
 
-        const userGroupsOfUsersQuery = db.ref(`v2/users/${userId}/userGroups/`);
+        const userGroupsOfUserQuery = db.ref(`v2/users/${userId}/userGroups/`);
 
-        try {
-            const userGroupsSnapshot = await userGroupsOfUsersQuery.once(
-                'value',
-            );
+        const handleGroupsOfUserLoad = async userGroupsSnapshot => {
             if (!userGroupsSnapshot.exists()) {
+                setUserGroups([]);
                 return;
             }
 
-            const userGroupsOfUser = userGroupsSnapshot.val();
-            const groupKeys = Object.keys(userGroupsOfUser);
-            const promises = groupKeys.map(groupKey => {
-                return db.ref(`v2/userGroups/${groupKey}`).once('value');
-            });
+            try {
+                const userGroupsOfUser = userGroupsSnapshot.val();
+                const groupKeys = Object.keys(userGroupsOfUser);
+                const promises = groupKeys.map(groupKey => {
+                    return db.ref(`v2/userGroups/${groupKey}`).once('value');
+                });
 
-            const userGroupSnapshots = await Promise.all(promises);
-            const userGroupsFromFirebase = userGroupSnapshots.map(snapshot => ({
-                groupId: snapshot.key,
-                ...snapshot.val(),
-            }));
+                const userGroupSnapshots = await Promise.all(promises);
+                const userGroupsFromFirebase = userGroupSnapshots.map(
+                    snapshot => ({
+                        groupId: snapshot.key,
+                        ...snapshot.val(),
+                    }),
+                );
 
-            setUserGroups(
-                Object.values(userGroupsFromFirebase).filter(
-                    group => !group.archivedAt,
-                ),
-            );
-        } catch (error) {
+                const newUserGroups = ((Object.values(
+                    userGroupsFromFirebase,
+                ): any): Array<UserGroupType>);
+
+                const nonArchivedUserGroups = newUserGroups.filter(
+                    (group: UserGroupType) => !group.archivedAt,
+                );
+
+                setUserGroups(nonArchivedUserGroups);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        userGroupsOfUserQuery.on('value', handleGroupsOfUserLoad, error => {
             console.error(error);
-        }
+        });
+
+        return () => {
+            userGroupsOfUserQuery.off('value', handleGroupsOfUserLoad);
+        };
     }, [userId]);
 
     const calendarHeatmapData = React.useMemo(() => {
@@ -317,7 +365,7 @@ function UserProfile(props: Props) {
             return {};
         }
 
-        const MAX_SWIPE_PER_DAY = 150;
+        const MAX_SWIPE_PER_DAY = 200;
 
         const contributionStatsMap = contributionStats.reduce((acc, val) => {
             acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
@@ -342,30 +390,39 @@ function UserProfile(props: Props) {
             0,
         );
 
+        const organizationsSupported =
+            userStatsData?.user?.organizationSwipeStats?.length ?? '-';
+
         return [
             {
-                title: 'Tasks Completed',
+                title: t('Tasks Completed'),
                 value: tasksCompleted,
+                cached: false,
             },
             {
-                title: 'Swipe Quality Score',
+                title: t('Swipe Quality Score'),
                 value: '-',
+                cached: true,
             },
             {
-                title: 'Total time spent swipping (min)',
+                title: t('Total time spent swipping (min)'),
                 value: swipeTime ?? '-',
+                cached: true,
             },
             {
-                title: 'Cumulative area swiped (sq.km)',
+                title: t('Cumulative area swiped (sq.km)'),
                 value: swipeArea?.toFixed(5) ?? '-',
+                cached: true,
             },
             {
-                title: 'Mapping Missions',
+                title: t('Mapping Missions'),
                 value: projectContributions,
+                cached: false,
             },
             {
-                title: 'Organization supported',
-                value: '-',
+                title: t('Organization supported'),
+                value: organizationsSupported,
+                cached: true,
             },
         ];
     }, [profile, userStatsData]);
@@ -494,6 +551,14 @@ function UserProfile(props: Props) {
                     />
                 }
             >
+                <View style={styles.cachedInfo}>
+                    <SvgXml
+                        style={styles.databaseIcon}
+                        xml={databaseIcon}
+                        height={FONT_SIZE_SMALL}
+                    />
+                    <Text style={styles.infoText}>{t('Cached Stats')}</Text>
+                </View>
                 <View style={styles.statsContainer}>
                     {userStats.map(stat => (
                         <InfoCard
@@ -501,6 +566,7 @@ function UserProfile(props: Props) {
                             title={stat.title}
                             value={stat.value}
                             style={styles.card}
+                            iconXml={stat.cached ? databaseIcon : undefined}
                         />
                     ))}
                 </View>
@@ -511,7 +577,7 @@ function UserProfile(props: Props) {
                     <CalendarHeatmap data={calendarHeatmapData} />
                 </View>
                 <View style={styles.userGroupsContainer}>
-                    <Text style={styles.headingText}> {t('userGroups')} </Text>
+                    <Text style={styles.headingText}>{t('userGroups')} </Text>
                     <View>
                         {userGroups?.map(userGroup => (
                             <ClickableListItem
@@ -521,7 +587,11 @@ function UserProfile(props: Props) {
                                 onPress={handleUserGroupClick}
                             />
                         ))}
-                        {userGroups?.length === 0 && <Text>No groups yet</Text>}
+                        {userGroups?.length === 0 && (
+                            <View style={styles.noGroups}>
+                                <Text>{t('No groups yet')}</Text>
+                            </View>
+                        )}
                     </View>
                     <ClickableListItem
                         textStyle={styles.joinGroupButtonText}
@@ -532,14 +602,12 @@ function UserProfile(props: Props) {
                     />
                 </View>
                 <View style={styles.settingsContainer}>
-                    <Text style={styles.headingText}> {t('settings')} </Text>
+                    <Text style={styles.headingText}>{t('settings')} </Text>
                     <ClickableListItem
-                        style={styles.button}
                         onPress={handleUserNameChangeClick}
                         title={t('changeUserName')}
                     />
                     <ClickableListItem
-                        style={styles.button}
                         onPress={() => {
                             Alert.alert(
                                 t('Reset Password'),
@@ -563,15 +631,14 @@ function UserProfile(props: Props) {
                             );
                         }}
                         title={t('Reset Password')}
+                        hideIcon
                     />
                     <ClickableListItem
-                        style={styles.button}
                         onPress={handleLanguageClick}
                         title={t('language')}
                         icon={<Text>{selectedLanguage?.name}</Text>}
                     />
                     <ClickableListItem
-                        style={styles.button}
                         onPress={() => {
                             Alert.alert(
                                 t('sign out'),
@@ -623,19 +690,34 @@ function UserProfile(props: Props) {
                 </View>
                 <View style={styles.infoContainer}>
                     <ClickableListItem
-                        style={styles.button}
                         onPress={handleMapSwipeWebsiteClick}
                         title={t('mapSwipeWebsite')}
+                        icon={
+                            <SvgXml
+                                height={FONT_SIZE_MEDIUM}
+                                xml={externalLink}
+                            />
+                        }
                     />
                     <ClickableListItem
-                        style={styles.button}
                         onPress={handleMissingMapsClick}
                         title={t('missingMaps')}
+                        icon={
+                            <SvgXml
+                                height={FONT_SIZE_MEDIUM}
+                                xml={externalLink}
+                            />
+                        }
                     />
                     <ClickableListItem
-                        style={styles.button}
                         onPress={handleEmailClick}
                         title={t('email')}
+                        icon={
+                            <SvgXml
+                                height={FONT_SIZE_MEDIUM}
+                                xml={externalLink}
+                            />
+                        }
                     />
                 </View>
             </ScrollView>

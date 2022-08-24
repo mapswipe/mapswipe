@@ -8,7 +8,6 @@ import fb from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
 import RNBootSplash from 'react-native-bootsplash';
 import RecommendedCards from './RecommendedCards';
-// import MoreOptions from './MoreOptions';
 import ScrollableTabView from '../common/ScrollableTabView/ScrollableTabView';
 import DefaultTabBar from '../common/ScrollableTabView/DefaultTabBar';
 import UserProfile from './UserProfile';
@@ -54,9 +53,6 @@ class _ProjectNav extends React.Component<Props> {
                     navigation={navigation}
                     tabLabel={t('userProfile')}
                 />
-                {/*
-                <MoreOptions navigation={navigation} tabLabel={t('more')} />
-                */}
             </ScrollableTabView>
         );
     }

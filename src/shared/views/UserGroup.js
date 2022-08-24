@@ -5,6 +5,7 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { gql, useQuery } from '@apollo/client';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import { SvgXml } from 'react-native-svg';
 
 import { withTranslation } from 'react-i18next';
 import {
@@ -30,6 +31,7 @@ import {
     SPACING_SMALL,
     COLOR_YELLOW_OVERLAY,
 } from '../constants';
+import { database as databaseIcon } from '../common/SvgIcons';
 import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
 import CalendarHeatmap from '../common/CalendarHeatmap';
@@ -164,6 +166,22 @@ const styles = StyleSheet.create({
         padding: SPACING_MEDIUM,
     },
 
+    databaseIcon: {
+        marginRight: SPACING_SMALL,
+    },
+
+    cachedInfo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: SPACING_MEDIUM,
+        justifyContent: 'flex-end',
+        marginTop: SPACING_MEDIUM,
+    },
+
+    infoText: {
+        opacity: 0.5,
+    },
+
     joinNewGroup: {
         margin: SPACING_MEDIUM,
     },
@@ -176,6 +194,7 @@ const styles = StyleSheet.create({
 type Stat = {
     title: string,
     value: string,
+    cached?: boolean,
 };
 
 type OwnProps = {
@@ -365,30 +384,40 @@ function UserGroup(props: Props) {
                 0,
             );
 
+        const organizationsSupported =
+            userGroupStatsData?.userGroup?.userGroupOrganizationStats?.length ??
+            '-';
+
         return [
             {
-                title: 'Swipes Completed',
+                title: t('Tasks Completed'),
                 value: totalSwipes,
+                cached: false,
             },
             {
-                title: 'Swipe Quality Score',
+                title: t('Swipe Quality Score'),
                 value: '-',
+                cached: true,
             },
             {
-                title: 'Total time spent swipping (min)',
+                title: t('Total time spent swipping (min)'),
                 value: totalSwipeTime,
+                cached: true,
             },
             {
-                title: 'Cumulative area swiped (sq.km)',
+                title: t('Cumulative area swiped (sq.km)'),
                 value: swipeArea?.toFixed(5) ?? '-',
+                cached: true,
             },
             {
-                title: 'Mapping Projects',
+                title: t('Mapping Projects'),
                 value: mappingProjects,
+                cached: false,
             },
             {
-                title: 'Organization supported',
-                value: '-',
+                title: t('Organization supported'),
+                value: organizationsSupported,
+                cached: true,
             },
         ];
     }, [userGroupStatsData]);
@@ -401,7 +430,7 @@ function UserGroup(props: Props) {
             return {};
         }
 
-        const MAX_SWIPE_PER_DAY = 500;
+        const MAX_SWIPE_PER_DAY = 600;
 
         const contributionStatsMap = contributionStats.reduce((acc, val) => {
             acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
@@ -458,6 +487,16 @@ function UserGroup(props: Props) {
                             />
                         }
                     >
+                        <View style={styles.cachedInfo}>
+                            <SvgXml
+                                style={styles.databaseIcon}
+                                xml={databaseIcon}
+                                height={FONT_SIZE_SMALL}
+                            />
+                            <Text style={styles.infoText}>
+                                {t('Cached Stats')}
+                            </Text>
+                        </View>
                         {!isUserMember && !isGroupArchived && (
                             <View style={styles.joinNewGroup}>
                                 <Button
@@ -493,6 +532,9 @@ function UserGroup(props: Props) {
                                     title={stat.title}
                                     value={stat.value}
                                     style={styles.card}
+                                    iconXml={
+                                        stat.cached ? databaseIcon : undefined
+                                    }
                                 />
                             ))}
                         </View>

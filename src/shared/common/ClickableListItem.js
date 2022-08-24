@@ -14,8 +14,9 @@ import {
     COLOR_DARK_GRAY,
     FONT_SIZE_SMALL,
     SPACING_MEDIUM,
-    chevronRight,
 } from '../constants';
+
+import { chevronRight } from './SvgIcons';
 
 const styles = StyleSheet.create({
     clickableListItem: {
