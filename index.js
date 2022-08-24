@@ -12,6 +12,8 @@ import '@react-native-firebase/database';
 import '@react-native-firebase/storage';
 import * as Sentry from '@sentry/react-native';
 import { PersistGate } from 'redux-persist/integration/react';
+
+// $FlowIssue[cannot-resolve-module]
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import './src/shared/i18n';

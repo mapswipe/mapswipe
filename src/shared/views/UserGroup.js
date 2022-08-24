@@ -2,6 +2,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
+// $FlowIssue[cannot-resolve-module]
 import { gql, useQuery } from '@apollo/client';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';

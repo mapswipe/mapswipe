@@ -281,3 +281,11 @@ export type TutorialContent = {
     description: string,
     icon: string,
 };
+
+export type UserGroupType = {
+    name: string,
+    nameKey: string,
+    description: string,
+    archivedAt: string,
+    archivedBy: string,
+};

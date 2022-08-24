@@ -3,6 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+// $FlowIssue[cannot-resolve-module]
 import { gql, useQuery } from '@apollo/client';
 import auth, { firebase } from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -22,7 +23,11 @@ import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
 import { SvgXml } from 'react-native-svg';
 
-import type { NavigationProp, TranslationFunction } from '../flow-types';
+import type {
+    NavigationProp,
+    TranslationFunction,
+    UserGroupType,
+} from '../flow-types';
 import {
     COLOR_WHITE,
     COLOR_DEEP_BLUE,
@@ -220,10 +225,8 @@ const styles = StyleSheet.create({
     },
 });
 
-type UserGroupType = {
-    name: string,
+type UserGroupWithGroupId = UserGroupType & {
     groupId: string,
-    archivedAt: string,
 };
 
 type OwnProps = {
@@ -308,7 +311,7 @@ function UserProfile(props: Props) {
     });
 
     const [userGroups, setUserGroups] = React.useState([]);
-    (userGroups: UserGroupType[]);
+    (userGroups: UserGroupWithGroupId[]);
 
     const loadUserGroups = React.useCallback(() => {
         const db = database();
@@ -338,10 +341,10 @@ function UserProfile(props: Props) {
 
                 const newUserGroups = ((Object.values(
                     userGroupsFromFirebase,
-                ): any): Array<UserGroupType>);
+                ): any): Array<UserGroupWithGroupId>);
 
                 const nonArchivedUserGroups = newUserGroups.filter(
-                    (group: UserGroupType) => !group.archivedAt,
+                    (group: UserGroupWithGroupId) => !group.archivedAt,
                 );
 
                 setUserGroups(nonArchivedUserGroups);
@@ -438,7 +441,7 @@ function UserProfile(props: Props) {
     }, [navigation]);
 
     const handleUserGroupClick = React.useCallback(
-        (userGroupId: string) => {
+        (userGroupId?: string) => {
             navigation.navigate('UserGroup', { userGroupId });
         },
         [navigation],
