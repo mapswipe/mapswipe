@@ -21,7 +21,7 @@ import {
     SPACING_MEDIUM,
     FONT_WEIGHT_BOLD,
 } from '../constants';
-import type { TranslationFunction } from '../flow-types';
+import type { TranslationFunction, UserGroupType } from '../flow-types';
 import { rankedSearchOnList } from '../utils';
 
 const styles = StyleSheet.create({
@@ -81,6 +81,10 @@ const styles = StyleSheet.create({
     },
 });
 
+type UserGroupWithKey = UserGroupType & {
+    key: string,
+};
+
 type OwnProps = {
     navigation: Object,
 };
@@ -98,6 +102,7 @@ function SearchUserGroup(props: Props) {
     const [loadingUserGroups, setLoadingUserGroups] = React.useState(false);
     const [searchText, setSearchText] = React.useState('');
     const [userGroups, setUserGroups] = React.useState([]);
+    (userGroups: UserGroupWithKey[]);
     const [matchingUserGroups, setMatchingUserGroups] = React.useState([]);
 
     const queryText = searchText.trim().toLowerCase();
@@ -107,17 +112,18 @@ function SearchUserGroup(props: Props) {
 
         const handleUserGroupsLoad = snapshot => {
             if (snapshot.exists()) {
-                const newUserGroups = Object.entries(snapshot.val()).map(
+                const newUserGroups = ((Object.entries(snapshot.val()).map(
                     ([key, group]) => ({
                         key,
                         ...group,
                     }),
-                );
-                setUserGroups(
-                    newUserGroups.filter(
-                        ug => !ug.archivedAt && !ug.archivedBy,
-                    ),
-                );
+                ): any): Array<UserGroupWithKey>);
+
+                const nonArchivedUserGroups = ((newUserGroups.filter(
+                    (ug: UserGroupWithKey) => !ug.archivedAt && !ug.archivedBy,
+                ): any): UserGroupWithKey[]);
+
+                setUserGroups(nonArchivedUserGroups);
             } else {
                 setUserGroups([]);
             }

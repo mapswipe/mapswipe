@@ -107,7 +107,6 @@ function ChangeUserName(props: Props) {
                     value={userName}
                     editable={false}
                     maxLength={128}
-                    disabled={updatePending}
                 />
                 <Text style={styles.label}>{t('newUserName')}</Text>
                 <TextInput
@@ -115,7 +114,7 @@ function ChangeUserName(props: Props) {
                     onChangeText={setNewUserName}
                     value={newUserName}
                     maxLength={128}
-                    disabled={updatePending}
+                    editable={!updatePending}
                 />
                 <View style={styles.actions}>
                     <Button

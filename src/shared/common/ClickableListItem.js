@@ -43,17 +43,17 @@ const styles = StyleSheet.create({
 });
 
 type ClickableListItemProps<N> = {
-    name: N,
+    name?: N,
     accessibilityLabel?: string,
     hideIcon?: boolean,
     icon?: Node,
-    onPress: (name: N) => void,
-    style: ViewStyleProp,
+    onPress: (name?: N) => void,
+    style?: ViewStyleProp,
     title: string,
-    textStyle: TextStyleProp,
+    textStyle?: TextStyleProp,
 };
 
-function ClickableListItem(props: ClickableListItemProps) {
+function ClickableListItem<N = any>(props: ClickableListItemProps<N>): any {
     const {
         name,
         title,
