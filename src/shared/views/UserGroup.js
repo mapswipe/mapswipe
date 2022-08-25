@@ -431,7 +431,7 @@ function UserGroup(props: Props) {
             return {};
         }
 
-        const MAX_SWIPE_PER_DAY = 600;
+        const MAX_SWIPE_PER_DAY = 2200;
 
         const contributionStatsMap = contributionStats.reduce((acc, val) => {
             acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
