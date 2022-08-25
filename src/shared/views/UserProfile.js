@@ -343,11 +343,7 @@ function UserProfile(props: Props) {
                     userGroupsFromFirebase,
                 ): any): Array<UserGroupWithGroupId>);
 
-                const nonArchivedUserGroups = newUserGroups.filter(
-                    (group: UserGroupWithGroupId) => !group.archivedAt,
-                );
-
-                setUserGroups(nonArchivedUserGroups);
+                setUserGroups(newUserGroups);
             } catch (error) {
                 console.error(error);
             }
@@ -368,7 +364,7 @@ function UserProfile(props: Props) {
             return {};
         }
 
-        const MAX_SWIPE_PER_DAY = 200;
+        const MAX_SWIPE_PER_DAY = 800;
 
         const contributionStatsMap = contributionStats.reduce((acc, val) => {
             acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
@@ -586,7 +582,11 @@ function UserProfile(props: Props) {
                             <ClickableListItem
                                 key={userGroup.groupId}
                                 name={userGroup.groupId}
-                                title={userGroup.name}
+                                title={
+                                    userGroup.archivedAt || userGroup.archivedBy
+                                        ? `${userGroup.name} (Archived)`
+                                        : userGroup.name
+                                }
                                 onPress={handleUserGroupClick}
                             />
                         ))}
