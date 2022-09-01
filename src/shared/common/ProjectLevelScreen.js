@@ -261,8 +261,10 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         let content = '';
         if (!tutorial) {
             const creditString = this.getCreditString();
+            // $FlowFixMe
             content = getNormalHelpContent(creditString);
         } else {
+            // $FlowFixMe
             content = tutorialHelpContent;
         }
 
