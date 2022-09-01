@@ -18,11 +18,11 @@ buildscript {
          * compile your app. This means your app can use the API features included in
          * this API level and lower.
          */
-        compileSdkVersion = 30
+        compileSdkVersion = 31
         // targetSdkVersion specifies the API level used to test the app.
-        targetSdkVersion = 30
+        targetSdkVersion = 31
         androidXCore = "1.0.2"
-        kotlinVersion = '1.3.72'
+        kotlinVersion = '1.6.21'
         ndkVersion = "20.1.5948944"
     }
     repositories {

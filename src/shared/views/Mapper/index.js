@@ -225,7 +225,7 @@ class _Mapper extends React.Component<Props, State> {
         const { t, tutorial } = this.props;
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);
-        let twoTaps;
+        let twoTaps: Object;
 
         if (projectObj.projectType === 4) {
             twoTaps = { twoTaps: t('incomplete') };
