@@ -259,6 +259,7 @@ class _Mapper extends React.Component<Props, State> {
                             , twice for&nbsp;
                             {/* $FlowFixMe */}
                             <Text style={{ color: 'rgb(237, 209, 28)' }}>
+                                {/* $FlowFixMe */}
                                 {twoTaps}
                             </Text>
                             , and three times for&nbsp;

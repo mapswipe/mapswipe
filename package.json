@@ -90,7 +90,7 @@
     "eslint-plugin-react-native": "^3.8.1",
     "eslint_d": "^10.1.0",
     "firebase-mock": "^2.2.10",
-    "flow-bin": "^0.149.0",
+    "flow-bin": "^0.186.0",
     "jest": "^27.0.0",
     "jsonlint": "^1.6.3",
     "metro-react-native-babel-preset": "^0.66.0",

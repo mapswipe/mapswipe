@@ -248,6 +248,7 @@ class Main extends React.Component<Props, State> {
                         />
                         <Button
                             style={style.startButton}
+                            // $FlowFixMe
                             onPress={this.closeModal3}
                             textStyle={{
                                 fontSize: 13,

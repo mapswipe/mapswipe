@@ -96,6 +96,7 @@ export const mapStateToPropsForGroups =
             groupsMapped = Object.keys(contributions[projectId]);
         }
         if (tutorial) {
+            // $FlowFixMe
             projectId = tutorialProjectId;
         }
         // screens holds the text content for each screen of the tutorial
