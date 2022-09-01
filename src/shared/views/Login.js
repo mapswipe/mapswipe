@@ -15,7 +15,7 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import CheckBox from 'react-native-check-box';
+import CheckBox from '@react-native-community/checkbox';
 import { MessageBarManager } from 'react-native-message-bar';
 import RNBootSplash from 'react-native-bootsplash';
 import debugInfo from '../../../debugInfo';
@@ -513,7 +513,7 @@ class _Login extends React.Component<Props, State> {
                     testID="signup_email"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    autoCompleteType="email"
+                    autoComplete="email"
                     keyboardType="email-address"
                     placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
@@ -560,10 +560,8 @@ class _Login extends React.Component<Props, State> {
                 <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
                     <CheckBox
                         style={{ flex: 1, padding: 5, maxWidth: 30 }}
-                        checkedCheckBoxColor={COLOR_WHITE}
-                        uncheckedCheckBoxColor={COLOR_WHITE}
-                        isChecked={signupPPChecked}
-                        onClick={() =>
+                        value={signupPPChecked}
+                        onChange={() =>
                             this.setState({ signupPPChecked: !signupPPChecked })
                         }
                     />
@@ -640,7 +638,7 @@ class _Login extends React.Component<Props, State> {
                     testID="login_email"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    autoCompleteType="email"
+                    autoComplete="email"
                     keyboardType="email-address"
                     placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
@@ -796,10 +794,8 @@ class _Login extends React.Component<Props, State> {
                 <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
                     <CheckBox
                         style={{ flex: 1, padding: 5, maxWidth: 30 }}
-                        checkedCheckBoxColor={COLOR_WHITE}
-                        uncheckedCheckBoxColor={COLOR_WHITE}
-                        isChecked={signupOSMPPChecked}
-                        onClick={() =>
+                        value={signupOSMPPChecked}
+                        onChange={() =>
                             this.setState({
                                 signupOSMPPChecked: !signupOSMPPChecked,
                             })

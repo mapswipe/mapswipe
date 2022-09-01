@@ -38,9 +38,10 @@
 
       <!-- add an empty activity used to show the splashscreen -->
       <activity
-        android:name="com.zoontek.rnbootsplash.RNBootSplashActivity"
-        android:theme="@style/BootTheme"
-        android:launchMode="singleTask">
+          android:name="com.zoontek.rnbootsplash.RNBootSplashActivity"
+          android:theme="@style/BootTheme"
+          android:exported="true"
+          android:launchMode="singleTask">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
