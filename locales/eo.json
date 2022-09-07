@@ -1,0 +1,213 @@
+{
+  "mainHeader": {
+    "missions": "Misioj",
+    "more": "Pli"
+  },
+  "signup": {
+    "chooseUsername": "Elektu vian uzantnomon",
+    "passwordError": "Pasvorto devas esti almenaŭ 6 signoj longa",
+    "usernameError": "Uzantnomo devas esti almenaŭ 4 signoj longa",
+    "errorOnSignup": "Eraro pri registriĝi",
+    "usernameErrorMessage": "Via uzantnomo devas esti 4 signoj aŭ pli",
+    "usernameNotEmail": "Via uzantnomo ne povas esti retpoŝto",
+    "usernamePublic": "Via uzantnomo estos publike videbla",
+    "success": "Sukceso",
+    "welcomeToMapSwipe": "Bonvenon al MapSwipe, {{username}}",
+    "emailAlreadyUsed": "Retpoŝto jam uzata de alia konto",
+    "emailInvalid": "Retpoŝta adreso estas nevalida",
+    "problemSigningUp": "Problemo subskribante",
+    "errorOnSignUp": "Eraro pri registriĝi",
+    "checkYourEmail": "Kontrolu vian leterkeston",
+    "noAccountFoundForEmail": "Neniu konto trovita por ĉi tiu retpoŝto",
+    "problemResettingPassword": "Problemo restarigante vian pasvorton",
+    "errorLogIn": "Eraro pri ensaluto",
+    "invalidEmailPassword": "Nevalida retpoŝto aŭ pasvorto",
+    "accountDisabled": "Konto malebligita",
+    "problemLoggingIn": "Problemo ensalutante",
+    "errorResetPass": "Eraro restarigi pasvorton",
+    "enterYourEmail": "Enigu vian retpoŝton",
+    "choosePassword": "Elektu vian pasvorton",
+    "enterYourPassword": "Enigu vian pasvorton",
+    "IagreeToPrivacyNotice": "Mi konsentas pri la <1>avizo pri privateco</1>",
+    "contributionWarningOnSignup": "* Ĉiuj datumoj, kiujn vi kontribuas al MapsWipe, estas malfermitaj kaj haveblaj al iu ajn. Via uzantnomo estas publika, sed via retpoŝto kaj pasvorto neniam estos dividitaj kun iu ajn.",
+    "signUp": "Registriĝi",
+    "loginExistingAccount": "Ensalutu al ekzistanta konto",
+    "login": "Ensaluti",
+    "loginSignupWithOSM": "Ensaluti kun OpenStreetMap",
+    "OSMsignupExplanation": "Vi povas registriĝi al MapsWipe per via OpenStreetMap-konto. Se vi jam havas Mapswipe-konton, ĉi tio ne kunligos ilin! (Ĉi tio baldaŭ venos en estonta eldono)",
+    "forgotPassword": "Ĉu vi forgesis vian pasvorton?",
+    "createNewAccount": "Krei Novan Konton",
+    "sendResetEmailWarning": "* Ni sendos al vi retpoŝton por restarigi vian pasvorton",
+    "sendResetEmail": "Sendu Reset Retpoŝton",
+    "backToLogin": "Reen al ensaluto"
+  },
+  "login": {
+    "enterUsername": "Enigu vian uzantnomon"
+  },
+  "profileScreen": {
+    "Level X": "Nivelo {{level}}",
+    "youve completed x tasks": "Vi kompletigis {{contributions}} taskoj!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} taskoj ({{swipes}} glitoj) ĝis la sekva nivelo",
+    "yourTeam": "Via teamo: {{teamName}}",
+    "changeLanguage": "Ŝanĝi Lingvon",
+    "mapswipe website": "Retejo de Mapswipe",
+    "missingmaps website": "Retejo de Missing Maps",
+    "email us": "Retpoŝti nin",
+    "sign out": "Elsaluti",
+    "delete my account": "Forigi mian konton",
+    "delete account question": "Ĉu forigi konton?",
+    "delete account warning": "Vi perdos ĉiujn viajn progresojn kaj insignojn. Viaj kontribuoj restos publikaj sed ne plu ligitaj al via konto.\nĈu vi ŝatus daŭrigi?",
+    "no keep my account": "Ne, konservu mian konton",
+    "yes delete it": "Jes, forigu ĝin!"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% de {{mappersCount}} mapistoj"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% TUTA PROGRESO DE {{contributorCount}} MAPISTOJ SAME KIEL VI.",
+    "userProgressForProject": "{{userProgress}}% por ĉi tiu projekto",
+    "quotaReachedWarning": "Elektu alian projekton el la misiaj ekranoj",
+    "map now": "Mapu nun",
+    "chooseAnotherProject": "Elektu alian projekton",
+    "tutorial": "Lernilo"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Vi serĉas:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Bona. Vi kompletigis la lernilon. Vi pretas fari iom da mapado!",
+    "finishedGroup": "Bonega laboro! Vi finis ĉi tiun grupon.",
+    "letsGo": "Ni iru!",
+    "completeSession": "Kompletu kunsido",
+    "continueMapping": "Daŭrigu Mapi",
+    "sync alert": "Sinkroniga atentigo",
+    "sync alert message": "Sinkronigante viajn taskojn ... ne fermu la aplikon."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Bonvenon al Mapswipe",
+    "helpImprove": "Helpu plibonigi humanajn respondojn de la komforto de via telefono",
+    "partMissingMaps": "Parto de Missing Maps",
+    "withMissingMaps": "Kun Missing Maps, ni celas meti la vundeblajn komunumojn de la mondo sur la mapon",
+    "swipe": "Glitu",
+    "completeTasks": "Kompletigu taskojn per glitado de satelitaj bildoj de areoj, kiuj bezonas mapadon",
+    "createData": "Krei signifajn datumojn",
+    "dataUse": "La datumoj estas uzataj por koncentri la klopodojn de volontuloj de Missing Maps por aldoni detalojn al OpenStreetMap",
+    "saveLives": "Savu vivojn",
+    "mapHelps": "La mapo helpas organizojn kunordigi humanajn klopodojn kaj savi vivojn"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instrukcioj",
+    "your task": "Via tasko:",
+    "lookingFor": "Vi serĉas <1>ŝanĝojn en konstruaĵoj</1>. Ĉi tio funkcias kiel klara indikilo por ŝanĝo en la grandeco de la loĝantaro.",
+    "perform task": "Kiel plenumi la taskon:",
+    "noChanges": "Se ne estas ŝanĝoj, simple <1>glitu</1> al la sekvaj fotoj",
+    "seeChanges": "Se vi vidas ŝanĝon en konstruaĵoj, <1>frapu unufoje</1> kaj la kahelo fariĝas verda",
+    "unsure": "Ĉu vi ne certas? <1>Frapu dufoje</1> kaj la kahelo fariĝos flava",
+    "badImagery": "Bilda temo, kiel se unu bildo havas nubojn kovrantajn la vidon? <1>Frapu tri fojojn</1> kaj la kahelo fariĝos ruĝa",
+    "holdZoom": "Se vi bezonas vidi bildon pli detale, frapu kaj tenu la bildon kaj ĝi zumos iom pli.",
+    "hint": "Aludo:",
+    "differentImagery": "Foje malsamaj bildaj fontoj estos uzataj. La bildoj povas esti vicigitaj iomete malsame aŭ povus esti malsama rezolucio. Memoru, vi serĉas <1>difinitajn ŝanĝojn en kompromisoj kaj konstruaĵoj</1>, do se ĝi aspektas kiel la samaj konstruaĵoj estas tie, sed eble estas nova tegmento, tiam ĉi tio estus \"neniu ŝanĝo\" scenaro kaj vi simple glitus al la sekva bildo."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Vidi instrukciojn"
+  },
+  "CDTaskScreen": {
+    "before": "Antaŭe",
+    "after": "Malantaŭe"
+  },
+  "CDValidator": {
+    "Yes": "Jes",
+    "No": "Ne",
+    "NotSure": "Ne certas",
+    "BadImagery": "Malbonaj bildoj"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Mi komprenas",
+    "StopMappingAndReturn": "Ĉesu mapi kaj reveni al la menuo?",
+    "ContinueMapping": "Daŭrigi Mapi",
+    "BackToMenu": "Reen al menuo"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Glitu MALSUPREN por marki ĉiujn 6 kahelojn RUĜAJ.",
+    "swipe up undo": "Glitu SUPREN por malfari."
+  },
+  "LoadingIcon": {
+    "loading": "Ŝarĝante..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Montri respondojn"
+  },
+  "Tutorial": {
+    "incomplete": "NEKOMPLETA",
+    "maybe": "EBLE",
+    "instructions1": "Kiel kontribui",
+    "instructions2": "FRAPETO POR ELEKTI",
+    "instructions3": "Serĉu aĵojn listigitajn en via misia resumo. Frapu ĉiun kahelon, kie vi trovas tion, kion vi serĉas. Frapu unufoje por <1>JES</1>, dufoje por <3>{{twoTaps}}</3>, kaj tri fojojn por <5>MALBONAJ BILDOJ</5> (kiel nuboj).",
+    "instructions4": "Glitu por navigi",
+    "instructions5": "Kiam vi finas pecon de la mapo, rulumu al la sekva per glitado.",
+    "instructions6": "TENU POR ZOMI",
+    "instructions7": "Tenu kahelon por zomi sur la kahelon.",
+    "instructions8": "Kreditoj",
+    "tutorial1": "Bonvenon al la lernilo!",
+    "tutorial2": "Ĉi tio devas fari vin sorĉisto de MapSwipe en kelkaj minutoj.",
+    "tutorial3": "Nur sekvu la instrukciojn sur la ekrano, kaj glitu maldekstren por daŭrigi.",
+    "tutorial4": "Se la instrukcioj estas en via vojo, simple frapu la mesaĝan skatolon por movi ĝin.",
+    "tutorial5": "Mi komprenas"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Ĉi tiu lernilo instruos vin kiel uzi MapSwipe. Jen la bazaj paŝoj:",
+    "noChanges": "Se estas nenio grava en la bildoj, simple <1>glitu</1> al la sekva ekrano",
+    "seeChanges": "Se vi vidas ion en unu el la bildoj, <1>frapu unufoje por turni la kvadraton verdan</1>.",
+    "unsure": "Ĉu vi ne certas pri tio, kion vi vidas? <1>Frapu dufoje por turni la kvadraton flavan</1>",
+    "badImagery": "Se estas problemo kun la bildoj, <1>frapu tri fojojn por turni la kvadraton ruĝan</1>",
+    "tapAgain": "Frapetu denove por redoni la kvadraton al ĝia originala stato.",
+    "WhatToLookFor": "Kion serĉi",
+    "YouAreLookingFor": "Vi serĉas: {{lookFor}}",
+    "FromTheGround": "De la tero, ĝi aspektas tiel:",
+    "ImagesFromAbove": "Sed la bildoj, kiujn vi vidos, montros ĝin de supre, kaj aspektas jene:",
+    "SwipeToContinue": "Glitu por daŭrigi"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Ne zorgu, se vi ne certas pri tio, kion vi vidas en kvadrato.",
+    "youCanAlwaysTapTwice": "Memoru, vi ĉiam povas frapeti dufoje por marki la kahelon flava se vi ne certas pri tio, kion vi vidas",
+    "everyImageViewedBy": "Ĉiu bildo estas rigardata de multnombraj homoj, do ne zorgu, se vi maltrafis ion",
+    "holdZoom": "Vi povas premi kaj teni ajnan kvadraton por zomi ĝin. Frapu denove por eksigi ĝin."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Vi pretas komenci MapSwipadon!",
+    "startMapping": "Komencu mapi",
+    "completedTutorial": "Vi nun ekipas ĉion, kion vi bezonas por kontribui al humana mapado per la aplikaĵo. Vi povas reveni iam ajn por refreŝigi."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Uzu la butonojn por respondi:",
+      "doesTheShapeOutlineABuilding": "Ĉu la formo skizas konstruaĵon?",
+      "everyTimeYouSelectAnOption": "Ĉiufoje kiam vi elektas opcion, vi montros novan formon kaj bildon.",
+      "tapGreenText": "Jes - la formo skizas konstruaĵon en la bildo",
+      "tapRedText": "Ne - la formo ne kongruas kun konstruaĵo en la bildo",
+      "tapGrayText": "Ne certas - se vi ne certas aŭ ekzistas nuba kovrilo / malbonaj bildoj",
+      "hideIconText": "Tenu la butonon kaŝi por forigi la formon de la bildo",
+      "letsLearnHowToMap": "Ni lernu kiel mapi kun iuj ekzemploj",
+      "youllSeeASquare": "Vi vidos formon sur bildo. Uzu la butonojn por respondi:",
+      "squareContainsBuildings": "Ĉu la kvadrato enhavas iujn konstruaĵojn?",
+      "squareWillMove": "La kvadrato moviĝos ĉirkaŭ la bildo dum vi progresos, sekvante kradon kiel jene:",
+      "swipeToGetStarted": "Glitu por komenci",
+      "swipeToContinue": "Glitu por daŭrigi"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Ne zorgu, se vi ne certas pri kvadrato",
+    "youCanAlwaysTapUnsure": "Memoru, vi ĉiam povas frapeti la butonon 'ne certas'",
+    "everyImageViewedBy": "Ĉiu bildo estas rigardata per almenaŭ 3 MapSwipistoj, do estas bone, se vi pensas, ke vi maltrafis ion",
+    "wantToChangeYourAnswer": "Ĉu vi volas ŝanĝi vian respondon?",
+    "youCanSwipeBack": "Vi povas gliti reen por ŝanĝi viajn antaŭajn respondojn. Poste frapu aŭ glitu antaŭen por reveni al kie vi estis.",
+    "yourPreviousAnswerIsMarked": "Viaj antaŭaj respondoj estas markitaj per blanka rondo"
+  },
+  "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Ĉu la formo skizas konstruaĵon?",
+    "howToContribute": "Kiel Kontribui",
+    "squareContainsBuildings": "Ĉu la kvadrato enhavas iujn konstruaĵojn? Uzu la butonojn por respondi:",
+    "instructionsYes": "Jes: Kiam estas konstruaĵo aŭ parto de konstruaĵo en la kvadrato",
+    "instructionsNo": "Ne: Kiam ne estas konstruaĵoj en la kvadrato",
+    "instructionsNotSure": "Ne certas: kiam vi ne certas, ĉu ĝi estas konstruaĵo aŭ ne",
+    "instructionsBadImagery": "Malbonaj bildoj: Kiam estas nuba kovrilo aŭ problemoj kun la bildoj"
+  }
+}
