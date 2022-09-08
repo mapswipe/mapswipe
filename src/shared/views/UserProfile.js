@@ -3,7 +3,6 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-// $FlowIssue[cannot-resolve-module]
 import { gql, useQuery } from '@apollo/client';
 import auth, { firebase } from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -17,6 +16,7 @@ import {
     ScrollView,
     Linking,
     RefreshControl,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
@@ -50,6 +50,7 @@ import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
 import ClickableListItem from '../common/ClickableListItem';
+import debugInfo from '../../../debugInfo';
 
 const USER_STATS = gql`
     query UserStats($userId: ID) {
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     },
 
     databaseIcon: {
-        marginRight: SPACING_SMALL,
+        marginHorizontal: SPACING_SMALL,
     },
 
     cachedInfo: {
@@ -188,6 +189,11 @@ const styles = StyleSheet.create({
         flexBasis: '50%',
     },
 
+    headingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
     headingText: {
         color: COLOR_DARK_GRAY,
         fontWeight: FONT_WEIGHT_BOLD,
@@ -195,6 +201,10 @@ const styles = StyleSheet.create({
     },
 
     heatmapContainer: {
+        padding: SPACING_MEDIUM,
+    },
+
+    moreStatsContainer: {
         padding: SPACING_MEDIUM,
     },
 
@@ -307,6 +317,11 @@ function UserProfile(props: Props) {
         },
         onError: error => {
             console.error(error);
+            MessageBarManager.showAlert({
+                title: t('Failed to load stats'),
+                message: error.message,
+                alertType: 'error',
+            });
         },
     });
 
@@ -332,12 +347,12 @@ function UserProfile(props: Props) {
                 });
 
                 const userGroupSnapshots = await Promise.all(promises);
-                const userGroupsFromFirebase = userGroupSnapshots.map(
-                    snapshot => ({
+                const userGroupsFromFirebase = userGroupSnapshots
+                    .map(snapshot => ({
                         groupId: snapshot.key,
                         ...snapshot.val(),
-                    }),
-                );
+                    }))
+                    .filter(group => !!group.name);
 
                 const newUserGroups = ((Object.values(
                     userGroupsFromFirebase,
@@ -346,11 +361,19 @@ function UserProfile(props: Props) {
                 setUserGroups(newUserGroups);
             } catch (error) {
                 console.error(error);
+                MessageBarManager.showAlert({
+                    title: t('Failed to group details'),
+                    alertType: 'error',
+                });
             }
         };
 
         userGroupsOfUserQuery.on('value', handleGroupsOfUserLoad, error => {
             console.error(error);
+            MessageBarManager.showAlert({
+                title: t('Failed to group details'),
+                alertType: 'error',
+            });
         });
 
         return () => {
@@ -379,18 +402,28 @@ function UserProfile(props: Props) {
     }, [loadUserGroups]);
 
     const userStats: Stat[] = React.useMemo(() => {
-        const tasksCompleted = profile?.taskContributionCount ?? '-';
-        const projectContributions = profile?.projectContributionCount ?? '-';
+        const numberFormatter = new Intl.NumberFormat();
+        const tasksCompleted = numberFormatter.format(
+            profile?.taskContributionCount ?? 0,
+        );
+        const projectContributions = numberFormatter.format(
+            profile?.projectContributionCount ?? 0,
+        );
 
-        const swipeTime = userStatsData?.user?.stats?.totalSwipeTime;
+        const swipeTime = numberFormatter.format(
+            userStatsData?.user?.stats?.totalSwipeTime,
+        );
 
-        const swipeArea = userStatsData?.user?.projectStats?.reduce(
+        const swipeAreaSum = userStatsData?.user?.projectStats?.reduce(
             (sum, stat) => sum + (stat.area ?? 0),
             0,
         );
 
-        const organizationsSupported =
-            userStatsData?.user?.organizationSwipeStats?.length ?? '-';
+        const swipeArea = numberFormatter.format(swipeAreaSum?.toFixed(2) ?? 0);
+
+        const organizationsSupported = numberFormatter.format(
+            userStatsData?.user?.organizationSwipeStats?.length ?? 0,
+        );
 
         return [
             {
@@ -404,13 +437,13 @@ function UserProfile(props: Props) {
                 cached: true,
             },
             {
-                title: t('Total time spent swipping (min)'),
-                value: swipeTime ?? '-',
+                title: t('Total time spent swiping (min)'),
+                value: swipeTime,
                 cached: true,
             },
             {
                 title: t('Cumulative area swiped (sq.km)'),
-                value: swipeArea?.toFixed(5) ?? '-',
+                value: swipeArea,
                 cached: true,
             },
             {
@@ -419,7 +452,7 @@ function UserProfile(props: Props) {
                 cached: false,
             },
             {
-                title: t('Organization supported'),
+                title: t('Organization(s) supported'),
                 value: organizationsSupported,
                 cached: true,
             },
@@ -451,35 +484,89 @@ function UserProfile(props: Props) {
         navigation.navigate('LanguageSelection');
     }, [navigation]);
 
-    const handleLogOutClick = React.useCallback(() => {
-        analytics().logEvent('sign_out');
-        firebase.logout().then(() => {
-            navigation.navigate('LoginNavigator');
-        });
+    const handleDeleteAccountClick = React.useCallback(() => {
+        Alert.alert(
+            t('Delete Account?'),
+            t(
+                'Are you sure you want to delete you account? This action cannot be undone!',
+            ),
+            [
+                {
+                    text: t('Cancel'),
+                    style: 'cancel',
+                },
+                {
+                    text: t('OK'),
+                    onPress: () => {
+                        analytics().logEvent('delete_account');
+                        const user = auth().currentUser;
+                        database()
+                            .ref()
+                            .child(`v2/users/${user.uid}`)
+                            .off('value');
+                        user.delete()
+                            .then(() => {
+                                MessageBarManager.showAlert({
+                                    title: t('accountDeleted'),
+                                    message: t('accountDeletedSuccessMessage'),
+                                    alertType: 'info',
+                                });
+                                navigation.navigate('LoginNavigator');
+                            })
+                            .catch(() => {
+                                MessageBarManager.showAlert({
+                                    title: t('accountDeletionFailed'),
+                                    message: t('accountDeletionFailedMessage'),
+                                    alertType: 'error',
+                                });
+                                navigation.navigate('LoginNavigator');
+                            });
+                    },
+                    style: 'destructive',
+                },
+            ],
+        );
     }, [navigation]);
 
-    const deleteUserAccount = React.useCallback(() => {
-        analytics().logEvent('delete_account');
-        const user = auth().currentUser;
-        database().ref().child(`v2/users/${user.uid}`).off('value');
-        user.delete()
-            .then(() => {
-                MessageBarManager.showAlert({
-                    title: t('accountDeleted'),
-                    message: t('accountDeletedSuccessMessage'),
-                    alertType: 'info',
-                });
-                navigation.navigate('LoginNavigator');
-            })
-            .catch(() => {
-                MessageBarManager.showAlert({
-                    title: t('accountDeletionFailed'),
-                    message: t('accountDeletionFailedMessage'),
-                    alertType: 'error',
-                });
-                navigation.navigate('LoginNavigator');
-            });
+    const handleSignoutClick = React.useCallback(() => {
+        Alert.alert(t('sign out'), t('Are you sure you want to sign out?'), [
+            {
+                text: t('Cancel'),
+                style: 'cancel',
+            },
+            {
+                text: t('OK'),
+                onPress: () => {
+                    analytics().logEvent('sign_out');
+                    firebase.logout().then(() => {
+                        navigation.navigate('LoginNavigator');
+                    });
+                },
+                style: 'destructive',
+            },
+        ]);
     }, [navigation]);
+
+    const handleResetPasswordClick = React.useCallback(() => {
+        Alert.alert(
+            t('Reset Password'),
+            t(
+                'An email will be sent to your account with the reset link. Are you sure you want to continue?',
+            ),
+            [
+                {
+                    text: t('Cancel'),
+                    style: 'cancel',
+                },
+                {
+                    text: t('OK'),
+                    onPress: () => {
+                        auth().sendPasswordResetEmail(auth().currentUser.email);
+                    },
+                },
+            ],
+        );
+    }, []);
 
     const handleMapSwipeWebsiteClick = React.useCallback(() => {
         navigation.push('WebviewWindow', {
@@ -493,6 +580,14 @@ function UserProfile(props: Props) {
         });
     }, [navigation]);
 
+    const handleMoreStatsClick = React.useCallback(() => {
+        if (userId) {
+            Linking.openURL(
+                `https://mapswipe-web-dashboard.dev.togglecorp.com/user/${userId}/`,
+            );
+        }
+    }, [userId]);
+
     const handleEmailClick = React.useCallback(() => {
         Linking.openURL('mailto:info@mapswipe.org');
     }, []);
@@ -505,12 +600,24 @@ function UserProfile(props: Props) {
     return (
         <View style={styles.myProfileScreen}>
             <View style={styles.header}>
-                <Image
-                    style={styles.avatar}
-                    key={levelObject.title}
-                    source={levelObject.badge}
-                    accessibilityLabel={levelObject.title}
-                />
+                <TouchableWithoutFeedback
+                    onLongPress={() => {
+                        // a simple alert box that shows the git tag and hash to help
+                        // with bug reporting
+                        // The values are written to a JSON file at build time in github actions
+                        Alert.alert(
+                            'Debugging info',
+                            `Version: ${debugInfo.gitTag}\nRevision: ${debugInfo.gitHash}`,
+                        );
+                    }}
+                >
+                    <Image
+                        style={styles.avatar}
+                        key={levelObject.title}
+                        source={levelObject.badge}
+                        accessibilityLabel={levelObject.title}
+                    />
+                </TouchableWithoutFeedback>
                 <View style={styles.details}>
                     <Text style={styles.name}>
                         {auth()?.currentUser?.displayName}
@@ -556,7 +663,9 @@ function UserProfile(props: Props) {
                         xml={databaseIcon}
                         height={FONT_SIZE_SMALL}
                     />
-                    <Text style={styles.infoText}>{t('Cached Stats')}</Text>
+                    <Text style={styles.infoText}>
+                        {t('Updated once everyday')}
+                    </Text>
                 </View>
                 <View style={styles.statsContainer}>
                     {userStats.map(stat => (
@@ -570,10 +679,30 @@ function UserProfile(props: Props) {
                     ))}
                 </View>
                 <View style={styles.heatmapContainer}>
-                    <Text style={styles.headingText}>
-                        {t('contributionHeatmap')}
-                    </Text>
+                    <View style={styles.headingContainer}>
+                        <Text style={styles.headingText}>
+                            {t('contributionHeatmap')}
+                        </Text>
+                        <SvgXml
+                            style={styles.databaseIcon}
+                            xml={databaseIcon}
+                            height={FONT_SIZE_SMALL}
+                        />
+                    </View>
                     <CalendarHeatmap data={calendarHeatmapData} />
+                </View>
+                <View style={styles.moreStatsContainer}>
+                    <ClickableListItem
+                        onPress={handleMoreStatsClick}
+                        title={t('More Stats')}
+                        hideChevronIcon
+                        icon={
+                            <SvgXml
+                                height={FONT_SIZE_MEDIUM}
+                                xml={externalLink}
+                            />
+                        }
+                    />
                 </View>
                 <View style={styles.userGroupsContainer}>
                     <Text style={styles.headingText}>{t('userGroups')} </Text>
@@ -601,7 +730,7 @@ function UserProfile(props: Props) {
                         onPress={handleExploreGroupClick}
                         title={t('exploreGroups')}
                         accessibilityLabel={t('exploreGroups')}
-                        hideIcon
+                        hideChevronIcon
                     />
                 </View>
                 <View style={styles.settingsContainer}>
@@ -611,30 +740,9 @@ function UserProfile(props: Props) {
                         title={t('changeUserName')}
                     />
                     <ClickableListItem
-                        onPress={() => {
-                            Alert.alert(
-                                t('Reset Password'),
-                                t(
-                                    'An email will be sent to your account with the reset link. Are you sure you want to continue?',
-                                ),
-                                [
-                                    {
-                                        text: t('Cancel'),
-                                        style: 'cancel',
-                                    },
-                                    {
-                                        text: t('OK'),
-                                        onPress: () => {
-                                            auth().sendPasswordResetEmail(
-                                                auth().currentUser.email,
-                                            );
-                                        },
-                                    },
-                                ],
-                            );
-                        }}
+                        onPress={handleResetPasswordClick}
                         title={t('Reset Password')}
-                        hideIcon
+                        hideChevronIcon
                     />
                     <ClickableListItem
                         onPress={handleLanguageClick}
@@ -642,59 +750,22 @@ function UserProfile(props: Props) {
                         icon={<Text>{selectedLanguage?.name}</Text>}
                     />
                     <ClickableListItem
-                        onPress={() => {
-                            Alert.alert(
-                                t('sign out'),
-                                t('Are you sure you want to sign out?'),
-                                [
-                                    {
-                                        text: t('Cancel'),
-                                        style: 'cancel',
-                                    },
-                                    {
-                                        text: t('OK'),
-                                        onPress: () => {
-                                            handleLogOutClick();
-                                        },
-                                        style: 'destructive',
-                                    },
-                                ],
-                            );
-                        }}
+                        onPress={handleSignoutClick}
                         title={t('sign out')}
-                        hideIcon
+                        hideChevronIcon
                     />
                     <ClickableListItem
-                        onPress={() => {
-                            Alert.alert(
-                                t('Delete Account?'),
-                                t(
-                                    'Are you sure you want to delete you account? This action cannot be undone!',
-                                ),
-                                [
-                                    {
-                                        text: t('Cancel'),
-                                        style: 'cancel',
-                                    },
-                                    {
-                                        text: t('OK'),
-                                        onPress: () => {
-                                            deleteUserAccount();
-                                        },
-                                        style: 'destructive',
-                                    },
-                                ],
-                            );
-                        }}
+                        onPress={handleDeleteAccountClick}
                         title={t('deleteAccount')}
                         textStyle={styles.deleteButtonText}
-                        hideIcon
+                        hideChevronIcon
                     />
                 </View>
                 <View style={styles.infoContainer}>
                     <ClickableListItem
                         onPress={handleMapSwipeWebsiteClick}
-                        title={t('mapSwipeWebsite')}
+                        title={t('mapswipe website')}
+                        hideChevronIcon
                         icon={
                             <SvgXml
                                 height={FONT_SIZE_MEDIUM}
@@ -705,6 +776,7 @@ function UserProfile(props: Props) {
                     <ClickableListItem
                         onPress={handleMissingMapsClick}
                         title={t('missingMaps')}
+                        hideChevronIcon
                         icon={
                             <SvgXml
                                 height={FONT_SIZE_MEDIUM}
@@ -715,6 +787,7 @@ function UserProfile(props: Props) {
                     <ClickableListItem
                         onPress={handleEmailClick}
                         title={t('email')}
+                        hideChevronIcon
                         icon={
                             <SvgXml
                                 height={FONT_SIZE_MEDIUM}

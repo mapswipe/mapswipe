@@ -16,11 +16,10 @@ import {
 import {
     COLOR_WHITE,
     COLOR_LIGHT_GRAY,
-    COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
     SPACING_MEDIUM,
-    FONT_WEIGHT_BOLD,
 } from '../constants';
+import PageHeader from '../common/PageHeader';
 import type { TranslationFunction, UserGroupType } from '../flow-types';
 import { rankedSearchOnList } from '../utils';
 
@@ -28,13 +27,6 @@ const styles = StyleSheet.create({
     searchUserGroupContainer: {
         backgroundColor: COLOR_DARK_GRAY,
         flex: 1,
-    },
-    header: {
-        display: 'flex',
-        backgroundColor: COLOR_DEEP_BLUE,
-        justifyContent: 'center',
-        padding: SPACING_MEDIUM,
-        flexShrink: 0,
     },
     content: {
         display: 'flex',
@@ -50,11 +42,6 @@ const styles = StyleSheet.create({
     searchTextInput: {
         flexGrow: 1,
         color: COLOR_DARK_GRAY,
-    },
-    searchUserGroupHeading: {
-        fontWeight: FONT_WEIGHT_BOLD,
-        color: COLOR_WHITE,
-        fontSize: 18,
     },
     searchHint: {
         padding: SPACING_MEDIUM,
@@ -165,11 +152,7 @@ function SearchUserGroup(props: Props) {
 
     return (
         <View style={styles.searchUserGroupContainer}>
-            <View style={styles.header}>
-                <Text style={styles.searchUserGroupHeading}>
-                    {t('Explore Groups')}
-                </Text>
-            </View>
+            <PageHeader heading={t('Explore Groups')} />
             <ScrollView
                 contentContainerStyle={styles.content}
                 refreshControl={
