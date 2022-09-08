@@ -9,10 +9,11 @@ import { SvgXml } from 'react-native-svg';
 
 import {
     COLOR_LIGHT_GRAY,
-    COLOR_DEEP_BLUE,
     COLOR_WHITE,
     supportedLanguages,
+    SPACING_MEDIUM,
 } from '../constants';
+import PageHeader from '../common/PageHeader';
 import type { TranslationFunction } from '../flow-types';
 import { selectLanguage } from '../actions';
 
@@ -26,20 +27,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLOR_WHITE,
     },
-    header: {
-        display: 'flex',
-        backgroundColor: COLOR_DEEP_BLUE,
-        justifyContent: 'center',
-        padding: '5%',
-        flexShrink: 0,
-    },
-    languageLabel: {
-        color: COLOR_WHITE,
-        fontSize: 18,
-        fontWeight: '800',
-    },
     languageItemContainer: {
-        padding: '3%',
+        padding: SPACING_MEDIUM,
     },
     languageItem: {
         flexDirection: 'row',
@@ -95,11 +84,7 @@ function LanguageSelection(props: Props) {
 
     return (
         <View style={styles.languageSelectionScreen}>
-            <View style={styles.header}>
-                <Text numberOfLines={1} style={styles.languageLabel}>
-                    {t('languageSelection')}
-                </Text>
-            </View>
+            <PageHeader heading={t('languageSelection')} />
             <ScrollView>
                 {supportedLanguages.map(language => (
                     <Pressable

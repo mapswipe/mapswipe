@@ -35,6 +35,7 @@
     "@sentry/react-native": "^3.1.1",
     "graphql": "^16.5.0",
     "i18next": "^19.0.0",
+    "intl": "^1.2.5",
     "lodash.get": "^4.4.2",
     "pako": "^1.0.11",
     "patch-package": "^6.4.7",

@@ -10,28 +10,14 @@ import {
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
     SPACING_MEDIUM,
-    FONT_SIZE_LARGE,
-    FONT_WEIGHT_BOLD,
 } from '../constants';
+import PageHeader from '../common/PageHeader';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 
 const styles = StyleSheet.create({
     changeUserNameScreen: {
         backgroundColor: COLOR_DARK_GRAY,
         flex: 1,
-    },
-
-    header: {
-        display: 'flex',
-        backgroundColor: COLOR_DEEP_BLUE,
-        flexShrink: 0,
-        padding: SPACING_MEDIUM,
-    },
-
-    changeUserNameHeading: {
-        fontWeight: FONT_WEIGHT_BOLD,
-        color: COLOR_WHITE,
-        fontSize: FONT_SIZE_LARGE,
     },
 
     content: {
@@ -41,6 +27,7 @@ const styles = StyleSheet.create({
     },
 
     input: {
+        color: COLOR_DARK_GRAY,
         backgroundColor: COLOR_WHITE,
         marginVertical: SPACING_MEDIUM,
     },
@@ -93,11 +80,7 @@ function ChangeUserName(props: Props) {
 
     return (
         <View style={styles.changeUserNameScreen}>
-            <View style={styles.header}>
-                <Text style={styles.changeUserNameHeading}>
-                    {t('changeUserName')}
-                </Text>
-            </View>
+            <PageHeader heading={t('changeUserName')} />
             <View style={styles.content}>
                 <Text numberOfLines={1} style={styles.label}>
                     {t('currentUserName')}
