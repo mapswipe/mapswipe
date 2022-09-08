@@ -2,7 +2,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
-// $FlowIssue[cannot-resolve-module]
+import { MessageBarManager } from 'react-native-message-bar';
 import { gql, useQuery } from '@apollo/client';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -17,9 +17,9 @@ import {
     Text,
     Button,
     RefreshControl,
+    Linking,
 } from 'react-native';
 import {
-    COLOR_WHITE,
     COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
@@ -27,12 +27,13 @@ import {
     COLOR_RED,
     SPACING_MEDIUM,
     FONT_WEIGHT_BOLD,
-    FONT_SIZE_LARGE,
     FONT_SIZE_SMALL,
     SPACING_SMALL,
     COLOR_YELLOW_OVERLAY,
+    FONT_SIZE_MEDIUM,
 } from '../constants';
-import { database as databaseIcon } from '../common/SvgIcons';
+import PageHeader from '../common/PageHeader';
+import { database as databaseIcon, externalLink } from '../common/SvgIcons';
 import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
 import CalendarHeatmap from '../common/CalendarHeatmap';
@@ -114,17 +115,6 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_YELLOW_OVERLAY,
     },
 
-    userGroupNameLabel: {
-        fontWeight: FONT_WEIGHT_BOLD,
-        color: COLOR_WHITE,
-        fontSize: FONT_SIZE_LARGE,
-    },
-
-    membersLabel: {
-        color: COLOR_LIGHT_GRAY,
-        fontSize: FONT_SIZE_SMALL,
-    },
-
     content: {
         backgroundColor: COLOR_LIGHT_GRAY,
     },
@@ -143,24 +133,17 @@ const styles = StyleSheet.create({
         flexBasis: '50%',
     },
 
+    headingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
     heatmapContainer: {
         padding: SPACING_MEDIUM,
     },
 
-    membersContainer: {
+    moreStatsContainer: {
         padding: SPACING_MEDIUM,
-    },
-
-    leaderBoardItem: {
-        backgroundColor: COLOR_WHITE,
-        borderColor: COLOR_LIGHT_GRAY,
-        borderBottomWidth: 1,
-        padding: SPACING_MEDIUM,
-    },
-
-    userTitle: {
-        color: COLOR_DARK_GRAY,
-        fontSize: FONT_SIZE_SMALL,
     },
 
     settingsContainer: {
@@ -168,7 +151,7 @@ const styles = StyleSheet.create({
     },
 
     databaseIcon: {
-        marginRight: SPACING_SMALL,
+        marginHorizontal: SPACING_SMALL,
     },
 
     cachedInfo: {
@@ -200,6 +183,7 @@ type Stat = {
 
 type OwnProps = {
     navigation: {
+        navigate: Function,
         state: {
             params: { userGroupId: string },
         },
@@ -215,6 +199,7 @@ type Props = OwnProps & InjectedProps;
 function UserGroup(props: Props) {
     const {
         navigation: {
+            navigate,
             state: {
                 params: { userGroupId },
             },
@@ -224,9 +209,7 @@ function UserGroup(props: Props) {
 
     const [userGroupDetailPending, setUserGroupDetailPending] =
         React.useState(false);
-    const [usersPending, setUsersPending] = React.useState(false);
     const [userGroupDetail, setUserGroupDetail] = React.useState();
-    const [users, setUsers] = React.useState();
     const userId = auth().currentUser?.uid;
 
     const {
@@ -240,6 +223,11 @@ function UserGroup(props: Props) {
         },
         onError: error => {
             console.error(error);
+            MessageBarManager.showAlert({
+                title: t('Failed to load stats'),
+                message: error.message,
+                alertType: 'error',
+            });
         },
     });
 
@@ -252,24 +240,6 @@ function UserGroup(props: Props) {
             if (snapshot.exists()) {
                 const userGroup = snapshot.val();
                 setUserGroupDetail(userGroup);
-
-                if (userGroup.users) {
-                    setUsersPending(true);
-                    const userKeys = Object.keys(userGroup.users);
-                    const promises = userKeys.map(userKey => {
-                        return database()
-                            .ref(`v2/users/${userKey}`)
-                            .once('value');
-                    });
-
-                    Promise.all(promises).then(snapshots => {
-                        const userList = snapshots.map(userSnapshot =>
-                            userSnapshot.val(),
-                        );
-                        setUsers(userList);
-                        setUsersPending(false);
-                    });
-                }
             }
             setUserGroupDetailPending(false);
         };
@@ -286,108 +256,212 @@ function UserGroup(props: Props) {
         };
     }, []);
 
-    const handleLeaveUserGroup = React.useCallback(() => {
-        const updates = {};
-        database()
-            .ref('/v2/userGroupMembershipLogs/')
-            .push()
-            .then(
-                logId => {
-                    if (logId) {
-                        updates[
-                            `/v2/users/${userId}/userGroups/${userGroupId}`
-                        ] = null;
-                        updates[
-                            `/v2/userGroups/${userGroupId}/users/${userId}`
-                        ] = null;
-                        updates[`/v2/userGroupMembershipLogs/${logId.key}`] = {
-                            userId,
-                            userGroupId,
-                            action: 'leave',
-                            timestamp: new Date().getTime(),
-                        };
+    const handleLeaveUserGroupClick = React.useCallback(() => {
+        Alert.alert(
+            t('Leave User Group'),
+            `${t('Are you sure you want to leave this group?')}\n\n${t(
+                'After you leave the group, you will still remain on the leaderboard. Contributions you made while a member of the group will still be counted towards the group. Contributions after you leave will no longer be counted towards the group.',
+            )}`,
+            [
+                {
+                    text: t('Cancel'),
+                    style: 'cancel',
+                },
+                {
+                    text: t('OK'),
+                    onPress: () => {
+                        const updates = {};
                         database()
-                            .ref()
-                            .update(
-                                updates,
-                                () => {
-                                    console.info('Usergroup left');
+                            .ref('/v2/userGroupMembershipLogs/')
+                            .push()
+                            .then(
+                                logId => {
+                                    if (logId) {
+                                        updates[
+                                            `/v2/users/${userId}/userGroups/${userGroupId}`
+                                        ] = null;
+                                        updates[
+                                            `/v2/userGroups/${userGroupId}/users/${userId}`
+                                        ] = null;
+                                        updates[
+                                            `/v2/userGroupMembershipLogs/${logId.key}`
+                                        ] = {
+                                            userId,
+                                            userGroupId,
+                                            action: 'leave',
+                                            timestamp: new Date().getTime(),
+                                        };
+                                        database()
+                                            .ref()
+                                            .update(
+                                                updates,
+                                                () => {
+                                                    MessageBarManager.showAlert(
+                                                        {
+                                                            title: t(
+                                                                'Usergroup left',
+                                                            ),
+                                                        },
+                                                    );
+                                                    navigate('UserProfile');
+                                                },
+                                                () => {
+                                                    MessageBarManager.showAlert(
+                                                        {
+                                                            title: t(
+                                                                'Failed to leave Usergroup',
+                                                            ),
+                                                            alertType: 'error',
+                                                        },
+                                                    );
+                                                },
+                                            );
+                                    } else {
+                                        MessageBarManager.showAlert({
+                                            title: t(
+                                                'Failed to leave Usergroup',
+                                            ),
+                                            alertType: 'error',
+                                        });
+                                        console.error(
+                                            'Cannot get new key to push membership log',
+                                        );
+                                    }
                                 },
                                 () => {
-                                    console.error('Failed to leave Usergroup');
+                                    MessageBarManager.showAlert({
+                                        title: t('Failed to leave Usergroup'),
+                                        alertType: 'error',
+                                    });
                                 },
                             );
-                    } else {
-                        console.error(
-                            'Cannot get new key to push membership log',
-                        );
-                    }
+                    },
                 },
-                () => {
-                    console.error('Failed to leave Usergroup');
+            ],
+        );
+    }, [userId, userGroupId, navigate]);
+
+    const handleJoinUserGroupClick = React.useCallback(() => {
+        Alert.alert(
+            t('Join User Group'),
+            t('Are you sure you want to join this group?'),
+            [
+                {
+                    text: t('Cancel'),
+                    style: 'cancel',
                 },
-            );
-    }, [userId, userGroupId]);
-
-    const handleJoinUserGroup = React.useCallback(() => {
-        const updates = {};
-        database()
-            .ref('/v2/userGroupMembershipLogs/')
-            .push()
-            .then(
-                logId => {
-                    if (logId) {
-                        updates[
-                            `/v2/users/${userId}/userGroups/${userGroupId}`
-                        ] = true;
-                        updates[
-                            `/v2/userGroups/${userGroupId}/users/${userId}`
-                        ] = true;
-                        updates[`/v2/userGroupMembershipLogs/${logId.key}`] = {
-                            userId,
-                            userGroupId,
-                            action: 'join',
-                            timestamp: new Date().getTime(),
-                        };
-
+                {
+                    text: t('OK'),
+                    onPress: () => {
+                        const updates = {};
                         database()
-                            .ref()
-                            .update(
-                                updates,
-                                () => {
-                                    console.info('Usergroup joined');
+                            .ref('/v2/userGroupMembershipLogs/')
+                            .push()
+                            .then(
+                                logId => {
+                                    if (logId) {
+                                        updates[
+                                            `/v2/users/${userId}/userGroups/${userGroupId}`
+                                        ] = true;
+                                        updates[
+                                            `/v2/userGroups/${userGroupId}/users/${userId}`
+                                        ] = true;
+                                        updates[
+                                            `/v2/userGroupMembershipLogs/${logId.key}`
+                                        ] = {
+                                            userId,
+                                            userGroupId,
+                                            action: 'join',
+                                            timestamp: new Date().getTime(),
+                                        };
+
+                                        database()
+                                            .ref()
+                                            .update(
+                                                updates,
+                                                () => {
+                                                    MessageBarManager.showAlert(
+                                                        {
+                                                            title: t(
+                                                                'Usergroup joined',
+                                                            ),
+                                                        },
+                                                    );
+                                                },
+                                                () => {
+                                                    MessageBarManager.showAlert(
+                                                        {
+                                                            title: t(
+                                                                'Failed to join Usergroup',
+                                                            ),
+                                                            alertType: 'error',
+                                                        },
+                                                    );
+                                                },
+                                            );
+                                    } else {
+                                        MessageBarManager.showAlert({
+                                            title: t(
+                                                'Failed to join Usergroup',
+                                            ),
+                                            alertType: 'error',
+                                        });
+                                        console.error(
+                                            'Cannot get new key to push membership log',
+                                        );
+                                    }
                                 },
                                 () => {
-                                    console.error('Failed to join Usergroup');
+                                    MessageBarManager.showAlert({
+                                        title: t('Failed to join Usergroup'),
+                                        alertType: 'error',
+                                    });
                                 },
                             );
-                    } else {
-                        console.error(
-                            'Cannot get new key to push membership log',
-                        );
-                    }
+                    },
                 },
-                () => {
-                    console.error('Failed to join Usergroup');
-                },
-            );
+            ],
+        );
     }, [userId, userGroupId]);
+
+    const handleMoreStatsClick = React.useCallback(() => {
+        if (userGroupId) {
+            Linking.openURL(
+                `https://mapswipe-web-dashboard.dev.togglecorp.com/user-group/${userGroupId}/`,
+            );
+        }
+    }, [userGroupId]);
 
     const userGroupStats: Stat[] = React.useMemo(() => {
+        const numberFormatter = new Intl.NumberFormat();
         const stats = userGroupStatsData?.userGroup?.stats;
-        const totalSwipeTime = stats?.totalSwipeTime ?? '-';
-        const totalSwipes = stats?.totalSwipe ?? '-';
-        const mappingProjects = stats?.totalMappingProjects ?? '-';
 
-        const swipeArea =
+        const totalSwipeTime = numberFormatter.format(
+            stats?.totalSwipeTime ?? 0,
+        );
+        const totalSwipes = numberFormatter.format(stats?.totalSwipe ?? 0);
+        const mappingProjects = numberFormatter.format(
+            stats?.totalMappingProjects ?? 0,
+        );
+        const membersCount =
+            userGroupDetail && userGroupDetail.users
+                ? numberFormatter.format(
+                      Object.keys(userGroupDetail.users).length,
+                  )
+                : '-';
+
+        const swipeAreaSum =
             userGroupStatsData?.userGroup?.projectTypeStats?.reduce(
                 (sum, stat) => sum + (stat.area ?? 0),
                 0,
             );
 
-        const organizationsSupported =
+        const swipeArea = numberFormatter.format(swipeAreaSum?.toFixed(2) ?? 0);
+
+        const organizationsSupported = numberFormatter.format(
             userGroupStatsData?.userGroup?.userGroupOrganizationStats?.length ??
-            '-';
+                0,
+        );
 
         return [
             {
@@ -396,18 +470,18 @@ function UserGroup(props: Props) {
                 cached: false,
             },
             {
-                title: t('Swipe Quality Score'),
-                value: '-',
-                cached: true,
+                title: t('Members'),
+                value: membersCount,
+                cached: false,
             },
             {
-                title: t('Total time spent swipping (min)'),
+                title: t('Total time spent swiping (min)'),
                 value: totalSwipeTime,
                 cached: true,
             },
             {
                 title: t('Cumulative area swiped (sq.km)'),
-                value: swipeArea?.toFixed(5) ?? '-',
+                value: swipeArea,
                 cached: true,
             },
             {
@@ -416,12 +490,12 @@ function UserGroup(props: Props) {
                 cached: false,
             },
             {
-                title: t('Organization supported'),
+                title: t('Organization(s) supported'),
                 value: organizationsSupported,
                 cached: true,
             },
         ];
-    }, [userGroupStatsData]);
+    }, [userGroupDetail, userGroupStatsData]);
 
     const calendarHeatmapData = React.useMemo(() => {
         const contributionStats =
@@ -447,30 +521,25 @@ function UserGroup(props: Props) {
 
     return (
         <View style={styles.userGroup}>
+            <PageHeader
+                style={styles.header}
+                heading={userGroupDetail?.name ?? t('User group')}
+                // description={userGroupDetail?.description}
+            />
             {userGroupDetailPending && (
                 <View style={styles.loading}>
-                    <Text>Loading group details</Text>
+                    <Text>{t('Loading group details...')}</Text>
                 </View>
             )}
             {!userGroupDetailPending && !userGroupDetail && (
                 <View style={styles.noUserId}>
                     <Text>
-                        Details not available for the specified UserGroup
+                        {t('Details not available for this User group')}
                     </Text>
                 </View>
             )}
             {!userGroupDetailPending && userGroupDetail && (
                 <>
-                    <View style={styles.header}>
-                        <Text style={styles.userGroupNameLabel}>
-                            {userGroupDetail?.name}
-                        </Text>
-                        {userGroupDetail?.description && (
-                            <Text style={styles.membersLabel}>
-                                {userGroupDetail?.description}
-                            </Text>
-                        )}
-                    </View>
                     {isGroupArchived && (
                         <View style={styles.archivedInfo}>
                             <Text>{t('This group has been archived')}</Text>
@@ -488,6 +557,16 @@ function UserGroup(props: Props) {
                             />
                         }
                     >
+                        {!isUserMember && !isGroupArchived && (
+                            <View style={styles.joinNewGroup}>
+                                <Button
+                                    color={COLOR_SUCCESS_GREEN}
+                                    onPress={handleJoinUserGroupClick}
+                                    title={t('joinGroup')}
+                                    accessibilityLabel={t('joinGroup')}
+                                />
+                            </View>
+                        )}
                         <View style={styles.cachedInfo}>
                             <SvgXml
                                 style={styles.databaseIcon}
@@ -495,37 +574,9 @@ function UserGroup(props: Props) {
                                 height={FONT_SIZE_SMALL}
                             />
                             <Text style={styles.infoText}>
-                                {t('Cached Stats')}
+                                {t('Updated once every day')}
                             </Text>
                         </View>
-                        {!isUserMember && !isGroupArchived && (
-                            <View style={styles.joinNewGroup}>
-                                <Button
-                                    color={COLOR_SUCCESS_GREEN}
-                                    onPress={() => {
-                                        Alert.alert(
-                                            t('Join User Group'),
-                                            t(
-                                                'Are you sure you want to join this group?',
-                                            ),
-                                            [
-                                                {
-                                                    text: t('Cancel'),
-                                                    style: 'cancel',
-                                                },
-                                                {
-                                                    text: t('OK'),
-                                                    onPress:
-                                                        handleJoinUserGroup,
-                                                },
-                                            ],
-                                        );
-                                    }}
-                                    title={t('joinGroup')}
-                                    accessibilityLabel={t('joinGroup')}
-                                />
-                            </View>
-                        )}
                         <View style={styles.userGroupsStatsContainer}>
                             {userGroupStats.map(stat => (
                                 <InfoCard
@@ -540,38 +591,30 @@ function UserGroup(props: Props) {
                             ))}
                         </View>
                         <View style={styles.heatmapContainer}>
-                            <Text style={styles.headingText}>
-                                {t('Contribution Heatmap')}
-                            </Text>
+                            <View style={styles.headingContainer}>
+                                <Text style={styles.headingText}>
+                                    {t('Contribution Heatmap')}
+                                </Text>
+                                <SvgXml
+                                    style={styles.databaseIcon}
+                                    xml={databaseIcon}
+                                    height={FONT_SIZE_SMALL}
+                                />
+                            </View>
                             <CalendarHeatmap data={calendarHeatmapData} />
                         </View>
-                        <View style={styles.membersContainer}>
-                            <Text style={styles.headingText}>
-                                {t('Members')}
-                            </Text>
-                            {usersPending && (
-                                <View style={styles.loading}>
-                                    <Text>Fetching Members...</Text>
-                                </View>
-                            )}
-                            {!usersPending &&
-                                users?.map(user => (
-                                    <View
-                                        key={user.username}
-                                        style={styles.leaderBoardItem}
-                                    >
-                                        <Text style={styles.userTitle}>
-                                            {user.username}
-                                        </Text>
-                                    </View>
-                                ))}
-                            {!usersPending && (!users || users?.length === 0) && (
-                                <View>
-                                    <Text>
-                                        {t('This groups has no member')}
-                                    </Text>
-                                </View>
-                            )}
+                        <View style={styles.moreStatsContainer}>
+                            <ClickableListItem
+                                onPress={handleMoreStatsClick}
+                                title={t('More Stats')}
+                                hideChevronIcon
+                                icon={
+                                    <SvgXml
+                                        height={FONT_SIZE_MEDIUM}
+                                        xml={externalLink}
+                                    />
+                                }
+                            />
                         </View>
                         {isUserMember && (
                             <View style={styles.settingsContainer}>
@@ -580,28 +623,10 @@ function UserGroup(props: Props) {
                                 </Text>
                                 <ClickableListItem
                                     textStyle={styles.leaveButtonText}
-                                    onPress={() => {
-                                        Alert.alert(
-                                            t('Leave User Group'),
-                                            t(
-                                                'Are you sure you want to leave this group?\n\nAfter you leave the group, you will still remain on the leaderboard. Contributions you made while a member of the group will still be counted towards the group.  Contributions after you leave will no longer be counted towards the group.',
-                                            ),
-                                            [
-                                                {
-                                                    text: t('Cancel'),
-                                                    style: 'cancel',
-                                                },
-                                                {
-                                                    text: t('OK'),
-                                                    onPress:
-                                                        handleLeaveUserGroup,
-                                                },
-                                            ],
-                                        );
-                                    }}
+                                    onPress={handleLeaveUserGroupClick}
                                     title={t('leaveGroup')}
                                     accessibilityLabel={t('leaveGroup')}
-                                    hideIcon
+                                    hideChevronIcon
                                 />
                             </View>
                         )}

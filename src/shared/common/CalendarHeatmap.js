@@ -14,6 +14,7 @@ import {
     COLOR_CALENDAR_GRAPH_BORDER,
     FONT_SIZE_EXTRA_SMALL,
     FONT_WEIGHT_BOLD,
+    COLOR_DEEP_BLUE,
 } from '../constants';
 
 const styles = StyleSheet.create({
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     },
 
     item: {
-        borderWidth: 5,
+        borderWidth: 2,
         borderColor: COLOR_LIGHT_GRAY,
     },
 
@@ -40,6 +41,15 @@ const styles = StyleSheet.create({
 });
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+function dateToStringKey(date: Date) {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const dateKey = `${yyyy}-${mm}-${dd}`;
+
+    return dateKey;
+}
 
 type Props = {
     style: ViewStyleProp,
@@ -54,6 +64,7 @@ function CalendarHeatmap(props: Props) {
 
     const now = new Date();
     const dayOfWeek = now.getDay();
+    const todayKey = dateToStringKey(now);
 
     const endDate = new Date(now.getTime());
     endDate.setDate(endDate.getDate() + (6 - dayOfWeek));
@@ -61,14 +72,17 @@ function CalendarHeatmap(props: Props) {
     const startDate = new Date(endDate.getTime());
     startDate.setDate(startDate.getDate() - 34);
 
-    const dateKeys = Array.from(new Array(35).keys()).map(() => {
-        const yyyy = startDate.getFullYear();
-        const mm = String(startDate.getMonth() + 1).padStart(2, '0');
-        const dd = String(startDate.getDate()).padStart(2, '0');
-        const dateKey = `${yyyy}-${mm}-${dd}`;
-        startDate.setDate(startDate.getDate() + 1);
-        return dateKey;
-    });
+    const dateKeys = Array.from(new Array(35).keys())
+        .map(() => {
+            if (startDate.getTime() > now.getTime()) {
+                return null;
+            }
+
+            const dateKey = dateToStringKey(startDate);
+            startDate.setDate(startDate.getDate() + 1);
+            return dateKey;
+        })
+        .filter(Boolean);
 
     return (
         <View style={[styles.calendarHeatmap, style]}>
@@ -138,13 +152,24 @@ function CalendarHeatmap(props: Props) {
                                 style={{
                                     width: '100%',
                                     height: '100%',
-                                    backgroundColor: color,
-                                    opacity,
-                                    borderColor: COLOR_CALENDAR_GRAPH_BORDER,
-                                    borderWidth: 1,
+                                    borderColor:
+                                        dateKey === todayKey
+                                            ? COLOR_DEEP_BLUE
+                                            : COLOR_CALENDAR_GRAPH_BORDER,
+                                    borderWidth: 2,
                                     borderRadius: 5,
                                 }}
-                            />
+                            >
+                                <View
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        backgroundColor: color,
+                                        opacity,
+                                        borderRadius: 4,
+                                    }}
+                                />
+                            </View>
                         </View>
                     </React.Fragment>
                 );

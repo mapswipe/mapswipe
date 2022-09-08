@@ -14,6 +14,7 @@ import {
     COLOR_DARK_GRAY,
     FONT_SIZE_SMALL,
     SPACING_MEDIUM,
+    SPACING_SMALL,
 } from '../constants';
 
 import { chevronRight } from './SvgIcons';
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     clickableListItem: {
         backgroundColor: COLOR_WHITE,
         borderColor: COLOR_LIGHT_GRAY,
-        borderBottomWidth: 1,
+        borderBottomWidth: SPACING_SMALL,
     },
 
     clickableListItemContent: {
@@ -39,13 +40,14 @@ const styles = StyleSheet.create({
     clickableListItemIcon: {
         flexShrink: 0,
         opacity: 0.5,
+        marginLeft: SPACING_MEDIUM,
     },
 });
 
 type ClickableListItemProps<N> = {
     name?: N,
     accessibilityLabel?: string,
-    hideIcon?: boolean,
+    hideChevronIcon?: boolean,
     icon?: Node,
     onPress: (name?: N) => void,
     style?: ViewStyleProp,
@@ -61,7 +63,7 @@ function ClickableListItem<N = any>(props: ClickableListItemProps<N>): any {
         accessibilityLabel = title,
         style,
         icon,
-        hideIcon = false,
+        hideChevronIcon = false,
         textStyle,
     } = props;
 
@@ -85,8 +87,8 @@ function ClickableListItem<N = any>(props: ClickableListItemProps<N>): any {
                 <Text style={[styles.clickableListItemText, textStyle]}>
                     {title}
                 </Text>
-                {!hideIcon && icon && icon}
-                {!hideIcon && !icon && (
+                {icon}
+                {!hideChevronIcon && (
                     <SvgXml
                         style={styles.clickableListItemIcon}
                         height={FONT_SIZE_SMALL}
