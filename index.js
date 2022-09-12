@@ -12,12 +12,13 @@ import '@react-native-firebase/database';
 import '@react-native-firebase/storage';
 import * as Sentry from '@sentry/react-native';
 import { PersistGate } from 'redux-persist/integration/react';
-import 'intl';
-import 'intl/locale-data/jsonp/en';
-
 // $FlowIssue[cannot-resolve-module]
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+
+import { sentryDsnUrl, gqlEndpoint } from './src/shared/constants';
 import './src/shared/i18n';
 import Main from './src/shared/Main';
 import { name as appName } from './app';
@@ -27,7 +28,8 @@ import setupStore, {
 
 if (!__DEV__) {
     Sentry.init({
-        dsn: 'https://b5a9356c68a4484c9891484f8a12d016@sentry.io/1326755',
+        dsn: sentryDsnUrl,
+        // dsn: 'https://b5a9356c68a4484c9891484f8a12d016@sentry.io/1326755',
     });
 }
 
@@ -36,7 +38,8 @@ type Props = {};
 const { store, persistor } = setupStore();
 
 const client = new ApolloClient({
-    uri: 'https://mapswipe-api.dev.togglecorp.com/graphql/',
+    // uri: 'https://mapswipe-api.dev.togglecorp.com/graphql/',
+    uri: gqlEndpoint,
     cache: new InMemoryCache(),
 });
 

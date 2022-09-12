@@ -3,6 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+// $FlowIssue[cannot-resolve-module]
 import { gql, useQuery } from '@apollo/client';
 import auth, { firebase } from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -44,6 +45,7 @@ import {
     SPACING_MEDIUM,
     FONT_SIZE_MEDIUM,
     supportedLanguages,
+    publicDashboardUrl,
 } from '../constants';
 import { database as databaseIcon, externalLink } from '../common/SvgIcons';
 import Levels from '../Levels';
@@ -270,6 +272,37 @@ const mapStateToProps = (state, ownProps): ReduxProps => ({
     // teamName: state.firebase.data.teamName,
 });
 
+function useIsFocused(navigation) {
+    const [isFocused, setIsFocused] = React.useState(true);
+
+    const handleFocus = React.useCallback(() => {
+        setIsFocused(true);
+    }, []);
+
+    const handleBlur = React.useCallback(() => {
+        setIsFocused(false);
+    }, []);
+
+    React.useEffect(() => {
+        const didFocusSubscription = navigation.addListener(
+            'didFocus',
+            handleFocus,
+        );
+        const didBlurSubscription = navigation.addListener(
+            'didBlur',
+            handleBlur,
+        );
+
+        return () => {
+            didFocusSubscription.remove();
+            didBlurSubscription.remove();
+            setIsFocused(false);
+        };
+    }, [navigation, handleFocus, handleBlur]);
+
+    return isFocused;
+}
+
 const enhance = compose(
     withTranslation('profileScreen'),
     firebaseConnect(),
@@ -295,6 +328,8 @@ function UserProfile(props: Props) {
         profile,
     } = props;
 
+    const isFocused = useIsFocused(navigation);
+
     const levelObject = Levels[level];
     const kmTillNextLevelToShow = kmTillNextLevel || 0;
     const swipes = Math.ceil(kmTillNextLevelToShow / 6);
@@ -304,7 +339,8 @@ function UserProfile(props: Props) {
         swipes,
     });
 
-    const userId = auth().currentUser?.uid;
+    const currentUser = React.useMemo(() => auth().currentUser, [isFocused]);
+    const userId = currentUser?.uid;
 
     const {
         data: userStatsData,
@@ -411,7 +447,7 @@ function UserProfile(props: Props) {
         );
 
         const swipeTime = numberFormatter.format(
-            userStatsData?.user?.stats?.totalSwipeTime,
+            userStatsData?.user?.stats?.totalSwipeTime ?? 0,
         );
 
         const swipeAreaSum = userStatsData?.user?.projectStats?.reduce(
@@ -582,9 +618,7 @@ function UserProfile(props: Props) {
 
     const handleMoreStatsClick = React.useCallback(() => {
         if (userId) {
-            Linking.openURL(
-                `https://mapswipe-web-dashboard.dev.togglecorp.com/user/${userId}/`,
-            );
+            Linking.openURL(`${publicDashboardUrl}/user/${userId}/`);
         }
     }, [userId]);
 
@@ -619,9 +653,7 @@ function UserProfile(props: Props) {
                     />
                 </TouchableWithoutFeedback>
                 <View style={styles.details}>
-                    <Text style={styles.name}>
-                        {auth()?.currentUser?.displayName}
-                    </Text>
+                    <Text style={styles.name}>{currentUser?.displayName}</Text>
                     <View style={styles.progressDetails}>
                         <View style={styles.textContainer}>
                             <Text style={styles.levelText}>
