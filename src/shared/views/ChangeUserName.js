@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import auth from '@react-native-firebase/auth';
+import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { View, StyleSheet, Text, TextInput, Button } from 'react-native';
@@ -10,6 +10,7 @@ import {
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
     SPACING_MEDIUM,
+    MIN_USERNAME_LENGTH,
 } from '../constants';
 import PageHeader from '../common/PageHeader';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const enhance = compose(withTranslation('changeUserName'));
+const enhance = compose(withTranslation('changeUserName'), firebaseConnect());
 
 type OwnProps = {
     navigation: NavigationProp,
@@ -49,6 +50,7 @@ type OwnProps = {
 
 type InjectedProps = {
     t: TranslationFunction,
+    firebase: Object,
 };
 
 type Props = OwnProps & InjectedProps;
@@ -56,19 +58,20 @@ type Props = OwnProps & InjectedProps;
 function ChangeUserName(props: Props) {
     const [newUserName, setNewUserName] = React.useState();
 
-    const { t, navigation } = props;
-    const userName = auth().currentUser?.displayName;
+    const { t, navigation, firebase } = props;
+    const userName = firebase.auth().currentUser?.displayName;
     const [updatePending, setUpdatePending] = React.useState(false);
 
     const handleConfirmButtonClick = React.useCallback(() => {
-        if ((newUserName?.length ?? 0) > 3) {
+        if ((newUserName?.length ?? 0) >= MIN_USERNAME_LENGTH) {
             setUpdatePending(true);
-            auth()
-                .currentUser.updateProfile({ displayName: newUserName })
+            firebase
+                .updateAuth({ displayName: newUserName })
+                .then(() => firebase.updateProfile({ username: newUserName }))
                 .then(
                     () => {
                         setUpdatePending(false);
-                        navigation.navigate('UserProfile');
+                        navigation.goBack();
                     },
                     () => {
                         setUpdatePending(false);
@@ -76,7 +79,7 @@ function ChangeUserName(props: Props) {
                     },
                 );
         }
-    }, [newUserName]);
+    }, [firebase, newUserName]);
 
     return (
         <View style={styles.changeUserNameScreen}>
@@ -109,7 +112,8 @@ function ChangeUserName(props: Props) {
                                 : t('confirmUserNameChange')
                         }
                         disabled={
-                            updatePending || (newUserName?.length ?? 0) < 3
+                            updatePending ||
+                            (newUserName?.length ?? 0) < MIN_USERNAME_LENGTH
                         }
                     />
                 </View>

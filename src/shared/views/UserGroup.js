@@ -3,6 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { MessageBarManager } from 'react-native-message-bar';
+// $FlowIssue[cannot-resolve-module]
 import { gql, useQuery } from '@apollo/client';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -31,6 +32,7 @@ import {
     SPACING_SMALL,
     COLOR_YELLOW_OVERLAY,
     FONT_SIZE_MEDIUM,
+    publicDashboardUrl,
 } from '../constants';
 import PageHeader from '../common/PageHeader';
 import { database as databaseIcon, externalLink } from '../common/SvgIcons';
@@ -426,9 +428,7 @@ function UserGroup(props: Props) {
 
     const handleMoreStatsClick = React.useCallback(() => {
         if (userGroupId) {
-            Linking.openURL(
-                `https://mapswipe-web-dashboard.dev.togglecorp.com/user-group/${userGroupId}/`,
-            );
+            Linking.openURL(`${publicDashboardUrl}/user-group/${userGroupId}/`);
         }
     }, [userGroupId]);
 
