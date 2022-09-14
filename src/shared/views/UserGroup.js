@@ -52,10 +52,6 @@ const USER_GROUP_STATS = gql`
             name
             isArchived
             userGroupId
-            projectSwipeType {
-                projectType
-                totalSwipe
-            }
             projectTypeStats {
                 area
                 projectType
@@ -64,14 +60,6 @@ const USER_GROUP_STATS = gql`
                 totalMappingProjects
                 totalSwipe
                 totalSwipeTime
-            }
-            userGroupGeoStats {
-                totalContribution
-            }
-            userGroupLatest {
-                totalContributors
-                totalSwipeTime
-                totalSwipes
             }
             userGroupOrganizationStats {
                 organizationName

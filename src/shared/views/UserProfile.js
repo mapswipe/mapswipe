@@ -57,15 +57,11 @@ import debugInfo from '../../../debugInfo';
 const USER_STATS = gql`
     query UserStats($userId: ID) {
         user(pk: $userId) {
-            userId
             username
+            userId
             contributionStats {
                 taskDate
                 totalSwipe
-            }
-            contributionTime {
-                taskDate
-                totalTime
             }
             organizationSwipeStats {
                 organizationName
@@ -74,10 +70,6 @@ const USER_STATS = gql`
             projectStats {
                 area
                 projectType
-            }
-            projectSwipeStats {
-                projectType
-                totalSwipe
             }
             stats {
                 totalMappingProjects
