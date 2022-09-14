@@ -439,10 +439,9 @@ function UserGroup(props: Props) {
                 : '-';
 
         const swipeAreaSum =
-            userGroupStatsData?.userGroup?.projectTypeStats?.reduce(
-                (sum, stat) => sum + (stat.area ?? 0),
-                0,
-            );
+            userGroupStatsData?.userGroup?.projectTypeStats?.find(
+                project => project.projectType === '1',
+            )?.area;
 
         const swipeArea = numberFormatter.format(swipeAreaSum?.toFixed(2) ?? 0);
 
@@ -455,7 +454,7 @@ function UserGroup(props: Props) {
             {
                 title: t('Tasks Completed'),
                 value: totalSwipes,
-                cached: false,
+                cached: true,
             },
             {
                 title: t('Members'),
@@ -475,7 +474,7 @@ function UserGroup(props: Props) {
             {
                 title: t('Mapping Projects'),
                 value: mappingProjects,
-                cached: false,
+                cached: true,
             },
             {
                 title: t('Organization(s) supported'),
