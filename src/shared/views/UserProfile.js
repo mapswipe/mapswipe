@@ -442,11 +442,9 @@ function UserProfile(props: Props) {
             userStatsData?.user?.stats?.totalSwipeTime ?? 0,
         );
 
-        const swipeAreaSum = userStatsData?.user?.projectStats?.reduce(
-            (sum, stat) => sum + (stat.area ?? 0),
-            0,
-        );
-
+        const swipeAreaSum = userStatsData?.user?.projectStats?.find(
+            project => project.projectType === '1',
+        )?.area;
         const swipeArea = numberFormatter.format(swipeAreaSum?.toFixed(2) ?? 0);
 
         const organizationsSupported = numberFormatter.format(
