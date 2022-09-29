@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
 import { MessageBarManager } from 'react-native-message-bar';
 // $FlowIssue[cannot-resolve-module]
@@ -28,42 +29,35 @@ import {
     COLOR_RED,
     SPACING_MEDIUM,
     FONT_WEIGHT_BOLD,
-    FONT_SIZE_SMALL,
     SPACING_SMALL,
     COLOR_YELLOW_OVERLAY,
     FONT_SIZE_MEDIUM,
     publicDashboardUrl,
+    supportedLanguages,
 } from '../constants';
 import PageHeader from '../common/PageHeader';
-import { database as databaseIcon, externalLink } from '../common/SvgIcons';
+import { externalLink } from '../common/SvgIcons';
 import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
 import CalendarHeatmap from '../common/CalendarHeatmap';
 import type { TranslationFunction } from '../flow-types';
 
 const USER_GROUP_STATS = gql`
-    query UserGroupStats($userGroupId: ID) {
-        userGroup(pk: $userGroupId) {
-            contributionStats {
-                taskDate
-                totalSwipe
-            }
-            description
-            name
-            isArchived
-            userGroupId
-            projectTypeStats {
-                area
-                projectType
-            }
+    query UserGroupStats($userGroupId: ID!) {
+        userGroupStats(userGroupId: $userGroupId) {
             stats {
+                totalContributors
                 totalMappingProjects
-                totalSwipe
+                totalSwipes
+                totalAreaSwiped
                 totalSwipeTime
+                totalOrganization
             }
-            userGroupOrganizationStats {
-                organizationName
-                totalSwipe
+            filteredStats {
+                swipeByDate {
+                    taskDate
+                    totalSwipes
+                }
             }
         }
     }
@@ -140,15 +134,10 @@ const styles = StyleSheet.create({
         padding: SPACING_MEDIUM,
     },
 
-    databaseIcon: {
-        marginHorizontal: SPACING_SMALL,
-    },
-
     cachedInfo: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: SPACING_MEDIUM,
-        justifyContent: 'flex-end',
         marginTop: SPACING_MEDIUM,
     },
 
@@ -184,7 +173,15 @@ type InjectedProps = {
     t: TranslationFunction,
 };
 
-type Props = OwnProps & InjectedProps;
+type ReduxProps = {
+    languageCode: string,
+};
+
+const mapStateToProps = (state): ReduxProps => ({
+    languageCode: state.ui.user.languageCode,
+});
+
+type Props = OwnProps & InjectedProps & ReduxProps;
 
 function UserGroup(props: Props) {
     const {
@@ -195,6 +192,7 @@ function UserGroup(props: Props) {
             },
         },
         t,
+        languageCode,
     } = props;
 
     const [userGroupDetailPending, setUserGroupDetailPending] =
@@ -420,82 +418,81 @@ function UserGroup(props: Props) {
         }
     }, [userGroupId]);
 
+    const selectedLanguage = React.useMemo(
+        () =>
+            supportedLanguages.find(language => language.code === languageCode),
+        [languageCode],
+    );
+
     const userGroupStats: Stat[] = React.useMemo(() => {
-        const numberFormatter = new Intl.NumberFormat();
-        const stats = userGroupStatsData?.userGroup?.stats;
+        const stats = userGroupStatsData?.userGroupStats?.stats ?? {};
+        const {
+            totalContributors,
+            totalMappingProjects,
+            totalSwipes,
+            totalAreaSwiped,
+            totalSwipeTime,
+            totalOrganization,
+        } = stats;
 
-        const totalSwipeTime = numberFormatter.format(
-            stats?.totalSwipeTime ?? 0,
+        const formatNumber = new Intl.NumberFormat(selectedLanguage?.localeCode)
+            .format;
+
+        const totalSwipesFormatted = formatNumber(totalSwipes ?? 0);
+        const totalMappingProjectsFormatted = formatNumber(
+            totalMappingProjects ?? 0,
         );
-        const totalSwipes = numberFormatter.format(stats?.totalSwipe ?? 0);
-        const mappingProjects = numberFormatter.format(
-            stats?.totalMappingProjects ?? 0,
+        const totalSwipeTimeFormatted = formatNumber(totalSwipeTime ?? 0);
+        const totalSwipeAreaFormatted = formatNumber(
+            Math.round(totalAreaSwiped ?? 0),
         );
-        const membersCount =
-            userGroupDetail && userGroupDetail.users
-                ? numberFormatter.format(
-                      Object.keys(userGroupDetail.users).length,
-                  )
-                : '-';
-
-        const swipeAreaSum =
-            userGroupStatsData?.userGroup?.projectTypeStats?.find(
-                project => project.projectType === '1',
-            )?.area;
-
-        const swipeArea = numberFormatter.format(swipeAreaSum?.toFixed(2) ?? 0);
-
-        const organizationsSupported = numberFormatter.format(
-            userGroupStatsData?.userGroup?.userGroupOrganizationStats?.length ??
-                0,
-        );
+        const totalOrganizationFormatted = formatNumber(totalOrganization ?? 0);
+        const totalContributorsFormatted = formatNumber(totalContributors ?? 0);
 
         return [
             {
-                title: t('Tasks Completed'),
-                value: totalSwipes,
+                title: t('Total Swipes'),
+                value: totalSwipesFormatted,
                 cached: true,
             },
             {
-                title: t('Members'),
-                value: membersCount,
+                title: t('Total Contributors'),
+                value: totalContributorsFormatted,
                 cached: false,
             },
             {
                 title: t('Total time spent swiping (min)'),
-                value: totalSwipeTime,
+                value: totalSwipeTimeFormatted,
                 cached: true,
             },
             {
                 title: t('Cumulative area swiped (sq.km)'),
-                value: swipeArea,
+                value: totalSwipeAreaFormatted,
                 cached: true,
             },
             {
                 title: t('Mapping Projects'),
-                value: mappingProjects,
+                value: totalMappingProjectsFormatted,
                 cached: true,
             },
             {
                 title: t('Organization(s) supported'),
-                value: organizationsSupported,
+                value: totalOrganizationFormatted,
                 cached: true,
             },
         ];
-    }, [userGroupDetail, userGroupStatsData]);
+    }, [userGroupDetail, userGroupStatsData?.userGroupStats?.stats]);
 
     const calendarHeatmapData = React.useMemo(() => {
         const contributionStats =
-            userGroupStatsData?.userGroup?.contributionStats;
+            userGroupStatsData?.userGroupStats?.filteredStats?.swipeByDate;
 
         if (!contributionStats) {
             return {};
         }
 
-        const MAX_SWIPE_PER_DAY = 2200;
-
         const contributionStatsMap = contributionStats.reduce((acc, val) => {
-            acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
+            acc[val.taskDate] = val.totalSwipes;
             return acc;
         }, {});
 
@@ -555,13 +552,10 @@ function UserGroup(props: Props) {
                             </View>
                         )}
                         <View style={styles.cachedInfo}>
-                            <SvgXml
-                                style={styles.databaseIcon}
-                                xml={databaseIcon}
-                                height={FONT_SIZE_SMALL}
-                            />
                             <Text style={styles.infoText}>
-                                {t('Updated once every day')}
+                                {t(
+                                    'All the stats are only updated once everyday',
+                                )}
                             </Text>
                         </View>
                         <View style={styles.userGroupsStatsContainer}>
@@ -571,9 +565,6 @@ function UserGroup(props: Props) {
                                     title={stat.title}
                                     value={stat.value}
                                     style={styles.card}
-                                    iconXml={
-                                        stat.cached ? databaseIcon : undefined
-                                    }
                                 />
                             ))}
                         </View>
@@ -582,11 +573,6 @@ function UserGroup(props: Props) {
                                 <Text style={styles.headingText}>
                                     {t('Contribution Heatmap')}
                                 </Text>
-                                <SvgXml
-                                    style={styles.databaseIcon}
-                                    xml={databaseIcon}
-                                    height={FONT_SIZE_SMALL}
-                                />
                             </View>
                             <CalendarHeatmap data={calendarHeatmapData} />
                         </View>
@@ -624,5 +610,9 @@ function UserGroup(props: Props) {
     );
 }
 
-const enhance = compose(withTranslation('userGroupScreen'), firebaseConnect());
+const enhance = compose(
+    withTranslation('userGroupScreen'),
+    firebaseConnect(),
+    connect(mapStateToProps),
+);
 export default (enhance(UserGroup): any);

@@ -84,6 +84,14 @@ function CalendarHeatmap(props: Props) {
         })
         .filter(Boolean);
 
+    const filteredValues = dateKeys.map(dateKey => data[dateKey] ?? 0);
+    const max = Math.max(...filteredValues, 1);
+
+    const normalizedData = dateKeys.reduce((acc, dateKey) => {
+        acc[dateKey] = (data[dateKey] ?? 0) / max;
+        return acc;
+    }, {});
+
     return (
         <View style={[styles.calendarHeatmap, style]}>
             <View style={styles.dayList}>
@@ -114,7 +122,7 @@ function CalendarHeatmap(props: Props) {
             </View>
             <View style={styles.break} />
             {dateKeys.map((dateKey, index) => {
-                const value = data[dateKey] ?? 0;
+                const value = normalizedData[dateKey] ?? 0;
                 let color = COLOR_CALENDAR_GRAPH_BACKGROUND;
                 let opacity = 1;
 
