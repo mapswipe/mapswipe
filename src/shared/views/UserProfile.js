@@ -47,7 +47,7 @@ import {
     supportedLanguages,
     publicDashboardUrl,
 } from '../constants';
-import { database as databaseIcon, externalLink } from '../common/SvgIcons';
+import { externalLink } from '../common/SvgIcons';
 import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
@@ -55,34 +55,21 @@ import ClickableListItem from '../common/ClickableListItem';
 import debugInfo from '../../../debugInfo';
 
 const USER_STATS = gql`
-    query UserStats($userId: ID) {
-        user(pk: $userId) {
-            username
-            userId
-            contributionStats {
-                taskDate
-                totalSwipe
-            }
-            organizationSwipeStats {
-                organizationName
-                totalSwipe
-            }
-            projectStats {
-                area
-                projectType
-            }
+    query UserStats($userId: ID!) {
+        userStats(userId: $userId) {
             stats {
+                totalAreaSwiped
                 totalMappingProjects
-                totalSwipe
+                totalOrganization
                 totalSwipeTime
+                totalSwipes
+                totalUserGroups
             }
-            statsLatest {
-                totalSwipe
-                totalSwipeTime
-                totalUserGroup
-            }
-            userGeoContribution {
-                totalContribution
+            filteredStats {
+                swipeByDate {
+                    taskDate
+                    totalSwipes
+                }
             }
         }
     }
@@ -154,16 +141,11 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_LIGHT_GRAY,
     },
 
-    databaseIcon: {
-        marginHorizontal: SPACING_SMALL,
-    },
-
     cachedInfo: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: SPACING_MEDIUM,
         marginTop: SPACING_MEDIUM,
-        justifyContent: 'flex-end',
     },
 
     infoText: {
@@ -410,86 +392,89 @@ function UserProfile(props: Props) {
     }, [userId]);
 
     const calendarHeatmapData = React.useMemo(() => {
-        const contributionStats = userStatsData?.user?.contributionStats;
+        const contributionStats =
+            userStatsData?.userStats?.filteredStats?.swipeByDate;
+
         if (!contributionStats) {
             return {};
         }
 
-        const MAX_SWIPE_PER_DAY = 800;
-
         const contributionStatsMap = contributionStats.reduce((acc, val) => {
-            acc[val.taskDate] = Math.min(1, val.totalSwipe / MAX_SWIPE_PER_DAY);
+            acc[val.taskDate] = val.totalSwipes;
             return acc;
         }, {});
 
         return contributionStatsMap;
-    }, [userStatsData?.user?.contributionStats]);
+    }, [userStatsData?.userStats?.filteredStats?.swipeByDate]);
 
     React.useEffect(() => {
         loadUserGroups();
     }, [loadUserGroups]);
-
-    const userStats: Stat[] = React.useMemo(() => {
-        const numberFormatter = new Intl.NumberFormat();
-        const tasksCompleted = numberFormatter.format(
-            profile?.taskContributionCount ?? 0,
-        );
-        const projectContributions = numberFormatter.format(
-            profile?.projectContributionCount ?? 0,
-        );
-
-        const swipeTime = numberFormatter.format(
-            userStatsData?.user?.stats?.totalSwipeTime ?? 0,
-        );
-
-        const swipeAreaSum = userStatsData?.user?.projectStats?.find(
-            project => project.projectType === '1',
-        )?.area;
-        const swipeArea = numberFormatter.format(swipeAreaSum?.toFixed(2) ?? 0);
-
-        const organizationsSupported = numberFormatter.format(
-            userStatsData?.user?.organizationSwipeStats?.length ?? 0,
-        );
-
-        return [
-            {
-                title: t('Tasks Completed'),
-                value: tasksCompleted,
-                cached: false,
-            },
-            {
-                title: t('Swipe Quality Score'),
-                value: '-',
-                cached: true,
-            },
-            {
-                title: t('Total time spent swiping (min)'),
-                value: swipeTime,
-                cached: true,
-            },
-            {
-                title: t('Cumulative area swiped (sq.km)'),
-                value: swipeArea,
-                cached: true,
-            },
-            {
-                title: t('Mapping Missions'),
-                value: projectContributions,
-                cached: false,
-            },
-            {
-                title: t('Organization(s) supported'),
-                value: organizationsSupported,
-                cached: true,
-            },
-        ];
-    }, [profile, userStatsData]);
 
     const selectedLanguage = React.useMemo(
         () =>
             supportedLanguages.find(language => language.code === languageCode),
         [languageCode],
     );
+
+    const userStats: Stat[] = React.useMemo(() => {
+        const stats = userStatsData?.userStats?.stats ?? {};
+        const {
+            totalMappingProjects,
+            totalSwipeTime,
+            totalSwipes,
+            totalSwipeArea,
+            totalOrganization,
+            totalUserGroups,
+        } = stats;
+
+        const formatNumber = new Intl.NumberFormat(selectedLanguage?.localeCode)
+            .format;
+
+        const totalSwipesFormatted = formatNumber(totalSwipes ?? 0);
+        const totalMappingProjectsFormatted = formatNumber(
+            totalMappingProjects ?? 0,
+        );
+        const totalSwipeTimeFormatted = formatNumber(totalSwipeTime ?? 0);
+        const totalSwipeAreaFormatted = formatNumber(
+            Math.round(totalSwipeArea ?? 0),
+        );
+        const totalOrganizationFormatted = formatNumber(totalOrganization ?? 0);
+        const totalUserGroupsFormatted = formatNumber(totalUserGroups ?? 0);
+
+        return [
+            {
+                title: t('Total Swipes'),
+                value: totalSwipesFormatted,
+                cached: true,
+            },
+            {
+                title: t('Total time spent swiping (min)'),
+                value: totalSwipeTimeFormatted,
+                cached: true,
+            },
+            {
+                title: t('Cumulative area swiped (sq.km)'),
+                value: totalSwipeAreaFormatted,
+                cached: true,
+            },
+            {
+                title: t('Mapping Missions'),
+                value: totalMappingProjectsFormatted,
+                cached: true,
+            },
+            {
+                title: t('Organization(s) supported'),
+                value: totalOrganizationFormatted,
+                cached: true,
+            },
+            {
+                title: t('User Groups Joined'),
+                value: totalUserGroupsFormatted,
+                cached: true,
+            },
+        ];
+    }, [profile, userStatsData?.userStats?.stats]);
 
     const handleExploreGroupClick = React.useCallback(() => {
         navigation.navigate('SearchUserGroup');
@@ -680,13 +665,8 @@ function UserProfile(props: Props) {
                 }
             >
                 <View style={styles.cachedInfo}>
-                    <SvgXml
-                        style={styles.databaseIcon}
-                        xml={databaseIcon}
-                        height={FONT_SIZE_SMALL}
-                    />
                     <Text style={styles.infoText}>
-                        {t('Updated once everyday')}
+                        {t('All the stats are only updated once everyday')}
                     </Text>
                 </View>
                 <View style={styles.statsContainer}>
@@ -696,7 +676,6 @@ function UserProfile(props: Props) {
                             title={stat.title}
                             value={stat.value}
                             style={styles.card}
-                            iconXml={stat.cached ? databaseIcon : undefined}
                         />
                     ))}
                 </View>
@@ -705,11 +684,6 @@ function UserProfile(props: Props) {
                         <Text style={styles.headingText}>
                             {t('contributionHeatmap')}
                         </Text>
-                        <SvgXml
-                            style={styles.databaseIcon}
-                            xml={databaseIcon}
-                            height={FONT_SIZE_SMALL}
-                        />
                     </View>
                     <CalendarHeatmap data={calendarHeatmapData} />
                 </View>

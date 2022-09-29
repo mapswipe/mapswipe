@@ -246,6 +246,7 @@ export type Mapper = {
 
 export type LanguageData = {
     code: string, // two letter code, like 'en', 'de', etc...
+    localeCode: string,
     name: string, // the name of the language in itself 'english', 'Français', 'Español'...
 };
 
