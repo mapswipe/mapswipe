@@ -666,7 +666,7 @@ function UserProfile(props: Props) {
             >
                 <View style={styles.cachedInfo}>
                     <Text style={styles.infoText}>
-                        {t('All the stats are only updated once everyday')}
+                        {t('All the stats are only updated once a day')}
                     </Text>
                 </View>
                 <View style={styles.statsContainer}>

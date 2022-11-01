@@ -96,7 +96,7 @@ export const devOsmUrl = 'https://master.apis.dev.openstreetmap.org/';
 export const sentryDsnUrl =
     'https://e86b18bd37604eba81e6ba125ed8b9b9@o1403718.ingest.sentry.io/6736485';
 
-export const gqlEndpoint = 'https://mapswipe-api.dev.togglecorp.com/graphql/';
+export const gqlEndpoint = 'https://dev-api.mapswipe.org/graphql/';
 
-export const publicDashboardUrl =
-    'https://mapswipe-web-dashboard.dev.togglecorp.com';
+// Note: no ending slashes
+export const publicDashboardUrl = 'https://dev-community.mapswipe.org';
