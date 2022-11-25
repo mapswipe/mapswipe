@@ -373,7 +373,14 @@ class _Validator extends React.Component<Props, State> {
 const mapStateToProps = (state, ownProps) => ({
     commitCompletedGroup: ownProps.commitCompletedGroup,
     group: ownProps.group,
-    project: ownProps.project,
+    project: ownProps.tutorial
+        ? {
+              // use the tutorial imagery when in tutorial mode
+              ...ownProps.project,
+              tileServer:
+                  state.firebase.data.tutorial[ownProps.tutorialId].tileServer,
+          }
+        : ownProps.project,
     results: get(
         state.results[
             ownProps.tutorial ? ownProps.tutorialId : ownProps.project.projectId
