@@ -373,7 +373,15 @@ class _Validator extends React.Component<Props, State> {
 const mapStateToProps = (state, ownProps) => ({
     commitCompletedGroup: ownProps.commitCompletedGroup,
     group: ownProps.group,
-    project: ownProps.project,
+    // TODO: check where this object is used and get the data from the correct
+    // location if not too ugly
+    project: ownProps.tutorial
+        ? {
+              tileServer:
+                  state.firebase.data.tutorial[ownProps.tutorialId].tileServer,
+              ...ownProps.project,
+          }
+        : ownProps.project,
     results: get(
         state.results[
             ownProps.tutorial ? ownProps.tutorialId : ownProps.project.projectId
