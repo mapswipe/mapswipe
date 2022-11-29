@@ -79,6 +79,7 @@ export default class TutorialBox extends React.Component<Props, State> {
         this.setState({ position });
     };
 
+    // eslint-disable-next-line no-undef
     renderIcon(): null | React.Node {
         const {
             content: { icon },
@@ -101,6 +102,7 @@ export default class TutorialBox extends React.Component<Props, State> {
         }
     }
 
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const {
             boxType,
