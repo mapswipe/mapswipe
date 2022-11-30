@@ -139,6 +139,7 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
     );
 
     /* eslint-enable global-require */
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const { navigation, tutorial } = this.props;
         const projectObj = navigation.getParam('project', false);

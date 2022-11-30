@@ -33,6 +33,8 @@
     "signUp": "Regisztráció",
     "loginExistingAccount": "Bejelentkezés meglévő fiókba",
     "login": "Bejelentkezés",
+    "loginSignupWithOSM": "Bejelentkezés OpenStreetMap-fiókkal",
+    "OSMsignupExplanation": "A MapSwipe-ra az OpenStreetMap-fiókoddal tudsz feliratkozni. Ha már van MapSwipe-fiókod, ez nem fogja összekapcsolni őket! (Ez egy későbbi kiadásban fog megjelenni rövidesen.)",
     "forgotPassword": "Elfelejtetted a jelszavad?",
     "createNewAccount": "Új fiók létrehozása",
     "sendResetEmailWarning": "* A jelszavad alaphelyzetbe állításához küldünk egy e-mailt",

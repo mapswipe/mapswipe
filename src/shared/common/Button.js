@@ -71,6 +71,7 @@ class Button extends Component<Props> {
         return childElements;
     };
 
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const { onPress, style, textStyle, testID, isDisabled, children } =
             this.props;

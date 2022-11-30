@@ -432,6 +432,7 @@ export default class MapperScreen extends React.Component<Props> {
         this.randomSeed = Math.random();
     }
 
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);

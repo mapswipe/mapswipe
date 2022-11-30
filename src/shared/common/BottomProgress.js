@@ -38,6 +38,7 @@ export default class BottomProgress extends React.Component<{}, BPState> {
         });
     };
 
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const { progress } = this.state;
         return (
