@@ -34,6 +34,7 @@ export const supportedLanguages = [
     { code: 'cs', name: 'Čeština' },
     { code: 'da', name: 'Dansk' },
     { code: 'de', name: 'Deutsch' },
+    { code: 'eo', name: 'Esperanto' },
     { code: 'et', name: 'Eesti' },
     { code: 'en', name: 'English' },
     { code: 'es', name: 'Español' },

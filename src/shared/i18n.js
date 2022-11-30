@@ -5,6 +5,7 @@ import translationCS from '../../locales/cs';
 import translationDA from '../../locales/da';
 import translationDE from '../../locales/de';
 import translationEN from '../../locales/en';
+import translationEO from '../../locales/eo';
 import translationES from '../../locales/es';
 import translationET from '../../locales/et';
 // eslint-disable-next-line camelcase
@@ -25,6 +26,7 @@ const resources = {
     da: translationDA,
     de: translationDE,
     en: translationEN,
+    eo: translationEO,
     es: translationES,
     et: translationET,
     fa_AF: translationFA_AF,
