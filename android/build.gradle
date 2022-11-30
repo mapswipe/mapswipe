@@ -20,7 +20,7 @@ buildscript {
          */
         compileSdkVersion = 30
         // targetSdkVersion specifies the API level used to test the app.
-        targetSdkVersion = 30
+        targetSdkVersion = 31
         androidXCore = "1.0.2"
         kotlinVersion = '1.3.72'
         ndkVersion = "20.1.5948944"
