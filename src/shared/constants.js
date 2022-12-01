@@ -48,11 +48,16 @@ export const FONT_SIZE_MEDIUM = 16;
 export const FONT_SIZE_LARGE = 20;
 export const FONT_SIZE_EXTRA_LARGE = 26;
 
+export const FONT_SIZE_INPUT_LABEL = FONT_SIZE_SMALL;
+
 // spacing
 export const SPACING_EXTRA_SMALL = 4;
 export const SPACING_SMALL = 8;
 export const SPACING_MEDIUM = 16;
 export const SPACING_LARGE = 24;
+
+export const HEIGHT_INPUT = 40;
+export const HEIGHT_BUTTON = 50;
 
 // languages
 export const supportedLanguages = [

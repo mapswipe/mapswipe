@@ -52,6 +52,7 @@ import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
 import ClickableListItem from '../common/ClickableListItem';
+import { formatTimeDurationForSecs } from '../utils';
 import debugInfo from '../../../debugInfo';
 
 const USER_STATS = gql`
@@ -70,6 +71,9 @@ const USER_STATS = gql`
                     taskDate
                     totalSwipes
                 }
+            }
+            statsLatest {
+                totalUserGroups
             }
         }
     }
@@ -420,11 +424,11 @@ function UserProfile(props: Props) {
     const userStats: Stat[] = React.useMemo(() => {
         const stats = userStatsData?.userStats?.stats ?? {};
         const {
+            totalAreaSwiped,
             totalMappingProjects,
+            totalOrganization,
             totalSwipeTime,
             totalSwipes,
-            totalSwipeArea,
-            totalOrganization,
             totalUserGroups,
         } = stats;
 
@@ -435,41 +439,43 @@ function UserProfile(props: Props) {
         const totalMappingProjectsFormatted = formatNumber(
             totalMappingProjects ?? 0,
         );
-        const totalSwipeTimeFormatted = formatNumber(totalSwipeTime ?? 0);
+        const totalSwipeTimeFormatted = formatTimeDurationForSecs(
+            totalSwipeTime ?? 0,
+        );
         const totalSwipeAreaFormatted = formatNumber(
-            Math.round(totalSwipeArea ?? 0),
+            Math.round(totalAreaSwiped ?? 0),
         );
         const totalOrganizationFormatted = formatNumber(totalOrganization ?? 0);
         const totalUserGroupsFormatted = formatNumber(totalUserGroups ?? 0);
 
         return [
             {
-                title: t('Total Swipes'),
+                title: t('Total swipes'),
                 value: totalSwipesFormatted,
                 cached: true,
             },
             {
-                title: t('Total time spent swiping (min)'),
+                title: t('Total time spent swiping'),
                 value: totalSwipeTimeFormatted,
                 cached: true,
             },
             {
-                title: t('Cumulative area swiped (sq.km)'),
+                title: t('Total area swiped (sq.km)'),
                 value: totalSwipeAreaFormatted,
                 cached: true,
             },
             {
-                title: t('Mapping Missions'),
+                title: t('Total missions'),
                 value: totalMappingProjectsFormatted,
                 cached: true,
             },
             {
-                title: t('Organization(s) supported'),
+                title: t('Organizations supported'),
                 value: totalOrganizationFormatted,
                 cached: true,
             },
             {
-                title: t('User Groups Joined'),
+                title: t('User groups joined'),
                 value: totalUserGroupsFormatted,
                 cached: true,
             },

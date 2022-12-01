@@ -3,16 +3,20 @@ import React from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
-import { View, StyleSheet, Text, TextInput, Button } from 'react-native';
+import { View, StyleSheet, Text, TextInput } from 'react-native';
 import {
     COLOR_WHITE,
-    COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
     COLOR_DARK_GRAY,
     SPACING_MEDIUM,
     MIN_USERNAME_LENGTH,
+    HEIGHT_INPUT,
+    HEIGHT_BUTTON,
+    FONT_SIZE_INPUT_LABEL,
 } from '../constants';
 import PageHeader from '../common/PageHeader';
+import Button from '../common/Button';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 
 const styles = StyleSheet.create({
@@ -31,6 +35,16 @@ const styles = StyleSheet.create({
         color: COLOR_DARK_GRAY,
         backgroundColor: COLOR_WHITE,
         marginVertical: SPACING_MEDIUM,
+
+        // width: GLOBAL.SCREEN_WIDTH * 0.9,
+        height: HEIGHT_INPUT,
+        borderRadius: 5,
+        // color: COLOR_WHITE,
+        paddingLeft: 10,
+    },
+
+    readOnlyInput: {
+        opacity: 0.6,
     },
 
     actions: {
@@ -38,7 +52,17 @@ const styles = StyleSheet.create({
     },
 
     label: {
+        fontSize: FONT_SIZE_INPUT_LABEL,
         color: COLOR_DARK_GRAY,
+    },
+
+    button: {
+        backgroundColor: COLOR_DEEP_BLUE,
+        height: HEIGHT_BUTTON,
+    },
+
+    buttonText: {
+        color: COLOR_WHITE,
     },
 });
 
@@ -89,7 +113,7 @@ function ChangeUserName(props: Props) {
                     {t('currentUserName')}
                 </Text>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, styles.readOnlyInput]}
                     value={userName}
                     editable={false}
                     maxLength={128}
@@ -104,18 +128,18 @@ function ChangeUserName(props: Props) {
                 />
                 <View style={styles.actions}>
                     <Button
-                        color={COLOR_DEEP_BLUE}
+                        style={styles.button}
+                        textStyle={styles.buttonText}
                         onPress={handleConfirmButtonClick}
-                        title={
-                            updatePending
-                                ? t('Updating Username')
-                                : t('confirmUserNameChange')
-                        }
-                        disabled={
+                        isDisabled={
                             updatePending ||
                             (newUserName?.length ?? 0) < MIN_USERNAME_LENGTH
                         }
-                    />
+                    >
+                        {updatePending
+                            ? t('Updating Username')
+                            : t('confirmUserNameChange')}
+                    </Button>
                 </View>
             </View>
         </View>

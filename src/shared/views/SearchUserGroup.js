@@ -91,6 +91,7 @@ function SearchUserGroup(props: Props) {
     const [userGroups, setUserGroups] = React.useState([]);
     (userGroups: UserGroupWithKey[]);
     const [matchingUserGroups, setMatchingUserGroups] = React.useState([]);
+    const [fetchKey, setFetchKey] = React.useState(() => Math.random());
 
     const queryText = searchText.trim().toLowerCase();
 
@@ -119,13 +120,12 @@ function SearchUserGroup(props: Props) {
         };
 
         const userGroupsRef = database().ref('/v2/userGroups/');
-
         userGroupsRef.on('value', handleUserGroupsLoad);
 
         return () => {
             userGroupsRef.off('value', handleUserGroupsLoad);
         };
-    }, []);
+    }, [fetchKey]);
 
     React.useEffect(() => {
         if (queryText.length < 3) {
@@ -150,13 +150,20 @@ function SearchUserGroup(props: Props) {
         [navigation],
     );
 
+    const handleRefresh = React.useCallback(() => {
+        setFetchKey(Math.random());
+    }, []);
+
     return (
         <View style={styles.searchUserGroupContainer}>
             <PageHeader heading={t('Explore Groups')} />
             <ScrollView
                 contentContainerStyle={styles.content}
                 refreshControl={
-                    <RefreshControl refreshing={loadingUserGroups} />
+                    <RefreshControl
+                        onRefresh={handleRefresh}
+                        refreshing={loadingUserGroups}
+                    />
                 }
             >
                 <View style={styles.searchContainer}>

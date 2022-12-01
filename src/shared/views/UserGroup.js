@@ -41,6 +41,7 @@ import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
 import CalendarHeatmap from '../common/CalendarHeatmap';
 import type { TranslationFunction } from '../flow-types';
+import { formatTimeDurationForSecs } from '../utils';
 
 const USER_GROUP_STATS = gql`
     query UserGroupStats($userGroupId: ID!) {
@@ -442,7 +443,9 @@ function UserGroup(props: Props) {
         const totalMappingProjectsFormatted = formatNumber(
             totalMappingProjects ?? 0,
         );
-        const totalSwipeTimeFormatted = formatNumber(totalSwipeTime ?? 0);
+        const totalSwipeTimeFormatted = formatTimeDurationForSecs(
+            totalSwipeTime ?? 0,
+        );
         const totalSwipeAreaFormatted = formatNumber(
             Math.round(totalAreaSwiped ?? 0),
         );
@@ -451,12 +454,12 @@ function UserGroup(props: Props) {
 
         return [
             {
-                title: t('Total Swipes'),
+                title: t('Total swipes'),
                 value: totalSwipesFormatted,
                 cached: true,
             },
             {
-                title: t('Total Contributors'),
+                title: t('Total contributors'),
                 value: totalContributorsFormatted,
                 cached: false,
             },
@@ -466,17 +469,17 @@ function UserGroup(props: Props) {
                 cached: true,
             },
             {
-                title: t('Cumulative area swiped (sq.km)'),
+                title: t('Total area swiped (sq.km)'),
                 value: totalSwipeAreaFormatted,
                 cached: true,
             },
             {
-                title: t('Mapping Projects'),
+                title: t('Total missions'),
                 value: totalMappingProjectsFormatted,
                 cached: true,
             },
             {
-                title: t('Organization(s) supported'),
+                title: t('Organizations supported'),
                 value: totalOrganizationFormatted,
                 cached: true,
             },

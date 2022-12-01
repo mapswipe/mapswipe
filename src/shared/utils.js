@@ -144,3 +144,114 @@ export function rankedSearchOnList(list, searchString, labelSelector) {
             ),
         );
 }
+
+type DurationNumeric = 0 | 1 | 2 | 3 | 4 | 5;
+
+const mappings: {
+    [key: DurationNumeric]: {
+        text: string,
+        shortText: string,
+        value: number,
+    },
+} = {};
+
+mappings[0] = {
+    shortText: 'yr',
+    text: 'year',
+    value: 365 * 24 * 60 * 60,
+};
+mappings[1] = {
+    shortText: 'mo',
+    text: 'month',
+    value: 30 * 24 * 60 * 60,
+};
+mappings[2] = {
+    shortText: 'day',
+    text: 'day',
+    value: 24 * 60 * 60,
+};
+mappings[3] = {
+    shortText: 'hr',
+    text: 'hour',
+    value: 60 * 60,
+};
+mappings[4] = {
+    shortText: 'min',
+    text: 'minute',
+    value: 60,
+};
+mappings[5] = {
+    shortText: 'sec',
+    text: 'second',
+    value: 1,
+};
+
+function suffix(num: number, suffixStr: string, skipZero: boolean) {
+    if (num === 0) {
+        return skipZero ? '' : '0';
+    }
+
+    const formatter = Intl.NumberFormat(navigator.language, {
+        notation: 'compact',
+    });
+    return `${formatter.format(num)} ${suffixStr}${num !== 1 ? 's' : ''}`;
+}
+
+export function formatTimeDurationForSecs(
+    seconds: number,
+    separator?: string = ' ',
+    shorten?: boolean = true,
+    stop?: number = 2,
+    currentStateUnsafe?: DurationNumeric,
+    lastState?: number,
+): string {
+    const currentState = currentStateUnsafe ?? 0;
+
+    if (isDefined(lastState)) {
+        const lastStateTemp = lastState ?? 0;
+        if (currentState >= lastStateTemp) {
+            return '';
+        }
+    }
+
+    const map = mappings[currentState];
+    if (currentState === 5) {
+        return suffix(
+            seconds,
+            shorten ? map.shortText : map.text,
+            isDefined(lastState),
+        );
+    }
+
+    const nextState = ((currentState + 1: any): DurationNumeric);
+
+    const dur = Math.floor(seconds / map.value);
+    if (dur >= 1) {
+        return [
+            suffix(
+                dur,
+                shorten ? map.shortText : map.text,
+                isDefined(lastState),
+            ),
+            formatTimeDurationForSecs(
+                seconds % map.value,
+                separator,
+                shorten,
+                stop,
+                nextState,
+                lastState ?? currentState + stop,
+            ),
+        ]
+            .filter(Boolean)
+            .join(' ');
+    }
+
+    return formatTimeDurationForSecs(
+        seconds,
+        separator,
+        shorten,
+        stop,
+        nextState,
+        lastState,
+    );
+}
