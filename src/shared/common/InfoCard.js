@@ -97,7 +97,7 @@ function InfoCard(props: Props) {
                 {Array.isArray(value) && (
                     <View style={styles.listValueContainer}>
                         {value.map((seg, i) => (
-                            <>
+                            <React.Fragment key={seg.unit}>
                                 <View style={styles.segment}>
                                     <Text style={styles.value}>
                                         {seg.value}
@@ -107,7 +107,7 @@ function InfoCard(props: Props) {
                                 {i < value.length && (
                                     <View style={styles.horizontalGap} />
                                 )}
-                            </>
+                            </React.Fragment>
                         ))}
                     </View>
                 )}
