@@ -16,7 +16,7 @@ import {
 
 const styles = StyleSheet.create({
     infoCard: {
-        padding: 5,
+        padding: SPACING_SMALL,
     },
 
     container: {
@@ -41,18 +41,33 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'flex-end',
     },
+    listValueContainer: {
+        flexDirection: 'row',
+        flexGrow: 1,
+    },
     value: {
         fontWeight: FONT_WEIGHT_BOLD,
         fontSize: FONT_SIZE_EXTRA_LARGE,
     },
+    unit: {
+        lineHeight: FONT_SIZE_EXTRA_LARGE,
+        marginLeft: SPACING_SMALL * 0.5,
+    },
     gap: {
         height: SPACING_MEDIUM,
+    },
+    horizontalGap: {
+        width: SPACING_MEDIUM,
+    },
+    segment: {
+        flexDirection: 'row',
+        alignItems: 'baseline',
     },
 });
 
 type Props = {
     title: string,
-    value: string,
+    value: string | Array<{ value: string, unit: string }>,
     style?: ViewStyleProp,
     iconXml?: string,
 };
@@ -74,9 +89,28 @@ function InfoCard(props: Props) {
                     )}
                 </View>
                 <View style={styles.gap} />
-                <View style={styles.valueContainer}>
-                    <Text style={styles.value}>{value}</Text>
-                </View>
+                {typeof value === 'string' && (
+                    <View style={styles.valueContainer}>
+                        <Text style={styles.value}>{value}</Text>
+                    </View>
+                )}
+                {Array.isArray(value) && (
+                    <View style={styles.listValueContainer}>
+                        {value.map((seg, i) => (
+                            <>
+                                <View style={styles.segment}>
+                                    <Text style={styles.value}>
+                                        {seg.value}
+                                    </Text>
+                                    <Text style={styles.unit}>{seg.unit}</Text>
+                                </View>
+                                {i < value.length && (
+                                    <View style={styles.horizontalGap} />
+                                )}
+                            </>
+                        ))}
+                    </View>
+                )}
             </View>
         </View>
     );

@@ -186,6 +186,7 @@ mappings[5] = {
     value: 1,
 };
 
+/*
 function suffix(num: number, suffixStr: string, skipZero: boolean) {
     if (num === 0) {
         return skipZero ? '' : '0';
@@ -196,16 +197,20 @@ function suffix(num: number, suffixStr: string, skipZero: boolean) {
     });
     return `${formatter.format(num)} ${suffixStr}${num !== 1 ? 's' : ''}`;
 }
+*/
 
-export function formatTimeDurationForSecs(
+export function getTimeSegments(
     seconds: number,
     separator?: string = ' ',
     shorten?: boolean = true,
     stop?: number = 2,
     currentStateUnsafe?: DurationNumeric,
     lastState?: number,
-): string {
+): { value: number, unit: string }[] {
     const currentState = currentStateUnsafe ?? 0;
+    const formatNumber = Intl.NumberFormat(navigator.language, {
+        notation: 'compact',
+    }).format;
 
     if (isDefined(lastState)) {
         const lastStateTemp = lastState ?? 0;
@@ -216,11 +221,12 @@ export function formatTimeDurationForSecs(
 
     const map = mappings[currentState];
     if (currentState === 5) {
-        return suffix(
-            seconds,
-            shorten ? map.shortText : map.text,
-            isDefined(lastState),
-        );
+        return [
+            {
+                value: formatNumber(seconds),
+                unit: shorten ? map.shortText : map.text,
+            },
+        ];
     }
 
     const nextState = ((currentState + 1: any): DurationNumeric);
@@ -228,12 +234,11 @@ export function formatTimeDurationForSecs(
     const dur = Math.floor(seconds / map.value);
     if (dur >= 1) {
         return [
-            suffix(
-                dur,
-                shorten ? map.shortText : map.text,
-                isDefined(lastState),
-            ),
-            formatTimeDurationForSecs(
+            {
+                value: formatNumber(dur),
+                unit: shorten ? map.shortText : map.text,
+            },
+            ...getTimeSegments(
                 seconds % map.value,
                 separator,
                 shorten,
@@ -241,12 +246,10 @@ export function formatTimeDurationForSecs(
                 nextState,
                 lastState ?? currentState + stop,
             ),
-        ]
-            .filter(Boolean)
-            .join(' ');
+        ].filter(Boolean);
     }
 
-    return formatTimeDurationForSecs(
+    return getTimeSegments(
         seconds,
         separator,
         shorten,

@@ -52,7 +52,7 @@ import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
 import ClickableListItem from '../common/ClickableListItem';
-import { formatTimeDurationForSecs } from '../utils';
+import { getTimeSegments } from '../utils';
 import debugInfo from '../../../debugInfo';
 
 const USER_STATS = gql`
@@ -289,8 +289,7 @@ const enhance = compose(
 
 type Stat = {
     title: string,
-    value: string,
-    cached?: boolean,
+    value: string | Array<{ value: string, unit: string }>,
 };
 
 type Props = OwnProps & ReduxProps & InjectedProps;
@@ -439,45 +438,46 @@ function UserProfile(props: Props) {
         const totalMappingProjectsFormatted = formatNumber(
             totalMappingProjects ?? 0,
         );
-        const totalSwipeTimeFormatted = formatTimeDurationForSecs(
-            totalSwipeTime ?? 0,
-        );
+
+        const totalSwipeTimeSegments = getTimeSegments(totalSwipeTime ?? 0);
         const totalSwipeAreaFormatted = formatNumber(
             Math.round(totalAreaSwiped ?? 0),
         );
         const totalOrganizationFormatted = formatNumber(totalOrganization ?? 0);
-        const totalUserGroupsFormatted = formatNumber(totalUserGroups ?? 0);
+        const totalUserGroupsFormatted =
+            (totalUserGroups ?? 0) === 0
+                ? '0'
+                : [
+                      {
+                          value: formatNumber(totalUserGroups ?? 0),
+                          unit: t('(in last 30 days)'),
+                      },
+                  ];
 
         return [
             {
                 title: t('Total swipes'),
                 value: totalSwipesFormatted,
-                cached: true,
             },
             {
                 title: t('Total time spent swiping'),
-                value: totalSwipeTimeFormatted,
-                cached: true,
+                value: totalSwipeTimeSegments,
             },
             {
                 title: t('Total area swiped (sq.km)'),
                 value: totalSwipeAreaFormatted,
-                cached: true,
             },
             {
                 title: t('Total missions'),
                 value: totalMappingProjectsFormatted,
-                cached: true,
             },
             {
                 title: t('Organizations supported'),
                 value: totalOrganizationFormatted,
-                cached: true,
             },
             {
-                title: t('User groups joined'),
+                title: t('User groups contributed to'),
                 value: totalUserGroupsFormatted,
-                cached: true,
             },
         ];
     }, [profile, userStatsData?.userStats?.stats]);

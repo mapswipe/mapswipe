@@ -41,7 +41,7 @@ import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
 import CalendarHeatmap from '../common/CalendarHeatmap';
 import type { TranslationFunction } from '../flow-types';
-import { formatTimeDurationForSecs } from '../utils';
+import { getTimeSegments } from '../utils';
 
 const USER_GROUP_STATS = gql`
     query UserGroupStats($userGroupId: ID!) {
@@ -157,8 +157,7 @@ const styles = StyleSheet.create({
 
 type Stat = {
     title: string,
-    value: string,
-    cached?: boolean,
+    value: string | Array<{ value: string, unit: string }>,
 };
 
 type OwnProps = {
@@ -443,9 +442,7 @@ function UserGroup(props: Props) {
         const totalMappingProjectsFormatted = formatNumber(
             totalMappingProjects ?? 0,
         );
-        const totalSwipeTimeFormatted = formatTimeDurationForSecs(
-            totalSwipeTime ?? 0,
-        );
+        const totalSwipeTimeSegments = getTimeSegments(totalSwipeTime ?? 0);
         const totalSwipeAreaFormatted = formatNumber(
             Math.round(totalAreaSwiped ?? 0),
         );
@@ -456,32 +453,26 @@ function UserGroup(props: Props) {
             {
                 title: t('Total swipes'),
                 value: totalSwipesFormatted,
-                cached: true,
             },
             {
                 title: t('Total contributors'),
                 value: totalContributorsFormatted,
-                cached: false,
             },
             {
-                title: t('Total time spent swiping (min)'),
-                value: totalSwipeTimeFormatted,
-                cached: true,
+                title: t('Total time spent swiping'),
+                value: totalSwipeTimeSegments,
             },
             {
                 title: t('Total area swiped (sq.km)'),
                 value: totalSwipeAreaFormatted,
-                cached: true,
             },
             {
                 title: t('Total missions'),
                 value: totalMappingProjectsFormatted,
-                cached: true,
             },
             {
                 title: t('Organizations supported'),
                 value: totalOrganizationFormatted,
-                cached: true,
             },
         ];
     }, [userGroupDetail, userGroupStatsData?.userGroupStats?.stats]);

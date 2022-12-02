@@ -18,6 +18,7 @@ import {
     COLOR_LIGHT_GRAY,
     COLOR_DARK_GRAY,
     SPACING_MEDIUM,
+    HEIGHT_INPUT,
 } from '../constants';
 import PageHeader from '../common/PageHeader';
 import type { TranslationFunction, UserGroupType } from '../flow-types';
@@ -40,8 +41,10 @@ const styles = StyleSheet.create({
         marginBottom: SPACING_MEDIUM / 2,
     },
     searchTextInput: {
+        height: HEIGHT_INPUT,
         flexGrow: 1,
         color: COLOR_DARK_GRAY,
+        backgroundColor: COLOR_WHITE,
     },
     searchHint: {
         padding: SPACING_MEDIUM,
