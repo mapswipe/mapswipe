@@ -57,6 +57,12 @@ import debugInfo from '../../../debugInfo';
 
 const USER_STATS = gql`
     query UserStats($userId: ID!) {
+        user(pk: $userId) {
+            userId
+            userInUserGroups(pagination: { limit: 0, offset: 0 }) {
+                count
+            }
+        }
         userStats(userId: $userId) {
             stats {
                 totalAreaSwiped
@@ -64,16 +70,12 @@ const USER_STATS = gql`
                 totalOrganization
                 totalSwipeTime
                 totalSwipes
-                totalUserGroups
             }
             filteredStats {
                 swipeByDate {
                     taskDate
                     totalSwipes
                 }
-            }
-            statsLatest {
-                totalUserGroups
             }
         }
     }
@@ -428,8 +430,9 @@ function UserProfile(props: Props) {
             totalOrganization,
             totalSwipeTime,
             totalSwipes,
-            totalUserGroups,
         } = stats;
+
+        const totalUserGroups = userStatsData?.user?.userInUserGroups?.count;
 
         const formatNumber = new Intl.NumberFormat(selectedLanguage?.localeCode)
             .format;
@@ -444,15 +447,7 @@ function UserProfile(props: Props) {
             Math.round(totalAreaSwiped ?? 0),
         );
         const totalOrganizationFormatted = formatNumber(totalOrganization ?? 0);
-        const totalUserGroupsFormatted =
-            (totalUserGroups ?? 0) === 0
-                ? '0'
-                : [
-                      {
-                          value: formatNumber(totalUserGroups ?? 0),
-                          unit: t('(in last 30 days)'),
-                      },
-                  ];
+        const totalUserGroupsFormatted = formatNumber(totalUserGroups ?? 0);
 
         return [
             {
@@ -476,7 +471,7 @@ function UserProfile(props: Props) {
                 value: totalOrganizationFormatted,
             },
             {
-                title: t('User groups contributed to'),
+                title: t('User groups joined'),
                 value: totalUserGroupsFormatted,
             },
         ];
