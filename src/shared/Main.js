@@ -22,6 +22,7 @@ import BuildingFootprintScreen from './views/BuildingFootprint';
 import BFInstructionsScreen from './views/BuildingFootprint/InstructionsScreen';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
+import UserProfile from './views/UserProfile';
 import LanguageSelectionScreen from './common/LanguageSelectionScreen';
 import LanguageSelectionSplashScreen from './common/LanguageSelectionSplashScreen';
 import Mapper from './views/Mapper';
@@ -30,6 +31,10 @@ import WelcomeScreen from './views/Welcome';
 import WebviewWindow from './views/WebviewWindow';
 import { COLOR_DEEP_BLUE } from './constants';
 import debugInfo from '../../debugInfo';
+import UserGroup from './views/UserGroup';
+import SearchUserGroup from './views/SearchUserGroup';
+import ChangeUserName from './views/ChangeUserName';
+import LanguageSelection from './views/LanguageSelection';
 
 // the prefix for deeplinks used in OAuth in particular
 // such as "devmapswipe://"
@@ -303,6 +308,11 @@ const MainNavigator = createStackNavigator(
         ProjectView,
         Mapper,
         WebviewWindow,
+        UserGroup,
+        SearchUserGroup,
+        ChangeUserName,
+        LanguageSelection,
+        UserProfile,
     },
     {
         initialRouteName: 'ProjectNav',

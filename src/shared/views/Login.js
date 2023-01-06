@@ -28,6 +28,7 @@ import {
     COLOR_RED,
     COLOR_WHITE,
     devOsmUrl,
+    MIN_USERNAME_LENGTH,
 } from '../constants';
 
 /* eslint-disable global-require */
@@ -115,7 +116,6 @@ const SCREEN_LOGIN = 1;
 const SCREEN_FORGOT_PASSWORD = 2;
 const SCREEN_OSM_LOGIN = 3;
 
-const MIN_USERNAME_LENGTH = 4;
 const MIN_PASSWORD_LENGTH = 6;
 const MIN_EMAIL_LENGTH = 6;
 

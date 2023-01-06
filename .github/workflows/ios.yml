@@ -50,7 +50,9 @@ jobs:
       - name: Save git version so the app can show it to users
         env:
           GIT_TAG: ${{ steps.vars.outputs.tag }}
-        run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$GIT_TAG/" debugInfo.json
+
+        # replace the / in branch name with _
+        run: sed -i '' "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -i '' "s/TAG/$(echo ${GIT_TAG} | tr / _)/" debugInfo.json
 
       - name: Hardcode OAuth prefix and urls for production version
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
