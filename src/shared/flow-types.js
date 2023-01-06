@@ -246,6 +246,7 @@ export type Mapper = {
 
 export type LanguageData = {
     code: string, // two letter code, like 'en', 'de', etc...
+    localeCode: string,
     name: string, // the name of the language in itself 'english', 'Français', 'Español'...
 };
 
@@ -280,4 +281,12 @@ export type TutorialContent = {
     title: string,
     description: string,
     icon: string,
+};
+
+export type UserGroupType = {
+    name: string,
+    nameKey: string,
+    description: string,
+    archivedAt: string,
+    archivedBy: string,
 };

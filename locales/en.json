@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Missions",
-    "more": "More"
+      "more": "More",
+      "userProfile": "Profile"
   },
   "signup": {
     "chooseUsername": "Choose your username",
@@ -58,7 +59,24 @@
     "delete account question": "Delete account?",
     "delete account warning": "You will lose all of your progress and badges. Your contributions will remain public but no longer tied to your account.\nWould you like to continue?",
     "no keep my account": "No, keep my account",
-    "yes delete it": "Yes, delete it!"
+    "yes delete it": "Yes, delete it!",
+    "userGroups": "User Groups",
+    "joinNewGroup": "Join New Group",
+    "exploreGroups": "Explore Groups",
+    "settings": "Settings",
+    "changeUserName": "Change Username",
+    "changePassword": "Change Password",
+    "notifications": "Notifications",
+    "language": "Language",
+    "logOut": "Log Out",
+    "deleteAccount": "Delete Account",
+    "missingMaps": "Missing Maps",
+    "email": "Email",
+    "accountDeleted": "Account deleted!",
+    "accountDeletedSuccessMessage": "Sorry to see you go...",
+    "accountDeletionFailed": "Could not delete your account",
+    "accountDeletionFailedMessage": "Please login again to confirm you want to delete your account",
+    "contributionHeatmap": "Contribution Heatmap (Last 30 days)"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"
@@ -209,5 +227,32 @@
     "instructionsNo": "No: when there are no buildings in the square",
     "instructionsNotSure": "Not sure: when your not certain if it's a building or not",
     "instructionsBadImagery": "Bad imagery: when there is cloud cover or issues with the imagery"
+  },
+  "userGroupScreen": {
+    "join": "Join",
+    "leave": "Leave",
+    "leaderBoards": "Leader Boards",
+    "settings": "Settings",
+    "leaveGroup": "Leave Group",
+    "joinGroup": "Join Group"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Join Group",
+    "searchUserGroup": "Search User Group"
+  },
+  "changeUserName": {
+    "changeUserName": "Change Username",
+    "currentUserName": "Current Username",
+    "newUserName": "New Username",
+    "confirmUserNameChange": "Confirm Username Change"
+  },
+  "changePassword": {
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPasswordChange": "Confirm Password Change"
+  },
+  "languageSelection": {
+    "languageSelection": "Language"
   }
 }

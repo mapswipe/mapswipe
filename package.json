@@ -21,6 +21,7 @@
     "preversion": "echo 'yarn version is disabled. Please use ./scripts/version.sh instead.'; exit 1"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@mapbox/tilebelt": "^1.0.1",
     "@react-native-async-storage/async-storage": "^1.15.5",
     "@react-native-community/cli": "^5.0.0",
@@ -32,7 +33,9 @@
     "@react-native-firebase/database": "^12.3.0",
     "@react-native-firebase/storage": "^12.3.0",
     "@sentry/react-native": "^3.1.1",
+    "graphql": "^16.5.0",
     "i18next": "^19.0.0",
+    "intl": "^1.2.5",
     "lodash.get": "^4.4.2",
     "pako": "^1.0.11",
     "patch-package": "^6.4.7",
@@ -62,7 +65,8 @@
     "react-redux-firebase": "^3.3.0",
     "redux": "^4.0.1",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
