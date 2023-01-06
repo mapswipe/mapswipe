@@ -86,6 +86,8 @@ jobs:
           sed -ri "s/data android:scheme=\"devmapswipe\"/data android:scheme=\"mapswipe\"/" android/app/src/main/AndroidManifest.xml
           sed -ri "s/dev-auth.mapswipe.org/auth.mapswipe.org/" debugInfo.json
           sed -ri "s/devmapswipe/mapswipe/" debugInfo.json
+          sed -ri "s/dev-api/api/" src/shared/constants.js
+          sed -ri "s/dev-community/community/" src/shared/constants.js
 
       - name: Jetify react files
         run: yarn jetifier
