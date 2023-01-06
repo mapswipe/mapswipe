@@ -60,6 +60,8 @@ jobs:
           sed -i '' "s/string>devmapswipe/string>mapswipe/" ios/mapswipe/Info.plist
           sed -i '' "s/dev-auth.mapswipe.org/auth.mapswipe.org/" debugInfo.json
           sed -i '' "s/devmapswipe/mapswipe/" debugInfo.json
+          sed -i '' "s/dev-api/api/" src/shared/constants.js
+          sed -i '' "s/dev-community/community/" src/shared/constants.js
 
       - name: Decode sentry.properties (and prod version)
         env:
