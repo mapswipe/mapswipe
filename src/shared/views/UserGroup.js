@@ -17,11 +17,11 @@ import {
     StyleSheet,
     ScrollView,
     Text,
-    Button,
     RefreshControl,
     Linking,
 } from 'react-native';
 import {
+    COLOR_WHITE,
     COLOR_LIGHT_GRAY,
     COLOR_DEEP_BLUE,
     COLOR_DARK_GRAY,
@@ -32,9 +32,11 @@ import {
     SPACING_SMALL,
     COLOR_YELLOW_OVERLAY,
     FONT_SIZE_MEDIUM,
+    HEIGHT_BUTTON,
     publicDashboardUrl,
     supportedLanguages,
 } from '../constants';
+import Button from '../common/Button';
 import PageHeader from '../common/PageHeader';
 import { externalLink } from '../common/SvgIcons';
 import InfoCard from '../common/InfoCard';
@@ -152,6 +154,15 @@ const styles = StyleSheet.create({
 
     leaveButtonText: {
         color: COLOR_RED,
+    },
+
+    button: {
+        backgroundColor: COLOR_SUCCESS_GREEN,
+        height: HEIGHT_BUTTON,
+    },
+
+    buttonText: {
+        color: COLOR_WHITE,
     },
 });
 
@@ -492,7 +503,7 @@ function UserGroup(props: Props) {
         }, {});
 
         return contributionStatsMap;
-    }, [userGroupStatsData?.userGroup?.contributionStats]);
+    }, [userGroupStatsData?.userGroupStats?.filteredStats]);
 
     const isUserMember = !!userGroupDetail?.users?.[userId];
     const isGroupArchived =
@@ -539,11 +550,12 @@ function UserGroup(props: Props) {
                         {!isUserMember && !isGroupArchived && (
                             <View style={styles.joinNewGroup}>
                                 <Button
-                                    color={COLOR_SUCCESS_GREEN}
                                     onPress={handleJoinUserGroupClick}
-                                    title={t('joinGroup')}
-                                    accessibilityLabel={t('joinGroup')}
-                                />
+                                    style={styles.button}
+                                    textStyle={styles.buttonText}
+                                >
+                                    {t('joinGroup')}
+                                </Button>
                             </View>
                         )}
                         <View style={styles.cachedInfo}>

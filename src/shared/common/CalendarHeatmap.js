@@ -42,13 +42,80 @@ const styles = StyleSheet.create({
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-function dateToStringKey(date: Date) {
+function getDateSafe(value: string | number | Date) {
+    if (typeof value === 'string') {
+        return new Date(`${value}T00:00`);
+    }
+
+    return new Date(value);
+}
+
+function resolveTime(
+    date: string | number | Date,
+    resolution: 'day' | 'month' | 'year',
+) {
+    const newDate = getDateSafe(date);
+
+    if (
+        resolution === 'day' ||
+        resolution === 'month' ||
+        resolution === 'year'
+    ) {
+        newDate.setHours(0);
+        newDate.setMinutes(0);
+        newDate.setSeconds(0);
+        newDate.setMilliseconds(0);
+    }
+    if (resolution === 'month' || resolution === 'year') {
+        newDate.setDate(1);
+    }
+    if (resolution === 'year') {
+        newDate.setMonth(0);
+    }
+    return newDate;
+}
+
+function getTimestamps(
+    startDate: string | number | Date,
+    endDate: string | number | Date,
+    resolution: 'day' | 'month' | 'year',
+) {
+    const sanitizedStartDate = resolveTime(startDate, resolution);
+    const sanitizedEndDate = resolveTime(endDate, resolution);
+
+    const timestamps = [sanitizedStartDate.getTime()];
+
+    let increment = 1;
+    while (true) {
+        const myDate = new Date(sanitizedStartDate);
+        if (resolution === 'year') {
+            myDate.setFullYear(sanitizedStartDate.getFullYear() + increment);
+        } else if (resolution === 'month') {
+            myDate.setMonth(sanitizedStartDate.getMonth() + increment);
+        } else {
+            myDate.setDate(sanitizedStartDate.getDate() + increment);
+        }
+        myDate.setHours(0);
+        myDate.setMinutes(0);
+        myDate.setSeconds(0);
+        myDate.setMilliseconds(0);
+
+        if (myDate > sanitizedEndDate) {
+            break;
+        }
+
+        timestamps.push(myDate.getTime());
+        increment += 1;
+    }
+
+    return timestamps;
+}
+
+function getYmdString(date: Date) {
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, '0');
     const dd = String(date.getDate()).padStart(2, '0');
-    const dateKey = `${yyyy}-${mm}-${dd}`;
-
-    return dateKey;
+    return `${yyyy}-${mm}-${dd}`;
 }
 
 type Props = {
@@ -63,87 +130,93 @@ function CalendarHeatmap(props: Props) {
     const itemWidth = Math.min((screenWidth - SPACING_MEDIUM * 2 - 1) / 7, 38);
 
     const now = new Date();
-    const dayOfWeek = now.getDay();
-    const todayKey = dateToStringKey(now);
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
 
-    const endDate = new Date(now.getTime());
+    const dayOfWeek = now.getDay();
+
+    // End date is the last day of the week
+    const endDate = new Date(now);
     endDate.setDate(endDate.getDate() + (6 - dayOfWeek));
 
-    const startDate = new Date(endDate.getTime());
-    startDate.setDate(startDate.getDate() - 34);
+    endDate.setHours(0);
+    endDate.setMinutes(0);
+    endDate.setSeconds(0);
+    endDate.setMilliseconds(0);
 
-    const dateKeys = Array.from(new Array(35).keys())
-        .map(() => {
-            if (startDate.getTime() > now.getTime()) {
-                return null;
-            }
+    // Start date is 5 weeks ahead of end date
+    const startDate = new Date(endDate);
+    startDate.setDate(startDate.getDate() - 7 * 5 + 1);
 
-            const dateKey = dateToStringKey(startDate);
-            startDate.setDate(startDate.getDate() + 1);
-            return dateKey;
-        })
-        .filter(Boolean);
+    startDate.setHours(0);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+    startDate.setMilliseconds(0);
 
-    const filteredValues = dateKeys.map(dateKey => data[dateKey] ?? 0);
-    const max = Math.max(...filteredValues, 1);
+    const timestamps = getTimestamps(startDate, endDate, 'day');
 
-    const normalizedData = dateKeys.reduce((acc, dateKey) => {
-        acc[dateKey] = (data[dateKey] ?? 0) / max;
-        return acc;
-    }, {});
+    const maxValue = Math.max(
+        1,
+        ...timestamps.map(
+            timestamp => data[getYmdString(new Date(timestamp))] ?? 0,
+        ),
+    );
+
+    const timestampWithValues = timestamps.map(timestamp => ({
+        key: timestamp,
+        value: (data[getYmdString(new Date(timestamp))] ?? 0) / maxValue,
+    }));
 
     return (
         <View style={[styles.calendarHeatmap, style]}>
             <View style={styles.dayList}>
-                {Array.from(new Array(7).keys()).map(key => {
-                    const day = daysOfWeek[key];
-
-                    return (
-                        <View
-                            key={key}
+                {daysOfWeek.map(day => (
+                    <View
+                        key={day}
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            width: itemWidth,
+                            opacity: 0.5,
+                        }}
+                    >
+                        <Text
                             style={{
-                                flexDirection: 'row',
-                                justifyContent: 'center',
-                                width: itemWidth,
-                                opacity: 0.5,
+                                fontSize: FONT_SIZE_EXTRA_SMALL,
+                                fontWeight: FONT_WEIGHT_BOLD,
                             }}
                         >
-                            <Text
-                                style={{
-                                    fontSize: FONT_SIZE_EXTRA_SMALL,
-                                    fontWeight: FONT_WEIGHT_BOLD,
-                                }}
-                            >
-                                {day}
-                            </Text>
-                        </View>
-                    );
-                })}
+                            {day}
+                        </Text>
+                    </View>
+                ))}
             </View>
             <View style={styles.break} />
-            {dateKeys.map((dateKey, index) => {
-                const value = normalizedData[dateKey] ?? 0;
-                let color = COLOR_CALENDAR_GRAPH_BACKGROUND;
+            {timestampWithValues.map(({ key, value }, index) => {
+                let color;
                 let opacity = 1;
 
-                if (value > 0) {
-                    if (value < 0.25) {
-                        color = COLOR_CALENDAR_GRAPH_DAY_L1;
-                        opacity = 0.5 + (value / 0.25 - 0.5);
-                    } else if (value < 0.5) {
-                        color = COLOR_CALENDAR_GRAPH_DAY_L2;
-                        opacity = 0.5 + (value / 0.5 - 0.5);
-                    } else if (value < 0.75) {
-                        color = COLOR_CALENDAR_GRAPH_DAY_L3;
-                        opacity = 0.5 + (value / 0.75 - 0.5);
-                    } else {
-                        color = COLOR_CALENDAR_GRAPH_DAY_L4;
-                        opacity = value;
-                    }
+                if (value <= 0) {
+                    color = COLOR_CALENDAR_GRAPH_BACKGROUND;
+                    opacity = 1;
+                } else if (value < 0.25) {
+                    color = COLOR_CALENDAR_GRAPH_DAY_L1;
+                    opacity = 0.5 + (value / 0.25 - 0.5);
+                } else if (value < 0.5) {
+                    color = COLOR_CALENDAR_GRAPH_DAY_L2;
+                    opacity = 0.5 + (value / 0.5 - 0.5);
+                } else if (value < 0.75) {
+                    color = COLOR_CALENDAR_GRAPH_DAY_L3;
+                    opacity = 0.5 + (value / 0.75 - 0.5);
+                } else {
+                    color = COLOR_CALENDAR_GRAPH_DAY_L4;
+                    opacity = value;
                 }
 
                 return (
-                    <React.Fragment key={dateKey}>
+                    <React.Fragment key={key}>
                         {index > 0 && index % 7 === 0 && (
                             <View style={styles.break} />
                         )}
@@ -161,7 +234,7 @@ function CalendarHeatmap(props: Props) {
                                     width: '100%',
                                     height: '100%',
                                     borderColor:
-                                        dateKey === todayKey
+                                        key === now.getTime()
                                             ? COLOR_DEEP_BLUE
                                             : COLOR_CALENDAR_GRAPH_BORDER,
                                     borderWidth: 2,
