@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Missies",
-    "more": "Meer"
+      "more": "Meer",
+      "userProfile": "Profiel"
   },
   "signup": {
     "chooseUsername": "Kies uw gebruikersnaam",
@@ -58,7 +59,24 @@
     "delete account question": "Account verwijderen?",
     "delete account warning": "U zal al uw vooruitgang en badges verliezen. Uw bijdragen blijven publiek, maar niet langer gekoppeld aan uw account.\nWilt u doorgaan?",
     "no keep my account": "Nee, bewaar mijn account",
-    "yes delete it": "Ja, verwijder mijn account"
+    "yes delete it": "Ja, verwijder mijn account",
+    "userGroups": "Gebruikersgroepen",
+    "joinNewGroup": "Deelnemen aan nieuwe groep",
+    "exploreGroups": "Verken groepen",
+    "settings": "Instellingen",
+    "changeUserName": "Wijzig gebruikersnaam",
+    "changePassword": "Wijzig wachtwoord",
+    "notifications": "Meldingen",
+    "language": "Taal",
+    "logOut": "Uitloggen",
+    "deleteAccount": "Verwijder account",
+    "missingMaps": "Missing Maps",
+    "email": "E-mail",
+    "accountDeleted": "Account verwijderd!",
+    "accountDeletedSuccessMessage": "Jammer dat u gaat...",
+    "accountDeletionFailed": "Kan uw account niet verwijderen",
+    "accountDeletionFailedMessage": "Log opnieuw in om te bevestigen dat u uw account wilt verwijderen",
+    "contributionHeatmap": "Bijdragen heatmap (laatste 30 dagen)"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% door {{mappersCount}} mappers"
@@ -209,5 +227,32 @@
     "instructionsNo": "Nee: wanneer er geen gebouwen zijn in het vierkant",
     "instructionsNotSure": "Weet ik niet: wanneer u niet zeker bent of het een gebouw is of niet",
     "instructionsBadImagery": "Slechte afbeeldingen: wanneer er wolken of problemen met de afbeeldingen zijn"
+  },
+  "userGroupScreen": {
+    "join": "Deelnemen",
+    "leave": "Verlaten",
+    "leaderBoards": "Ranglijsten",
+    "settings": "Instellingen",
+    "leaveGroup": "Groep verlaten",
+    "joinGroup": "Deelnemen aan groep"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Deelnemen aan groep",
+    "searchUserGroup": "Zoek gebruikersgroep"
+  },
+  "changeUserName": {
+    "changeUserName": "Wijzig gebruikersnaam",
+    "currentUserName": "Huidige gebruikersnaam",
+    "newUserName": "Nieuwe gebruikersnaam",
+    "confirmUserNameChange": "Bevestig wijziging gebruikersnaam"
+  },
+  "changePassword": {
+    "changePassword": "Wijzig wachtwoord",
+    "currentPassword": "Huidig wachtwoord",
+    "newPassword": "Nieuw wachtwoord",
+    "confirmPasswordChange": "Bevestig nieuw wachtwoord"
+  },
+  "languageSelection": {
+    "languageSelection": "Taal"
   }
 }
