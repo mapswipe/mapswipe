@@ -1,0 +1,258 @@
+{
+  "mainHeader": {
+    "missions": "Misie",
+      "more": "Viac",
+      "userProfile": "Profil"
+  },
+  "signup": {
+    "chooseUsername": "Vyberte si svoje používateľské meno",
+    "passwordError": "Heslo musí mať aspoň 6 znakov",
+    "usernameError": "Používateľské meno musí mať aspoň 4 znaky",
+    "errorOnSignup": "Chyba pri registrácii ",
+    "usernameErrorMessage": "Vaše používateľské meno musí mať aspoň 4 znaky",
+    "usernameNotEmail": "Vaše používateľské meno nemôže byť e-mail",
+    "usernamePublic": "Vaše používateľské meno bude verejne viditeľné",
+    "success": "Úspech",
+    "welcomeToMapSwipe": "Vitaje v Mapsipe, {{username}}",
+    "emailAlreadyUsed": "E-mailová adresa už je použitá iným účtom",
+    "emailInvalid": "E-mailová adresa je neplatná",
+    "problemSigningUp": "Problém s registráciou",
+    "errorOnSignUp": "Chyba pri registrácii ",
+    "checkYourEmail": "Skontrolujte si svoju e-mailovú schránku",
+    "noAccountFoundForEmail": "Pre tento e-mail neboj nájdený žiadny účet",
+    "problemResettingPassword": "Problém s resetovaním hesla",
+    "errorLogIn": "Problém s prihlásením",
+    "invalidEmailPassword": "Neplatný e-mail alebo heslo",
+    "accountDisabled": "Účet deaktivovaný",
+    "problemLoggingIn": "Problém s prihlásením",
+    "errorResetPass": "Problém s resetovaním hesla",
+    "enterYourEmail": "Vložte svoj e-mail",
+    "choosePassword": "Vyberte si svoje heslo",
+    "enterYourPassword": "Vložte svoje heslo",
+    "IagreeToPrivacyNotice": "Súhlasím s <1>Oznámenie o ochrane osobných údajov</1>",
+    "contributionWarningOnSignup": "* Všetky dáta ktoré pridáte do MapSwipe sú otvorené a komukoľvek prístupné. Vaše používateľské meno je verejné, ale váš e-mail a heslo nikdy nebudú s nikým zdieľané.",
+    "signUp": "Prihlásenie",
+    "loginExistingAccount": "Prihlásenie sa do existujúceho účtu",
+    "login": "Prihlásenie",
+    "loginSignupWithOSM": "Prihlásiť sa s OpenStreetMap",
+    "OSMsignupExplanation": "Na registráciu do MapSwipe môžete použiť svoj OpenStreetMap účet. Pokiaľ už máte MapSwipe účet týmto ich neprepojíte! (táto možnosť bude pridaná čoskoro v budúcej verzii)",
+    "forgotPassword": "Zabudli ste heslo?",
+    "createNewAccount": "Vytvoriť nový účet",
+    "sendResetEmailWarning": "* Pošleme vám e-mail na obnovu vášho hesla",
+    "sendResetEmail": "Odoslať resetovací e-mail",
+    "backToLogin": "Späť k prihláseniu"
+  },
+  "login": {
+    "enterUsername": "Vložte svoje používateľské meno"
+  },
+  "profileScreen": {
+    "Level X": "Úroveň {{level}}",
+    "youve completed x tasks": "Dokončili ste {{contributions}} úloh!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} úloh ({{swipes}} potiahnutí) do ďalšej úrovne",
+    "yourTeam": "Váš tým: {{teamName}}",
+    "changeLanguage": "Zmeniť jazyk",
+    "mapswipe website": "webová stránka MapSwipe",
+    "missingmaps website": "webová stránka Missing Maps",
+    "email us": "Napíšte nám e-mail",
+    "sign out": "Odhlásiť sa",
+    "delete my account": "Zmazať môj účet",
+    "delete account question": "Zmazať účet?",
+    "delete account warning": "Stratíte celý váš postup a odznaky. Vaše príspevky zostanú dostupné ale už nebudú priradené k vášmu účtu.\nChcete pokračovať?",
+    "no keep my account": "Nie, ponechať môj účet",
+    "yes delete it": "Áno, zmazať!",
+    "userGroups": "Používateľské skupiny",
+    "joinNewGroup": "Pridať sa do Novej Skupiny",
+    "exploreGroups": "Preskúmať Skupiny",
+    "settings": "Nastavenia",
+    "changeUserName": "Zmena používateľského mena",
+    "changePassword": "Zmena hesla",
+    "notifications": "Upozornenia",
+    "language": "Jazyk",
+    "logOut": "Odhlásenie",
+    "deleteAccount": "Zmazať účet",
+    "missingMaps": "Missing Maps",
+    "email": "E-mail",
+    "accountDeleted": "Účet odstránený!",
+    "accountDeletedSuccessMessage": "Mrzí nás, že nás opúšťate...",
+    "accountDeletionFailed": "Váš účet sa nepodarilo odstrániť",
+    "accountDeletionFailedMessage": "Pre potvrdenie odstránenia účtu sa znovu prihláste",
+    "contributionHeatmap": "Heatmapa príspevkov (Posledných 30 dní)"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% vďaka {{mappersCount}} mapérom"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% CELKOVÉHO POKROKU VĎAKA {{contributorCount}} MAPÉROV AKO STE VY.",
+    "userProgressForProject": "{{userProgress}}% pre tento projekt",
+    "quotaReachedWarning": "Vyberte si iný projekt na obrazovke misií",
+    "map now": "Začať mapovať",
+    "chooseAnotherProject": "Vyberte si iný projekt",
+    "tutorial": "Tutoriál"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Hľadáte:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Skvelé! Dokončili ste tutoriál. Ste pripravený mapovať!",
+    "finishedGroup": "Skvelá práca! Dokončili ste túto skupinu.",
+    "letsGo": "Poďme na to!",
+    "completeSession": "Dokončená relácia",
+    "continueMapping": "Pokračovať v mapovaní",
+    "sync alert": "Prebieha synchronizácia",
+    "sync alert message": "Synchronizácia vašich úloh... Nezatvárajte aplikáciu."
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Vitajte v MapSwipte",
+    "helpImprove": "Podporte humanitárnu pomoc z pohladia vášho telefónu",
+    "partMissingMaps": "Súčasť projektu Missing Maps",
+    "withMissingMaps": "Spolu s Missing Maps je naším cieľom dostať na mapu zraniteľné komunity sveta",
+    "swipe": "Potiahnutie",
+    "completeTasks": "Dokončite úlohy prechádzaním satelitných snímok území, ktoré vyžadujú mapovanie.",
+    "createData": "Vytvárajte zmysluplné dáta",
+    "dataUse": "Dáta sa používajú na uľahčenie práce dobrovoľníkov projektu Missing Maps, ktorý pridávajú údaje do OpenStreetMap.",
+    "saveLives": "Zachraňujte životy",
+    "mapHelps": "Mapa pomáha organizáciám koordinovať humanitárnu pomoc a zachraňovať životy."
+  },
+  "CDInstructionScreen": {
+    "instructions": "Inštrukcie",
+    "your task": "Vaša úloha:",
+    "lookingFor": "Hľadáte <1> zmeny v budovách </1>. Je to jasný indikátor v zmene veľkosti populácie.",
+    "perform task": "Ako vykonať úlohu:",
+    "noChanges": "Pokiaľ nedošlo k zmenám, jednoducho <1>potiahnite prstom</1>a prejdite na ďalšie snímky.",
+    "seeChanges": "Ak vidíte zmenu v budovách, <1>ťuknite raz</1>a dlaždica sa zmení na zelenú",
+    "unsure": "Nie ste si istý? <1>Ťuknite dvakrát</1> a dlaždica sa zmení na žltú",
+    "badImagery": "Problém so snímkami, napríklad je dlaždica pokrytá oblakmi? <1>Ťuknite trikrát</1> a dlaždica sa zmení na červenú",
+    "holdZoom": "Ak si potrebujete snímku pozrieť bližšie, ťuknite naň a podržte prst. Dlaždica sa zväčší a priblíži",
+    "hint": "Nápoveda:",
+    "differentImagery": "Občas sú použité snímky z rôznych zdrojov. Snímky môžu byť mierne odlišne zarovnané alebo môžu byť v inom rozlíšení. Nezabudnite, hľadáte <1>zmeny v osídlení a budovách</1>. Takže pokiaľ to vyzerá, že sú tam tie isté budovy ale možno je tam nová strecha, v tom prípade je to \"bez zmeny\" a vy sa posuniete na ďalšiu snímku."
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Zobraziť inštrukcie"
+  },
+  "CDTaskScreen": {
+    "before": "Predtým",
+    "after": "Potom"
+  },
+  "CDValidator": {
+    "Yes": "Áno",
+    "No": "Nie",
+    "NotSure": "Nie som si istý",
+    "BadImagery": "Zlá snímka"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Rozumiem",
+    "StopMappingAndReturn": "Prestať mapovať a vrátiť sa do menu?",
+    "ContinueMapping": "Pokračovať v mapovaní",
+    "BackToMenu": "Späť do menu"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Potiahnite DOLE, pre označenie všetkých 6 dlaždíc na ČERVENO",
+    "swipe up undo": "Potiahnite HORE pre krok späť"
+  },
+  "LoadingIcon": {
+    "loading": "Načítavanie..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Zobraziť odpovede"
+  },
+  "Tutorial": {
+    "incomplete": "NEÚPLNÉ",
+    "maybe": "MOŽNO",
+    "instructions1": "Ako prispieť",
+    "instructions2": "ŤUKNUTÍM VYBERTE",
+    "instructions3": "Hľadajte prvky uvedené v zadaní úlohy. Ťuknite na každú dlaždicu, ktorá obsahuje hľadaný prvok. Ťuknite raz pre <1>ÁNO</1>, dvakrát pre <3>{{twoTaps}}</3> a trikrát pre <5>ZLÉ SNÍMKY</5>(napríklad mraky).",
+    "instructions4": "POTIAHNUTÍM PRSTA NAVIGUJTE ",
+    "instructions5": "Keď ste hotový s časťou mapy, potiahnutím doľava sa posuniete ďalej",
+    "instructions6": "PODRŽTE PRST PRE PRIBLÍŽENIE",
+    "instructions7": "Podržaním dlaždice ju priblížite",
+    "instructions8": "Zásluhy",
+    "tutorial1": "Vitajte v tutoriály",
+    "tutorial2": "Vďaka tomuto sa stanete odborníkom na MapSwipe už po pár minútach.",
+    "tutorial3": "Postupujte podľa pokynov na obrazovke a pokračujte potiahnutím prsta doľava.",
+    "tutorial4": "Ak vám v mapovaní prekážajú inštrukcie, môžete ich presunúť ťuknutím na okno so správou",
+    "tutorial5": "Rozumiem"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Tento tutoriál vás naučí ako používať MapSwipe. Tu sú základné kroky:",
+    "noChanges": "Pokiaľ na snímkach nie je nič relevantné, <1>potiahnite prstom doľava</1>, čím prejdete na ďalšiu obrazovku",
+    "seeChanges": "Pokiaľ uvidíte niečo na jednej z dlaždíc, <1>ťuknite jeden krát, čím sa dlaždica zmení na zelenú</1>",
+    "unsure": "Nie ste si istý čo vidíte? <1>Ťuknite dva krát pre zmenu dlaždice na žltú</1>",
+    "badImagery": "Pokiaľ je problém so snímkou, <1>ťuknite trikrát pre zmenu dlaždice na červenú</1>",
+    "tapAgain": "Ťuknite znovu pre zmenu dlaždice do pôvodného stavu. ",
+    "WhatToLookFor": "Čo hľadať",
+    "YouAreLookingFor": "Hľadáte {{lookFor}}",
+    "FromTheGround": "Zo zeme to vyzerá takto:",
+    "ImagesFromAbove": "Ale snímky ktoré uvidíte, to budú zobrazovať zvrchu a bude to vyzerať takto:",
+    "SwipeToContinue": "Pokračujte potiahnutím prsta"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Nerobte si starosti pokiaľ si nie ste istý, čo vidíte na dlaždici.",
+    "youCanAlwaysTapTwice": "Nezabudnite, pokiaľ si nie ste istý čo vidíte vždy môžete ťuknúť dvakrát, čím sa dlaždica zmení na žltú",
+    "everyImageViewedBy": "Každú snímku prejde viacero ľudí takže sa nemusíte obávať že ste si niečoho nevšimli. ",
+    "holdZoom": "Stlačením a podržaním dlaždice si ju môžete priblížiť. Ďalším ťuknutím ju znova oddialíte. "
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Ste pripravený používať MapSwipe!",
+    "startMapping": "Začať mapovať",
+    "completedTutorial": "Teraz viete všetko čo potrebujete aby ste mohli prispieť k humanitárnemu mapovaniu používaním tejto aplikácie. Kedykoľvek sa sem môžete vrátiť a prejsť si to znova."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Použite tlačidlá na odpoveď:",
+      "doesTheShapeOutlineABuilding": "Obkresľuje tvar budovu?",
+      "everyTimeYouSelectAnOption": "Po každom výbere možnosti, dostanete nový tvar a snímku.",
+      "tapGreenText": "Áno - tvar obkresľuje budovu na snímke",
+      "tapRedText": "Nie - tvar nesedí s budovou na snímke",
+      "tapGrayText": "Nie som si istý - ak si nie ste istý alebo je územie pokryté oblakmi / zlé snímky",
+      "hideIconText": "Podržaním tlačidla \"skryť\" skryjete objekt na snímke",
+      "letsLearnHowToMap": "Naučme sa ako mapovať na niekoľkých príkladoch",
+      "youllSeeASquare": "Na snímke uvidíte tvar. Použite tlačidlá na výber odpovede:",
+      "squareContainsBuildings": "Obsahuje dlaždica nejaké budovy?",
+      "squareWillMove": "Dlaždica sa pri postupe bude pohybovať po snímkach podľa tejto mriežky:",
+      "swipeToGetStarted": "Začnite potiahnutím prsta",
+      "swipeToContinue": "Pokračujte potiahnutím prsta"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Nebojte sa pokiaľ si nie ste istý",
+    "youCanAlwaysTapUnsure": "Pamätajte, vždy môžete ťuknúť na \"Nie som si istý\" tlačidlo",
+    "everyImageViewedBy": "Každú snímku prejdú minimálne 3 používatelia MapSwipe, takže je v poriadku pokiaľ si myslíte že ste niečo prehliadli. ",
+    "wantToChangeYourAnswer": "Chcete zmeniť vašu odpovedať?",
+    "youCanSwipeBack": "Predchádzajúce odpovede môžete zmeniť potiahnutím prstom späť. Potom sa ťuknutím alebo opätovným potiahnutím dopredu vrátite na miesto, kde ste boli.",
+    "yourPreviousAnswerIsMarked": "Vaše predchádzajúce odpovede sú označené bielym krúžkom"
+  },
+  "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Obkresľuje tvar budovu?",
+    "howToContribute": "Ako prispieť",
+    "squareContainsBuildings": "Nachádzajú sa v dlaždici nejaké budovy? Odpovedzte pomocou tlačidiel:",
+    "instructionsYes": "Áno: keď sa v dlaždici nachádza budova alebo jej časť",
+    "instructionsNo": "Nie: keď sa v dlaždici nenachádzajú žiadne budovy",
+    "instructionsNotSure": "Nie som si istý: keď si nie ste istý, či je to budova alebo nie",
+    "instructionsBadImagery": "Zlá snímka: pokiaľ je pokrytá oblakmi alebo sú iné problémy so snímkou"
+  },
+  "userGroupScreen": {
+    "join": "Pridať sa",
+    "leave": "Odísť",
+    "leaderBoards": "Rebríčky",
+    "settings": "Nastavenia",
+    "leaveGroup": "Opustiť skupinu",
+    "joinGroup": "Pripojiť sa do skupiny"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Pripojiť sa do skupiny",
+    "searchUserGroup": "Vyhľadávanie používateľskej skupiny"
+  },
+  "changeUserName": {
+    "changeUserName": "Zmeniť používateľské meno",
+    "currentUserName": "Súčasné používateľské meno",
+    "newUserName": "Nové používateľské meno",
+    "confirmUserNameChange": "Potvrďte zmenu používateľského mena"
+  },
+  "changePassword": {
+    "changePassword": "Zmena hesla",
+    "currentPassword": "Súčasné heslo",
+    "newPassword": "Nové heslo",
+    "confirmPasswordChange": "Potvrďte zmenu hesla"
+  },
+  "languageSelection": {
+    "languageSelection": "Jazyk"
+  }
+}
