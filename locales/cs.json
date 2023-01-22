@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Mise",
-    "more": "Více"
+      "more": "Více",
+      "userProfile": "Profil"
   },
   "signup": {
     "chooseUsername": "Zvolte své uživatelské jméno",
@@ -47,7 +48,7 @@
   "profileScreen": {
     "Level X": "Úroveň {{level}}",
     "youve completed x tasks": "Dokončili jste {{contributions}} úkolů!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} úkolů ({{swipes}} swipe) do další úrovně",
+    "x tasks (s swipes) until the next level": "{{sqkm}} úkolů ({{swipes}} swipes) do další úrovně",
     "yourTeam": "Váš tým: {{teamName}}",
     "changeLanguage": "Změnit jazyk",
     "mapswipe website": "web MapSwipe",
@@ -58,7 +59,24 @@
     "delete account question": "Smazat účet?",
     "delete account warning": "Ztratíte veškeré své dosažené úspěchy a odznaky. Vaše příspěvky zůstanou veřejné, ale nebudou již svázány s vaším účtem.\nChcete pokračovat?",
     "no keep my account": "Ne, zachovat si svůj účet",
-    "yes delete it": "Ano, smažte to!"
+    "yes delete it": "Ano, smažte to!",
+    "userGroups": "Uživatelské skupiny",
+    "joinNewGroup": "Přidat se k nové uživatelské skupině",
+    "exploreGroups": "Prohlížet uživatelské skupiny",
+    "settings": "Nastavení",
+    "changeUserName": "Změnit uživatelské jméno",
+    "changePassword": "Změnit heslo",
+    "notifications": "Upozornění",
+    "language": "Jazyk",
+    "logOut": "Odhlásit se",
+    "deleteAccount": "Smazat účet",
+    "missingMaps": "Missing Maps",
+    "email": "E-mail",
+    "accountDeleted": "Účet smazán!",
+    "accountDeletedSuccessMessage": "Je nám líto, že odcházíte...",
+    "accountDeletionFailed": "Váš účet se nepodařilo odstranit",
+    "accountDeletionFailedMessage": "Znovu se přihlaste a potvrďte, že chcete svůj účet smazat",
+    "contributionHeatmap": "Mapa vašich příspěvků (Posledních 30 dní)"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% od {{mappersCount}} mapperů"
@@ -142,7 +160,7 @@
     "maybe": "MOŽNÁ",
     "instructions1": "Jak přispět",
     "instructions2": "POKLEPNUTÍM VYBERTE",
-    "instructions3": "Podívejte se v rychlosti na funkce uvedené ve vaší misi. Klepněte na každou dlaždici, kde najdete to, co hledáte. Klepněte jednou na <1>ANO</1>, dvakrát na <3>{{twoTaps}}</3> a třikrát na <5>ŠPATNÉ ZOBRAZENÍ</5> (například mraky).",
+    "instructions3": "Vyhledejte prvky uvedené v zadání úkolu. Klepněte na každou dlaždici, která obsahuje hledaný prvek. Klepněte jednou na tlačítko <1>ANO</1>, dvakrát na tlačítko <3>{{twoTaps}}</3> a třikrát na tlačítko <5>ZLÉ SNÍMKY</5> (např. mraky).",
     "instructions4": "PŘEJETÍM PRSTEM PROHLÍŽEJTE",
     "instructions5": "Když skončíte s částí mapy, přejeďte prstem na další.",
     "instructions6": "PŘIDRŽENÍM PRSTEM PŘIBLÍŽIT",
@@ -209,5 +227,32 @@
     "instructionsNo": "Ne: když ve čtverci nejsou žádné budovy",
     "instructionsNotSure": "Nejste si jisti: když si nejste jisti, zda je to budova nebo ne",
     "instructionsBadImagery": "Špatné snímky: když je oblačnost nebo problémy se snímky"
+  },
+  "userGroupScreen": {
+    "join": "Připojit se ",
+    "leave": "Opustit",
+    "leaderBoards": "Žebříčky",
+    "settings": "Nastavení",
+    "leaveGroup": "Opustit skupinu",
+    "joinGroup": "Přidat se k uživatelské skupině"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Přidat se k uživatelské skupině",
+    "searchUserGroup": "Hledat uživatelskou skupinu"
+  },
+  "changeUserName": {
+    "changeUserName": "Změna uživatelského jména",
+    "currentUserName": "Současné uživatelské jméno",
+    "newUserName": "Nové uživatelské jméno",
+    "confirmUserNameChange": "Potvrďte změnu uživatelského jména"
+  },
+  "changePassword": {
+    "changePassword": "Změnit heslo",
+    "currentPassword": "Současné heslo",
+    "newPassword": "Nové heslo",
+    "confirmPasswordChange": "Potvrďte změnu hesla"
+  },
+  "languageSelection": {
+    "languageSelection": "Jazyk"
   }
 }
