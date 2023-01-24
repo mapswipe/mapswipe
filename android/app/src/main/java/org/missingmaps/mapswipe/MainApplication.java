@@ -6,6 +6,8 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 
 import com.facebook.react.ReactApplication;
+import io.sentry.react.RNSentryPackage;
+import io.sentry.react.RNSentryPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;

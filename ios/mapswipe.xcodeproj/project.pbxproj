@@ -243,7 +243,7 @@
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
-				AB405DD622E3574400D8C7A8 /* Setup Firebase environment  */,
+				AB405DD622E3574400D8C7A8 /* Setup Firebase environment */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				9171393A01B14636B1E3396A /* Upload Debug Symbols to Sentry */,
@@ -485,7 +485,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\nexport SENTRY_PROPERTIES=cfg/sentry.prod.properties\nelse\nexport SENTRY_PROPERTIES=cfg/sentry.properties\nfi\n\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
-		AB405DD622E3574400D8C7A8 /* Setup Firebase environment  */ = {
+		AB405DD622E3574400D8C7A8 /* Setup Firebase environment */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
