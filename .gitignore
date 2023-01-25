@@ -1,25 +1,6 @@
-# Configs Android
-config.json*
-android/google_play_api_key.json
-android/app/google-services.json
-android/app/src/dev/google-services.json
-android/app/src/production/google-services.json
-android/sentry.properties
-secrets.tar
-
-# Configs iOS
-ios/cfg/GoogleService-Info.*.plist
-ios/cfg/GoogleService-Info.plist
-ios/cfg/secrets.tar
-ios/cfg/sentry.properties
-ios/cfg/sentry.*.properties
-ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
-ios/sentry.properties
-
 # OSX
 #
 .DS_Store
-ios/Pods/
 
 # Xcode
 #
@@ -39,7 +20,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-*.dSYM.zip
+ios/.xcode.env.local
 
 # Android/IntelliJ
 #
@@ -48,18 +29,18 @@ build/
 .gradle
 local.properties
 *.iml
+*.hprof
+.cxx/
 
 # node.js
 #
 node_modules/
 npm-debug.log
-*.keystore
 yarn-error.log
 
 # BUCK
 buck-out/
 \.buckd/
-android/app/libs
 *.keystore
 !debug.keystore
 
@@ -70,13 +51,38 @@ android/app/libs
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/
 
-*/fastlane/report.xml
-*/fastlane/Preview.html
-*/fastlane/screenshots
-*/fastlane/test_output/report.html
-*/fastlane/test_output/report.junit
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
 
 # Bundle artifact
 *.jsbundle
 
+# Ruby / CocoaPods
+/ios/Pods/
+/vendor/bundle/
+
+# Misc
 .eslintcache
+*.keystore
+*.dSYM.zip
+
+# Configs Android
+config.json*
+android/google_play_api_key.json
+android/app/google-services.json
+android/app/src/dev/google-services.json
+android/app/src/production/google-services.json
+android/app/libs
+android/sentry.properties
+secrets.tar
+
+# Configs iOS
+ios/cfg/GoogleService-Info.*.plist
+ios/cfg/GoogleService-Info.plist
+ios/cfg/secrets.tar
+ios/cfg/sentry.properties
+ios/cfg/sentry.*.properties
+ios/cfg/mapswipe.dev_at_gmail_rsa_key_for_travis_ci
+ios/sentry.properties

@@ -1,4 +1,10 @@
-trailingComma: "all"
-tabWidth: 4
-singleQuote: true
-arrowParens: "avoid"
+module.exports = {
+    arrowParens: 'avoid',
+
+    tabWidth: 4,
+    bracketSameLine: true,
+    bracketSpacing: false,
+
+    singleQuote: true,
+    trailingComma: 'all',
+}
