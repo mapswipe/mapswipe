@@ -7,7 +7,6 @@ import com.facebook.react.PackageList;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.facebook.react.ReactNativeHost;

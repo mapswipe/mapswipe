@@ -131,35 +131,6 @@ type Props = {
 };
 
 class ProjectCard extends React.Component<Props> {
-    getGradientArray() {
-        const { project } = this.props;
-        const gradientToPick = parseInt(project.created, 10) % 3;
-        let gradientCountArray = null;
-
-        const gradientOpacity = ['0.6', '0.8'];
-        switch (gradientToPick) {
-            case 0:
-                gradientCountArray = [
-                    `rgba(12,25,73,${gradientOpacity[0]})`,
-                    `rgba(0,0,0,${gradientOpacity[1]})`,
-                ];
-                break;
-            case 1:
-                gradientCountArray = [
-                    `rgba(192,43,43,${gradientOpacity[0]})`,
-                    `rgba(0,0,0,${gradientOpacity[1]})`,
-                ];
-                break;
-            default:
-                gradientCountArray = [
-                    `rgba(156,36,189,${gradientOpacity[0]})`,
-                    `rgba(0,0,0,${gradientOpacity[1]})`,
-                ];
-                break;
-        }
-        return gradientCountArray;
-    }
-
     handlePress = () => {
         const { navigation, project } = this.props;
         navigation.push('ProjectView', { project });
