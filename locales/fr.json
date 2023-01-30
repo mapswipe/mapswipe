@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Missions",
-    "more": "Profil"
+      "more": "Plus",
+      "userProfile": "Profil"
   },
   "signup": {
     "chooseUsername": "Choisissez votre nom d'utilisateur",
@@ -16,7 +17,7 @@
     "emailAlreadyUsed": "L'adresse e-mail est déjà utilisée par un autre compte.",
     "emailInvalid": "L'adresse email n'est pas valide.",
     "problemSigningUp": "Problème d'inscription",
-    "errorOnSignUp": "Erreur à l'inscription ",
+    "errorOnSignUp": "Erreur lors de l'inscription ",
     "checkYourEmail": "Vérifiez votre boîte e-mail",
     "noAccountFoundForEmail": "Aucun compte trouvé pour cet e-mail",
     "problemResettingPassword": "Problème lors de la réinitialisation de votre mot de passe",
@@ -29,10 +30,12 @@
     "choosePassword": "Choisissez votre mot de passe",
     "enterYourPassword": "Entrez votre mot de passe",
     "IagreeToPrivacyNotice": "J'accepte <1>l'avis de confidentialité</1>",
-    "contributionWarningOnSignup": "*Toutes vos contribution à MapSwipe sont libres et sont disponible à tout le monde. Votre nom d'utilisateur est public mais votre email et mot de passe ne seront jamais partagés avec quiconque.",
+    "contributionWarningOnSignup": "* Toutes vos contribution à MapSwipe sont libres et sont disponibles à tout le monde. Votre nom d'utilisateur est public mais votre email et mot de passe ne seront jamais partagés avec quiconque.",
     "signUp": "Inscrivez-vous",
     "loginExistingAccount": "Connectez-vous à un compte existant",
     "login": "Connexion",
+    "loginSignupWithOSM": "Connexion avec OpenStreetMap",
+    "OSMsignupExplanation": "Vous pouvez vous connecter à MapSwipe avec votre compte OpenStreetMap. Si vous avez déjà un compte MapSwipe, ceci ne fusionnera pas vos comptes! (cette fonction sera bientôt disponible dans une prochaine version)",
     "forgotPassword": "Mot de passe oublié ?",
     "createNewAccount": "Créer un nouveau compte",
     "sendResetEmailWarning": "* Un email vous sera envoyé pour réinitialiser votre mot de passe",
@@ -47,7 +50,7 @@
     "youve completed x tasks": "Vous avez complété {{contributions}} tâches!",
     "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} écrans) jusqu'au niveau supérieur",
     "yourTeam": "Votre équipe: {{teamName}}",
-    "changeLanguage": "Choisir la langue",
+    "changeLanguage": "Changez de langue",
     "mapswipe website": "Site web de MapSwipe",
     "missingmaps website": "Site web de Missing Maps",
     "email us": "Nous écrire",
@@ -56,7 +59,24 @@
     "delete account question": "Supprimer votre compte ?",
     "delete account warning": "Vous allez perdre tous vos progrès et vos badges. Vos contributions resteront publiques mais ne seront plus liées à votre compte. \nVoulez-vous continuer ?",
     "no keep my account": "Non, garder mon compte",
-    "yes delete it": "Oui, supprimez-le!"
+    "yes delete it": "Oui, supprimez-le!",
+    "userGroups": "Groupes d'usagers",
+    "joinNewGroup": "Joindre un groupe",
+    "exploreGroups": "Explorer les groupes",
+    "settings": "Paramètres",
+    "changeUserName": "Changer de nom d'utilisateur",
+    "changePassword": "Changer de mot de passe",
+    "notifications": "Notifications",
+    "language": "Langue",
+    "logOut": "Se déconnecter",
+    "deleteAccount": "Supprimer mon compte",
+    "missingMaps": "Missing Maps",
+    "email": "Email",
+    "accountDeleted": "Compte supprimé!",
+    "accountDeletedSuccessMessage": "Nous sommes tristes de vous voir partir...",
+    "accountDeletionFailed": "Impossible de supprimer le compte",
+    "accountDeletionFailedMessage": "Merci de vous reconnecter pour confirmer la suppression de votre compte",
+    "contributionHeatmap": "Carte thermique des contributions (30 derniers jours)"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% par {{mappersCount}} cartographes"
@@ -96,18 +116,22 @@
   "CDInstructionScreen": {
     "instructions": "Instructions",
     "your task": "Votre mission:",
-    "lookingFor": "Vous cherchez des{' '}<1>changements dans les bâtiments</1>. C'est un bon indicateur de changements de taille de la population.",
+    "lookingFor": "Vous êtes à la recherche de <1>modifications des bâtiments</1>. Cela constitue un indicateur clair d'un changement de la taille de la population.",
     "perform task": "Comment faire:",
-    "noChanges": "S'il n'y a pas de différence,{' '}<1>faites glisser l'écran vers la gauche</1>pour continuer",
-    "seeChanges": "S'il y'a des changements dans les bâtiments,{' '}<1>tapez une fois</1>{' '}et l'image passera au vert",
-    "unsure": "Si vous n'êtes pas sûr,{' '}<1>tapez 2 fois</1>{' '}et l'image deviendra jaune",
-    "badImagery": "Si l'image n'est pas claire, par exemple s'il y'a des nuages,{' '}<1>tapez 3 fois</1>{' '}et elle deviendra rouge",
+    "noChanges": "S'il n'y a pas de changement, il suffit de <1>balayer</1> aux photos suivantes",
+    "seeChanges": "Si vous voyez un changement dans les bâtiments, <1>tapez une fois</1> et la tuile devient verte",
+    "unsure": "Incertain? <1>Tapez deux fois</1> et la tuile deviendra jaune",
+    "badImagery": "Un problème d'imagerie, comme si l'une des images avait des nuages qui couvraient la vue ? <1>Tapez trois fois</1> et la tuile deviendra rouge",
     "holdZoom": "Pour zoomer sur une image, appuyez dessus pendant une seconde ou plus.",
     "hint": "Astuce:",
-    "differentImagery": "Parfois différentes sources d'imagerie sont utilisées. Les images peuvent ne pas être parfaitement alignées, ou utiliser des résolutions différentes. Ce qui compte ce sont{' '}<1>les changements de constructions et bâtiments</1>{' '}donc si les mêmes bâtiments sont présents, mais avec par exemple un toit neuf, on considère qu'il n'y pas de changement, et on passe à l'écran suivant."
+    "differentImagery": "Parfois, différentes sources d'imagerie auront été utilisées. Les images peuvent être alignées de manière légèrement différente ou avoir une résolution différente. Rappelez-vous, vous cherchez <1>des changements précis dans l'habitat et dans les bâtiments</1> Ainsi, si les mêmes bâtiments semblent être là, mais qu'il y a peut-être un nouveau toit, il s'agira d'un scénario \"sans changement\" et vous passerez simplement à l'image suivante."
   },
   "CDBodyScreen": {
     "viewInstructions": "Voir les instructions"
+  },
+  "CDTaskScreen": {
+    "before": "Avant",
+    "after": "Après"
   },
   "CDValidator": {
     "Yes": "Oui",
@@ -173,25 +197,62 @@
     "completedTutorial": "Vous savez maintenant tout ce qu'il faut pour contribuer à la cartographie humanitaire avec l'appli. Vous pouvez revenir à ce tutoriel à n'importe quel moment."
   },
   "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Utilisez les boutons pour répondre:",
+      "doesTheShapeOutlineABuilding": "La forme dessine-t-elle un bâtiment ?",
+      "everyTimeYouSelectAnOption": "Chaque fois que vous sélectionnez une option, une nouvelle forme et une nouvelle image s'affichent.",
+      "tapGreenText": "Oui, la forme décrit un bâtiment dans l'image",
+      "tapRedText": "Non - la forme ne correspond pas à un bâtiment dans l'image",
+      "tapGrayText": "Pas sûr - si vous n'êtes pas sûr ou s'il y a une couverture nuageuse ou une mauvaise imagerie",
+      "hideIconText": "Maintenez le bouton de masquage enfoncé pour supprimer la forme de l'image",
       "letsLearnHowToMap": "Apprenons à cartographier avec quelques exemples",
-      "youllSeeASquare": "Vous verrez un carré à l'écran. Utilisez les boutons pour répondre:",
+      "youllSeeASquare": "Vous verrez une forme sur une image. Utilisez les boutons pour répondre :",
       "squareContainsBuildings": "Le carré contient-il un bâtiment?",
       "squareWillMove": "Le carré va parcourir l'image quand vous cartographiez, comme ceci:",
-      "swipeToGetStarted": "Faites glisser pour commencer"
+      "swipeToGetStarted": "Faites glisser pour commencer",
+      "swipeToContinue": "Balayer pour continuer"
   },
   "BFTutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "Ne vous inquiétez pas si vous hésitez sur un carré.",
+    "dontWorryIfYoureUnsure": "Ne vous inquiétez pas si vous n'êtes pas sûr d'un carré",
     "youCanAlwaysTapUnsure": "Souvenez-vous que vous pouvez toujours utiliser le bouton 'Pas sûr.e'",
     "everyImageViewedBy": "Chaque image est vue par au moins 3 MapSwipers, donc pas d'inquiétude si vous manquez quelque chose",
     "wantToChangeYourAnswer": "Vous voulez changer votre réponse?",
-    "youCanSwipeBack": "Vous pouvez glisser en arrière pour changer vos réponses précédentes. Tapez glissez dans l'autre sens pour revenir où vous en étiez."
+    "youCanSwipeBack": "Vous pouvez glisser en arrière pour changer vos réponses précédentes. Tapez glissez dans l'autre sens pour revenir où vous en étiez.",
+    "yourPreviousAnswerIsMarked": "Vos réponses précédentes sont marquées d'un cercle blanc"
   },
   "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "La forme dessine-t-elle un bâtiment ?",
     "howToContribute": "Comment contribuer",
     "squareContainsBuildings": "Le carré contient-il un/des bâtiment(s)? Utilisez les boutons pour répondre:",
     "instructionsYes": "Oui: s'il y a un bâtiment ou des parties de bâtiments dans le carré",
     "instructionsNo": "Non: s'il n'y a aucun bâtiment dans le carré",
     "instructionsNotSure": "Pas sûr.e: si vous ne savez pas quoi répondre",
     "instructionsBadImagery": "Mauvaise imagerie: s'il y'a des nuages ou un problème avec l'imagerie"
+  },
+  "userGroupScreen": {
+    "join": "Rejoindre",
+    "leave": "Quitter",
+    "leaderBoards": "Tableaux de classement",
+    "settings": "Paramètres",
+    "leaveGroup": "Quitter le groupe",
+    "joinGroup": "Rejoindre le groupe"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Rejoindre le groupe",
+    "searchUserGroup": "Rechercher un groupe d'utilisateurs"
+  },
+  "changeUserName": {
+    "changeUserName": "Changer de nom d'utilisateur",
+    "currentUserName": "Nom d'utilisateur actuel",
+    "newUserName": "Nouveau nom d'utilisateur",
+    "confirmUserNameChange": "Confirmer le changement de nom d'utilisateur"
+  },
+  "changePassword": {
+    "changePassword": "Changer de mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPasswordChange": "Confirmer le changement de mot de passe"
+  },
+  "languageSelection": {
+    "languageSelection": "Langue"
   }
 }
