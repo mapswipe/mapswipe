@@ -22,15 +22,15 @@ buildscript {
         // targetSdkVersion specifies the API level used to test the app.
         targetSdkVersion = 31
         androidXCore = "1.0.2"
-        kotlinVersion = '1.3.72'
-        ndkVersion = "20.1.5948944"
+        kotlinVersion = '1.6.0'
+        ndkVersion = "21.4.7075529"
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath 'com.google.gms:google-services:4.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
