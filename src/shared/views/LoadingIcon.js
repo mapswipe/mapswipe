@@ -40,12 +40,14 @@ class LoadingComponent extends React.Component<Props, State> {
                 Animated.timing(animOpacity, {
                     toValue: 1,
                     duration: 3000,
+                    // $FlowFixMe[method-unbinding]
                     easing: Easing.in(Easing.sin),
                     useNativeDriver: false,
                 }),
                 Animated.timing(animOpacity, {
                     toValue: 0,
                     duration: 3000,
+                    // $FlowFixMe[method-unbinding]
                     easing: Easing.in(Easing.sin),
                     useNativeDriver: false,
                 }),

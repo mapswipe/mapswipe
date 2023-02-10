@@ -513,7 +513,7 @@ class _Login extends React.Component<Props, State> {
                     testID="signup_email"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    autoCompleteType="email"
+                    autoComplete="email"
                     keyboardType="email-address"
                     placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
@@ -640,7 +640,7 @@ class _Login extends React.Component<Props, State> {
                     testID="login_email"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    autoCompleteType="email"
+                    autoComplete="email"
                     keyboardType="email-address"
                     placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
