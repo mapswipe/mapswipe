@@ -19,7 +19,6 @@ ios/sentry.properties
 # OSX
 #
 .DS_Store
-ios/Pods/
 
 # Xcode
 #
@@ -54,15 +53,16 @@ local.properties
 #
 node_modules/
 npm-debug.log
-*.keystore
 yarn-error.log
+.eslintcache
+
 
 # BUCK
 buck-out/
 \.buckd/
-android/app/libs
 *.keystore
 !debug.keystore
+android/app/libs
 
 # fastlane
 #
@@ -80,4 +80,6 @@ android/app/libs
 # Bundle artifact
 *.jsbundle
 
-.eslintcache
+# Ruby / CocoaPods
+/ios/Pods/
+/vendor/bundle/
