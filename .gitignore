@@ -39,6 +39,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 *.dSYM.zip
+ios/.xcode.env.local
+
 
 # Android/IntelliJ
 #
@@ -83,3 +85,9 @@ android/app/libs
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+
+#logs
+.log/
+
+#vscode
+.vscode/
