@@ -15,7 +15,7 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import CheckBox from 'react-native-check-box';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { MessageBarManager } from 'react-native-message-bar';
 import RNBootSplash from 'react-native-bootsplash';
 import debugInfo from '../../../debugInfo';
@@ -558,12 +558,12 @@ class _Login extends React.Component<Props, State> {
                 </Text>
 
                 <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
-                    <CheckBox
+                    <BouncyCheckbox
                         style={{ flex: 1, padding: 5, maxWidth: 30 }}
-                        checkedCheckBoxColor={COLOR_WHITE}
-                        uncheckedCheckBoxColor={COLOR_WHITE}
+                        unfillColor={COLOR_WHITE}
+                        fillColor={COLOR_WHITE}
                         isChecked={signupPPChecked}
-                        onClick={() =>
+                        onPress={() =>
                             this.setState({ signupPPChecked: !signupPPChecked })
                         }
                     />
@@ -794,12 +794,14 @@ class _Login extends React.Component<Props, State> {
                 </Button>
 
                 <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
-                    <CheckBox
+                    <BouncyCheckbox
                         style={{ flex: 1, padding: 5, maxWidth: 30 }}
+                        unfillColor={COLOR_WHITE}
+                        fillColor={COLOR_WHITE}
                         checkedCheckBoxColor={COLOR_WHITE}
                         uncheckedCheckBoxColor={COLOR_WHITE}
                         isChecked={signupOSMPPChecked}
-                        onClick={() =>
+                        onPress={() =>
                             this.setState({
                                 signupOSMPPChecked: !signupOSMPPChecked,
                             })
