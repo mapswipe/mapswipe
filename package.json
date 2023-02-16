@@ -92,11 +92,11 @@
     "flow-bin": "^0.176.3",
     "jest": "^27.0.0",
     "jsonlint": "^1.6.3",
-    "metro-react-native-babel-preset": "^0.66.0",
+    "metro-react-native-babel-preset": "^0.67.0",
     "native-testing-library": "^3.1.2",
     "prettier": "^2.0.5",
     "react-native-codegen": "^0.0.7",
-    "react-test-renderer": "17.0.2",
+    "react-test-renderer": "18.0.0",
     "redux-devtools-extension": "^2.13.8"
   },
   "jest": {
