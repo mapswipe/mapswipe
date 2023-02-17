@@ -89,9 +89,6 @@ jobs:
           sed -ri "s/dev-api/api/" src/shared/constants.js
           sed -ri "s/dev-community/community/" src/shared/constants.js
 
-      - name: Jetify react files
-        run: yarn jetifier
-
       - name: Increase filesystem inotify watch limit
         run: sudo sysctl fs.inotify.max_user_watches=524288
 
