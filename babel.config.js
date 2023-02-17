@@ -13,10 +13,12 @@ module.exports = (api) => {
                     },
                 ],
             ],
+            plugins: ['@babel/plugin-transform-named-capturing-groups-regex'],
         };
     }
     return {
         presets: ['module:metro-react-native-babel-preset'],
+        plugins: ['@babel/plugin-transform-named-capturing-groups-regex'],
         env: {
             production: {
                 plugins: ['transform-remove-console'],

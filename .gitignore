@@ -50,6 +50,7 @@ build/
 local.properties
 *.iml
 *.hprof
+.cxx/
 
 # node.js
 #
