@@ -1,7 +1,9 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
 
+#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 
 @implementation AppDelegate
@@ -11,6 +13,23 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                   moduleName:@"mapswipe"
+                                            initialProperties:nil];
+
+  if (@available(iOS 13.0, *)) {
+      rootView.backgroundColor = [UIColor systemBackgroundColor];
+  } else {
+      rootView.backgroundColor = [UIColor whiteColor];
+  }
+
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  UIViewController *rootViewController = [UIViewController new];
+  rootViewController.view = rootView;
+  self.window.rootViewController = rootViewController;
+  [self.window makeKeyAndVisible];
+
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
