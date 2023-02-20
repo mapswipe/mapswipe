@@ -80,7 +80,8 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
+    "@babel/core": "^7.20.12",
+    "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-transform-named-capturing-groups-regex": "^7.20.5",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
@@ -93,7 +94,7 @@
     "babel-jest": "^29.2.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "base-64": "^1.0.0",
-    "eslint": "^8.19.0",
+    "eslint": "^8.34.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-flowtype": "^8.0.0",
