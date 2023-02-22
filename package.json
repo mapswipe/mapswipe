@@ -1,6 +1,7 @@
 {
   "name": "mapswipe",
-  "version": "2.2.4",
+  "version": "2.2.5",
+  "build": "0",
   "private": true,
   "scripts": {
     "buildDev": "cd android && ./gradlew assembleDevRelease && cd ..",
