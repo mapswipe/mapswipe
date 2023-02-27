@@ -559,9 +559,9 @@ class _Login extends React.Component<Props, State> {
 
                 <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
                     <BouncyCheckbox
-                        style={{ flex: 1, padding: 5, maxWidth: 30 }}
+                        iconStyle={{ borderColor: 'gray', borderWidth: 2 }}
                         unfillColor={COLOR_WHITE}
-                        fillColor={COLOR_WHITE}
+                        fillColor={COLOR_DEEP_BLUE}
                         isChecked={signupPPChecked}
                         onPress={() =>
                             this.setState({ signupPPChecked: !signupPPChecked })
@@ -795,11 +795,9 @@ class _Login extends React.Component<Props, State> {
 
                 <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
                     <BouncyCheckbox
-                        style={{ flex: 1, padding: 5, maxWidth: 30 }}
+                        iconStyle={{ borderColor: 'gray', borderWidth: 2 }}
                         unfillColor={COLOR_WHITE}
-                        fillColor={COLOR_WHITE}
-                        checkedCheckBoxColor={COLOR_WHITE}
-                        uncheckedCheckBoxColor={COLOR_WHITE}
+                        fillColor={COLOR_DEEP_BLUE}
                         isChecked={signupOSMPPChecked}
                         onPress={() =>
                             this.setState({
