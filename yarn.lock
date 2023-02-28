@@ -1124,7 +1124,7 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.35.0.tgz#b7569632b0b788a0ca0e438235154e45d42813a7"
   integrity sha512-JXdzbRiWclLVoD8sNUjR443VVlYqiYmDVT6rGUEIEHU5YJW0gaVZwV2xgM7D4arkvASqD0IlLUVjHiFuxaftRw==
 
-"@expo/config-plugins@^4.0.3":
+"@expo/config-plugins@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.1.5.tgz#9d357d2cda9c095e511b51583ede8a3b76174068"
   integrity sha512-RVvU40RtZt12HavuDAe+LDIq9lHj7sheOfMEHdmpJ/uTA8pgvkbc56XF6JHQD+yRr6+uhhb+JnAasGq49dsQbw==
@@ -2207,34 +2207,34 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-4.7.0.tgz#7482d36836cac69d0a0ae25581f65bc472639930"
   integrity sha512-a/sDB+AsLEUNmhAUlAaTYeXKyQdFGBUfatqKkX5jluBo2CB3OAuTHfm7rSjcaLB9EmG5iSq3fOTpync2E7EYTA==
 
-"@react-native-firebase/analytics@^12.3.0":
-  version "12.9.3"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-12.9.3.tgz#1bb69f56cdebf8d03f73958867a144542005a281"
-  integrity sha512-z4OPppeqDlcoWe75MI+6FFZMd4jSkWw1Tya8px05TTnjwWcl0nclzUbloicWLrSnhxSyRrUSgxrreiConI/E4g==
+"@react-native-firebase/analytics@^14.12.0":
+  version "14.12.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-14.12.0.tgz#a95ed34187018704d1c0aa7a05c02c1711fac94f"
+  integrity sha512-1ulisJVqpCVs+c3wukG7PCRyipBNqzWVzzC/WB+zaFLXu5gtYZU1RXbzuIUTQLLvVM4v+Yl1wdqcuhybjm+BQA==
 
-"@react-native-firebase/app@^12.3.0":
-  version "12.9.3"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-12.9.3.tgz#7f0f8ee8598557e3d8997d5a7e820f89d2a3479d"
-  integrity sha512-Qy5awKs/VvASUFvjXUCtkUxZo+MEt6Rv32xXK18isUDWoqsopL5o0tHiWF+86EAyZTx/j0C1nc6lYlCwvLvDwQ==
+"@react-native-firebase/app@^14.12.0":
+  version "14.12.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.12.0.tgz#d9706973489485d8705ce8344e3b255115b381a8"
+  integrity sha512-r/4eP96U3StUs9t3QSlNwCIjjZpEAzI0u8GF8VlNNgrFxUKQXmwe63dRXQXVrI03MxnHgg87OpoWgIxhRlC9Rg==
   dependencies:
-    "@expo/config-plugins" "^4.0.3"
+    "@expo/config-plugins" "^4.1.5"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^12.3.0":
-  version "12.9.3"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-12.9.3.tgz#370702cfa3f17283f958843e1b4d13e57ec686a5"
-  integrity sha512-fVYPepp9LtL3k+ra7MuWmNxzhUmTTtBEaXHS1Ir2k0mgdAuPwssjW1MLrGl2ygvDsiMwm+tcBBw6DC9pfIa9hw==
+"@react-native-firebase/auth@^14.12.0":
+  version "14.12.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-14.12.0.tgz#1cb5815e623aa83b070df3e47680db5f5886e8cc"
+  integrity sha512-2XiVpppZuxHSjR1Tjtwg/Aigapk4R2yupqUFJplBSijbg4Mets3XuUWLYURDBQIH/+GuheQuOGHALix4afGpDg==
 
-"@react-native-firebase/database@^12.3.0":
-  version "12.9.3"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-12.9.3.tgz#71c4b7f94d98091acf3771d08c7f6ceddec16794"
-  integrity sha512-XfjJ9tcgnAYkxDwnWtL7lE1ZqTWztyFcYGSwLRqpzxgteQoqkWUuCMH+HFQ7tQO6ebN9d3Nm8PGV+OjWMDtY5g==
+"@react-native-firebase/database@^14.12.0":
+  version "14.12.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-14.12.0.tgz#3c357016a2553f7a0962892258d6087e18543b5b"
+  integrity sha512-3TOJkwvbTybDge8GQiRDdsuTnkeCAyCosvmOTa+LiRLDBK7kqmCfP0/YWWlOnfVgySWM1LTG96FnnLdOsOFs2w==
 
-"@react-native-firebase/storage@^12.3.0":
-  version "12.9.3"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-12.9.3.tgz#40370726acf1c7ee97aaae792ad74083d86d1a6e"
-  integrity sha512-tBdpZkM88rGVLzPMRJc2/tG1EqQJvdtGs/iXIPBtuFj7uUfaRXQUAzbGDUgzLfTQ8t2XmSiyNEz1V7wYrHkt7w==
+"@react-native-firebase/storage@^14.12.0":
+  version "14.12.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.12.0.tgz#3bd4a5e9aa2c57d6cba72771969a7e224a9809e1"
+  integrity sha512-oveveslj+BfrQNf1uMyjjj6ogEFK0UaDtkvMvbvEzp53hn9k9iHSQijjr6EDti4ieh51wF7XOwgh3X28nlwIQA==
 
 "@react-native-masked-view/masked-view@^0.2.8":
   version "0.2.8"

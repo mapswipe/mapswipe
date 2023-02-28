@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
-
+#import <Firebase.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -14,6 +14,9 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  if ([FIRApp defaultApp] == nil) {
+      [FIRApp configure];
+  }
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"mapswipe"
                                             initialProperties:nil];
