@@ -58,6 +58,7 @@ type Props = {
     t: TranslationFunction,
     toNextGroup: void => void,
     tutorial: boolean,
+    continueMappingButtonVisible: boolean,
 };
 
 class _LoadMoreCard extends React.Component<Props> {
@@ -161,12 +162,20 @@ class _LoadMoreCard extends React.Component<Props> {
     };
 
     render() {
-        const { t, tutorial } = this.props;
+        const { t, tutorial, continueMappingButtonVisible } = this.props;
+
         return (
             <View style={styles.congratulationsSlide}>
-                <Text style={styles.finishedText}>
-                    {tutorial ? t('completedTutorial') : t('finishedGroup')}
-                </Text>
+                {continueMappingButtonVisible && (
+                    <Text style={styles.finishedText}>
+                        {tutorial ? t('completedTutorial') : t('finishedGroup')}
+                    </Text>
+                )}
+                {!continueMappingButtonVisible && (
+                    <Text style={styles.finishedText}>
+                        {t('finishedManyGroups')}
+                    </Text>
+                )}
 
                 <Button
                     style={styles.moreButton}
@@ -175,7 +184,7 @@ class _LoadMoreCard extends React.Component<Props> {
                 >
                     {tutorial ? t('letsGo') : t('completeSession')}
                 </Button>
-                {tutorial || (
+                {tutorial || !continueMappingButtonVisible || (
                     <Button
                         style={styles.moreButton}
                         onPress={this.onMore}
