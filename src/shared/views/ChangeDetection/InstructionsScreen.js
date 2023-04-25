@@ -95,6 +95,9 @@ class CDInstructionScreen extends React.Component<Props> {
 
     render() {
         const { navigation, t } = this.props;
+        const creditString = navigation.getParam('creditString');
+
+        // TODO: use lookFor attribute of project in the text
         return (
             <View style={styles.background}>
                 <View style={styles.swipeNavTop}>
@@ -118,6 +121,9 @@ class CDInstructionScreen extends React.Component<Props> {
                 </View>
 
                 <ScrollView style={styles.container}>
+                    <Text style={styles.header}>{t('imageryCredits')}</Text>
+                    <Text style={styles.tutParagraph}>{creditString}</Text>
+
                     <Text style={styles.header}>{t('your task')}</Text>
                     <Text style={styles.tutParagraph}>
                         <Trans i18nKey="CDInstructionScreen:lookingFor">
@@ -201,6 +207,7 @@ class CDInstructionScreen extends React.Component<Props> {
                             simply swipe to the next image.
                         </Trans>
                     </Text>
+
                     <Text style={styles.header}>&nbsp;</Text>
                 </ScrollView>
             </View>

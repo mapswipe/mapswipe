@@ -84,8 +84,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     backConfirmationModal: ?React.ComponentType<void>;
 
-    HelpModal: ?React.ComponentType<void>;
-
     progress: ?BottomProgress;
 
     project: ProjectType;
@@ -168,7 +166,10 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     onInfoPress = () => {
         const { navigation } = this.props;
-        navigation.push('CDInstructionsScreen');
+        navigation.push('CDInstructionsScreen', {
+            project: this.project,
+            creditString: this.getCreditString(),
+        });
     };
 
     commitCompletedGroup = () => {
@@ -184,7 +185,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 // CHANGE_DETECTION
                 // we have 2 sets of imagery
                 const creditsA =
-                    this.project.tileServerA.credits || defaultCredits;
+                    this.project.tileServer.credits || defaultCredits;
                 const creditsB =
                     this.project.tileServerB.credits || defaultCredits;
                 result = `Before: ${creditsA}\nAfter: ${creditsB}`;
@@ -302,11 +303,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     zoomLevel={this.project.zoomLevel}
                 />
                 <View>
-                    <TouchableWithoutFeedback
-                        onPress={() => {
-                            navigation.push('CDInstructionsScreen');
-                        }}
-                    >
+                    <TouchableWithoutFeedback onPress={this.onInfoPress}>
                         <Text
                             style={{
                                 alignSelf: 'center',
