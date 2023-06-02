@@ -6,7 +6,7 @@ import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
@@ -15,7 +15,14 @@ import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
-import { tutorialModes } from '../../constants';
+import {
+    tutorialModes,
+    COLOR_WHITE,
+    COLOR_LIGHT_GRAY,
+    SPACING_MEDIUM,
+    SPACING_EXTRA_SMALL,
+    FONT_SIZE_SMALL,
+} from '../../constants';
 import GLOBAL from '../../Globals';
 import { cross, notSure, tick } from '../../common/SvgIcons';
 
@@ -43,6 +50,21 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
     },
+    listItem: {
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        width: '90%',
+        backgroundColor: COLOR_WHITE,
+    },
+    item: {
+        margin: SPACING_EXTRA_SMALL,
+        padding: SPACING_MEDIUM,
+        borderWidth: 1,
+        borderColor: COLOR_LIGHT_GRAY,
+    },
+    listItemText: {
+        fontSize: FONT_SIZE_SMALL,
+    },
     sideBySideButtons: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -53,6 +75,25 @@ const styles = StyleSheet.create({
 const FOOTPRINT_NO = 0;
 const FOOTPRINT_YES = 1;
 const FOOTPRINT_NOT_SURE = 2;
+
+const listData = [
+    {
+        id: 1,
+        title: "It's a truck",
+    },
+    {
+        id: 2,
+        title: 'It look like a tree',
+    },
+    {
+        id: 3,
+        title: "The building structure doesn't look very convincing",
+    },
+    {
+        id: 4,
+        title: 'Cloud obstruction',
+    },
+];
 
 type Props = {
     completeGroup: () => void,
@@ -105,6 +146,7 @@ class _Validator extends React.Component<Props, State> {
         super(props);
         this.state = {
             currentTaskIndex: 0,
+            showList: false,
         };
         this.tutorialIntroWidth = 2;
         this.currentScreen = -this.tutorialIntroWidth;
@@ -148,6 +190,21 @@ class _Validator extends React.Component<Props, State> {
         // const { group } = this.props;
         // const currentScreen = Math.floor((currentX - group.xMin) / 2);
         return currentScreen;
+    };
+
+    handleShowList = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showList: true,
+        }));
+    };
+
+    handleSelectListItem = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showList: false,
+        }));
+        this.nextTask(FOOTPRINT_NO);
     };
 
     nextTask = (result: ?number): boolean => {
@@ -266,6 +323,8 @@ class _Validator extends React.Component<Props, State> {
             }
         }
 
+        const { showList } = this.state;
+
         return (
             <View style={styles.container}>
                 <FootprintDisplay
@@ -278,32 +337,52 @@ class _Validator extends React.Component<Props, State> {
                     project={project}
                     task={currentTask}
                 />
-                <View style={styles.sideBySideButtons}>
-                    <RoundButtonWithTextBelow
-                        color={buttonGreen}
-                        iconXmlString={tick}
-                        label="Yes"
-                        onPress={() => this.nextTask(FOOTPRINT_YES)}
-                        radius={buttonHeight}
-                        selected={selectedResult === FOOTPRINT_YES}
-                    />
-                    <RoundButtonWithTextBelow
-                        color={buttonRed}
-                        iconXmlString={cross}
-                        label="No"
-                        onPress={() => this.nextTask(FOOTPRINT_NO)}
-                        radius={buttonHeight}
-                        selected={selectedResult === FOOTPRINT_NO}
-                    />
-                    <RoundButtonWithTextBelow
-                        color={buttonGrey}
-                        iconXmlString={notSure}
-                        label="Not sure"
-                        onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                        radius={buttonHeight}
-                        selected={selectedResult === FOOTPRINT_NOT_SURE}
-                    />
-                </View>
+                {showList ? (
+                    <View style={styles.listItem}>
+                        <FlatList
+                            data={listData}
+                            renderItem={({ item }) => (
+                                <View style={styles.item}>
+                                    <Text
+                                        style={styles.listItemText}
+                                        onPress={() =>
+                                            this.handleSelectListItem(item.id)
+                                        }
+                                    >
+                                        {item.title}
+                                    </Text>
+                                </View>
+                            )}
+                        />
+                    </View>
+                ) : (
+                    <View style={styles.sideBySideButtons}>
+                        <RoundButtonWithTextBelow
+                            color={buttonGreen}
+                            iconXmlString={tick}
+                            label="Yes"
+                            onPress={() => this.nextTask(FOOTPRINT_YES)}
+                            radius={buttonHeight}
+                            selected={selectedResult === FOOTPRINT_YES}
+                        />
+                        <RoundButtonWithTextBelow
+                            color={buttonRed}
+                            iconXmlString={cross}
+                            label="No"
+                            onPress={() => this.handleShowList()}
+                            radius={buttonHeight}
+                            selected={selectedResult === FOOTPRINT_NO}
+                        />
+                        <RoundButtonWithTextBelow
+                            color={buttonGrey}
+                            iconXmlString={notSure}
+                            label="Not sure"
+                            onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
+                            radius={buttonHeight}
+                            selected={selectedResult === FOOTPRINT_NOT_SURE}
+                        />
+                    </View>
+                )}
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 && (
