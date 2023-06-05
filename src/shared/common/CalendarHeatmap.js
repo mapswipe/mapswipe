@@ -85,27 +85,20 @@ function getTimestamps(
 
     const timestamps = [sanitizedStartDate.getTime()];
 
-    let increment = 1;
-    while (true) {
+    const increment = 1;
+    while (sanitizedStartDate < sanitizedEndDate) {
         const myDate = new Date(sanitizedStartDate);
+
         if (resolution === 'year') {
-            myDate.setFullYear(sanitizedStartDate.getFullYear() + increment);
+            myDate.setFullYear(myDate.getFullYear() + increment);
         } else if (resolution === 'month') {
-            myDate.setMonth(sanitizedStartDate.getMonth() + increment);
+            myDate.setMonth(myDate.getMonth() + increment);
         } else {
-            myDate.setDate(sanitizedStartDate.getDate() + increment);
+            myDate.setDate(myDate.getDate() + increment);
         }
-        myDate.setHours(0);
-        myDate.setMinutes(0);
-        myDate.setSeconds(0);
-        myDate.setMilliseconds(0);
-
-        if (myDate > sanitizedEndDate) {
-            break;
-        }
-
+        myDate.setHours(0, 0, 0, 0);
         timestamps.push(myDate.getTime());
-        increment += 1;
+        sanitizedStartDate.setTime(myDate.getTime());
     }
 
     return timestamps;
