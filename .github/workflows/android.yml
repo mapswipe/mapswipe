@@ -15,14 +15,14 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: '16.1.0'
+          node-version: '18'
 
       - name: Install javascript packages
         uses: bahmutov/npm-install@v1
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.3'
+          ruby-version: '2.7.6'
 
       - name: Install Fastlane
         run: bundle install
@@ -88,9 +88,6 @@ jobs:
           sed -ri "s/devmapswipe/mapswipe/" debugInfo.json
           sed -ri "s/dev-api/api/" src/shared/constants.js
           sed -ri "s/dev-community/community/" src/shared/constants.js
-
-      - name: Jetify react files
-        run: yarn jetifier
 
       - name: Increase filesystem inotify watch limit
         run: sudo sysctl fs.inotify.max_user_watches=524288

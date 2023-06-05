@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
     value: {
+        color: COLOR_DARK_GRAY,
         fontWeight: FONT_WEIGHT_BOLD,
         fontSize: FONT_SIZE_EXTRA_LARGE,
     },

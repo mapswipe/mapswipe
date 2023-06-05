@@ -434,8 +434,9 @@ function UserProfile(props: Props) {
 
         const totalUserGroups = userStatsData?.user?.userInUserGroups?.count;
 
-        const formatNumber = new Intl.NumberFormat(selectedLanguage?.localeCode)
-            .format;
+        const formatter = new Intl.NumberFormat(selectedLanguage?.localeCode);
+        // $FlowFixMe[method-unbinding]
+        const formatNumber = formatter.format;
 
         const totalSwipesFormatted = formatNumber(totalSwipes ?? 0);
         const totalMappingProjectsFormatted = formatNumber(

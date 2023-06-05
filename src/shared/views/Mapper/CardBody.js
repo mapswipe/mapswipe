@@ -319,7 +319,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             tutorial &&
             currentScreen >= 0 &&
             // $FlowFixMe
-            currentScreen < this.tasksPerScreen.length &&
+            currentScreen < this.tasksPerScreen?.length &&
             !this.scrollEnabled
         ) {
             // swiping is disabled in the flatlist component, so we need to detect swipes
@@ -416,7 +416,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
-                if (currentScreen >= this.tasksPerScreen.length) {
+                if (currentScreen >= this.tasksPerScreen?.length) {
                     this.scrollEnabled = true;
                 } else {
                     this.scrollEnabled = false;
