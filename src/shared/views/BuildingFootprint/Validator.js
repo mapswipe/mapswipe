@@ -22,9 +22,17 @@ import {
     SPACING_MEDIUM,
     SPACING_EXTRA_SMALL,
     FONT_SIZE_SMALL,
+    SPACING_SMALL,
 } from '../../constants';
 import GLOBAL from '../../Globals';
-import { cross, notSure, tick } from '../../common/SvgIcons';
+import {
+    cross,
+    notSure,
+    tick,
+    hide,
+    chevronRight,
+    database,
+} from '../../common/SvgIcons';
 
 import type {
     BuildingFootprintGroupType,
@@ -45,10 +53,12 @@ const buttonGrey = '#adadad';
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        gap: SPACING_SMALL,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: GLOBAL.SCREEN_WIDTH,
     },
     listItem: {
         flexDirection: 'column',
@@ -70,28 +80,166 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         width: '100%',
     },
+    options: {
+        display: 'flex',
+        width: '90%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
+        borderRadius: 8,
+        paddingBottom: SPACING_SMALL,
+    },
+    option: {
+        flex: 1,
+        minWidth: 100,
+        maxWidth: 100,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '30%',
+    },
+    listHeading: {
+        textAlign: 'center',
+        fontWeight: '700',
+        color: '#212121',
+        fontSize: 18,
+        padding: SPACING_MEDIUM,
+    },
 });
 
 const FOOTPRINT_NO = 0;
 const FOOTPRINT_YES = 1;
 const FOOTPRINT_NOT_SURE = 2;
 
-const listData = [
+type AdditionalOption = {
+    reason: number,
+    description: string,
+};
+
+type Option = {
+    option: number,
+    title: string,
+    description: string,
+    icon: string,
+    iconColor: string,
+    reasons?: Array<AdditionalOption>,
+};
+
+const options: Option[] = [
     {
-        id: 1,
-        title: "It's a truck",
+        option: 1,
+        title: 'Option 1',
+
+        description: 'This is option 1',
+        icon: tick,
+        iconColor: '#FF0000',
     },
     {
-        id: 2,
-        title: 'It look like a tree',
+        option: 2,
+        title: 'Option 2',
+        description: 'This is option 2',
+        icon: cross,
+        iconColor: '#FFFF00',
     },
     {
-        id: 3,
-        title: "The building structure doesn't look very convincing",
+        option: 3,
+        title: 'Option 3',
+        description: 'This is option 3',
+        icon: notSure,
+        iconColor: '#00FF00',
+        reasons: [
+            {
+                reason: 1,
+                description: 'Reason 1 for option 3',
+            },
+            {
+                reason: 2,
+                description: 'Reason 2 for option 3',
+            },
+            {
+                reason: 3,
+                description: 'Reason 3 for option 3',
+            },
+            {
+                reason: 4,
+                description: 'Reason 4 for option 3',
+            },
+        ],
     },
     {
-        id: 4,
-        title: 'Cloud obstruction',
+        option: 4,
+        title: 'Option 4',
+        description: 'This is option 4',
+        icon: hide,
+        iconColor: '#0000FF',
+        reasons: [
+            {
+                reason: 1,
+                description: 'Reason 1 for option 4',
+            },
+            {
+                reason: 2,
+                description: 'Reason 2 for option 4',
+            },
+            {
+                reason: 3,
+                description: 'Reason 3 for option 4',
+            },
+            {
+                reason: 4,
+                description: 'Reason 4 for option 4',
+            },
+        ],
+    },
+    {
+        option: 5,
+        title: 'Option 5',
+        description: 'This is option 5',
+        icon: chevronRight,
+        iconColor: '#FF00FF',
+        reasons: [
+            {
+                reason: 1,
+                description: 'Reason 1 for option 5',
+            },
+            {
+                reason: 2,
+                description: 'Reason 2 for option 5',
+            },
+            {
+                reason: 3,
+                description: 'Reason 3 for option 5',
+            },
+            {
+                reason: 4,
+                description: 'Reason 4 for option 5',
+            },
+        ],
+    },
+    {
+        option: 6,
+        title: 'Option 6',
+        description: 'This is option 6',
+        icon: database,
+        iconColor: '#FFFF00',
+        reasons: [
+            {
+                reason: 1,
+                description: 'Reason 1 for option 6',
+            },
+            {
+                reason: 2,
+                description: 'Reason 2 for option 6',
+            },
+            {
+                reason: 3,
+                description: 'Reason 3 for option 6',
+            },
+            {
+                reason: 4,
+                description: 'Reason 4 for option 6',
+            },
+        ],
     },
 ];
 
@@ -110,6 +258,8 @@ type Props = {
 type State = {
     // the index of the current task in the task array
     currentTaskIndex: number,
+    showAdditionalOptions: boolean,
+    additionalOptions: Array<AdditionalOption>,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -146,7 +296,8 @@ class _Validator extends React.Component<Props, State> {
         super(props);
         this.state = {
             currentTaskIndex: 0,
-            showList: false,
+            showAdditionalOptions: false,
+            additionalOptions: [],
         };
         this.tutorialIntroWidth = 2;
         this.currentScreen = -this.tutorialIntroWidth;
@@ -192,19 +343,17 @@ class _Validator extends React.Component<Props, State> {
         return currentScreen;
     };
 
-    handleShowList = () => {
-        this.setState(prevState => ({
-            ...prevState,
-            showList: true,
-        }));
-    };
-
-    handleSelectListItem = () => {
-        this.setState(prevState => ({
-            ...prevState,
-            showList: false,
-        }));
-        this.nextTask(FOOTPRINT_NO);
+    handleSelectOption = option => {
+        if (option.reasons) {
+            this.setState(prevState => ({
+                ...prevState,
+                showAdditionalOptions: true,
+                additionalOptions: option.reasons,
+            }));
+        } else {
+            this.nextTask(option.option);
+        }
+        return true;
     };
 
     nextTask = (result: ?number): boolean => {
@@ -287,6 +436,79 @@ class _Validator extends React.Component<Props, State> {
         return true;
     };
 
+    renderContent = selectedOption => {
+        const { showAdditionalOptions, additionalOptions } = this.state;
+        if (showAdditionalOptions) {
+            return (
+                <View style={styles.listItem}>
+                    <Text style={styles.listHeading}>
+                        Additional Information
+                    </Text>
+                    <FlatList
+                        data={additionalOptions}
+                        renderItem={({ item }) => (
+                            <View style={styles.item} key={item.reason}>
+                                <Text
+                                    style={styles.listItemText}
+                                    onPress={() => this.nextTask(item.reason)}
+                                >
+                                    {item.description}
+                                </Text>
+                            </View>
+                        )}
+                    />
+                </View>
+            );
+        }
+        if (options) {
+            return (
+                <View style={styles.options}>
+                    {options.map(item => (
+                        <View style={styles.option}>
+                            <RoundButtonWithTextBelow
+                                key={item.option}
+                                color={item.iconColor}
+                                iconXmlString={item.icon}
+                                label={item.title}
+                                onPress={() => this.handleSelectOption(item)}
+                                radius={buttonHeight}
+                                selected={selectedOption === item.option}
+                            />
+                        </View>
+                    ))}
+                </View>
+            );
+        }
+        return (
+            <View style={styles.sideBySideButtons}>
+                <RoundButtonWithTextBelow
+                    color={buttonGreen}
+                    iconXmlString={tick}
+                    label="Yes"
+                    onPress={() => this.nextTask(FOOTPRINT_YES)}
+                    radius={buttonHeight}
+                    selected={selectedOption === FOOTPRINT_YES}
+                />
+                <RoundButtonWithTextBelow
+                    color={buttonRed}
+                    iconXmlString={cross}
+                    label="No"
+                    onPress={() => this.nextTask(FOOTPRINT_NO)}
+                    radius={buttonHeight}
+                    selected={selectedOption === FOOTPRINT_NO}
+                />
+                <RoundButtonWithTextBelow
+                    color={buttonGrey}
+                    iconXmlString={notSure}
+                    label="Not sure"
+                    onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
+                    radius={buttonHeight}
+                    selected={selectedOption === FOOTPRINT_NOT_SURE}
+                />
+            </View>
+        );
+    };
+
     /* eslint-disable global-require */
     renderValidator = () => {
         const { group, project, results, screens, tutorial } = this.props;
@@ -323,8 +545,6 @@ class _Validator extends React.Component<Props, State> {
             }
         }
 
-        const { showList } = this.state;
-
         return (
             <View style={styles.container}>
                 <FootprintDisplay
@@ -337,52 +557,7 @@ class _Validator extends React.Component<Props, State> {
                     project={project}
                     task={currentTask}
                 />
-                {showList ? (
-                    <View style={styles.listItem}>
-                        <FlatList
-                            data={listData}
-                            renderItem={({ item }) => (
-                                <View style={styles.item}>
-                                    <Text
-                                        style={styles.listItemText}
-                                        onPress={() =>
-                                            this.handleSelectListItem(item.id)
-                                        }
-                                    >
-                                        {item.title}
-                                    </Text>
-                                </View>
-                            )}
-                        />
-                    </View>
-                ) : (
-                    <View style={styles.sideBySideButtons}>
-                        <RoundButtonWithTextBelow
-                            color={buttonGreen}
-                            iconXmlString={tick}
-                            label="Yes"
-                            onPress={() => this.nextTask(FOOTPRINT_YES)}
-                            radius={buttonHeight}
-                            selected={selectedResult === FOOTPRINT_YES}
-                        />
-                        <RoundButtonWithTextBelow
-                            color={buttonRed}
-                            iconXmlString={cross}
-                            label="No"
-                            onPress={() => this.handleShowList()}
-                            radius={buttonHeight}
-                            selected={selectedResult === FOOTPRINT_NO}
-                        />
-                        <RoundButtonWithTextBelow
-                            color={buttonGrey}
-                            iconXmlString={notSure}
-                            label="Not sure"
-                            onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                            radius={buttonHeight}
-                            selected={selectedResult === FOOTPRINT_NOT_SURE}
-                        />
-                    </View>
-                )}
+                {this.renderContent(selectedResult)}
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 && (
