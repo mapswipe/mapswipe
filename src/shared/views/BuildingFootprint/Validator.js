@@ -2,11 +2,18 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import {
+    TouchableHighlight,
+    FlatList,
+    StyleSheet,
+    View,
+    Text,
+} from 'react-native';
 import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
+import { SvgXml } from 'react-native-svg';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
@@ -27,6 +34,7 @@ import {
 import GLOBAL from '../../Globals';
 import {
     cross,
+    redCross,
     notSure,
     tick,
     hide,
@@ -65,6 +73,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         width: '90%',
         backgroundColor: COLOR_WHITE,
+        padding: SPACING_SMALL,
     },
     item: {
         margin: SPACING_EXTRA_SMALL,
@@ -79,6 +88,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         width: '100%',
+    },
+    listHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     options: {
         display: 'flex',
@@ -97,6 +111,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '30%',
+    },
+    closeButton: {
+        height: 25,
+        width: 25,
+        padding: 4,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25,
     },
     listHeading: {
         textAlign: 'center',
@@ -356,6 +378,14 @@ class _Validator extends React.Component<Props, State> {
         return true;
     };
 
+    handleClose = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showAdditionalOptions: false,
+            additionalOptions: [],
+        }));
+    };
+
     nextTask = (result: ?number): boolean => {
         // update state to point to the next task in the list, and
         // save result if one was provided.
@@ -441,9 +471,23 @@ class _Validator extends React.Component<Props, State> {
         if (showAdditionalOptions) {
             return (
                 <View style={styles.listItem}>
-                    <Text style={styles.listHeading}>
-                        Additional Information
-                    </Text>
+                    <View style={styles.listHeader}>
+                        <Text style={styles.listHeading}>
+                            Additional Information
+                        </Text>
+                        <TouchableHighlight
+                            onPress={this.handleClose}
+                            underlayColor={COLOR_LIGHT_GRAY}
+                        >
+                            <View style={styles.closeButton}>
+                                <SvgXml
+                                    xml={redCross}
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </View>
+                        </TouchableHighlight>
+                    </View>
                     <FlatList
                         data={additionalOptions}
                         renderItem={({ item }) => (
