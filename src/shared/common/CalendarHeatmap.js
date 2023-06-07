@@ -75,6 +75,26 @@ function resolveTime(
     return newDate;
 }
 
+function incrementDate(
+    date: Date,
+    increment: number,
+    res: 'day' | 'month' | 'year',
+) {
+    const myDate = new Date(date);
+    if (res === 'year') {
+        myDate.setFullYear(date.getFullYear() + increment);
+    } else if (res === 'month') {
+        myDate.setMonth(date.getMonth() + increment);
+    } else {
+        myDate.setDate(date.getDate() + increment);
+    }
+    myDate.setHours(0);
+    myDate.setMinutes(0);
+    myDate.setSeconds(0);
+    myDate.setMilliseconds(0);
+    return myDate;
+}
+
 function getTimestamps(
     startDate: string | number | Date,
     endDate: string | number | Date,
@@ -83,22 +103,14 @@ function getTimestamps(
     const sanitizedStartDate = resolveTime(startDate, resolution);
     const sanitizedEndDate = resolveTime(endDate, resolution);
 
-    const timestamps = [sanitizedStartDate.getTime()];
-
-    const increment = 1;
-    while (sanitizedStartDate < sanitizedEndDate) {
-        const myDate = new Date(sanitizedStartDate);
-
-        if (resolution === 'year') {
-            myDate.setFullYear(myDate.getFullYear() + increment);
-        } else if (resolution === 'month') {
-            myDate.setMonth(myDate.getMonth() + increment);
-        } else {
-            myDate.setDate(myDate.getDate() + increment);
-        }
-        myDate.setHours(0, 0, 0, 0);
+    const timestamps: number[] = [];
+    for (
+        let myDate = sanitizedStartDate, increment = 0;
+        myDate <= sanitizedEndDate;
+        increment += 1,
+            myDate = incrementDate(sanitizedStartDate, increment, resolution)
+    ) {
         timestamps.push(myDate.getTime());
-        sanitizedStartDate.setTime(myDate.getTime());
     }
 
     return timestamps;
