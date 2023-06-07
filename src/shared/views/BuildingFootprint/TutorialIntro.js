@@ -1,8 +1,14 @@
 // @flow
 import * as React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 import { withTranslation } from 'react-i18next';
-import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_LIGHT_GRAY,
+    COLOR_WHITE,
+    SPACING_LARGE,
+} from '../../constants';
 import {
     GreenCheckIcon,
     GrayUnsureIcon,
@@ -11,6 +17,7 @@ import {
     SwipeIconWhite,
 } from '../../common/Tutorial/icons';
 import type { TranslationFunction } from '../../flow-types';
+import { options } from './mockData';
 
 const GLOBAL = require('../../Globals');
 
@@ -20,9 +27,12 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         width: GLOBAL.SCREEN_WIDTH * 2,
+        paddingBottom: SPACING_LARGE,
     },
     container: {
+        flexDirection: 'column',
         paddingHorizontal: 20,
+        gap: SPACING_LARGE,
     },
     centeredHeader: {
         alignSelf: 'center',
@@ -46,6 +56,28 @@ const styles = StyleSheet.create({
     screenWidth: {
         width: GLOBAL.SCREEN_WIDTH,
     },
+    textContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '90%',
+    },
+    textTitle: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: '600',
+        marginLeft: 10,
+        maxWidth: '85%',
+        width: '85%',
+    },
+    textDescription: {
+        color: COLOR_LIGHT_GRAY,
+        fontSize: 15,
+        fontWeight: '400',
+        marginLeft: 10,
+        maxWidth: '85%',
+        width: '85%',
+    },
     tutText: {
         color: 'white',
         fontSize: 15,
@@ -61,6 +93,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
+    },
+    svgIcon: {
+        borderRadius: 25,
+        height: 50,
+        padding: 15,
+        width: 50,
     },
 });
 
@@ -126,21 +164,55 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={styles.header}>
                         {t('doesTheShapeOutlineABuilding')}
                     </Text>
+                    {options ? (
+                        options.map(item => (
+                            <View style={styles.tutRow}>
+                                <View
+                                    style={[
+                                        styles.svgIcon,
+                                        { backgroundColor: item.iconColor },
+                                    ]}
+                                >
+                                    <SvgXml
+                                        xml={item.icon}
+                                        width="100%"
+                                        height="100%"
+                                    />
+                                </View>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.textTitle}>
+                                        {item.title}
+                                    </Text>
+                                    <Text style={styles.textDescription}>
+                                        {item.description}
+                                    </Text>
+                                </View>
+                            </View>
+                        ))
+                    ) : (
+                        <>
+                            <View style={styles.tutRow}>
+                                <GreenCheckIcon />
+                                <Text style={styles.tutText}>
+                                    {t('tapGreenText')}
+                                </Text>
+                            </View>
 
-                    <View style={styles.tutRow}>
-                        <GreenCheckIcon />
-                        <Text style={styles.tutText}>{t('tapGreenText')}</Text>
-                    </View>
+                            <View style={styles.tutRow}>
+                                <RedCrossIcon />
+                                <Text style={styles.tutText}>
+                                    {t('tapRedText')}
+                                </Text>
+                            </View>
 
-                    <View style={styles.tutRow}>
-                        <RedCrossIcon />
-                        <Text style={styles.tutText}>{t('tapRedText')}</Text>
-                    </View>
-
-                    <View style={styles.tutRow}>
-                        <GrayUnsureIcon />
-                        <Text style={styles.tutText}>{t('tapGrayText')}</Text>
-                    </View>
+                            <View style={styles.tutRow}>
+                                <GrayUnsureIcon />
+                                <Text style={styles.tutText}>
+                                    {t('tapGrayText')}
+                                </Text>
+                            </View>
+                        </>
+                    )}
 
                     <View style={[styles.tutRow, { marginLeft: 5 }]}>
                         <HideIcon />
@@ -150,7 +222,10 @@ const TutorialIntroScreen = (props: Props) => {
                     <View
                         style={[
                             styles.tutRow,
-                            { alignSelf: 'center', marginTop: 80 },
+                            {
+                                alignSelf: 'center',
+                                marginTop: options ? 0 : 40,
+                            },
                         ]}
                     >
                         <Text style={styles.centeredHeader}>
