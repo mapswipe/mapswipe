@@ -145,9 +145,7 @@ const InformationPageView = (props: InformationPageProps) => {
                     ]}
                 >
                     <Text style={styles.centeredHeader}>
-                        {information.page === 1
-                            ? t('swipeToGetStarted')
-                            : t('swipeToContinue')}
+                        {t('swipeToContinue')}
                     </Text>
                     <SwipeIconWhite />
                 </View>
@@ -166,13 +164,6 @@ const TutorialIntroScreen = (props: Props) => {
                 { width: GLOBAL.SCREEN_WIDTH * pagesCount },
             ]}
         >
-            {informationPages.map(information => (
-                <InformationPageView
-                    information={information}
-                    key={information.page}
-                    t={t}
-                />
-            ))}
             <View style={styles.screenWidth}>
                 <ScrollView
                     style={styles.container}
@@ -223,12 +214,19 @@ const TutorialIntroScreen = (props: Props) => {
                         ]}
                     >
                         <Text style={styles.centeredHeader}>
-                            {t('swipeToContinue')}
+                            {t('swipeToGetStarted')}
                         </Text>
                         <SwipeIconWhite />
                     </View>
                 </ScrollView>
             </View>
+            {informationPages.map(information => (
+                <InformationPageView
+                    information={information}
+                    key={information.page}
+                    t={t}
+                />
+            ))}
         </View>
     );
 };
