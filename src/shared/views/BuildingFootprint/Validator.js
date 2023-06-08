@@ -32,7 +32,7 @@ import {
     SPACING_SMALL,
 } from '../../constants';
 import GLOBAL from '../../Globals';
-import { cross, redCross, notSure, tick } from '../../common/SvgIcons';
+import { redCross } from '../../common/SvgIcons';
 
 import type {
     BuildingFootprintGroupType,
@@ -43,14 +43,10 @@ import type {
     TutorialContent,
 } from '../../flow-types';
 import type { AdditionalOption } from './mockData';
-import { options } from './mockData';
+import { options, informationPages } from './mockData';
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
-
-const buttonGreen = '#bbcb7d';
-const buttonRed = '#fd5054';
-const buttonGrey = '#adadad';
 
 const styles = StyleSheet.create({
     container: {
@@ -60,6 +56,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: GLOBAL.SCREEN_WIDTH,
+        borderColor: COLOR_WHITE,
+        borderWidth: 2,
     },
     listItem: {
         flexDirection: 'column',
@@ -76,11 +74,6 @@ const styles = StyleSheet.create({
     },
     listItemText: {
         fontSize: FONT_SIZE_SMALL,
-    },
-    sideBySideButtons: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        width: '100%',
     },
     listHeader: {
         flexDirection: 'row',
@@ -122,9 +115,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const FOOTPRINT_NO = 0;
-const FOOTPRINT_YES = 1;
-const FOOTPRINT_NOT_SURE = 2;
+const dynamicPagesCount = informationPages.length;
 
 type Props = {
     completeGroup: () => void,
@@ -182,7 +173,7 @@ class _Validator extends React.Component<Props, State> {
             showAdditionalOptions: false,
             additionalOptions: [],
         };
-        this.tutorialIntroWidth = 2;
+        this.tutorialIntroWidth = dynamicPagesCount + 1;
         this.currentScreen = -this.tutorialIntroWidth;
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
@@ -365,51 +356,21 @@ class _Validator extends React.Component<Props, State> {
                 </View>
             );
         }
-        if (options) {
-            return (
-                <View style={styles.options}>
-                    {options.map(item => (
-                        <View style={styles.option}>
-                            <RoundButtonWithTextBelow
-                                key={item.option}
-                                color={item.iconColor}
-                                iconXmlString={item.icon}
-                                label={item.title}
-                                onPress={() => this.handleSelectOption(item)}
-                                radius={buttonHeight}
-                                selected={selectedOption === item.option}
-                            />
-                        </View>
-                    ))}
-                </View>
-            );
-        }
         return (
-            <View style={styles.sideBySideButtons}>
-                <RoundButtonWithTextBelow
-                    color={buttonGreen}
-                    iconXmlString={tick}
-                    label="Yes"
-                    onPress={() => this.nextTask(FOOTPRINT_YES)}
-                    radius={buttonHeight}
-                    selected={selectedOption === FOOTPRINT_YES}
-                />
-                <RoundButtonWithTextBelow
-                    color={buttonRed}
-                    iconXmlString={cross}
-                    label="No"
-                    onPress={() => this.nextTask(FOOTPRINT_NO)}
-                    radius={buttonHeight}
-                    selected={selectedOption === FOOTPRINT_NO}
-                />
-                <RoundButtonWithTextBelow
-                    color={buttonGrey}
-                    iconXmlString={notSure}
-                    label="Not sure"
-                    onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                    radius={buttonHeight}
-                    selected={selectedOption === FOOTPRINT_NOT_SURE}
-                />
+            <View style={styles.options}>
+                {options.map(item => (
+                    <View style={styles.option}>
+                        <RoundButtonWithTextBelow
+                            key={item.option}
+                            color={item.iconColor}
+                            iconXmlString={item.icon}
+                            label={item.title}
+                            onPress={() => this.handleSelectOption(item)}
+                            radius={buttonHeight}
+                            selected={selectedOption === item.option}
+                        />
+                    </View>
+                ))}
             </View>
         );
     };

@@ -9,15 +9,10 @@ import {
     COLOR_WHITE,
     SPACING_LARGE,
 } from '../../constants';
-import {
-    GreenCheckIcon,
-    GrayUnsureIcon,
-    HideIcon,
-    RedCrossIcon,
-    SwipeIconWhite,
-} from '../../common/Tutorial/icons';
+import { HideIcon, SwipeIconWhite } from '../../common/Tutorial/icons';
 import type { TranslationFunction } from '../../flow-types';
-import { options } from './mockData';
+import type { InformationPage } from './mockData';
+import { options, informationPages } from './mockData';
 
 const GLOBAL = require('../../Globals');
 
@@ -26,8 +21,6 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DEEP_BLUE,
         flex: 1,
         flexDirection: 'row',
-        width: GLOBAL.SCREEN_WIDTH * 2,
-        paddingBottom: SPACING_LARGE,
     },
     container: {
         flexDirection: 'column',
@@ -106,114 +99,115 @@ type Props = {
     t: TranslationFunction,
 };
 
+type InformationPageProps = {
+    t: TranslationFunction,
+    information: InformationPage,
+};
+const InformationPageView = (props: InformationPageProps) => {
+    const { information, t } = props;
+    return (
+        <View style={styles.screenWidth}>
+            <ScrollView
+                style={styles.container}
+                contentContainerStyle={{ paddingBottom: SPACING_LARGE }}
+            >
+                <Text style={styles.header}>{information.title}</Text>
+                {information?.blocks
+                    ?.sort((a, b) => a.id - b.id)
+                    .map(block => {
+                        if (block.type === 'text') {
+                            return (
+                                <View style={styles.tutRow} key={block.id}>
+                                    <Text
+                                        style={[
+                                            styles.tutText,
+                                            { marginLeft: 0 },
+                                        ]}
+                                    >
+                                        {block.description}
+                                    </Text>
+                                </View>
+                            );
+                        }
+                        return (
+                            <View style={styles.tutRow} key={block.id}>
+                                <Image
+                                    style={styles.introImage}
+                                    src={block.image}
+                                />
+                            </View>
+                        );
+                    })}
+                <View
+                    style={[
+                        styles.tutRow,
+                        { alignSelf: 'center', marginTop: 40 },
+                    ]}
+                >
+                    <Text style={styles.centeredHeader}>
+                        {information.page === 1
+                            ? t('swipeToGetStarted')
+                            : t('swipeToContinue')}
+                    </Text>
+                    <SwipeIconWhite />
+                </View>
+            </ScrollView>
+        </View>
+    );
+};
 /* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
     const { t } = props;
+    const pagesCount = informationPages.length + 1;
     return (
-        <View style={styles.background}>
+        <View
+            style={[
+                styles.background,
+                { width: GLOBAL.SCREEN_WIDTH * pagesCount },
+            ]}
+        >
+            {informationPages.map(information => (
+                <InformationPageView
+                    information={information}
+                    key={information.page}
+                    t={t}
+                />
+            ))}
             <View style={styles.screenWidth}>
-                <ScrollView style={styles.container}>
-                    <Text style={styles.header}>{t('letsLearnHowToMap')}</Text>
-
-                    <View style={styles.tutRow}>
-                        <Text style={[styles.tutText, { marginLeft: 0 }]}>
-                            {t('youllSeeASquare')}
-                        </Text>
-                    </View>
-
-                    <View style={styles.tutRow}>
-                        <Text
-                            style={[
-                                styles.tutText,
-                                { fontWeight: '700', marginLeft: 0 },
-                            ]}
-                        >
-                            {t('doesTheShapeOutlineABuilding')}
-                        </Text>
-                    </View>
-
-                    <View style={styles.tutRow}>
-                        <Text style={[styles.tutText, { marginLeft: 0 }]}>
-                            {t('everyTimeYouSelectAnOption')}
-                        </Text>
-                    </View>
-
-                    <Image
-                        style={styles.introImage}
-                        source={require('../assets/BFTutorialIntroImagery.png')}
-                    />
-
-                    <View
-                        style={[
-                            styles.tutRow,
-                            { alignSelf: 'center', marginTop: 40 },
-                        ]}
-                    >
-                        <Text style={styles.centeredHeader}>
-                            {t('swipeToGetStarted')}
-                        </Text>
-                        <SwipeIconWhite />
-                    </View>
-                </ScrollView>
-            </View>
-            <View style={styles.screenWidth}>
-                <ScrollView style={styles.container}>
+                <ScrollView
+                    style={styles.container}
+                    contentContainerStyle={{ paddingBottom: SPACING_LARGE }}
+                >
                     <Text style={[styles.tutText, { marginLeft: 0 }]}>
                         {t('useTheButtonsToAnswer')}
                     </Text>
                     <Text style={styles.header}>
                         {t('doesTheShapeOutlineABuilding')}
                     </Text>
-                    {options ? (
-                        options.map(item => (
-                            <View style={styles.tutRow}>
-                                <View
-                                    style={[
-                                        styles.svgIcon,
-                                        { backgroundColor: item.iconColor },
-                                    ]}
-                                >
-                                    <SvgXml
-                                        xml={item.icon}
-                                        width="100%"
-                                        height="100%"
-                                    />
-                                </View>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.textTitle}>
-                                        {item.title}
-                                    </Text>
-                                    <Text style={styles.textDescription}>
-                                        {item.description}
-                                    </Text>
-                                </View>
+                    {options.map(item => (
+                        <View style={styles.tutRow} key={item.option}>
+                            <View
+                                style={[
+                                    styles.svgIcon,
+                                    { backgroundColor: item.iconColor },
+                                ]}
+                            >
+                                <SvgXml
+                                    xml={item.icon}
+                                    width="100%"
+                                    height="100%"
+                                />
                             </View>
-                        ))
-                    ) : (
-                        <>
-                            <View style={styles.tutRow}>
-                                <GreenCheckIcon />
-                                <Text style={styles.tutText}>
-                                    {t('tapGreenText')}
+                            <View style={styles.textContainer}>
+                                <Text style={styles.textTitle}>
+                                    {item.title}
+                                </Text>
+                                <Text style={styles.textDescription}>
+                                    {item.description}
                                 </Text>
                             </View>
-
-                            <View style={styles.tutRow}>
-                                <RedCrossIcon />
-                                <Text style={styles.tutText}>
-                                    {t('tapRedText')}
-                                </Text>
-                            </View>
-
-                            <View style={styles.tutRow}>
-                                <GrayUnsureIcon />
-                                <Text style={styles.tutText}>
-                                    {t('tapGrayText')}
-                                </Text>
-                            </View>
-                        </>
-                    )}
-
+                        </View>
+                    ))}
                     <View style={[styles.tutRow, { marginLeft: 5 }]}>
                         <HideIcon />
                         <Text style={styles.tutText}>{t('hideIconText')}</Text>
