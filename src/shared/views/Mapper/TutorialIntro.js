@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { TranslationFunction } from '../../flow-types';
@@ -11,6 +11,8 @@ import {
     SwipeIconWhite,
     TapIconWhite,
 } from '../../common/Tutorial/icons';
+import { informationPages } from '../BuildingFootprint/mockData';
+import InformationPage from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');
 
@@ -19,7 +21,6 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_DEEP_BLUE,
         flex: 1,
         flexDirection: 'row',
-        width: GLOBAL.SCREEN_WIDTH * 2,
     },
     screenWidth: {
         width: GLOBAL.SCREEN_WIDTH,
@@ -55,28 +56,24 @@ const styles = StyleSheet.create({
         maxWidth: '85%',
         width: '95%',
     },
-    introImage: {
-        borderColor: COLOR_WHITE,
-        borderWidth: 1,
-        height: 150,
-        width: '100%',
-        marginBottom: 15,
-        marginTop: 15,
-    },
 });
 
 type Props = {
-    exampleImage1: string,
-    exampleImage2: string,
-    lookFor: string,
     t: TranslationFunction,
 };
 
 /* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
-    const { exampleImage1, exampleImage2, lookFor, t } = props;
+    const { t } = props;
+    const pagesCount = informationPages.length + 1;
+
     return (
-        <View style={styles.background}>
+        <View
+            style={[
+                styles.background,
+                { width: GLOBAL.SCREEN_WIDTH * pagesCount },
+            ]}
+        >
             <View style={styles.screenWidth}>
                 <ScrollView style={styles.container}>
                     <Text style={styles.header}>
@@ -143,32 +140,13 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={styles.header}>&nbsp;</Text>
                 </ScrollView>
             </View>
-            <View style={styles.screenWidth}>
-                <ScrollView style={styles.container}>
-                    <Text style={styles.header}>{t('WhatToLookFor')}</Text>
-                    <Text style={styles.tutText}>
-                        {t('YouAreLookingFor', { lookFor })}
-                    </Text>
-                    <Text style={styles.tutText}>{t('FromTheGround')}</Text>
-                    <Image
-                        style={styles.introImage}
-                        source={{
-                            uri: exampleImage1,
-                        }}
-                    />
-
-                    <Text style={styles.tutText}>{t('ImagesFromAbove')}</Text>
-                    <Image
-                        style={styles.introImage}
-                        source={{
-                            uri: exampleImage2,
-                        }}
-                    />
-                    <Text style={styles.centeredHeader}>
-                        {t('SwipeToContinue')}
-                    </Text>
-                </ScrollView>
-            </View>
+            {informationPages.map(information => (
+                <InformationPage
+                    information={information}
+                    key={information.page}
+                    t={t}
+                />
+            ))}
         </View>
     );
 };

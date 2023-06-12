@@ -17,6 +17,8 @@ import IndividualCard from './IndividualCard';
 import TutorialIntroScreen from './TutorialIntro';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import { tutorialModes } from '../../constants';
+import { informationPages } from '../BuildingFootprint/mockData';
+
 import type {
     BuiltAreaGroupType,
     BuiltAreaTaskType,
@@ -27,6 +29,8 @@ import type {
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
+
+const dynamicPagesCount = informationPages.length;
 
 type Props = {
     screens: Array<TutorialContent>,
@@ -89,7 +93,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         // so we can show the answers button after X interactions (only for tutorial)
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
-        this.tutorialIntroWidth = 2;
+        this.tutorialIntroWidth = dynamicPagesCount + 1;
         this.currentX =
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
