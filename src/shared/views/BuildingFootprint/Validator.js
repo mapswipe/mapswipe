@@ -238,6 +238,11 @@ class _Validator extends React.Component<Props, State> {
         }));
     };
 
+    handleAdditionalOptionClick = reason => {
+        this.nextTask(reason);
+        this.handleClose();
+    };
+
     nextTask = (result: ?number): boolean => {
         // update state to point to the next task in the list, and
         // save result if one was provided.
@@ -346,7 +351,11 @@ class _Validator extends React.Component<Props, State> {
                             <View style={styles.item} key={item.reason}>
                                 <Text
                                     style={styles.listItemText}
-                                    onPress={() => this.nextTask(item.reason)}
+                                    onPress={() =>
+                                        this.handleAdditionalOptionClick(
+                                            item.reason,
+                                        )
+                                    }
                                 >
                                     {item.description}
                                 </Text>
