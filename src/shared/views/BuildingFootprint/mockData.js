@@ -25,7 +25,7 @@ export type Block =
           description: string,
       };
 
-export type InformationPage = {
+export type ProjectInformation = {
     page: number,
     title: string,
     blocks: Block[],
@@ -40,7 +40,7 @@ export type Option = {
     reasons?: Array<AdditionalOption>,
 };
 
-export const informationPages: InformationPage[] = [
+export const informationPages: ProjectInformation[] = [
     {
         page: 1,
         title: 'Page 1 - Introduction to Photography',

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { withTranslation } from 'react-i18next';
 import {
@@ -11,8 +11,8 @@ import {
 } from '../../constants';
 import { HideIcon, SwipeIconWhite } from '../../common/Tutorial/icons';
 import type { TranslationFunction } from '../../flow-types';
-import type { InformationPage } from './mockData';
 import { options, informationPages } from './mockData';
+import InformationPage from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');
 
@@ -39,12 +39,6 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 20,
         marginTop: 20,
-    },
-    introImage: {
-        height: 150,
-        width: '100%',
-        marginBottom: 15,
-        marginTop: 15,
     },
     screenWidth: {
         width: GLOBAL.SCREEN_WIDTH,
@@ -99,60 +93,6 @@ type Props = {
     t: TranslationFunction,
 };
 
-type InformationPageProps = {
-    t: TranslationFunction,
-    information: InformationPage,
-};
-const InformationPageView = (props: InformationPageProps) => {
-    const { information, t } = props;
-    return (
-        <View style={styles.screenWidth}>
-            <ScrollView
-                style={styles.container}
-                contentContainerStyle={{ paddingBottom: SPACING_LARGE }}
-            >
-                <Text style={styles.header}>{information.title}</Text>
-                {information?.blocks
-                    ?.sort((a, b) => a.id - b.id)
-                    .map(block => {
-                        if (block.type === 'text') {
-                            return (
-                                <View style={styles.tutRow} key={block.id}>
-                                    <Text
-                                        style={[
-                                            styles.tutText,
-                                            { marginLeft: 0 },
-                                        ]}
-                                    >
-                                        {block.description}
-                                    </Text>
-                                </View>
-                            );
-                        }
-                        return (
-                            <View style={styles.tutRow} key={block.id}>
-                                <Image
-                                    style={styles.introImage}
-                                    src={block.image}
-                                />
-                            </View>
-                        );
-                    })}
-                <View
-                    style={[
-                        styles.tutRow,
-                        { alignSelf: 'center', marginTop: 40 },
-                    ]}
-                >
-                    <Text style={styles.centeredHeader}>
-                        {t('swipeToContinue')}
-                    </Text>
-                    <SwipeIconWhite />
-                </View>
-            </ScrollView>
-        </View>
-    );
-};
 /* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
     const { t } = props;
@@ -221,7 +161,7 @@ const TutorialIntroScreen = (props: Props) => {
                 </ScrollView>
             </View>
             {informationPages.map(information => (
-                <InformationPageView
+                <InformationPage
                     information={information}
                     key={information.page}
                     t={t}
