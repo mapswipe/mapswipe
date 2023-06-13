@@ -17,7 +17,6 @@ import IndividualCard from './IndividualCard';
 import TutorialIntroScreen from './TutorialIntro';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import { tutorialModes } from '../../constants';
-import { informationPages } from '../BuildingFootprint/mockData';
 
 import type {
     BuiltAreaGroupType,
@@ -27,19 +26,15 @@ import type {
     TileServerType,
     TutorialContent,
 } from '../../flow-types';
+import type { ProjectInformation } from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');
-
-const dynamicPagesCount = informationPages.length;
 
 type Props = {
     screens: Array<TutorialContent>,
     closeTilePopup: () => void,
-    exampleImage1: string,
-    exampleImage2: string,
     group: BuiltAreaGroupType,
     isSendingResults: boolean,
-    lookFor: string,
     navigation: NavigationProp,
     onToggleTile: BuiltAreaTaskType => void,
     openTilePopup: () => void,
@@ -50,6 +45,7 @@ type Props = {
     tutorial: boolean,
     updateProgress: number => void,
     zoomLevel: number,
+    informationPages?: Array<ProjectInformation>,
 };
 
 type State = {
@@ -93,7 +89,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         // so we can show the answers button after X interactions (only for tutorial)
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
-        this.tutorialIntroWidth = dynamicPagesCount + 1;
+        this.tutorialIntroWidth = 1;
         this.currentX =
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
@@ -104,8 +100,12 @@ class _CardBody extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate = (oldProps: Props) => {
-        const { group, results, tutorial } = this.props;
+        const { group, results, tutorial, informationPages } = this.props;
         const { tutorialMode } = this.state;
+        this.tutorialIntroWidth =
+            informationPages && informationPages?.length > 0
+                ? informationPages.length + 1
+                : 0 + 1;
         const currentScreen = this.getCurrentScreen();
         if (tutorial && results !== oldProps.results && currentScreen >= 0) {
             // we're cheating here: we use the fact that props are updated when the user
@@ -471,17 +471,15 @@ class _CardBody extends React.PureComponent<Props, State> {
         const { currentX } = this;
         const {
             closeTilePopup,
-            exampleImage1,
-            exampleImage2,
             group,
             isSendingResults,
-            lookFor,
             navigation,
             openTilePopup,
             projectId,
             screens,
             tutorial,
             zoomLevel,
+            informationPages,
         } = this.props;
 
         let tutorialContent: ?TutorialContent;
@@ -549,9 +547,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     ListHeaderComponent={
                         tutorial ? (
                             <TutorialIntroScreen
-                                exampleImage1={exampleImage1}
-                                exampleImage2={exampleImage2}
-                                lookFor={lookFor}
+                                informationPages={informationPages}
                                 tutorial={tutorial}
                             />
                         ) : null
@@ -626,6 +622,7 @@ const mapStateToProps = (state, ownProps) => ({
         ownProps.group.groupId,
         null,
     ),
+    informationPages: ownProps.informationPages,
     tutorial: ownProps.tutorial,
     zoomLevel: ownProps.zoomLevel,
 });

@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
+import { info } from 'console';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { TranslationFunction } from '../../flow-types';
 import {
@@ -11,7 +12,7 @@ import {
     SwipeIconWhite,
     TapIconWhite,
 } from '../../common/Tutorial/icons';
-import { informationPages } from '../BuildingFootprint/mockData';
+import type { ProjectInformation } from '../../common/InformationPage';
 import InformationPage from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');
@@ -60,12 +61,16 @@ const styles = StyleSheet.create({
 
 type Props = {
     t: TranslationFunction,
+    informationPages?: ProjectInformation,
 };
 
 /* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
-    const { t } = props;
-    const pagesCount = informationPages.length + 1;
+    const { t, informationPages } = props;
+    const pagesCount =
+        informationPages && informationPages?.length > 0
+            ? informationPages?.length + 1
+            : 1;
 
     return (
         <View
@@ -140,10 +145,11 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={styles.header}>&nbsp;</Text>
                 </ScrollView>
             </View>
-            {informationPages.map(information => (
+            {informationPages?.map((information, index) => (
                 <InformationPage
                     information={information}
-                    key={information.page}
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`info-${index}`}
                     t={t}
                 />
             ))}
