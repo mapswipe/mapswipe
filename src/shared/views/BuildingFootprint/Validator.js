@@ -21,6 +21,7 @@ import TutorialBox from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
+import type { Option, AdditionalOption } from './TutorialIntro';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
 import {
     tutorialModes,
@@ -42,8 +43,7 @@ import type {
     SingleImageryProjectType,
     TutorialContent,
 } from '../../flow-types';
-import type { AdditionalOption } from './mockData';
-import { options, informationPages } from './mockData';
+import type { ProjectInformation } from '../../common/InformationPage';
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
@@ -115,8 +115,6 @@ const styles = StyleSheet.create({
     },
 });
 
-const dynamicPagesCount = informationPages.length;
-
 type Props = {
     completeGroup: () => void,
     group: BuildingFootprintGroupType,
@@ -127,6 +125,8 @@ type Props = {
     submitResult: (number, string) => void,
     tutorial: boolean,
     updateProgress: number => void,
+    informationPages?: ProjectInformation,
+    customOptions: Option[],
 };
 
 type State = {
@@ -173,7 +173,7 @@ class _Validator extends React.Component<Props, State> {
             showAdditionalOptions: false,
             additionalOptions: [],
         };
-        this.tutorialIntroWidth = dynamicPagesCount + 1;
+        this.tutorialIntroWidth = 1;
         this.currentScreen = -this.tutorialIntroWidth;
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
@@ -183,7 +183,11 @@ class _Validator extends React.Component<Props, State> {
 
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
-        const { group } = this.props;
+        const { group, informationPages } = this.props;
+        this.tutorialIntroWidth =
+            informationPages && informationPages.length > 0
+                ? informationPages.length + 1
+                : 1;
         if (prevProps.group.tasks !== group.tasks) {
             this.setupTasksList(group.tasks);
             // eslint-disable-next-line react/no-did-update-set-state
@@ -225,7 +229,7 @@ class _Validator extends React.Component<Props, State> {
                 additionalOptions: option.reasons,
             }));
         } else {
-            this.nextTask(option.option);
+            this.nextTask(option.value);
         }
         return true;
     };
@@ -325,6 +329,7 @@ class _Validator extends React.Component<Props, State> {
 
     renderContent = selectedOption => {
         const { showAdditionalOptions, additionalOptions } = this.state;
+        const { customOptions } = this.props;
         if (showAdditionalOptions) {
             return (
                 <View style={styles.listItem}>
@@ -367,16 +372,16 @@ class _Validator extends React.Component<Props, State> {
         }
         return (
             <View style={styles.options}>
-                {options.map(item => (
+                {customOptions.map(item => (
                     <View style={styles.option}>
                         <RoundButtonWithTextBelow
-                            key={item.option}
+                            key={item.optionId}
                             color={item.iconColor}
                             iconXmlString={item.icon}
                             label={item.title}
                             onPress={() => this.handleSelectOption(item)}
                             radius={buttonHeight}
-                            selected={selectedOption === item.option}
+                            selected={selectedOption === item.value}
                         />
                     </View>
                 ))}

@@ -11,9 +11,23 @@ import {
 } from '../../constants';
 import { HideIcon, SwipeIconWhite } from '../../common/Tutorial/icons';
 import type { TranslationFunction } from '../../flow-types';
-import { options, informationPages } from './mockData';
 import InformationPage from '../../common/InformationPage';
+import type { ProjectInformation } from '../../common/InformationPage';
 
+export type AdditionalOption = {
+    reason: number,
+    description: string,
+};
+
+export type Option = {
+    optionId: number,
+    value: number,
+    title: string,
+    description: string,
+    icon: string,
+    iconColor: string,
+    reasons?: Array<AdditionalOption>,
+};
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
@@ -91,12 +105,17 @@ const styles = StyleSheet.create({
 
 type Props = {
     t: TranslationFunction,
+    informationPages?: ProjectInformation,
+    customOptions: Option[],
 };
 
 /* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
-    const { t } = props;
-    const pagesCount = informationPages.length + 1;
+    const { t, informationPages, customOptions } = props;
+    const pagesCount =
+        informationPages && informationPages.length > 0
+            ? informationPages.length + 1
+            : 1;
     return (
         <View
             style={[
@@ -115,7 +134,7 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={styles.header}>
                         {t('doesTheShapeOutlineABuilding')}
                     </Text>
-                    {options.map(item => (
+                    {customOptions.map(item => (
                         <View style={styles.tutRow} key={item.option}>
                             <View
                                 style={[
@@ -149,7 +168,7 @@ const TutorialIntroScreen = (props: Props) => {
                             styles.tutRow,
                             {
                                 alignSelf: 'center',
-                                marginTop: options ? 0 : 40,
+                                marginTop: 40,
                             },
                         ]}
                     >
@@ -160,12 +179,8 @@ const TutorialIntroScreen = (props: Props) => {
                     </View>
                 </ScrollView>
             </View>
-            {informationPages.map(information => (
-                <InformationPage
-                    information={information}
-                    key={information.page}
-                    t={t}
-                />
+            {informationPages?.map((information, index) => (
+                <InformationPage information={information} key={index} t={t} />
             ))}
         </View>
     );
