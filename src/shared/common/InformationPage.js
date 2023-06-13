@@ -7,9 +7,22 @@ import { withTranslation } from 'react-i18next';
 import { COLOR_WHITE, SPACING_LARGE } from '../constants';
 import { SwipeIconWhite } from './Tutorial/icons';
 import type { TranslationFunction } from '../flow-types';
-import type { ProjectInformation } from '../views/BuildingFootprint/mockData';
 
 const GLOBAL = require('../Globals');
+
+export type Block =
+    | {
+          blockNumber: number,
+          blockType: 'image',
+          image: string,
+      }
+    | {
+          blockNumber: number,
+          blockType: 'text',
+          textDescription: string,
+      };
+
+export type ProjectInformation = Array<Block[]>;
 
 const styles = StyleSheet.create({
     container: {
@@ -22,12 +35,6 @@ const styles = StyleSheet.create({
         color: COLOR_WHITE,
         fontWeight: '700',
         fontSize: 18,
-        marginTop: 20,
-    },
-    header: {
-        color: COLOR_WHITE,
-        fontWeight: '700',
-        fontSize: 20,
         marginTop: 20,
     },
     introImage: {
@@ -59,7 +66,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     t: TranslationFunction,
-    information: ProjectInformation,
+    information: Block[],
 };
 
 function InformationPage(props: Props) {
@@ -70,27 +77,30 @@ function InformationPage(props: Props) {
                 style={styles.container}
                 contentContainerStyle={{ paddingBottom: SPACING_LARGE }}
             >
-                <Text style={styles.header}>{information.title}</Text>
-                {information?.blocks
-                    ?.sort((a, b) => a.id - b.id)
-                    .map(block => {
-                        if (block.type === 'text') {
+                {information
+                    ?.sort((a, b) => a.blockNumber - b.blockNumber)
+                    ?.map(block => {
+                        if (block.blockType === 'text') {
                             return (
-                                <View style={styles.tutRow} key={block.id}>
+                                <View
+                                    style={styles.tutRow}
+                                    key={block.blockNumber}
+                                >
                                     <Text
                                         style={[
                                             styles.tutText,
                                             { marginLeft: 0 },
                                         ]}
                                     >
-                                        {block.description}
+                                        {block.textDescription}
                                     </Text>
                                 </View>
                             );
                         }
                         return (
-                            <View style={styles.tutRow} key={block.id}>
+                            <View style={styles.tutRow} key={block.blockNumber}>
                                 <Image
+                                    resizeMode="contain"
                                     style={styles.introImage}
                                     src={block.image}
                                 />

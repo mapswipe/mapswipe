@@ -69,6 +69,8 @@ type PropsForGroup = {
     onInfoPress: () => void,
     results: Array<ResultType>,
     tutorial: boolean,
+    customOptions?: Array<any>,
+    informationPages?: Array<any>,
 };
 
 export const mapStateToPropsForGroups =
@@ -104,6 +106,8 @@ export const mapStateToPropsForGroups =
         let groups;
         let exampleImage1;
         let exampleImage2;
+        let customOptions;
+        let informationPages;
         const prefix = tutorial ? 'tutorial' : 'projects';
         const { data } = state.firebase;
         if (data[prefix] && data[prefix][projectId]) {
@@ -111,8 +115,13 @@ export const mapStateToPropsForGroups =
             if (tutorial) {
                 // we pick some items from the tutorial project instead of the initial
                 // project object
-                ({ exampleImage1, exampleImage2, screens } =
-                    data[prefix][projectId]);
+                ({
+                    exampleImage1,
+                    exampleImage2,
+                    screens,
+                    customOptions,
+                    informationPages,
+                } = data[prefix][projectId]);
             }
         }
         if (groups && isLoaded(groups)) {
@@ -139,6 +148,8 @@ export const mapStateToPropsForGroups =
                 state.firebase.data,
                 `${prefix}.${projectId}.groups.${groupId}`,
             ),
+            informationPages,
+            customOptions,
             navigation: ownProps.navigation,
             onInfoPress: ownProps.onInfoPress,
             results: state.results,

@@ -19,7 +19,7 @@ import {
     NumberedTapIconWhite3,
     SwipeIconWhite,
 } from '../../common/Tutorial/icons';
-import { informationPages } from '../BuildingFootprint/mockData';
+import type { ProjectInformation } from '../../common/InformationPage';
 import InformationPage from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');
@@ -100,16 +100,16 @@ class CDInstructionScreen extends React.Component<Props> {
 
     render() {
         const { navigation, t } = this.props;
-
+        const { informationPages } = navigation.state.params;
         return (
             <View style={[styles.background]}>
                 <FlatList
-                    data={informationPages}
-                    renderItem={({ item }) => {
+                    data={(informationPages: ProjectInformation)}
+                    renderItem={({ item, index }) => {
                         return (
                             <InformationPage
                                 information={item}
-                                key={item.page}
+                                key={index}
                                 t={t}
                             />
                         );
@@ -118,7 +118,6 @@ class CDInstructionScreen extends React.Component<Props> {
                     horizontal
                     pagingEnabled
                     disableIntervalMomentum
-                    keyExtractor={item => item.page.toString()}
                     ListHeaderComponent={
                         <View style={styles.screenWidth}>
                             <View style={styles.swipeNavTop}>
@@ -243,21 +242,22 @@ class CDInstructionScreen extends React.Component<Props> {
                                     </Trans>
                                 </Text>
                                 <Text style={styles.header}>&nbsp;</Text>
-                                {informationPages.length > 0 && (
-                                    <View
-                                        style={[
-                                            styles.tutRow,
-                                            {
-                                                alignSelf: 'center',
-                                            },
-                                        ]}
-                                    >
-                                        <Text style={styles.header}>
-                                            {t('swipeToGetStarted')}
-                                        </Text>
-                                        <SwipeIconWhite />
-                                    </View>
-                                )}
+                                {informationPages &&
+                                    informationPages?.length > 0 && (
+                                        <View
+                                            style={[
+                                                styles.tutRow,
+                                                {
+                                                    alignSelf: 'center',
+                                                },
+                                            ]}
+                                        >
+                                            <Text style={styles.header}>
+                                                {t('swipeToGetStarted')}
+                                            </Text>
+                                            <SwipeIconWhite />
+                                        </View>
+                                    )}
                             </ScrollView>
                         </View>
                     }
