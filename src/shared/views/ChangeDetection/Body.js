@@ -168,7 +168,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        const { navigation, tutorialId, informationPages } = this.props;
+        const { navigation, informationPages } = this.props;
 
         navigation.push('CDInstructionsScreen', { informationPages });
     };
@@ -255,8 +255,16 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, results, screens, t, tutorial, tutorialId, informationPages } =
-            this.props;
+        const {
+            group,
+            navigation,
+            results,
+            screens,
+            t,
+            tutorial,
+            tutorialId,
+            informationPages,
+        } = this.props;
         const { groupCompleted, poppedUpTile } = this.state;
 
         if (!group) {
@@ -306,7 +314,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 <View>
                     <TouchableWithoutFeedback
                         onPress={() => {
-                            navigation.push('CDInstructionsScreen', { informationPages });
+                            navigation.push('CDInstructionsScreen', {
+                                informationPages,
+                            });
                         }}
                     >
                         <Text

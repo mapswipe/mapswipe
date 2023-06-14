@@ -13,10 +13,12 @@ import { HideIcon, SwipeIconWhite } from '../../common/Tutorial/icons';
 import type { TranslationFunction } from '../../flow-types';
 import InformationPage from '../../common/InformationPage';
 import type { ProjectInformation } from '../../common/InformationPage';
+import * as SvgIcons from '../../common/SvgIcons';
 
-export type AdditionalOption = {
-    reason: number,
+export type SubOption = {
+    subOptionsId: number,
     description: string,
+    value: number,
 };
 
 export type Option = {
@@ -26,7 +28,7 @@ export type Option = {
     description: string,
     icon: string,
     iconColor: string,
-    reasons?: Array<AdditionalOption>,
+    subOptions?: Array<SubOption>,
 };
 const GLOBAL = require('../../Globals');
 
@@ -134,8 +136,8 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={styles.header}>
                         {t('doesTheShapeOutlineABuilding')}
                     </Text>
-                    {customOptions.map(item => (
-                        <View style={styles.tutRow} key={item.option}>
+                    {customOptions?.map(item => (
+                        <View style={styles.tutRow} key={item.optionId}>
                             <View
                                 style={[
                                     styles.svgIcon,
@@ -143,7 +145,9 @@ const TutorialIntroScreen = (props: Props) => {
                                 ]}
                             >
                                 <SvgXml
-                                    xml={item.icon}
+                                    xml={
+                                        SvgIcons[item.icon] ?? SvgIcons.notSure
+                                    }
                                     width="100%"
                                     height="100%"
                                 />
@@ -180,6 +184,7 @@ const TutorialIntroScreen = (props: Props) => {
                 </ScrollView>
             </View>
             {informationPages?.map((information, index) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <InformationPage information={information} key={index} t={t} />
             ))}
         </View>

@@ -17,6 +17,8 @@ import BackConfirmationModal from './ConfirmationModal';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
+import type { ProjectInformation } from './InformationPage';
+import type { Option } from '../views/BuildingFootprint/TutorialIntro';
 import type {
     BuildingFootprintProjectType,
     CategoriesType,
@@ -83,6 +85,8 @@ type Props = {
     onSubmitResult: Object => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
+    informationPages?: ProjectInformation,
+    customOptions: Option[],
     screenName: string,
     t: TranslationFunction,
     tutorial: boolean,
@@ -303,6 +307,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             screens,
             tutorial,
             tutorialId,
+            informationPages,
+            customOptions,
         } = this.props;
         const { groupCompleted, waitingForNextGroup } = this.state;
         if (!group || waitingForNextGroup) {
@@ -351,6 +357,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
                     tutorialId={tutorialId}
+                    informationPages={informationPages}
+                    customOptions={customOptions}
                 />
             </View>
         );

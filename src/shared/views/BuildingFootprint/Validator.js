@@ -21,7 +21,7 @@ import TutorialBox from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
-import type { Option, AdditionalOption } from './TutorialIntro';
+import type { Option, SubOption } from './TutorialIntro';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
 import {
     tutorialModes,
@@ -33,7 +33,7 @@ import {
     SPACING_SMALL,
 } from '../../constants';
 import GLOBAL from '../../Globals';
-import { redCross } from '../../common/SvgIcons';
+import * as SvgIcons from '../../common/SvgIcons';
 
 import type {
     BuildingFootprintGroupType,
@@ -56,8 +56,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: GLOBAL.SCREEN_WIDTH,
-        borderColor: COLOR_WHITE,
-        borderWidth: 2,
     },
     listItem: {
         flexDirection: 'column',
@@ -132,8 +130,8 @@ type Props = {
 type State = {
     // the index of the current task in the task array
     currentTaskIndex: number,
-    showAdditionalOptions: boolean,
-    additionalOptions: Array<AdditionalOption>,
+    showSubOptions: boolean,
+    subOptions: Array<SubOption>,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -142,7 +140,10 @@ type taskGenType = Generator<string, void, void>;
 class _Validator extends React.Component<Props, State> {
     // the index of the screen currently seen
     // starts at -tutorialIntroWidth, gets to 0 when we arrive at the interactive part
-    currentScreen: number;
+    static currentScreen: number;
+
+    // the number of screens (in width) that the tutorial intro covers
+    static tutorialIntroWidth: number;
 
     // props.group.tasks are now gzipped and base64 encoded on the server
     // so we need to decode and gunzip them into a JSON string which is then
@@ -163,31 +164,31 @@ class _Validator extends React.Component<Props, State> {
     // past tasks they haven't provided an answer for yet
     tasksDone: number;
 
-    // the number of screens (in width) that the tutorial intro covers
-    tutorialIntroWidth: number;
-
     constructor(props: Props) {
         super(props);
         this.state = {
             currentTaskIndex: 0,
-            showAdditionalOptions: false,
-            additionalOptions: [],
+            showSubOptions: false,
+            subOptions: [],
         };
-        this.tutorialIntroWidth = 1;
-        this.currentScreen = -this.tutorialIntroWidth;
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
         this.tasksDone = -1;
         this.setupTasksList(props.group.tasks);
     }
 
-    componentDidUpdate = (prevProps: Props) => {
-        // reset the taskId generator, as it might have been initialized on another project group
-        const { group, informationPages } = this.props;
+    static getDerivedStateFromProps = props => {
+        const { informationPages } = props;
         this.tutorialIntroWidth =
             informationPages && informationPages.length > 0
                 ? informationPages.length + 1
                 : 1;
+        this.currentScreen = -this.tutorialIntroWidth;
+    };
+
+    componentDidUpdate = (prevProps: Props) => {
+        // reset the taskId generator, as it might have been initialized on another project group
+        const { group } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
             this.setupTasksList(group.tasks);
             // eslint-disable-next-line react/no-did-update-set-state
@@ -215,18 +216,18 @@ class _Validator extends React.Component<Props, State> {
         // return the screen number for the tutorial examples.
         // The screens before the start of the content are numbered negatively
         // which allows to check whether we're showing an example or not
-        const { currentScreen } = this;
+        const { currentScreen } = _Validator;
         // const { group } = this.props;
         // const currentScreen = Math.floor((currentX - group.xMin) / 2);
         return currentScreen;
     };
 
     handleSelectOption = option => {
-        if (option.reasons) {
+        if (option.subOptions) {
             this.setState(prevState => ({
                 ...prevState,
-                showAdditionalOptions: true,
-                additionalOptions: option.reasons,
+                showSubOptions: true,
+                subOptions: option.subOptions,
             }));
         } else {
             this.nextTask(option.value);
@@ -237,13 +238,13 @@ class _Validator extends React.Component<Props, State> {
     handleClose = () => {
         this.setState(prevState => ({
             ...prevState,
-            showAdditionalOptions: false,
-            additionalOptions: [],
+            showSubOptions: false,
+            subOptions: [],
         }));
     };
 
-    handleAdditionalOptionClick = reason => {
-        this.nextTask(reason);
+    handleAdditionalOptionClick = value => {
+        this.nextTask(value);
         this.handleClose();
     };
 
@@ -276,7 +277,9 @@ class _Validator extends React.Component<Props, State> {
                 // main screen with examples (hence the +1 below)
                 this.scrollEnabled = true;
                 this.flatlist.scrollToOffset({
-                    offset: GLOBAL.SCREEN_WIDTH * (this.tutorialIntroWidth + 1),
+                    offset:
+                        GLOBAL.SCREEN_WIDTH *
+                        (_Validator.tutorialIntroWidth + 1),
                 });
                 this.forceUpdate(); // to pickup the change in scrollEnabled
             } else {
@@ -301,11 +304,11 @@ class _Validator extends React.Component<Props, State> {
         };
 
     onMomentumScrollEnd = (event: Object) => {
-        this.currentScreen = Math.round(
+        _Validator.currentScreen = Math.round(
             event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
-                this.tutorialIntroWidth,
+                _Validator.tutorialIntroWidth,
         );
-        if (this.currentScreen >= 0) {
+        if (_Validator.currentScreen >= 0) {
             // this is hacky, but the FlatList doesn't get rerendered here
             // until the user taps a button on the "action" screen, so scrollEnabled
             // doesn't pick up that it should be false. This makes sure it checks the
@@ -328,9 +331,9 @@ class _Validator extends React.Component<Props, State> {
     };
 
     renderContent = selectedOption => {
-        const { showAdditionalOptions, additionalOptions } = this.state;
+        const { showSubOptions, subOptions } = this.state;
         const { customOptions } = this.props;
-        if (showAdditionalOptions) {
+        if (showSubOptions) {
             return (
                 <View style={styles.listItem}>
                     <View style={styles.listHeader}>
@@ -343,7 +346,7 @@ class _Validator extends React.Component<Props, State> {
                         >
                             <View style={styles.closeButton}>
                                 <SvgXml
-                                    xml={redCross}
+                                    xml={SvgIcons.redCross}
                                     width="100%"
                                     height="100%"
                                 />
@@ -351,14 +354,14 @@ class _Validator extends React.Component<Props, State> {
                         </TouchableHighlight>
                     </View>
                     <FlatList
-                        data={additionalOptions}
+                        data={subOptions}
                         renderItem={({ item }) => (
-                            <View style={styles.item} key={item.reason}>
+                            <View style={styles.item} key={item.subOptionsId}>
                                 <Text
                                     style={styles.listItemText}
                                     onPress={() =>
                                         this.handleAdditionalOptionClick(
-                                            item.reason,
+                                            item.subOptionsId,
                                         )
                                     }
                                 >
@@ -372,12 +375,14 @@ class _Validator extends React.Component<Props, State> {
         }
         return (
             <View style={styles.options}>
-                {customOptions.map(item => (
-                    <View style={styles.option}>
+                {customOptions?.map(item => (
+                    <View style={styles.option} key={item.optionId}>
                         <RoundButtonWithTextBelow
                             key={item.optionId}
                             color={item.iconColor}
-                            iconXmlString={item.icon}
+                            iconXmlString={
+                                SvgIcons[item.icon] ?? SvgIcons.notSure
+                            }
                             label={item.title}
                             onPress={() => this.handleSelectOption(item)}
                             radius={buttonHeight}
@@ -417,8 +422,8 @@ class _Validator extends React.Component<Props, State> {
             } else {
                 const currentScreen = this.getCurrentScreen();
                 if (currentScreen >= 0) {
-                    // $FlowFixMe
-                    tutorialContent = screens[currentTaskIndex][tutorialMode];
+                    tutorialContent =
+                        screens?.[currentTaskIndex]?.[tutorialMode];
                 } else {
                     tutorialContent = null;
                 }
@@ -453,7 +458,8 @@ class _Validator extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, tutorial } = this.props;
+        const { group, navigation, tutorial, informationPages, customOptions } =
+            this.props;
         const { projectId } = group;
         if (!this.expandedTasks) {
             return <LoadingIcon />;
@@ -479,10 +485,9 @@ class _Validator extends React.Component<Props, State> {
                         }
                         ListHeaderComponent={
                             <TutorialIntroScreen
-                                exampleImage1={null}
-                                exampleImage2={null}
-                                lookFor="stuff"
                                 tutorial={tutorial}
+                                informationPages={informationPages}
+                                customOptions={customOptions}
                             />
                         }
                         onMomentumScrollEnd={this.onMomentumScrollEnd}
