@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
-import { info } from 'console';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { TranslationFunction } from '../../flow-types';
 import {

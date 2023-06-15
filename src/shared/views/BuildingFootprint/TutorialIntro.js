@@ -14,22 +14,8 @@ import type { TranslationFunction } from '../../flow-types';
 import InformationPage from '../../common/InformationPage';
 import type { ProjectInformation } from '../../common/InformationPage';
 import * as SvgIcons from '../../common/SvgIcons';
+import type { Option } from './index';
 
-export type SubOption = {
-    subOptionsId: number,
-    description: string,
-    value: number,
-};
-
-export type Option = {
-    optionId: number,
-    value: number,
-    title: string,
-    description: string,
-    icon: string,
-    iconColor: string,
-    subOptions?: Array<SubOption>,
-};
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
@@ -118,6 +104,7 @@ const TutorialIntroScreen = (props: Props) => {
         informationPages && informationPages.length > 0
             ? informationPages.length + 1
             : 1;
+
     return (
         <View
             style={[

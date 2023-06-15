@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
+import Markdown from 'react-native-simple-markdown';
 
 import { COLOR_WHITE, SPACING_LARGE } from '../constants';
 import { SwipeIconWhite } from './Tutorial/icons';
@@ -46,16 +47,6 @@ const styles = StyleSheet.create({
     screenWidth: {
         width: GLOBAL.SCREEN_WIDTH,
     },
-    tutText: {
-        color: 'white',
-        fontSize: 15,
-        fontWeight: '400',
-        marginLeft: 10,
-        marginBottom: 10,
-        marginTop: 15,
-        maxWidth: '85%',
-        width: '85%',
-    },
     tutRow: {
         marginTop: 20,
         flexDirection: 'row',
@@ -68,7 +59,13 @@ type Props = {
     t: TranslationFunction,
     information: Block[],
 };
-
+const markdownStyle = {
+    text: {
+        color: COLOR_WHITE,
+        fontSize: 15,
+        fontWeight: '400',
+    },
+};
 function InformationPage(props: Props) {
     const { information, t } = props;
     return (
@@ -86,21 +83,15 @@ function InformationPage(props: Props) {
                                     style={styles.tutRow}
                                     key={block.blockNumber}
                                 >
-                                    <Text
-                                        style={[
-                                            styles.tutText,
-                                            { marginLeft: 0 },
-                                        ]}
-                                    >
+                                    <Markdown styles={markdownStyle}>
                                         {block.textDescription}
-                                    </Text>
+                                    </Markdown>
                                 </View>
                             );
                         }
                         return (
                             <View style={styles.tutRow} key={block.blockNumber}>
                                 <Image
-                                    resizeMode="contain"
                                     style={styles.introImage}
                                     src={block.image}
                                 />

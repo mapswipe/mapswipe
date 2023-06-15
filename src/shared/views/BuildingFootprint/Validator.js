@@ -21,7 +21,7 @@ import TutorialBox from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
-import type { Option, SubOption } from './TutorialIntro';
+import type { Option, SubOption } from './index';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
 import {
     tutorialModes,
@@ -184,6 +184,7 @@ class _Validator extends React.Component<Props, State> {
                 ? informationPages.length + 1
                 : 1;
         this.currentScreen = -this.tutorialIntroWidth;
+        return null;
     };
 
     componentDidUpdate = (prevProps: Props) => {

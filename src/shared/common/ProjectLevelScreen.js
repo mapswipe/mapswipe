@@ -18,7 +18,7 @@ import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
 import type { ProjectInformation } from './InformationPage';
-import type { Option } from '../views/BuildingFootprint/TutorialIntro';
+import type { Option } from '../views/BuildingFootprint/index';
 import type {
     BuildingFootprintProjectType,
     CategoriesType,
@@ -74,7 +74,7 @@ type Props = {
     Component: React.ComponentType<any>,
     group: GroupType,
     navigation: NavigationProp,
-    getNormalHelpContent: string => React.ComponentType<any>,
+    getNormalHelpContent: (string, Option[]) => React.ComponentType<any>,
     headerText?: string,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
     onStartGroup: ({
@@ -191,8 +191,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        const { navigation } = this.props;
-        navigation.push('BFInstructionsScreen');
+        const { navigation, customOptions } = this.props;
+        navigation.push('BFInstructionsScreen', { customOptions });
     };
 
     completeGroup = () => {
@@ -260,12 +260,17 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     renderHelpModal = () => {
-        const { getNormalHelpContent, t, tutorial, tutorialHelpContent } =
-            this.props;
+        const {
+            getNormalHelpContent,
+            t,
+            tutorial,
+            tutorialHelpContent,
+            customOptions,
+        } = this.props;
         let content = '';
         if (!tutorial) {
             const creditString = this.getCreditString();
-            content = getNormalHelpContent(creditString);
+            content = getNormalHelpContent(creditString, customOptions);
         } else {
             content = tutorialHelpContent;
         }
