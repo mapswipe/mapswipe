@@ -113,7 +113,10 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                             ]}
                         >
                             <SvgXml
-                                xml={SvgIcons[item.icon] ?? SvgIcons.notSure}
+                                xml={
+                                    SvgIcons[item.icon] ??
+                                    SvgIcons.removeOutline
+                                }
                                 width="100%"
                                 height="100%"
                             />

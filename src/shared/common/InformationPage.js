@@ -15,7 +15,7 @@ export type Block =
     | {
           blockNumber: number,
           blockType: 'image',
-          image: string,
+          image: string | Object,
       }
     | {
           blockNumber: number,
@@ -91,10 +91,17 @@ function InformationPage(props: Props) {
                         }
                         return (
                             <View style={styles.tutRow} key={block.blockNumber}>
-                                <Image
-                                    style={styles.introImage}
-                                    src={block.image}
-                                />
+                                {typeof block.image === 'number' ? (
+                                    <Image
+                                        style={styles.introImage}
+                                        source={block.image}
+                                    />
+                                ) : (
+                                    <Image
+                                        style={styles.introImage}
+                                        src={block.image}
+                                    />
+                                )}
                             </View>
                         );
                     })}

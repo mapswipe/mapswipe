@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     svgIcon: {
         borderRadius: 25,
         height: 50,
-        padding: 15,
+        padding: 10,
         width: 50,
     },
 });
@@ -99,7 +99,45 @@ type Props = {
 
 /* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
-    const { t, informationPages, customOptions } = props;
+    const {
+        t,
+        informationPages: informationPagesFromProps,
+        customOptions,
+    } = props;
+    const fallbackInformationPage: ProjectInformation = [
+        [
+            {
+                blockNumber: 1,
+                blockType: 'text',
+                textDescription: "Let's learn how to map with some examples.",
+            },
+            {
+                blockNumber: 2,
+                blockType: 'text',
+                textDescription:
+                    "You'll see a shape on an image. Use the buttons to answer.",
+            },
+            {
+                blockNumber: 3,
+                blockType: 'text',
+                textDescription: 'Does the shape outline a building?',
+            },
+            {
+                blockNumber: 4,
+                blockType: 'text',
+                textDescription:
+                    "Every time you select an option, you'll be shown a new shape and image.",
+            },
+            {
+                blockNumber: 5,
+                blockType: 'image',
+                image: require('../assets/BFTutorialIntroImagery.png'),
+            },
+        ],
+    ];
+
+    const informationPages =
+        informationPagesFromProps ?? fallbackInformationPage;
     const pagesCount =
         informationPages && informationPages.length > 0
             ? informationPages.length + 1
@@ -133,7 +171,8 @@ const TutorialIntroScreen = (props: Props) => {
                             >
                                 <SvgXml
                                     xml={
-                                        SvgIcons[item.icon] ?? SvgIcons.notSure
+                                        SvgIcons[item.icon] ??
+                                        SvgIcons.removeOutline
                                     }
                                     width="100%"
                                     height="100%"

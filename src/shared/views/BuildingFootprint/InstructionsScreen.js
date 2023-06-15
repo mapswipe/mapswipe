@@ -63,15 +63,14 @@ const styles = StyleSheet.create({
         maxWidth: '85%',
     },
     tutRow: {
-        marginTop: 10,
+        paddingBottom: 10,
+        paddingTop: 10,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
     },
     svgIcon: {
         borderRadius: 25,
         height: 50,
-        padding: 15,
+        padding: 10,
         width: 50,
     },
     textContainer: {
@@ -154,7 +153,8 @@ class BFInstructionScreen extends React.Component<Props> {
                             >
                                 <SvgXml
                                     xml={
-                                        SvgIcons[item.icon] ?? SvgIcons.notSure
+                                        SvgIcons[item.icon] ??
+                                        SvgIcons.removeOutline
                                     }
                                     width="100%"
                                     height="100%"

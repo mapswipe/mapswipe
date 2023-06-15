@@ -382,7 +382,7 @@ class _Validator extends React.Component<Props, State> {
                             key={item.optionId}
                             color={item.iconColor}
                             iconXmlString={
-                                SvgIcons[item.icon] ?? SvgIcons.notSure
+                                SvgIcons[item.icon] ?? SvgIcons.removeOutline
                             }
                             label={item.title}
                             onPress={() => this.handleSelectOption(item)}
@@ -424,6 +424,7 @@ class _Validator extends React.Component<Props, State> {
                 const currentScreen = this.getCurrentScreen();
                 if (currentScreen >= 0) {
                     tutorialContent =
+                        // $FlowFixMe
                         screens?.[currentTaskIndex]?.[tutorialMode];
                 } else {
                     tutorialContent = null;

@@ -123,6 +123,34 @@ export const mapStateToPropsForGroups =
                     informationPages,
                 } = data[prefix][projectId]);
             }
+            if (!customOptions) {
+                customOptions = [
+                    {
+                        optionId: 1,
+                        value: 1,
+                        title: 'Yes',
+                        description: 'Yes',
+                        icon: 'checkmarkOutline',
+                        iconColor: '#bbcb7d',
+                    },
+                    {
+                        optoinId: 0,
+                        value: 0,
+                        title: 'No',
+                        description: 'No',
+                        icon: 'closeOutline',
+                        iconColor: '#fd5054',
+                    },
+                    {
+                        optoinId: 2,
+                        value: 2,
+                        title: 'Not sure',
+                        description: 'Not sure',
+                        icon: 'removeOutline',
+                        iconColor: '#adadad',
+                    },
+                ];
+            }
         }
         if (groups && isLoaded(groups)) {
             // we have a few groups to choose from, remove the ones the user has already worked on
