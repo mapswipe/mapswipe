@@ -42,9 +42,11 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container: {
+        flex: 1,
         paddingHorizontal: 20,
     },
     screenWidth: {
+        flex: 1,
         width: GLOBAL.SCREEN_WIDTH,
     },
     header: {
@@ -54,7 +56,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     swipeNavTop: {
-        height: 60,
         backgroundColor: COLOR_DEEP_BLUE,
     },
     tutRow: {
@@ -111,6 +112,9 @@ class CDInstructionScreen extends React.Component<Props> {
                                 information={item}
                                 key={index}
                                 t={t}
+                                hideSwipeIcon={
+                                    index === informationPages?.length - 1
+                                }
                             />
                         );
                     }}

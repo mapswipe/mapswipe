@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
 type Props = {
     t: TranslationFunction,
     information: Block[],
+    hideSwipeIcon: boolean,
 };
 const markdownStyle = {
     text: {
@@ -67,7 +68,8 @@ const markdownStyle = {
     },
 };
 function InformationPage(props: Props) {
-    const { information, t } = props;
+    const { information, t, hideSwipeIcon } = props;
+
     return (
         <View style={styles.screenWidth}>
             <ScrollView
@@ -105,17 +107,19 @@ function InformationPage(props: Props) {
                             </View>
                         );
                     })}
-                <View
-                    style={[
-                        styles.tutRow,
-                        { alignSelf: 'center', marginTop: 40 },
-                    ]}
-                >
-                    <Text style={styles.centeredHeader}>
-                        {t('swipeToContinue')}
-                    </Text>
-                    <SwipeIconWhite />
-                </View>
+                {!hideSwipeIcon && (
+                    <View
+                        style={[
+                            styles.tutRow,
+                            { alignSelf: 'center', marginTop: 40 },
+                        ]}
+                    >
+                        <Text style={styles.centeredHeader}>
+                            {t('swipeToContinue')}
+                        </Text>
+                        <SwipeIconWhite />
+                    </View>
+                )}
             </ScrollView>
         </View>
     );
