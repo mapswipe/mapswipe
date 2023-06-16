@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: COLOR_WHITE,
         padding: SPACING_SMALL,
+        borderRadius: SPACING_SMALL,
     },
     item: {
         margin: SPACING_EXTRA_SMALL,
@@ -97,12 +98,12 @@ const styles = StyleSheet.create({
         width: '30%',
     },
     closeButton: {
-        height: 25,
-        width: 25,
-        padding: 4,
+        height: 20,
+        width: 20,
+        padding: 2,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 25,
+        borderRadius: 20,
     },
     listHeading: {
         textAlign: 'center',
@@ -132,6 +133,7 @@ type State = {
     currentTaskIndex: number,
     showSubOptions: boolean,
     subOptions: Array<SubOption>,
+    subOptionHeading: string,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -169,6 +171,7 @@ class _Validator extends React.Component<Props, State> {
         this.state = {
             currentTaskIndex: 0,
             showSubOptions: false,
+            subOptionHeading: '',
             subOptions: [],
         };
         // this remains false until the tutorial tasks are completed
@@ -228,6 +231,7 @@ class _Validator extends React.Component<Props, State> {
             this.setState(prevState => ({
                 ...prevState,
                 showSubOptions: true,
+                subOptionHeading: option.title,
                 subOptions: option.subOptions,
             }));
         } else {
@@ -239,6 +243,7 @@ class _Validator extends React.Component<Props, State> {
     handleClose = () => {
         this.setState(prevState => ({
             ...prevState,
+            subOptionHeading: '',
             showSubOptions: false,
             subOptions: [],
         }));
@@ -332,14 +337,14 @@ class _Validator extends React.Component<Props, State> {
     };
 
     renderContent = selectedOption => {
-        const { showSubOptions, subOptions } = this.state;
+        const { showSubOptions, subOptions, subOptionHeading } = this.state;
         const { customOptions } = this.props;
         if (showSubOptions) {
             return (
                 <View style={styles.listItem}>
                     <View style={styles.listHeader}>
                         <Text style={styles.listHeading}>
-                            Additional Information
+                            {subOptionHeading}
                         </Text>
                         <TouchableHighlight
                             onPress={this.handleClose}
