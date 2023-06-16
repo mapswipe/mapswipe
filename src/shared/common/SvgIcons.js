@@ -158,7 +158,7 @@ export const squareOutline = `
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><polygon points="336 320 32 320 184 48 336 320" style="fill:none;stroke:#000;stroke-linejoin:round;stroke-width:32px"/><path d="M265.32,194.51A144,144,0,1,1,192,320" style="fill:none;stroke:#000;stroke-linejoin:round;stroke-width:32px"/></svg>
 `;
 
-export const startOutline = `
+export const starOutline = `
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><path d="M480,208H308L256,48,204,208H32l140,96L118,464,256,364,394,464,340,304Z" style="fill:none;stroke:#000;stroke-linejoin:round;stroke-width:32px"/></svg>
 `;
 

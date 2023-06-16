@@ -46,6 +46,9 @@ type Props = {
     updateProgress: number => void,
     zoomLevel: number,
     informationPages?: Array<ProjectInformation>,
+    lookFor: string,
+    exampleImage1: string,
+    exampleImage2: string,
 };
 
 type State = {
@@ -100,12 +103,8 @@ class _CardBody extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate = (oldProps: Props) => {
-        const { group, results, tutorial, informationPages } = this.props;
+        const { group, results, tutorial } = this.props;
         const { tutorialMode } = this.state;
-        this.tutorialIntroWidth =
-            informationPages && informationPages?.length > 0
-                ? informationPages.length + 1
-                : 0 + 1;
         const currentScreen = this.getCurrentScreen();
         if (tutorial && results !== oldProps.results && currentScreen >= 0) {
             // we're cheating here: we use the fact that props are updated when the user
@@ -411,12 +410,6 @@ class _CardBody extends React.PureComponent<Props, State> {
                 event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
                     this.tutorialIntroWidth,
             );
-            console.log(
-                'currentScreen',
-                currentScreen,
-                (this.currentX - min) / 2,
-                this.getCurrentScreen(),
-            );
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
@@ -479,8 +472,41 @@ class _CardBody extends React.PureComponent<Props, State> {
             screens,
             tutorial,
             zoomLevel,
-            informationPages,
+            informationPages: informationPagesFromProps,
+            lookFor,
+            exampleImage1,
+            exampleImage2,
         } = this.props;
+
+        const fallbackInformationPage: ?ProjectInformation =
+            exampleImage1 || exampleImage2
+                ? [
+                      [
+                          {
+                              blockNumber: 1,
+                              blockType: 'text',
+                              textDescription: `You are looking for ${lookFor}`,
+                          },
+                          {
+                              blockNumber: 2,
+                              blockType: 'image',
+                              image: exampleImage1,
+                          },
+                          {
+                              blockNumber: 3,
+                              blockType: 'image',
+                              image: exampleImage2,
+                          },
+                      ],
+                  ]
+                : undefined;
+
+        const informationPages =
+            informationPagesFromProps ?? fallbackInformationPage;
+        this.tutorialIntroWidth =
+            informationPages && informationPages?.length > 0
+                ? informationPages.length + 1
+                : 1;
 
         let tutorialContent: ?TutorialContent;
 
