@@ -12,8 +12,8 @@
     "detoxTestAndroid": "detox build -c android.ci.debug && detox test -c android.ci.debug",
     "detoxTestIOS": "detox build -c ios.sim.debug && detox test -c ios.sim.debug",
     "postinstall": "patch-package",
-    "lint": "node_modules/eslint_d/bin/eslint.js src __tests__ --cache",
-    "lintJson": "node_modules/.bin/jsonlint -q locales/en.json",
+    "lint": "eslint src __tests__ --cache",
+    "lintJson": "jsonlint -q locales/en.json",
     "reduxDebugger": "remotedev-debugger --hostname localhost --port 5678 --injectserver",
     "runAndroid": "cd android && ./gradlew installDevDebug && adb -d shell am start -n org.missingmaps.mapswipe.dev/org.missingmaps.mapswipe.MainActivity ; cd ..",
     "start": "react-native start",
@@ -118,7 +118,6 @@
     "redux-devtools-extension": "^2.13.8",
     "typescript": "4.8.4"
   },
-  "build": "0",
   "detox": {
     "configurations": {
       "ios.sim.debug": {
