@@ -50,27 +50,29 @@ function getDateSafe(value: string | number | Date) {
     return new Date(value);
 }
 
+function modifyDate(date: Date, modifier: (input: Date) => Date) {
+    let safeDate = new Date(date);
+    safeDate.setHours(12, 0, 0, 0);
+
+    safeDate = modifier(safeDate);
+
+    safeDate.setHours(0, 0, 0, 0);
+    return safeDate;
+}
+
 function resolveTime(
     date: string | number | Date,
     resolution: 'day' | 'month' | 'year',
 ) {
-    const newDate = getDateSafe(date);
+    let newDate = getDateSafe(date);
 
-    if (
-        resolution === 'day' ||
-        resolution === 'month' ||
-        resolution === 'year'
-    ) {
-        newDate.setHours(0);
-        newDate.setMinutes(0);
-        newDate.setSeconds(0);
-        newDate.setMilliseconds(0);
-    }
-    if (resolution === 'month' || resolution === 'year') {
-        newDate.setDate(1);
-    }
     if (resolution === 'year') {
-        newDate.setMonth(0);
+        newDate = modifyDate(newDate, d => d.setMonth(0));
+        newDate = modifyDate(newDate, d => d.setDate(1));
+    } else if (resolution === 'month') {
+        newDate = modifyDate(newDate, d => d.setDate(1));
+    } else {
+        newDate = modifyDate(newDate, d => d);
     }
     return newDate;
 }
@@ -80,18 +82,16 @@ function incrementDate(
     increment: number,
     res: 'day' | 'month' | 'year',
 ) {
-    const myDate = new Date(date);
+    let myDate = new Date(date);
     if (res === 'year') {
-        myDate.setFullYear(date.getFullYear() + increment);
+        myDate = modifyDate(myDate, d =>
+            d.setFullYear(d.getFullYear() + increment),
+        );
     } else if (res === 'month') {
-        myDate.setMonth(date.getMonth() + increment);
+        myDate = modifyDate(myDate, d => d.setMonth(d.getMonth() + increment));
     } else {
-        myDate.setDate(date.getDate() + increment);
+        myDate = modifyDate(myDate, d => d.setDate(d.getDate() + increment));
     }
-    myDate.setHours(0);
-    myDate.setMinutes(0);
-    myDate.setSeconds(0);
-    myDate.setMilliseconds(0);
     return myDate;
 }
 
@@ -135,30 +135,17 @@ function CalendarHeatmap(props: Props) {
     const itemWidth = Math.min((screenWidth - SPACING_MEDIUM * 2 - 1) / 7, 38);
 
     const now = new Date();
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-    now.setMilliseconds(0);
-
     const dayOfWeek = now.getDay();
 
     // End date is the last day of the week
-    const endDate = new Date(now);
-    endDate.setDate(endDate.getDate() + (6 - dayOfWeek));
-
-    endDate.setHours(0);
-    endDate.setMinutes(0);
-    endDate.setSeconds(0);
-    endDate.setMilliseconds(0);
+    let endDate = new Date(now);
+    endDate = modifyDate(endDate, d => {
+        return d.setDate(d.getDate() + (6 - dayOfWeek));
+    });
 
     // Start date is 5 weeks ahead of end date
-    const startDate = new Date(endDate);
-    startDate.setDate(startDate.getDate() - 7 * 5 + 1);
-
-    startDate.setHours(0);
-    startDate.setMinutes(0);
-    startDate.setSeconds(0);
-    startDate.setMilliseconds(0);
+    let startDate = new Date(endDate);
+    startDate = modifyDate(startDate, d => d.setDate(d.getDate() - 7 * 5 + 1));
 
     const timestamps = getTimestamps(startDate, endDate, 'day');
 
