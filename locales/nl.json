@@ -116,7 +116,7 @@
   "CDInstructionScreen": {
     "instructions": "Instructies",
     "your task": "Uw taak:",
-    "lookingFor": "U bent op zoek naar <1>veranderingen in het aantal gebouwen</1>. Dit functioneert als een duidelijke indicator voor een verandering in bevolkingsgrootte.",
+    "lookingFor": "U bent op zoek naar <1>veranderingen in gebouwen</1>. Dit functioneert als een duidelijke indicator voor een verandering in bevolkingsgrootte.",
     "perform task": "Hoe voert u de taak uit:",
     "noChanges": "Als er geen veranderingen zijn, <1>swipe</1> gewoon naar de volgende foto's",
     "seeChanges": "Als u een verandering ziet in gebouwen, <1>tik één keer</1> en de tegel wordt groen.",
