@@ -40,7 +40,7 @@
     "createNewAccount": "Maak een nieuwe account",
     "sendResetEmailWarning": "* We sturen u een e-mail om uw wachtwoord opnieuw in te stellen",
     "sendResetEmail": "Reset e-mail versturen",
-    "backToLogin": "Terug naar inlogscherm"
+    "backToLogin": "Terug naar aanmelden"
   },
   "login": {
     "enterUsername": "Voer uw gebruikersnaam in"
