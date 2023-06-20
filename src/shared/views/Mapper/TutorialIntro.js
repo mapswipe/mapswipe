@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
-import type { TranslationFunction } from '../../flow-types';
+import type { TranslationFunction, ProjectInformation } from '../../flow-types';
 import {
     NumberedTapIconWhite1,
     NumberedTapIconWhite2,
@@ -11,7 +11,6 @@ import {
     SwipeIconWhite,
     TapIconWhite,
 } from '../../common/Tutorial/icons';
-import type { ProjectInformation } from '../../common/InformationPage';
 import InformationPage from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');

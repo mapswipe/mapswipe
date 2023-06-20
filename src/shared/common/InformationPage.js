@@ -23,8 +23,6 @@ export type Block =
           textDescription: string,
       };
 
-export type ProjectInformation = Array<Block[]>;
-
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',

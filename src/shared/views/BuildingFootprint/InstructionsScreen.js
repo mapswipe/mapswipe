@@ -16,9 +16,12 @@ import {
     COLOR_WHITE,
     COLOR_LIGHT_GRAY,
 } from '../../constants';
-import type { NavigationProp, TranslationFunction } from '../../flow-types';
+import type {
+    NavigationProp,
+    TranslationFunction,
+    Option,
+} from '../../flow-types';
 import * as SvgIcons from '../../common/SvgIcons';
-import type { Option } from './index';
 
 const GLOBAL = require('../../Globals');
 

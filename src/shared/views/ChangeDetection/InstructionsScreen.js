@@ -12,14 +12,17 @@ import {
 } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
-import type { NavigationProp, TranslationFunction } from '../../flow-types';
+import type {
+    NavigationProp,
+    TranslationFunction,
+    ProjectInformation,
+} from '../../flow-types';
 import {
     NumberedTapIconWhite1,
     NumberedTapIconWhite2,
     NumberedTapIconWhite3,
     SwipeIconWhite,
 } from '../../common/Tutorial/icons';
-import type { ProjectInformation } from '../../common/InformationPage';
 import InformationPage from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');

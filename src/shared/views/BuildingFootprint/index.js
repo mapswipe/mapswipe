@@ -6,7 +6,11 @@ import { SvgXml } from 'react-native-svg';
 import ProjectLevelScreen from '../../common/ProjectLevelScreen';
 import { submitFootprint } from '../../actions/index';
 import Validator from './Validator';
-import type { NavigationProp, TranslationFunction } from '../../flow-types';
+import type {
+    NavigationProp,
+    TranslationFunction,
+    Option,
+} from '../../flow-types';
 import { COLOR_LIGHT_GRAY } from '../../constants';
 import * as SvgIcons from '../../common/SvgIcons';
 
@@ -57,22 +61,6 @@ const styles = StyleSheet.create({
         width: '85%',
     },
 });
-
-export type SubOption = {
-    subOptionsId: number,
-    description: string,
-    value: number,
-};
-
-export type Option = {
-    optionId: number,
-    value: number,
-    title: string,
-    description: string,
-    icon: string,
-    iconColor: string,
-    subOptions?: Array<SubOption>,
-};
 
 type Props = {
     navigation: NavigationProp,

@@ -21,7 +21,6 @@ import TutorialBox from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
-import type { Option, SubOption } from './index';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
 import {
     tutorialModes,
@@ -42,8 +41,11 @@ import type {
     ResultMapType,
     SingleImageryProjectType,
     TutorialContent,
+    ProjectInformation,
+    Option,
+    SubOption,
 } from '../../flow-types';
-import type { ProjectInformation } from '../../common/InformationPage';
+
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;

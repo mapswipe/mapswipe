@@ -10,11 +10,13 @@ import {
     SPACING_LARGE,
 } from '../../constants';
 import { HideIcon, SwipeIconWhite } from '../../common/Tutorial/icons';
-import type { TranslationFunction } from '../../flow-types';
+import type {
+    TranslationFunction,
+    ProjectInformation,
+    Option,
+} from '../../flow-types';
 import InformationPage from '../../common/InformationPage';
-import type { ProjectInformation } from '../../common/InformationPage';
 import * as SvgIcons from '../../common/SvgIcons';
-import type { Option } from './index';
 
 const GLOBAL = require('../../Globals');
 

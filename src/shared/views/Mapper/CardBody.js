@@ -25,8 +25,8 @@ import type {
     ResultMapType,
     TileServerType,
     TutorialContent,
+    ProjectInformation,
 } from '../../flow-types';
-import type { ProjectInformation } from '../../common/InformationPage';
 
 const GLOBAL = require('../../Globals');
 

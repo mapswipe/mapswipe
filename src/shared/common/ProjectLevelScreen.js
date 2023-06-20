@@ -17,8 +17,6 @@ import BackConfirmationModal from './ConfirmationModal';
 import BottomProgress from './BottomProgress';
 import LoadingIcon from '../views/LoadingIcon';
 import LoadMoreCard from '../views/LoadMore';
-import type { ProjectInformation } from './InformationPage';
-import type { Option } from '../views/BuildingFootprint/index';
 import type {
     BuildingFootprintProjectType,
     CategoriesType,
@@ -28,6 +26,8 @@ import type {
     ResultMapType,
     TranslationFunction,
     TutorialContent,
+    ProjectInformation,
+    Option,
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,

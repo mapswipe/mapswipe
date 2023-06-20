@@ -5,7 +5,12 @@
 // data structure. This should prevent too much code reuse, and variety of bugs...
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import get from 'lodash.get';
-import type { GroupType, ResultType } from '../flow-types';
+import type {
+    GroupType,
+    Option,
+    ResultType,
+    ProjectInformation,
+} from '../flow-types';
 
 export const firebaseConnectGroup = (tutorialId?: string): any =>
     // the tutorialId parameter is not really used at this point, but we keep it
@@ -69,8 +74,8 @@ type PropsForGroup = {
     onInfoPress: () => void,
     results: Array<ResultType>,
     tutorial: boolean,
-    customOptions?: Array<any>,
-    informationPages?: Array<any>,
+    customOptions?: Array<Option>,
+    informationPages?: ProjectInformation,
 };
 
 export const mapStateToPropsForGroups =
@@ -134,7 +139,7 @@ export const mapStateToPropsForGroups =
                         iconColor: '#bbcb7d',
                     },
                     {
-                        optoinId: 0,
+                        optionId: 0,
                         value: 0,
                         title: 'No',
                         description: 'No',
@@ -142,7 +147,7 @@ export const mapStateToPropsForGroups =
                         iconColor: '#fd5054',
                     },
                     {
-                        optoinId: 2,
+                        optionId: 2,
                         value: 2,
                         title: 'Not sure',
                         description: 'Not sure',
