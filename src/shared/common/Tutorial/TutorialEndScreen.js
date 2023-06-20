@@ -77,6 +77,7 @@ type Props = {
     projectId: string,
     projectType: number,
     t: TranslationFunction,
+    outroScreenProps?: any,
 };
 
 class TutorialEndScreen extends React.Component<Props> {
@@ -106,11 +107,11 @@ class TutorialEndScreen extends React.Component<Props> {
     };
 
     render() {
-        const { OutroScreen, t } = this.props;
+        const { OutroScreen, t, outroScreenProps } = this.props;
         return (
             <View style={styles.twoScreensWidth}>
                 <View style={styles.oneScreenWidth}>
-                    <OutroScreen />
+                    <OutroScreen {...outroScreenProps} />
                 </View>
                 <View style={styles.oneScreenWidth}>
                     <View style={styles.congratulationsSlide}>

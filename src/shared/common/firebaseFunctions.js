@@ -124,10 +124,13 @@ export const mapStateToPropsForGroups =
                     exampleImage1,
                     exampleImage2,
                     screens,
-                    customOptions,
                     informationPages,
+                    customOptions,
                 } = data[prefix][projectId]);
             }
+
+            customOptions = data[prefix][projectId].customOptions;
+
             if (!customOptions) {
                 customOptions = [
                     {

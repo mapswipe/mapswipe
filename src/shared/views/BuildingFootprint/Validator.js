@@ -30,6 +30,7 @@ import {
     SPACING_EXTRA_SMALL,
     FONT_SIZE_SMALL,
     SPACING_SMALL,
+    COLOR_BLUE,
 } from '../../constants';
 import GLOBAL from '../../Globals';
 import * as SvgIcons from '../../common/SvgIcons';
@@ -50,6 +51,20 @@ import type {
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
 
+function isNaN(val) {
+    if (typeof val === 'number') {
+        return Number.isNaN(val);
+    }
+    return false;
+}
+
+function isNotDefined(val) {
+    return val === undefined || val === null || isNaN(val);
+}
+
+function isDefined(val: any): boolean {
+    return !isNotDefined(val);
+}
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -341,6 +356,19 @@ class _Validator extends React.Component<Props, State> {
     renderContent = selectedOption => {
         const { showSubOptions, subOptions, subOptionHeading } = this.state;
         const { customOptions } = this.props;
+
+        const isSelected = item => {
+            if (isDefined(selectedOption)) {
+                return (
+                    selectedOption === item.value ||
+                    (item.subOptions?.some(
+                        subOption => subOption.value === selectedOption,
+                    ) ??
+                        false)
+                );
+            }
+            return false;
+        };
         if (showSubOptions) {
             return (
                 <View style={styles.listItem}>
@@ -364,12 +392,24 @@ class _Validator extends React.Component<Props, State> {
                     <FlatList
                         data={subOptions}
                         renderItem={({ item }) => (
-                            <View style={styles.item} key={item.subOptionsId}>
+                            <View
+                                style={[
+                                    styles.item,
+                                    {
+                                        borderColor:
+                                            isDefined(selectedOption) &&
+                                            item.value === selectedOption
+                                                ? COLOR_BLUE
+                                                : COLOR_LIGHT_GRAY,
+                                    },
+                                ]}
+                                key={item.subOptionsId}
+                            >
                                 <Text
                                     style={styles.listItemText}
                                     onPress={() =>
                                         this.handleAdditionalOptionClick(
-                                            item.subOptionsId,
+                                            item.value,
                                         )
                                     }
                                 >
@@ -394,7 +434,7 @@ class _Validator extends React.Component<Props, State> {
                             label={item.title}
                             onPress={() => this.handleSelectOption(item)}
                             radius={buttonHeight}
-                            selected={selectedOption === item.value}
+                            selected={isSelected(item)}
                         />
                     </View>
                 ))}
@@ -489,6 +529,9 @@ class _Validator extends React.Component<Props, State> {
                                 group={group}
                                 navigation={navigation}
                                 OutroScreen={BuildingFootprintTutorialOutro}
+                                outroScreenProps={{
+                                    firstOption: customOptions?.[0],
+                                }}
                                 projectId={projectId}
                             />
                         }

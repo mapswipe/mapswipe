@@ -2,15 +2,15 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
+import { SvgXml } from 'react-native-svg';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
-import type { TranslationFunction } from '../../flow-types';
+import type { TranslationFunction, Option } from '../../flow-types';
 import {
-    GrayUnsureIcon,
-    GreenCheckIcon,
     MapswipeMagnifyingGlassIcon,
     SwipeIconWhite,
     SwipeRightIconWhite,
 } from '../../common/Tutorial/icons';
+import * as SvgIcons from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -57,11 +57,12 @@ const styles = StyleSheet.create({
 
 type Props = {
     t: TranslationFunction,
+    firstOption: Option,
 };
 
 /* eslint-disable global-require */
 const TutorialOutroScreen = (props: Props) => {
-    const { t } = props;
+    const { t, firstOption } = props;
     return (
         <View style={styles.background}>
             <View style={styles.screenWidth}>
@@ -69,12 +70,6 @@ const TutorialOutroScreen = (props: Props) => {
                     <Text style={styles.header}>
                         {t('dontWorryIfYoureUnsure')}
                     </Text>
-                    <View style={styles.tutRow}>
-                        <GrayUnsureIcon />
-                        <Text style={styles.tutText}>
-                            {t('youCanAlwaysTapUnsure')}
-                        </Text>
-                    </View>
                     <View style={styles.tutRow}>
                         <View
                             style={{
@@ -113,13 +108,20 @@ const TutorialOutroScreen = (props: Props) => {
                         <View
                             style={{
                                 borderColor: COLOR_WHITE,
-                                borderRadius: 50 + 5,
+                                borderRadius: 30 + 5,
                                 borderWidth: 5,
-                                height: 50 + 2 * 5,
-                                width: 50 + 2 * 5,
+                                height: 30 + 2 * 5,
+                                width: 30 + 2 * 5,
                             }}
                         >
-                            <GreenCheckIcon />
+                            <SvgXml
+                                xml={
+                                    SvgIcons[firstOption.icon] ??
+                                    SvgIcons.checkmarkOutline
+                                }
+                                width="100%"
+                                height="100%"
+                            />
                         </View>
                         <Text style={styles.tutText}>
                             {t('yourPreviousAnswerIsMarked')}
