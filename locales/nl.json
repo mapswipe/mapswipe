@@ -76,7 +76,7 @@
     "accountDeletedSuccessMessage": "Jammer dat u gaat...",
     "accountDeletionFailed": "Kan uw account niet verwijderen",
     "accountDeletionFailedMessage": "Log opnieuw in om te bevestigen dat u uw account wilt verwijderen",
-    "contributionHeatmap": "Bijdragen heatmap (laatste 30 dagen)"
+    "contributionHeatmap": "Kaart met uw bijdragen (laatste 30 dagen)"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% door {{mappersCount}} mappers"
