@@ -84,7 +84,7 @@
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% WERELDWIJDE VOORTGANG DANKZIJ {{contributorCount}} VRIJWILLIGERS ZOALS U.",
     "userProgressForProject": "{{userProgress}}% voor dit project",
-    "quotaReachedWarning": "Kies een ander project vanuit de missie-schermen",
+    "quotaReachedWarning": "Kies een ander project vanuit de missie schermen",
     "map now": "Nu in kaart brengen",
     "chooseAnotherProject": "Kies een ander project",
     "tutorial": "Handleiding"
