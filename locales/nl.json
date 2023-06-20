@@ -34,7 +34,7 @@
     "signUp": "Registreren",
     "loginExistingAccount": "Aanmelden met een bestaand account",
     "login": "Aanmelden",
-    "loginSignupWithOSM": "Log in met OpenStreetMap",
+    "loginSignupWithOSM": "Aanmelden met OpenStreetMap",
     "OSMsignupExplanation": "U kunt registreren bij MapSwipe met uw OpenStreetMap-account. Als u al een MapSwipe-account heeft, zullen ze niet gekoppeld worden! (dit komt in een toekomstige versie)",
     "forgotPassword": "Uw wachtwoord vergeten?",
     "createNewAccount": "Maak een nieuwe account",
