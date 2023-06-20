@@ -124,7 +124,7 @@
     "badImagery": "Probleem met de afbeeldingen, bijvoorbeeld als één van de afbeeldingen wolken heeft die het zicht ontnemen? <1>Tik drie keer</1> en de tegel wordt rood",
     "holdZoom": "Als u een afbeelding van dichterbij wilt zien tikt u op de afbeelding en houdt u deze vast om nog iets meer in te zoomen.",
     "hint": "Hint:",
-    "differentImagery": "Soms zijn er verschillende afbeeldingsbronnen gebruikt. De afbeeldingen kunnen iets anders uitgelijnd zijn of er kan een verschil in resolutie zijn. Herinner u dat u op zoek bent naar <1>absolute veranderingen in woongebieden en gebouwen</1>, dus als het eruit ziet alsof dezelfde gebouwen er zijn, maar misschien met een nieuw dak, dan zou dit een 'geen verandering'-scenario zijn en zou u gewoon naar de volgende afbeelding kunnen swipen."
+    "differentImagery": "Soms zijn er verschillende afbeeldingsbronnen gebruikt. De afbeeldingen kunnen iets anders uitgelijnd zijn of er kan een verschil in resolutie zijn. Herinner u dat u op zoek bent naar <1>absolute veranderingen in woongebieden en gebouwen</1>, dus als het eruit ziet alsof dezelfde gebouwen er zijn, maar misschien met een nieuw dak, dan zou dit een 'geen verandering'-scenario zijn en swipet u gewoon naar de volgende afbeelding."
   },
   "CDBodyScreen": {
     "viewInstructions": "Bekijk instructies"
