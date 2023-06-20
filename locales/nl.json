@@ -32,7 +32,7 @@
     "IagreeToPrivacyNotice": "Ik ga akkoord met de <1>privacyverklaring</1>",
     "contributionWarningOnSignup": "* Alle gegevens die u bijdraagt aan MapSwipe zijn open en voor iedereen beschikbaar. Uw gebruikersnaam is publiek, maar uw e-mailadres en wachtwoord worden nooit met iemand gedeeld.",
     "signUp": "Registreren",
-    "loginExistingAccount": "Log in met een bestaand account",
+    "loginExistingAccount": "Aanmelden met een bestaand account",
     "login": "Log in",
     "loginSignupWithOSM": "Log in met OpenStreetMap",
     "OSMsignupExplanation": "U kunt registreren bij MapSwipe met uw OpenStreetMap-account. Als u al een MapSwipe-account heeft, zullen ze niet gekoppeld worden! (dit komt in een toekomstige versie)",
