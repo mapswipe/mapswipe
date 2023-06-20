@@ -221,7 +221,7 @@
   },
   "BFInstructionsScreen" : {
     "doesShapeOutlineABuilding": "Omlijnt de vorm een gebouw?",
-    "howToContribute": "Hoe bij te dragen",
+    "howToContribute": "Hoe u kan bijdragen",
     "squareContainsBuildings": "Bevat het vierkant gebouwen? Gebruik de knoppen om te antwoorden:",
     "instructionsYes": "Ja: wanneer er een gebouw of deel van een gebouw in het vierkant is",
     "instructionsNo": "Nee: wanneer er geen gebouwen zijn in het vierkant",
