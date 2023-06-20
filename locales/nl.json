@@ -74,7 +74,7 @@
     "email": "E-mail",
     "accountDeleted": "Account verwijderd!",
     "accountDeletedSuccessMessage": "Jammer dat u gaat...",
-    "accountDeletionFailed": "Kan uw account niet verwijderen",
+    "accountDeletionFailed": "Kon uw account niet verwijderen",
     "accountDeletionFailedMessage": "Log opnieuw in om te bevestigen dat u uw account wilt verwijderen",
     "contributionHeatmap": "Kaart met uw bijdragen (laatste 30 dagen)"
   },
