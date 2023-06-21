@@ -1,0 +1,258 @@
+{
+  "mainHeader": {
+    "missions": "Misi",
+      "more": "Lebih jauh",
+      "userProfile": "Profil"
+  },
+  "signup": {
+    "chooseUsername": "Pilih nama penggunamu",
+    "passwordError": "Kata kunci setidaknya harus 6 karakter",
+    "usernameError": "Nama pengguna setidaknya harus 4 karakter",
+    "errorOnSignup": "Galat saat mendaftar",
+    "usernameErrorMessage": "Nama penggunamu setidaknya harus 4 karakter atau lebih",
+    "usernameNotEmail": "Nama penggunamu jangan berupa surel",
+    "usernamePublic": "Nama penggunamu akan tercantum secara publik",
+    "success": "Sukses",
+    "welcomeToMapSwipe": "Selamat datang di MapSwipe,  {{username}}",
+    "emailAlreadyUsed": "Surel terpilih sudah digunakan oleh pengguna lain",
+    "emailInvalid": "Alamat surel tidak valid",
+    "problemSigningUp": "Masalah saat mendaftar",
+    "errorOnSignUp": "Galat saat mendaftar",
+    "checkYourEmail": "Periksalah kotak suratmu",
+    "noAccountFoundForEmail": "Akun tidak ditemukan untuk surel ini",
+    "problemResettingPassword": "Masalah saat reset kata sandimu",
+    "errorLogIn": "Galat saat masuk",
+    "invalidEmailPassword": "Surel dan kata sandi tidak valid",
+    "accountDisabled": "Akun dinonaktifkan",
+    "problemLoggingIn": "Masalah saat masuk",
+    "errorResetPass": "Galat saat reset kata sandi",
+    "enterYourEmail": "Sertakan surelmu",
+    "choosePassword": "Pilih kata sandimu",
+    "enterYourPassword": "Sertakan kata sandimu",
+    "IagreeToPrivacyNotice": "Saya setuju pada <1>Pemberitahuan Privasi</1>",
+    "contributionWarningOnSignup": "* Seluruh data kontribusi kamu ke MapSwipe menjadi terbuka dan tersedia untuk semua orang. Nama penggunamu bersifat publik, tetapi surel dan kata sandimu tetap bersifat rahasia kepada siapapun.",
+    "signUp": "Daftar",
+    "loginExistingAccount": "Masuk menggunakan akun yang ada",
+    "login": "Masuk",
+    "loginSignupWithOSM": "Masuk dengan OpenStreetMap",
+    "OSMsignupExplanation": "Anda dapat mendaftar ke MapSwipe menggunakan akun OpenStreetMap Anda. Jika Anda sudah memiliki akun MapSwipe, ini tidak akan menghubungkan keduanya! (fitur ini akan segera hadir dalam rilis mendatang)",
+    "forgotPassword": "Lupa kata sandi anda?",
+    "createNewAccount": "Buat akun baru",
+    "sendResetEmailWarning": "* Kami akan mengirim kamu surel untuk reset kata sandi",
+    "sendResetEmail": "Kirim Surel Reset",
+    "backToLogin": "Kembali masuk"
+  },
+  "login": {
+    "enterUsername": "Sertakan nama penggunamu"
+  },
+  "profileScreen": {
+    "Level X": "Tingkat {{level}}",
+    "youve completed x tasks": "Kamu telah menyelesaikan {{contributions}} tugas!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tugas ({{swipes}} swipes) sampai tingkat selanjutnya",
+    "yourTeam": "Tim kamu: {{teamName}}",
+    "changeLanguage": "Ganti Bahasa",
+    "mapswipe website": "Situs web MapSwipe",
+    "missingmaps website": "Situs web Missing Maps",
+    "email us": "Kirim Surel ke kami",
+    "sign out": "Keluar",
+    "delete my account": "Hapus akun saya",
+    "delete account question": "Hapus akun?",
+    "delete account warning": "Kamu akan kehilangan semua hasil dan lencana selama ini. Kontribusi akan kamu tetap tersedia untuk publik tapi tidak terkait lagi dengan akunmu.\nApa tetap mau melanjutkan?",
+    "no keep my account": "Tidak jadi, biarkan akun saya",
+    "yes delete it": "Ya, hapus saja!",
+    "userGroups": "Grup Pengguna",
+    "joinNewGroup": "Gabung Grup Baru",
+    "exploreGroups": "Periksa Grup",
+    "settings": "Pengaturan",
+    "changeUserName": "Ubah Nama Pengguna",
+    "changePassword": "Ganti kata sandi",
+    "notifications": "Pemberitahuan",
+    "language": "Bahasa",
+    "logOut": "Keluar",
+    "deleteAccount": "Hapus akun",
+    "missingMaps": "Missing Maps",
+    "email": "Surel",
+    "accountDeleted": "Akun terhapus!",
+    "accountDeletedSuccessMessage": "Sangat menyesal anda tidak lagi bersama kami...",
+    "accountDeletionFailed": "Tidak bisa menghapus akun anda",
+    "accountDeletionFailedMessage": "Silahkan masuk kembali untuk mengkonfirmasi penghapusan akun anda",
+    "contributionHeatmap": "Peta Panas Kontribusi (30 hari terakhir)"
+  },
+  "projectList": {
+    "progress pc by x mappers": "{{progress}}% oleh {{mappersCount}} pemeta"
+  },
+  "projectView": {
+    "x pc global progress by n mappers": "{{projectProgress}}% KEMAJUAN GLOBAL OLEH {{contributorCount}} PEMETA SEPERTI KAMU.",
+    "userProgressForProject": "{{userProgress}}% untuk proyek ini",
+    "quotaReachedWarning": "Pilih proyek lain dari layar misi",
+    "map now": "Petakan sekarang",
+    "chooseAnotherProject": "Pilih proyek yang lain",
+    "tutorial": "Panduan"
+  },
+  "mappingHeader": {
+    "youAreLookingFor": "Kamu sedang mencari:"
+  },
+  "loadMoreScreen": {
+    "completedTutorial": "Mantap. Kamu telah menyelesaikan panduan. Kamu dinyatakan siap melakukan pemetaan!",
+    "finishedGroup": "Mantap sekali! kamu telah menyelesaikan kelompok ini.",
+    "letsGo": "Mulai!",
+    "completeSession": "Selesaikan Sesi ",
+    "continueMapping": "Lanjutkan memetakan",
+    "sync alert": "Sinkronisasi perhatian",
+    "sync alert message": "Sinkronisasi tugasmu... Jangan tutup aplikasi"
+  },
+  "welcomeScreen": {
+    "welcomeToMapSwipe": "Selamat datang di MapSwipe",
+    "helpImprove": "Bantu sempurnakan respon kemanusiaan melalui telepon seluler kamu",
+    "partMissingMaps": "Bagian dari Missing Maps",
+    "withMissingMaps": "Melalui Missing Maps, kami bermaksud menunjukkan masyarakat rentan dalam peta",
+    "swipe": "Geser",
+    "completeTasks": "Selesaikan tugas dengan memeriksa seluruh area citra yang perlu dipetakan",
+    "createData": "Membuat data yang berarti",
+    "dataUse": "Datanya digunakan untuk memusatkan upaya relawan Missing Maps saat menambahkan detil ke OpenStreetMap",
+    "saveLives": "Menyelamatkan kehidupan",
+    "mapHelps": "Peta membantu organisasi mengkoordinir upaya kemanusiaan dan menyelamatkan kehidupan"
+  },
+  "CDInstructionScreen": {
+    "instructions": "Instruksi",
+    "your task": "Tugas kamu:",
+    "lookingFor": "Kamu sedang mencari <1>perubahan di bangunan</1>. Tindakan ini sebagai indikasi atas perubahan pada besaran populasi..",
+    "perform task": "Bagaimana melakukan sebuah tugas:",
+    "noChanges": "Jika tidak ada perubahan, lanjut <1>geser</1> ke citra berikutnya",
+    "seeChanges": "Jika kamu melihat perubahan pada bangunan, <1>tap sekali</1>dan ubin akan berubah menjadi hijau",
+    "unsure": "Tak yakin? <1>Tap dua kali</1>dan ubin akan berubah menjadi kuning",
+    "badImagery": "Masalah citra, menyebabkan citranya berawan menutupi pengamatan? <1>Tap tiga kali</1> dan ubin akan berubah menjadi merah",
+    "holdZoom": "Jika kumu butuh mengamati citra lebih dekat, tap dan tahan citra sehingga akan terlihat sedikit lebih besar",
+    "hint": "Petunjuk:",
+    "differentImagery": "Terkadang sumber citra yang berbeda akan digunakan. Gambar mungkin disejajarkan sedikit berbeda atau resolusinya mungkin berbeda. Ingat, Anda sedang mencari <1>perubahan yang pasti pada permukiman dan bangunan</1> jadi jika sepertinya ada bangunan yang sama, tapi mungkin ada atap baru, maka ini bisa kita anggap 'tidak ada perubahan' dan Anda cukup menggeser ke gambar berikutnya. "
+  },
+  "CDBodyScreen": {
+    "viewInstructions": "Lihat instruksinya:"
+  },
+  "CDTaskScreen": {
+    "before": "Sebelum",
+    "after": "Setelah"
+  },
+  "CDValidator": {
+    "Yes": "Ya",
+    "No": "Tidak",
+    "NotSure": "Tidak yakin",
+    "BadImagery": "Citra satelit tidak bagus"
+  },
+  "ProjectLevelScreen": {
+    "iUnderstand": "Saya mengerti",
+    "StopMappingAndReturn": "Berhenti memetakan dan kembali ke menu?",
+    "ContinueMapping": "Lanjutkan pemetaan",
+    "BackToMenu": "Kembali ke menu"
+  },
+  "IndividualCard": {
+    "swipe down mark red": "Geser BAWAH untuk menandai semua 6 ubin menjadi MERAH.",
+    "swipe up undo": "geser ATAS untuk menganulir"
+  },
+  "LoadingIcon": {
+    "loading": "Memuat..."
+  },
+  "ShowAnswersButton": {
+    "showAnswers": "Perlihatkan jawaban"
+  },
+  "Tutorial": {
+    "incomplete": "BELUM SELESAI",
+    "maybe": "MUNGKIN",
+    "instructions1": "Bagaimana berkontribusi",
+    "instructions2": "TAP UNTUK MEMILIH",
+    "instructions3": "Cari fitur sesuai misi Anda. Ketuk setiap ubin tempat Anda menemukan apa yang Anda cari. Ketuk sekali untuk <1>YA </1>, dua kali untuk <3>{{twoTaps}}</3>, dan tiga kali untuk <5>CITRA JELEK</5> (seperti awan).",
+    "instructions4": "GESER UNTUK NAVIGASI",
+    "instructions5": "Saat selesai dengan sebuah peta, gulir untuk selanjutnya dengan cara geser.",
+    "instructions6": "TAHAN UNTUK PERBESAR",
+    "instructions7": "Tahan ubin untuk memperbesarnya",
+    "instructions8": "Penghargaan",
+    "tutorial1": "Selamat datang di panduan",
+    "tutorial2": "Ini akan membuat Anda menjadi ahli MapSwipe dalam beberapa menit.",
+    "tutorial3": "Ikuti saja instruksi pada layar dan geser kiri untuk lanjut.",
+    "tutorial4": "Jika petunjuknya menghalangi Anda, cukup ketuk kotak pesan untuk memindahkannya.",
+    "tutorial5": "Saya mengerti"
+  },
+  "TutorialIntroScreen": {
+    "thisTutoWillTeachYou": "Tutorial ini akan mengajarkan Anda cara menggunakan MapSwipe. Berikut langkah-langkah dasarnya:",
+    "noChanges": "Jika tidak ada perubahan, lanjut <1>geser</1> ke citra berikutnya",
+    "seeChanges": "Jika kamu mengamati sesuatu disalah satu citra, <1>tap sekali agar kotak menjadi hijau</1>.",
+    "unsure": "Tak yakin atas pengamatanum? <1>Tap dua kali agar kotak menjadi kuning</1>",
+    "badImagery": "Jika ada masalah pada citra, <1>tap tiga kali agar kotak menjadi merah</1>",
+    "tapAgain": "Tap sekali lagi agar kotak kembali ke warna semula",
+    "WhatToLookFor": "Apa yang mesti diamati",
+    "YouAreLookingFor": "Kamu sedang mengamati {{lookFor}}",
+    "FromTheGround": "Dari permukaan, itu akan terlihat seperti ini:",
+    "ImagesFromAbove": "Tapi gambar yang akan Anda lihat bakal terlihat dari atas, dan tampilannya seperti ini:",
+    "SwipeToContinue": "Geser untuk lanjut"
+  },
+  "TutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Jangan khawatir jika kamu tak yakin atas apa yang kamu amati di kotak",
+    "youCanAlwaysTapTwice": "Ingat, Anda selalu dapat mengetuk dua kali untuk menandai kotak dengan warna kuning jika Anda tidak yakin dengan apa yang Anda lihat",
+    "everyImageViewedBy": "Setiap gambar akan dilihat oleh banyak orang, jadi jangan khawatir jika Anda melewatkan sesuatu",
+    "holdZoom": "Anda dapat menekan dan menahan kotak manapun untuk memperbesarnya. Ketuk lagi untuk menutupnya."
+  },
+  "TutorialEndScreen": {
+    "readyToStart": "Kamu dinyatakan siap memulai MapSwiping!",
+    "startMapping": "Mulai memetakan",
+    "completedTutorial": "Sekarang anda dilengkapi dengan semua yang Anda butuhkan untuk berkontribusi pada pemetaan kemanusiaan menggunakan aplikasi. Anda dapat kembali kapan saja."
+  },
+  "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Gunakan tombol untuk menjawab:",
+      "doesTheShapeOutlineABuilding": "Apakah bentuknya menggambarkan sebuah bangunan?",
+      "everyTimeYouSelectAnOption": "Setiap kali Anda memilih opsi, Anda akan diperlihatkan bentuk dan gambar baru.",
+      "tapGreenText": "Ya - bentuknya menggambarkan sebuah bangunan pada gambar tersebut",
+      "tapRedText": "Tidak - bentuknya tidak cocok sebagai bangunan di gambar tersebut",
+      "tapGrayText": "Tidak yakin - jika Anda tidak yakin atau jika gambar tertutup awan/citra buruk",
+      "hideIconText": "Tahan tombol sembunyikan untuk menghapus bentuk dari gambar",
+      "letsLearnHowToMap": "Mari belajar bagaimana memetakan dengan beberapa contoh",
+      "youllSeeASquare": "Kamu akan melihat sebuah kotak pada citra. Gunakan tombol untuk merespon:",
+      "squareContainsBuildings": "Apakah kotak tersebut menunjukkan adanya bangunan?",
+      "squareWillMove": "Kotak akan bergerak di sekitar gambar saat Anda maju, mengikuti kisi seperti ini:",
+      "swipeToGetStarted": "Geser untuk memulai",
+      "swipeToContinue": "Geser untuk lanjut"
+  },
+  "BFTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Jangan khawatir jika Anda tidak yakin tentang kotak persegi ini",
+    "youCanAlwaysTapUnsure": "Ingat, kamu selalu bisa tap tombol 'Tak yakin' ",
+    "everyImageViewedBy": "Setiap gambar akan dilihat oleh setidaknya 3 orang, jadi jangan khawatir jika Anda melewatkan sesuatu",
+    "wantToChangeYourAnswer": "Mau mengganti jawabanmu?",
+    "youCanSwipeBack": "Anda dapat menggeser kembali untuk mengubah jawaban Anda sebelumnya. Lalu ketuk atau geser ke depan lagi untuk kembali ke tempat semula.",
+    "yourPreviousAnswerIsMarked": "Jawaban Anda sebelumnya ditandai dengan lingkaran putih"
+  },
+  "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Apakah bentuknya menggambarkan sebuah bangunan?",
+    "howToContribute": "Bagaimana berkontribusi",
+    "squareContainsBuildings": "Apakah di kotak terdapat bangunan? Gunakan tombol untuk menjawab:",
+    "instructionsYes": "Iya: jika disana terdapat bangunan atau bagian dari bangunan dalam kotak",
+    "instructionsNo": "Tidak ada: jika disana tidak terdapat bangunan dalam kotak",
+    "instructionsNotSure": "Tidak yakin: Saat kamu tidak begitu yakin apakah itu sebuah bangunan atau bukan",
+    "instructionsBadImagery": "Citra buruk: saat ada tutupan awan atau masalah dengan citra"
+  },
+  "userGroupScreen": {
+    "join": "Gabung",
+    "leave": "Keluar",
+    "leaderBoards": "Papan Peringkat",
+    "settings": "Pengaturan",
+    "leaveGroup": "Keluar Grup",
+    "joinGroup": "Gabung Grup"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Gabung Kelompok",
+    "searchUserGroup": "Cari Grup Pengguna"
+  },
+  "changeUserName": {
+    "changeUserName": "Ganti nama pengguna",
+    "currentUserName": "Nama pengguna saat ini",
+    "newUserName": "Nama pengguna baru",
+    "confirmUserNameChange": "Konfirmasi Perubahan Nama Pengguna"
+  },
+  "changePassword": {
+    "changePassword": "Ganti kata sandi",
+    "currentPassword": "Kata sandi saat ini",
+    "newPassword": "Kata sandi baru",
+    "confirmPasswordChange": "Kofirmasi perubahan kata sandi"
+  },
+  "languageSelection": {
+    "languageSelection": "Bahasa"
+  }
+}
