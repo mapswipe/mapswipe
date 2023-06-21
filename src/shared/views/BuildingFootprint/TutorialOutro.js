@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     t: TranslationFunction,
-    firstOption: Option,
+    firstOption?: Option,
 };
 
 /* eslint-disable global-require */
@@ -108,16 +108,19 @@ const TutorialOutroScreen = (props: Props) => {
                         <View
                             style={{
                                 borderColor: COLOR_WHITE,
-                                borderRadius: 30 + 5,
+                                borderRadius: 40 + 5,
                                 borderWidth: 5,
-                                height: 30 + 2 * 5,
-                                width: 30 + 2 * 5,
+                                height: 40 + 2 * 5,
+                                width: 40 + 2 * 5,
+                                backgroundColor:
+                                    firstOption?.iconColor ?? '#bbcb7d',
                             }}
                         >
                             <SvgXml
                                 xml={
-                                    SvgIcons[firstOption.icon] ??
-                                    SvgIcons.checkmarkOutline
+                                    firstOption?.icon
+                                        ? SvgIcons[firstOption.icon]
+                                        : SvgIcons.checkmarkOutline
                                 }
                                 width="100%"
                                 height="100%"
