@@ -164,7 +164,7 @@ const TutorialIntroScreen = (props: Props) => {
                         {t('doesTheShapeOutlineABuilding')}
                     </Text>
                     {customOptions?.map(item => (
-                        <View style={styles.tutRow} key={item.optionId}>
+                        <View style={styles.tutRow} key={item.value}>
                             <View
                                 style={[
                                     styles.svgIcon,

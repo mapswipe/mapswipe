@@ -306,13 +306,11 @@ export type Block =
 export type ProjectInformation = Array<Block[]>;
 
 export type SubOption = {
-    subOptionsId: number,
     description: string,
     value: number,
 };
 
 export type Option = {
-    optionId: number,
     value: number,
     title: string,
     description: string,

@@ -93,7 +93,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                     </Text>
                 </View>
                 {customOptions?.map(item => (
-                    <View style={styles.tutRow} key={item.optionId}>
+                    <View style={styles.tutRow} key={item.value}>
                         <View
                             style={[
                                 styles.svgIcon,

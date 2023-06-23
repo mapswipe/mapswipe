@@ -134,7 +134,6 @@ export const mapStateToPropsForGroups =
             if (!customOptions) {
                 customOptions = [
                     {
-                        optionId: 1,
                         value: 1,
                         title: 'Yes',
                         description: 'Yes',
@@ -142,7 +141,6 @@ export const mapStateToPropsForGroups =
                         iconColor: '#bbcb7d',
                     },
                     {
-                        optionId: 0,
                         value: 0,
                         title: 'No',
                         description: 'No',
@@ -150,7 +148,6 @@ export const mapStateToPropsForGroups =
                         iconColor: '#fd5054',
                     },
                     {
-                        optionId: 2,
                         value: 2,
                         title: 'Not sure',
                         description: 'Not sure',

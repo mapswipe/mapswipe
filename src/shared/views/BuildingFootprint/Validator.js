@@ -403,7 +403,7 @@ class _Validator extends React.Component<Props, State> {
                                                 : COLOR_LIGHT_GRAY,
                                     },
                                 ]}
-                                key={item.subOptionsId}
+                                key={item.value}
                             >
                                 <Text
                                     style={styles.listItemText}
@@ -424,9 +424,9 @@ class _Validator extends React.Component<Props, State> {
         return (
             <View style={styles.options}>
                 {customOptions?.map(item => (
-                    <View style={styles.option} key={item.optionId}>
+                    <View style={styles.option} key={item.value}>
                         <RoundButtonWithTextBelow
-                            key={item.optionId}
+                            key={item.value}
                             color={item.iconColor}
                             iconXmlString={
                                 SvgIcons[item.icon] ?? SvgIcons.removeOutline

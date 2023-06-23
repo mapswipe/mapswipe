@@ -147,7 +147,7 @@ class BFInstructionScreen extends React.Component<Props> {
                         {t('doesTheShapeOutlineABuilding')}
                     </Text>
                     {(customOptions: Option[])?.map(item => (
-                        <View style={styles.tutRow} key={item.optionId}>
+                        <View style={styles.tutRow} key={item.value}>
                             <View
                                 style={[
                                     styles.svgIcon,
