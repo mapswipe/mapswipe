@@ -33,10 +33,9 @@ const styles = StyleSheet.create({
         lineHeight: 20,
     },
     svgIcon: {
-        borderRadius: 25,
-        height: 50,
-        padding: 15,
-        width: 50,
+        borderRadius: 30,
+        height: 30,
+        width: 30,
     },
     textContainer: {
         flexDirection: 'column',

@@ -1,12 +1,15 @@
 // @flow
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 import {
     COLOR_BLACK,
+    COLOR_DARK_GRAY,
     COLOR_SUCCESS_GREEN,
     COLOR_WHITE,
     tutorialModes,
 } from '../../constants';
+import * as SvgIcons from '../SvgIcons';
 import { type TutorialContent } from '../../flow-types';
 import {
     TickGreenOnWhite,
@@ -42,6 +45,13 @@ const styles = StyleSheet.create({
     },
     text: {
         flex: 1,
+    },
+    svgIcon: {
+        borderRadius: 30,
+        height: 30,
+        padding: 5,
+        width: 30,
+        backgroundColor: COLOR_DARK_GRAY,
     },
     icon: {
         paddingLeft: 5,
@@ -84,6 +94,7 @@ export default class TutorialBox extends React.Component<Props, State> {
         const {
             content: { icon },
         } = this.props;
+
         switch (icon) {
             case 'tap-1':
                 return <NumberedTapIconBlack1 />;
@@ -98,7 +109,15 @@ export default class TutorialBox extends React.Component<Props, State> {
             case 'check':
                 return <TickGreenOnWhite />;
             default:
-                return null;
+                return icon ? (
+                    <View style={styles.svgIcon}>
+                        <SvgXml
+                            xml={SvgIcons[icon] ?? null}
+                            width="100%"
+                            height="100%"
+                        />
+                    </View>
+                ) : null;
         }
     }
 
