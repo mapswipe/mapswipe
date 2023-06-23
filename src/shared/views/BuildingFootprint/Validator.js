@@ -159,10 +159,10 @@ type taskGenType = Generator<string, void, void>;
 class _Validator extends React.Component<Props, State> {
     // the index of the screen currently seen
     // starts at -tutorialIntroWidth, gets to 0 when we arrive at the interactive part
-    static currentScreen: number;
+    currentScreen: number;
 
     // the number of screens (in width) that the tutorial intro covers
-    static tutorialIntroWidth: number;
+    tutorialIntroWidth: number;
 
     // props.group.tasks are now gzipped and base64 encoded on the server
     // so we need to decode and gunzip them into a JSON string which is then
@@ -195,25 +195,27 @@ class _Validator extends React.Component<Props, State> {
         this.scrollEnabled = false;
         this.tasksDone = -1;
         this.setupTasksList(props.group.tasks);
-    }
-
-    static getDerivedStateFromProps = props => {
-        const { informationPages } = props;
         this.tutorialIntroWidth =
-            informationPages && informationPages.length > 0
-                ? informationPages.length + 1
-                : 1;
+            props.informationPages && props.informationPages.length > 0
+                ? props.informationPages.length + 1
+                : 2;
         this.currentScreen = -this.tutorialIntroWidth;
-        return null;
-    };
+    }
 
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
-        const { group } = this.props;
+        const { group, informationPages } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
             this.setupTasksList(group.tasks);
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskIndex: 0 });
+        }
+        if (prevProps.informationPages !== informationPages) {
+            this.tutorialIntroWidth =
+                informationPages && informationPages.length > 0
+                    ? informationPages.length + 1
+                    : 2;
+            this.currentScreen = -this.tutorialIntroWidth;
         }
     };
 
@@ -237,7 +239,7 @@ class _Validator extends React.Component<Props, State> {
         // return the screen number for the tutorial examples.
         // The screens before the start of the content are numbered negatively
         // which allows to check whether we're showing an example or not
-        const { currentScreen } = _Validator;
+        const { currentScreen } = this;
         // const { group } = this.props;
         // const currentScreen = Math.floor((currentX - group.xMin) / 2);
         return currentScreen;
@@ -300,9 +302,7 @@ class _Validator extends React.Component<Props, State> {
                 // main screen with examples (hence the +1 below)
                 this.scrollEnabled = true;
                 this.flatlist.scrollToOffset({
-                    offset:
-                        GLOBAL.SCREEN_WIDTH *
-                        (_Validator.tutorialIntroWidth + 1),
+                    offset: GLOBAL.SCREEN_WIDTH * (this.tutorialIntroWidth + 1),
                 });
                 this.forceUpdate(); // to pickup the change in scrollEnabled
             } else {
@@ -327,11 +327,11 @@ class _Validator extends React.Component<Props, State> {
         };
 
     onMomentumScrollEnd = (event: Object) => {
-        _Validator.currentScreen = Math.round(
+        this.currentScreen = Math.round(
             event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
-                _Validator.tutorialIntroWidth,
+                this.tutorialIntroWidth,
         );
-        if (_Validator.currentScreen >= 0) {
+        if (this.currentScreen >= 0) {
             // this is hacky, but the FlatList doesn't get rerendered here
             // until the user taps a button on the "action" screen, so scrollEnabled
             // doesn't pick up that it should be false. This makes sure it checks the
