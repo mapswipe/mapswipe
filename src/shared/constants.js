@@ -30,10 +30,11 @@ export const COLOR_LIGHT_GRAY = '#eef2fb';
 export const COLOR_TRANSPARENT_LIGHT_GRAY = 'rgba(238, 242, 251, 0)';
 export const COLOR_LIME_BACKGROUND = 'rgb(163, 230, 53)';
 
-export const COLOR_CALENDAR_GRAPH_DAY_L1 = '#9be9a8';
-export const COLOR_CALENDAR_GRAPH_DAY_L2 = '#40c463';
-export const COLOR_CALENDAR_GRAPH_DAY_L3 = '#30a14e';
-export const COLOR_CALENDAR_GRAPH_DAY_L4 = '#216e39';
+export const COLOR_CALENDAR_GRAPH_DAY_L1 = '#d6e685';
+export const COLOR_CALENDAR_GRAPH_DAY_L2 = '#8cc665';
+export const COLOR_CALENDAR_GRAPH_DAY_L3 = '#44a340';
+export const COLOR_CALENDAR_GRAPH_DAY_L4 = '#1e6823';
+
 export const COLOR_CALENDAR_GRAPH_BACKGROUND = '#e5e9f1';
 export const COLOR_CALENDAR_GRAPH_BORDER = 'rgba(21, 37, 35, 0.06)';
 
