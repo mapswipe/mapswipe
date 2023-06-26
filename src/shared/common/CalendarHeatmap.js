@@ -67,10 +67,19 @@ function resolveTime(
     let newDate = getDateSafe(date);
 
     if (resolution === 'year') {
-        newDate = modifyDate(newDate, d => d.setMonth(0));
-        newDate = modifyDate(newDate, d => d.setDate(1));
+        newDate = modifyDate(newDate, d => {
+            d.setMonth(0);
+            return d;
+        });
+        newDate = modifyDate(newDate, d => {
+            d.setDate(1);
+            return d;
+        });
     } else if (resolution === 'month') {
-        newDate = modifyDate(newDate, d => d.setDate(1));
+        newDate = modifyDate(newDate, d => {
+            d.setDate(1);
+            return d;
+        });
     } else {
         newDate = modifyDate(newDate, d => d);
     }
@@ -84,13 +93,20 @@ function incrementDate(
 ) {
     let myDate = new Date(date);
     if (res === 'year') {
-        myDate = modifyDate(myDate, d =>
-            d.setFullYear(d.getFullYear() + increment),
-        );
+        myDate = modifyDate(myDate, d => {
+            d.setFullYear(d.getFullYear() + increment);
+            return d;
+        });
     } else if (res === 'month') {
-        myDate = modifyDate(myDate, d => d.setMonth(d.getMonth() + increment));
+        myDate = modifyDate(myDate, d => {
+            d.setMonth(d.getMonth() + increment);
+            return d;
+        });
     } else {
-        myDate = modifyDate(myDate, d => d.setDate(d.getDate() + increment));
+        myDate = modifyDate(myDate, d => {
+            d.setDate(d.getDate() + increment);
+            return d;
+        });
     }
     return myDate;
 }
@@ -140,12 +156,16 @@ function CalendarHeatmap(props: Props) {
     // End date is the last day of the week
     let endDate = new Date(now);
     endDate = modifyDate(endDate, d => {
-        return d.setDate(d.getDate() + (6 - dayOfWeek));
+        d.setDate(d.getDate() + (6 - dayOfWeek));
+        return d;
     });
 
     // Start date is 5 weeks ahead of end date
     let startDate = new Date(endDate);
-    startDate = modifyDate(startDate, d => d.setDate(d.getDate() - 7 * 5 + 1));
+    startDate = modifyDate(startDate, d => {
+        d.setDate(d.getDate() - 7 * 5 + 1);
+        return d;
+    });
 
     const timestamps = getTimestamps(startDate, endDate, 'day');
 
