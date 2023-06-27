@@ -7,27 +7,20 @@ import Markdown from 'react-native-simple-markdown';
 
 import { COLOR_WHITE, SPACING_LARGE } from '../constants';
 import { SwipeIconWhite } from './Tutorial/icons';
-import type { TranslationFunction } from '../flow-types';
+import type { TranslationFunction, Information } from '../flow-types';
 
 const GLOBAL = require('../Globals');
-
-export type Block =
-    | {
-          blockNumber: number,
-          blockType: 'image',
-          image: string | Object,
-      }
-    | {
-          blockNumber: number,
-          blockType: 'text',
-          textDescription: string,
-      };
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         paddingHorizontal: 20,
         gap: SPACING_LARGE,
+    },
+    title: {
+        color: COLOR_WHITE,
+        fontWeight: '700',
+        fontSize: 18,
     },
     centeredHeader: {
         alignSelf: 'center',
@@ -55,7 +48,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     t: TranslationFunction,
-    information: Block[],
+    information: Information,
     hideSwipeIcon: boolean,
 };
 const markdownStyle = {
@@ -74,7 +67,10 @@ function InformationPage(props: Props) {
                 style={styles.container}
                 contentContainerStyle={{ paddingBottom: SPACING_LARGE }}
             >
-                {information
+                <View style={styles.tutRow}>
+                    <Text style={styles.title}>{information.title}</Text>
+                </View>
+                {information.blocks
                     ?.sort((a, b) => a.blockNumber - b.blockNumber)
                     ?.map(block => {
                         if (block.blockType === 'text') {

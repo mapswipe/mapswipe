@@ -303,7 +303,13 @@ export type Block =
           textDescription: string,
       };
 
-export type ProjectInformation = Array<Block[]>;
+export type Information = {
+    blocks: Block[],
+    pageNumber: number,
+    title: string,
+};
+
+export type ProjectInformation = Array<Information>;
 
 export type SubOption = {
     description: string,

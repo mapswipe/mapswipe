@@ -143,14 +143,16 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={styles.header}>&nbsp;</Text>
                 </ScrollView>
             </View>
-            {informationPages?.map((information, index) => (
-                <InformationPage
-                    information={information}
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`info-${index}`}
-                    t={t}
-                />
-            ))}
+            {informationPages
+                ?.sort((a, b) => a.pageNumber - b.pageNumber)
+                ?.map((information, index) => (
+                    <InformationPage
+                        information={information}
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={`info-${index}`}
+                        t={t}
+                    />
+                ))}
         </View>
     );
 };
