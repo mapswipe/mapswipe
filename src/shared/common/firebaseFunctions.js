@@ -128,7 +128,6 @@ export const mapStateToPropsForGroups =
                     customOptions,
                 } = data[prefix][projectId]);
             }
-
             customOptions = data[prefix][projectId].customOptions;
 
             if (!customOptions) {
