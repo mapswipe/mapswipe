@@ -15,6 +15,7 @@ import base64 from 'base-64';
 import { SvgXml } from 'react-native-svg';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { withTranslation } from 'react-i18next';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox from '../../common/Tutorial';
@@ -30,7 +31,7 @@ import {
     SPACING_EXTRA_SMALL,
     FONT_SIZE_SMALL,
     SPACING_SMALL,
-    COLOR_BLUE,
+    COLOR_BLACK,
 } from '../../constants';
 import GLOBAL from '../../Globals';
 import * as SvgIcons from '../../common/SvgIcons';
@@ -82,14 +83,29 @@ const styles = StyleSheet.create({
         padding: SPACING_SMALL,
         borderRadius: SPACING_SMALL,
     },
-    item: {
+    itemContainer: {
+        flexDirection: 'row',
+        gap: SPACING_SMALL,
         margin: SPACING_EXTRA_SMALL,
-        padding: SPACING_MEDIUM,
-        borderWidth: 1,
-        borderColor: COLOR_LIGHT_GRAY,
+        padding: 10,
+        backgroundColor: COLOR_LIGHT_GRAY,
+        borderRadius: 4,
+    },
+    item: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING_SMALL,
+    },
+    selectedIcon: {
+        height: 25,
+        width: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25,
     },
     listItemText: {
         fontSize: FONT_SIZE_SMALL,
+        color: COLOR_BLACK,
     },
     listHeader: {
         flexDirection: 'row',
@@ -376,10 +392,7 @@ class _Validator extends React.Component<Props, State> {
                         <Text style={styles.listHeading}>
                             {subOptionHeading}
                         </Text>
-                        <TouchableHighlight
-                            onPress={this.handleClose}
-                            underlayColor={COLOR_LIGHT_GRAY}
-                        >
+                        <Pressable onPress={this.handleClose} hitSlop={5}>
                             <View style={styles.closeButton}>
                                 <SvgXml
                                     xml={SvgIcons.redCross}
@@ -387,35 +400,37 @@ class _Validator extends React.Component<Props, State> {
                                     height="100%"
                                 />
                             </View>
-                        </TouchableHighlight>
+                        </Pressable>
                     </View>
                     <FlatList
                         data={subOptions}
                         renderItem={({ item }) => (
-                            <View
-                                style={[
-                                    styles.item,
-                                    {
-                                        borderColor:
-                                            isDefined(selectedOption) &&
-                                            item.value === selectedOption
-                                                ? COLOR_BLUE
-                                                : COLOR_LIGHT_GRAY,
-                                    },
-                                ]}
+                            <TouchableHighlight
+                                style={styles.itemContainer}
                                 key={item.value}
+                                underlayColor="#f0f0f0"
+                                onPress={() =>
+                                    this.handleAdditionalOptionClick(item.value)
+                                }
                             >
-                                <Text
-                                    style={styles.listItemText}
-                                    onPress={() =>
-                                        this.handleAdditionalOptionClick(
-                                            item.value,
-                                        )
-                                    }
-                                >
-                                    {item.description}
-                                </Text>
-                            </View>
+                                <View style={styles.item}>
+                                    <View style={styles.selectedIcon}>
+                                        {isDefined(selectedOption) &&
+                                            item.value === selectedOption && (
+                                                <SvgXml
+                                                    xml={
+                                                        SvgIcons.checkmarkGreenOutline
+                                                    }
+                                                    width="100%"
+                                                    height="100%"
+                                                />
+                                            )}
+                                    </View>
+                                    <Text style={styles.listItemText}>
+                                        {item.description}
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
                         )}
                     />
                 </View>
