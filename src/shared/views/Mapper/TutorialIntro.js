@@ -143,13 +143,13 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={styles.header}>&nbsp;</Text>
                 </ScrollView>
             </View>
-            {informationPages
+            {[...(informationPages ?? [])]
                 ?.sort((a, b) => a.pageNumber - b.pageNumber)
-                ?.map((information, index) => (
+                ?.map(information => (
                     <InformationPage
                         information={information}
                         // eslint-disable-next-line react/no-array-index-key
-                        key={`info-${index}`}
+                        key={information.pageNumber}
                         t={t}
                     />
                 ))}

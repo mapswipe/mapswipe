@@ -70,7 +70,7 @@ function InformationPage(props: Props) {
                 <View style={styles.tutRow}>
                     <Text style={styles.title}>{information.title}</Text>
                 </View>
-                {information.blocks
+                {[...information.blocks]
                     ?.sort((a, b) => a.blockNumber - b.blockNumber)
                     ?.map(block => {
                         if (block.blockType === 'text') {

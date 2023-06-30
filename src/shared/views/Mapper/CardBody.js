@@ -93,6 +93,12 @@ class _CardBody extends React.PureComponent<Props, State> {
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
         this.tutorialIntroWidth = 1;
+        if (props.exampleImage1 || props.exampleImage2) {
+            this.tutorialIntroWidth = 2;
+        }
+        if (props.informationPages && props.informationPages.length > 0) {
+            this.tutorialIntroWidth = props.informationPages.length + 1;
+        }
         this.currentX =
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
@@ -502,10 +508,6 @@ class _CardBody extends React.PureComponent<Props, State> {
 
         const informationPages =
             informationPagesFromProps ?? fallbackInformationPage;
-        this.tutorialIntroWidth =
-            informationPages && informationPages?.length > 0
-                ? informationPages.length + 1
-                : 1;
 
         let tutorialContent: ?TutorialContent;
 
@@ -601,7 +603,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     }
                     snapToInterval={GLOBAL.TILE_SIZE * 2}
                     showsHorizontalScrollIndicator={false}
-                    windowSize={5}
+                    windowSize={50}
                 />
                 <ScaleBar
                     alignToBottom={false}

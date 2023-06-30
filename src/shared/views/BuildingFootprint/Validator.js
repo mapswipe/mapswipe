@@ -63,7 +63,7 @@ function isNotDefined(val) {
     return val === undefined || val === null || isNaN(val);
 }
 
-function isDefined(val: any): boolean {
+export function isDefined(val: any): boolean {
     return !isNotDefined(val);
 }
 const styles = StyleSheet.create({
@@ -565,7 +565,7 @@ class _Validator extends React.Component<Props, State> {
                         scrollEnabled={
                             this.scrollEnabled || this.getCurrentScreen() < 0
                         }
-                        windowSize={1}
+                        windowSize={50}
                     />
                 </>
             );

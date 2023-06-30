@@ -105,10 +105,9 @@ class CDInstructionScreen extends React.Component<Props> {
     render() {
         const { navigation, t } = this.props;
         const { informationPages } = navigation.state.params;
-        const sortedInformationPages =
-            (informationPages: ProjectInformation)?.sort(
-                (a, b) => a.pageNumber - b.pageNumber,
-            );
+        const sortedInformationPages = ([
+            ...(informationPages ?? []),
+        ]: ProjectInformation)?.sort((a, b) => a.pageNumber - b.pageNumber);
         return (
             <View style={[styles.background]}>
                 <FlatList
@@ -117,7 +116,7 @@ class CDInstructionScreen extends React.Component<Props> {
                         return (
                             <InformationPage
                                 information={item}
-                                key={index}
+                                key={item.pageNumber}
                                 t={t}
                                 hideSwipeIcon={
                                     index === informationPages?.length - 1
