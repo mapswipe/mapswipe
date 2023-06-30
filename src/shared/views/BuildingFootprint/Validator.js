@@ -220,18 +220,11 @@ class _Validator extends React.Component<Props, State> {
 
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
-        const { group, informationPages } = this.props;
+        const { group } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
             this.setupTasksList(group.tasks);
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskIndex: 0 });
-        }
-        if (prevProps.informationPages !== informationPages) {
-            this.tutorialIntroWidth =
-                informationPages && informationPages.length > 0
-                    ? informationPages.length + 1
-                    : 2;
-            this.currentScreen = -this.tutorialIntroWidth;
         }
     };
 
@@ -312,6 +305,7 @@ class _Validator extends React.Component<Props, State> {
         }
         if (currentTaskIndex + 1 >= this.expandedTasks.length) {
             // no more tasks in the group, show the "LoadMore" screen
+            updateProgress((1 + currentTaskIndex) / group.numberOfTasks);
             if (tutorial && this.flatlist) {
                 // we've gone through all the tutorial tasks, move on
                 // to the tutorial outro screens which are just after the
@@ -327,7 +321,9 @@ class _Validator extends React.Component<Props, State> {
             return false;
         }
         updateProgress((1 + currentTaskIndex) / group.numberOfTasks);
-        this.setState({ currentTaskIndex: currentTaskIndex + 1 });
+        this.setState(prevState => ({
+            currentTaskIndex: prevState.currentTaskIndex + 1,
+        }));
         return currentTaskIndex >= this.tasksDone;
     };
 
