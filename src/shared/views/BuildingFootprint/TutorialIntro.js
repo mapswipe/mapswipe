@@ -17,6 +17,7 @@ import type {
 } from '../../flow-types';
 import InformationPage from '../../common/InformationPage';
 import * as SvgIcons from '../../common/SvgIcons';
+import { toCamelCase } from '../../common/Tutorial';
 
 const GLOBAL = require('../../Globals');
 
@@ -172,7 +173,7 @@ const TutorialIntroScreen = (props: Props) => {
                             >
                                 <SvgXml
                                     xml={
-                                        SvgIcons[item.icon] ??
+                                        SvgIcons[toCamelCase(item.icon)] ??
                                         SvgIcons.removeOutline
                                     }
                                     width="100%"

@@ -22,6 +22,7 @@ import type {
     Option,
 } from '../../flow-types';
 import * as SvgIcons from '../../common/SvgIcons';
+import { toCamelCase } from '../../common/Tutorial';
 
 const GLOBAL = require('../../Globals');
 
@@ -156,7 +157,7 @@ class BFInstructionScreen extends React.Component<Props> {
                             >
                                 <SvgXml
                                     xml={
-                                        SvgIcons[item.icon] ??
+                                        SvgIcons[toCamelCase(item.icon)] ??
                                         SvgIcons.removeOutline
                                     }
                                     width="100%"

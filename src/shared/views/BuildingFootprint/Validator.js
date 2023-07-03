@@ -18,7 +18,7 @@ import { withTranslation } from 'react-i18next';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
-import TutorialBox from '../../common/Tutorial';
+import TutorialBox, { toCamelCase } from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
@@ -440,7 +440,8 @@ class _Validator extends React.Component<Props, State> {
                             key={item.value}
                             color={item.iconColor}
                             iconXmlString={
-                                SvgIcons[item.icon] ?? SvgIcons.removeOutline
+                                SvgIcons[toCamelCase(item.icon)] ??
+                                SvgIcons.removeOutline
                             }
                             label={item.title}
                             onPress={() => this.handleSelectOption(item)}

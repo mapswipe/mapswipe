@@ -13,6 +13,7 @@ import type {
 } from '../../flow-types';
 import { COLOR_LIGHT_GRAY } from '../../constants';
 import * as SvgIcons from '../../common/SvgIcons';
+import { toCamelCase } from '../../common/Tutorial';
 
 const styles = StyleSheet.create({
     header: {
@@ -101,7 +102,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                         >
                             <SvgXml
                                 xml={
-                                    SvgIcons[item.icon] ??
+                                    SvgIcons[toCamelCase(item.icon)] ??
                                     SvgIcons.removeOutline
                                 }
                                 width="100%"

@@ -11,6 +11,7 @@ import {
     SwipeRightIconWhite,
 } from '../../common/Tutorial/icons';
 import * as SvgIcons from '../../common/SvgIcons';
+import { toCamelCase } from '../../common/Tutorial';
 
 const GLOBAL = require('../../Globals');
 
@@ -119,7 +120,9 @@ const TutorialOutroScreen = (props: Props) => {
                             <SvgXml
                                 xml={
                                     firstOption?.icon
-                                        ? SvgIcons[firstOption.icon]
+                                        ? SvgIcons[
+                                              toCamelCase(firstOption.icon)
+                                          ]
                                         : SvgIcons.checkmarkOutline
                                 }
                                 width="100%"

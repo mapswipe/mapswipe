@@ -69,6 +69,9 @@ type Props = {
 type State = {
     position: string,
 };
+// the icons are in kebab-case we need to camecase them
+export const toCamelCase = (s: string): string =>
+    s.replace(/-./g, x => x[1].toUpperCase());
 
 export default class TutorialBox extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -95,6 +98,8 @@ export default class TutorialBox extends React.Component<Props, State> {
             content: { icon },
         } = this.props;
 
+        console.warn('icon', icon);
+
         switch (icon) {
             case 'tap-1':
                 return <NumberedTapIconBlack1 />;
@@ -112,7 +117,7 @@ export default class TutorialBox extends React.Component<Props, State> {
                 return icon ? (
                     <View style={styles.svgIcon}>
                         <SvgXml
-                            xml={SvgIcons[icon] ?? null}
+                            xml={SvgIcons[toCamelCase(icon)] ?? null}
                             width="100%"
                             height="100%"
                         />
