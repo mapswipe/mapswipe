@@ -87,17 +87,10 @@ function InformationPage(props: Props) {
                         }
                         return (
                             <View style={styles.tutRow} key={block.blockNumber}>
-                                {typeof block.image === 'number' ? (
-                                    <Image
-                                        style={styles.introImage}
-                                        source={block.image}
-                                    />
-                                ) : (
-                                    <Image
-                                        style={styles.introImage}
-                                        src={block.image}
-                                    />
-                                )}
+                                <Image
+                                    style={styles.introImage}
+                                    source={block.image}
+                                />
                             </View>
                         );
                     })}

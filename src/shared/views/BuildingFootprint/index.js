@@ -86,7 +86,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
         const { t } = this.props;
         return (
             <>
-                <Text style={styles.header}>TThis is good</Text>
+                <Text style={styles.header}>{t('howToContribute')}</Text>
                 <View style={styles.tutRow}>
                     <Text style={styles.tutPar}>
                         {t('squareContainsBuildings')}

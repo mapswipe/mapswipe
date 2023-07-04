@@ -98,8 +98,6 @@ export default class TutorialBox extends React.Component<Props, State> {
             content: { icon },
         } = this.props;
 
-        console.warn('icon', icon);
-
         switch (icon) {
             case 'tap-1':
                 return <NumberedTapIconBlack1 />;

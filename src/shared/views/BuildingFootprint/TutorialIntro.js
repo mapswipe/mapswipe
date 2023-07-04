@@ -94,49 +94,50 @@ const styles = StyleSheet.create({
     },
 });
 
+/* eslint-disable global-require */
+const fallbackInformationPage: ProjectInformation = [
+    {
+        blocks: [
+            {
+                blockNumber: 1,
+                blockType: 'text',
+                textDescription:
+                    "You'll see a shape on an image. Use the buttons to answer.",
+            },
+            {
+                blockNumber: 2,
+                blockType: 'text',
+                textDescription: 'Does the shape outline a building?',
+            },
+            {
+                blockNumber: 3,
+                blockType: 'text',
+                textDescription:
+                    "Every time you select an option, you'll be shown a new shape and image.",
+            },
+            {
+                blockNumber: 4,
+                blockType: 'image',
+                image: require('../assets/BFTutorialIntroImagery.png'),
+            },
+        ],
+        pageNumber: 1,
+        title: "Let's learn how to map with some examples.",
+    },
+];
+
 type Props = {
     t: TranslationFunction,
     informationPages?: ProjectInformation,
     customOptions: Option[],
 };
 
-/* eslint-disable global-require */
 const TutorialIntroScreen = (props: Props) => {
     const {
         t,
         informationPages: informationPagesFromProps,
         customOptions,
     } = props;
-    const fallbackInformationPage: ProjectInformation = [
-        {
-            blocks: [
-                {
-                    blockNumber: 1,
-                    blockType: 'text',
-                    textDescription:
-                        "You'll see a shape on an image. Use the buttons to answer.",
-                },
-                {
-                    blockNumber: 2,
-                    blockType: 'text',
-                    textDescription: 'Does the shape outline a building?',
-                },
-                {
-                    blockNumber: 3,
-                    blockType: 'text',
-                    textDescription:
-                        "Every time you select an option, you'll be shown a new shape and image.",
-                },
-                {
-                    blockNumber: 4,
-                    blockType: 'image',
-                    image: require('../assets/BFTutorialIntroImagery.png'),
-                },
-            ],
-            pageNumber: 1,
-            title: "Let's learn how to map with some examples.",
-        },
-    ];
 
     const informationPages =
         informationPagesFromProps ?? fallbackInformationPage;
