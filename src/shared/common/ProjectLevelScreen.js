@@ -26,6 +26,8 @@ import type {
     ResultMapType,
     TranslationFunction,
     TutorialContent,
+    ProjectInformation,
+    Option,
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -72,7 +74,7 @@ type Props = {
     Component: React.ComponentType<any>,
     group: GroupType,
     navigation: NavigationProp,
-    getNormalHelpContent: string => React.ComponentType<any>,
+    getNormalHelpContent: (string, Option[]) => React.ComponentType<any>,
     headerText?: string,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
     onStartGroup: ({
@@ -83,6 +85,8 @@ type Props = {
     onSubmitResult: Object => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
+    informationPages?: ProjectInformation,
+    customOptions: Option[],
     screenName: string,
     t: TranslationFunction,
     tutorial: boolean,
@@ -187,8 +191,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        const { navigation } = this.props;
-        navigation.push('BFInstructionsScreen');
+        const { navigation, customOptions } = this.props;
+        navigation.push('BFInstructionsScreen', { customOptions });
     };
 
     completeGroup = () => {
@@ -256,12 +260,17 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     renderHelpModal = () => {
-        const { getNormalHelpContent, t, tutorial, tutorialHelpContent } =
-            this.props;
+        const {
+            getNormalHelpContent,
+            t,
+            tutorial,
+            tutorialHelpContent,
+            customOptions,
+        } = this.props;
         let content = '';
         if (!tutorial) {
             const creditString = this.getCreditString();
-            content = getNormalHelpContent(creditString);
+            content = getNormalHelpContent(creditString, customOptions);
         } else {
             content = tutorialHelpContent;
         }
@@ -303,6 +312,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             screens,
             tutorial,
             tutorialId,
+            informationPages,
+            customOptions,
         } = this.props;
         const { groupCompleted, waitingForNextGroup } = this.state;
         if (!group || waitingForNextGroup) {
@@ -351,6 +362,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
                     tutorialId={tutorialId}
+                    informationPages={informationPages}
+                    customOptions={customOptions}
                 />
             </View>
         );

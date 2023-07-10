@@ -29,7 +29,7 @@ const resources = {
     eo: translationEO,
     es: translationES,
     et: translationET,
-    fa_AF: translationFA_AF,
+    fa_AF: translationFA_AF, // eslint-disable-line camelcase
     fr: translationFR,
     hu: translationHU,
     it: translationIT,

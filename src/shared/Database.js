@@ -17,10 +17,12 @@ export default {
     pendingLvlUp: -1,
 
     getPendingLevelUp(): any {
+        // $FlowFixMe[object-this-reference]
         return this.pendingLvlUp;
     },
 
     setPendingLevelUp(val: number) {
+        // $FlowFixMe[object-this-reference]
         this.pendingLvlUp = val;
     },
 
@@ -32,6 +34,7 @@ export default {
      * @returns {*}
      */
     getLevel(): number {
+        // $FlowFixMe[object-this-reference]
         return this.getLevelForExp(this.distance);
     },
 
@@ -40,6 +43,7 @@ export default {
      * @returns {*}
      */
     getLevelObject(): any {
+        // $FlowFixMe[object-this-reference]
         return levels[this.getLevel()];
     },
 
@@ -61,6 +65,7 @@ export default {
     getLevelForExp(exp: number): number {
         let toReturn: number = 1;
         try {
+            // $FlowFixMe[object-this-reference]
             const parent = this;
             Object.keys(levels).forEach(level => {
                 if (exp > levels[parent.maxLevel]) {
@@ -72,7 +77,9 @@ export default {
                     toReturn = parseInt(level, 10);
                 }
             });
+            // $FlowFixMe[object-this-reference]
             if (toReturn > this.maxLevel) {
+                // $FlowFixMe[object-this-reference]
                 toReturn = this.maxLevel;
             } else if (toReturn < 1) {
                 toReturn = 1;
@@ -113,8 +120,9 @@ export default {
      * @returns {boolean}
      */
     hasOfflineGroups(project: string): boolean {
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < this.offlineGroups.length; i++) {
+        // $FlowFixMe[object-this-reference]
+        for (let i = 0; i < this.offlineGroups.length; i += 1) {
+            // $FlowFixMe[object-this-reference]
             if (this.offlineGroups[i].indexOf(project) !== -1) {
                 return true;
             }

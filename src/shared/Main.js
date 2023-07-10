@@ -204,6 +204,11 @@ class Main extends React.Component<Props, State> {
         }
     }*/
 
+    closeModal3 = () => {
+        // $FlowFixMe
+        this.modal3.close();
+    };
+
     openModal3(level: number) {
         this.setState({
             levelObject: GLOBAL.DB.getCustomLevelObject(level),
@@ -212,11 +217,6 @@ class Main extends React.Component<Props, State> {
         if (this.modal3) {
             this.modal3.open();
         }
-    }
-
-    closeModal3() {
-        // $FlowFixMe
-        this.modal3.close();
     }
 
     render() {

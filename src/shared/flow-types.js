@@ -290,3 +290,37 @@ export type UserGroupType = {
     archivedAt: string,
     archivedBy: string,
 };
+
+export type Block =
+    | {
+          blockNumber: number,
+          blockType: 'image',
+          image: string | Object,
+      }
+    | {
+          blockNumber: number,
+          blockType: 'text',
+          textDescription: string,
+      };
+
+export type Information = {
+    blocks: Block[],
+    pageNumber: number,
+    title: string,
+};
+
+export type ProjectInformation = Array<Information>;
+
+export type SubOption = {
+    description: string,
+    value: number,
+};
+
+export type Option = {
+    value: number,
+    title: string,
+    description: string,
+    icon: string,
+    iconColor: string,
+    subOptions?: Array<SubOption>,
+};
