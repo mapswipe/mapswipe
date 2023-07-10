@@ -17,6 +17,7 @@ import IndividualCard from './IndividualCard';
 import TutorialIntroScreen from './TutorialIntro';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import { tutorialModes } from '../../constants';
+
 import type {
     BuiltAreaGroupType,
     BuiltAreaTaskType,
@@ -24,6 +25,7 @@ import type {
     ResultMapType,
     TileServerType,
     TutorialContent,
+    ProjectInformation,
 } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
@@ -31,11 +33,8 @@ const GLOBAL = require('../../Globals');
 type Props = {
     screens: Array<TutorialContent>,
     closeTilePopup: () => void,
-    exampleImage1: string,
-    exampleImage2: string,
     group: BuiltAreaGroupType,
     isSendingResults: boolean,
-    lookFor: string,
     navigation: NavigationProp,
     onToggleTile: BuiltAreaTaskType => void,
     openTilePopup: () => void,
@@ -46,6 +45,10 @@ type Props = {
     tutorial: boolean,
     updateProgress: number => void,
     zoomLevel: number,
+    informationPages?: Array<ProjectInformation>,
+    lookFor: string,
+    exampleImage1: string,
+    exampleImage2: string,
 };
 
 type State = {
@@ -89,7 +92,13 @@ class _CardBody extends React.PureComponent<Props, State> {
         // so we can show the answers button after X interactions (only for tutorial)
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
-        this.tutorialIntroWidth = 2;
+        this.tutorialIntroWidth = 1;
+        if (props.exampleImage1 || props.exampleImage2) {
+            this.tutorialIntroWidth = 2;
+        }
+        if (props.informationPages && props.informationPages.length > 0) {
+            this.tutorialIntroWidth = props.informationPages.length + 1;
+        }
         this.currentX =
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
@@ -407,12 +416,6 @@ class _CardBody extends React.PureComponent<Props, State> {
                 event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
                     this.tutorialIntroWidth,
             );
-            console.log(
-                'currentScreen',
-                currentScreen,
-                (this.currentX - min) / 2,
-                this.getCurrentScreen(),
-            );
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
@@ -467,18 +470,44 @@ class _CardBody extends React.PureComponent<Props, State> {
         const { currentX } = this;
         const {
             closeTilePopup,
-            exampleImage1,
-            exampleImage2,
             group,
             isSendingResults,
-            lookFor,
             navigation,
             openTilePopup,
             projectId,
             screens,
             tutorial,
             zoomLevel,
+            informationPages: informationPagesFromProps,
+            lookFor,
+            exampleImage1,
+            exampleImage2,
         } = this.props;
+
+        const fallbackInformationPage: ?ProjectInformation =
+            exampleImage1 || exampleImage2
+                ? [
+                      {
+                          blocks: [
+                              {
+                                  blockNumber: 1,
+                                  blockType: 'image',
+                                  image: exampleImage1,
+                              },
+                              {
+                                  blockNumber: 2,
+                                  blockType: 'image',
+                                  image: exampleImage2,
+                              },
+                          ],
+                          pageNumber: 1,
+                          title: `You are looking for ${lookFor}`,
+                      },
+                  ]
+                : undefined;
+
+        const informationPages =
+            informationPagesFromProps ?? fallbackInformationPage;
 
         let tutorialContent: ?TutorialContent;
 
@@ -545,9 +574,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     ListHeaderComponent={
                         tutorial ? (
                             <TutorialIntroScreen
-                                exampleImage1={exampleImage1}
-                                exampleImage2={exampleImage2}
-                                lookFor={lookFor}
+                                informationPages={informationPages}
                                 tutorial={tutorial}
                             />
                         ) : null
@@ -576,7 +603,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     }
                     snapToInterval={GLOBAL.TILE_SIZE * 2}
                     showsHorizontalScrollIndicator={false}
-                    windowSize={5}
+                    windowSize={50}
                 />
                 <ScaleBar
                     alignToBottom={false}
@@ -622,6 +649,7 @@ const mapStateToProps = (state, ownProps) => ({
         ownProps.group.groupId,
         null,
     ),
+    informationPages: ownProps.informationPages,
     tutorial: ownProps.tutorial,
     zoomLevel: ownProps.zoomLevel,
 });

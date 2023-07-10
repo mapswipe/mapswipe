@@ -72,6 +72,7 @@ type Props = {
     t: TranslationFunction,
     tutorial: boolean,
     tutorialId: string,
+    informationPages?: Array<any>,
 };
 
 type State = {
@@ -167,8 +168,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        const { navigation } = this.props;
-        navigation.push('CDInstructionsScreen');
+        const { navigation, informationPages } = this.props;
+
+        navigation.push('CDInstructionsScreen', { informationPages });
     };
 
     commitCompletedGroup = () => {
@@ -253,8 +255,16 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, results, screens, t, tutorial, tutorialId } =
-            this.props;
+        const {
+            group,
+            navigation,
+            results,
+            screens,
+            t,
+            tutorial,
+            tutorialId,
+            informationPages,
+        } = this.props;
         const { groupCompleted, poppedUpTile } = this.state;
 
         if (!group) {
@@ -304,7 +314,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 <View>
                     <TouchableWithoutFeedback
                         onPress={() => {
-                            navigation.push('CDInstructionsScreen');
+                            navigation.push('CDInstructionsScreen', {
+                                informationPages,
+                            });
                         }}
                     >
                         <Text

@@ -12,10 +12,9 @@ const borderWidth = 5;
 
 const styles = StyleSheet.create({
     icon: {
-        alignSelf: 'center',
-        marginBottom: -3,
-        height: 25,
-        width: 25,
+        height: 50,
+        width: 50,
+        padding: 10,
     },
     whiteBold: {
         alignSelf: 'center',

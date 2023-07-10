@@ -10,14 +10,19 @@ import {
     View,
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
+import { SvgXml } from 'react-native-svg';
 import {
-    GreenCheckIcon,
-    GrayUnsureIcon,
-    HideIcon,
-    RedCrossIcon,
-} from '../../common/Tutorial/icons';
-import type { NavigationProp, TranslationFunction } from '../../flow-types';
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+    COLOR_LIGHT_GRAY,
+} from '../../constants';
+import type {
+    NavigationProp,
+    TranslationFunction,
+    Option,
+} from '../../flow-types';
+import * as SvgIcons from '../../common/SvgIcons';
+import { toCamelCase } from '../../common/Tutorial';
 
 const GLOBAL = require('../../Globals');
 
@@ -53,12 +58,6 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: COLOR_DEEP_BLUE,
     },
-    tutRow: {
-        marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-    },
     tutText: {
         color: 'white',
         fontSize: 13,
@@ -66,6 +65,39 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginTop: 10,
         maxWidth: '85%',
+    },
+    tutRow: {
+        paddingBottom: 10,
+        paddingTop: 10,
+        flexDirection: 'row',
+    },
+    svgIcon: {
+        borderRadius: 25,
+        height: 50,
+        padding: 10,
+        width: 50,
+    },
+    textContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '90%',
+    },
+    textTitle: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: '600',
+        marginLeft: 10,
+        maxWidth: '85%',
+        width: '85%',
+    },
+    textDescription: {
+        color: COLOR_LIGHT_GRAY,
+        fontSize: 15,
+        fontWeight: '400',
+        marginLeft: 10,
+        maxWidth: '85%',
+        width: '85%',
     },
 });
 
@@ -85,6 +117,7 @@ class BFInstructionScreen extends React.Component<Props> {
 
     render() {
         const { navigation, t } = this.props;
+        const { customOptions } = navigation.state.params;
         return (
             <View style={styles.background}>
                 <View style={styles.swipeNavTop}>
@@ -114,26 +147,33 @@ class BFInstructionScreen extends React.Component<Props> {
                     <Text style={styles.header}>
                         {t('doesTheShapeOutlineABuilding')}
                     </Text>
-
-                    <View style={styles.tutRow}>
-                        <GreenCheckIcon />
-                        <Text style={styles.tutText}>{t('tapGreenText')}</Text>
-                    </View>
-
-                    <View style={styles.tutRow}>
-                        <RedCrossIcon />
-                        <Text style={styles.tutText}>{t('tapRedText')}</Text>
-                    </View>
-
-                    <View style={styles.tutRow}>
-                        <GrayUnsureIcon />
-                        <Text style={styles.tutText}>{t('tapGrayText')}</Text>
-                    </View>
-
-                    <View style={[styles.tutRow, { marginLeft: 5 }]}>
-                        <HideIcon />
-                        <Text style={styles.tutText}>{t('hideIconText')}</Text>
-                    </View>
+                    {(customOptions: Option[])?.map(item => (
+                        <View style={styles.tutRow} key={item.value}>
+                            <View
+                                style={[
+                                    styles.svgIcon,
+                                    { backgroundColor: item.iconColor },
+                                ]}
+                            >
+                                <SvgXml
+                                    xml={
+                                        SvgIcons[toCamelCase(item.icon)] ??
+                                        SvgIcons.removeOutline
+                                    }
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.textTitle}>
+                                    {item.title}
+                                </Text>
+                                <Text style={styles.textDescription}>
+                                    {item.description}
+                                </Text>
+                            </View>
+                        </View>
+                    ))}
                 </ScrollView>
             </View>
         );

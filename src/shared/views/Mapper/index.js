@@ -19,6 +19,7 @@ import LoadingIcon from '../LoadingIcon';
 import type {
     BuiltAreaGroupType,
     NavigationProp,
+    ProjectInformation,
     ResultMapType,
     SingleImageryProjectType,
     TranslationFunction,
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
 type Props = {
     exampleImage1: string,
     exampleImage2: string,
+    informationPages: ProjectInformation,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
@@ -336,6 +338,7 @@ class _Mapper extends React.Component<Props, State> {
         const {
             exampleImage1,
             exampleImage2,
+            informationPages,
             group,
             navigation,
             results,
@@ -379,6 +382,7 @@ class _Mapper extends React.Component<Props, State> {
                     tutorialId={tutorialId}
                     updateProgress={this.updateProgress}
                     zoomLevel={this.project.zoomLevel}
+                    informationPages={informationPages}
                 />
                 <BottomProgress
                     ref={r => {
