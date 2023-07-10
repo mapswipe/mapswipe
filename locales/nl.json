@@ -1,8 +1,7 @@
 {
   "mainHeader": {
     "missions": "Missies",
-      "more": "Meer",
-      "userProfile": "Profiel"
+    "more": "Meer"
   },
   "signup": {
     "chooseUsername": "Kies uw gebruikersnaam",
@@ -16,31 +15,31 @@
     "welcomeToMapSwipe": "Welkom bij MapSwipe, {{username}}",
     "emailAlreadyUsed": "E-mailadres al gebruikt door een ander account",
     "emailInvalid": "E-mailadres is ongeldig",
-    "problemSigningUp": "Probleem met registreren",
-    "errorOnSignUp": "Fout bij registreren",
+    "problemSigningUp": "Probleem met aanmelden",
+    "errorOnSignUp": "Fout bij aanmelden",
     "checkYourEmail": "Check uw inbox",
     "noAccountFoundForEmail": "Geen account gevonden voor dit e-mailadres",
     "problemResettingPassword": "Er was een probleem met het resetten van uw wachtwoord",
-    "errorLogIn": "Fout bij aanmelden",
+    "errorLogIn": "Fout bij inloggen",
     "invalidEmailPassword": "Ongeldig e-mailadres of wachtwoord",
     "accountDisabled": "Uw account is uitgeschakeld",
-    "problemLoggingIn": "Probleem met aanmelden",
+    "problemLoggingIn": "Probleem met inloggen",
     "errorResetPass": "Er was een fout bij het resetten van het wachtwoord",
     "enterYourEmail": "Voer uw e-mailadres in",
     "choosePassword": "Kies uw wachtwoord",
     "enterYourPassword": "Voer uw wachtwoord in",
     "IagreeToPrivacyNotice": "Ik ga akkoord met de <1>privacyverklaring</1>",
     "contributionWarningOnSignup": "* Alle gegevens die u bijdraagt aan MapSwipe zijn open en voor iedereen beschikbaar. Uw gebruikersnaam is publiek, maar uw e-mailadres en wachtwoord worden nooit met iemand gedeeld.",
-    "signUp": "Registreren",
-    "loginExistingAccount": "Aanmelden met een bestaand account",
-    "login": "Aanmelden",
-    "loginSignupWithOSM": "Aanmelden met OpenStreetMap",
-    "OSMsignupExplanation": "U kunt registreren bij MapSwipe met uw OpenStreetMap-account. Als u al een MapSwipe-account heeft, zullen ze niet gekoppeld worden! (dit komt in een toekomstige versie)",
+    "signUp": "Aanmelden",
+    "loginExistingAccount": "Log in met een bestaand account",
+    "login": "Log in",
+    "loginSignupWithOSM": "Log in met OpenStreetMap",
+    "OSMsignupExplanation": "U kunt inloggen bij MapSwipe met uw OpenStreetMap-account. Als u al een MapSwipe-account heeft, zal dit ze niet koppelen! (dit komt binnenkort in een toekomstige versie)",
     "forgotPassword": "Uw wachtwoord vergeten?",
     "createNewAccount": "Maak een nieuwe account",
     "sendResetEmailWarning": "* We sturen u een e-mail om uw wachtwoord opnieuw in te stellen",
     "sendResetEmail": "Reset e-mail versturen",
-    "backToLogin": "Terug naar aanmelden"
+    "backToLogin": "Terug naar inlogscherm"
   },
   "login": {
     "enterUsername": "Voer uw gebruikersnaam in"
@@ -59,24 +58,7 @@
     "delete account question": "Account verwijderen?",
     "delete account warning": "U zal al uw vooruitgang en badges verliezen. Uw bijdragen blijven publiek, maar niet langer gekoppeld aan uw account.\nWilt u doorgaan?",
     "no keep my account": "Nee, bewaar mijn account",
-    "yes delete it": "Ja, verwijder mijn account!",
-    "userGroups": "Gebruikersgroepen",
-    "joinNewGroup": "Deelnemen aan nieuwe groep",
-    "exploreGroups": "Verken groepen",
-    "settings": "Instellingen",
-    "changeUserName": "Wijzig gebruikersnaam",
-    "changePassword": "Wijzig wachtwoord",
-    "notifications": "Meldingen",
-    "language": "Taal",
-    "logOut": "Afmelden",
-    "deleteAccount": "Verwijder account",
-    "missingMaps": "Missing Maps",
-    "email": "E-mail",
-    "accountDeleted": "Account verwijderd!",
-    "accountDeletedSuccessMessage": "Jammer dat u gaat...",
-    "accountDeletionFailed": "Kon uw account niet verwijderen",
-    "accountDeletionFailedMessage": "Log opnieuw in om te bevestigen dat u uw account wilt verwijderen",
-    "contributionHeatmap": "Kaart met uw bijdragen (laatste 30 dagen)"
+    "yes delete it": "Ja, verwijder mijn account"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% door {{mappersCount}} mappers"
@@ -84,7 +66,7 @@
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% WERELDWIJDE VOORTGANG DANKZIJ {{contributorCount}} VRIJWILLIGERS ZOALS U.",
     "userProgressForProject": "{{userProgress}}% voor dit project",
-    "quotaReachedWarning": "Kies een ander project vanuit de missie schermen",
+    "quotaReachedWarning": "Kies een ander project vanuit de missie-schermen",
     "map now": "Nu in kaart brengen",
     "chooseAnotherProject": "Kies een ander project",
     "tutorial": "Handleiding"
@@ -93,10 +75,10 @@
     "youAreLookingFor": "U zoekt:"
   },
   "loadMoreScreen": {
-    "completedTutorial": "Goed. U heeft de handleiding goed afgerond. U bent klaar om te beginnen!",
+    "completedTutorial": "Goed. U heeft de handleiding goed afgerond. U bent klaar om te swipen!",
     "finishedGroup": "Goed werk! U bent klaar met deze groep.",
     "letsGo": "Aan de slag!",
-    "completeSession": "Sessie afronden",
+    "completeSession": "Sessie voltooien",
     "continueMapping": "Doorgaan met in kaart brengen",
     "sync alert": "Synchronisatie alert",
     "sync alert message": "Synchroniseren van uw taken... sluit de app niet af. "
@@ -107,7 +89,7 @@
     "partMissingMaps": "Onderdeel van Missing Maps",
     "withMissingMaps": "Met Missing Maps zetten we kwetsbare gemeenschappen in de wereld op de kaart",
     "swipe": "Swipe",
-    "completeTasks": "Voltooi taken door door satellietbeelden te swipen van gebieden die in kaart moeten worden gebracht.",
+    "completeTasks": "Voltooi taken door door satellietbeelden te vegen van gebieden die in kaart moeten worden gebracht.",
     "createData": "Creëer zinvolle data",
     "dataUse": "De data helpt Missing Map vrijwilligers sneller data toe te voegen aan OpenStreetMap",
     "saveLives": "Red levens",
@@ -116,15 +98,15 @@
   "CDInstructionScreen": {
     "instructions": "Instructies",
     "your task": "Uw taak:",
-    "lookingFor": "U bent op zoek naar <1>veranderingen in gebouwen</1>. Dit functioneert als een duidelijke indicator voor een verandering in bevolkingsgrootte.",
+    "lookingFor": "U bent op zoek naar <1>veranderingen in het aantal gebouwen</1>. Dit functioneert als een duidelijke indicator voor een verandering in bevolkingsgrootte.",
     "perform task": "Hoe voert u de taak uit:",
     "noChanges": "Als er geen veranderingen zijn, <1>swipe</1> gewoon naar de volgende foto's",
-    "seeChanges": "Als u een verandering ziet in gebouwen, <1>tik één keer</1> en de tegel wordt groen.",
+    "seeChanges": "Als u een verandering ziet in het aantal gebouwen, <1>tik één keer</1> en de tegel wordt groen.",
     "unsure": "Weet u het niet zeker? <1>Tik twee keer</1> en de tegel wordt geel",
     "badImagery": "Probleem met de afbeeldingen, bijvoorbeeld als één van de afbeeldingen wolken heeft die het zicht ontnemen? <1>Tik drie keer</1> en de tegel wordt rood",
     "holdZoom": "Als u een afbeelding van dichterbij wilt zien tikt u op de afbeelding en houdt u deze vast om nog iets meer in te zoomen.",
     "hint": "Hint:",
-    "differentImagery": "Soms zijn er verschillende afbeeldingsbronnen gebruikt. De afbeeldingen kunnen iets anders uitgelijnd zijn of er kan een verschil in resolutie zijn. Herinner u dat u op zoek bent naar <1>absolute veranderingen in woongebieden en gebouwen</1>, dus als het eruit ziet alsof dezelfde gebouwen er zijn, maar misschien met een nieuw dak, dan zou dit een 'geen verandering'-scenario zijn en swipet u gewoon naar de volgende afbeelding."
+    "differentImagery": "Soms zijn er verschillende afbeeldingsbronnen gebruikt. De afbeeldingen kunnen iets anders uitgelijnd zijn of er kan een verschil in resolutie zijn. Herinner u dat u op zoek bent naar <1>absolute veranderingen in woongebieden en het aantal gebouwen</1>, dus als het eruit ziet alsof dezelfde gebouwen er zijn, maar misschien met een nieuw dak, dan zou dit een 'geen verandering'-scenario zijn en zou u gewoon naar de volgende afbeelding kunnen swipen."
   },
   "CDBodyScreen": {
     "viewInstructions": "Bekijk instructies"
@@ -136,7 +118,7 @@
   "CDValidator": {
     "Yes": "Ja",
     "No": "Nee",
-    "NotSure": "Weet ik niet zeker",
+    "NotSure": "Weet ik niet",
     "BadImagery": "Slechte afbeelding"
   },
   "ProjectLevelScreen": {
@@ -160,27 +142,27 @@
     "maybe": "MISSCHIEN",
     "instructions1": "Hoe u kan bijdragen",
     "instructions2": "TIK OM TE SELECTEREN",
-    "instructions3": "Zoek naar de elementen die in uw missie worden vermeld. Tik elke tegel waar u deze elementen vindt. Tik eenmaal voor <1>JA</1>, tweemaal voor <3>{{twoTaps}}</3>, en driemaal voor <5>SLECHT BEELD</5> (zoals wolken).",
+    "instructions3": "Zoek naar kenmerken die in uw missie worden vermeld. Tik elke tegel waar u deze kenmerken vindt. Tik eenmaal voor <1>JA</1>, tweemaal voor <3>{{twoTaps}}</3>, en driemaal voor <5>SLECHT BEELD</5> (zoals wolken).",
     "instructions4": "SWIPE OM TE NAVIGEREN",
-    "instructions5": "Als u klaar bent met een stuk van de kaart, ga naar het volgende deel door te swipen.",
+    "instructions5": "Als u klaar bent met een stuk van de kaart, scrol naar de volgende door te swipen.",
     "instructions6": "HOUD INGEDRUKT OM IN TE ZOOMEN",
     "instructions7": "Houd een tegel vast om in te zoomen op de tegel.",
     "instructions8": "Credits",
-    "tutorial1": "Welkom bij de handleiding!",
-    "tutorial2": "Hierdoor zou je MapSwipe in a paar minuten onder de knie moeten hebben.",
+    "tutorial1": "Welkom bij de tutorial!",
+    "tutorial2": "Dit zou u binnen een paar minuten een meester in MapSwipe moeten maken.",
     "tutorial3": "Volg simpelweg de instructies op het scherm en swipe naar links om door te gaan.",
     "tutorial4": "Als de instructies in de weg staan tikt u gewoon op de melding om deze te verplaatsen.",
     "tutorial5": "Ik begrijp het"
   },
   "TutorialIntroScreen": {
-    "thisTutoWillTeachYou": "Deze handleiding zal u leren hoe u MapSwipe gebruikt. Hier zijn de basis-stappen:",
+    "thisTutoWillTeachYou": "Dit tutorial zal u leren hoe u MapSwipe gebruikt. Hier zijn de basis-stappen:",
     "noChanges": "Als er niets relevants in de afbeeldingen is, <1>swipe</1> gewoon naar het volgende scherm ",
     "seeChanges": "Als u iets ziet in één van de afbeeldingen, <1>tik één keer om het vierkant groen te maken</1>.",
     "unsure": "Weet u niet zeker wat u ziet? <1>Tik twee keer om het vierkant geel te maken</1>",
     "badImagery": "Als er een probleem is met de afbeelding, <1>tik drie keer om het vierkant rood te maken</1>",
     "tapAgain": "Tik opnieuw om het vierkant terug te zetten in zijn originele staat.",
     "WhatToLookFor": "Waar naar te zoeken",
-    "YouAreLookingFor": "U zoekt {{lookFor}}",
+    "YouAreLookingFor": "U bent op zoek naar {{lookFor}}",
     "FromTheGround": "Vanaf de grond ziet het er zo uit:",
     "ImagesFromAbove": "Maar de afbeeldingen die u zult zien, zullen dit van boven laten zien, en dan ziet het er zo uit:",
     "SwipeToContinue": "Swipe om door te gaan"
@@ -202,7 +184,7 @@
       "everyTimeYouSelectAnOption": "Elke keer dat u een optie selecteert wordt u een nieuwe vorm en afbeelding getoond.",
       "tapGreenText": "Ja - de vorm omlijnt een gebouw in de afbeelding",
       "tapRedText": "Nee - de vorm komt niet overeen met een gebouw in de afbeelding",
-      "tapGrayText": "Weet ik niet zeker - Als u niet zeker bent of als er wolken / problemen met de afbeeldingen zijn",
+      "tapGrayText": "Weet ik niet - Als u niet zeker bent of als er wolken / problemen met de afbeeldingen zijn",
       "hideIconText": "Houd de verberg-knop ingedrukt om de vorm van de afbeelding af te halen.",
       "letsLearnHowToMap": "Laten we leren hoe in kaart te brengen met enkele voorbeelden",
       "youllSeeASquare": "U zult een vorm zien op een afbeelding. Gebruik de knoppen om te antwoorden:",
@@ -213,46 +195,19 @@
   },
   "BFTutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Maakt u zich geen zorgen als u het niet zeker weet voor een vierkant",
-    "youCanAlwaysTapUnsure": "Herinner dat u altijd op de 'Weet ik niet zeker' knop kan tikken",
+    "youCanAlwaysTapUnsure": "Herinner dat u altijd op de 'Weet ik niet' knop kan tikken",
     "everyImageViewedBy": "Elke afbeelding wordt bekeken door ten minste 3 MapSwipers, dus het is ok als u denkt dat u iets gemist hebt.",
     "wantToChangeYourAnswer": "Wilt u uw antwoord veranderen?",
-    "youCanSwipeBack": "U kunt terugswipen om uw vorige antwoorden te veranderen. Tik of swipe daarna opnieuw vooruit om terug te komen waar u was.",
+    "youCanSwipeBack": "U kunt terugswipen om uw vorige antwoorden te veranderen. Tap of swipe daarna opnieuw vooruit om terug te komen waar u was.",
     "yourPreviousAnswerIsMarked": "Uw vorige antwoorden zijn gemarkeerd met een witte cirkel"
   },
   "BFInstructionsScreen" : {
     "doesShapeOutlineABuilding": "Omlijnt de vorm een gebouw?",
-    "howToContribute": "Hoe u kan bijdragen",
+    "howToContribute": "Hoe bij te dragen",
     "squareContainsBuildings": "Bevat het vierkant gebouwen? Gebruik de knoppen om te antwoorden:",
     "instructionsYes": "Ja: wanneer er een gebouw of deel van een gebouw in het vierkant is",
     "instructionsNo": "Nee: wanneer er geen gebouwen zijn in het vierkant",
     "instructionsNotSure": "Weet ik niet: wanneer u niet zeker bent of het een gebouw is of niet",
     "instructionsBadImagery": "Slechte afbeeldingen: wanneer er wolken of problemen met de afbeeldingen zijn"
-  },
-  "userGroupScreen": {
-    "join": "Deelnemen",
-    "leave": "Verlaten",
-    "leaderBoards": "Scorebord",
-    "settings": "Instellingen",
-    "leaveGroup": "Groep verlaten",
-    "joinGroup": "Deelnemen aan groep"
-  },
-  "searchUserGroup": {
-    "joinGroup": "Deelnemen aan groep",
-    "searchUserGroup": "Zoek gebruikersgroep"
-  },
-  "changeUserName": {
-    "changeUserName": "Wijzig gebruikersnaam",
-    "currentUserName": "Huidige gebruikersnaam",
-    "newUserName": "Nieuwe gebruikersnaam",
-    "confirmUserNameChange": "Bevestig wijziging gebruikersnaam"
-  },
-  "changePassword": {
-    "changePassword": "Wijzig wachtwoord",
-    "currentPassword": "Huidig wachtwoord",
-    "newPassword": "Nieuw wachtwoord",
-    "confirmPasswordChange": "Bevestig nieuw wachtwoord"
-  },
-  "languageSelection": {
-    "languageSelection": "Taal"
   }
 }
