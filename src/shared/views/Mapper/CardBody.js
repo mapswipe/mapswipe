@@ -491,17 +491,34 @@ class _CardBody extends React.PureComponent<Props, State> {
                           blocks: [
                               {
                                   blockNumber: 1,
+                                  blockType: 'text',
+                                  textDescription: `You are looking for ${lookFor}`,
+                              },
+                              {
+                                  blockNumber: 2,
+                                  blockType: 'text',
+                                  textDescription:
+                                      'From the ground, it looks like this:',
+                              },
+                              {
+                                  blockNumber: 3,
                                   blockType: 'image',
                                   image: exampleImage1,
                               },
                               {
-                                  blockNumber: 2,
+                                  blockNumber: 4,
+                                  blockType: 'text',
+                                  textDescription:
+                                      'But the images you will see will show it from above, and it looks like this:',
+                              },
+                              {
+                                  blockNumber: 5,
                                   blockType: 'image',
                                   image: exampleImage2,
                               },
                           ],
                           pageNumber: 1,
-                          title: `You are looking for ${lookFor}`,
+                          title: 'What to look for',
                       },
                   ]
                 : undefined;
