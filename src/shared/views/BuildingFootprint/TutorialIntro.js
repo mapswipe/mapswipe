@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { withTranslation } from 'react-i18next';
 import {
@@ -18,6 +18,7 @@ import type {
 import InformationPage from '../../common/InformationPage';
 import * as SvgIcons from '../../common/SvgIcons';
 import { toCamelCase } from '../../common/Tutorial';
+import BFTutorialImage from '../assets/BFTutorialIntroImagery.png';
 
 const GLOBAL = require('../../Globals');
 
@@ -118,7 +119,7 @@ const fallbackInformationPage: ProjectInformation = [
             {
                 blockNumber: 4,
                 blockType: 'image',
-                image: require('../assets/BFTutorialIntroImagery.png'),
+                image: Image.resolveAssetSource(BFTutorialImage)?.uri,
             },
         ],
         pageNumber: 1,
