@@ -61,6 +61,10 @@ const markdownStyle = {
 function InformationPage(props: Props) {
     const { information, t, hideSwipeIcon } = props;
 
+    const sortedBlocks = information?.blocks
+        ? [...information?.blocks].sort((a, b) => a.blockNumber - b.blockNumber)
+        : undefined;
+
     return (
         <View style={styles.screenWidth}>
             <ScrollView
@@ -70,9 +74,8 @@ function InformationPage(props: Props) {
                 <View style={styles.tutRow}>
                     <Text style={styles.title}>{information.title}</Text>
                 </View>
-                {[...information.blocks]
-                    ?.sort((a, b) => a.blockNumber - b.blockNumber)
-                    ?.map(block => {
+                {sortedBlocks &&
+                    sortedBlocks?.map(block => {
                         if (block.blockType === 'text') {
                             return (
                                 <View
@@ -89,7 +92,7 @@ function InformationPage(props: Props) {
                             <View style={styles.tutRow} key={block.blockNumber}>
                                 <Image
                                     style={styles.introImage}
-                                    source={block.image}
+                                    source={{ uri: block.image }}
                                 />
                             </View>
                         );

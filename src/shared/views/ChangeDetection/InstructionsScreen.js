@@ -108,6 +108,7 @@ class CDInstructionScreen extends React.Component<Props> {
         const sortedInformationPages = ([
             ...(informationPages ?? []),
         ]: ProjectInformation)?.sort((a, b) => a.pageNumber - b.pageNumber);
+
         return (
             <View style={[styles.background]}>
                 <FlatList
