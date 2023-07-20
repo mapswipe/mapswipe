@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Küldetések",
-    "more": "Egyebek"
+      "more": "Egyebek",
+      "userProfile": "Profil"
   },
   "signup": {
     "chooseUsername": "Válassz egy felhasználónevet",
@@ -58,7 +59,24 @@
     "delete account question": "Törlődjék a fiók?",
     "delete account warning": "Minden teljesítményed és jelvényed el fog veszni. A szerkesztéseid megmaradnak, de nem fognak többé a fiókodhoz kötődni.\nBiztosan folytatod?",
     "no keep my account": "Nem, maradjon meg a fiókom",
-    "yes delete it": "Igen, törlődjön!"
+    "yes delete it": "Igen, törlődjön!",
+    "userGroups": "Felhasználói csoportok",
+    "joinNewGroup": "Csatlakozás új csoporthoz",
+    "exploreGroups": "Csoportok felfedezése",
+    "settings": "Beállítások",
+    "changeUserName": "Felhasználónév módosítása",
+    "changePassword": "Jelszó módosítása",
+    "notifications": "Értesítések",
+    "language": "Nyelv",
+    "logOut": "Kijelentkezés",
+    "deleteAccount": "Fiók törlése",
+    "missingMaps": "Missing Maps (hiányzó térképek)",
+    "email": "E-mail",
+    "accountDeleted": "Fiók törölve!",
+    "accountDeletedSuccessMessage": "Sajnáljuk, hogy itt hagy…",
+    "accountDeletionFailed": "Nem sikerült törölni a fiókját",
+    "accountDeletionFailedMessage": "Kérjük, jelentkezzék meg, és erősítsem meg, hogy törölni kívánja a fiókját",
+    "contributionHeatmap": "Szerkesztési hőtérkép (elmúlt 30 nap)"
   },
   "projectList": {
     "progress pc by x mappers": "{{mappersCount}} térképező elvégzett {{progress}}%-ot"
@@ -106,7 +124,8 @@
     "badImagery": "Baj van a képpel? (Például valamelyik képen felhők takarják el a földfelszínt.) <1>Koppints háromszor</1>, és a csempe vörös lesz.",
     "holdZoom": "Ha közelebbről szeretnél megnézni egy felvételt, koppints rá és tartsd rajta az ujjad egy kicsi, így megjelenik róla egy nagyítás.",
     "hint": "Tanács:",
-    "differentImagery": "Néha különböző légi felvételek jelennek meg. Lehet, hogy a képek ezért kissé más elrendezésűek, vagy más a felbontásuk. Ne feledd, hogy <1>határozott változásokat keresel a településeken és épületekben</1>. Ha tehát úgy néz ki, hogy a képen ugyanazok az épületek vannak, de mintha lecserélték volna a tetőjüket, akkor ez egy „nincs változás” forgatókönyv. Ilyenkor egyszerűen húzd be a következő képet."
+    "differentImagery": "Néha különböző légi felvételek jelennek meg. Lehet, hogy a képek ezért kissé más elrendezésűek, vagy más a felbontásuk. Ne feledd, hogy <1>határozott változásokat keresel a településeken és épületekben</1>. Ha tehát úgy néz ki, hogy a képen ugyanazok az épületek vannak, de mintha lecserélték volna a tetőjüket, akkor ez egy „nincs változás” forgatókönyv. Ilyenkor egyszerűen húzd be a következő képet.",
+    "swipeToGetStarted": "További információkhoz húzd el a képernyőt"
   },
   "CDBodyScreen": {
     "viewInstructions": "Utasítások megtekintése"
@@ -209,5 +228,36 @@
     "instructionsNo": "Nem: a négyzetben nincs épület",
     "instructionsNotSure": "Bizonytalan: nem tudod egyértelműen eldönteni, hogy épületet látsz-e",
     "instructionsBadImagery": "Rossz műholdkép: felhős vagy más probléma miatt nem látható a földfelszín"
+  },
+  "userGroupScreen": {
+    "join": "Csatlakozás",
+    "leave": "Elhagyás",
+    "leaderBoards": "Rangsorok",
+    "settings": "Beállítások",
+    "leaveGroup": "Kilépés a csoportból",
+    "joinGroup": "Csalakozás a csoporthoz"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Csatlakozás a csoporthoz",
+    "searchUserGroup": "Felhasználói csoport keresése"
+  },
+  "changeUserName": {
+    "changeUserName": "Felhasználónév módosítása",
+    "currentUserName": "Jelenlegi felhasználónév",
+    "newUserName": "Új felhasználónév",
+    "confirmUserNameChange": "Felhasználónév-módosítás megerősítése"
+  },
+  "changePassword": {
+    "changePassword": "Jelszó modosítása",
+    "currentPassword": "Jelenlegi jelszó",
+    "newPassword": "Új jelszó",
+    "confirmPasswordChange": "Jelszómódosítése megerősítése"
+  },
+  "languageSelection": {
+    "languageSelection": "Nyelv"
+  },
+  "informationPage": {
+    "swipeToGetStarted": "Pöccints a kezdéshez",
+    "swipeToContinue": "Pöccints a folytatáshoz"
   }
 }
