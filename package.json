@@ -45,7 +45,7 @@
     "@react-native-masked-view/masked-view": "^0.2.8",
     "@sentry/react-native": "^3.1.1",
     "deprecated-react-native-prop-types": "^4.0.0",
-    "graphql": "^16.5.0",
+    "graphql": "^16.8.1",
     "i18next": "^19.0.0",
     "intl": "^1.2.5",
     "lodash.get": "^4.4.2",
