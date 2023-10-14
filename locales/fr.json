@@ -124,7 +124,8 @@
     "badImagery": "Un problème d'imagerie, comme si l'une des images avait des nuages qui couvraient la vue ? <1>Tapez trois fois</1> et la tuile deviendra rouge",
     "holdZoom": "Pour zoomer sur une image, appuyez dessus pendant une seconde ou plus.",
     "hint": "Astuce:",
-    "differentImagery": "Parfois, différentes sources d'imagerie auront été utilisées. Les images peuvent être alignées de manière légèrement différente ou avoir une résolution différente. Rappelez-vous, vous cherchez <1>des changements précis dans l'habitat et dans les bâtiments</1> Ainsi, si les mêmes bâtiments semblent être là, mais qu'il y a peut-être un nouveau toit, il s'agira d'un scénario \"sans changement\" et vous passerez simplement à l'image suivante."
+    "differentImagery": "Parfois, différentes sources d'imagerie auront été utilisées. Les images peuvent être alignées de manière légèrement différente ou avoir une résolution différente. Rappelez-vous, vous cherchez <1>des changements précis dans l'habitat et dans les bâtiments</1> Ainsi, si les mêmes bâtiments semblent être là, mais qu'il y a peut-être un nouveau toit, il s'agira d'un scénario \"sans changement\" et vous passerez simplement à l'image suivante.",
+    "swipeToGetStarted": "Plus d'informations"
   },
   "CDBodyScreen": {
     "viewInstructions": "Voir les instructions"
@@ -254,5 +255,9 @@
   },
   "languageSelection": {
     "languageSelection": "Langue"
+  },
+  "informationPage": {
+    "swipeToGetStarted": "Glisser pour commencer",
+    "swipeToContinue": "Glisser pour continuer"
   }
 }
