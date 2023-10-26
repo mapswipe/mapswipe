@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Missões",
-    "more": "Mais"
+      "more": "Mais",
+      "userProfile": "perfil"
   },
   "signup": {
     "chooseUsername": "Escolha o seu nome de utilizador",
@@ -33,6 +34,8 @@
     "signUp": "Registo",
     "loginExistingAccount": "Entrar para uma conta existente",
     "login": "Entrar",
+    "loginSignupWithOSM": "Entrar com OpenStreetMap",
+    "OSMsignupExplanation": "Pode inscrever-se no MapSwipe utilizando a sua conta OpenStreetMap. Se já tiver uma conta MapSwipe, isto não os ligará entre si! (isto virá em breve numa versão futura)",
     "forgotPassword": "Esqueceu-se da palavra passe?",
     "createNewAccount": "Criar uma nova conta",
     "sendResetEmailWarning": "Nós vamos enviar um correio electrónico para restabelecer a sua palavra passe",
@@ -56,7 +59,24 @@
     "delete account question": "Apagar a conta?",
     "delete account warning": "Vai perder todo o seu progresso e insígnias. Os seus contributos continuarão públicos mas serão desvinculados da sua conta. Gostaria de continuar? ",
     "no keep my account": "Não, manter a minha conta",
-    "yes delete it": "Sim, apagar!"
+    "yes delete it": "Sim, apagar!",
+    "userGroups": "Grupos de  utilizadores",
+    "joinNewGroup": "Aderir a um novo grupo",
+    "exploreGroups": "Explore os grupos",
+    "settings": "Configurações",
+    "changeUserName": "Mudar o nome de utilizador",
+    "changePassword": "Mudar a palavra passe",
+    "notifications": "Notificações",
+    "language": "Idioma",
+    "logOut": "Sair",
+    "deleteAccount": "Apagar a conta",
+    "missingMaps": "MIssing Maps / Mapas em falta",
+    "email": "Correio electrónico",
+    "accountDeleted": "Conta apagada!",
+    "accountDeletedSuccessMessage": "Temos pena que se vá embora...",
+    "accountDeletionFailed": "Não foi possível apagar a sua conta",
+    "accountDeletionFailedMessage": "Por favor entre de novo na sua conta para confirmar que deseja mesmo apagar a sua conta ",
+    "contributionHeatmap": "Contribuição Heatmap (Últimos 30 dias)"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% por {{mappersCount}} cartógrafos"
@@ -96,18 +116,23 @@
   "CDInstructionScreen": {
     "instructions": "Instruções",
     "your task": "A sua tarefa:",
-    "lookingFor": "Está à procura de{' '}<1>alterações nos edifícios</1>. Isto demonstra um indicador de alterações no tamanho da população.",
+    "lookingFor": "Está à procura de <1> alterações nos edifícios <1>. Isto funcional como um indicador claro de alterações no tamanho da população. ",
     "perform task": "Como realizar a tarefa:",
-    "noChanges": "Se não existem alterações, simplesmente{' '} <1>deslize</1> para as próximas fotos",
-    "seeChanges": "Se observa alterações nos edifícios,{' '} <1>toque uma vez</1>{' '} e o ladrilho ficará verde",
-    "unsure": "Inseguro?{' '}<1>Toque duas vezes</1>{' '} e o ladrilho ficará amarelo",
-    "badImagery": "Problemas a visionar, como por exemplo nuvens a tapar a imagem? {' '} <1>Toque três vezes</1>{' '} e o ladrilho ficará encarnado",
+    "noChanges": "Se não existem alterações, simplemente <1>delize<1> até à próxima foto.",
+    "seeChanges": "Se encontrar uma alterações num edifício, <1> toque uma vez<1> e o quadrado ficará verde",
+    "unsure": "Não tem a certeza? <1> Toque duas vezes<1> e o quadrado ficaré amarelo",
+    "badImagery": "Problema de imagem, como se alguma das imagens tem nuvens cobrindo a vista? <1>Toque três vezes</1> e o bloco ficará vermelho",
     "holdZoom": "Se necessitar de observar uma imagem mais de perto, mantenha pressionada a imagem e esta será aumentada um pouco.",
     "hint": "Sugestão:",
-    "differentImagery": "Por vezes utilizam-se diferentes fontes de imagem. As imagens podem ter um alinhamento distinto ou ter uma resolução diferente. Lembre-se, está à procura de{' '}<1>mudanças definitivas em residências e edifícios</1>{' '} então, se parecer que os mesmos edifícios estão lá, mas talvez haja um novo telhado, este seria um cenário \"sem alterações\" e você simplesmente passaria para a próxima imagem."
+    "differentImagery": "Às vezes, diferentes fontes de imagens terão sido usadas. As imagens podem estar alinhadas de forma ligeiramente diferente ou podem ter uma resolução diferente. Lembre-se, você está procurando por <1>mudanças definitivas em assentamentos e edifícios,</1> então se parece que os mesmos edifícios estão lá, mas talvez tem um telhado novo, esse seria um cenário de “sem alterações” e você simplesmente arrastaria para o lado para a próxima imagem.",
+    "swipeToGetStarted": "Arraste para o lado para ver informações adicionais"
   },
   "CDBodyScreen": {
     "viewInstructions": "Ver instruções"
+  },
+  "CDTaskScreen": {
+    "before": "Antes",
+    "after": "Depois"
   },
   "CDValidator": {
     "Yes": "Sim",
@@ -136,7 +161,7 @@
     "maybe": "TALVEZ",
     "instructions1": "Como contribuir",
     "instructions2": "TOCAR PARA ESCOLHER",
-    "instructions3": "Procure os recursos listados no seu resumo de tarefa. Toque em cada ladrilho que encontra o que procura. Toque uma vez para <1>SIM</1>, duas para <3>{{twoTaps}}</3>, e três vezes para <5>MÁ IMAGEM</5> (por exemplo nuvens).",
+    "instructions3": "Procure os recursos listados no seu resumo de tarefa. Toque em cada quadrado que encontra o que procura. Toque uma vez para <1>SIM</1>, duas para <3>{{twoTaps}}</3>, e três vezes para <5>MÁ IMAGEM</5> (por exemplo nuvens).",
     "instructions4": "DESLIZAR PARA NAVEGAR",
     "instructions5": "Quando completar com uma parte do mapa, avance para o próximo deslizando.",
     "instructions6": "MANTENHA PRESSIONADO PARA APROXIMAR",
@@ -173,25 +198,66 @@
     "completedTutorial": "Está agora equipado com tudo o que necessita para contribuir com a cartografia humanitária utilizando esta aplicação. Pode voltar sempre que quiser para uma actualização."
   },
   "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Use os botões para responder:",
+      "doesTheShapeOutlineABuilding": "Essa forma é o contorno de um edifício?",
+      "everyTimeYouSelectAnOption": "Toda vez que você selecionar uma opção, você será mostrado uma nova forma e imagem.",
+      "tapGreenText": "Sim - a forma contorna um edifício na imagem",
+      "tapRedText": "Não - a forma não corresponde a um edifício na imagem",
+      "tapGrayText": "Não tenho certeza - se você não tiver certeza ou se houver cobertura de nuvens / imagens ruins",
+      "hideIconText": "Mantenha pressionado o botão ocultar para remover a forma da imagem",
       "letsLearnHowToMap": "Vamos aprender como mapear com alguns exemplos",
-      "youllSeeASquare": "Verá um quadrado numa imagem. Use os botões para responder:",
+      "youllSeeASquare": "Você verá uma forma em uma imagem. Use os botões para responder:",
       "squareContainsBuildings": "O quadrado contém algum edifício?",
       "squareWillMove": "Conforme você avança os quadrados vão-se movendo pelas imagens, seguindo uma grelha como esta:",
-      "swipeToGetStarted": "Deslizar para começar"
+      "swipeToGetStarted": "Deslizar para começar",
+      "swipeToContinue": "Arraste para o lado para continuar"
   },
   "BFTutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "Não se preocupe se não tem certeza sobre um quadrado.",
+    "dontWorryIfYoureUnsure": "Não se preocupe se não tiver certeza sobre um quadrado",
     "youCanAlwaysTapUnsure": "Lembre-se, que sempre pode tocar o botão 'Não tenho a certeza'",
     "everyImageViewedBy": "Cada imagem é vista pelo menos por 3 MapSwipers, por este motivo não há problema se lhe escapar algo",
     "wantToChangeYourAnswer": "Quer alterar a sua resposta?",
-    "youCanSwipeBack": "Pode sempre deslizar para trás para alterar a sua resposta. Depois poderá tocar ou deslizar para a frente para voltar onde estava."
+    "youCanSwipeBack": "Pode sempre deslizar para trás para alterar a sua resposta. Depois poderá tocar ou deslizar para a frente para voltar onde estava.",
+    "yourPreviousAnswerIsMarked": "Suas respostas anteriores são marcadas com um círculo branco"
   },
   "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Essa forma é o contorno de um edifício?",
     "howToContribute": "Como Contribuir",
     "squareContainsBuildings": "O quadrado contém algum edifício? Utilize os botões para responder:",
     "instructionsYes": "Sim: quando existe um edifício ou parte dele num quadrado",
     "instructionsNo": "Não: quando não existem edifícios num quadrado",
     "instructionsNotSure": "Não tenho a certeza: Quando não temos a certeza se existe ou não um edifício",
     "instructionsBadImagery": "Má imagem: Quando existem nuvens ou problemas com a imagem"
+  },
+  "userGroupScreen": {
+    "join": "Entrar",
+    "leave": "Sair",
+    "leaderBoards": "Classificação",
+    "settings": "Configurações",
+    "leaveGroup": "Sair do grupo",
+    "joinGroup": "Entrar no grupo"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Entrar no grupo",
+    "searchUserGroup": "Procurar grupo de usuários"
+  },
+  "changeUserName": {
+    "changeUserName": "Mudar nome de usuário",
+    "currentUserName": "Nome de usuário atual",
+    "newUserName": "Novo nome de usuário",
+    "confirmUserNameChange": "Confirmar mudança de nome de usuário"
+  },
+  "changePassword": {
+    "changePassword": "Mudar senha",
+    "currentPassword": "Senha atual",
+    "newPassword": "Nova senha",
+    "confirmPasswordChange": "Confirmar mudança de senha"
+  },
+  "languageSelection": {
+    "languageSelection": "Idioma"
+  },
+  "informationPage": {
+    "swipeToGetStarted": "Arraste para o lado para começar",
+    "swipeToContinue": "Arraste para o lado para continuar"
   }
 }
