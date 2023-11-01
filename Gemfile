@@ -5,3 +5,6 @@ ruby ">= 2.6.10"
 
 gem 'fastlane'
 gem 'cocoapods', '~> 1.12'
+# this is a workaround as fastlane build is failing
+# https://github.com/CocoaPods/CocoaPods/issues/12081
+gem 'activesupport', '~> 7.0.8'
