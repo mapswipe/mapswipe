@@ -725,6 +725,7 @@ class _Login extends React.Component<Props, State> {
                     onChangeText={text =>
                         this.setState({ email: text.replace(' ', '') })
                     }
+                    secureTextEntry={false}
                     value={email}
                 />
                 <Text style={styles.legalText}>
