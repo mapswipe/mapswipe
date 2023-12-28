@@ -479,7 +479,7 @@ function UserGroup(props: Props) {
                 value: totalSwipeAreaFormatted,
             },
             {
-                title: t('Total missions'),
+                title: t('Total projects'),
                 value: totalMappingProjectsFormatted,
             },
             {
