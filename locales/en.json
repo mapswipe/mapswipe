@@ -1,6 +1,6 @@
 {
   "mainHeader": {
-    "missions": "Missions",
+    "missions": "Projects",
       "more": "More",
       "userProfile": "Profile"
   },
@@ -84,7 +84,7 @@
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{contributorCount}} MAPPERS JUST LIKE YOU.",
     "userProgressForProject": "{{userProgress}}% for this project",
-    "quotaReachedWarning": "Choose another project from the missions screens",
+    "quotaReachedWarning": "Choose another project from the project screens",
     "map now": "Map now",
     "chooseAnotherProject": "Choose another project",
     "tutorial": "Tutorial"
@@ -161,7 +161,7 @@
     "maybe": "MAYBE",
     "instructions1": "How to contribute",
     "instructions2": "TAP TO SELECT",
-    "instructions3": "Look for features listed in your mission brief. Tap each tile where you find what you're looking for. Tap once for <1>YES</1>, twice for <3>{{twoTaps}}</3>, and three times for <5>BAD IMAGERY</5> (such as clouds).",
+    "instructions3": "Look for features listed in your project brief. Tap each tile where you find what you're looking for. Tap once for <1>YES</1>, twice for <3>{{twoTaps}}</3>, and three times for <5>BAD IMAGERY</5> (such as clouds).",
     "instructions4": "SWIPE TO NAVIGATE",
     "instructions5": "When you are done with a piece of the map, scroll to the next one by swiping.",
     "instructions6": "HOLD TO ZOOM",

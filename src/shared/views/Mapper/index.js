@@ -252,7 +252,7 @@ class _Mapper extends React.Component<Props, State> {
                             i18nKey="Tutorial:instructions3"
                             values={twoTaps}
                         >
-                            Look for features listed in your mission brief. Tap
+                            Look for features listed in your project brief. Tap
                             each tile where you find what you&apos;re looking
                             for. Tap once for&nbsp;
                             <Text style={{ color: 'rgb(36, 219, 26)' }}>

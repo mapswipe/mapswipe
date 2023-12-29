@@ -46,7 +46,7 @@ function RoundButtonWithTextBelow(props: Props) {
                 borderWidth,
                 height: radius + 2 * borderWidth,
                 marginBottom: buttonMargin,
-                marginTop: buttonMargin,
+                marginTop: 20,
                 width: radius + 2 * borderWidth,
             }}
         >
