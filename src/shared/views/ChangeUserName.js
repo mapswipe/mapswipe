@@ -18,6 +18,7 @@ import {
 import PageHeader from '../common/PageHeader';
 import Button from '../common/Button';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
+import { isValidUsername } from '../utils';
 
 const styles = StyleSheet.create({
     changeUserNameScreen: {
@@ -87,7 +88,7 @@ function ChangeUserName(props: Props) {
     const [updatePending, setUpdatePending] = React.useState(false);
 
     const handleConfirmButtonClick = React.useCallback(() => {
-        if ((newUserName?.length ?? 0) >= MIN_USERNAME_LENGTH) {
+        if (isValidUsername(newUserName)) {
             setUpdatePending(true);
             firebase
                 .updateAuth({ displayName: newUserName })

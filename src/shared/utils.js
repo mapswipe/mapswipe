@@ -258,3 +258,8 @@ export function getTimeSegments(
         lastState,
     );
 }
+
+export function isValidUsername(username: String): Boolean {
+    const re = new RegExp('^[a-zA-Z0-9_]+$', 'g');
+    return re.test(username);
+}
