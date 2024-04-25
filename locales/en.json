@@ -84,7 +84,7 @@
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBAL PROGRESS BY {{contributorCount}} MAPPERS JUST LIKE YOU.",
     "userProgressForProject": "{{userProgress}}% for this project",
-    "quotaReachedWarning": "Choose another project from the project screens",
+    "quotaReachedWarning": "Choose another project from the projects screen",
     "map now": "Map now",
     "chooseAnotherProject": "Choose another project",
     "tutorial": "Tutorial"
@@ -190,7 +190,7 @@
     "dontWorryIfYoureUnsure": "Don't worry if you're unsure about what you see in a square.",
     "youCanAlwaysTapTwice": "Remember, you can always tap twice to mark the tile yellow if you are not sure about what you see",
     "everyImageViewedBy": "Every image is viewed by multiple people, so don't worry if you missed something",
-    "holdZoom": "You can press and hold any square to zoom it. Tap again to dismiss it."
+    "holdZoom": "You can press and hold any square to zoom to it. Tap again to dismiss it."
   },
   "TutorialEndScreen": {
     "readyToStart": "You're ready to start MapSwiping!",
