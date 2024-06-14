@@ -3,7 +3,13 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { FlatList } from 'react-native';
+import {
+    FlatList,
+    Image,
+    StyleSheet,
+    TouchableHighlight,
+    View,
+} from 'react-native';
 import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
@@ -27,8 +33,24 @@ import type {
     TutorialContent,
     ProjectInformation,
 } from '../../flow-types';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { wait } from 'native-testing-library';
 
 const GLOBAL = require('../../Globals');
+
+const styles = StyleSheet.create({
+    iconContainer: {
+        width: 25,
+        height: 25,
+        bottom: 35,
+        right: 20,
+        position: 'absolute',
+    },
+    iconButton: {
+        width: 25,
+        height: 25,
+    },
+});
 
 type Props = {
     screens: Array<TutorialContent>,
@@ -55,6 +77,7 @@ type State = {
     showAnswerButtonIsVisible: boolean,
     showScaleBar: boolean,
     tutorialMode: string,
+    hideAllIcons: boolean,
 };
 
 class _CardBody extends React.PureComponent<Props, State> {
@@ -105,6 +128,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             showAnswerButtonIsVisible: false,
             showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
+            hideAllIcons: false,
         };
     }
 
@@ -464,9 +488,21 @@ class _CardBody extends React.PureComponent<Props, State> {
         }
     };
 
+    onPressHideIconIn = () => {
+        this.setState({ hideAllIcons: true });
+    };
+
+    onPressHideIconOut = () => {
+        this.setState({ hideAllIcons: false });
+    };
+
     render() {
-        const { showAnswerButtonIsVisible, showScaleBar, tutorialMode } =
-            this.state;
+        const {
+            showAnswerButtonIsVisible,
+            showScaleBar,
+            tutorialMode,
+            hideAllIcons,
+        } = this.state;
         const { currentX } = this;
         const {
             closeTilePopup,
@@ -556,6 +592,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                 Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
             ) *
             (180 / Math.PI);
+
         return (
             <>
                 <FlatList
@@ -613,6 +650,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                             index={index}
                             openTilePopup={openTilePopup}
                             tutorial={tutorial}
+                            hideIcon={hideAllIcons}
                         />
                     )}
                     scrollEnabled={
@@ -630,6 +668,18 @@ class _CardBody extends React.PureComponent<Props, State> {
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        onPressIn={this.onPressHideIconIn}
+                        onPressOut={this.onPressHideIconOut}
+                    >
+                        <Image
+                            style={styles.iconButton}
+                            source={require('../assets/hide_icon.png')}
+                        />
+                    </TouchableOpacity>
+                </View>
+
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 &&

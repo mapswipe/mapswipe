@@ -108,7 +108,7 @@ type Props = {
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
-    onMarkHelpBoxSeen: void => void,
+    onMarkHelpBoxSeen: () => void,
     onStartGroup: ({
         groupId: string,
         projectId: string,
