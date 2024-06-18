@@ -10,11 +10,13 @@ import {
     TouchableHighlight,
     View,
 } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 import { Trans, withTranslation } from 'react-i18next';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type {
     NavigationProp,
     TranslationFunction,
+    ProjectInformation,
 } from '../../flow-types';
 import {
     NumberedTapIconWhite1,
@@ -23,6 +25,7 @@ import {
     SwipeIconWhite,
 } from '../../common/Tutorial/icons';
 import InformationPage from '../../common/InformationPage';
+import { hideIconOutline } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -85,6 +88,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: 50,
     },
+    hideIconDescription: {
+        marginTop: 0,
+        alignSelf: 'center',
+    },
 });
 
 type Props = {
@@ -104,9 +111,10 @@ class CDInstructionScreen extends React.Component<Props> {
     render() {
         const { navigation, t } = this.props;
         const { informationPages } = navigation.state.params;
-        const sortedInformationPages = ([
+
+        const sortedInformationPages: ProjectInformation = [
             ...(informationPages ?? []),
-        ]: ProjectInformation)?.sort((a, b) => a.pageNumber - b.pageNumber);
+        ]?.sort((a, b) => a.pageNumber - b.pageNumber);
 
         return (
             <View style={[styles.background]}>
@@ -270,11 +278,14 @@ class CDInstructionScreen extends React.Component<Props> {
                                     )}
 
                                 <View style={styles.tutRow}>
-                                    <Image
-                                        source={require('../assets/hide_icon.png')}
-                                    />
-                                    <Text style={styles.tutText}>
-                                        <Trans i18nKey="CDInstructionScreen:noChanges">
+                                    <SvgXml xml={hideIconOutline} />
+                                    <Text
+                                        style={[
+                                            styles.tutText,
+                                            styles.hideIconDescription,
+                                        ]}
+                                    >
+                                        <Trans i18nKey="CDInstructionScreen:hideIconDescription">
                                             Tap and hold to hide icons and
                                             overlay.
                                         </Trans>

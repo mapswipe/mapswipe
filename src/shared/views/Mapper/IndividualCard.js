@@ -1,13 +1,9 @@
 // @flow
-
 import React, { useCallback, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { PanResponder, StyleSheet, Text, View } from 'react-native';
 import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-import type {
-    PanResponderGestureState,
-    PanResponderInstance,
-} from 'react-native/Libraries/Interaction/PanResponder';
+import type { GestureState } from 'react-native/Libraries/Interaction/PanResponder';
 import { withTranslation } from 'react-i18next';
 import { toggleMapTile } from '../../actions/index';
 import type {
@@ -50,7 +46,7 @@ type ICProps = {
     openTilePopup: () => void,
     t: TranslationFunction,
     tutorial: boolean,
-    hideIcon: boolean,
+    hideIcons: boolean,
 };
 
 // swipeThreshold defines how much movement is needed to start considering the event
@@ -71,15 +67,15 @@ function IndividualCard(props: ICProps) {
         onToggleTile,
         t,
         tutorial,
-        hideIcon,
+        hideIcons,
     } = props;
 
-    const [showSwipeHelp, setShowSwipeHelp] = useState<Boolean>(false);
+    const [showSwipeHelp, setShowSwipeHelp] = useState<boolean>(false);
 
     const handleMoveShouldSetPanResponder = (
         // decide if we handle the move event: only if it's vertical
         event: PressEvent,
-        gestureState: PanResponderGestureState,
+        gestureState: GestureState,
     ): boolean =>
         Math.abs(gestureState.dy) >
         swipeThreshold + Math.abs(gestureState.dx) * swipeAngle;
@@ -103,7 +99,10 @@ function IndividualCard(props: ICProps) {
         [card, onToggleTile],
     );
 
-    const handlePanResponderEnd = (event: PressEvent, gestureState: PanResponderGestureState) => {
+    const handlePanResponderEnd = (
+        event: PressEvent,
+        gestureState: GestureState,
+    ) => {
         // swipe completed, decide what to do
         setShowSwipeHelp(false);
         const swipeMinLength = 0.2;
@@ -158,10 +157,10 @@ function IndividualCard(props: ICProps) {
                 openTilePopup={openTilePopup}
                 tile={tile}
                 tutorial={tutorial}
-                hideIcon={hideIcon}
+                hideIcons={hideIcons}
             />
         ));
-    }, [card, closeTilePopup, openTilePopup, tutorial, hideIcon]);
+    }, [card, closeTilePopup, openTilePopup, tutorial, hideIcons]);
 
     return (
         <View
