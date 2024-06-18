@@ -2,7 +2,6 @@
 import * as React from 'react';
 import {
     BackHandler,
-    Image,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -14,6 +13,7 @@ import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
+import { SvgXml } from 'react-native-svg';
 import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
@@ -38,6 +38,7 @@ import {
     BUILDING_FOOTPRINTS,
     // CHANGE_DETECTION,
 } from '../../constants';
+import { hideIconFill } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -57,15 +58,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     iconContainer: {
-        width: 25,
-        height: 25,
-        bottom: 0,
+        width: 24,
+        height: 24,
+        bottom: 10,
         right: 20,
         position: 'absolute',
-    },
-    iconButton: {
-        width: 25,
-        height: 25,
     },
 });
 
@@ -330,7 +327,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     zoomLevel={this.project.zoomLevel}
                     hideIcons={hideIcons}
                 />
-                <View style={styles.footer}>
+                <View>
                     <TouchableWithoutFeedback
                         onPress={() => {
                             navigation.push('CDInstructionsScreen', {
@@ -354,10 +351,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                         onPressOut={this.onPressHideIconOut}
                         style={styles.iconContainer}
                     >
-                        <Image
-                            style={styles.iconButton}
-                            source={require('../assets/hide_icon.png')}
-                        />
+                        <SvgXml width={24} xml={hideIconFill} />
                     </TouchableOpacity>
                 </View>
                 <BottomProgress

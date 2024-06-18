@@ -3,7 +3,9 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { FlatList, Image, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SvgXml } from 'react-native-svg';
 import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
@@ -27,21 +29,17 @@ import type {
     TutorialContent,
     ProjectInformation,
 } from '../../flow-types';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { hideIconFill } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
     iconContainer: {
-        width: 25,
-        height: 25,
+        width: 24,
+        height: 24,
         bottom: 35,
         right: 20,
         position: 'absolute',
-    },
-    iconButton: {
-        width: 25,
-        height: 25,
     },
 });
 
@@ -70,7 +68,7 @@ type State = {
     showAnswerButtonIsVisible: boolean,
     showScaleBar: boolean,
     tutorialMode: string,
-    hideAllIcons: boolean,
+    hideIcons: boolean,
 };
 
 class _CardBody extends React.PureComponent<Props, State> {
@@ -121,7 +119,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             showAnswerButtonIsVisible: false,
             showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
-            hideAllIcons: false,
+            hideIcons: false,
         };
     }
 
@@ -482,11 +480,11 @@ class _CardBody extends React.PureComponent<Props, State> {
     };
 
     onPressHideIconIn = () => {
-        this.setState({ hideAllIcons: true });
+        this.setState({ hideIcons: true });
     };
 
     onPressHideIconOut = () => {
-        this.setState({ hideAllIcons: false });
+        this.setState({ hideIcons: false });
     };
 
     render() {
@@ -494,7 +492,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             showAnswerButtonIsVisible,
             showScaleBar,
             tutorialMode,
-            hideAllIcons,
+            hideIcons,
         } = this.state;
         const { currentX } = this;
         const {
@@ -643,7 +641,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                             index={index}
                             openTilePopup={openTilePopup}
                             tutorial={tutorial}
-                            hideIcon={hideAllIcons}
+                            hideIcons={hideIcons}
                         />
                     )}
                     scrollEnabled={
@@ -666,10 +664,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                         onPressIn={this.onPressHideIconIn}
                         onPressOut={this.onPressHideIconOut}
                     >
-                        <Image
-                            style={styles.iconButton}
-                            source={require('../assets/hide_icon.png')}
-                        />
+                        <SvgXml width={24} xml={hideIconFill} />
                     </TouchableOpacity>
                 </View>
 

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
+import { SvgXml } from 'react-native-svg';
 import Button from '../../common/Button';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
@@ -26,6 +27,7 @@ import type {
     TutorialContent,
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
+import { hideIconOutlineColor } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -287,10 +289,7 @@ class _Mapper extends React.Component<Props, State> {
                     </View>
                     <Text style={styles.tutPar}>{t('instructions7')}</Text>
                     <View style={styles.tutRow}>
-                        <Image
-                            source={require('../assets/hide_color_icon.png')}
-                            style={styles.tutImage2}
-                        />
+                        <SvgXml width={24} xml={hideIconOutlineColor} />
                         <Text style={styles.tutText}>{t('instructions8')}</Text>
                     </View>
                     <Text style={styles.tutPar}>{t('instructions9')}</Text>

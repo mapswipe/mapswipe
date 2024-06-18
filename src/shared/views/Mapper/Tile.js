@@ -72,7 +72,7 @@ type Props = {
     onToggleTile: ResultType => void,
     results: number,
     tutorial: boolean,
-    hideIcon: boolean,
+    hideIcons: boolean,
 };
 
 export class _Tile extends React.Component<Props> {
@@ -244,7 +244,7 @@ export class _Tile extends React.Component<Props> {
             results,
             tile: { taskId },
             tutorial,
-            hideIcon,
+            hideIcons,
         } = this.props;
 
         const tileStatus = results;
@@ -277,7 +277,7 @@ export class _Tile extends React.Component<Props> {
                         style={[
                             styles.tileOverlay,
                             {
-                                backgroundColor: hideIcon
+                                backgroundColor: hideIcons
                                     ? undefined
                                     : overlayColor,
                             },
@@ -307,7 +307,7 @@ export class _Tile extends React.Component<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    {hideIcon ? null : tapIcon}
+                    {hideIcons ? null : tapIcon}
                     {comp}
                 </ImageBackground>
             </TouchableHighlight>
