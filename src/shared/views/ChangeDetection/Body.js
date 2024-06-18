@@ -2,8 +2,10 @@
 import * as React from 'react';
 import {
     BackHandler,
+    Image,
     StyleSheet,
     Text,
+    TouchableOpacity,
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
@@ -54,6 +56,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'transparent',
     },
+    iconContainer: {
+        width: 25,
+        height: 25,
+        bottom: 0,
+        right: 20,
+        position: 'absolute',
+    },
+    iconButton: {
+        width: 25,
+        height: 25,
+    },
 });
 
 type Props = {
@@ -78,6 +91,7 @@ type Props = {
 type State = {
     groupCompleted: boolean,
     poppedUpTile: React.Node,
+    hideIcons: boolean,
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
@@ -100,6 +114,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         this.state = {
             groupCompleted: false,
             poppedUpTile: null,
+            hideIcons: false,
         };
     }
 
@@ -121,8 +136,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     projectId: group.projectId,
                     startTime: GLOBAL.DB.getTimestamp(),
                 });
-                console.log('start time:');
-                console.log(GLOBAL.DB.getTimestamp());
                 if (group.tasks !== undefined) {
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
@@ -214,8 +227,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     openTilePopup = tile => {
-        console.log('open tile popup');
-        console.log(tile);
         this.setState({
             poppedUpTile: tile,
         });
@@ -229,6 +240,14 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         });
         // $FlowFixMe
         this.tilePopup.close();
+    };
+
+    onPressHideIconIn = () => {
+        this.setState({ hideIcons: true });
+    };
+
+    onPressHideIconOut = () => {
+        this.setState({ hideIcons: false });
     };
 
     renderBackConfirmationModal = () => {
@@ -265,10 +284,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             tutorialId,
             informationPages,
         } = this.props;
-        const { groupCompleted, poppedUpTile } = this.state;
+        const { groupCompleted, poppedUpTile, hideIcons } = this.state;
 
         if (!group) {
-            console.log('no group information available.');
             return <LoadingIcon />;
         }
 
@@ -310,8 +328,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
+                    hideIcons={hideIcons}
                 />
-                <View>
+                <View style={styles.footer}>
                     <TouchableWithoutFeedback
                         onPress={() => {
                             navigation.push('CDInstructionsScreen', {
@@ -330,6 +349,16 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                             {t('viewInstructions')}
                         </Text>
                     </TouchableWithoutFeedback>
+                    <TouchableOpacity
+                        onPressIn={this.onPressHideIconIn}
+                        onPressOut={this.onPressHideIconOut}
+                        style={styles.iconContainer}
+                    >
+                        <Image
+                            style={styles.iconButton}
+                            source={require('../assets/hide_icon.png')}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <BottomProgress
                     ref={r => {

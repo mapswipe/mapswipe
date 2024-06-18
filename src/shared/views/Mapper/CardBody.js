@@ -3,13 +3,7 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import {
-    FlatList,
-    Image,
-    StyleSheet,
-    TouchableHighlight,
-    View,
-} from 'react-native';
+import { FlatList, Image, StyleSheet, View } from 'react-native';
 import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
@@ -34,7 +28,6 @@ import type {
     ProjectInformation,
 } from '../../flow-types';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { wait } from 'native-testing-library';
 
 const GLOBAL = require('../../Globals');
 

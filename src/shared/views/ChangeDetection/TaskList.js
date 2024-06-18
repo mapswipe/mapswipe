@@ -40,6 +40,7 @@ type Props = {
     closeTilePopup: () => void,
     openTilePopup: () => void,
     zoomLevel: number,
+    hideIcons: boolean,
 };
 
 type State = {
@@ -335,6 +336,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             openTilePopup,
             closeTilePopup,
             zoomLevel,
+            hideIcons,
         } = this.props;
         const {
             tutorialMode,
@@ -418,6 +420,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             openTilePopup={openTilePopup}
                             submitResult={submitResult}
                             task={item}
+                            hideIcons={hideIcons}
                         />
                     )}
                     scrollEnabled={
@@ -495,7 +498,6 @@ export default (compose(
                     r[projectId][groupId] &&
                     r[projectId][groupId].startTime
                 ) {
-                    console.log(r);
                     return [
                         {
                             type: 'once',
