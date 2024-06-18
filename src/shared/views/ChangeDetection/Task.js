@@ -47,6 +47,7 @@ type Props = {
     task: ChangeDetectionTaskType,
     closeTilePopup: () => void,
     openTilePopup: () => void,
+    hideIcons: boolean,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -73,8 +74,14 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
 
     // $FlowFixMe
     render = () => {
-        const { index, onToggleTile, task, openTilePopup, closeTilePopup } =
-            this.props;
+        const {
+            index,
+            onToggleTile,
+            task,
+            openTilePopup,
+            closeTilePopup,
+            hideIcons,
+        } = this.props;
         if (!task) {
             return <LoadingIcon />;
         }
@@ -108,6 +115,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         task={task}
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
+                        hideIcons={hideIcons}
                     />
                     <SatImage
                         interactive
@@ -121,6 +129,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         task={task}
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
+                        hideIcons={hideIcons}
                     />
                 </View>
             </>

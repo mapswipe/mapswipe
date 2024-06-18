@@ -15,7 +15,6 @@ import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type {
     NavigationProp,
     TranslationFunction,
-    ProjectInformation,
 } from '../../flow-types';
 import {
     NumberedTapIconWhite1,
@@ -269,6 +268,18 @@ class CDInstructionScreen extends React.Component<Props> {
                                             <SwipeIconWhite />
                                         </View>
                                     )}
+
+                                <View style={styles.tutRow}>
+                                    <Image
+                                        source={require('../assets/hide_icon.png')}
+                                    />
+                                    <Text style={styles.tutText}>
+                                        <Trans i18nKey="CDInstructionScreen:noChanges">
+                                            Tap and hold to hide icons and
+                                            overlay.
+                                        </Trans>
+                                    </Text>
+                                </View>
                             </ScrollView>
                         </View>
                     }

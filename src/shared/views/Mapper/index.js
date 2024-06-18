@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: '#212121',
         fontSize: 18,
-        marginTop: 5,
+        marginTop: 7,
     },
     tutRow: {
         marginTop: 15,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     HelpModal: {
-        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
+        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 550,
         width: 300,
         backgroundColor: '#ffffff',
         borderRadius: 2,
@@ -286,7 +286,16 @@ class _Mapper extends React.Component<Props, State> {
                         <Text style={styles.tutText}>{t('instructions6')}</Text>
                     </View>
                     <Text style={styles.tutPar}>{t('instructions7')}</Text>
-                    <Text style={styles.header}>{t('instructions8')}</Text>
+                    <View style={styles.tutRow}>
+                        <Image
+                            source={require('../assets/hide_color_icon.png')}
+                            style={styles.tutImage2}
+                        />
+                        <Text style={styles.tutText}>{t('instructions8')}</Text>
+                    </View>
+                    <Text style={styles.tutPar}>{t('instructions9')}</Text>
+
+                    <Text style={styles.header}>{t('instructions10')}</Text>
                     <Text style={styles.tutPar}>{creditString}</Text>
                 </>
             );

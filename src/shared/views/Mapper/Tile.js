@@ -276,7 +276,11 @@ export class _Tile extends React.Component<Props> {
                     <View
                         style={[
                             styles.tileOverlay,
-                            { backgroundColor: overlayColor },
+                            {
+                                backgroundColor: hideIcon
+                                    ? undefined
+                                    : overlayColor,
+                            },
                         ]}
                         key={`view-${taskId}`}
                     >
