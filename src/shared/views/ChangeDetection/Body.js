@@ -4,6 +4,7 @@ import {
     BackHandler,
     StyleSheet,
     Text,
+    TouchableOpacity,
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
@@ -12,6 +13,7 @@ import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
+import { SvgXml } from 'react-native-svg';
 import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
@@ -36,6 +38,7 @@ import {
     BUILDING_FOOTPRINTS,
     // CHANGE_DETECTION,
 } from '../../constants';
+import { hideIconFill } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -53,6 +56,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent',
+    },
+    iconContainer: {
+        width: 24,
+        height: 24,
+        bottom: 10,
+        right: 20,
+        position: 'absolute',
     },
 });
 
@@ -78,6 +88,7 @@ type Props = {
 type State = {
     groupCompleted: boolean,
     poppedUpTile: React.Node,
+    hideIcons: boolean,
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
@@ -100,6 +111,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         this.state = {
             groupCompleted: false,
             poppedUpTile: null,
+            hideIcons: false,
         };
     }
 
@@ -121,8 +133,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     projectId: group.projectId,
                     startTime: GLOBAL.DB.getTimestamp(),
                 });
-                console.log('start time:');
-                console.log(GLOBAL.DB.getTimestamp());
                 if (group.tasks !== undefined) {
                     // eslint-disable-next-line react/no-did-update-set-state
                     this.setState({ groupCompleted: false });
@@ -214,8 +224,6 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     openTilePopup = tile => {
-        console.log('open tile popup');
-        console.log(tile);
         this.setState({
             poppedUpTile: tile,
         });
@@ -229,6 +237,14 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         });
         // $FlowFixMe
         this.tilePopup.close();
+    };
+
+    onPressHideIconIn = () => {
+        this.setState({ hideIcons: true });
+    };
+
+    onPressHideIconOut = () => {
+        this.setState({ hideIcons: false });
     };
 
     renderBackConfirmationModal = () => {
@@ -265,10 +281,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             tutorialId,
             informationPages,
         } = this.props;
-        const { groupCompleted, poppedUpTile } = this.state;
+        const { groupCompleted, poppedUpTile, hideIcons } = this.state;
 
         if (!group) {
-            console.log('no group information available.');
             return <LoadingIcon />;
         }
 
@@ -310,6 +325,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
+                    hideIcons={hideIcons}
                 />
                 <View>
                     <TouchableWithoutFeedback
@@ -330,6 +346,13 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                             {t('viewInstructions')}
                         </Text>
                     </TouchableWithoutFeedback>
+                    <TouchableOpacity
+                        onPressIn={this.onPressHideIconIn}
+                        onPressOut={this.onPressHideIconOut}
+                        style={styles.iconContainer}
+                    >
+                        <SvgXml width={24} xml={hideIconFill} />
+                    </TouchableOpacity>
                 </View>
                 <BottomProgress
                     ref={r => {

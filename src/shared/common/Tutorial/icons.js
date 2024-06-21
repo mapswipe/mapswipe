@@ -215,6 +215,36 @@ export const NumberedTapIconTile3 = () => {
     );
 };
 
+export const NewNumberedTapIconTile1 = () => {
+    return (
+        <Image
+            source={require('../../views/assets/tick_new_icon.png')}
+            style={styles.tileImage}
+            fadeDuration={0}
+        />
+    );
+};
+
+export const NewNumberedTapIconTile2 = () => {
+    return (
+        <Image
+            source={require('../../views/assets/question_mark_new_icon.png')}
+            style={styles.tileImage}
+            fadeDuration={0}
+        />
+    );
+};
+
+export const NewNumberedTapIconTile3 = () => {
+    return (
+        <Image
+            source={require('../../views/assets/bad_image_new_icon.png')}
+            style={styles.tileImage}
+            fadeDuration={0}
+        />
+    );
+};
+
 export const GreenCheckIcon = () => {
     return (
         <View style={[styles.svgIcon, { backgroundColor: '#bbcb7d' }]}>

@@ -20,6 +20,11 @@ import {
     COLOR_YELLOW,
 } from '../../constants';
 import type { ResultType, BuiltAreaTaskType } from '../../flow-types';
+import {
+    NewNumberedTapIconTile1,
+    NewNumberedTapIconTile2,
+    NewNumberedTapIconTile3,
+} from '../../common/Tutorial/icons';
 
 const GLOBAL = require('../../Globals');
 
@@ -67,6 +72,7 @@ type Props = {
     onToggleTile: ResultType => void,
     results: number,
     tutorial: boolean,
+    hideIcons: boolean,
 };
 
 export class _Tile extends React.Component<Props> {
@@ -78,14 +84,15 @@ export class _Tile extends React.Component<Props> {
         this.storeResult(props.results);
     }
 
-    shouldComponentUpdate(nextProps) {
-        // the only time the tile needs to be rerendered is when
-        // its result has changed (after tapping it). All other props
-        // are fixed for the lifetime of the tile, so we don't need
-        // to compare them every time RN wants to rerender
-        const { results } = this.props;
-        return nextProps.results !== results;
-    }
+    // NOTE: now we have to re-render to hide/undide all accessibility icons
+    // shouldComponentUpdate(nextProps) {
+    //     // the only time the tile needs to be rerendered is when
+    //     // its result has changed (after tapping it). All other props
+    //     // are fixed for the lifetime of the tile, so we don't need
+    //     // to compare them every time RN wants to rerender
+    //     const { results } = this.props;
+    //     return nextProps.results !== results;
+    // }
 
     getTileColor = (status: number) => {
         const colors = [
@@ -189,6 +196,7 @@ export class _Tile extends React.Component<Props> {
     zoomRender = () => {
         const imageSource = this.getImgSource();
         const osmBuildingsImageSource = this.getOsmBuildingsUrl();
+
         return (
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
@@ -215,12 +223,30 @@ export class _Tile extends React.Component<Props> {
         );
     };
 
+    renderTapIcon = () => {
+        const { results } = this.props;
+        const tileStatus = results;
+
+        if (tileStatus === 1) {
+            return <NewNumberedTapIconTile1 />;
+        }
+        if (tileStatus === 2) {
+            return <NewNumberedTapIconTile2 />;
+        }
+        if (tileStatus === 3) {
+            return <NewNumberedTapIconTile3 />;
+        }
+        return null;
+    };
+
     render() {
         const {
             results,
             tile: { taskId },
             tutorial,
+            hideIcons,
         } = this.props;
+
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
         let animatedRows = null;
@@ -238,6 +264,7 @@ export class _Tile extends React.Component<Props> {
             );
         }
         const imageSource = this.getImgSource();
+        const tapIcon = this.renderTapIcon();
         let comp;
 
         if (this.getOsmBuildingsUrl() !== undefined) {
@@ -249,7 +276,11 @@ export class _Tile extends React.Component<Props> {
                     <View
                         style={[
                             styles.tileOverlay,
-                            { backgroundColor: overlayColor },
+                            {
+                                backgroundColor: hideIcons
+                                    ? undefined
+                                    : overlayColor,
+                            },
                         ]}
                         key={`view-${taskId}`}
                     >
@@ -259,13 +290,7 @@ export class _Tile extends React.Component<Props> {
             );
         } else {
             comp = (
-                <View
-                    style={[
-                        styles.tileOverlay,
-                        { backgroundColor: overlayColor },
-                    ]}
-                    key={`view-${taskId}`}
-                >
+                <View style={styles.tileStyle} key={`view-${taskId}`}>
                     {animatedRows}
                 </View>
             );
@@ -282,6 +307,7 @@ export class _Tile extends React.Component<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
+                    {hideIcons ? null : tapIcon}
                     {comp}
                 </ImageBackground>
             </TouchableHighlight>

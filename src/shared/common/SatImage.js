@@ -27,6 +27,7 @@ type Props = {
     task: ChangeDetectionTaskType,
     closeTilePopup: () => void,
     openTilePopup: () => void,
+    hideIcons: boolean,
 };
 
 type State = {
@@ -91,6 +92,7 @@ export default class SatImage extends React.Component<Props, State> {
             task,
             openTilePopup,
             closeTilePopup,
+            hideIcons,
         } = this.props;
 
         return (
@@ -106,6 +108,7 @@ export default class SatImage extends React.Component<Props, State> {
                         tutorial={false}
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
+                        hideIcons={hideIcons}
                     />
                 ) : (
                     <Tile
@@ -115,6 +118,7 @@ export default class SatImage extends React.Component<Props, State> {
                         tutorial={false}
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
+                        hideIcons={hideIcons}
                     />
                 )}
             </View>
