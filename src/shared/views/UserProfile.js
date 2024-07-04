@@ -218,6 +218,8 @@ const styles = StyleSheet.create({
     },
 });
 
+const noOp = () => {};
+
 type UserGroupWithGroupId = UserGroupType & {
     groupId: string,
 };
@@ -341,7 +343,8 @@ function UserProfile(props: Props) {
         },
     });
 
-    const [isEnabledAccessibility, setIsEnabledAccessibility] = useState<Boolean>(false);
+    const [isEnabledAccessibility, setIsEnabledAccessibility] =
+        useState<boolean>(false);
 
     const [userGroups, setUserGroups] = useState([]);
     (userGroups: UserGroupWithGroupId[]);
@@ -402,6 +405,7 @@ function UserProfile(props: Props) {
         };
 
         userGroupsOfUserQuery.on('value', handleGroupsOfUserLoad, error => {
+            console.error(error);
             MessageBarManager.showAlert({
                 title: t('Failed to group details'),
                 alertType: 'error',
@@ -646,7 +650,6 @@ function UserProfile(props: Props) {
         loadUserGroups();
     }, [refetchUserStats, loadUserGroups]);
 
-
     return (
         <View style={styles.myProfileScreen}>
             <View style={styles.header}>
@@ -789,6 +792,8 @@ function UserProfile(props: Props) {
                     <ClickableListItem
                         hideChevronIcon
                         title={t('accessibility')}
+                        // NOTE: onPress props is required
+                        onPress={noOp}
                         icon={
                             <Switch
                                 trackColor={{

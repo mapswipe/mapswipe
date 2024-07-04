@@ -11,6 +11,8 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import { withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
 import { SvgXml } from 'react-native-svg';
@@ -89,6 +91,7 @@ type State = {
     groupCompleted: boolean,
     poppedUpTile: React.Node,
     hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
@@ -112,11 +115,24 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             groupCompleted: false,
             poppedUpTile: null,
             hideIcons: false,
+            visibleAccessibility: false,
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
+        const userId = auth().currentUser?.uid;
+
+        try {
+            await database()
+                .ref(`/v2/users/${userId}/accessibility`)
+                .once('value', snapshot => {
+                    this.setState({ visibleAccessibility: snapshot.val() });
+                });
+        } catch {
+            console.log('User not found');
+        }
     }
 
     componentDidUpdate = prevProps => {
@@ -281,7 +297,12 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             tutorialId,
             informationPages,
         } = this.props;
-        const { groupCompleted, poppedUpTile, hideIcons } = this.state;
+        const {
+            groupCompleted,
+            poppedUpTile,
+            hideIcons,
+            visibleAccessibility,
+        } = this.state;
 
         if (!group) {
             return <LoadingIcon />;
@@ -326,6 +347,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
                     hideIcons={hideIcons}
+                    visibleAccessibility={visibleAccessibility}
                 />
                 <View>
                     <TouchableWithoutFeedback

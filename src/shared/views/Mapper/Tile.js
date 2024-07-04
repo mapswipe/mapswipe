@@ -73,6 +73,7 @@ type Props = {
     results: number,
     tutorial: boolean,
     hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 export class _Tile extends React.Component<Props> {
@@ -245,6 +246,7 @@ export class _Tile extends React.Component<Props> {
             tile: { taskId },
             tutorial,
             hideIcons,
+            visibleAccessibility,
         } = this.props;
 
         const tileStatus = results;
@@ -265,6 +267,8 @@ export class _Tile extends React.Component<Props> {
         }
         const imageSource = this.getImgSource();
         const tapIcon = this.renderTapIcon();
+        const hideAccessibilityIconsOnly = hideIcons || !visibleAccessibility;
+
         let comp;
 
         if (this.getOsmBuildingsUrl() !== undefined) {
@@ -307,7 +311,7 @@ export class _Tile extends React.Component<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    {hideIcons ? null : tapIcon}
+                    {hideAccessibilityIconsOnly ? null : tapIcon}
                     {comp}
                 </ImageBackground>
             </TouchableHighlight>

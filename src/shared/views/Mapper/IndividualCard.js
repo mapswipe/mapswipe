@@ -47,6 +47,7 @@ type ICProps = {
     t: TranslationFunction,
     tutorial: boolean,
     hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 // swipeThreshold defines how much movement is needed to start considering the event
@@ -68,6 +69,7 @@ function IndividualCard(props: ICProps) {
         t,
         tutorial,
         hideIcons,
+        visibleAccessibility,
     } = props;
 
     const [showSwipeHelp, setShowSwipeHelp] = useState<boolean>(false);
@@ -158,6 +160,7 @@ function IndividualCard(props: ICProps) {
                 tile={tile}
                 tutorial={tutorial}
                 hideIcons={hideIcons}
+                visibleAccessibility={visibleAccessibility}
             />
         ));
     }, [card, closeTilePopup, openTilePopup, tutorial, hideIcons]);
