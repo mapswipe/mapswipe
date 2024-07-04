@@ -76,7 +76,8 @@
     "accountDeletedSuccessMessage": "Sorry to see you go...",
     "accountDeletionFailed": "Could not delete your account",
     "accountDeletionFailedMessage": "Please login again to confirm you want to delete your account",
-    "contributionHeatmap": "Contribution Heatmap (Last 30 days)"
+    "contributionHeatmap": "Contribution Heatmap (Last 30 days)",
+    "accessibility": "Accessibility"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"
