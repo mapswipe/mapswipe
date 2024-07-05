@@ -3,6 +3,8 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SvgXml } from 'react-native-svg';
@@ -69,6 +71,7 @@ type State = {
     showScaleBar: boolean,
     tutorialMode: string,
     hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 class _CardBody extends React.PureComponent<Props, State> {
@@ -120,7 +123,22 @@ class _CardBody extends React.PureComponent<Props, State> {
             showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
             hideIcons: false,
+            visibleAccessibility: false,
         };
+    }
+
+    async componentDidMount() {
+        const userId = auth().currentUser?.uid;
+
+        try {
+            await database()
+                .ref(`/v2/users/${userId}/accessibility`)
+                .once('value', snapshot => {
+                    this.setState({ visibleAccessibility: snapshot.val() });
+                });
+        } catch {
+            console.log('User not found');
+        }
     }
 
     componentDidUpdate = (oldProps: Props) => {
@@ -386,7 +404,6 @@ class _CardBody extends React.PureComponent<Props, State> {
         // tile of the screen
         let result = 0;
         if (this.tasksPerScreen) {
-            console.log('tps', this.tasksPerScreen.length, screenNumber);
             // $FlowFixMe
             if (this.tasksPerScreen[screenNumber]) {
                 result = this.tasksPerScreen[screenNumber].reduce(
@@ -493,6 +510,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             showScaleBar,
             tutorialMode,
             hideIcons,
+            visibleAccessibility,
         } = this.state;
         const { currentX } = this;
         const {
@@ -642,6 +660,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                             openTilePopup={openTilePopup}
                             tutorial={tutorial}
                             hideIcons={hideIcons}
+                            visibleAccessibility={visibleAccessibility}
                         />
                     )}
                     scrollEnabled={

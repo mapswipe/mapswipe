@@ -48,6 +48,7 @@ type Props = {
     closeTilePopup: () => void,
     openTilePopup: () => void,
     hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -81,7 +82,9 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
             openTilePopup,
             closeTilePopup,
             hideIcons,
+            visibleAccessibility,
         } = this.props;
+
         if (!task) {
             return <LoadingIcon />;
         }
@@ -116,6 +119,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
                         hideIcons={hideIcons}
+                        visibleAccessibility={visibleAccessibility}
                     />
                     <SatImage
                         interactive
@@ -130,6 +134,7 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                         closeTilePopup={closeTilePopup}
                         openTilePopup={openTilePopup}
                         hideIcons={hideIcons}
+                        visibleAccessibility={visibleAccessibility}
                     />
                 </View>
             </>

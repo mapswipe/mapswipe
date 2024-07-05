@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
@@ -18,6 +18,7 @@ import {
     Linking,
     RefreshControl,
     TouchableWithoutFeedback,
+    Switch,
 } from 'react-native';
 import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
@@ -217,6 +218,8 @@ const styles = StyleSheet.create({
     },
 });
 
+const noOp = () => {};
+
 type UserGroupWithGroupId = UserGroupType & {
     groupId: string,
 };
@@ -253,17 +256,17 @@ const mapStateToProps = (state, ownProps): ReduxProps => ({
 });
 
 function useIsFocused(navigation) {
-    const [isFocused, setIsFocused] = React.useState(true);
+    const [isFocused, setIsFocused] = useState(true);
 
-    const handleFocus = React.useCallback(() => {
+    const handleFocus = useCallback(() => {
         setIsFocused(true);
     }, []);
 
-    const handleBlur = React.useCallback(() => {
+    const handleBlur = useCallback(() => {
         setIsFocused(false);
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const didFocusSubscription = navigation.addListener(
             'didFocus',
             handleFocus,
@@ -318,7 +321,7 @@ function UserProfile(props: Props) {
         swipes,
     });
 
-    const currentUser = React.useMemo(() => auth().currentUser, [isFocused]);
+    const currentUser = useMemo(() => auth().currentUser, [isFocused]);
     const userId = currentUser?.uid;
 
     const {
@@ -340,10 +343,29 @@ function UserProfile(props: Props) {
         },
     });
 
-    const [userGroups, setUserGroups] = React.useState([]);
+    const [isEnabledAccessibility, setIsEnabledAccessibility] =
+        useState<boolean>(false);
+
+    const [userGroups, setUserGroups] = useState([]);
     (userGroups: UserGroupWithGroupId[]);
 
-    const loadUserGroups = React.useCallback(() => {
+    const getUserInfo = useCallback(async () => {
+        try {
+            await database()
+                .ref(`/v2/users/${userId}/accessibility`)
+                .once('value', snapshot => {
+                    setIsEnabledAccessibility(snapshot.val());
+                });
+        } catch {
+            console.log('User not found');
+        }
+    }, [userId]);
+
+    useEffect(() => {
+        getUserInfo();
+    }, [getUserInfo]);
+
+    const loadUserGroups = useCallback(() => {
         const db = database();
 
         const userGroupsOfUserQuery = db.ref(`v2/users/${userId}/userGroups/`);
@@ -375,7 +397,6 @@ function UserProfile(props: Props) {
 
                 setUserGroups(newUserGroups);
             } catch (error) {
-                console.error(error);
                 MessageBarManager.showAlert({
                     title: t('Failed to group details'),
                     alertType: 'error',
@@ -396,7 +417,7 @@ function UserProfile(props: Props) {
         };
     }, [userId]);
 
-    const calendarHeatmapData = React.useMemo(() => {
+    const calendarHeatmapData = useMemo(() => {
         const contributionStats =
             userStatsData?.userStats?.filteredStats?.swipeByDate;
 
@@ -412,17 +433,17 @@ function UserProfile(props: Props) {
         return contributionStatsMap;
     }, [userStatsData?.userStats?.filteredStats?.swipeByDate]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         loadUserGroups();
     }, [loadUserGroups]);
 
-    const selectedLanguage = React.useMemo(
+    const selectedLanguage = useMemo(
         () =>
             supportedLanguages.find(language => language.code === languageCode),
         [languageCode],
     );
 
-    const userStats: Stat[] = React.useMemo(() => {
+    const userStats: Stat[] = useMemo(() => {
         const stats = userStatsData?.userStats?.stats ?? {};
         const {
             totalAreaSwiped,
@@ -478,26 +499,26 @@ function UserProfile(props: Props) {
         ];
     }, [profile, userStatsData?.userStats?.stats]);
 
-    const handleExploreGroupClick = React.useCallback(() => {
+    const handleExploreGroupClick = useCallback(() => {
         navigation.navigate('SearchUserGroup');
     }, [navigation]);
 
-    const handleUserGroupClick = React.useCallback(
+    const handleUserGroupClick = useCallback(
         (userGroupId?: string) => {
             navigation.navigate('UserGroup', { userGroupId });
         },
         [navigation],
     );
 
-    const handleUserNameChangeClick = React.useCallback(() => {
+    const handleUserNameChangeClick = useCallback(() => {
         navigation.navigate('ChangeUserName');
     }, [navigation]);
 
-    const handleLanguageClick = React.useCallback(() => {
+    const handleLanguageClick = useCallback(() => {
         navigation.navigate('LanguageSelection');
     }, [navigation]);
 
-    const handleDeleteAccountClick = React.useCallback(() => {
+    const handleDeleteAccountClick = useCallback(() => {
         Alert.alert(
             t('Delete Account?'),
             t(
@@ -541,7 +562,7 @@ function UserProfile(props: Props) {
         );
     }, [navigation]);
 
-    const handleSignoutClick = React.useCallback(() => {
+    const handleSignoutClick = useCallback(() => {
         Alert.alert(t('sign out'), t('Are you sure you want to sign out?'), [
             {
                 text: t('Cancel'),
@@ -560,7 +581,7 @@ function UserProfile(props: Props) {
         ]);
     }, [navigation]);
 
-    const handleResetPasswordClick = React.useCallback(() => {
+    const handleResetPasswordClick = useCallback(() => {
         Alert.alert(
             t('Reset Password'),
             t(
@@ -581,29 +602,50 @@ function UserProfile(props: Props) {
         );
     }, []);
 
-    const handleMapSwipeWebsiteClick = React.useCallback(() => {
+    const handleMapSwipeWebsiteClick = useCallback(() => {
         navigation.push('WebviewWindow', {
             uri: 'https://mapswipe.org/',
         });
     }, [navigation]);
 
-    const handleMissingMapsClick = React.useCallback(() => {
+    const handleMissingMapsClick = useCallback(() => {
         navigation.push('WebviewWindow', {
             uri: 'https://www.missingmaps.org',
         });
     }, [navigation]);
 
-    const handleMoreStatsClick = React.useCallback(() => {
+    const handleMoreStatsClick = useCallback(() => {
         if (userId) {
             Linking.openURL(`${publicDashboardUrl}/user/${userId}/`);
         }
     }, [userId]);
 
-    const handleEmailClick = React.useCallback(() => {
+    const handleEmailClick = useCallback(() => {
         Linking.openURL('mailto:info@mapswipe.org');
     }, []);
 
-    const refreshPage = React.useCallback(() => {
+    const handleAccessibilityChange = useCallback(async value => {
+        try {
+            const userRef = await database().ref(`v2/users/${userId}/`);
+            await userRef.update({
+                accessibility: value,
+            });
+
+            MessageBarManager.showAlert({
+                message: 'Accessibility updated successfully',
+                alertType: 'success',
+            });
+            getUserInfo();
+        } catch {
+            MessageBarManager.showAlert({
+                title: 'error',
+                message: 'some error occurred',
+                alertType: 'error',
+            });
+        }
+    }, []);
+
+    const refreshPage = useCallback(() => {
         refetchUserStats();
         loadUserGroups();
     }, [refetchUserStats, loadUserGroups]);
@@ -746,6 +788,27 @@ function UserProfile(props: Props) {
                         onPress={handleLanguageClick}
                         title={t('language')}
                         icon={<Text>{selectedLanguage?.name}</Text>}
+                    />
+                    <ClickableListItem
+                        hideChevronIcon
+                        title={t('accessibility')}
+                        // NOTE: onPress props is required
+                        onPress={noOp}
+                        icon={
+                            <Switch
+                                trackColor={{
+                                    false: COLOR_DARK_GRAY,
+                                    true: COLOR_SUCCESS_GREEN,
+                                }}
+                                thumbColor={
+                                    isEnabledAccessibility
+                                        ? COLOR_DEEP_BLUE
+                                        : COLOR_LIGHT_GRAY
+                                }
+                                onValueChange={handleAccessibilityChange}
+                                value={isEnabledAccessibility}
+                            />
+                        }
                     />
                     <ClickableListItem
                         onPress={handleSignoutClick}
