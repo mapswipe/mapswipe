@@ -343,6 +343,7 @@ function UserProfile(props: Props) {
         },
     });
 
+    const [disabled, setDisabled] = useState<boolean>(false);
     const [isEnabledAccessibility, setIsEnabledAccessibility] =
         useState<boolean>(false);
 
@@ -624,26 +625,31 @@ function UserProfile(props: Props) {
         Linking.openURL('mailto:info@mapswipe.org');
     }, []);
 
-    const handleAccessibilityChange = useCallback(async value => {
-        try {
-            const userRef = await database().ref(`v2/users/${userId}/`);
-            await userRef.update({
-                accessibility: value,
-            });
+    const handleAccessibilityChange = useCallback(
+        async value => {
+            try {
+                setDisabled(true);
+                const userRef = await database().ref(`v2/users/${userId}/`);
+                userRef.update({
+                    accessibility: value,
+                });
 
-            MessageBarManager.showAlert({
-                message: 'Accessibility updated successfully',
-                alertType: 'success',
-            });
-            getUserInfo();
-        } catch {
-            MessageBarManager.showAlert({
-                title: 'error',
-                message: 'some error occurred',
-                alertType: 'error',
-            });
-        }
-    }, []);
+                MessageBarManager.showAlert({
+                    message: 'Accessibility updated successfully',
+                    alertType: 'success',
+                });
+                setIsEnabledAccessibility(value);
+            } catch {
+                MessageBarManager.showAlert({
+                    title: 'error',
+                    message: 'some error occurred',
+                    alertType: 'error',
+                });
+            }
+            setDisabled(false);
+        },
+        [userId],
+    );
 
     const refreshPage = useCallback(() => {
         refetchUserStats();
@@ -807,6 +813,7 @@ function UserProfile(props: Props) {
                                 }
                                 onValueChange={handleAccessibilityChange}
                                 value={isEnabledAccessibility}
+                                disabled={disabled}
                             />
                         }
                     />
