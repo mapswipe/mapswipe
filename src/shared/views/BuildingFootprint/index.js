@@ -6,6 +6,7 @@ import { SvgXml } from 'react-native-svg';
 import ProjectLevelScreen from '../../common/ProjectLevelScreen';
 import { submitFootprint } from '../../actions/index';
 import Validator from './Validator';
+import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
 import type {
     NavigationProp,
     TranslationFunction,
@@ -139,18 +140,21 @@ class _BuildingFootprintScreen extends React.Component<Props> {
             navigation.pop();
         }
         return (
-            <ProjectLevelScreen
-                Component={Validator}
-                navigation={navigation}
-                getNormalHelpContent={this.getNormalHelpContent}
-                headerText={t('doesShapeOutlineABuilding')}
-                randomSeed={this.randomSeed}
-                screenName="BuildingFootprintScreen"
-                submitResultFunction={submitFootprint}
-                tutorial={tutorial}
-                tutorialId={tutorialId}
-                {...otherProps}
-            />
+            <>
+                <ProjectLevelScreen
+                    Component={Validator}
+                    navigation={navigation}
+                    getNormalHelpContent={this.getNormalHelpContent}
+                    headerText={t('doesShapeOutlineABuilding')}
+                    randomSeed={this.randomSeed}
+                    screenName="BuildingFootprintScreen"
+                    submitResultFunction={submitFootprint}
+                    tutorial={tutorial}
+                    tutorialId={tutorialId}
+                    {...otherProps}
+                />
+                <AccessibilityInfoModal />
+            </>
         );
     }
 }

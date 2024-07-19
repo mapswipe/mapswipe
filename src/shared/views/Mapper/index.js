@@ -7,7 +7,6 @@ import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
 import { SvgXml } from 'react-native-svg';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../../common/Button';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
@@ -103,27 +102,6 @@ const styles = StyleSheet.create({
         height: GLOBAL.SCREEN_HEIGHT,
         width: GLOBAL.SCREEN_WIDTH,
     },
-    messageModal: {
-        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 550,
-        width: 300,
-        backgroundColor: '#ffffff',
-        borderRadius: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    messageModalContent: {
-        display: 'flex',
-        gap: 20,
-        marginTop: 15,
-    },
-    closeButton: {
-        backgroundColor: COLOR_DEEP_BLUE,
-        alignItems: 'center',
-        height: 50,
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 0.1,
-    },
 });
 
 type Props = {
@@ -165,20 +143,10 @@ class _Mapper extends React.Component<Props, State> {
         this.project = props.navigation.getParam('project', null);
         this.state = {
             poppedUpTile: null,
-            firstTimeVisit: true,
         };
-        this.modalRef = null;
     }
 
     componentDidMount() {
-        // Check if user has visited this route before
-        // For simplicity, using a boolean flag stored in AsyncStorage
-        // AsyncStorage.getItem('visitedRoute').then(value => {
-        //     if (value !== null && value === 'true') {
-        //         this.setState({ firstTimeVisit: false });
-        //     }
-        // });
-
         const { hasSeenHelpBoxType1 } = this.props;
         if (hasSeenHelpBoxType1 === undefined) {
             this.openHelpModal();
@@ -213,21 +181,6 @@ class _Mapper extends React.Component<Props, State> {
     openHelpModal = () => {
         // $FlowFixMe
         this.HelpModal.open();
-    };
-
-    openModal = () => {
-        if (this.modalRef) {
-            this.modalRef.open();
-        }
-    };
-
-    closeModal = () => {
-        if (this.modalRef) {
-            this.modalRef.close();
-        }
-
-        this.setState({ firstTimeVisit: false });
-        AsyncStorage.setItem('visitedRoute', 'true');
     };
 
     returnToView = () => {
@@ -271,99 +224,6 @@ class _Mapper extends React.Component<Props, State> {
             this.progress.updateProgress(progress);
         }
     };
-
-    accessibilityInfoModal() {
-        return (
-            <Modal
-                style={[styles.messageModal, styles.modal]}
-                entry="bottom"
-                position="center"
-                backdropPressToClose={false}
-                swipeToClose={false}
-                ref={r => {
-                    this.modalRef = r;
-                }}
-            >
-                <Text style={styles.header}>
-                    <Trans i18nKey="AccessibilityInstruction:heading">
-                        Accessibility Feature
-                    </Trans>
-                </Text>
-                <View style={styles.tutRow}>
-                    <Text>
-                        <Trans i18nKey="AccessibilityInstruction:descriptions">
-                            Mapping screens now have colored tiles as well as
-                            icons to better reflect the meaning.
-                        </Trans>
-                    </Text>
-                </View>
-                <View style={styles.tutRow}>
-                    <Image
-                        source={require('../../views/assets/tick_new_icon.png')}
-                        style={styles.tutImage}
-                    />
-                    <Text style={styles.tutText}>
-                        <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
-                            Tap once to turn the tile green and show a tick icon
-                        </Trans>
-                    </Text>
-                </View>
-                <View style={styles.tutRow}>
-                    <Image
-                        source={require('../../views/assets/question_mark_new_icon.png')}
-                        style={styles.tutImage}
-                    />
-                    <Text style={styles.tutText}>
-                        <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
-                            Tap twice to turn the tile yellow and show a
-                            question icon
-                        </Trans>
-                    </Text>
-                </View>
-                <View style={styles.tutRow}>
-                    <Image
-                        source={require('../../views/assets/bad_image_new_icon.png')}
-                        style={styles.tutImage}
-                    />
-                    <Text style={styles.tutText}>
-                        <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
-                            Tap thrice to turn the tile red and show a bad
-                            imagery icon
-                        </Trans>
-                    </Text>
-                </View>
-
-                <View style={styles.tutRow}>
-                    <Text style={styles.header}>
-                        <Trans i18nKey="AccessibilityInstruction:turnOnOff">
-                            How to turn on/off:
-                        </Trans>
-                    </Text>
-                </View>
-                <View style={styles.tutRow}>
-                    <Text style={styles.tutText}>
-                        <Trans i18nKey="AccessibilityInstruction:turnOnOff">
-                            Turn on/off the feature by visiting the Settings
-                            section under Profile
-                        </Trans>
-                    </Text>
-                </View>
-                <View style={styles.messageModalContent}>
-                    <Button
-                        style={styles.closeButton}
-                        onPress={this.closeModal}
-                        textStyle={{
-                            fontSize: 13,
-                            color: '#ffffff',
-                            fontWeight: '700',
-                        }}
-                    >
-                        Don&apos;t show me this again
-                    </Button>
-                </View>
-            </Modal>
-        );
-    }
 
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
@@ -495,22 +355,17 @@ class _Mapper extends React.Component<Props, State> {
             tutorial,
             tutorialId,
         } = this.props;
-        const { poppedUpTile, firstTimeVisit } = this.state;
+        const { poppedUpTile } = this.state;
 
         // only show the mapping component once we have downloaded the group data
         if (!group) {
             return <LoadingIcon />;
         }
 
-        let twoTaps;
         // $FlowFixMe
         const creditString =
             this.project.tileServer.credits || 'Unknown imagery source';
         const introModal = this.renderIntroModal(creditString);
-        // Render the modal only on the first visit
-        if (firstTimeVisit) {
-            this.openModal();
-        }
 
         return (
             <View style={styles.mappingContainer}>
@@ -554,8 +409,6 @@ class _Mapper extends React.Component<Props, State> {
                 >
                     {poppedUpTile}
                 </Modal>
-                {/* {this.accessibilityInfoModal()} */}
-                <AccessibilityInfoModal />
             </View>
         );
     }
@@ -609,11 +462,14 @@ export default class MapperScreen extends React.Component<Props> {
             otherProps.navigation.pop();
         }
         return (
-            <Mapper
-                randomSeed={this.randomSeed}
-                tutorialId={tutorialId}
-                {...otherProps}
-            />
+            <>
+                <AccessibilityInfoModal />
+                <Mapper
+                    randomSeed={this.randomSeed}
+                    tutorialId={tutorialId}
+                    {...otherProps}
+                />
+            </>
         );
     }
 }
