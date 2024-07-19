@@ -234,7 +234,13 @@
     "instructionsBadImagery": "Bad imagery: when there is cloud cover or issues with the imagery"
   },
   "AccessibilityInstruction": {
-      "heading": "Accessibility Instruction"
+      "heading": "Accessibility Feature",
+      "descriptions": "Mapping screens now have colored tiles as well as icons to better reflect the meaning.",
+      "tickIconInfo": "Tap once to turn the tile green and show a tick icon",
+      "questionMarkIconInfo": "Tap twice to turn the tile yellow and show a question icon",
+      "badImageIconInfo": "Tap thrice to turn the tile red and show a bad imagery icon",
+      "turnOnOff": "How to turn on/off:",
+      "turnOnOffDescription": "Turn on/off the feature by visiting the Settings section under Profile"
   },
   "userGroupScreen": {
     "join": "Join",

@@ -29,6 +29,7 @@ import type {
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
 import { hideIconOutlineColor } from '../../common/SvgIcons';
+import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
 
 const GLOBAL = require('../../Globals');
 
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     messageModalContent: {
         display: 'flex',
         gap: 20,
+        marginTop: 15,
     },
     closeButton: {
         backgroundColor: COLOR_DEEP_BLUE,
@@ -171,12 +173,11 @@ class _Mapper extends React.Component<Props, State> {
     componentDidMount() {
         // Check if user has visited this route before
         // For simplicity, using a boolean flag stored in AsyncStorage
-        // You can replace this with your actual logic (e.g., API call)
-        AsyncStorage.getItem('visitedRoute').then(value => {
-            if (value !== null && value === 'true') {
-                this.setState({ firstTimeVisit: false });
-            }
-        });
+        // AsyncStorage.getItem('visitedRoute').then(value => {
+        //     if (value !== null && value === 'true') {
+        //         this.setState({ firstTimeVisit: false });
+        //     }
+        // });
 
         const { hasSeenHelpBoxType1 } = this.props;
         if (hasSeenHelpBoxType1 === undefined) {
@@ -270,6 +271,99 @@ class _Mapper extends React.Component<Props, State> {
             this.progress.updateProgress(progress);
         }
     };
+
+    accessibilityInfoModal() {
+        return (
+            <Modal
+                style={[styles.messageModal, styles.modal]}
+                entry="bottom"
+                position="center"
+                backdropPressToClose={false}
+                swipeToClose={false}
+                ref={r => {
+                    this.modalRef = r;
+                }}
+            >
+                <Text style={styles.header}>
+                    <Trans i18nKey="AccessibilityInstruction:heading">
+                        Accessibility Feature
+                    </Trans>
+                </Text>
+                <View style={styles.tutRow}>
+                    <Text>
+                        <Trans i18nKey="AccessibilityInstruction:descriptions">
+                            Mapping screens now have colored tiles as well as
+                            icons to better reflect the meaning.
+                        </Trans>
+                    </Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Image
+                        source={require('../../views/assets/tick_new_icon.png')}
+                        style={styles.tutImage}
+                    />
+                    <Text style={styles.tutText}>
+                        <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
+                            Tap once to turn the tile green and show a tick icon
+                        </Trans>
+                    </Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Image
+                        source={require('../../views/assets/question_mark_new_icon.png')}
+                        style={styles.tutImage}
+                    />
+                    <Text style={styles.tutText}>
+                        <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
+                            Tap twice to turn the tile yellow and show a
+                            question icon
+                        </Trans>
+                    </Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Image
+                        source={require('../../views/assets/bad_image_new_icon.png')}
+                        style={styles.tutImage}
+                    />
+                    <Text style={styles.tutText}>
+                        <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
+                            Tap thrice to turn the tile red and show a bad
+                            imagery icon
+                        </Trans>
+                    </Text>
+                </View>
+
+                <View style={styles.tutRow}>
+                    <Text style={styles.header}>
+                        <Trans i18nKey="AccessibilityInstruction:turnOnOff">
+                            How to turn on/off:
+                        </Trans>
+                    </Text>
+                </View>
+                <View style={styles.tutRow}>
+                    <Text style={styles.tutText}>
+                        <Trans i18nKey="AccessibilityInstruction:turnOnOff">
+                            Turn on/off the feature by visiting the Settings
+                            section under Profile
+                        </Trans>
+                    </Text>
+                </View>
+                <View style={styles.messageModalContent}>
+                    <Button
+                        style={styles.closeButton}
+                        onPress={this.closeModal}
+                        textStyle={{
+                            fontSize: 13,
+                            color: '#ffffff',
+                            fontWeight: '700',
+                        }}
+                    >
+                        Don&apos;t show me this again
+                    </Button>
+                </View>
+            </Modal>
+        );
+    }
 
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
@@ -400,7 +494,6 @@ class _Mapper extends React.Component<Props, State> {
             screens,
             tutorial,
             tutorialId,
-            t,
         } = this.props;
         const { poppedUpTile, firstTimeVisit } = this.state;
 
@@ -461,66 +554,8 @@ class _Mapper extends React.Component<Props, State> {
                 >
                     {poppedUpTile}
                 </Modal>
-                <Modal
-                    style={[styles.messageModal, styles.modal]}
-                    entry="bottom"
-                    position="center"
-                    backdropPressToClose={false}
-                    swipeToClose={false}
-                    ref={r => {
-                        this.modalRef = r;
-                    }}
-                >
-                    <Text style={styles.header}>
-                        <Trans i18nKey="AccessibilityInstruction:heading">
-                            Accessibility Instruction
-                        </Trans>
-                    </Text>
-                    <View style={styles.tutRow}>
-                        <Image
-                            source={require('../assets/tap_icon.png')}
-                            style={styles.tutImage}
-                        />
-                        <Text style={styles.tutText}>{t('instructions2')}</Text>
-                    </View>
-                    <Text style={styles.tutPar}>
-                        <Trans i18nKey="Tutorial:instructions3">
-                            We have added a new feature to the mapping screens
-                            where the colored tiles have an icon to better
-                            reflect the meaning.
-                            <Text style={{ color: 'rgb(36, 219, 26)' }}>
-                                YES
-                            </Text>
-                            , twice for&nbsp;
-                            {/* $FlowFixMe */}
-                            <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                                two taps taps taps
-                            </Text>
-                            , and three times for&nbsp;
-                            <Text style={{ color: 'rgb(230, 28, 28)' }}>
-                                BAD IMAGERY (such as clouds)
-                            </Text>
-                            .
-                        </Trans>
-                    </Text>
-                    <View style={styles.messageModalContent}>
-                        <Text>
-                            To enable accessibility feature go to profile and
-                            switch Accessibility
-                        </Text>
-                        <Button
-                            style={styles.closeButton}
-                            onPress={this.closeModal}
-                            textStyle={{
-                                fontSize: 13,
-                                color: '#ffffff',
-                                fontWeight: '700',
-                            }}
-                        >
-                            Don&apos;t show me this again
-                        </Button>
-                    </View>
-                </Modal>
+                {/* {this.accessibilityInfoModal()} */}
+                <AccessibilityInfoModal />
             </View>
         );
     }
