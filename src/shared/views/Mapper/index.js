@@ -28,6 +28,7 @@ import type {
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
 import { hideIconOutlineColor } from '../../common/SvgIcons';
+import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
 
 const GLOBAL = require('../../Globals');
 
@@ -461,11 +462,14 @@ export default class MapperScreen extends React.Component<Props> {
             otherProps.navigation.pop();
         }
         return (
-            <Mapper
-                randomSeed={this.randomSeed}
-                tutorialId={tutorialId}
-                {...otherProps}
-            />
+            <>
+                <AccessibilityInfoModal />
+                <Mapper
+                    randomSeed={this.randomSeed}
+                    tutorialId={tutorialId}
+                    {...otherProps}
+                />
+            </>
         );
     }
 }
