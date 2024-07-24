@@ -188,7 +188,8 @@
     "YouAreLookingFor": "You are looking for {{lookFor}}",
     "FromTheGround": "From the ground, it looks like this:",
     "ImagesFromAbove": "But the images you will see will show it from above, and it looks like this:",
-    "SwipeToContinue": "Swipe to continue"
+    "SwipeToContinue": "Swipe to continue",
+    "hideIcon": "Tap to hide icons"
   },
   "TutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Don't worry if you're unsure about what you see in a square.",

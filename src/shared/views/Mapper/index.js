@@ -409,6 +409,7 @@ class _Mapper extends React.Component<Props, State> {
                 >
                     {poppedUpTile}
                 </Modal>
+                {!tutorial && <AccessibilityInfoModal />}
             </View>
         );
     }
@@ -462,14 +463,11 @@ export default class MapperScreen extends React.Component<Props> {
             otherProps.navigation.pop();
         }
         return (
-            <>
-                <AccessibilityInfoModal />
-                <Mapper
-                    randomSeed={this.randomSeed}
-                    tutorialId={tutorialId}
-                    {...otherProps}
-                />
-            </>
+            <Mapper
+                randomSeed={this.randomSeed}
+                tutorialId={tutorialId}
+                {...otherProps}
+            />
         );
     }
 }

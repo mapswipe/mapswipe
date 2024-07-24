@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Trans, withTranslation } from 'react-i18next';
+import { SvgXml } from 'react-native-svg';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type { TranslationFunction, ProjectInformation } from '../../flow-types';
 import {
@@ -10,8 +11,10 @@ import {
     NumberedTapIconWhite3,
     SwipeIconWhite,
     TapIconWhite,
+    HideIcon,
 } from '../../common/Tutorial/icons';
 import InformationPage from '../../common/InformationPage';
+import { hideIconOutlineColor } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -134,6 +137,13 @@ const TutorialIntroScreen = (props: Props) => {
                         <TapIconWhite />
                         <Text style={styles.tutText}>
                             {t('TutorialIntroScreen:tapAgain')}
+                        </Text>
+                    </View>
+
+                    <View style={styles.tutRow}>
+                        <HideIcon />
+                        <Text style={styles.tutText}>
+                            {t('TutorialIntroScreen:hideIcon')}
                         </Text>
                     </View>
 
