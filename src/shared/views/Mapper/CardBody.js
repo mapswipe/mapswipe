@@ -678,15 +678,16 @@ class _CardBody extends React.PureComponent<Props, State> {
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
-                <View style={styles.iconContainer}>
-                    <TouchableOpacity
-                        onPressIn={this.onPressHideIconIn}
-                        onPressOut={this.onPressHideIconOut}
-                    >
-                        <SvgXml width={24} xml={hideIconFill} />
-                    </TouchableOpacity>
-                </View>
-
+                {!tutorial && (
+                    <View style={styles.iconContainer}>
+                        <TouchableOpacity
+                            onPressIn={this.onPressHideIconIn}
+                            onPressOut={this.onPressHideIconOut}
+                        >
+                            <SvgXml width={24} xml={hideIconFill} />
+                        </TouchableOpacity>
+                    </View>
+                )}
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 &&
