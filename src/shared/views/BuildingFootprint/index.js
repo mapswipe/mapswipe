@@ -153,7 +153,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                     tutorialId={tutorialId}
                     {...otherProps}
                 />
-                <AccessibilityInfoModal />
+                {!tutorial && <AccessibilityInfoModal />}
             </>
         );
     }
