@@ -13,7 +13,8 @@ import TickIcon from '../views/assets/tick_new_icon.png';
 const styles = StyleSheet.create({
     modal: {
         height: 'auto',
-        width: 300,
+        width: '95%',
+        maxWidth: 300,
         backgroundColor: '#ffffff',
         borderRadius: 2,
         justifyContent: 'center',
@@ -27,9 +28,11 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
+        flexWrap: 'wrap',
         marginTop: 15,
     },
     text: {
+        flex: 1,
         fontSize: 13,
         fontWeight: '600',
         color: '#50acd4',

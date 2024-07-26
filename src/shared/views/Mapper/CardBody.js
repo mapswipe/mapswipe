@@ -601,6 +601,8 @@ class _CardBody extends React.PureComponent<Props, State> {
                 Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
             ) *
             (180 / Math.PI);
+        const showHideIconButton =
+            (tutorial && this.getCurrentScreen() >= 0) || !tutorial;
 
         return (
             <>
@@ -678,7 +680,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
-                {!tutorial && (
+                {showHideIconButton && (
                     <View style={styles.iconContainer}>
                         <TouchableOpacity
                             onPressIn={this.onPressHideIconIn}

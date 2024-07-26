@@ -8,6 +8,7 @@ import { gql, useQuery } from '@apollo/client';
 import auth, { firebase } from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import analytics from '@react-native-firebase/analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     Alert,
     View,
@@ -572,9 +573,11 @@ function UserProfile(props: Props) {
             {
                 text: t('OK'),
                 onPress: () => {
-                    analytics().logEvent('sign_out');
-                    firebase.logout().then(() => {
-                        navigation.navigate('LoginNavigator');
+                    AsyncStorage.removeItem('visitedRoute').then(() => {
+                        analytics().logEvent('sign_out');
+                        firebase.logout().then(() => {
+                            navigation.navigate('LoginNavigator');
+                        });
                     });
                 },
                 style: 'destructive',
