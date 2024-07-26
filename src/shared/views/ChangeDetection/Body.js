@@ -368,15 +368,13 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                             {t('viewInstructions')}
                         </Text>
                     </TouchableWithoutFeedback>
-                    {!tutorial && (
-                        <TouchableOpacity
-                            onPressIn={this.onPressHideIconIn}
-                            onPressOut={this.onPressHideIconOut}
-                            style={styles.iconContainer}
-                        >
-                            <SvgXml width={24} xml={hideIconFill} />
-                        </TouchableOpacity>
-                    )}
+                    <TouchableOpacity
+                        onPressIn={this.onPressHideIconIn}
+                        onPressOut={this.onPressHideIconOut}
+                        style={styles.iconContainer}
+                    >
+                        <SvgXml width={24} xml={hideIconFill} />
+                    </TouchableOpacity>
                 </View>
                 <BottomProgress
                     ref={r => {

@@ -10,7 +10,6 @@ import {
     TouchableHighlight,
     View,
 } from 'react-native';
-import { SvgXml } from 'react-native-svg';
 import { Trans, withTranslation } from 'react-i18next';
 import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../../constants';
 import type {
@@ -23,9 +22,9 @@ import {
     NumberedTapIconWhite2,
     NumberedTapIconWhite3,
     SwipeIconWhite,
+    TapHideIconWhite,
 } from '../../common/Tutorial/icons';
 import InformationPage from '../../common/InformationPage';
-import { hideIconOutline } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -235,6 +234,20 @@ class CDInstructionScreen extends React.Component<Props> {
                                         </Trans>
                                     </Text>
                                 </View>
+                                <View style={styles.tutRow}>
+                                    <TapHideIconWhite />
+                                    <Text
+                                        style={[
+                                            styles.tutText,
+                                            styles.hideIconDescription,
+                                        ]}
+                                    >
+                                        <Trans i18nKey="CDInstructionScreen:hideIconDescription">
+                                            Tap and hold to hide icons and
+                                            overlay.
+                                        </Trans>
+                                    </Text>
+                                </View>
 
                                 <Text style={styles.tutParagraph}>
                                     {t('holdZoom')}
@@ -276,21 +289,6 @@ class CDInstructionScreen extends React.Component<Props> {
                                             <SwipeIconWhite />
                                         </View>
                                     )}
-
-                                <View style={styles.tutRow}>
-                                    <SvgXml xml={hideIconOutline} />
-                                    <Text
-                                        style={[
-                                            styles.tutText,
-                                            styles.hideIconDescription,
-                                        ]}
-                                    >
-                                        <Trans i18nKey="CDInstructionScreen:hideIconDescription">
-                                            Tap and hold to hide icons and
-                                            overlay.
-                                        </Trans>
-                                    </Text>
-                                </View>
                             </ScrollView>
                         </View>
                     }
