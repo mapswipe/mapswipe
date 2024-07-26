@@ -67,7 +67,7 @@ function AccessibilityInfoModal() {
 
     const getData = useCallback(async () => {
         try {
-            // NOOTE: Check if user has visited this route before
+            // NOTE: Check if user has visited this route before
             // For simplicity, using a boolean flag stored in AsyncStorage
             const value = await AsyncStorage.getItem('visitedRoute');
             if (value !== null) {
