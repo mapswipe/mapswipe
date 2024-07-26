@@ -63,6 +63,7 @@ type Props = {
     closeTilePopup: () => void,
     openTilePopup: () => void,
     hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 export class _Tile extends React.PureComponent<Props> {
@@ -185,6 +186,7 @@ export class _Tile extends React.PureComponent<Props> {
             tile: { taskId },
             tutorial,
             hideIcons,
+            visibleAccessibility,
         } = this.props;
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
@@ -204,6 +206,7 @@ export class _Tile extends React.PureComponent<Props> {
         }
         const imageSource = this.getImgSource();
         const tapIcon = this.renderTapIcon();
+        const hideAccessibilityIconsOnly = hideIcons || !visibleAccessibility;
 
         return (
             <TouchableHighlight
@@ -217,7 +220,7 @@ export class _Tile extends React.PureComponent<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    {hideIcons ? null : tapIcon}
+                    {hideAccessibilityIconsOnly ? null : tapIcon}
                     <View
                         style={[
                             styles.tileOverlay,

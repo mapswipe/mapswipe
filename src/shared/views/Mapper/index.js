@@ -28,6 +28,7 @@ import type {
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
 import { hideIconOutlineColor } from '../../common/SvgIcons';
+import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
 
 const GLOBAL = require('../../Globals');
 
@@ -408,6 +409,7 @@ class _Mapper extends React.Component<Props, State> {
                 >
                     {poppedUpTile}
                 </Modal>
+                {!tutorial && <AccessibilityInfoModal />}
             </View>
         );
     }

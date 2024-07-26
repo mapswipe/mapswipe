@@ -9,6 +9,7 @@ import {
     NumberedTapIconWhite2,
     NumberedTapIconWhite3,
     SwipeIconWhite,
+    TapHideIconWhite,
     TapIconWhite,
 } from '../../common/Tutorial/icons';
 import InformationPage from '../../common/InformationPage';
@@ -134,6 +135,13 @@ const TutorialIntroScreen = (props: Props) => {
                         <TapIconWhite />
                         <Text style={styles.tutText}>
                             {t('TutorialIntroScreen:tapAgain')}
+                        </Text>
+                    </View>
+
+                    <View style={styles.tutRow}>
+                        <TapHideIconWhite />
+                        <Text style={styles.tutText}>
+                            {t('TutorialIntroScreen:hideIcon')}
                         </Text>
                     </View>
 

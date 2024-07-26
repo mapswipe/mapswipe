@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { submitChange } from '../../actions/index';
 import ChangeDetectionBody from './Body';
+import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
 import type { NavigationProp } from '../../flow-types';
 import {
     COLOR_GREEN,
@@ -157,16 +158,19 @@ export default class ChangeDetectionScreen extends React.Component<Props> {
         }
 
         return (
-            <ChangeDetectionBody
-                navigation={navigation}
-                getNormalHelpContent={this.getNormalHelpContent}
-                randomSeed={this.randomSeed}
-                screenName="_ChangeDetectionScreen"
-                submitResultFunction={submitChange}
-                tutorial={tutorial}
-                tutorialId={tutorialId}
-                tutorialHelpContent={this.tutorialHelpContent}
-            />
+            <>
+                <ChangeDetectionBody
+                    navigation={navigation}
+                    getNormalHelpContent={this.getNormalHelpContent}
+                    randomSeed={this.randomSeed}
+                    screenName="_ChangeDetectionScreen"
+                    submitResultFunction={submitChange}
+                    tutorial={tutorial}
+                    tutorialId={tutorialId}
+                    tutorialHelpContent={this.tutorialHelpContent}
+                />
+                <AccessibilityInfoModal />
+            </>
         );
     }
 }

@@ -76,7 +76,8 @@
     "accountDeletedSuccessMessage": "Sorry to see you go...",
     "accountDeletionFailed": "Could not delete your account",
     "accountDeletionFailedMessage": "Please login again to confirm you want to delete your account",
-    "contributionHeatmap": "Contribution Heatmap (Last 30 days)"
+    "contributionHeatmap": "Contribution Heatmap (Last 30 days)",
+    "accessibility": "Accessibility"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% by {{mappersCount}} mappers"
@@ -187,7 +188,8 @@
     "YouAreLookingFor": "You are looking for {{lookFor}}",
     "FromTheGround": "From the ground, it looks like this:",
     "ImagesFromAbove": "But the images you will see will show it from above, and it looks like this:",
-    "SwipeToContinue": "Swipe to continue"
+    "SwipeToContinue": "Swipe to continue",
+    "hideIcon": "Tap to hide icon."
   },
   "TutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Don't worry if you're unsure about what you see in a square.",
@@ -231,6 +233,15 @@
     "instructionsNo": "No: when there are no buildings in the square",
     "instructionsNotSure": "Not sure: when your not certain if it's a building or not",
     "instructionsBadImagery": "Bad imagery: when there is cloud cover or issues with the imagery"
+  },
+  "AccessibilityInstruction": {
+      "heading": "Accessibility Feature",
+      "descriptions": "Mapping screens now have colored tiles as well as icons to better reflect the meaning.",
+      "tickIconInfo": "Tap once to turn the tile green and show a tick icon",
+      "questionMarkIconInfo": "Tap twice to turn the tile yellow and show a question icon",
+      "badImageIconInfo": "Tap thrice to turn the tile red and show a bad imagery icon",
+      "turnOnOff": "How to turn on/off:",
+      "turnOnOffDescription": "Turn on/off the feature by visiting the Settings section under Profile"
   },
   "userGroupScreen": {
     "join": "Join",

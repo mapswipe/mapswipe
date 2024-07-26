@@ -276,3 +276,12 @@ export const HideIcon = () => {
         </View>
     );
 };
+
+export const TapHideIconWhite = () => {
+    return (
+        <Image
+            source={require('../../views/assets/tap_hide.png')}
+            style={styles.tutImage}
+        />
+    );
+};
