@@ -110,6 +110,22 @@ const styles = StyleSheet.create({
     },
 });
 
+const checkUserNameExists = async username => {
+    try {
+        const snapshot = await fb
+            .database()
+            .ref('v2/users/')
+            .orderByChild('username')
+            .equalTo(username)
+            .once('value');
+
+        return snapshot.exists();
+    } catch (error) {
+        console.error('Error checking username: ', error);
+        return false;
+    }
+};
+
 // Screen constants
 const SCREEN_SIGNUP = 0;
 const SCREEN_LOGIN = 1;
@@ -232,6 +248,19 @@ class _Login extends React.Component<Props, State> {
             });
             return;
         }
+
+        const userNameAlreadyExist = checkUserNameExists(username);
+
+        if (userNameAlreadyExist) {
+            MessageBarManager.showAlert({
+                title: t('signup:errorOnSignup'),
+                message: t('signup:userNameExitError'),
+                alertType: 'error',
+                shouldHideAfterDelay: false,
+            });
+            return;
+        }
+
         this.setState({
             loadingNext: true,
         });
