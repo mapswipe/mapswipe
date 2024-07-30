@@ -115,7 +115,7 @@ const checkUserNameExists = async username => {
         const snapshot = await fb
             .database()
             .ref('v2/users/')
-            .orderByChild('username')
+            .orderByChild('usernameKey')
             .equalTo(username)
             .once('value');
 
