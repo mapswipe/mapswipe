@@ -140,6 +140,18 @@ type State = {
     signupPPChecked: boolean,
 };
 
+const checkInvalidUserName = name => {
+    if (name !== null && name.length < MIN_USERNAME_LENGTH) {
+        return true;
+    }
+
+    if (name !== null && name.length >= MIN_USERNAME_LENGTH) {
+        const validationRegex = /^[^A-Z\s]+$/;
+        return !validationRegex.test(name);
+    }
+    return false;
+};
+
 class _Login extends React.Component<Props, State> {
     didBlurSubscription: () => void;
 
@@ -199,7 +211,9 @@ class _Login extends React.Component<Props, State> {
         const { firebase, navigation, t } = this.props;
         const { email, password, username } = this.state;
         const parent = this;
-        if (username !== null && username.length < MIN_USERNAME_LENGTH) {
+
+        const invalidUserName = checkInvalidUserName(username);
+        if (invalidUserName) {
             MessageBarManager.showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:usernameErrorMessage'),
@@ -456,7 +470,17 @@ class _Login extends React.Component<Props, State> {
             email.length < MIN_EMAIL_LENGTH ||
             username.length < MIN_USERNAME_LENGTH ||
             password.length < MIN_PASSWORD_LENGTH ||
-            !signupPPChecked;
+            !signupPPChecked ||
+            showUsernameError;
+
+        const handleUserNameChange = newName => {
+            const invalidUserName = checkInvalidUserName(newName);
+
+            this.setState({
+                showUsernameError: invalidUserName,
+                username: newName,
+            });
+        };
 
         return (
             <ScrollView
@@ -481,13 +505,7 @@ class _Login extends React.Component<Props, State> {
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={text =>
-                        this.setState({
-                            showUsernameError:
-                                text.length < MIN_USERNAME_LENGTH,
-                            username: text,
-                        })
-                    }
+                    onChangeText={handleUserNameChange}
                     value={username}
                 />
                 {showUsernameError ? (

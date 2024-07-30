@@ -7,9 +7,9 @@
   "signup": {
     "chooseUsername": "Choose your username",
     "passwordError": "Password must be at least 6 characters long",
-    "usernameError": "Username must be at least 4 characters long",
+    "usernameError": "Username must be at least 4 characters long and cannot contain space and capital letter",
     "errorOnSignup": "Error on sign up",
-    "usernameErrorMessage": "Your username must be 4 characters or more",
+    "usernameErrorMessage": "Your username must be 4 characters or more and cannot contain space and capital letter",
     "usernameNotEmail": "Your username can not be an email",
     "usernamePublic": "Your username will be publicly visible",
     "success": "Success",
