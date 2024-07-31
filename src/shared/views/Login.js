@@ -126,6 +126,24 @@ const checkUserNameExists = async username => {
     }
 };
 
+const validateUserName = name => {
+    if (!name) return false;
+
+    if (name.length < MIN_USERNAME_LENGTH) {
+        return false;
+    }
+
+    if (name.length >= MIN_USERNAME_LENGTH) {
+        // NOTE: this validation mirror is also used in firebase function
+        // python-mapswipe-workers/firebase/functions/src/utils/index.ts
+        const removeUserNameSpace = name.replace(/\s+/g, '');
+        const newUserName = removeUserNameSpace.toLowerCase();
+
+        return newUserName === name;
+    }
+    return false;
+};
+
 // Screen constants
 const SCREEN_SIGNUP = 0;
 const SCREEN_LOGIN = 1;
@@ -154,18 +172,6 @@ type State = {
     showUsernameError: boolean,
     signupOSMPPChecked: boolean,
     signupPPChecked: boolean,
-};
-
-const checkInvalidUserName = name => {
-    if (name !== null && name.length < MIN_USERNAME_LENGTH) {
-        return true;
-    }
-
-    if (name !== null && name.length >= MIN_USERNAME_LENGTH) {
-        const validationRegex = /^[^A-Z\s]+$/;
-        return !validationRegex.test(name);
-    }
-    return false;
 };
 
 class _Login extends React.Component<Props, State> {
@@ -223,13 +229,13 @@ class _Login extends React.Component<Props, State> {
         }
     }
 
-    handleSignUp = () => {
+    handleSignUp = async () => {
         const { firebase, navigation, t } = this.props;
         const { email, password, username } = this.state;
         const parent = this;
 
-        const invalidUserName = checkInvalidUserName(username);
-        if (invalidUserName) {
+        const isValid = validateUserName(username);
+        if (!isValid) {
             MessageBarManager.showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:usernameErrorMessage'),
@@ -249,21 +255,21 @@ class _Login extends React.Component<Props, State> {
             return;
         }
 
-        const userNameAlreadyExist = checkUserNameExists(username);
+        this.setState({ loadingNext: true });
+        const userNameAlreadyExist = await checkUserNameExists(username);
 
         if (userNameAlreadyExist) {
             MessageBarManager.showAlert({
                 title: t('signup:errorOnSignup'),
-                message: t('signup:userNameExitError'),
+                message: t('signup:userNameExistError'),
                 alertType: 'error',
                 shouldHideAfterDelay: false,
             });
+            this.setState({ loadingNext: false });
             return;
         }
 
-        this.setState({
-            loadingNext: true,
-        });
+        this.setState({ loadingNext: true });
 
         firebase
             .createUser({ email, password }, { username })
@@ -283,6 +289,7 @@ class _Login extends React.Component<Props, State> {
                     projectContributionCount: 0,
                     taskContributionCount: 0,
                     username,
+                    usernameKey: username,
                 });
             })
             .then(() => {
@@ -502,12 +509,12 @@ class _Login extends React.Component<Props, State> {
             !signupPPChecked ||
             showUsernameError;
 
-        const handleUserNameChange = newName => {
-            const invalidUserName = checkInvalidUserName(newName);
+        const handleUserNameChange = name => {
+            const isValid = validateUserName(name);
 
             this.setState({
-                showUsernameError: invalidUserName,
-                username: newName,
+                showUsernameError: !isValid,
+                username: name,
             });
         };
 

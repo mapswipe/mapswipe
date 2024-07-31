@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
 type Props = {
     children: any,
-    onPress: () => void | boolean,
+    onPress: () => void | boolean | Promise<void>,
     textStyle?: TextStyleProp,
     style: ViewStyleProp,
     testID?: string,
