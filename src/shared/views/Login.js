@@ -30,6 +30,7 @@ import {
     devOsmUrl,
     MIN_USERNAME_LENGTH,
 } from '../constants';
+import { checkUserNameExists, validateUserName } from '../utils';
 
 /* eslint-disable global-require */
 
@@ -109,40 +110,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
 });
-
-const checkUserNameExists = async username => {
-    try {
-        const snapshot = await fb
-            .database()
-            .ref('v2/users/')
-            .orderByChild('usernameKey')
-            .equalTo(username)
-            .once('value');
-
-        return snapshot.exists();
-    } catch (error) {
-        console.error('Error checking username: ', error);
-        return false;
-    }
-};
-
-const validateUserName = name => {
-    if (!name) return false;
-
-    if (name.length < MIN_USERNAME_LENGTH) {
-        return false;
-    }
-
-    if (name.length >= MIN_USERNAME_LENGTH) {
-        // NOTE: this validation mirror is also used in firebase function
-        // python-mapswipe-workers/firebase/functions/src/utils/index.ts
-        const removeUserNameSpace = name.replace(/\s+/g, '');
-        const newUserName = removeUserNameSpace.toLowerCase();
-
-        return newUserName === name;
-    }
-    return false;
-};
 
 // Screen constants
 const SCREEN_SIGNUP = 0;
@@ -269,8 +236,6 @@ class _Login extends React.Component<Props, State> {
             return;
         }
 
-        this.setState({ loadingNext: true });
-
         firebase
             .createUser({ email, password }, { username })
             .then(() => {
@@ -289,6 +254,7 @@ class _Login extends React.Component<Props, State> {
                     projectContributionCount: 0,
                     taskContributionCount: 0,
                     username,
+                    // NOTE: We can assign username to usernameKey because we have already validated the username earlier
                     usernameKey: username,
                 });
             })
