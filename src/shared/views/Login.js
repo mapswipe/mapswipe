@@ -30,6 +30,7 @@ import {
     devOsmUrl,
     MIN_USERNAME_LENGTH,
 } from '../constants';
+import { isValidUsername } from '../utils';
 
 /* eslint-disable global-require */
 
@@ -199,15 +200,6 @@ class _Login extends React.Component<Props, State> {
         const { firebase, navigation, t } = this.props;
         const { email, password, username } = this.state;
         const parent = this;
-        if (username !== null && username.length < MIN_USERNAME_LENGTH) {
-            MessageBarManager.showAlert({
-                title: t('signup:errorOnSignup'),
-                message: t('signup:usernameErrorMessage'),
-                alertType: 'error',
-                shouldHideAfterDelay: false,
-            });
-            return;
-        }
 
         if (username !== null && username.indexOf('@') !== -1) {
             MessageBarManager.showAlert({
@@ -218,6 +210,17 @@ class _Login extends React.Component<Props, State> {
             });
             return;
         }
+
+        if (!isValidUsername(username)) {
+            MessageBarManager.showAlert({
+                title: t('signup:errorOnSignup'),
+                message: t('signup:usernameErrorMessage'),
+                alertType: 'error',
+                shouldHideAfterDelay: false,
+            });
+            return;
+        }
+
         this.setState({
             loadingNext: true,
         });
