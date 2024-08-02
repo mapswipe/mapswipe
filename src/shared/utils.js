@@ -1,3 +1,7 @@
+import fb from '@react-native-firebase/app';
+
+import { MIN_USERNAME_LENGTH } from './constants';
+
 /**
  * Identifies if value is NaN.
  * @param val
@@ -257,4 +261,33 @@ export function getTimeSegments(
         nextState,
         lastState,
     );
+}
+
+export function validateUserName(name) {
+    if (!name || name.length < MIN_USERNAME_LENGTH) {
+        return false;
+    }
+
+    // NOTE: this validation mirror is also used in firebase function
+    // python-mapswipe-workers/firebase/functions/src/utils/index.ts
+    const removeUserNameSpace = name.replace(/\s+/g, '');
+    const newUserName = removeUserNameSpace.toLowerCase();
+
+    return newUserName === name;
+}
+
+export async function checkUserNameExists(username) {
+    try {
+        const snapshot = await fb
+            .database()
+            .ref('v2/users/')
+            .orderByChild('usernameKey')
+            .equalTo(username)
+            .once('value');
+
+        return snapshot.exists();
+    } catch (error) {
+        console.error('Error checking username: ', error);
+        return false;
+    }
 }

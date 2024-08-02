@@ -30,6 +30,7 @@ import {
     devOsmUrl,
     MIN_USERNAME_LENGTH,
 } from '../constants';
+import { checkUserNameExists, validateUserName } from '../utils';
 
 /* eslint-disable global-require */
 
@@ -195,11 +196,13 @@ class _Login extends React.Component<Props, State> {
         }
     }
 
-    handleSignUp = () => {
+    handleSignUp = async () => {
         const { firebase, navigation, t } = this.props;
         const { email, password, username } = this.state;
         const parent = this;
-        if (username !== null && username.length < MIN_USERNAME_LENGTH) {
+
+        const isValid = validateUserName(username);
+        if (!isValid) {
             MessageBarManager.showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:usernameErrorMessage'),
@@ -218,9 +221,20 @@ class _Login extends React.Component<Props, State> {
             });
             return;
         }
-        this.setState({
-            loadingNext: true,
-        });
+
+        this.setState({ loadingNext: true });
+        const userNameAlreadyExist = await checkUserNameExists(username);
+
+        if (userNameAlreadyExist) {
+            MessageBarManager.showAlert({
+                title: t('signup:errorOnSignup'),
+                message: t('signup:userNameExistError'),
+                alertType: 'error',
+                shouldHideAfterDelay: false,
+            });
+            this.setState({ loadingNext: false });
+            return;
+        }
 
         firebase
             .createUser({ email, password }, { username })
@@ -240,6 +254,8 @@ class _Login extends React.Component<Props, State> {
                     projectContributionCount: 0,
                     taskContributionCount: 0,
                     username,
+                    // NOTE: We can assign username to usernameKey because we have already validated the username earlier
+                    usernameKey: username,
                 });
             })
             .then(() => {
@@ -456,7 +472,17 @@ class _Login extends React.Component<Props, State> {
             email.length < MIN_EMAIL_LENGTH ||
             username.length < MIN_USERNAME_LENGTH ||
             password.length < MIN_PASSWORD_LENGTH ||
-            !signupPPChecked;
+            !signupPPChecked ||
+            showUsernameError;
+
+        const handleUserNameChange = name => {
+            const isValid = validateUserName(name);
+
+            this.setState({
+                showUsernameError: !isValid,
+                username: name,
+            });
+        };
 
         return (
             <ScrollView
@@ -481,13 +507,7 @@ class _Login extends React.Component<Props, State> {
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={text =>
-                        this.setState({
-                            showUsernameError:
-                                text.length < MIN_USERNAME_LENGTH,
-                            username: text,
-                        })
-                    }
+                    onChangeText={handleUserNameChange}
                     value={username}
                 />
                 {showUsernameError ? (
