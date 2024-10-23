@@ -125,7 +125,7 @@ function AccessibilityInfoModal() {
             <View style={styles.row}>
                 <Image source={QuestionMarkIcon} style={styles.image} />
                 <Text style={styles.text}>
-                    <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
+                    <Trans i18nKey="AccessibilityInstruction:questionMarkIconInfo">
                         Tap twice to turn the tile yellow and show a question
                         icon
                     </Trans>
@@ -134,7 +134,7 @@ function AccessibilityInfoModal() {
             <View style={styles.row}>
                 <Image source={BadImageIcon} style={styles.image} />
                 <Text style={styles.text}>
-                    <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
+                    <Trans i18nKey="AccessibilityInstruction:badImageIconInfo">
                         Tap thrice to turn the tile red and show a bad imagery
                         icon
                     </Trans>
