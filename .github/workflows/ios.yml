@@ -11,12 +11,12 @@ jobs:
     name: Build and release iOS app
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
       - name: List available versions of Xcode
         run: ls -n /Applications/ | grep Xcode*
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -130,14 +130,14 @@ jobs:
         run: cd ios && bundle exec fastlane release
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build.log
           path: ~/Library/Logs/gym/*.log
 
       - name: Upload release assets
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           prerelease: ${{ endsWith(github.ref, '-beta') }}
           files: |
