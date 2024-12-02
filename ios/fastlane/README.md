@@ -35,7 +35,7 @@ Build the app and run the tests defined for the mapswipe scheme. Used in github 
 ```
 fastlane ios release
 ```
-Build production version and upload to appstore. This step is executed when a tag on master is created
+Build production version and upload to appstore. This step is executed when a tag on main is created
 ### ios beta
 ```
 fastlane ios beta

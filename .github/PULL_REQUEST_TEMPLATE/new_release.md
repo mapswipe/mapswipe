@@ -5,7 +5,7 @@ about: A PR that prepares for a new production release
 
 ## Release checklist
 
-This template only applies to a PR that prepares a new production release (ie. a PR from `dev` into `master`).
+This template only applies to a PR that prepares a new production release (ie. a PR from `dev` into `main`).
 If this is not what you are doing, you can skip this template.
 
 ### General
@@ -13,7 +13,7 @@ If this is not what you are doing, you can skip this template.
 - [ ] someone has reviewed my code
 - [ ] The CI checks are passing before merging the PR
 - [ ] I've rebased my branch off a recent `dev` branch commit, or merged `dev` into my branch and resolved all conflicts
-- [ ] Any commit to `master` since the last release are also merged into `dev`.
+- [ ] Any commit to `main` since the last release are also merged into `dev`.
 - [ ] Reference related issues in the PR description
 - [ ] The next [milestone](https://github.com/mapswipe/mapswipe/milestones) is created
 - [ ] All items in the current release milestone are closed or reassigned to the next milestone
