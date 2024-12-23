@@ -203,7 +203,7 @@
       "everyTimeYouSelectAnOption": "Chaque fois que vous sélectionnez une option, une nouvelle forme et image vous seront proposées.",
       "tapGreenText": "Oui - la forme correspond au contour d'un bâtiment sur cette image",
       "tapRedText": "Non - la forme ne correspond pas au contour d'un bâtiment sur cette image",
-      "tapGrayText": "Pas sûr - si vous n'êtes pas sûr ou s'il y a une couverture nuageuse ou une mauvaise imagerie",
+      "tapGrayText": "Pas sûr.e - si vous n'êtes pas sûr.e, s'il y a des nuages ou une mauvaise imagerie",
       "hideIconText": "Maintenez le bouton de masquage enfoncé pour supprimer la forme de l'image",
       "letsLearnHowToMap": "Apprenons à cartographier avec quelques exemples",
       "youllSeeASquare": "Vous verrez une forme sur une image. Utilisez les boutons pour répondre :",
