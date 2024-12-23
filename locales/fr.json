@@ -74,7 +74,7 @@
     "email": "E-mail",
     "accountDeleted": "Compte supprimé !",
     "accountDeletedSuccessMessage": "Nous sommes désolés de vous voir partir...",
-    "accountDeletionFailed": "Impossible de supprimer le compte",
+    "accountDeletionFailed": "Nous n'avons pas pu supprimer votre compte",
     "accountDeletionFailedMessage": "Merci de vous reconnecter pour confirmer la suppression de votre compte",
     "contributionHeatmap": "Carte thermique des contributions (30 derniers jours)"
   },
