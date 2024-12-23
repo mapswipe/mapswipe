@@ -209,7 +209,7 @@
       "youllSeeASquare": "Vous verrez une forme sur une image. Utilisez les boutons pour répondre :",
       "squareContainsBuildings": "Est-ce que le carré contient un ou plusieurs bâtiments ?",
       "squareWillMove": "Le carré va parcourir l'image au fur et au mesure de vos progrès, en suivant cette progression :",
-      "swipeToGetStarted": "Faites glisser pour commencer",
+      "swipeToGetStarted": "Balayez l'écran pour commencer",
       "swipeToContinue": "Balayer pour continuer"
   },
   "BFTutorialOutroScreen": {
