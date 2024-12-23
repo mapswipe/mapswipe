@@ -15,7 +15,7 @@
     "success": "Réussi",
     "welcomeToMapSwipe": "Bienvenue sur MapSwipe, {{username}}",
     "emailAlreadyUsed": "L'adresse e-mail est déjà utilisée par un autre compte",
-    "emailInvalid": "L'adresse email n'est pas valide.",
+    "emailInvalid": "L'adresse email n'est pas valide",
     "problemSigningUp": "Problème d'inscription",
     "errorOnSignUp": "Erreur lors de l'inscription ",
     "checkYourEmail": "Vérifiez votre boîte e-mail",
