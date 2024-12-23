@@ -116,7 +116,7 @@
   "CDInstructionScreen": {
     "instructions": "Instructions",
     "your task": "Votre mission :",
-    "lookingFor": "Vous êtes à la recherche de <1>modifications des bâtiments</1>. Cela constitue un indicateur clair d'un changement de la taille de la population.",
+    "lookingFor": "Vous êtes à la recherche de <1>changements dans les bâtiments</1>. Ils constituent un indicateur clair de changement de la taille de la population.",
     "perform task": "Comment faire:",
     "noChanges": "S'il n'y a pas de changement, il suffit de <1>balayer</1> aux photos suivantes",
     "seeChanges": "Si vous voyez un changement dans les bâtiments, <1>tapez une fois</1> et la tuile devient verte",
