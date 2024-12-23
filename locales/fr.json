@@ -82,7 +82,7 @@
     "progress pc by x mappers": "{{progress}}% par {{mappersCount}} cartographes"
   },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% EFFECTUÉS PAR {{contributorCount}} CARTOGRAPHES COMME VOUS.",
+    "x pc global progress by n mappers": "{{projectProgress}}% DU TOTAL ACHEVÉS PAR {{contributorCount}} CARTOGRAPHES COMME VOUS.",
     "userProgressForProject": "{{userProgress}}% pour ce projet",
     "quotaReachedWarning": "Choisissez un autre projet dans la liste des projets",
     "map now": "Commencer à cartographier",
