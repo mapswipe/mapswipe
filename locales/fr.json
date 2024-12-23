@@ -183,7 +183,7 @@
     "WhatToLookFor": "Ce que vous cherchez",
     "YouAreLookingFor": "Vous cherchez : {{lookFor}}",
     "FromTheGround": "Vu du sol, cela ressemble à ça :",
-    "ImagesFromAbove": "Mais les images que vous verrez le montreront vu du ciel, et ça ressemble à ça :",
+    "ImagesFromAbove": "Mais les images que vous verrez montreront la même scène vue du ciel, et ça ressemble à ça :",
     "SwipeToContinue": "Faites glisser pour continuer"
   },
   "TutorialOutroScreen": {
