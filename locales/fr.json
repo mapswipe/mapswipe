@@ -35,7 +35,7 @@
     "loginExistingAccount": "Connectez-vous à un compte existant",
     "login": "Connexion",
     "loginSignupWithOSM": "Connexion avec OpenStreetMap",
-    "OSMsignupExplanation": "Vous pouvez vous connecter à MapSwipe avec votre compte OpenStreetMap. Si vous avez déjà un compte MapSwipe, ceci ne fusionnera pas vos comptes! (cette fonction sera bientôt disponible dans une prochaine version)",
+    "OSMsignupExplanation": "Vous pouvez vous inscrire à MapSwipe avec votre compte OpenStreetMap. Si vous avez déjà un compte MapSwipe, ceci ne fusionnera pas vos comptes ! (Cette fonction sera bientôt disponible dans une prochaine version)",
     "forgotPassword": "Mot de passe oublié ?",
     "createNewAccount": "Créer un nouveau compte",
     "sendResetEmailWarning": "* Un email vous sera envoyé pour réinitialiser votre mot de passe",
