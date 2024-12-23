@@ -125,7 +125,7 @@
     "holdZoom": "Si vous avez besoin de voir une image de plus près, gardez le doigt appuyé dessus et une image légèrement plus grande apparaîtra.",
     "hint": "Astuce :",
     "differentImagery": "Parfois, différentes sources d'imagerie auront été utilisées. Les images peuvent être alignées de manière légèrement différente ou avoir une résolution différente. Rappelez-vous que vous cherchez <1>des changements clairs de l'habitat et des bâtiments</1> donc, si les mêmes bâtiments sont présents, même s'il y a un nouveau toit, il s'agira d'un scénario \"sans changement\" et vous pourrez simplement passer à l'image suivante.",
-    "swipeToGetStarted": "Plus d'informations"
+    "swipeToGetStarted": "Balayez pour voir plus d'informations"
   },
   "CDBodyScreen": {
     "viewInstructions": "Voir les instructions"
