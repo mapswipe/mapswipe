@@ -121,7 +121,7 @@
     "noChanges": "S'il n'y a pas de changement, il suffit de <1>balayer</1> vers les photos suivantes",
     "seeChanges": "Si vous voyez un changement dans les bâtiments, <1>tapez une fois</1> et le carré deviendra vert",
     "unsure": "Pas certain ? <1>Tapez deux fois</1> et le carré deviendra jaune",
-    "badImagery": "Un problème d'imagerie, par exemple si des nuages bloquent la vue de l'une des deux images ? <1>Tapez trois fois</1> et le carré deviendra rouge",
+    "badImagery": "Un problème d'imagerie, par exemple si des nuages bloquent la vue de l'une desimages ? <1>Tapez trois fois</1> et le carré deviendra rouge",
     "holdZoom": "Pour zoomer sur une image, appuyez dessus pendant une seconde ou plus.",
     "hint": "Astuce:",
     "differentImagery": "Parfois, différentes sources d'imagerie auront été utilisées. Les images peuvent être alignées de manière légèrement différente ou avoir une résolution différente. Rappelez-vous, vous cherchez <1>des changements précis dans l'habitat et dans les bâtiments</1> Ainsi, si les mêmes bâtiments semblent être là, mais qu'il y a peut-être un nouveau toit, il s'agira d'un scénario \"sans changement\" et vous passerez simplement à l'image suivante.",
