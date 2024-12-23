@@ -73,7 +73,7 @@
     "missingMaps": "Missing Maps",
     "email": "E-mail",
     "accountDeleted": "Compte supprimé !",
-    "accountDeletedSuccessMessage": "Nous sommes tristes de vous voir partir...",
+    "accountDeletedSuccessMessage": "Nous sommes désolés de vous voir partir...",
     "accountDeletionFailed": "Impossible de supprimer le compte",
     "accountDeletionFailedMessage": "Merci de vous reconnecter pour confirmer la suppression de votre compte",
     "contributionHeatmap": "Carte thermique des contributions (30 derniers jours)"
