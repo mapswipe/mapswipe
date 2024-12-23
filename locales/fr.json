@@ -161,7 +161,7 @@
     "maybe": "PEUT ÊTRE",
     "instructions1": "Comment contribuer",
     "instructions2": "TAPE POUR SELECTIONNER",
-    "instructions3": "Cherchez les éléments indiqués dans la description de votre projet. Tapez sur chaque carré où vous identifiez ce que vous cherchez. Tapez une fois pour <1>OUI</1>, deux fois pour <3>{{twoTaps}}</3>, et trois fois pour <5>IMAGE DE MAUVAISE QUALITÉ</5> (par exemple s'il y a des nuages).",
+    "instructions3": "Cherchez les éléments indiqués dans la description de votre projet. Tapez sur chaque carré où vous identifiez ce que vous cherchez. Tapez une fois pour <1>OUI</1>, deux fois pour <3>{{twoTaps}}</3>, et trois fois pour <5>MAUVAISE IMAGERIE</5> (par exemple s'il y a des nuages).",
     "instructions4": "NAVIGUEZ EN FAISANT GLISSER L'ÉCRAN",
     "instructions5": "Quand vous avez fini un écran, faites glisser vers la gauche pour continuer.",
     "instructions6": "GARDEZ APPUYÉ POUR ZOOMER",
