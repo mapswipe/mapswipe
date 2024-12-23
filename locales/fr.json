@@ -224,7 +224,7 @@
     "doesShapeOutlineABuilding": "La forme correspond-elle au contour d'un bâtiment ?",
     "howToContribute": "Comment contribuer",
     "squareContainsBuildings": "Le carré contient-il un ou plusieurs bâtiments ? Utilisez les boutons pour répondre :",
-    "instructionsYes": "Oui: s'il y a un bâtiment ou des parties de bâtiments dans le carré",
+    "instructionsYes": "Oui : s'il y a un bâtiment ou une partie de bâtiment dans le carré",
     "instructionsNo": "Non: s'il n'y a aucun bâtiment dans le carré",
     "instructionsNotSure": "Pas sûr.e: si vous ne savez pas quoi répondre",
     "instructionsBadImagery": "Mauvaise imagerie: s'il y'a des nuages ou un problème avec l'imagerie"
