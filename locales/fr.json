@@ -198,7 +198,7 @@
     "completedTutorial": "Vous avez maintenant tous les acquis nécessaires pour contribuer à la cartographie humanitaire avec l'appli. Vous pouvez revenir ici à tout moment pour rafraîchir vos connaissances."
   },
   "BuildingFootprintTutorialIntroScreen": {
-      "useTheButtonsToAnswer": "Utilisez les boutons pour répondre:",
+      "useTheButtonsToAnswer": "Utilisez les boutons pour répondre :",
       "doesTheShapeOutlineABuilding": "La forme dessine-t-elle un bâtiment ?",
       "everyTimeYouSelectAnOption": "Chaque fois que vous sélectionnez une option, une nouvelle forme et une nouvelle image s'affichent.",
       "tapGreenText": "Oui, la forme décrit un bâtiment dans l'image",
