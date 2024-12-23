@@ -174,7 +174,7 @@
     "tutorial5": "J'ai compris"
   },
   "TutorialIntroScreen": {
-    "thisTutoWillTeachYou": "Ce tutoriel va vous montrer comment utiliser MapSwipe. Voici les bases:",
+    "thisTutoWillTeachYou": "Ce tutoriel va vous montrer comment utiliser MapSwipe. Voici les bases :",
     "noChanges": "Si vous ne voyez pas ce que vous cherchez dans les images, <1>faites glissez</1> vers l'écran suivant",
     "seeChanges": "Si vous voyez quelque chose dans une des images, <1>tapez dessus une fois pour la marquer en vert</1>.",
     "unsure": "Pas sûr.e de ce que vous voyez? <1>Tapez deux fois pour marquer l'image en jaune</1>",
