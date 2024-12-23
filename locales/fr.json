@@ -99,7 +99,7 @@
     "completeSession": "Terminer la session",
     "continueMapping": "Continuer à cartographier",
     "sync alert": "Synchronisation en cours",
-    "sync alert message": "Transmission des réponses... Ne fermez pas l'appli."
+    "sync alert message": "Synchronisation de vos tâches... Ne fermez pas l'appli."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Bienvenue sur MapSwipe",
