@@ -190,7 +190,7 @@
     "dontWorryIfYoureUnsure": "Ne vous inquiétez pas si vous n'êtes pas sûr.e de ce que vous voyez sur une image.",
     "youCanAlwaysTapTwice": "Souvenez-vous que vous pouvez toujours taper deux fois pour marquer le carré en jaune en cas de doute",
     "everyImageViewedBy": "Chaque image est vue par plusieurs personnes, donc ne soyez pas inquiet de rater quelque chose",
-    "holdZoom": "Vous pouvez faire un appui long sur une image pour zoomer. Tapez de nouveau pour continuer."
+    "holdZoom": "Vous pouvez appuyer longuement sur un carré pour zoomer dessus. Tapez une fois de plus pour dézoomer."
   },
   "TutorialEndScreen": {
     "readyToStart": "Vous êtes prêt.e à MapSwiper!",
