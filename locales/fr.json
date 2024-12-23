@@ -181,7 +181,7 @@
     "badImagery": "S'il y'a un problème avec une image, <1>tapez le carré trois fois pour le marquer en rouge</1>",
     "tapAgain": "Tapez une fois de plus pour remettre le carré à son état initial.",
     "WhatToLookFor": "Ce que vous cherchez",
-    "YouAreLookingFor": "Vous cherchez: {{lookFor}}",
+    "YouAreLookingFor": "Vous cherchez : {{lookFor}}",
     "FromTheGround": "Au sol, cela ressemble à ça:",
     "ImagesFromAbove": "Mais les images que vous verrez montreront la même chose depuis le ciel, et ressembleront à ça:",
     "SwipeToContinue": "Faites glisser pour continuer"
