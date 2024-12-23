@@ -10,7 +10,7 @@
     "usernameError": "Le nom d'utilisateur doit contenir au moins 4 caractères",
     "errorOnSignup": "Erreur lors de l'inscription",
     "usernameErrorMessage": "Votre nom d'utilisateur doit contenir 4 caractères au minimum",
-    "usernameNotEmail": "Votre nom d'utilisateur ne peut pas être une adresse e-mail.",
+    "usernameNotEmail": "Votre nom d'utilisateur ne peut pas être une adresse e-mail",
     "usernamePublic": "Votre nom d'utilisateur sera visible publiquement",
     "success": "Réussi",
     "welcomeToMapSwipe": "Bienvenue sur MapSwipe, {{username}}",
