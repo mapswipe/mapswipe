@@ -48,7 +48,7 @@
   "profileScreen": {
     "Level X": "Niveau {{level}}",
     "youve completed x tasks": "Vous avez complété {{contributions}} tâches !",
-    "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} écrans) avant le niveau supérieur",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} balayages) avant le niveau supérieur",
     "yourTeam": "Votre équipe : {{teamName}}",
     "changeLanguage": "Changer de langue",
     "mapswipe website": "Site web de MapSwipe",
