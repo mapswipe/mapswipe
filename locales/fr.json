@@ -226,7 +226,7 @@
     "squareContainsBuildings": "Le carré contient-il un ou plusieurs bâtiments ? Utilisez les boutons pour répondre :",
     "instructionsYes": "Oui : s'il y a un bâtiment ou une partie de bâtiment dans le carré",
     "instructionsNo": "Non : s'il n'y a aucun bâtiment dans le carré",
-    "instructionsNotSure": "Pas sûr.e: si vous ne savez pas quoi répondre",
+    "instructionsNotSure": "Pas sûr.e : si vous n'êtes pas sûr.e qu'il s'agisse d'un bâtiment",
     "instructionsBadImagery": "Mauvaise imagerie: s'il y'a des nuages ou un problème avec l'imagerie"
   },
   "userGroupScreen": {
