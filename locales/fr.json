@@ -38,7 +38,7 @@
     "OSMsignupExplanation": "Vous pouvez vous inscrire à MapSwipe avec votre compte OpenStreetMap. Si vous avez déjà un compte MapSwipe, ceci ne fusionnera pas vos comptes ! (Cette fonction sera bientôt disponible dans une prochaine version)",
     "forgotPassword": "Mot de passe oublié ?",
     "createNewAccount": "Créer un nouveau compte",
-    "sendResetEmailWarning": "* Un email vous sera envoyé pour réinitialiser votre mot de passe",
+    "sendResetEmailWarning": "* Nous vous enverrons un e-mail pour réinitialiser votre mot de passe",
     "sendResetEmail": "Envoyer l’e-mail de réinitialisation",
     "backToLogin": "Retour à la connexion"
   },
