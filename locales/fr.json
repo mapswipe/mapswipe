@@ -124,7 +124,7 @@
     "badImagery": "Un problème d'imagerie, par exemple si des nuages bloquent la vue de l'une desimages ? <1>Tapez trois fois</1> et le carré deviendra rouge",
     "holdZoom": "Si vous avez besoin de voir une image de plus près, gardez le doigt appuyé dessus et une image légèrement plus grande apparaîtra.",
     "hint": "Astuce :",
-    "differentImagery": "Parfois, différentes sources d'imagerie auront été utilisées. Les images peuvent être alignées de manière légèrement différente ou avoir une résolution différente. Rappelez-vous, vous cherchez <1>des changements précis dans l'habitat et dans les bâtiments</1> Ainsi, si les mêmes bâtiments semblent être là, mais qu'il y a peut-être un nouveau toit, il s'agira d'un scénario \"sans changement\" et vous passerez simplement à l'image suivante.",
+    "differentImagery": "Parfois, différentes sources d'imagerie auront été utilisées. Les images peuvent être alignées de manière légèrement différente ou avoir une résolution différente. Rappelez-vous que vous cherchez <1>des changements clairs de l'habitat et des bâtiments</1> donc, si les mêmes bâtiments sont présents, même s'il y a un nouveau toit, il s'agira d'un scénario \"sans changement\" et vous pourrez simplement passer à l'image suivante.",
     "swipeToGetStarted": "Plus d'informations"
   },
   "CDBodyScreen": {
