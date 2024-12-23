@@ -119,7 +119,7 @@
     "lookingFor": "Vous êtes à la recherche de <1>changements parmi les bâtiments</1>. C'est un indicateur fiable de changement de la taille de la population.",
     "perform task": "Comment réaliser cette tâche :",
     "noChanges": "S'il n'y a pas de changement, il suffit de <1>balayer</1> vers les photos suivantes",
-    "seeChanges": "Si vous voyez un changement dans les bâtiments, <1>tapez une fois</1> et la tuile devient verte",
+    "seeChanges": "Si vous voyez un changement dans les bâtiments, <1>tapez une fois</1> et le carré deviendra vert",
     "unsure": "Incertain? <1>Tapez deux fois</1> et la tuile deviendra jaune",
     "badImagery": "Un problème d'imagerie, comme si l'une des images avait des nuages qui couvraient la vue ? <1>Tapez trois fois</1> et la tuile deviendra rouge",
     "holdZoom": "Pour zoomer sur une image, appuyez dessus pendant une seconde ou plus.",
