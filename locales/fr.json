@@ -47,7 +47,7 @@
   },
   "profileScreen": {
     "Level X": "Niveau {{level}}",
-    "youve completed x tasks": "Vous avez complété {{contributions}} tâches!",
+    "youve completed x tasks": "Vous avez complété {{contributions}} tâches !",
     "x tasks (s swipes) until the next level": "{{sqkm}} tâches ({{swipes}} écrans) jusqu'au niveau supérieur",
     "yourTeam": "Votre équipe: {{teamName}}",
     "changeLanguage": "Changer de langue",
