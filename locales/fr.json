@@ -199,7 +199,7 @@
   },
   "BuildingFootprintTutorialIntroScreen": {
       "useTheButtonsToAnswer": "Utilisez les boutons pour répondre :",
-      "doesTheShapeOutlineABuilding": "La forme dessine-t-elle un bâtiment ?",
+      "doesTheShapeOutlineABuilding": "La forme correspond-elle au contour d'un bâtiment ?",
       "everyTimeYouSelectAnOption": "Chaque fois que vous sélectionnez une option, une nouvelle forme et une nouvelle image s'affichent.",
       "tapGreenText": "Oui, la forme décrit un bâtiment dans l'image",
       "tapRedText": "Non - la forme ne correspond pas à un bâtiment dans l'image",
