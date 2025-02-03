@@ -1,6 +1,8 @@
 // @flow
 
 import { actionTypes } from 'react-redux-firebase';
+import { getVersion, getSystemName } from 'react-native-device-info';
+
 import type { ResultMapType, ResultType, State } from '../flow-types';
 import GLOBAL from '../Globals';
 
@@ -220,6 +222,10 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
         const userId = firebase.auth().currentUser.uid;
         // get a single timestamp upon completion of the group
         const endTime = GLOBAL.DB.getTimestamp();
+        const appVersion = getVersion();
+        const systemName = getSystemName().toLowerCase(); // ios or android
+        const clientType = systemName ? `mobile-${systemName}` : 'mobile';
+
         const { groupId, projectId, results } = groupInfo;
         dispatch(startSendingResults(projectId, groupId));
         const { startTime, ...rest } = results[projectId][groupId];
@@ -227,6 +233,8 @@ export function commitGroup(groupInfo: GroupInfo): ThunkAction {
             startTime,
             endTime,
             results: rest,
+            appVersion,
+            clientType,
         };
         const fbPath = `v2/results/${projectId}/${groupId}/${userId}/`;
         firebase

@@ -11,18 +11,18 @@ jobs:
     name: Build and release Android app
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16.1.0'
+          node-version: '18'
 
       - name: Install javascript packages
         uses: bahmutov/npm-install@v1
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.3'
+          ruby-version: '3.0.0'
 
       - name: Install Fastlane
         run: bundle install
@@ -70,13 +70,24 @@ jobs:
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Save git version so the app can show it to users
+        # the values default to dev env, so we only change them for production
         env:
           # we need this hack because github default env vars don't include the tag itself
           GIT_TAG: ${{ steps.vars.outputs.tag }}
-        run: sed -ri "s/COMMIT/$GITHUB_SHA/" debugInfo.json; sed -ri "s/TAG/$GIT_TAG/" debugInfo.json
 
-      - name: Jetify react files
-        run: yarn jetifier
+        # replace the / in branch name with _
+        run: |
+          sed -ri "s/COMMIT/$GITHUB_SHA/" debugInfo.json
+          sed -ri "s/TAG/$(echo ${GIT_TAG} | tr / _)/" debugInfo.json
+
+      - name: Hardcode OAuth prefix and urls for production version
+        if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
+        run: |
+          sed -ri "s/data android:scheme=\"devmapswipe\"/data android:scheme=\"mapswipe\"/" android/app/src/main/AndroidManifest.xml
+          sed -ri "s/dev-auth.mapswipe.org/auth.mapswipe.org/" debugInfo.json
+          sed -ri "s/devmapswipe/mapswipe/" debugInfo.json
+          sed -ri "s/dev-api/api/" src/shared/constants.js
+          sed -ri "s/dev-community/community/" src/shared/constants.js
 
       - name: Increase filesystem inotify watch limit
         run: sudo sysctl fs.inotify.max_user_watches=524288
@@ -90,7 +101,7 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_DEV_RELEASE_STORE_PASSWORD }}
         run: yarn buildDev
 
-      - name: Build production APK
+      - name: Build production APK and AAB
         # only build the release APK on "production" tags
         # This build uses mapswipe-production-release-key.keystore
         # The apk produced by this step is used by subsequent steps to:
@@ -102,10 +113,17 @@ jobs:
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_KEY_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_KEY_PASSWORD }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_FILE: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_STORE_FILE }}
           ORG_GRADLE_PROJECT_MAPSWIPE_RELEASE_STORE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_MAPSWIPE_PROD_RELEASE_STORE_PASSWORD }}
-        run: yarn buildProd
+        run: |
+          # build the APK (which we'll upload to github releases)
+          yarn buildProd
+          # build the AAB (Android App Bundle)
+          # Uploading an AAB requires opting-in to google managed signing keys, which in turn makes it much harder
+          # to upload the same app to a different store. As we do not have to as of November 2021, we keep
+          # using the APK upload, which means the github releases version and the playstore one are the same APK
+          # yarn bundleProd
 
       - name: Upload APK to Github releases (beta build)
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.8.10
         if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-beta')
         with:
           artifacts: "./android/app/build/outputs/apk/dev/release/app-dev-release.apk"
@@ -114,7 +132,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload APK to Github releases (production build)
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.8.10
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         with:
           artifacts: "./android/app/build/outputs/apk/production/release/app-production-release.apk"

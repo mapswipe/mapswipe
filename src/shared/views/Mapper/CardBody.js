@@ -3,7 +3,11 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { FlatList } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SvgXml } from 'react-native-svg';
 import get from 'lodash.get';
 import { toggleMapTile } from '../../actions/index';
 import LoadingIcon from '../LoadingIcon';
@@ -17,6 +21,7 @@ import IndividualCard from './IndividualCard';
 import TutorialIntroScreen from './TutorialIntro';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import { tutorialModes } from '../../constants';
+
 import type {
     BuiltAreaGroupType,
     BuiltAreaTaskType,
@@ -24,18 +29,27 @@ import type {
     ResultMapType,
     TileServerType,
     TutorialContent,
+    ProjectInformation,
 } from '../../flow-types';
+import { hideIconFill } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
+
+const styles = StyleSheet.create({
+    iconContainer: {
+        width: 24,
+        height: 24,
+        bottom: 35,
+        right: 20,
+        position: 'absolute',
+    },
+});
 
 type Props = {
     screens: Array<TutorialContent>,
     closeTilePopup: () => void,
-    exampleImage1: string,
-    exampleImage2: string,
     group: BuiltAreaGroupType,
     isSendingResults: boolean,
-    lookFor: string,
     navigation: NavigationProp,
     onToggleTile: BuiltAreaTaskType => void,
     openTilePopup: () => void,
@@ -47,12 +61,18 @@ type Props = {
     updateProgress: number => void,
     zoomLevel: number,
     canContinueMapping: boolean,
+    informationPages?: Array<ProjectInformation>,
+    lookFor: string,
+    exampleImage1: string,
+    exampleImage2: string,
 };
 
 type State = {
     showAnswerButtonIsVisible: boolean,
     showScaleBar: boolean,
     tutorialMode: string,
+    hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 class _CardBody extends React.PureComponent<Props, State> {
@@ -90,14 +110,36 @@ class _CardBody extends React.PureComponent<Props, State> {
         // so we can show the answers button after X interactions (only for tutorial)
         this.tapsRegistered = 0;
         // the number of screens that the initial tutorial intro covers
-        this.tutorialIntroWidth = 2;
+        this.tutorialIntroWidth = 1;
+        if (props.exampleImage1 || props.exampleImage2) {
+            this.tutorialIntroWidth = 2;
+        }
+        if (props.informationPages && props.informationPages.length > 0) {
+            this.tutorialIntroWidth = props.informationPages.length + 1;
+        }
         this.currentX =
             parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
         this.state = {
             showAnswerButtonIsVisible: false,
             showScaleBar: !props.tutorial,
             tutorialMode: tutorialModes.instructions,
+            hideIcons: false,
+            visibleAccessibility: false,
         };
+    }
+
+    async componentDidMount() {
+        const userId = auth().currentUser?.uid;
+
+        try {
+            await database()
+                .ref(`/v2/users/${userId}/accessibility`)
+                .once('value', snapshot => {
+                    this.setState({ visibleAccessibility: snapshot.val() });
+                });
+        } catch {
+            console.log('User not found');
+        }
     }
 
     componentDidUpdate = (oldProps: Props) => {
@@ -320,7 +362,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             tutorial &&
             currentScreen >= 0 &&
             // $FlowFixMe
-            currentScreen < this.tasksPerScreen.length &&
+            currentScreen < this.tasksPerScreen?.length &&
             !this.scrollEnabled
         ) {
             // swiping is disabled in the flatlist component, so we need to detect swipes
@@ -363,7 +405,6 @@ class _CardBody extends React.PureComponent<Props, State> {
         // tile of the screen
         let result = 0;
         if (this.tasksPerScreen) {
-            console.log('tps', this.tasksPerScreen.length, screenNumber);
             // $FlowFixMe
             if (this.tasksPerScreen[screenNumber]) {
                 result = this.tasksPerScreen[screenNumber].reduce(
@@ -408,16 +449,10 @@ class _CardBody extends React.PureComponent<Props, State> {
                 event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
                     this.tutorialIntroWidth,
             );
-            console.log(
-                'currentScreen',
-                currentScreen,
-                (this.currentX - min) / 2,
-                this.getCurrentScreen(),
-            );
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
-                if (currentScreen >= this.tasksPerScreen.length) {
+                if (currentScreen >= this.tasksPerScreen?.length) {
                     this.scrollEnabled = true;
                 } else {
                     this.scrollEnabled = false;
@@ -462,17 +497,27 @@ class _CardBody extends React.PureComponent<Props, State> {
         }
     };
 
+    onPressHideIconIn = () => {
+        this.setState({ hideIcons: true });
+    };
+
+    onPressHideIconOut = () => {
+        this.setState({ hideIcons: false });
+    };
+
     render() {
-        const { showAnswerButtonIsVisible, showScaleBar, tutorialMode } =
-            this.state;
+        const {
+            showAnswerButtonIsVisible,
+            showScaleBar,
+            tutorialMode,
+            hideIcons,
+            visibleAccessibility,
+        } = this.state;
         const { currentX } = this;
         const {
             closeTilePopup,
-            exampleImage1,
-            exampleImage2,
             group,
             isSendingResults,
-            lookFor,
             navigation,
             openTilePopup,
             projectId,
@@ -480,7 +525,53 @@ class _CardBody extends React.PureComponent<Props, State> {
             tutorial,
             zoomLevel,
             canContinueMapping,
+            informationPages: informationPagesFromProps,
+            lookFor,
+            exampleImage1,
+            exampleImage2,
         } = this.props;
+
+        const fallbackInformationPage: ?ProjectInformation =
+            exampleImage1 || exampleImage2
+                ? [
+                      {
+                          blocks: [
+                              {
+                                  blockNumber: 1,
+                                  blockType: 'text',
+                                  textDescription: `You are looking for ${lookFor}`,
+                              },
+                              {
+                                  blockNumber: 2,
+                                  blockType: 'text',
+                                  textDescription:
+                                      'From the ground, it looks like this:',
+                              },
+                              {
+                                  blockNumber: 3,
+                                  blockType: 'image',
+                                  image: exampleImage1,
+                              },
+                              {
+                                  blockNumber: 4,
+                                  blockType: 'text',
+                                  textDescription:
+                                      'But the images you will see will show it from above, and it looks like this:',
+                              },
+                              {
+                                  blockNumber: 5,
+                                  blockType: 'image',
+                                  image: exampleImage2,
+                              },
+                          ],
+                          pageNumber: 1,
+                          title: 'What to look for',
+                      },
+                  ]
+                : undefined;
+
+        const informationPages =
+            informationPagesFromProps ?? fallbackInformationPage;
 
         let tutorialContent: ?TutorialContent;
 
@@ -512,6 +603,8 @@ class _CardBody extends React.PureComponent<Props, State> {
                 Math.sinh(Math.PI * (1 - (2 * group.yMin) / 2 ** zoomLevel)),
             ) *
             (180 / Math.PI);
+        const showHideIconButton = !tutorial || this.getCurrentScreen() >= 0;
+
         return (
             <>
                 <FlatList
@@ -550,9 +643,7 @@ class _CardBody extends React.PureComponent<Props, State> {
                     ListHeaderComponent={
                         tutorial ? (
                             <TutorialIntroScreen
-                                exampleImage1={exampleImage1}
-                                exampleImage2={exampleImage2}
-                                lookFor={lookFor}
+                                informationPages={informationPages}
                                 tutorial={tutorial}
                             />
                         ) : null
@@ -574,6 +665,8 @@ class _CardBody extends React.PureComponent<Props, State> {
                             index={index}
                             openTilePopup={openTilePopup}
                             tutorial={tutorial}
+                            hideIcons={hideIcons}
+                            visibleAccessibility={visibleAccessibility}
                         />
                     )}
                     scrollEnabled={
@@ -581,15 +674,26 @@ class _CardBody extends React.PureComponent<Props, State> {
                     }
                     snapToInterval={GLOBAL.TILE_SIZE * 2}
                     showsHorizontalScrollIndicator={false}
-                    windowSize={5}
+                    windowSize={50}
                 />
                 <ScaleBar
                     alignToBottom={false}
                     latitude={latitude}
-                    useScreenWidth={false}
+                    position="bottom"
+                    referenceSize={GLOBAL.TILE_SIZE}
                     visible={showScaleBar}
                     zoomLevel={zoomLevel}
                 />
+                {showHideIconButton && (
+                    <View style={styles.iconContainer}>
+                        <TouchableOpacity
+                            onPressIn={this.onPressHideIconIn}
+                            onPressOut={this.onPressHideIconOut}
+                        >
+                            <SvgXml width={24} xml={hideIconFill} />
+                        </TouchableOpacity>
+                    </View>
+                )}
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 &&
@@ -626,6 +730,7 @@ const mapStateToProps = (state, ownProps) => ({
         ownProps.group.groupId,
         null,
     ),
+    informationPages: ownProps.informationPages,
     tutorial: ownProps.tutorial,
     zoomLevel: ownProps.zoomLevel,
 });

@@ -59,11 +59,11 @@ echo "Releasing version $versionNumber build $buildNumber"
 
 tag="$versionNumber($buildNumber)"
 
-# ensure we only get production releases from the master branch
+# ensure we only get production releases from the main branch
 # any other branch will yield a beta release
 current_branch=`git branch --show-current`
-if [[ "$current_branch" = "master" ]]; then
-    echo "On branch "master", doing a  production release"
+if [[ "$current_branch" = "main" ]]; then
+    echo "On branch "main", doing a  production release"
 else
     echo "On branch $current_branch, doing a beta release"
     # add a "beta" extension to the git tag

@@ -9,8 +9,8 @@ import {
     View,
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import Button from 'apsl-react-native-button';
 import RNBootSplash from 'react-native-bootsplash';
+import Button from './Button';
 import {
     COLOR_DARK_GRAY,
     COLOR_DEEP_BLUE,

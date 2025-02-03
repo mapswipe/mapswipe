@@ -96,8 +96,8 @@ There are 2 different apps:
 Github Actions run like this:
 
 - on every `git push`, the tests are run, and the app is compiled, to verify that there are no broken dependencies, etc...
-- on all pushes with a tag (except on the `master` branch), it also deploys the `dev` version to testflight, for beta-testers to review.
-- on a push to `master` with a tag, it does all the above (except the upload to testflight), but also deploys the production version to the appstore (this requires a final manual step, plus a review by apple which takes 1-2 days).
+- on all pushes with a tag (except on the `main` branch), it also deploys the `dev` version to testflight, for beta-testers to review.
+- on a push to `main` with a tag, it does all the above (except the upload to testflight), but also deploys the production version to the appstore (this requires a final manual step, plus a review by apple which takes 1-2 days).
 
 ### Getting users to test the beta version
 
@@ -126,10 +126,24 @@ The CI build and deployment to testflight and the appstore require certificates 
 
 The process looks like this:
 
-- Delete the expired certificate and provisioning profile from the `ios-certificates` git repository.
-- run `fastlane ios matchProd` or `fastlane ios matchDev` depending on the certs to renew. This should create new files and push them to the remote git repo, so you don't need to do anything else.
-- If you run into an error similar to "maximum number of certificates reached", you might need to delete one of the extra distribution certs on developer.apple.com.
+- Delete the expired certificate and provisioning profile from the `ios-certificates` git repository. You can do this
+  directly in the gitlab repo via their web IDE. Remove all the files under `profiles` and `certs`.
+- On your laptop (it doesn't have to be a mac), run `fastlane spaceauth -u mapswipe.dev@gmail.com` and provide the
+  password that you can find in the keepass file under "apple appstore / appstore login for app upload". This will give
+  you a temp session string that you need to setup as an env var in github actions as `FASTLANE_SESSION`.
+- login to `developer.apple.com`, go to `Certificates, Identifiers & Profiles` > `Profiles` and delete the ones for
+  MapSwipe (and only those!) they should be expired when you do this.
+- You might need to grant write permission to the deploy token on gitlab, under
+  https://gitlab.com/mapswipe/ios-certificates/-/settings/repository#js-deploy-keys-settings (click the little pen to
+  edit the key).
+- Create a new branch from `dev` with the same changes as in [PR 572](https://github.com/mapswipe/mapswipe/pull/572) and
+  push it to github, let CI run, and ~~watch the magic~~ fix the errors as they come.
+- run `fastlane ios matchProd` or `fastlane ios matchDev` depending on the certs to renew. This should create new files
+  and push them to the remote git repo, so you don't need to do anything else.
+- If you run into an error similar to "maximum number of certificates reached", you might need to delete one of the
+  extra distribution certs on developer.apple.com.
 - You might need to give your deploy key write access to the git repo so that fastlane can push the new certs.
+- Ideally remove the write permissions from the deploy key on gitlab (see the step above)
 
 These steps are written as an indication only, if you actually know how this is working, an update to this section is more than welcome!
 

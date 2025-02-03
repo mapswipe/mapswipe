@@ -1,13 +1,9 @@
 // @flow
-
-import * as React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { PanResponder, StyleSheet, Text, View } from 'react-native';
 import { type PressEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-import type {
-    GestureState,
-    PanResponderInstance,
-} from 'react-native/Libraries/Interaction/PanResponder';
+import type { GestureState } from 'react-native/Libraries/Interaction/PanResponder';
 import { withTranslation } from 'react-i18next';
 import { toggleMapTile } from '../../actions/index';
 import type {
@@ -50,127 +46,135 @@ type ICProps = {
     openTilePopup: () => void,
     t: TranslationFunction,
     tutorial: boolean,
+    hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
-type ICState = {
-    showSwipeHelp: boolean,
-};
+// swipeThreshold defines how much movement is needed to start considering the event
+// as a swipe. This used to be a fixed value, we now link it to screen size (through the tile size)
+// so that it should work across screen densities.
+const swipeThreshold = GLOBAL.TILE_SIZE * 0.02;
+// swipeAngle is not exactly correctly named. It refers to how wide the cone is from starting
+// the swipe, which allows it to be considered a vertical swipe. Higher numbers mean the swipe
+// must be more "vertical", and lower ones are more tolerant, so make it easier to activate the
+// vertical swipe move.
+const swipeAngle = 0.5;
 
-class _IndividualCard extends React.Component<ICProps, ICState> {
-    panResponder: PanResponderInstance;
+function IndividualCard(props: ICProps) {
+    const {
+        card,
+        closeTilePopup,
+        openTilePopup,
+        onToggleTile,
+        t,
+        tutorial,
+        hideIcons,
+        visibleAccessibility,
+    } = props;
 
-    swipeAngle: number;
+    const [showSwipeHelp, setShowSwipeHelp] = useState<boolean>(false);
 
-    swipeThreshold: number;
-
-    constructor(props: ICProps) {
-        super(props);
-        // swipeThreshold defines how much movement is needed to start considering the event
-        // as a swipe. This used to be a fixed value, we now link it to screen size (through the tile size)
-        // so that it should work across screen densities.
-        this.swipeThreshold = GLOBAL.TILE_SIZE * 0.02;
-        // swipeAngle is not exactly correctly named. It refers to how wide the cone is from starting
-        // the swipe, which allows it to be considered a vertical swipe. Higher numbers mean the swipe
-        // must be more "vertical", and lower ones are more tolerant, so make it easier to activate the
-        // vertical swipe move.
-        this.swipeAngle = 0.5;
-
-        this.panResponder = PanResponder.create({
-            onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
-            onMoveShouldSetPanResponderCapture:
-                this.handleMoveShouldSetPanResponder,
-            onPanResponderGrant: this.handlePanResponderGrant,
-            onPanResponderRelease: this.handlePanResponderEnd,
-            onPanResponderTerminate: this.handlePanResponderTerminate,
-        });
-
-        this.state = {
-            showSwipeHelp: false,
-        };
-    }
-
-    handleMoveShouldSetPanResponder = (
+    const handleMoveShouldSetPanResponder = (
         // decide if we handle the move event: only if it's vertical
         event: PressEvent,
         gestureState: GestureState,
     ): boolean =>
         Math.abs(gestureState.dy) >
-        this.swipeThreshold + Math.abs(gestureState.dx) * this.swipeAngle;
+        swipeThreshold + Math.abs(gestureState.dx) * swipeAngle;
 
-    handlePanResponderGrant = () => {
+    const handlePanResponderGrant = () => {
         // OK, we've been given this swipe to handle, show feedback to the user
-        this.setState({ showSwipeHelp: true });
+        setShowSwipeHelp(true);
     };
 
-    setAllTilesTo = value => {
-        const { card, onToggleTile } = this.props;
-        card.forEach(tile => {
-            onToggleTile({
-                groupId: tile.groupId,
-                resultId: tile.taskId,
-                result: value,
-                projectId: tile.projectId,
+    const setAllTilesTo = useCallback(
+        value => {
+            card.forEach(tile => {
+                onToggleTile({
+                    groupId: tile.groupId,
+                    resultId: tile.taskId,
+                    result: value,
+                    projectId: tile.projectId,
+                });
             });
-        });
-    };
+        },
+        [card, onToggleTile],
+    );
 
-    handlePanResponderEnd = (event: PressEvent, gestureState: GestureState) => {
+    const handlePanResponderEnd = (
+        event: PressEvent,
+        gestureState: GestureState,
+    ) => {
         // swipe completed, decide what to do
-        this.setState({ showSwipeHelp: false });
+        setShowSwipeHelp(false);
         const swipeMinLength = 0.2;
         if (gestureState.dy > GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength) {
-            this.setAllTilesTo(3);
+            setAllTilesTo(3);
         } else if (
             gestureState.dy <
             -GLOBAL.TILE_VIEW_HEIGHT * swipeMinLength
         ) {
-            this.setAllTilesTo(0);
+            setAllTilesTo(0);
         }
     };
 
-    handlePanResponderTerminate = () => {
-        // swipe cancelled, eg: some other component took over (ScrollView?)
-        this.setState({ showSwipeHelp: false });
-    };
+    const handlePanResponderTerminate = useCallback(() => {
+        setShowSwipeHelp(false);
+    }, []);
 
-    renderSwipeHelp = () => {
-        const { t } = this.props;
-        return (
+    const renderSwipeHelp = useMemo(
+        () => (
             <Text style={styles.swipeHelp}>
                 {t('swipe down mark red')}
                 {'\n'}
                 {t('swipe up undo')}
             </Text>
-        );
-    };
+        ),
+        [t],
+    );
 
-    render() {
-        const { card, closeTilePopup, openTilePopup, tutorial } = this.props;
-        const { showSwipeHelp } = this.state;
+    const panResponder = useMemo(
+        () =>
+            PanResponder.create({
+                onMoveShouldSetPanResponder: handleMoveShouldSetPanResponder,
+                onMoveShouldSetPanResponderCapture:
+                    handleMoveShouldSetPanResponder,
+                onPanResponderGrant: handlePanResponderGrant,
+                onPanResponderRelease: handlePanResponderEnd,
+                onPanResponderTerminate: handlePanResponderTerminate,
+            }),
+        [
+            handleMoveShouldSetPanResponder,
+            handlePanResponderGrant,
+            handlePanResponderEnd,
+            handlePanResponderTerminate,
+        ],
+    );
 
-        const tiles = [];
-        card.forEach(tile => {
-            tiles.push(
-                <Tile
-                    closeTilePopup={closeTilePopup}
-                    key={tile.taskId}
-                    openTilePopup={openTilePopup}
-                    tile={tile}
-                    tutorial={tutorial}
-                />,
-            );
-        });
-        return (
-            <View
-                style={styles.slide}
-                {...this.panResponder.panHandlers}
-                testID="individualCard"
-            >
-                {showSwipeHelp && this.renderSwipeHelp()}
-                {tiles}
-            </View>
-        );
-    }
+    const renderTile = useMemo(() => {
+        return card?.map(tile => (
+            <Tile
+                closeTilePopup={closeTilePopup}
+                key={tile.taskId}
+                openTilePopup={openTilePopup}
+                tile={tile}
+                tutorial={tutorial}
+                hideIcons={hideIcons}
+                visibleAccessibility={visibleAccessibility}
+            />
+        ));
+    }, [card, closeTilePopup, openTilePopup, tutorial, hideIcons]);
+
+    return (
+        <View
+            style={styles.slide}
+            {...panResponder.panHandlers}
+            testID="individualCard"
+        >
+            {showSwipeHelp && renderSwipeHelp}
+            {renderTile}
+        </View>
+    );
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -186,5 +190,5 @@ const mapDispatchToProps = dispatch => ({
 
 // IndividualCard
 export default (withTranslation('IndividualCard')(
-    connect(mapStateToProps, mapDispatchToProps)(_IndividualCard),
+    connect(mapStateToProps, mapDispatchToProps)(IndividualCard),
 ): any);

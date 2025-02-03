@@ -10,6 +10,7 @@ class StaticContainer extends React.Component<Props> {
         return !!nextProps.shouldUpdate;
     }
 
+    // eslint-disable-next-line no-undef
     render(): ?React.ReactElement {
         const { children } = this.props;
         if (children === null || children === false) {

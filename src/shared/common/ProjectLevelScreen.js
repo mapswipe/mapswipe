@@ -4,9 +4,9 @@ import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
-import Button from 'apsl-react-native-button';
 import Modal from 'react-native-modalbox';
 import { withTranslation } from 'react-i18next';
+import Button from './Button';
 import { cancelGroup, startGroup } from '../actions/index';
 import {
     firebaseConnectGroup,
@@ -26,6 +26,8 @@ import type {
     ResultMapType,
     TranslationFunction,
     TutorialContent,
+    ProjectInformation,
+    Option,
 } from '../flow-types';
 import {
     COLOR_DEEP_BLUE,
@@ -72,7 +74,8 @@ type Props = {
     Component: React.ComponentType<any>,
     group: GroupType,
     navigation: NavigationProp,
-    getNormalHelpContent: string => React.ComponentType<any>,
+    getNormalHelpContent: (string, Option[]) => React.ComponentType<any>,
+    headerText?: string,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
     onStartGroup: ({
         groupId: string,
@@ -82,6 +85,8 @@ type Props = {
     onSubmitResult: Object => void,
     results: ResultMapType,
     screens: Array<TutorialContent>,
+    informationPages?: ProjectInformation,
+    customOptions: Option[],
     screenName: string,
     t: TranslationFunction,
     tutorial: boolean,
@@ -187,8 +192,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        // $FlowFixMe
-        this.HelpModal.open();
+        const { navigation, customOptions } = this.props;
+        navigation.push('BFInstructionsScreen', { customOptions });
     };
 
     completeGroup = () => {
@@ -256,12 +261,17 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     renderHelpModal = () => {
-        const { getNormalHelpContent, t, tutorial, tutorialHelpContent } =
-            this.props;
+        const {
+            getNormalHelpContent,
+            t,
+            tutorial,
+            tutorialHelpContent,
+            customOptions,
+        } = this.props;
         let content = '';
         if (!tutorial) {
             const creditString = this.getCreditString();
-            content = getNormalHelpContent(creditString);
+            content = getNormalHelpContent(creditString, customOptions);
         } else {
             content = tutorialHelpContent;
         }
@@ -297,12 +307,15 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             categories,
             Component,
             group,
+            headerText,
             navigation,
             results,
             screens,
             tutorial,
             tutorialId,
             canContinueMapping,
+            informationPages,
+            customOptions,
         } = this.props;
         const { groupCompleted, waitingForNextGroup } = this.state;
         if (!group || waitingForNextGroup) {
@@ -331,9 +344,15 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                         this.backConfirmationModal.open();
                     }}
                     onInfoPress={this.onInfoPress}
+                    overrideText={headerText}
                 />
                 {backConfirmationModal}
                 {helpModal}
+                <BottomProgress
+                    ref={r => {
+                        this.progress = r;
+                    }}
+                />
                 <Component
                     categories={tutorial ? categories : null}
                     completeGroup={this.completeGroup}
@@ -346,11 +365,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     updateProgress={this.updateProgress}
                     tutorial={tutorial}
                     tutorialId={tutorialId}
-                />
-                <BottomProgress
-                    ref={r => {
-                        this.progress = r;
-                    }}
+                    informationPages={informationPages}
+                    customOptions={customOptions}
                 />
             </View>
         );

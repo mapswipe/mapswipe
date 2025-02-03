@@ -33,6 +33,8 @@
     "signUp": "Regisztráció",
     "loginExistingAccount": "Bejelentkezés meglévő fiókba",
     "login": "Bejelentkezés",
+    "loginSignupWithOSM": "Bejelentkezés OpenStreetMap-fiókkal",
+    "OSMsignupExplanation": "A MapSwipe-ra az OpenStreetMap-fiókoddal tudsz feliratkozni. Ha már van MapSwipe-fiókod, ez nem fogja összekapcsolni őket! (Ez egy későbbi kiadásban fog megjelenni rövidesen.)",
     "forgotPassword": "Elfelejtetted a jelszavad?",
     "createNewAccount": "Új fiók létrehozása",
     "sendResetEmailWarning": "* A jelszavad alaphelyzetbe állításához küldünk egy e-mailt",
@@ -177,20 +179,30 @@
     "completedTutorial": "Most már minden tudással rendelkezel ahhoz, hogy az alkalmazás segítségével közreműködj a humanitárius célú térképészetben. Ha elbizonytalanodsz, bármikor visszatérhetsz, hogy felfrissítsd a tudásod."
   },
   "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Használd a gombokat a válaszhoz:",
+      "doesTheShapeOutlineABuilding": "Az alakzat egy épület körvonalait mutatja?",
+      "everyTimeYouSelectAnOption": "Minden alkalommal, amikor kiválasztasz egy lehetőséget, egy új alakzat és kép jelenik meg.",
+      "tapGreenText": "Igen – a képen az alakzat egy épület körvonalait jeleníti meg",
+      "tapRedText": "Nem – a képen az alakzat nem olyan, mint egy épület körvonala",
+      "tapGrayText": "Nem vagyok benne biztos – ha bizonytalan vagy vagy ha a kép felhős / rossz minőségű",
+      "hideIconText": "Az alakzat képről való eltávolításához tartsd lenyomva az elrejtés gombot",
       "letsLearnHowToMap": "Lássunk néhány példát!",
-      "youllSeeASquare": "Egy négyzetet fogsz látni egy képen. Válaszolj a gombokkal:",
+      "youllSeeASquare": "Egy képen egy alakzatot fogsz látni. A válaszhoz használd a gombokat:",
       "squareContainsBuildings": "Van-e a négyzetben épület?",
       "squareWillMove": "Ahogy haladsz, a négyzet egy hálót követve mozogni fog a kép körül, így:",
-      "swipeToGetStarted": "Húzd el a kezdéshez"
+      "swipeToGetStarted": "Húzd el a kezdéshez",
+      "swipeToContinue": "Húzd el a folytatáshoz"
   },
   "BFTutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "Nyugalom, nem baj, ha egy négyzetet illetően bizonytalan vagy.",
+    "dontWorryIfYoureUnsure": "Ne aggódj, ha a bizonytalan vagy egy négyzettel kapcsolatban",
     "youCanAlwaysTapUnsure": "Ne feledd, hogy bármikor rákoppinthatsz a „Bizonytalan” gombra",
     "everyImageViewedBy": "Minden képet legalább 3 hozzád hasonló MapSwipe felhasználó megnéz, így nem gond, ha esetleg valamit kihagysz.",
     "wantToChangeYourAnswer": "Szeretnéd módosítani a válaszodat?",
-    "youCanSwipeBack": "Korábbi válaszaid módosításához visszafelé is lépegethetsz. Aztán a képernyő elhúzásával visszatérhetsz oda, ahol éppen jártál."
+    "youCanSwipeBack": "Korábbi válaszaid módosításához visszafelé is lépegethetsz. Aztán a képernyő elhúzásával visszatérhetsz oda, ahol éppen jártál.",
+    "yourPreviousAnswerIsMarked": "Korábbi válaszaidat egy fehér kör jelöli"
   },
   "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Az alakzat egy épület körvonalait mutatja?",
     "howToContribute": "Hogyan működhetsz közre?",
     "squareContainsBuildings": "Látsz-e a négyzetben épületet? Válaszolj a gombokkal:",
     "instructionsYes": "Igen: a négyzetben van épület (vagy épületrész)",

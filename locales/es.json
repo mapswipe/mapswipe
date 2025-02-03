@@ -1,7 +1,8 @@
 {
   "mainHeader": {
     "missions": "Misiones",
-    "more": "Más"
+      "more": "Más",
+      "userProfile": "Perfil"
   },
   "signup": {
     "chooseUsername": "Elige tu nombre de usuario",
@@ -10,18 +11,18 @@
     "errorOnSignup": "Error al registrarse",
     "usernameErrorMessage": "Su nombre de usuario debe tener 4 caracteres o mas",
     "usernameNotEmail": "Su nombre de usuario no puede ser un e-mail",
-    "usernamePublic": "Su nombre de usuario será visible publicamente",
-    "success": "Exito",
+    "usernamePublic": "Su nombre de usuario será visible públicamente",
+    "success": "Éxito",
     "welcomeToMapSwipe": "Bienvenido a MapSwipe, {{username}}",
     "emailAlreadyUsed": "Email ya en uso por otra cuenta",
-    "emailInvalid": "Dirección de eail inválida",
+    "emailInvalid": "Dirección de email inválida",
     "problemSigningUp": "Problema al registrarse",
     "errorOnSignUp": "Error al registrarse",
-    "checkYourEmail": "Chequee su casilla de correo",
+    "checkYourEmail": "Chequee su buzón de correo",
     "noAccountFoundForEmail": "No se halló una cuenta para ese email",
     "problemResettingPassword": "Problema al resetear su contraseña",
     "errorLogIn": "Error al registrarse",
-    "invalidEmailPassword": "Correo o contraseña invalidos",
+    "invalidEmailPassword": "Correo o contraseña inválidos",
     "accountDisabled": "Cuenta no válida",
     "problemLoggingIn": "Problema al iniciar sesión",
     "errorResetPass": "Error al resetear la contraseña",
@@ -33,6 +34,8 @@
     "signUp": "Registrarse",
     "loginExistingAccount": "Iniciar sesión en una cuenta existente",
     "login": "Iniciar sesión",
+    "loginSignupWithOSM": "Iniciar sesión con OpenStreetMap",
+    "OSMsignupExplanation": "Puede registrarse en MapSwipe utilizando su cuenta de OpenStreetMap. Si ya tiene una cuenta MapSwipe, no se vincularán (esto vendrá pronto en una futura versión).",
     "forgotPassword": "Olvidó su contraseña?",
     "createNewAccount": "Crear una nueva cuenta",
     "sendResetEmailWarning": "* Le enviaremos un email para reestablecer su contraseña",
@@ -56,7 +59,24 @@
     "delete account question": "Borrar la cuenta?",
     "delete account warning": "Ud perderá todo su progreso y escudos.Sus contribuciones permanecerán siendo públicas pero no estarán ligadas a su cuenta. Desea continuar ?",
     "no keep my account": "No, mantenga mi cuenta.",
-    "yes delete it": "Sí, bórrela"
+    "yes delete it": "Sí, bórrela",
+    "userGroups": "Grupos de Usuario",
+    "joinNewGroup": "Unirse a un Nuevo Grupo",
+    "exploreGroups": "Explorar Grupos",
+    "settings": "Configuración",
+    "changeUserName": "Cambiar Nombre de usuario",
+    "changePassword": "Cambiar Contraseña",
+    "notifications": "Notificaciones",
+    "language": "Idioma",
+    "logOut": "Cerrar sesión",
+    "deleteAccount": "Eliminar Cuenta",
+    "missingMaps": "Mapas faltantes",
+    "email": "Correo electrónico",
+    "accountDeleted": "¡Cuenta eliminada!",
+    "accountDeletedSuccessMessage": "Lamentamos verle partir...",
+    "accountDeletionFailed": "No fue posible eliminar su cuenta",
+    "accountDeletionFailedMessage": "Por favor vuelva a iniciar sesión para confirmar que desea eliminar su cuenta",
+    "contributionHeatmap": "Mapa térmico de contribuciones (últimos 30 días)"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% por {{mappersCount}} mapeadores "
@@ -96,18 +116,22 @@
   "CDInstructionScreen": {
     "instructions": "Instrucciones",
     "your task": "Tu tarea:",
-    "lookingFor": "Ud está buscando {\"} cambios <1> en edificios </1>. Esto actúa como claro indicador de un cambio en el tamaño de la población",
+    "lookingFor": "Está buscando <1> cambios en edificios </1>. Esto actúa como un claro indicador de un cambio en el tamaño de la población.",
     "perform task": "Como desempeñar la tarea:",
-    "noChanges": "Si no hay cambios, simplemente {' '} <1> deslice </1> a la próxima foto",
-    "seeChanges": "Si Ud ve un cambio en los edificios,{' '} <1> presione una vez </1> {' '} y la cuadrícula se pondrá verde",
-    "unsure": "No está seguro ? {' '}<1> Presione dos veces </1> {' '} y la cuadrícula se pondrá amarilla",
-    "badImagery": "Conflicto con imágen, como si la imagen tuviera nubes tapando la vista ? {' '} <1> Presione tres veces </1> {' '}y la cuadrícula se pondrá roja",
+    "noChanges": "Si no hay cambios, simplemente <1> pase </1> a las siguientes fotos",
+    "seeChanges": "Si observa un cambio en los edificios, <1> pulse una vez </1> y la baldosa se volverá verde",
+    "unsure": "¿No está seguro? <1> Pulse dos veces </1> y la baldosa se volverá amarilla",
+    "badImagery": "¿Problemas con las imágenes, por ejemplo, si alguna de las imágenes tiene nubes que cubren la vista? <1> Pulse tres veces </1> y la baldosa se volverá roja",
     "holdZoom": "Si necesita ver una imagen mas cerca, presione y mantenga la imagen, esta se enfocará mas cerca",
     "hint": "Sugerencia",
-    "differentImagery": "A veces distintas fuentes de imagen han sido usadas. Las imágenes pueden estar alineadas de manera ligeramente diferente o pueden estar en una resolución diferente. Recuerde, Ud está buscando {' '}<1> cambios definidos en establecimientos y edificios </1> {' '} entonces pueden ser los  mismos edificios pero haber un techo nuevo, eso puede ser un escenario \"sin cambio\" y simplemente Ud deberá pasar a la imagen siguiente."
+    "differentImagery": "A veces se habrán utilizado diferentes fuentes de imágenes. Las imágenes pueden estar alineadas de forma ligeramente distinta o tener una resolución diferente. Recuerde que lo que busca son <1> cambios definidos en los asentamientos y edificios </1>, de modo que si parece que los edificios son los mismos, pero hay un tejado nuevo, se trataría de una situación de \"sin cambios\" y simplemente pasaría a la siguiente imagen."
   },
   "CDBodyScreen": {
     "viewInstructions": "Visualizar instrucciones"
+  },
+  "CDTaskScreen": {
+    "before": "Antes",
+    "after": "Después"
   },
   "CDValidator": {
     "Yes": "Si",
@@ -173,25 +197,62 @@
     "completedTutorial": "Ud está ahora equipado con todo lo que necesita para contribuir para el mapeo humanitario usando la aplicación. Puede volver en cualquier momento para un repaso."
   },
   "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Utilice los botones para responder:",
+      "doesTheShapeOutlineABuilding": "¿La forma dibuja el contorno de un edificio?",
+      "everyTimeYouSelectAnOption": "Cada vez que seleccione una opción, se le mostrará una nueva forma e imagen.",
+      "tapGreenText": "Sí - la forma de la imagen es el contorno de un edificio",
+      "tapRedText": "No - la forma no coincide con un edificio en la imagen",
+      "tapGrayText": "No estoy seguro - si no está seguro o hay nubosidad / malas imágenes",
+      "hideIconText": "Mantenga pulsado el botón de ocultar para eliminar la forma de la imagen",
       "letsLearnHowToMap": "Aprendamos a mapear con algunos ejemplos",
-      "youllSeeASquare": "Verás un cuadrado en una imagen. Usa los botones para contestar:",
+      "youllSeeASquare": "Verá una forma en una imagen. Utilice los botones para responder:",
       "squareContainsBuildings": "¿El cuadrado contiene algún edificio?",
       "squareWillMove": "El cuadrado se moverá alrededor de la imagen a medida que avanza, siguiendo una cuadrícula como esta:",
-      "swipeToGetStarted": "Deslizar para empezar"
+      "swipeToGetStarted": "Deslizar para empezar",
+      "swipeToContinue": "Deslizar para continuar"
   },
   "BFTutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "No te preocupes si no estás segura(o) sobre un cuadrado.",
+    "dontWorryIfYoureUnsure": "No se preocupe si no está seguro sobre un cuadrado",
     "youCanAlwaysTapUnsure": "Recuerda, siempre puedes tocar el botón 'No estoy segura(o)'",
     "everyImageViewedBy": "Cada imagen es observada por lo menos por 3 MapSwipers, por este motivo está bien si se creé que se le ha escapado algo.",
     "wantToChangeYourAnswer": "¿Quiere cambiar su respuesta?",
-    "youCanSwipeBack": "Puede deslizar hacia atrás para cambiar sus respuestas anteriores. Después toque o deslice hacia delante nuevamente para volver a donde estaba."
+    "youCanSwipeBack": "Puede deslizar hacia atrás para cambiar sus respuestas anteriores. Después toque o deslice hacia delante nuevamente para volver a donde estaba.",
+    "yourPreviousAnswerIsMarked": "Sus respuestas anteriores están marcadas con un círculo blanco"
   },
   "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "¿La forma dibuja el contorno de un edificio?",
     "howToContribute": "Cómo contribuir",
     "squareContainsBuildings": "¿El cuadrado contiene algún edificio? Usa los botones para responder:",
     "instructionsYes": "Si: Cuando hay un edificio o parte de un edificio en el cuadrado",
     "instructionsNo": "No: cuando no hay edificios en el cuadrado",
     "instructionsNotSure": "No estoy segura(o): cuando no está segura(o) de si es un edificio o no",
     "instructionsBadImagery": "Mala imagen: cuando hay nubes cubriendo o problemas con las imágenes "
+  },
+  "userGroupScreen": {
+    "join": "Unirse",
+    "leave": "Abandonar",
+    "leaderBoards": "Tableros de clasificación",
+    "settings": "Configuraciones",
+    "leaveGroup": "Dejar el Grupo",
+    "joinGroup": "Unirse al Grupo"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Unirse al Grupo",
+    "searchUserGroup": "Buscar Grupo de Usuarios"
+  },
+  "changeUserName": {
+    "changeUserName": "Cambiar Nombre de Usuario",
+    "currentUserName": "Nombre de Usuario actual",
+    "newUserName": "Nuevo Nombre de Usuario",
+    "confirmUserNameChange": "Confirmar Cambio de Nombre de Usuario"
+  },
+  "changePassword": {
+    "changePassword": "Cambiar Contraseña",
+    "currentPassword": "Contraseña Actual",
+    "newPassword": "Nueva Contraseña",
+    "confirmPasswordChange": "Confirmar Cambio de Contraseña"
+  },
+  "languageSelection": {
+    "languageSelection": "Idioma"
   }
 }

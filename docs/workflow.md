@@ -16,7 +16,7 @@ Make sure you open a feature branch in your repo from the `dev` branch. You can 
 git checkout dev
 # if the dev branch in your forked repository is not in sync with the main mapswipe repo's dev branch
 # please sync it as explained here: https://help.github.com/en/articles/syncing-a-fork
-# do it for the dev branch, not just master
+# do it for the dev branch, not just main
 git checkout -b new-feature-branch-name
 ```
 
@@ -30,11 +30,11 @@ If you need help with anything in the code, you can reach out via the github iss
 
 # Workflow overview (for the core team)
 
-All development happens on the `dev` branch. The `master` branch should only be updated by merging changes in the `dev` branch (plus a tagged release commit, see below).
+All development happens on the `dev` branch. The `main` branch should only be updated by merging changes in the `dev` branch (plus a tagged release commit, see below).
 
 For each change, we typically will open a `feature branch` off of the `dev` branch. Work will happen in that feature branch, which then gets merged into `dev` (via a PR), so that a dev release that includes the changes can be tested internally.
 
-When we're happy with the state of the `dev` branch, we open a PR onto `master` and merge it. We then need to do a `tagged release commit` (using the `bash scripts/version.sh` script) in `master` to trigger the release to the app/playstore.
+When we're happy with the state of the `dev` branch, we open a PR onto `main` and merge it. We then need to do a `tagged release commit` (using the `bash scripts/version.sh` script) in `main` to trigger the release to the app/playstore.
 
 ## Version numbering
 

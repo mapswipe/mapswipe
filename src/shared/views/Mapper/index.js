@@ -4,9 +4,10 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BackHandler, Text, View, StyleSheet, Image } from 'react-native';
-import Button from 'apsl-react-native-button';
 import { Trans, withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
+import { SvgXml } from 'react-native-svg';
+import Button from '../../common/Button';
 import { cancelGroup, seenHelpBoxType1, startGroup } from '../../actions';
 import {
     firebaseConnectGroup,
@@ -19,12 +20,15 @@ import LoadingIcon from '../LoadingIcon';
 import type {
     BuiltAreaGroupType,
     NavigationProp,
+    ProjectInformation,
     ResultMapType,
     SingleImageryProjectType,
     TranslationFunction,
     TutorialContent,
 } from '../../flow-types';
 import { COLOR_DEEP_BLUE } from '../../constants';
+import { hideIconOutlineColor } from '../../common/SvgIcons';
+import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
 
 const GLOBAL = require('../../Globals');
 
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: '#212121',
         fontSize: 18,
-        marginTop: 5,
+        marginTop: 7,
     },
     tutRow: {
         marginTop: 15,
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     HelpModal: {
-        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
+        height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 550,
         width: 300,
         backgroundColor: '#ffffff',
         borderRadius: 2,
@@ -103,10 +107,11 @@ const styles = StyleSheet.create({
 type Props = {
     exampleImage1: string,
     exampleImage2: string,
+    informationPages: ProjectInformation,
     group: BuiltAreaGroupType,
     navigation: NavigationProp,
     onCancelGroup: ({ groupId: string, projectId: string }) => void,
-    onMarkHelpBoxSeen: void => void,
+    onMarkHelpBoxSeen: () => void,
     onStartGroup: ({
         groupId: string,
         projectId: string,
@@ -251,7 +256,7 @@ class _Mapper extends React.Component<Props, State> {
                             i18nKey="Tutorial:instructions3"
                             values={twoTaps}
                         >
-                            Look for features listed in your mission brief. Tap
+                            Look for features listed in your project brief. Tap
                             each tile where you find what you&apos;re looking
                             for. Tap once for&nbsp;
                             <Text style={{ color: 'rgb(36, 219, 26)' }}>
@@ -260,7 +265,7 @@ class _Mapper extends React.Component<Props, State> {
                             , twice for&nbsp;
                             {/* $FlowFixMe */}
                             <Text style={{ color: 'rgb(237, 209, 28)' }}>
-                                {twoTaps}
+                                {twoTaps.twoTaps}
                             </Text>
                             , and three times for&nbsp;
                             <Text style={{ color: 'rgb(230, 28, 28)' }}>
@@ -285,7 +290,13 @@ class _Mapper extends React.Component<Props, State> {
                         <Text style={styles.tutText}>{t('instructions6')}</Text>
                     </View>
                     <Text style={styles.tutPar}>{t('instructions7')}</Text>
-                    <Text style={styles.header}>{t('instructions8')}</Text>
+                    <View style={styles.tutRow}>
+                        <SvgXml width={24} xml={hideIconOutlineColor} />
+                        <Text style={styles.tutText}>{t('instructions8')}</Text>
+                    </View>
+                    <Text style={styles.tutPar}>{t('instructions9')}</Text>
+
+                    <Text style={styles.header}>{t('instructions10')}</Text>
                     <Text style={styles.tutPar}>{creditString}</Text>
                 </>
             );
@@ -337,6 +348,7 @@ class _Mapper extends React.Component<Props, State> {
         const {
             exampleImage1,
             exampleImage2,
+            informationPages,
             group,
             navigation,
             results,
@@ -382,6 +394,7 @@ class _Mapper extends React.Component<Props, State> {
                     updateProgress={this.updateProgress}
                     zoomLevel={this.project.zoomLevel}
                     canContinueMapping={canContinueMapping}
+                    informationPages={informationPages}
                 />
                 <BottomProgress
                     ref={r => {
@@ -399,6 +412,7 @@ class _Mapper extends React.Component<Props, State> {
                 >
                     {poppedUpTile}
                 </Modal>
+                {!tutorial && <AccessibilityInfoModal />}
             </View>
         );
     }
@@ -435,6 +449,7 @@ export default class MapperScreen extends React.Component<Props> {
         this.randomSeed = Math.random();
     }
 
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const { ...otherProps } = this.props;
         const projectObj = otherProps.navigation.getParam('project', false);

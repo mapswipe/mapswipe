@@ -22,9 +22,9 @@ import {
 } from '../../constants';
 import type { ResultType, BuiltAreaTaskType } from '../../flow-types';
 import {
-    NumberedTapIconTile1,
-    NumberedTapIconTile2,
-    NumberedTapIconTile3,
+    NewNumberedTapIconTile1,
+    NewNumberedTapIconTile2,
+    NewNumberedTapIconTile3,
 } from '../../common/Tutorial/icons';
 
 const styles = StyleSheet.create({
@@ -62,6 +62,8 @@ type Props = {
     tutorial: boolean,
     closeTilePopup: () => void,
     openTilePopup: () => void,
+    hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 export class _Tile extends React.PureComponent<Props> {
@@ -102,7 +104,6 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     onLongPress = () => {
-        console.log('long press');
         const { openTilePopup } = this.props;
         openTilePopup(this.zoomRender());
     };
@@ -147,9 +148,7 @@ export class _Tile extends React.PureComponent<Props> {
     };
 
     zoomRender = () => {
-        console.log('zoom render');
         const imageSource = this.getImgSource();
-        console.log(imageSource);
         return (
             <TouchableHighlight onPress={this.onDismissZoom}>
                 <ImageBackground
@@ -169,13 +168,13 @@ export class _Tile extends React.PureComponent<Props> {
         const tileStatus = results;
 
         if (tileStatus === 1) {
-            return <NumberedTapIconTile1 />;
+            return <NewNumberedTapIconTile1 />;
         }
         if (tileStatus === 2) {
-            return <NumberedTapIconTile2 />;
+            return <NewNumberedTapIconTile2 />;
         }
         if (tileStatus === 3) {
-            return <NumberedTapIconTile3 />;
+            return <NewNumberedTapIconTile3 />;
         }
         return null;
     };
@@ -186,6 +185,8 @@ export class _Tile extends React.PureComponent<Props> {
             style,
             tile: { taskId },
             tutorial,
+            hideIcons,
+            visibleAccessibility,
         } = this.props;
         const tileStatus = results;
         const overlayColor = this.getTileColor(tileStatus);
@@ -205,6 +206,7 @@ export class _Tile extends React.PureComponent<Props> {
         }
         const imageSource = this.getImgSource();
         const tapIcon = this.renderTapIcon();
+        const hideAccessibilityIconsOnly = hideIcons || !visibleAccessibility;
 
         return (
             <TouchableHighlight
@@ -218,11 +220,15 @@ export class _Tile extends React.PureComponent<Props> {
                     key={`touch-${taskId}`}
                     source={imageSource}
                 >
-                    {tapIcon}
+                    {hideAccessibilityIconsOnly ? null : tapIcon}
                     <View
                         style={[
                             styles.tileOverlay,
-                            { backgroundColor: overlayColor },
+                            {
+                                backgroundColor: hideIcons
+                                    ? undefined
+                                    : overlayColor,
+                            },
                         ]}
                         key={`view-${taskId}`}
                     >

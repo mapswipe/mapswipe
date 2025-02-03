@@ -246,6 +246,7 @@ export type Mapper = {
 
 export type LanguageData = {
     code: string, // two letter code, like 'en', 'de', etc...
+    localeCode: string,
     name: string, // the name of the language in itself 'english', 'Français', 'Español'...
 };
 
@@ -280,4 +281,46 @@ export type TutorialContent = {
     title: string,
     description: string,
     icon: string,
+};
+
+export type UserGroupType = {
+    name: string,
+    nameKey: string,
+    description: string,
+    archivedAt: string,
+    archivedBy: string,
+};
+
+export type Block =
+    | {
+          blockNumber: number,
+          blockType: 'image',
+          image: string | Object,
+      }
+    | {
+          blockNumber: number,
+          blockType: 'text',
+          textDescription: string,
+      };
+
+export type Information = {
+    blocks: Block[],
+    pageNumber: number,
+    title: string,
+};
+
+export type ProjectInformation = Array<Information>;
+
+export type SubOption = {
+    description: string,
+    value: number,
+};
+
+export type Option = {
+    value: number,
+    title: string,
+    description: string,
+    icon: string,
+    iconColor: string,
+    subOptions?: Array<SubOption>,
 };

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Modal from 'react-native-modalbox';
 import { StyleSheet } from 'react-native';
-import Button from 'apsl-react-native-button';
+import Button from './Button';
 import { COLOR_DEEP_BLUE } from '../constants';
 
 const styles = StyleSheet.create({
@@ -38,6 +38,7 @@ export default class ConfirmationModal extends React.Component<Props> {
     /*
      * A modal box used to confirm actions, such as leaving the mapper...
      */
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const {
             cancelButtonCallback,

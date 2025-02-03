@@ -1,12 +1,15 @@
 // @flow
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 import {
     COLOR_BLACK,
+    COLOR_DARK_GRAY,
     COLOR_SUCCESS_GREEN,
     COLOR_WHITE,
     tutorialModes,
 } from '../../constants';
+import * as SvgIcons from '../SvgIcons';
 import { type TutorialContent } from '../../flow-types';
 import {
     TickGreenOnWhite,
@@ -43,6 +46,13 @@ const styles = StyleSheet.create({
     text: {
         flex: 1,
     },
+    svgIcon: {
+        borderRadius: 30,
+        height: 30,
+        padding: 5,
+        width: 30,
+        backgroundColor: COLOR_DARK_GRAY,
+    },
     icon: {
         paddingLeft: 5,
         width: 50,
@@ -59,6 +69,9 @@ type Props = {
 type State = {
     position: string,
 };
+// the icons are in kebab-case we need to camecase them
+export const toCamelCase = (s: string): string =>
+    s.replace(/-./g, x => x[1].toUpperCase());
 
 export default class TutorialBox extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -79,10 +92,12 @@ export default class TutorialBox extends React.Component<Props, State> {
         this.setState({ position });
     };
 
+    // eslint-disable-next-line no-undef
     renderIcon(): null | React.Node {
         const {
             content: { icon },
         } = this.props;
+
         switch (icon) {
             case 'tap-1':
                 return <NumberedTapIconBlack1 />;
@@ -97,10 +112,19 @@ export default class TutorialBox extends React.Component<Props, State> {
             case 'check':
                 return <TickGreenOnWhite />;
             default:
-                return null;
+                return icon ? (
+                    <View style={styles.svgIcon}>
+                        <SvgXml
+                            xml={SvgIcons[toCamelCase(icon)] ?? null}
+                            width="100%"
+                            height="100%"
+                        />
+                    </View>
+                ) : null;
         }
     }
 
+    // eslint-disable-next-line no-undef
     render(): React.Node {
         const {
             boxType,

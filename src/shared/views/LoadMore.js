@@ -3,11 +3,12 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fb from '@react-native-firebase/app';
+import * as Sentry from '@sentry/react-native';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import Button from 'apsl-react-native-button';
 import { MessageBarManager } from 'react-native-message-bar';
+import Button from '../common/Button';
 import { cancelGroup, commitGroup, type GroupInfo } from '../actions/index';
 import type {
     GroupType,
@@ -75,11 +76,49 @@ class _LoadMoreCard extends React.Component<Props> {
         });
     };
 
+    checkResultsAreExpectedSize = () => {
+        /* We want to capture faulty commits to the firebase, one of which happens from too many tasks
+        in a group. #619
+
+        Structure of results Object; it also contains the startTime for each group
+        {
+            "YourProjectId": {
+                "YourGroupId": {
+                    "startTime": "isoT", "t3770": 0, ...., "t3795": 0
+                }
+            }
+        }
+        !!! this can obviously only catch one project with one group, but in theory
+        there can be multiple projects/groups in a result object !!!
+        */
+
+        const { group, projectId, results } = this.props;
+        if (
+            group.numberOfTasks !==
+            results[projectId][group.groupId].length - 1
+        ) {
+            Sentry.addBreadcrumb({
+                message:
+                    'group.numberOfTasks and results.results.length are not the same.',
+                data: {
+                    group,
+                    results,
+                    projectId,
+                },
+            });
+            Sentry.captureMessage(
+                'group.numberOfTasks and results.results.length are not the same',
+                'warning',
+            );
+        }
+    };
+
     commitCompletedGroup = () => {
-        // user completed the group: let's commit it to firebase
         const { group, onCommitGroup, projectId, results } = this.props;
+
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
+            this.checkResultsAreExpectedSize();
             fb.analytics().logEvent('complete_group');
             onCommitGroup({
                 groupId: group.groupId,

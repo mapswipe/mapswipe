@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
       "ecmaFeatures": {
           "jsx": true
@@ -15,6 +15,7 @@
     "import"
   ],
   "rules": {
+    "class-methods-use-this": "off",
     "no-console": "off",
     "indent": "off",
     "spaced-comment": "off",

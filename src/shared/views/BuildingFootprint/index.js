@@ -2,10 +2,19 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
+import { SvgXml } from 'react-native-svg';
 import ProjectLevelScreen from '../../common/ProjectLevelScreen';
 import { submitFootprint } from '../../actions/index';
 import Validator from './Validator';
-import type { NavigationProp, TranslationFunction } from '../../flow-types';
+import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
+import type {
+    NavigationProp,
+    TranslationFunction,
+    Option,
+} from '../../flow-types';
+import { COLOR_LIGHT_GRAY } from '../../constants';
+import * as SvgIcons from '../../common/SvgIcons';
+import { toCamelCase } from '../../common/Tutorial';
 
 const styles = StyleSheet.create({
     header: {
@@ -25,10 +34,32 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         lineHeight: 20,
     },
-    tutText: {
-        fontSize: 13,
+    svgIcon: {
+        borderRadius: 30,
+        height: 30,
+        width: 30,
+    },
+    textContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '90%',
+    },
+    textTitle: {
+        color: 'white',
+        fontSize: 15,
         fontWeight: '600',
-        marginTop: 10,
+        marginLeft: 10,
+        maxWidth: '85%',
+        width: '85%',
+    },
+    textDescription: {
+        color: COLOR_LIGHT_GRAY,
+        fontSize: 15,
+        fontWeight: '400',
+        marginLeft: 10,
+        maxWidth: '85%',
+        width: '85%',
     },
 });
 
@@ -52,7 +83,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
     }
 
     /* eslint-disable global-require */
-    getNormalHelpContent = () => {
+    getNormalHelpContent = (_, customOptions: Option[]) => {
         const { t } = this.props;
         return (
             <>
@@ -62,29 +93,38 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                         {t('squareContainsBuildings')}
                     </Text>
                 </View>
-                <View style={styles.tutRow}>
-                    <Text style={styles.tutText}>{t('instructionsYes')}</Text>
-                </View>
-                <View style={styles.tutRow}>
-                    <Text style={styles.tutText}>{t('instructionsNo')}</Text>
-                </View>
-                <View style={styles.tutRow}>
-                    <Text style={styles.tutText}>
-                        {t('instructionsNotSure')}
-                    </Text>
-                </View>
-                <View style={styles.tutRow}>
-                    <Text style={styles.tutText}>
-                        {t('instructionsBadImagery')}
-                    </Text>
-                </View>
+                {customOptions?.map(item => (
+                    <View style={styles.tutRow} key={item.value}>
+                        <View
+                            style={[
+                                styles.svgIcon,
+                                { backgroundColor: item.iconColor },
+                            ]}
+                        >
+                            <SvgXml
+                                xml={
+                                    SvgIcons[toCamelCase(item.icon)] ??
+                                    SvgIcons.removeOutline
+                                }
+                                width="100%"
+                                height="100%"
+                            />
+                        </View>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.textTitle}>{item.title}</Text>
+                            <Text style={styles.textDescription}>
+                                {item.description}
+                            </Text>
+                        </View>
+                    </View>
+                ))}
             </>
         );
     };
 
     /* eslint-enable global-require */
     render() {
-        const { navigation, ...otherProps } = this.props;
+        const { navigation, t, ...otherProps } = this.props;
         const projectObj = navigation.getParam('project', false);
         const tutorial = navigation.getParam('tutorial', false);
         // check that the project data has a tutorialId set (in firebase)
@@ -100,17 +140,21 @@ class _BuildingFootprintScreen extends React.Component<Props> {
             navigation.pop();
         }
         return (
-            <ProjectLevelScreen
-                Component={Validator}
-                navigation={navigation}
-                getNormalHelpContent={this.getNormalHelpContent}
-                randomSeed={this.randomSeed}
-                screenName="BuildingFootprintScreen"
-                submitResultFunction={submitFootprint}
-                tutorial={tutorial}
-                tutorialId={tutorialId}
-                {...otherProps}
-            />
+            <>
+                <ProjectLevelScreen
+                    Component={Validator}
+                    navigation={navigation}
+                    getNormalHelpContent={this.getNormalHelpContent}
+                    headerText={t('doesShapeOutlineABuilding')}
+                    randomSeed={this.randomSeed}
+                    screenName="BuildingFootprintScreen"
+                    submitResultFunction={submitFootprint}
+                    tutorial={tutorial}
+                    tutorialId={tutorialId}
+                    {...otherProps}
+                />
+                {!tutorial && <AccessibilityInfoModal />}
+            </>
         );
     }
 }

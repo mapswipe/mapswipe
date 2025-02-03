@@ -5,13 +5,19 @@
 
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
+; see https://github.com/browserify/resolve/issues/271
+<PROJECT_ROOT>/node_modules/resolve/test/resolver/malformed_package_json/package.json
+<PROJECT_ROOT>/node_modules/@babel/helper-define-polyfill-provider/node_modules/resolve/test/resolver/malformed_package_json/package.json
 
 ; Ignore polyfills
 node_modules/react-native/Libraries/polyfills/.*
 
 ; Flow doesn't support platforms
 .*/Libraries/Utilities/LoadingView.js
+
 .*/node_modules/jsonlint/.*
+
+.*/node_modules/resolve/test/resolver/malformed_package_json/package\.json$
 
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*
@@ -31,10 +37,9 @@ node_modules/react-native/flow/
 [options]
 emoji=true
 
-esproposal.optional_chaining=enable
-esproposal.nullish_coalescing=enable
-
 exact_by_default=true
+
+format.bracket_spacing=false
 
 module.file_ext=.js
 module.file_ext=.json
@@ -60,7 +65,6 @@ nonstrict-import=warn
 deprecated-type=warn
 unsafe-getters-setters=warn
 unnecessary-invariant=warn
-signature-verification-failure=warn
 
 [strict]
 deprecated-type
@@ -72,4 +76,4 @@ untyped-import
 untyped-type-import
 
 [version]
-^0.137.0
+^0.182.0

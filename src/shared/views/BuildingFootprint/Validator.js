@@ -2,21 +2,39 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import {
+    TouchableHighlight,
+    FlatList,
+    StyleSheet,
+    View,
+    Text,
+} from 'react-native';
 import get from 'lodash.get';
 import pako from 'pako';
 import base64 from 'base-64';
+import { SvgXml } from 'react-native-svg';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-import Button from 'apsl-react-native-button';
 import { withTranslation } from 'react-i18next';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
-import TutorialBox from '../../common/Tutorial';
+import TutorialBox, { toCamelCase } from '../../common/Tutorial';
+import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
 import BuildingFootprintTutorialOutro from './TutorialOutro';
-import { tutorialModes, COLOR_WHITE } from '../../constants';
+import {
+    tutorialModes,
+    COLOR_WHITE,
+    COLOR_LIGHT_GRAY,
+    SPACING_MEDIUM,
+    SPACING_EXTRA_SMALL,
+    FONT_SIZE_SMALL,
+    SPACING_SMALL,
+    COLOR_BLACK,
+} from '../../constants';
 import GLOBAL from '../../Globals';
+import * as SvgIcons from '../../common/SvgIcons';
 
 import type {
     BuildingFootprintGroupType,
@@ -24,73 +42,110 @@ import type {
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
-    TranslationFunction,
     TutorialContent,
+    ProjectInformation,
+    Option,
+    SubOption,
 } from '../../flow-types';
 
 // in order to allow enough screen height for satellite imagery on small
 // screens (less than 550px high) we make buttons smaller on those screens
 const buttonHeight = GLOBAL.SCREEN_HEIGHT >= 550 ? 50 : 40;
-const buttonMargin = GLOBAL.SCREEN_HEIGHT >= 550 ? 5 : 3;
 
-const buttonBGColor = 'rgba(255, 255, 255, 0.2)';
-const buttonBGColorSelected = 'rgba(255, 255, 255, 0.8)';
+function isNaN(val) {
+    if (typeof val === 'number') {
+        return Number.isNaN(val);
+    }
+    return false;
+}
 
+function isNotDefined(val) {
+    return val === undefined || val === null || isNaN(val);
+}
+
+export function isDefined(val: any): boolean {
+    return !isNotDefined(val);
+}
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        gap: SPACING_SMALL,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: GLOBAL.SCREEN_WIDTH,
     },
-    checkmark: {
-        alignSelf: 'center',
-        marginBottom: -3,
+    listItem: {
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        width: '90%',
+        backgroundColor: COLOR_WHITE,
+        padding: SPACING_SMALL,
+        borderRadius: SPACING_SMALL,
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        gap: SPACING_SMALL,
+        margin: SPACING_EXTRA_SMALL,
+        padding: 10,
+        backgroundColor: COLOR_LIGHT_GRAY,
+        borderRadius: 4,
+    },
+    item: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: SPACING_SMALL,
+    },
+    selectedIcon: {
         height: 25,
         width: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25,
     },
-    sideBySideButtons: {
+    listItemText: {
+        fontSize: FONT_SIZE_SMALL,
+        color: COLOR_BLACK,
+    },
+    listHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    bigSquareButton: {
-        borderColor: COLOR_WHITE,
-        borderRadius: 20,
-        borderWidth: 2,
-        height: buttonHeight * 2,
+    options: {
+        display: 'flex',
+        width: '90%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
+        borderRadius: 8,
+        paddingBottom: SPACING_SMALL,
+    },
+    option: {
         flex: 1,
-        marginBottom: buttonMargin,
-        marginLeft: buttonMargin,
-        marginRight: buttonMargin,
-        marginTop: buttonMargin,
+        minWidth: 100,
+        maxWidth: 100,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '30%',
     },
-    bigSquareButtonText: {
-        alignSelf: 'center',
-        color: COLOR_WHITE,
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    longNarrowButton: {
-        borderColor: COLOR_WHITE,
+    closeButton: {
+        height: 20,
+        width: 20,
+        padding: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 20,
-        borderWidth: 2,
-        color: COLOR_WHITE,
-        height: buttonHeight,
-        marginBottom: buttonMargin,
-        marginLeft: buttonMargin,
-        marginRight: buttonMargin,
-        marginTop: buttonMargin,
     },
-    longNarrowButtonText: {
-        color: COLOR_WHITE,
-        fontWeight: 'bold',
+    listHeading: {
+        textAlign: 'center',
+        fontWeight: '700',
+        color: '#212121',
+        fontSize: 18,
+        padding: SPACING_MEDIUM,
     },
 });
-
-const FOOTPRINT_NO = 0;
-const FOOTPRINT_YES = 1;
-const FOOTPRINT_NOT_SURE = 2;
-const FOOTPRINT_BAD_IMAGERY = 3;
 
 type Props = {
     completeGroup: () => void,
@@ -100,14 +155,18 @@ type Props = {
     results: ResultMapType,
     screens: Array<TutorialContent>,
     submitResult: (number, string) => void,
-    t: TranslationFunction,
     tutorial: boolean,
     updateProgress: number => void,
+    informationPages?: ProjectInformation,
+    customOptions: Option[],
 };
 
 type State = {
     // the index of the current task in the task array
     currentTaskIndex: number,
+    showSubOptions: boolean,
+    subOptions: Array<SubOption>,
+    subOptionHeading: string,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -117,6 +176,9 @@ class _Validator extends React.Component<Props, State> {
     // the index of the screen currently seen
     // starts at -tutorialIntroWidth, gets to 0 when we arrive at the interactive part
     currentScreen: number;
+
+    // the number of screens (in width) that the tutorial intro covers
+    tutorialIntroWidth: number;
 
     // props.group.tasks are now gzipped and base64 encoded on the server
     // so we need to decode and gunzip them into a JSON string which is then
@@ -137,20 +199,23 @@ class _Validator extends React.Component<Props, State> {
     // past tasks they haven't provided an answer for yet
     tasksDone: number;
 
-    // the number of screens (in width) that the tutorial intro covers
-    tutorialIntroWidth: number;
-
     constructor(props: Props) {
         super(props);
         this.state = {
             currentTaskIndex: 0,
+            showSubOptions: false,
+            subOptionHeading: '',
+            subOptions: [],
         };
-        this.tutorialIntroWidth = 1;
-        this.currentScreen = -this.tutorialIntroWidth;
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
         this.tasksDone = -1;
         this.setupTasksList(props.group.tasks);
+        this.tutorialIntroWidth =
+            props.informationPages && props.informationPages.length > 0
+                ? props.informationPages.length + 1
+                : 2;
+        this.currentScreen = -this.tutorialIntroWidth;
     }
 
     componentDidUpdate = (prevProps: Props) => {
@@ -189,6 +254,34 @@ class _Validator extends React.Component<Props, State> {
         return currentScreen;
     };
 
+    handleSelectOption = option => {
+        if (option.subOptions) {
+            this.setState(prevState => ({
+                ...prevState,
+                showSubOptions: true,
+                subOptionHeading: option.title,
+                subOptions: option.subOptions,
+            }));
+        } else {
+            this.nextTask(option.value);
+        }
+        return true;
+    };
+
+    handleClose = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            subOptionHeading: '',
+            showSubOptions: false,
+            subOptions: [],
+        }));
+    };
+
+    handleAdditionalOptionClick = value => {
+        this.nextTask(value);
+        this.handleClose();
+    };
+
     nextTask = (result: ?number): boolean => {
         // update state to point to the next task in the list, and
         // save result if one was provided.
@@ -212,6 +305,7 @@ class _Validator extends React.Component<Props, State> {
         }
         if (currentTaskIndex + 1 >= this.expandedTasks.length) {
             // no more tasks in the group, show the "LoadMore" screen
+            updateProgress((1 + currentTaskIndex) / group.numberOfTasks);
             if (tutorial && this.flatlist) {
                 // we've gone through all the tutorial tasks, move on
                 // to the tutorial outro screens which are just after the
@@ -227,9 +321,22 @@ class _Validator extends React.Component<Props, State> {
             return false;
         }
         updateProgress((1 + currentTaskIndex) / group.numberOfTasks);
-        this.setState({ currentTaskIndex: currentTaskIndex + 1 });
-        return false;
+        this.setState(prevState => ({
+            currentTaskIndex: prevState.currentTaskIndex + 1,
+        }));
+        return currentTaskIndex >= this.tasksDone;
     };
+
+    canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean } =
+        () => {
+            const { currentTaskIndex } = this.state;
+            return {
+                canSwipeBack: currentTaskIndex > 0,
+                canSwipeForward:
+                    this.tasksDone >= 0 &&
+                    currentTaskIndex < this.tasksDone + 1,
+            };
+        };
 
     onMomentumScrollEnd = (event: Object) => {
         this.currentScreen = Math.round(
@@ -251,16 +358,105 @@ class _Validator extends React.Component<Props, State> {
         const { group, updateProgress } = this.props;
         const { currentTaskIndex } = this.state;
         if (currentTaskIndex > 0) {
-            updateProgress(currentTaskIndex / group.numberOfTasks);
+            updateProgress((currentTaskIndex - 1) / group.numberOfTasks);
             this.setState({ currentTaskIndex: currentTaskIndex - 1 });
             return false;
         }
         return true;
     };
 
+    renderContent = selectedOption => {
+        const { showSubOptions, subOptions, subOptionHeading } = this.state;
+        const { customOptions } = this.props;
+
+        const isSelected = item => {
+            if (isDefined(selectedOption)) {
+                return (
+                    selectedOption === item.value ||
+                    (item.subOptions?.some(
+                        subOption => subOption.value === selectedOption,
+                    ) ??
+                        false)
+                );
+            }
+            return false;
+        };
+        if (showSubOptions) {
+            return (
+                <View style={styles.listItem}>
+                    <View style={styles.listHeader}>
+                        <Text style={styles.listHeading}>
+                            {subOptionHeading}
+                        </Text>
+                        <Pressable onPress={this.handleClose} hitSlop={5}>
+                            <View style={styles.closeButton}>
+                                <SvgXml
+                                    xml={SvgIcons.redCross}
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </View>
+                        </Pressable>
+                    </View>
+                    <FlatList
+                        data={subOptions}
+                        renderItem={({ item }) => (
+                            <TouchableHighlight
+                                style={styles.itemContainer}
+                                key={item.value}
+                                underlayColor="#f0f0f0"
+                                onPress={() =>
+                                    this.handleAdditionalOptionClick(item.value)
+                                }
+                            >
+                                <View style={styles.item}>
+                                    <View style={styles.selectedIcon}>
+                                        {isDefined(selectedOption) &&
+                                            item.value === selectedOption && (
+                                                <SvgXml
+                                                    xml={
+                                                        SvgIcons.checkmarkGreenOutline
+                                                    }
+                                                    width="100%"
+                                                    height="100%"
+                                                />
+                                            )}
+                                    </View>
+                                    <Text style={styles.listItemText}>
+                                        {item.description}
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
+                        )}
+                    />
+                </View>
+            );
+        }
+        return (
+            <View style={styles.options}>
+                {customOptions?.map(item => (
+                    <View style={styles.option} key={item.value}>
+                        <RoundButtonWithTextBelow
+                            key={item.value}
+                            color={item.iconColor}
+                            iconXmlString={
+                                SvgIcons[toCamelCase(item.icon)] ??
+                                SvgIcons.removeOutline
+                            }
+                            label={item.title}
+                            onPress={() => this.handleSelectOption(item)}
+                            radius={buttonHeight}
+                            selected={isSelected(item)}
+                        />
+                    </View>
+                ))}
+            </View>
+        );
+    };
+
     /* eslint-disable global-require */
     renderValidator = () => {
-        const { group, project, results, screens, t, tutorial } = this.props;
+        const { group, project, results, screens, tutorial } = this.props;
         const { currentTaskIndex } = this.state;
         const currentTask = this.expandedTasks[currentTaskIndex];
         // if tasks have a center attribute, we know they're grouped by 9
@@ -286,8 +482,9 @@ class _Validator extends React.Component<Props, State> {
             } else {
                 const currentScreen = this.getCurrentScreen();
                 if (currentScreen >= 0) {
-                    // $FlowFixMe
-                    tutorialContent = screens[currentTaskIndex][tutorialMode];
+                    tutorialContent =
+                        // $FlowFixMe
+                        screens?.[currentTaskIndex]?.[tutorialMode];
                 } else {
                     tutorialContent = null;
                 }
@@ -297,82 +494,16 @@ class _Validator extends React.Component<Props, State> {
         return (
             <View style={styles.container}>
                 <FootprintDisplay
+                    canSwipe={this.canSwipe}
+                    currentTaskIndex={currentTaskIndex}
                     nextTask={this.nextTask}
+                    numberOfTasks={group.numberOfTasks}
                     prefetchTask={prefetchTask}
                     previousTask={this.previousTask}
                     project={project}
                     task={currentTask}
                 />
-                <View style={styles.sideBySideButtons}>
-                    <Button
-                        onPress={() => this.nextTask(FOOTPRINT_YES)}
-                        style={[
-                            {
-                                backgroundColor:
-                                    selectedResult === FOOTPRINT_YES
-                                        ? buttonBGColorSelected
-                                        : buttonBGColor,
-                            },
-                            styles.bigSquareButton,
-                        ]}
-                        textStyle={styles.bigSquareButtonText}
-                    >
-                        <View>
-                            <Image
-                                source={require('../assets/checkmark_white.png')}
-                                style={styles.checkmark}
-                            />
-                            <Text style={styles.bigSquareButtonText}>
-                                {t('Yes')}
-                            </Text>
-                        </View>
-                    </Button>
-                    <Button
-                        onPress={() => this.nextTask(FOOTPRINT_NO)}
-                        style={[
-                            {
-                                backgroundColor:
-                                    selectedResult === FOOTPRINT_NO
-                                        ? buttonBGColorSelected
-                                        : buttonBGColor,
-                            },
-                            styles.bigSquareButton,
-                        ]}
-                        textStyle={styles.bigSquareButtonText}
-                    >
-                        {`\u2715\n${t('No')}`}
-                    </Button>
-                </View>
-                <Button
-                    onPress={() => this.nextTask(FOOTPRINT_NOT_SURE)}
-                    style={[
-                        {
-                            backgroundColor:
-                                selectedResult === FOOTPRINT_NOT_SURE
-                                    ? buttonBGColorSelected
-                                    : buttonBGColor,
-                        },
-                        styles.longNarrowButton,
-                    ]}
-                    textStyle={styles.longNarrowButtonText}
-                >
-                    {t('NotSure')}
-                </Button>
-                <Button
-                    onPress={() => this.nextTask(FOOTPRINT_BAD_IMAGERY)}
-                    style={[
-                        {
-                            backgroundColor:
-                                selectedResult === FOOTPRINT_BAD_IMAGERY
-                                    ? buttonBGColorSelected
-                                    : buttonBGColor,
-                        },
-                        styles.longNarrowButton,
-                    ]}
-                    textStyle={styles.longNarrowButtonText}
-                >
-                    {t('BadImagery')}
-                </Button>
+                {this.renderContent(selectedResult)}
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 && (
@@ -388,7 +519,8 @@ class _Validator extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, tutorial } = this.props;
+        const { group, navigation, tutorial, informationPages, customOptions } =
+            this.props;
         const { projectId } = group;
         if (!this.expandedTasks) {
             return <LoadingIcon />;
@@ -409,15 +541,17 @@ class _Validator extends React.Component<Props, State> {
                                 group={group}
                                 navigation={navigation}
                                 OutroScreen={BuildingFootprintTutorialOutro}
+                                outroScreenProps={{
+                                    firstOption: customOptions?.[0],
+                                }}
                                 projectId={projectId}
                             />
                         }
                         ListHeaderComponent={
                             <TutorialIntroScreen
-                                exampleImage1={null}
-                                exampleImage2={null}
-                                lookFor="stuff"
                                 tutorial={tutorial}
+                                informationPages={informationPages}
+                                customOptions={customOptions}
                             />
                         }
                         onMomentumScrollEnd={this.onMomentumScrollEnd}
@@ -428,7 +562,7 @@ class _Validator extends React.Component<Props, State> {
                         scrollEnabled={
                             this.scrollEnabled || this.getCurrentScreen() < 0
                         }
-                        windowSize={1}
+                        windowSize={50}
                     />
                 </>
             );
@@ -442,9 +576,18 @@ class _Validator extends React.Component<Props, State> {
 const mapStateToProps = (state, ownProps) => ({
     commitCompletedGroup: ownProps.commitCompletedGroup,
     group: ownProps.group,
-    project: ownProps.project,
+    project: ownProps.tutorial
+        ? {
+              // use the tutorial imagery when in tutorial mode
+              ...ownProps.project,
+              tileServer:
+                  state.firebase.data.tutorial[ownProps.tutorialId].tileServer,
+          }
+        : ownProps.project,
     results: get(
-        state.results[ownProps.tutorialId],
+        state.results[
+            ownProps.tutorial ? ownProps.tutorialId : ownProps.project.projectId
+        ],
         ownProps.group.groupId,
         null,
     ),

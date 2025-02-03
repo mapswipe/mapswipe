@@ -7,22 +7,30 @@ import fb from '@react-native-firebase/app';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { Trans, withTranslation } from 'react-i18next';
 import {
-    Text,
-    View,
+    Image,
+    Linking,
     ScrollView,
     StyleSheet,
-    Image,
+    Text,
     TextInput,
+    View,
 } from 'react-native';
-import Button from 'apsl-react-native-button';
-// $FlowFixMe
-import CheckBox from 'react-native-check-box';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { MessageBarManager } from 'react-native-message-bar';
 import RNBootSplash from 'react-native-bootsplash';
+import debugInfo from '../../../debugInfo';
+import Button from '../common/Button';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
-import { COLOR_DEEP_BLUE, COLOR_RED, COLOR_WHITE } from '../constants';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_RED,
+    COLOR_WHITE,
+    devOsmUrl,
+    MIN_USERNAME_LENGTH,
+} from '../constants';
+import { checkUserNameExists, validateUserName } from '../utils';
 
 /* eslint-disable global-require */
 
@@ -107,8 +115,8 @@ const styles = StyleSheet.create({
 const SCREEN_SIGNUP = 0;
 const SCREEN_LOGIN = 1;
 const SCREEN_FORGOT_PASSWORD = 2;
+const SCREEN_OSM_LOGIN = 3;
 
-const MIN_USERNAME_LENGTH = 4;
 const MIN_PASSWORD_LENGTH = 6;
 const MIN_EMAIL_LENGTH = 6;
 
@@ -125,9 +133,11 @@ type State = {
     email: string,
     loadingAuth: boolean,
     loadingNext: boolean,
+    osmAuthError: ?string,
     screen: number,
     showPasswordError: boolean,
     showUsernameError: boolean,
+    signupOSMPPChecked: boolean,
     signupPPChecked: boolean,
 };
 
@@ -143,9 +153,13 @@ class _Login extends React.Component<Props, State> {
             loadingAuth: true, // whether the authentication info is loaded from firebase yet
             loadingNext: false, // whether we're waiting for the next screen to load
             // loadingNext prevents showing the login screen when already authenticated
+            osmAuthError: undefined,
             screen: SCREEN_SIGNUP,
             showPasswordError: false,
             showUsernameError: false,
+            // is the privay policy checkbox checked on the OSM screen
+            signupOSMPPChecked: false,
+            // is the privay policy checkbox checked on the (email+pass) signup screen
             signupPPChecked: false,
         };
     }
@@ -166,6 +180,15 @@ class _Login extends React.Component<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         const { auth, navigation } = this.props;
+        console.log('ROUTE', Date(), navigation.state.params, navigation);
+        // if arrived here with a deeplink (from the OSM auth page)
+        // handle this before anything else
+        if (navigation.state.params !== undefined) {
+            const { code, error, state, token } = navigation.state.params;
+            if (navigation.state.params !== prevProps.navigation.state.params) {
+                this.OSMOauthCallback(code, state, token, error);
+            }
+        }
         if (auth !== prevProps.auth) {
             if (isLoaded(auth) && !isEmpty(auth)) {
                 navigation.navigate('MainNavigator');
@@ -173,11 +196,13 @@ class _Login extends React.Component<Props, State> {
         }
     }
 
-    handleSignUp = () => {
+    handleSignUp = async () => {
         const { firebase, navigation, t } = this.props;
         const { email, password, username } = this.state;
         const parent = this;
-        if (username !== null && username.length < MIN_USERNAME_LENGTH) {
+
+        const isValid = validateUserName(username);
+        if (!isValid) {
             MessageBarManager.showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:usernameErrorMessage'),
@@ -196,9 +221,20 @@ class _Login extends React.Component<Props, State> {
             });
             return;
         }
-        this.setState({
-            loadingNext: true,
-        });
+
+        this.setState({ loadingNext: true });
+        const userNameAlreadyExist = await checkUserNameExists(username);
+
+        if (userNameAlreadyExist) {
+            MessageBarManager.showAlert({
+                title: t('signup:errorOnSignup'),
+                message: t('signup:userNameExistError'),
+                alertType: 'error',
+                shouldHideAfterDelay: false,
+            });
+            this.setState({ loadingNext: false });
+            return;
+        }
 
         firebase
             .createUser({ email, password }, { username })
@@ -218,6 +254,8 @@ class _Login extends React.Component<Props, State> {
                     projectContributionCount: 0,
                     taskContributionCount: 0,
                     username,
+                    // NOTE: We can assign username to usernameKey because we have already validated the username earlier
+                    usernameKey: username,
                 });
             })
             .then(() => {
@@ -310,6 +348,71 @@ class _Login extends React.Component<Props, State> {
             });
     };
 
+    OSMOauthCallback = (
+        osmCode: string,
+        osmState: string,
+        fbToken: string,
+        osmError: string,
+    ) => {
+        const { firebase, t } = this.props;
+        console.log('OSM callback', osmCode, osmState, fbToken, osmError);
+        // call /token now, which will get a token from firebase
+        // and redirect here via deeplink
+        if (osmError !== undefined && fbToken === undefined) {
+            console.log(
+                'Error while authenticating with OSM',
+                osmError,
+                fbToken,
+            );
+            // FIXME: show the error properly here
+            // the server sends error_description along with error
+            if (osmError === 'access_denied') {
+                // forcefully erase the error state which react-navigation
+                // otherwise keeps across screen reloads
+                // This is expected behaviour in react-navigation v4, but was changed
+                // in v6, see: https://reactnavigation.org/docs/upgrading-from-5.x#params-are-now-overwritten-on-navigation-instead-of-merging
+                // navigation.setParams({ previousError: osmError });
+                // navigation.getParam('previousError', false)
+                this.setState({ loadingNext: false, osmAuthError: osmError });
+            }
+        } else if (fbToken !== undefined) {
+            // we got a token from firebase, use it to sign in with firebase
+            firebase
+                .auth()
+                .signInWithCustomToken(fbToken)
+                .then(userCredentials => {
+                    // Signed in
+                    const username = userCredentials.user.displayName;
+                    // it is difficult to find out if this is a signup or a login
+                    // here. firebase provides a isNewUser boolean, but it seems
+                    // to always be false :( so instead we set the initial user
+                    // profile in the backend function
+                    MessageBarManager.showAlert({
+                        title: t('signup:success'),
+                        message: t('signup:welcomeToMapSwipe', { username }),
+                        alertType: 'info',
+                    });
+                    fb.analytics().logEvent('account_login');
+                })
+                .catch(error => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log('osm auth failed', errorCode, errorMessage);
+                });
+        }
+    };
+
+    handleOSMLogin = () => {
+        this.setState({
+            loadingNext: true,
+        });
+        // This is the start of the OSM login flow.
+        // Call redirect which will send the user to the OSM login page
+        // which in turn will send them back to the app's deeplink
+        // which will take them to OSMOauthCallback
+        Linking.openURL(`${debugInfo.oauthHost}/redirect`);
+    };
+
     handlePassReset = () => {
         const { email } = this.state;
         const { firebase, t } = this.props;
@@ -369,7 +472,17 @@ class _Login extends React.Component<Props, State> {
             email.length < MIN_EMAIL_LENGTH ||
             username.length < MIN_USERNAME_LENGTH ||
             password.length < MIN_PASSWORD_LENGTH ||
-            !signupPPChecked;
+            !signupPPChecked ||
+            showUsernameError;
+
+        const handleUserNameChange = name => {
+            const isValid = validateUserName(name);
+
+            this.setState({
+                showUsernameError: !isValid,
+                username: name,
+            });
+        };
 
         return (
             <ScrollView
@@ -394,13 +507,7 @@ class _Login extends React.Component<Props, State> {
                     placeholder={t('signup:chooseUsername')}
                     placeholderTextColor={COLOR_WHITE}
                     style={styles.textInput}
-                    onChangeText={text =>
-                        this.setState({
-                            showUsernameError:
-                                text.length < MIN_USERNAME_LENGTH,
-                            username: text,
-                        })
-                    }
+                    onChangeText={handleUserNameChange}
                     value={username}
                 />
                 {showUsernameError ? (
@@ -426,7 +533,7 @@ class _Login extends React.Component<Props, State> {
                     testID="signup_email"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    autoCompleteType="email"
+                    autoComplete="email"
                     keyboardType="email-address"
                     placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
@@ -471,12 +578,12 @@ class _Login extends React.Component<Props, State> {
                 </Text>
 
                 <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
-                    <CheckBox
-                        style={{ flex: 1, padding: 5, maxWidth: 30 }}
-                        checkedCheckBoxColor={COLOR_WHITE}
-                        uncheckedCheckBoxColor={COLOR_WHITE}
+                    <BouncyCheckbox
+                        iconStyle={{ borderColor: 'gray', borderWidth: 2 }}
+                        unfillColor={COLOR_WHITE}
+                        fillColor={COLOR_DEEP_BLUE}
                         isChecked={signupPPChecked}
-                        onClick={() =>
+                        onPress={() =>
                             this.setState({ signupPPChecked: !signupPPChecked })
                         }
                     />
@@ -517,6 +624,15 @@ class _Login extends React.Component<Props, State> {
                 >
                     {t('signup:loginExistingAccount')}
                 </Button>
+
+                <Button
+                    testID="signup_to_osm_button"
+                    style={styles.switchToLogin}
+                    onPress={() => this.switchScreens(SCREEN_OSM_LOGIN)}
+                    textStyle={styles.buttonText}
+                >
+                    {t('signup:loginSignupWithOSM')}
+                </Button>
             </ScrollView>
         );
     };
@@ -544,7 +660,7 @@ class _Login extends React.Component<Props, State> {
                     testID="login_email"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    autoCompleteType="email"
+                    autoComplete="email"
                     keyboardType="email-address"
                     placeholder={t('signup:enterYourEmail')}
                     placeholderTextColor={COLOR_WHITE}
@@ -629,6 +745,7 @@ class _Login extends React.Component<Props, State> {
                     onChangeText={text =>
                         this.setState({ email: text.replace(' ', '') })
                     }
+                    secureTextEntry={false}
                     value={email}
                 />
                 <Text style={styles.legalText}>
@@ -653,6 +770,112 @@ class _Login extends React.Component<Props, State> {
         );
     };
 
+    renderOSMLoginScreen = () => {
+        const { osmAuthError, signupOSMPPChecked } = this.state;
+        const { navigation, t } = this.props;
+        return (
+            <ScrollView
+                testID="forgot_password_screen"
+                style={styles.container}
+                contentContainerStyle={{
+                    alignItems: 'center',
+                    width: GLOBAL.SCREEN_WIDTH,
+                    backgroundColor: COLOR_DEEP_BLUE,
+                    padding: 20,
+                }}
+            >
+                <Image
+                    style={styles.tutIcon2}
+                    source={require('./assets/loadinganimation.gif')}
+                />
+
+                <Text style={styles.inputLabel}>
+                    {t('signup:OSMsignupExplanation')}
+                </Text>
+
+                {debugInfo.oauthHost.includes('dev') && (
+                    <Text
+                        style={[styles.policyLink, { padding: 10 }]}
+                        onPress={() => {
+                            Linking.openURL(devOsmUrl);
+                        }}
+                    >
+                        You are using the DEV app. This will log you in to the
+                        DEVELOPMENT version of OSM, not the main site. (tap here
+                        to create a test OSM account)
+                    </Text>
+                )}
+                <Button
+                    isDisabled={!signupOSMPPChecked}
+                    style={styles.otherButton}
+                    onPress={this.handleOSMLogin}
+                    textStyle={styles.buttonText}
+                >
+                    {t('signup:loginSignupWithOSM')}
+                </Button>
+
+                <View style={{ flex: 1, flexDirection: 'row', height: 35 }}>
+                    <BouncyCheckbox
+                        iconStyle={{ borderColor: 'gray', borderWidth: 2 }}
+                        unfillColor={COLOR_WHITE}
+                        fillColor={COLOR_DEEP_BLUE}
+                        isChecked={signupOSMPPChecked}
+                        onPress={() =>
+                            this.setState({
+                                signupOSMPPChecked: !signupOSMPPChecked,
+                            })
+                        }
+                    />
+                    <Text style={styles.checkboxLabel}>
+                        <Trans i18nKey="signup:IagreeToPrivacyNotice">
+                            I agree to the
+                            <Text
+                                style={styles.policyLink}
+                                onPress={() => {
+                                    navigation.push('WebviewWindow', {
+                                        uri: 'https://mapswipe.org/privacy',
+                                    });
+                                }}
+                            >
+                                Privacy Notice
+                            </Text>
+                        </Trans>
+                    </Text>
+                </View>
+
+                {osmAuthError !== undefined ? (
+                    <Text
+                        style={[
+                            styles.inputLabel,
+                            {
+                                color:
+                                    osmAuthError !== undefined
+                                        ? COLOR_RED
+                                        : COLOR_WHITE,
+                            },
+                        ]}
+                    >
+                        {t('signup:osmAuthError')}
+                        osmAuthError
+                    </Text>
+                ) : (
+                    <Text style={styles.inputLabel}>
+                        {t('signup:usernamePublic')}
+                    </Text>
+                )}
+
+                <Button
+                    testID="osm_to_login_button"
+                    style={styles.switchToLogin}
+                    onPress={() => this.switchScreens(SCREEN_LOGIN)}
+                    textStyle={styles.buttonText}
+                >
+                    {t('signup:loginExistingAccount')}
+                </Button>
+            </ScrollView>
+        );
+    };
+
     render() {
         const { auth } = this.props;
         const { loadingAuth, loadingNext, screen } = this.state;
@@ -661,12 +884,21 @@ class _Login extends React.Component<Props, State> {
         const showLoader = !isLoaded(auth) || loadingAuth || loadingNext;
 
         if (!showLoader) {
-            if (screen === SCREEN_SIGNUP) {
-                content = this.renderSignupScreen();
-            } else if (screen === SCREEN_LOGIN) {
-                content = this.renderLoginScreen();
-            } else if (screen === SCREEN_FORGOT_PASSWORD) {
-                content = this.renderForgotPasswordScreen();
+            switch (screen) {
+                case SCREEN_LOGIN:
+                    content = this.renderLoginScreen();
+                    break;
+                case SCREEN_FORGOT_PASSWORD:
+                    content = this.renderForgotPasswordScreen();
+                    break;
+                case SCREEN_OSM_LOGIN:
+                    content = this.renderOSMLoginScreen();
+                    break;
+                case SCREEN_SIGNUP:
+                    content = this.renderSignupScreen();
+                    break;
+                default:
+                    content = this.renderSignupScreen();
             }
         }
 
@@ -685,7 +917,6 @@ class _Login extends React.Component<Props, State> {
 const mapStateToProps = (state, ownProps) => ({
     auth: state.firebase.auth,
     navigation: ownProps.navigation,
-    profile: state.firebase.profile,
 });
 
 const enhance = compose(

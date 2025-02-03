@@ -4,14 +4,18 @@ import {
     BackHandler,
     StyleSheet,
     Text,
+    TouchableOpacity,
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import { withTranslation } from 'react-i18next';
 import Modal from 'react-native-modalbox';
+import { SvgXml } from 'react-native-svg';
 import { cancelGroup, startGroup } from '../../actions/index';
 import {
     firebaseConnectGroup,
@@ -36,6 +40,7 @@ import {
     BUILDING_FOOTPRINTS,
     // CHANGE_DETECTION,
 } from '../../constants';
+import { hideIconFill } from '../../common/SvgIcons';
 
 const GLOBAL = require('../../Globals');
 
@@ -53,6 +58,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent',
+    },
+    iconContainer: {
+        width: 24,
+        height: 24,
+        bottom: 10,
+        right: 20,
+        position: 'absolute',
     },
 });
 
@@ -73,11 +85,14 @@ type Props = {
     tutorial: boolean,
     tutorialId: string,
     canContinueMapping: boolean,
+    informationPages?: Array<any>,
 };
 
 type State = {
     groupCompleted: boolean,
     poppedUpTile: React.Node,
+    hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 class _ChangeDetectionBody extends React.Component<Props, State> {
@@ -100,11 +115,25 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         this.state = {
             groupCompleted: false,
             poppedUpTile: null,
+            hideIcons: false,
+            visibleAccessibility: false,
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
+        const userId = auth().currentUser?.uid;
+
+        try {
+            await database()
+                .ref(`/v2/users/${userId}/accessibility`)
+                .once('value', snapshot => {
+                    this.setState({ visibleAccessibility: snapshot.val() });
+                });
+        } catch {
+            console.log('User not found');
+        }
     }
 
     componentDidUpdate = prevProps => {
@@ -166,8 +195,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        const { navigation } = this.props;
-        navigation.push('CDInstructionsScreen');
+        const { navigation, informationPages } = this.props;
+
+        navigation.push('CDInstructionsScreen', { informationPages });
     };
 
     commitCompletedGroup = () => {
@@ -226,6 +256,14 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         this.tilePopup.close();
     };
 
+    onPressHideIconIn = () => {
+        this.setState({ hideIcons: true });
+    };
+
+    onPressHideIconOut = () => {
+        this.setState({ hideIcons: false });
+    };
+
     renderBackConfirmationModal = () => {
         const { t } = this.props;
         const content = (
@@ -259,11 +297,16 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             tutorial,
             tutorialId,
             canContinueMapping,
+            informationPages,
         } = this.props;
-        const { groupCompleted, poppedUpTile } = this.state;
+        const {
+            groupCompleted,
+            poppedUpTile,
+            hideIcons,
+            visibleAccessibility,
+        } = this.state;
 
         if (!group) {
-            console.log('no group information available.');
             return <LoadingIcon />;
         }
 
@@ -306,11 +349,15 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
                     canContinueMapping={canContinueMapping}
+                    hideIcons={hideIcons}
+                    visibleAccessibility={visibleAccessibility}
                 />
                 <View>
                     <TouchableWithoutFeedback
                         onPress={() => {
-                            navigation.push('CDInstructionsScreen');
+                            navigation.push('CDInstructionsScreen', {
+                                informationPages,
+                            });
                         }}
                     >
                         <Text
@@ -324,6 +371,13 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                             {t('viewInstructions')}
                         </Text>
                     </TouchableWithoutFeedback>
+                    <TouchableOpacity
+                        onPressIn={this.onPressHideIconIn}
+                        onPressOut={this.onPressHideIconOut}
+                        style={styles.iconContainer}
+                    >
+                        <SvgXml width={24} xml={hideIconFill} />
+                    </TouchableOpacity>
                 </View>
                 <BottomProgress
                     ref={r => {

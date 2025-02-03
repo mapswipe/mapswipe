@@ -41,6 +41,8 @@ type Props = {
     openTilePopup: () => void,
     zoomLevel: number,
     canContinueMapping: boolean,
+    hideIcons: boolean,
+    visibleAccessibility: boolean,
 };
 
 type State = {
@@ -337,6 +339,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             closeTilePopup,
             zoomLevel,
             canContinueMapping,
+            hideIcons,
+            visibleAccessibility,
         } = this.props;
         const {
             tutorialMode,
@@ -423,6 +427,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                             openTilePopup={openTilePopup}
                             submitResult={submitResult}
                             task={item}
+                            hideIcons={hideIcons}
+                            visibleAccessibility={visibleAccessibility}
                         />
                     )}
                     scrollEnabled={
@@ -434,7 +440,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                 <ScaleBar
                     alignToBottom={false}
                     latitude={latitude}
-                    useScreenWidth={false}
+                    position="bottom"
+                    referenceSize={GLOBAL.TILE_SIZE}
                     visible
                     zoomLevel={zoomLevel}
                 />

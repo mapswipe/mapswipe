@@ -6,6 +6,7 @@ import {
     PanResponder,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import {
@@ -16,11 +17,12 @@ import type {
     GestureState,
     PanResponderInstance,
 } from 'react-native/Libraries/Interaction/PanResponder';
-import { Path, Shape, Surface } from '@react-native-community/art';
+import Svg, { Polygon as SvgPolygon, SvgXml } from 'react-native-svg';
 import tilebelt from '@mapbox/tilebelt';
 import { getTileUrlFromCoordsAndTileserver } from '../../common/tile_functions';
 import ScaleBar from '../../common/ScaleBar';
 import { COLOR_WHITE } from '../../constants';
+import { hide } from '../../common/SvgIcons';
 import type {
     BBOX,
     ImageCoordsPoint,
@@ -31,7 +33,6 @@ import type {
     PixelCoordsX,
     PixelCoordsY,
     Point,
-    Polygon,
     SingleImageryProjectType,
     BuildingFootprintTaskType,
     Tile,
@@ -41,7 +42,16 @@ import type {
 const GLOBAL = require('../../Globals');
 
 // tileSize is only used for tile based imagery (ie: everything but google)
-const tileSize = GLOBAL.SCREEN_WIDTH;
+const tileSize = GLOBAL.SCREEN_WIDTH * 0.9;
+
+// keeping this value separate from the above as they are semantically different
+// this is the width of the visible imagery area, while above is the width of
+// a tile of imagery. They could in theory not be the same.
+const imageWidth = GLOBAL.SCREEN_WIDTH * 0.9;
+
+const buttonHeight = GLOBAL.SCREEN_WIDTH * 0.12;
+
+const imgRadius = 10;
 
 const styles = StyleSheet.create({
     attribution: {
@@ -54,15 +64,37 @@ const styles = StyleSheet.create({
         padding: 1,
         position: 'absolute',
     },
+    flashingText: {
+        alignSelf: 'center',
+        color: 'black',
+        fontSize: 28,
+        fontWeight: '600',
+        position: 'absolute',
+        top: 30,
+    },
     tileImg: {
         height: tileSize,
         position: 'absolute',
         width: tileSize,
     },
+    visibilityButton: {
+        alignSelf: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderColor: COLOR_WHITE,
+        borderRadius: buttonHeight,
+        borderWidth: 1,
+        height: buttonHeight,
+        width: buttonHeight,
+        position: 'absolute',
+        bottom: 30,
+    },
 });
 
 type Props = {
+    canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean },
+    currentTaskIndex: number,
     nextTask: () => boolean,
+    numberOfTasks: number,
     prefetchTask: BuildingFootprintTaskType,
     previousTask: () => boolean,
     project: SingleImageryProjectType,
@@ -72,12 +104,18 @@ type Props = {
 type State = {
     animatedMarginLeft: Animated.Value,
     animatedMarginRight: Animated.Value,
+    canSwipeBack: boolean,
+    canSwipeForward: boolean,
+    flashingOpacity: Animated.Value,
+    shapeVisible: boolean,
 };
 
 export default class FootprintDisplay extends React.Component<Props, State> {
     panResponder: PanResponderInstance;
 
     swipeThreshold: number;
+
+    shapeVisible: boolean;
 
     // the imagery is shown as a rectangle, whose size is computed to fill
     // in the screen as much as possible. The width is the same as the screen, and
@@ -91,6 +129,11 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     // times for a single image. It's not clear from RN docs whether the prefetch
     // method prevents duplicate requests, so let's do it here to be safe
     prefetchedUrls: Set<string>;
+
+    // in some cases, the imagery needs to be "forced" down to prevent it from looking cut-off
+    // at the bottom (https://github.com/mapswipe/mapswipe/issues/597). When this happens, this
+    // value is > 0, and indicates how many pixels to shift the SVG shape by.
+    shiftShapeY: number;
 
     constructor(props: Props) {
         super(props);
@@ -107,6 +150,10 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         this.state = {
             animatedMarginLeft: new Animated.Value(0),
             animatedMarginRight: new Animated.Value(0),
+            canSwipeBack: false,
+            canSwipeForward: false,
+            flashingOpacity: new Animated.Value(0),
+            shapeVisible: true,
         };
         this.imageryHeight = 0;
         this.prefetchedUrls = new Set();
@@ -115,7 +162,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     componentDidUpdate(prevProps: Props) {
         // try to prefetch the next task's imagery so it displays instantly when
         // we reach it
-        const { prefetchTask, project } = this.props;
+        // FIXME: check why prefetching doesn't work
+        const { canSwipe, prefetchTask, project, task } = this.props;
+        if (prevProps.task !== task) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState(canSwipe());
+        }
         if (
             prefetchTask !== prevProps.prefetchTask &&
             prefetchTask !== undefined
@@ -198,44 +250,45 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         ]).start();
     };
 
+    flashSwipeIndication: () => void = () => {
+        // animate a short text at the top of the image in response to swipes
+        const { flashingOpacity } = this.state;
+        Animated.sequence([
+            Animated.timing(flashingOpacity, {
+                toValue: 1,
+                duration: 50,
+                useNativeDriver: true,
+            }),
+            Animated.timing(flashingOpacity, {
+                toValue: 0,
+                duration: 1000,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
+
     handlePanResponderEnd: (
         event: PressEvent,
         gestureState: GestureState,
     ) => void = (event: PressEvent, gestureState: GestureState) => {
         // swipe completed, decide what to do
-        const { nextTask, previousTask } = this.props;
+        const { canSwipe, nextTask, previousTask } = this.props;
         // we only accept swipes longer than 10% of the screen width
         const swipeMinLength = 0.1;
         if (gestureState.dx < -GLOBAL.SCREEN_WIDTH * swipeMinLength) {
             const bounceAtEnd = nextTask();
+            this.flashSwipeIndication();
             if (bounceAtEnd) {
                 this.bounceImage('left');
             }
         } else if (gestureState.dx > GLOBAL.SCREEN_WIDTH * swipeMinLength) {
             const bounceAtEnd = previousTask();
+            this.flashSwipeIndication();
             if (bounceAtEnd) {
                 this.bounceImage('right');
             }
         }
-    };
-
-    /*
-     * Get the polygon to draw over the image
-     */
-    // $FlowFixMe
-    getPolygon = (coords: Polygon, screenBBox: BBOX): Path => {
-        const [minLon, minLat, maxLon, maxLat] = screenBBox;
-        // geographic coords to screen pixels
-        const lon2x = lon =>
-            ((lon - minLon) / (maxLon - minLon)) * this.imageryHeight;
-        const lat2y = lat =>
-            (1 - (lat - minLat) / (maxLat - minLat)) * this.imageryHeight;
-        const p = Path().moveTo(lon2x(coords[0][0]), lat2y(coords[0][1]));
-        coords.forEach(corner => {
-            p.lineTo(lon2x(corner[0]), lat2y(corner[1]));
-        });
-        p.close();
-        return p;
+        this.setState(canSwipe());
     };
 
     /*
@@ -246,21 +299,20 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     ): BBOX => {
         const lons = coords.map(p => p[0]).sort();
         const lats = coords.map(p => p[1]).sort();
-        return [lons[0], lats[0], lons[lons.length - 1], lats[lats.length - 1]];
+        return [lons[0], lats[lats.length - 1], lons[lons.length - 1], lats[0]];
     };
 
-    // return the center of the building footprint
-    getTaskGeometryCentroid: (coords: LonLatPolygon) => LonLatPoint = (
-        coords: LonLatPolygon,
-    ): LonLatPoint => {
-        const centroid: Point = coords
-            .slice(0, -1)
-            .reduce((acc, c) => [acc[0] + c[0], acc[1] + c[1]]);
-        // $FlowFixMe
-        return centroid.map(c => c / (coords.length - 1));
-    };
+    // return the center of the building footprint's bounding box
+    // We do not use the actual centroid because some weirdly shaped buildings
+    // end up spilling out of the screen
+    getTaskGeometryBoundingBoxCentroid: (coords: LonLatPolygon) => LonLatPoint =
+        (coords: LonLatPolygon): LonLatPoint => {
+            // BBOX as [left, bottom, right, top]
+            const bbox: BBOX = this.getBuildingBBox(coords);
+            return [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+        };
 
-    // return a bouding box to zoom to as [W, S, E, N]
+    // return a bounding box to zoom to as [W, S, E, N]
     // which has the same size as a tile at these coordinates and zoom level
     getScreenBBoxFromCenter: (center: Point, zoom: ZoomLevel) => BBOX = (
         center: Point,
@@ -324,8 +376,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         center: Point,
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
-        // $FlowFixMe
-    ): Path => {
+    ): string => {
         // get the polygon in ART Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
         // center: the center as [longitude, latitude]
@@ -347,10 +398,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             ),
         );
 
-        const p = Path().moveTo(taskImageCoords[0][0], taskImageCoords[0][1]);
-        taskImageCoords.forEach(corner => {
-            p.lineTo(corner[0], corner[1]);
-        });
+        const p = taskImageCoords.map(tic => `${tic[0]},${tic[1]}`).join(' ');
         return p;
     };
 
@@ -359,20 +407,19 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         center: Point,
         zoom: ZoomLevel,
         taskCoords: LonLatPolygon,
-        // $FlowFixMe
-    ): Path => {
-        // get the polygon in ART Path format, expressed in image coordinates,
+    ): string => {
+        // get the polygon in svg Path format, expressed in image coordinates,
         // for the task geometry. Arguments:
         // center: the center as [longitude, latitude]
         // zoom: standard zoom level
         // taskCoords: the coordinates of the task geometry, each point as [lon, lat]
         // This only works for TMS based imagery, like Bing, maxar...
 
-        // get bounding box coordinates in geographic pixels
+        // get center coordinates in geographic pixels
         const centerPixelCoords = this.latLonZoomToPixelCoords(
             center,
             zoom,
-            GLOBAL.SCREEN_WIDTH,
+            tileSize,
         );
         const minX = centerPixelCoords[0] - tileSize / 2;
         const minY = centerPixelCoords[1] - tileSize / 2;
@@ -380,16 +427,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // geographic coords to screen pixels
         const taskImageCoords = taskCoords.map(tc =>
             this.pixelCoordsToImageCoords(
-                this.latLonZoomToPixelCoords(tc, zoom, GLOBAL.SCREEN_WIDTH),
+                this.latLonZoomToPixelCoords(tc, zoom, tileSize),
                 minX,
                 minY,
             ),
         );
-
-        const p = Path().moveTo(taskImageCoords[0][0], taskImageCoords[0][1]);
-        taskImageCoords.forEach(corner => {
-            p.lineTo(corner[0], corner[1]);
-        });
+        const p = taskImageCoords.map(tic => `${tic[0]},${tic[1]}`).join(' ');
         return p;
     };
 
@@ -434,7 +477,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         if (task.center) {
             return task.center;
         }
-        return this.getTaskGeometryCentroid(task.geojson.coordinates[0]);
+        return this.getTaskGeometryBoundingBoxCentroid(
+            task.geojson.coordinates[0],
+        );
     };
 
     getGoogleImageryUrl: (
@@ -482,14 +527,12 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // to be applied to center them on the given center point
 
         // get 4 tiles at zoomLevel and shift them as needed
-        const center = this.getTaskGeometryCentroid(
+        const center = this.getTaskGeometryBoundingBoxCentroid(
             task.geojson.coordinates[0],
         );
         const latitude = center[1];
         const screenBBox = this.getScreenBBoxFromCenter(center, zoom);
         // build footprint polyline
-        // const p = this.getPolygon(coords, screenBBox);
-        // const path = this.getTaskGeometryPath(task, this.zoomLevel);
         const corners = this.BBOXToCoords(screenBBox);
         const swCornerTile = tilebelt.pointToTileFraction(
             corners[0][0],
@@ -497,7 +540,6 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             zoom,
         );
         const tiles = this.getTilesFromScreenCorners(corners, zoom);
-        // $FlowFixMe
         const tileUrls = tiles.map(this.getTileUrl);
 
         // the TMS display fetches 4 tiles from the imagery provider, and sizes
@@ -505,7 +547,15 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // resulting image so that the shape's center is roughly aligned with
         // the center of the screen
         const shiftX = (swCornerTile[0] % 1) * tileSize;
-        const shiftY = (swCornerTile[1] % 1) * tileSize;
+        // prevent the imagery from shifting too far up and looking cut-off
+        // at the bottom
+        const shiftY = Math.min(
+            2 * tileSize - this.imageryHeight,
+            (swCornerTile[1] % 1) * tileSize,
+        );
+        // keep track of whether we had to force imagery down to prevent cutoff
+        // if this value is non-null, we need to shift the SVG path by the same value
+        this.shiftShapeY = (swCornerTile[1] % 1) * tileSize - shiftY;
 
         return { tileUrls, shiftX, shiftY, latitude };
     };
@@ -556,12 +606,11 @@ export default class FootprintDisplay extends React.Component<Props, State> {
     getTaskGeometryPath = (
         task: BuildingFootprintTaskType,
         zoom: ZoomLevel,
-        // $FlowFixMe
-    ): Path => {
+    ): string => {
         const { project } = this.props;
         if (project.tileServer.url.includes('googleapis')) {
             // google imagery works in a non-standard way
-            const center = this.getTaskCenter(task); // the geometry center
+            const center = this.getTaskCenter(task); // the geometry center as given in the task
             return this.getGooglePolygonFromCenter(
                 center,
                 zoom,
@@ -569,7 +618,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             );
         }
         // all other imagery relies on tiles
-        const center = this.getTaskGeometryCentroid(
+        const center = this.getTaskGeometryBoundingBoxCentroid(
             task.geojson.coordinates[0],
         );
         return this.getTMSPolygonFromCenter(
@@ -579,9 +628,24 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         );
     };
 
+    hideShape: () => void = () => {
+        this.setState({ shapeVisible: false });
+    };
+
+    showShape: () => void = () => {
+        this.setState({ shapeVisible: true });
+    };
+
     render: () => React.Node = () => {
-        const { project, task } = this.props;
-        const { animatedMarginLeft, animatedMarginRight } = this.state;
+        const { currentTaskIndex, numberOfTasks, project, task } = this.props;
+        const {
+            animatedMarginLeft,
+            animatedMarginRight,
+            canSwipeBack,
+            canSwipeForward,
+            flashingOpacity,
+            shapeVisible,
+        } = this.state;
         if (task.geojson === undefined || this.imageryHeight === 0) {
             // data is not ready yet, just show a placeholder
             return (
@@ -598,7 +662,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const zoomLevel = this.getZoomLevelFromCoords(coords);
         // get the path to be drawn on top of the imagery, as it's the same for all
         // types of imagery
-        const path = this.getTaskGeometryPath(task, zoomLevel);
+        const svgPath = this.getTaskGeometryPath(task, zoomLevel);
 
         if (project.tileServer.url.includes('googleapis')) {
             // use the latitude of the first point in the shape as reference for the scalebar
@@ -611,6 +675,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 zoomLevel,
             );
             const latitude = coords[0][1];
+            /* eslint-disable global-require */
             return (
                 <Animated.View
                     {...this.panResponder.panHandlers}
@@ -619,7 +684,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                         height: this.imageryHeight,
                         marginLeft: animatedMarginLeft,
                         marginRight: animatedMarginRight,
-                        width: GLOBAL.SCREEN_WIDTH,
+                        width: imageWidth,
                         overflow: 'hidden',
                     }}
                 >
@@ -628,24 +693,55 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                             left: 0,
                             height: this.imageryHeight,
                             position: 'absolute',
-                            width: GLOBAL.SCREEN_WIDTH,
+                            width: imageWidth,
                             top: 0,
                         }}
                         source={{ uri: imageUrl }}
                     />
-                    <Surface
-                        height={this.imageryHeight}
-                        width={GLOBAL.SCREEN_WIDTH}
-                    >
-                        <Shape d={path} stroke="red" strokeWidth={2} />
-                    </Surface>
+                    <Svg height={this.imageryHeight} width={imageWidth}>
+                        {shapeVisible && (
+                            <>
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    fillOpacity="0.0"
+                                    stroke="black"
+                                    strokeWidth="3"
+                                />
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    stroke="white"
+                                    strokeDasharray="3, 3"
+                                    strokeWidth="1"
+                                />
+                            </>
+                        )}
+                    </Svg>
                     <ScaleBar
                         alignToBottom={false}
                         latitude={latitude}
-                        useScreenWidth
+                        position="top"
+                        referenceSize={tileSize}
                         visible
                         zoomLevel={zoomLevel}
                     />
+                    <TouchableOpacity
+                        onPressIn={() => this.hideShape()}
+                        onPressOut={() => this.showShape()}
+                        style={styles.visibilityButton}
+                    >
+                        <View
+                            style={{
+                                alignSelf: 'center',
+                                marginTop: 8,
+                                height: 25,
+                                width: 25,
+                            }}
+                        >
+                            <SvgXml xml={hide} height="100%" width="100%" />
+                        </View>
+                    </TouchableOpacity>
                 </Animated.View>
             );
         }
@@ -661,8 +757,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         const attribution = project.tileServer.credits;
         return (
             <View
-                {...this.panResponder.panHandlers}
                 style={{
+                    flex: 1,
+                    flexDirection: 'row',
                     // this crops the extra imagery height for phones
                     // where height is smaller than width
                     // while filling the entire screen width with imagery
@@ -672,80 +769,164 @@ export default class FootprintDisplay extends React.Component<Props, State> {
                 }}
             >
                 <View
-                    // this view is square, and exactly the size of 4 imagery tiles
-                    // (ie: 2 * 2 tiles)
-                    // so this is drawn "beyond the screen size"
+                    style={
+                        // show an outline of "previous image" to hint that we can
+                        // swipe back (or hide it if we can't)
+                        canSwipeBack
+                            ? {
+                                  backgroundColor: COLOR_WHITE,
+                                  borderTopRightRadius: imgRadius,
+                                  borderBottomRightRadius: imgRadius,
+                                  height: this.imageryHeight,
+                                  opacity: 0.2,
+                                  marginRight: GLOBAL.SCREEN_WIDTH * 0.02,
+                                  width: GLOBAL.SCREEN_WIDTH * 0.03,
+                              }
+                            : {
+                                  width: GLOBAL.SCREEN_WIDTH * 0.05,
+                              }
+                    }
+                />
+                <View
+                    {...this.panResponder.panHandlers}
                     style={{
-                        position: 'absolute',
-                        left: -shiftX,
-                        top: -shiftY,
-                        height: tileSize * 2,
-                        width: tileSize * 2,
+                        borderRadius: imgRadius,
+                        // this crops the extra imagery height for phones
+                        // where height is smaller than width
+                        // while filling the entire screen width with imagery
+                        height: this.imageryHeight,
+                        overflow: 'hidden',
+                        width: imageWidth,
                     }}
                 >
-                    <Image
+                    <View
+                        // this view is square, and exactly the size of 4 imagery tiles
+                        // (ie: 2 * 2 tiles)
+                        // so this is drawn "beyond the screen size"
+                        style={{
+                            position: 'absolute',
+                            left: -shiftX,
+                            top: -shiftY,
+                            height: tileSize * 2,
+                            width: tileSize * 2,
+                        }}
+                    >
+                        <Image
+                            style={[
+                                {
+                                    left: 0,
+                                    top: 0,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[1] }}
+                        />
+                        <Image
+                            style={[
+                                {
+                                    left: tileSize,
+                                    top: 0,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[2] }}
+                        />
+                        <Image
+                            style={[
+                                {
+                                    left: 0,
+                                    top: tileSize,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[0] }}
+                        />
+                        <Image
+                            style={[
+                                {
+                                    left: tileSize,
+                                    top: tileSize,
+                                },
+                                styles.tileImg,
+                            ]}
+                            source={{ uri: tileUrls[3] }}
+                        />
+                    </View>
+                    <Svg height="100%" width="100%" top={this.shiftShapeY}>
+                        {shapeVisible && (
+                            <>
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    fillOpacity="0.0"
+                                    stroke="black"
+                                    strokeWidth="3"
+                                />
+                                <SvgPolygon
+                                    points={svgPath}
+                                    fill="none"
+                                    stroke="white"
+                                    strokeDasharray="3, 3"
+                                    strokeWidth="1"
+                                />
+                            </>
+                        )}
+                    </Svg>
+                    <TouchableOpacity
+                        onPressIn={() => this.hideShape()}
+                        onPressOut={() => this.showShape()}
+                        style={styles.visibilityButton}
+                    >
+                        <View
+                            style={{
+                                alignSelf: 'center',
+                                marginTop: 8,
+                                height: 25,
+                                width: 25,
+                            }}
+                        >
+                            <SvgXml xml={hide} height="100%" width="100%" />
+                        </View>
+                    </TouchableOpacity>
+                    <Animated.Text
                         style={[
-                            {
-                                left: 0,
-                                top: 0,
-                            },
-                            styles.tileImg,
+                            { opacity: flashingOpacity },
+                            styles.flashingText,
                         ]}
-                        source={{ uri: tileUrls[1] }}
+                    >
+                        {currentTaskIndex + 1} | {numberOfTasks}
+                    </Animated.Text>
+                    <ScaleBar
+                        alignToBottom={false}
+                        latitude={latitude}
+                        position="top"
+                        referenceSize={tileSize}
+                        visible
+                        zoomLevel={zoomLevel}
                     />
-                    <Image
-                        style={[
-                            {
-                                left: tileSize,
-                                top: 0,
-                            },
-                            styles.tileImg,
-                        ]}
-                        source={{ uri: tileUrls[2] }}
-                    />
-                    <Image
-                        style={[
-                            {
-                                left: 0,
-                                top: tileSize,
-                            },
-                            styles.tileImg,
-                        ]}
-                        source={{ uri: tileUrls[0] }}
-                    />
-                    <Image
-                        style={[
-                            {
-                                left: tileSize,
-                                top: tileSize,
-                            },
-                            styles.tileImg,
-                        ]}
-                        source={{ uri: tileUrls[3] }}
-                    />
+                    <View style={styles.attributionView}>
+                        <Text style={styles.attribution}>{attribution}</Text>
+                    </View>
                 </View>
-                <Surface
-                    height={GLOBAL.SCREEN_WIDTH}
-                    width={GLOBAL.SCREEN_WIDTH}
-                >
-                    <Shape d={path} stroke="black" strokeWidth={3} />
-                    <Shape
-                        d={path}
-                        stroke="white"
-                        strokeDash={[1, 2]}
-                        strokeWidth={1}
-                    />
-                </Surface>
-                <ScaleBar
-                    alignToBottom
-                    latitude={latitude}
-                    useScreenWidth
-                    visible
-                    zoomLevel={zoomLevel}
+                <View
+                    style={
+                        // show an outline of "next image" to hint that we can
+                        // swipe forward (or hide it if we can't)
+                        canSwipeForward
+                            ? {
+                                  backgroundColor: COLOR_WHITE,
+                                  borderTopLeftRadius: imgRadius,
+                                  borderBottomLeftRadius: imgRadius,
+                                  height: this.imageryHeight,
+                                  opacity: 0.2,
+                                  marginLeft: GLOBAL.SCREEN_WIDTH * 0.02,
+                                  width: GLOBAL.SCREEN_WIDTH * 0.03,
+                              }
+                            : {
+                                  width: GLOBAL.SCREEN_WIDTH * 0.05,
+                              }
+                    }
                 />
-                <View style={styles.attributionView}>
-                    <Text style={styles.attribution}>{attribution}</Text>
-                </View>
             </View>
         );
     };

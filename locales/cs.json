@@ -33,6 +33,8 @@
     "signUp": "Přihlásit se",
     "loginExistingAccount": "Přihlaste se k existujícímu účtu",
     "login": "Přihlásit se",
+    "loginSignupWithOSM": "Přihlášení s OpenStreetMap",
+    "OSMsignupExplanation": "Do MapSwipe se můžete zaregistrovat pomocí svého účtu OpenStreetMap. Pokud již účet MapSwipe máte, nebude je možné propojit! (tato možnost bude brzy uvedena v budoucí verzi).",
     "forgotPassword": "Zapomněli jste heslo?",
     "createNewAccount": "Vytvořit nový účet",
     "sendResetEmailWarning": "* Zašleme vám e-mail k obnovení vašeho hesla",
@@ -177,20 +179,30 @@
     "completedTutorial": "Nyní víte vše, co potřebujete, abyste přispěli k humanitárnímu mapování pomocí této aplikace. Pro připomenutí se sem můžete kdykoli vrátit."
   },
   "BuildingFootprintTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "K odpovědi použijte tlačítka:",
+      "doesTheShapeOutlineABuilding": "Obkresluje tvar budovu?",
+      "everyTimeYouSelectAnOption": "Při každém výběru možnosti se zobrazí nový tvar a obrázek.",
+      "tapGreenText": "Ano - tvar na obrázku obkresluje budovu.",
+      "tapRedText": "Ne - tvar neodpovídá budově na obrázku.",
+      "tapGrayText": "Nejste si jisti - pokud si nejste jisti nebo je zataženo / špatné snímky",
+      "hideIconText": "Podržením tlačítka skrýt odstraníte tvar z obrázku.",
       "letsLearnHowToMap": "Naučme se, jak mapovat na několika příkladech",
-      "youllSeeASquare": "Na obrázku uvidíte čtverec. Pomocí tlačítek odpovězte:",
+      "youllSeeASquare": "Na obrázku se zobrazí tvar. Pomocí tlačítek odpovězte:",
       "squareContainsBuildings": "Obsahuje čtverec nějaké budovy?",
       "squareWillMove": "Čtverec se bude pohybovat kolem obrázku, jak budete postupovat, podle následující mřížky:",
-      "swipeToGetStarted": "Začněte přejetím prstem"
+      "swipeToGetStarted": "Začněte přejetím prstem",
+      "swipeToContinue": "Přejetím prstu pokračujte"
   },
   "BFTutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Nebojte se, pokud si nejste jisti čtvercem.",
     "youCanAlwaysTapUnsure": "Pamatujte, že vždy můžete klepnout na tlačítko „Nejsem si jistý“",
     "everyImageViewedBy": "Každý obrázek je zobrazen minimálně 3 MapSwipery, takže je v pořádku, pokud si myslíte, že vám něco uniklo",
     "wantToChangeYourAnswer": "Chcete změnit svoji odpověď?",
-    "youCanSwipeBack": "Přejetím zpět můžete změnit své předchozí odpovědi. Poté se klepnutím nebo přejetím dopředu vrátíte zpět na místo, kde jste byli."
+    "youCanSwipeBack": "Přejetím zpět můžete změnit své předchozí odpovědi. Poté se klepnutím nebo přejetím dopředu vrátíte zpět na místo, kde jste byli.",
+    "yourPreviousAnswerIsMarked": "Vaše předchozí odpovědi jsou označeny bílým kroužkem."
   },
   "BFInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Obkresluje tvar budovu?",
     "howToContribute": "Jak přispět",
     "squareContainsBuildings": "Obsahuje čtverec nějaké budovy? Pomocí tlačítek odpovězte:",
     "instructionsYes": "Ano: když je na čtverci budova nebo její část",
