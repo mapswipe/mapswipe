@@ -14,6 +14,7 @@ import UserProfile from './UserProfile';
 
 import type { NavigationProp } from '../flow-types';
 import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
+import ChangelogModal from '../common/ChangelogModal';
 
 const GLOBAL = require('../Globals');
 
@@ -34,26 +35,31 @@ class _ProjectNav extends React.Component<Props> {
     render() {
         const { navigation, t } = this.props;
         return (
-            <ScrollableTabView
-                tabBarActiveTextColor="#ffffff"
-                tabBarInactiveTextColor={COLOR_LIGHT_GRAY}
-                renderTabBar={() => (
-                    <DefaultTabBar
-                        backgroundColor={COLOR_DEEP_BLUE}
-                        style={{ borderBottomWidth: 0 }}
-                        tabBarUnderlineStyle={{ backgroundColor: COLOR_RED }}
+            <>
+                <ChangelogModal />
+                <ScrollableTabView
+                    tabBarActiveTextColor="#ffffff"
+                    tabBarInactiveTextColor={COLOR_LIGHT_GRAY}
+                    renderTabBar={() => (
+                        <DefaultTabBar
+                            backgroundColor={COLOR_DEEP_BLUE}
+                            style={{ borderBottomWidth: 0 }}
+                            tabBarUnderlineStyle={{
+                                backgroundColor: COLOR_RED,
+                            }}
+                        />
+                    )}
+                >
+                    <RecommendedCards
+                        navigation={navigation}
+                        tabLabel={t('missions')}
                     />
-                )}
-            >
-                <RecommendedCards
-                    navigation={navigation}
-                    tabLabel={t('missions')}
-                />
-                <UserProfile
-                    navigation={navigation}
-                    tabLabel={t('userProfile')}
-                />
-            </ScrollableTabView>
+                    <UserProfile
+                        navigation={navigation}
+                        tabLabel={t('userProfile')}
+                    />
+                </ScrollableTabView>
+            </>
         );
     }
 }
