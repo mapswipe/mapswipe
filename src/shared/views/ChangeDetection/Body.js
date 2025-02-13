@@ -84,6 +84,7 @@ type Props = {
     t: TranslationFunction,
     tutorial: boolean,
     tutorialId: string,
+    canContinueMapping: boolean,
     informationPages?: Array<any>,
 };
 
@@ -295,6 +296,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             t,
             tutorial,
             tutorialId,
+            canContinueMapping,
             informationPages,
         } = this.props;
         const {
@@ -346,6 +348,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     closeTilePopup={this.closeTilePopup}
                     openTilePopup={this.openTilePopup}
                     zoomLevel={this.project.zoomLevel}
+                    canContinueMapping={canContinueMapping}
                     hideIcons={hideIcons}
                     visibleAccessibility={visibleAccessibility}
                 />

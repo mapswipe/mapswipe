@@ -60,6 +60,7 @@ type Props = {
     tutorial: boolean,
     updateProgress: number => void,
     zoomLevel: number,
+    canContinueMapping: boolean,
     informationPages?: Array<ProjectInformation>,
     lookFor: string,
     exampleImage1: string,
@@ -523,6 +524,7 @@ class _CardBody extends React.PureComponent<Props, State> {
             screens,
             tutorial,
             zoomLevel,
+            canContinueMapping,
             informationPages: informationPagesFromProps,
             lookFor,
             exampleImage1,
@@ -632,6 +634,9 @@ class _CardBody extends React.PureComponent<Props, State> {
                                 projectId={projectId}
                                 toNextGroup={this.toNextGroup}
                                 tutorial={tutorial}
+                                continueMappingButtonVisible={
+                                    canContinueMapping
+                                }
                             />
                         )
                     }
