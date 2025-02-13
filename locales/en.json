@@ -142,7 +142,9 @@
     "Yes": "Yes",
     "No": "No",
     "NotSure": "Not sure",
-    "BadImagery": "Bad imagery"
+    "BadImagery": "Bad imagery",
+    "incorrectAnswerMessageTitle": "Incorrect answer!",
+    "incorrectAnswerMessage": "Please select: {{correctAnswer}}"
   },
   "ProjectLevelScreen": {
     "iUnderstand": "I understand",

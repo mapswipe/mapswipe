@@ -1,0 +1,8 @@
+{
+    "2.2.11": {
+        "changes": [
+            "Introduce changelog popup!",
+            "Make tutorials in validate project advance only when user selects correct answer!"
+        ]
+    }
+}

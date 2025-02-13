@@ -157,6 +157,9 @@ export type BuildingFootprintTaskType = {
     center: ?Point,
     groupId: string,
     geojson: { type: string, coordinates: { [number]: Polygon } },
+    properties: {
+        reference: string | number,
+    },
     projectId: string,
     taskId: string,
 };

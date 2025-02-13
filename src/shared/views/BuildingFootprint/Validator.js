@@ -14,6 +14,7 @@ import pako from 'pako';
 import base64 from 'base-64';
 import { SvgXml } from 'react-native-svg';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
+import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import FootprintDisplay from './FootprintDisplay';
@@ -46,6 +47,7 @@ import type {
     ProjectInformation,
     Option,
     SubOption,
+    TranslationFunction,
 } from '../../flow-types';
 
 // in order to allow enough screen height for satellite imagery on small
@@ -148,6 +150,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+    t: TranslationFunction,
     completeGroup: () => void,
     group: BuildingFootprintGroupType,
     navigation: NavigationProp,
@@ -255,6 +258,7 @@ class _Validator extends React.Component<Props, State> {
     };
 
     handleSelectOption = option => {
+        const { tutorial } = this.props;
         if (option.subOptions) {
             this.setState(prevState => ({
                 ...prevState,
@@ -262,8 +266,36 @@ class _Validator extends React.Component<Props, State> {
                 subOptionHeading: option.title,
                 subOptions: option.subOptions,
             }));
-        } else {
+        } else if (!tutorial) {
             this.nextTask(option.value);
+        } else {
+            const { currentTaskIndex } = this.state;
+            const currentTask = this.expandedTasks[currentTaskIndex];
+            const referenceAnswer = currentTask?.properties?.reference;
+            if (option.value === referenceAnswer) {
+                this.nextTask(option.value);
+            } else {
+                const { t, customOptions } = this.props;
+                const correctAnswer = customOptions
+                    .flatMap(customOption => [
+                        {
+                            value: customOption.value,
+                            title: customOption.title,
+                        },
+                        ...(customOption.subOptions?.map(subOption => ({
+                            value: subOption.value,
+                            title: `${option.title} > ${subOption.description}`,
+                        })) ?? []),
+                    ])
+                    .find(opt => opt.value === referenceAnswer);
+                MessageBarManager.showAlert({
+                    title: t('incorrectAnswerMessageTitle'),
+                    message: t('incorrectAnswerMessage', {
+                        correctAnswer: correctAnswer?.title,
+                    }),
+                    alertType: 'warning',
+                });
+            }
         }
         return true;
     };
