@@ -1,8 +1,9 @@
 {
-    "2.2.11": {
+    "2.3.0": {
         "changes": [
             "Introduce changelog popup!",
-            "Make tutorials in validate project advance only when user selects correct answer!"
+            "Make tutorials in validate project advance only when user selects correct answer!",
+            "Fix loading screen on continue mapping for some projects"
         ]
     }
 }
