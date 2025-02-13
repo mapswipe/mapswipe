@@ -57,8 +57,14 @@ export const SPACING_SMALL = 8;
 export const SPACING_MEDIUM = 16;
 export const SPACING_LARGE = 24;
 
+export const WIDTH_MAX_MODAL_SMALL = 360;
+
 export const HEIGHT_INPUT = 40;
 export const HEIGHT_BUTTON = 50;
+export const HEIGHT_BUTTON_SMALL = 36;
+
+export const RADIUS_BORDER_MEDIUM = 2;
+export const RADIUS_BORDER_LARGE = 5;
 
 // languages
 export const supportedLanguages = [
