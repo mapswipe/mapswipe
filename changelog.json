@@ -2,6 +2,7 @@
     "2.3.0": {
         "changes": [
             "Introduce changelog popup!",
+            "Fix accessibility pop-up showing same instruction text for different icons",
             "Make tutorials in validate project advance only when user selects correct answer!",
             "Fix loading screen on continue mapping for some projects"
         ]
