@@ -4,7 +4,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { Trans } from 'react-i18next';
 
-import { COLOR_DEEP_BLUE } from '../constants';
+import {
+    COLOR_DEEP_BLUE,
+    FONT_SIZE_SMALL,
+    HEIGHT_BUTTON,
+    SPACING_LARGE,
+    SPACING_SMALL,
+    WIDTH_MAX_MODAL_SMALL,
+} from '../constants';
 import Button from './Button';
 import BadImageIcon from '../views/assets/bad_image_new_icon.png';
 import QuestionMarkIcon from '../views/assets/question_mark_new_icon.png';
@@ -14,11 +21,11 @@ const styles = StyleSheet.create({
     modal: {
         height: 'auto',
         width: '95%',
-        maxWidth: 300,
+        maxWidth: WIDTH_MAX_MODAL_SMALL,
         backgroundColor: '#ffffff',
         borderRadius: 2,
         justifyContent: 'center',
-        padding: 20,
+        padding: SPACING_LARGE,
     },
     header: {
         fontWeight: '700',
@@ -33,7 +40,7 @@ const styles = StyleSheet.create({
     },
     text: {
         flex: 1,
-        fontSize: 13,
+        fontSize: FONT_SIZE_SMALL,
         fontWeight: '600',
         color: '#50acd4',
         paddingLeft: 5,
@@ -55,8 +62,8 @@ const styles = StyleSheet.create({
     closeButton: {
         backgroundColor: COLOR_DEEP_BLUE,
         alignItems: 'center',
-        height: 50,
-        padding: 12,
+        height: HEIGHT_BUTTON,
+        padding: SPACING_SMALL,
         borderRadius: 5,
         borderWidth: 0.1,
     },
@@ -125,7 +132,7 @@ function AccessibilityInfoModal() {
             <View style={styles.row}>
                 <Image source={QuestionMarkIcon} style={styles.image} />
                 <Text style={styles.text}>
-                    <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
+                    <Trans i18nKey="AccessibilityInstruction:questionMarkIconInfo">
                         Tap twice to turn the tile yellow and show a question
                         icon
                     </Trans>
@@ -134,7 +141,7 @@ function AccessibilityInfoModal() {
             <View style={styles.row}>
                 <Image source={BadImageIcon} style={styles.image} />
                 <Text style={styles.text}>
-                    <Trans i18nKey="AccessibilityInstruction:tickIconInfo">
+                    <Trans i18nKey="AccessibilityInstruction:badImageIconInfo">
                         Tap thrice to turn the tile red and show a bad imagery
                         icon
                     </Trans>

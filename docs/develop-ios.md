@@ -96,8 +96,8 @@ There are 2 different apps:
 Github Actions run like this:
 
 - on every `git push`, the tests are run, and the app is compiled, to verify that there are no broken dependencies, etc...
-- on all pushes with a tag (except on the `master` branch), it also deploys the `dev` version to testflight, for beta-testers to review.
-- on a push to `master` with a tag, it does all the above (except the upload to testflight), but also deploys the production version to the appstore (this requires a final manual step, plus a review by apple which takes 1-2 days).
+- on all pushes with a tag (except on the `main` branch), it also deploys the `dev` version to testflight, for beta-testers to review.
+- on a push to `main` with a tag, it does all the above (except the upload to testflight), but also deploys the production version to the appstore (this requires a final manual step, plus a review by apple which takes 1-2 days).
 
 ### Getting users to test the beta version
 

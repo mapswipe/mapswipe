@@ -92,6 +92,7 @@ type Props = {
     tutorial: boolean,
     tutorialId: string,
     tutorialHelpContent: React.ComponentType<any>,
+    canContinueMapping: boolean,
 };
 
 type State = {
@@ -312,6 +313,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             screens,
             tutorial,
             tutorialId,
+            canContinueMapping,
             informationPages,
             customOptions,
         } = this.props;
@@ -327,6 +329,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     projectId={group.projectId}
                     toNextGroup={this.toNextGroup}
                     tutorial={tutorial}
+                    continueMappingButtonVisible={canContinueMapping}
                 />
             );
         }

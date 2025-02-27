@@ -97,6 +97,7 @@
   "loadMoreScreen": {
     "completedTutorial": "Good. You have completed the tutorial. You are ready to do some mapping!",
     "finishedGroup": "Great job! You finished this group.",
+    "finishedManyGroups": "Amazing job! You have mapped many groups in a row. Go back to the project screen to sync your work and get the latest tasks. You will then be able to map even more groups.",
     "letsGo": "Let's go!",
     "completeSession": "Complete Session",
     "continueMapping": "Continue mapping",
@@ -141,7 +142,9 @@
     "Yes": "Yes",
     "No": "No",
     "NotSure": "Not sure",
-    "BadImagery": "Bad imagery"
+    "BadImagery": "Bad imagery",
+    "incorrectAnswerMessageTitle": "Incorrect answer!",
+    "incorrectAnswerMessage": "Please select: {{correctAnswer}}"
   },
   "ProjectLevelScreen": {
     "iUnderstand": "I understand",
