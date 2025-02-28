@@ -10,7 +10,7 @@ buildscript {
          * This property is optional because the plugin uses a recommended version of
          * the build tools by default.
          */
-        buildToolsVersion = "33.0.0"
+        buildToolsVersion = "34.0.0"
         // minSdkVersion defines the minimum API level required to run the app.
         minSdkVersion = 21 // this should be 16 if we're not running the detox test build
         /**
@@ -18,15 +18,15 @@ buildscript {
          * compile your app. This means your app can use the API features included in
          * this API level and lower.
          */
-        compileSdkVersion = 33
+        compileSdkVersion = 34
         // targetSdkVersion specifies the API level used to test the app.
-        targetSdkVersion = 33
+        targetSdkVersion = 34
 
         // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
         ndkVersion = "23.1.7779620"
 
         androidXCore = "1.0.2"
-        kotlinVersion = '1.6.0'
+        kotlinVersion = '1.6.21'
     }
     repositories {
         google()
@@ -35,7 +35,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath 'com.google.gms:google-services:4.3.2'
+        classpath 'com.google.gms:google-services:4.3.10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
