@@ -2,12 +2,12 @@
 import React from 'react';
 import {
     Image,
-    SafeAreaView,
     StatusBar,
     StyleSheet,
     Text,
     View,
 } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context"
 import { connect } from 'react-redux';
 import fb from '@react-native-firebase/app';
 // import type { Notification } from 'react-native-firebase';

@@ -5,6 +5,7 @@ import React from 'react';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { SafeAreaProvider } from "react-native-safe-area-context"
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import '@react-native-firebase/analytics';
@@ -74,7 +75,9 @@ class ConnectedApp extends React.Component<Props> {
                 <Provider store={store}>
                     <ReactReduxFirebaseProvider {...rrfProps}>
                         <PersistGate loading={null} persistor={persistor}>
-                            <Main />
+                            <SafeAreaProvider>
+                                <Main />
+                            </SafeAreaProvider>
                         </PersistGate>
                     </ReactReduxFirebaseProvider>
                 </Provider>

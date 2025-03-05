@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable max-classes-per-file */
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import fb from '@react-native-firebase/app';

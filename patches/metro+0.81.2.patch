@@ -1,0 +1,16 @@
+diff --git a/node_modules/metro/src/lib/getMaxWorkers.js b/node_modules/metro/src/lib/getMaxWorkers.js
+index 0cf60e8..03661b2 100644
+--- a/node_modules/metro/src/lib/getMaxWorkers.js
++++ b/node_modules/metro/src/lib/getMaxWorkers.js
+@@ -2,7 +2,10 @@
+ 
+ const os = require("os");
+ module.exports = (workers) => {
+-  const cores = os.availableParallelism();
++    const cores =
++        typeof os.availableParallelism === 'function'
++            ? os.availableParallelism()
++            : os.cpus().length;
+   return typeof workers === "number" && Number.isInteger(workers)
+     ? Math.min(cores, workers > 0 ? workers : 1)
+     : Math.max(1, Math.ceil(cores * (0.5 + 0.5 * Math.exp(-cores * 0.07)) - 1));

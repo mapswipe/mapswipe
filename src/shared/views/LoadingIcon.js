@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 import { Animated, Easing, Image, Text } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import type { TranslationFunction } from '../flow-types';
