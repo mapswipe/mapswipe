@@ -4,7 +4,13 @@ source 'https://rubygems.org'
 ruby ">= 3.0.0"
 
 gem 'fastlane'
-gem 'cocoapods', '~> 1.12'
-# this is a workaround as fastlane build is failing
-# https://github.com/CocoaPods/CocoaPods/issues/12081
-gem 'activesupport', '~> 7.0.8'
+gem 'bigdecimal'
+gem 'mutex_m'
+gem 'benchmark'
+gem 'logger'
+gem 'abbrev'
+
+# Cocoapods 1.15 introduced a bug which break the build. We will remove the upper
+# bound in the template on Cocoapods with next React Native release.
+gem 'cocoapods', '>= 1.13', '< 1.15'
+gem 'activesupport', '>=6.1.7.3','< 7.1.0'
