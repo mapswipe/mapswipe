@@ -13,13 +13,12 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  if ([FIRApp defaultApp] == nil) {
-      [FIRApp configure];
-  }
+  [FIRApp configure];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"mapswipe"
-                                            initialProperties:nil];
+    moduleName:@"mapswipe"
+    initialProperties:nil];
 
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
@@ -35,27 +34,8 @@
 
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 
-/// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
-///
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
-
-// notification stuff
-/*
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-  [[RNFirebaseNotifications instance] didReceiveLocalNotification:notification];
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo
-fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
-  [[RNFirebaseNotifications instance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
-}
-
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-  [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
-}
-*/
-// end notification stuff
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {

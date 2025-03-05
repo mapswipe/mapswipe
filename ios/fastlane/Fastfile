@@ -27,11 +27,6 @@ platform :ios do
          derived_data_path: "build",
          build_for_testing: true,
          devices:['iPhone X'])
-    # scan(scheme: "mapswipe",
-    #      configuration: "Debug",
-    #      test_without_building: true,
-    #      derived_data_path: "build",
-    #      devices:['iPhone X'])
   end
 
   desc "Build production version and upload to appstore. This step is executed when a tag on main is created"
