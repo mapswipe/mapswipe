@@ -35,14 +35,9 @@ $RNFirebaseAnalyticsWithoutAdIdSupport=true
 target 'mapswipe' do
   config = use_native_modules!
 
-  # Flags change depending on the env values.
-  flags = get_default_flags()
-
   use_react_native!(
     :path => config[:reactNativePath],
-    # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => flags[:hermes_enabled],
-    :fabric_enabled => flags[:fabric_enabled],
+
     # An absolute path to your application root.
     :flipper_configuration => flipper_config,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
@@ -61,6 +56,15 @@ target 'mapswipe' do
       :mac_catalyst_enabled => false
     )
     # __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    installer.pods_project.targets.each do |target|
+      file_path = 'Pods/Flipper/xplat/Flipper/FlipperTransportTypes.h'
+      contents = File.read(file_path)
+      unless contents.include?('#include <functional>')
+        File.open(file_path, 'w') do |file|
+          file.puts('#include <functional>')
+          file.puts(contents)
+        end
+      end
+    end
   end
-
 end
