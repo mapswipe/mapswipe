@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		385B7A1C5DB8633AA6984E7A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B59FC846706879B273321D5A /* PrivacyInfo.xcprivacy */; };
 		702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8B7CB818144B286E4344D /* libz.tbd */; };
 		A7A40A62DF7FEFBA671154A0 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3FD0CB55F4B9457457B62F3 /* libPods-mapswipe.a */; };
 		AB02778D21D7E68B00F713BA /* mapswipeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB02778C21D7E68B00F713BA /* mapswipeUITests.m */; };
@@ -63,6 +64,7 @@
 		ABBFFD3E2284DCD800E4F21E /* beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = beta.xcconfig; path = cfg/beta.xcconfig; sourceTree = "<group>"; };
 		ABDD495922036AE60025486F /* mapswipe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mapswipe.entitlements; path = mapswipe/mapswipe.entitlements; sourceTree = "<group>"; };
 		B3FD0CB55F4B9457457B62F3 /* libPods-mapswipe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B59FC846706879B273321D5A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = mapswipe/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C9E8B7CB818144B286E4344D /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		DC5882FADACE45FB1EA83BAD /* Pods-mapswipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe.debug.xcconfig"; path = "Target Support Files/Pods-mapswipe/Pods-mapswipe.debug.xcconfig"; sourceTree = "<group>"; };
 		DDC821B82695C1A0005972B2 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = mapswipe/BootSplash.storyboard; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				DDC821B82695C1A0005972B2 /* BootSplash.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				B59FC846706879B273321D5A /* PrivacyInfo.xcprivacy */,
 			);
 			name = mapswipe;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 			files = (
 				DDC821B92695C1A0005972B2 /* BootSplash.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				385B7A1C5DB8633AA6984E7A /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

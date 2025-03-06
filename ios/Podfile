@@ -1,6 +1,6 @@
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
-                                                 'require.resolve(
+  'require.resolve(
     "react-native/scripts/react_native_pods.rb",
     {paths: [process.argv[1]]},
   )', __dir__]).strip
@@ -9,7 +9,7 @@ require Pod::Executable.execute_command('node', ['-p',
 # https://blog.cocoapods.org/CocoaPods-1.7.2/
 source 'https://cdn.cocoapods.org/'
 
-platform :ios, min_ios_version_supported
+platform :ios, 15.1
 prepare_react_native_project!
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
 # because `react-native-flipper` depends on (FlipperKit,...) that will be excluded
@@ -60,7 +60,7 @@ target 'mapswipe' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    # __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 
 end
