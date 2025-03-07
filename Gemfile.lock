@@ -286,13 +286,14 @@ PLATFORMS
 
 DEPENDENCIES
   abbrev
-  activesupport (>= 6.1.7.3, < 7.1.0)
+  activesupport (>= 6.1.7.5, < 7.1.0)
   benchmark
   bigdecimal
-  cocoapods (~> 1.13)
+  cocoapods (>= 1.13, < 1.15)
   fastlane
   logger
   mutex_m
+  xcodeproj (< 1.26.0)
 
 RUBY VERSION
    ruby 3.3.3p89
