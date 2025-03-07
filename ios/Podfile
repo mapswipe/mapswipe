@@ -7,39 +7,47 @@ require Pod::Executable.execute_command('node', ['-p',
 
 # Use the cocoapod CDN to speed up pod install
 # https://blog.cocoapods.org/CocoaPods-1.7.2/
-source 'https://cdn.cocoapods.org/'
+source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, 15.1
 prepare_react_native_project!
-# If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
-# because `react-native-flipper` depends on (FlipperKit,...) that will be excluded
-#
-# To fix this you can also exclude `react-native-flipper` using a `react-native.config.js`
-# ```js
-# module.exports = {
-#   dependencies: {
-#     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
-# ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+
+# Override Firebase SDK Version
+$FirebaseSDKVersion = '10.22.0'
+
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
 end
 
 # Disable use of AdId with analytics
 # See #527 and
 # https://rnfirebase.io/analytics/usage#disable-ad-id-usage-on-ios
-$RNFirebaseAnalyticsWithoutAdIdSupport=true
+# $RNFirebaseAnalyticsWithoutAdIdSupport=true
+
+use_frameworks! :linkage => :static
 
 target 'mapswipe' do
   config = use_native_modules!
+  $RNFirebaseAsStaticFramework = true
+
+  pod 'Firebase/AnalyticsWithoutAdIdSupport', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'FirebaseCoreExtension', :modular_headers => true
+  pod 'FirebaseAuth', :modular_headers => true
+  pod 'FirebaseAuthInterop', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  pod 'RecaptchaInterop', :modular_headers => true
+  pod 'FirebaseAppCheckInterop', :modular_headers => true
+  pod 'FirebaseDatabase', :modular_headers => true
+  pod 'leveldb-library', :modular_headers => true
+
+  pod 'RNFBStorage', :path => '../node_modules/@react-native-firebase/storage'
 
   use_react_native!(
     :path => config[:reactNativePath],
 
     # An absolute path to your application root.
-    :flipper_configuration => flipper_config,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
@@ -56,15 +64,5 @@ target 'mapswipe' do
       :mac_catalyst_enabled => false
     )
     # __apply_Xcode_12_5_M1_post_install_workaround(installer)
-    installer.pods_project.targets.each do |target|
-      file_path = 'Pods/Flipper/xplat/Flipper/FlipperTransportTypes.h'
-      contents = File.read(file_path)
-      unless contents.include?('#include <functional>')
-        File.open(file_path, 'w') do |file|
-          file.puts('#include <functional>')
-          file.puts(contents)
-        end
-      end
-    end
   end
 end
