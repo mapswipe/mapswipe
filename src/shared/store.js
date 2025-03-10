@@ -1,6 +1,10 @@
 // @flow
 import { Platform } from 'react-native';
-import { applyMiddleware, compose, createStore } from 'redux';
+import {
+    applyMiddleware,
+    compose,
+    legacy_createStore as createStore,
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { getFirebase } from 'react-redux-firebase';
 import { composeWithDevTools } from 'redux-devtools-extension';
