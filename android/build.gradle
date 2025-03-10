@@ -11,7 +11,7 @@ buildscript {
          */
         buildToolsVersion = "34.0.0"
         // minSdkVersion defines the minimum API level required to run the app.
-        minSdkVersion = 21 // this should be 16 if we're not running the detox test build
+        minSdkVersion = 23 // this should be 16 if we're not running the detox test build
         /**
          * compileSdkVersion specifies the Android API level Gradle should use to
          * compile your app. This means your app can use the API features included in
@@ -21,8 +21,8 @@ buildscript {
         // targetSdkVersion specifies the API level used to test the app.
         targetSdkVersion = 34
 
-        ndkVersion = "25.1.8937393"
-        kotlinVersion = "1.8.0"
+        ndkVersion = "26.1.10909125"
+        kotlinVersion = "1.9.22"
 
         androidXCore = "1.0.2"
     }
