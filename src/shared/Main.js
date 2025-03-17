@@ -2,7 +2,6 @@
 import React from 'react';
 import {
     Image,
-    SafeAreaView,
     StatusBar,
     StyleSheet,
     Text,
@@ -14,6 +13,7 @@ import fb from '@react-native-firebase/app';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { withTranslation } from 'react-i18next';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Modal from 'react-native-modalbox';
 import Button from './common/Button';
 import Login from './views/Login';
