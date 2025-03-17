@@ -152,7 +152,10 @@ class _Mapper extends React.Component<Props, State> {
         if (hasSeenHelpBoxType1 === undefined) {
             this.openHelpModal();
         }
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        this.backHandlerSubscription = BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
     }
 
     componentDidUpdate(prevProps) {
@@ -168,10 +171,9 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener(
-            'hardwareBackPress',
-            this.handleBackPress,
-        );
+        if (this.backHandlerSubscription) {
+            this.backHandlerSubscription.remove();
+        }
     }
 
     handleBackPress = () => {
