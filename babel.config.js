@@ -1,9 +1,9 @@
-module.exports = (api) => {
+module.exports = api => {
     const isTest = api.env('test');
     if (isTest) {
         return {
             presets: [
-                ['module:@react-native/babel-preset'],
+                ['module:@react-native/babel-preset', '@babel/preset-flow'],
                 [
                     '@babel/preset-env',
                     {
@@ -13,12 +13,18 @@ module.exports = (api) => {
                     },
                 ],
             ],
-            plugins: ['@babel/plugin-transform-named-capturing-groups-regex'],
+            plugins: [
+                '@babel/plugin-transform-named-capturing-groups-regex',
+                'babel-plugin-syntax-hermes-parser',
+            ],
         };
     }
     return {
-        presets: ['module:@react-native/babel-preset'],
-        plugins: ['@babel/plugin-transform-named-capturing-groups-regex'],
+        presets: ['module:@react-native/babel-preset', '@babel/preset-flow'],
+        plugins: [
+            '@babel/plugin-transform-named-capturing-groups-regex',
+            'babel-plugin-syntax-hermes-parser',
+        ],
         env: {
             production: {
                 plugins: ['transform-remove-console'],

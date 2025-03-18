@@ -1,3 +1,4 @@
+/* eslint-disable ft-flow/no-types-missing-file-annotation */
 import React from 'react';
 import { View } from 'react-native';
 import StaticContainer from './StaticContainer';

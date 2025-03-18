@@ -1,3 +1,4 @@
+/* eslint-disable ft-flow/no-types-missing-file-annotation */
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
