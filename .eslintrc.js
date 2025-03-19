@@ -9,6 +9,9 @@ module.exports = {
         'plugin:ft-flow/recommended',
     ],
     rules: {
+        'ft-flow/no-missing-types': 'off', // Disable missing Flow type errors
+        'ft-flow/use-exact-by-default': 'off', // Ignore exact object type enforcement
+        'ft-flow/require-valid-file-annotation': 'off',
         'class-methods-use-this': 'off',
         'no-console': 'off',
         indent: 'off',
@@ -40,6 +43,11 @@ module.exports = {
         Generator: true,
         IntervalID: true,
         $Keys: true,
+    },
+    settings: {
+        'ft-flow': {
+            onlyFilesWithFlowAnnotation: false,
+        },
     },
     env: {
         jest: true,
