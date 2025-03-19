@@ -9,7 +9,9 @@ require Pod::Executable.execute_command('node', ['-p',
 # https://blog.cocoapods.org/CocoaPods-1.7.2/
 source 'https://cdn.cocoapods.org/'
 
+
 platform :ios, min_ios_version_supported
+use_modular_headers!
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']
@@ -24,6 +26,10 @@ end
 $RNFirebaseAnalyticsWithoutAdIdSupport=true
 
 target 'mapswipe' do
+  pod 'Firebase/AnalyticsWithoutAdIdSupport', '11.2.0'
+  pod 'Firebase/Core', '11.2.0'
+  pod 'Firebase/Auth', '11.2.0'
+
   config = use_native_modules!
 
   use_react_native!(
