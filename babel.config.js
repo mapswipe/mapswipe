@@ -13,18 +13,12 @@ module.exports = api => {
                     },
                 ],
             ],
-            plugins: [
-                '@babel/plugin-transform-named-capturing-groups-regex',
-                'babel-plugin-syntax-hermes-parser',
-            ],
+            plugins: ['@babel/plugin-transform-named-capturing-groups-regex'],
         };
     }
     return {
         presets: ['module:@react-native/babel-preset', '@babel/preset-flow'],
-        plugins: [
-            '@babel/plugin-transform-named-capturing-groups-regex',
-            'babel-plugin-syntax-hermes-parser',
-        ],
+        plugins: ['@babel/plugin-transform-named-capturing-groups-regex'],
         env: {
             production: {
                 plugins: ['transform-remove-console'],

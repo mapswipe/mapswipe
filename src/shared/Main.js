@@ -3,7 +3,6 @@ import React from 'react';
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import fb from '@react-native-firebase/app';
-// import type { Notification } from 'react-native-firebase';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { withTranslation } from 'react-i18next';
