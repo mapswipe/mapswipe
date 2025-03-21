@@ -107,7 +107,7 @@ jobs:
           # select the version of Xcode we want
           DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: cd ios && bundle exec fastlane test
+        run: cd ios && bundle exec fastlane test --verbose
 
       - name: Release to testflight
         # only deploy a release on a non-beta tag
