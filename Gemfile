@@ -3,9 +3,12 @@ source 'https://rubygems.org'
 # You may use http://rbenv.org/ or https://rvm.io/ to install and use this version
 ruby ">= 3.0.0"
 
+gem 'logger'
+gem 'abbrev'
 gem 'fastlane'
 gem 'bigdecimal'
 gem 'mutex_m'
+gem 'benchmark'
 
 # Exclude problematic versions of cocoapods and activesupport that causes build failures.
 gem 'cocoapods', '>= 1.13', '!= 1.15.0', '!= 1.15.1'

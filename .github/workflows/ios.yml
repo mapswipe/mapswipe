@@ -25,7 +25,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0.0'
+          ruby-version: '3.4.2'
 
       - name: Install Fastlane
         run: bundle install
@@ -33,14 +33,14 @@ jobs:
       - name: Install cocoapods
         run: gem install xcpretty cocoapods
 
-      - name: TEMP manually run pod install
-        env:
-          # pod install seems to rely on Xcode for something, make sure we use the same version throughout the process
-          DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
-        run: cd ios && bundle exec pod install
+      # - name: TEMP manually run pod install
+      #   env:
+      #     # pod install seems to rely on Xcode for something, make sure we use the same version throughout the process
+      #     DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
+      #   run: cd ios && bundle exec pod install
 
-      - name: TEMP get updated podfile.lock
-        run: cat ios/Podfile.lock
+      # - name: TEMP get updated podfile.lock
+      #   run: cat ios/Podfile.lock
 
       - name: Get the tag value from github
         # see https://stackoverflow.com/a/58178121/1138710
