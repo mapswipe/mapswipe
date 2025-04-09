@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 ruby ">= 3.0.0"
 
 gem 'fastlane'
+gem 'bigdecimal'
+gem 'mutex_m'
 
 # Exclude problematic versions of cocoapods and activesupport that causes build failures.
 gem 'cocoapods', '>= 1.13', '!= 1.15.0', '!= 1.15.1'
