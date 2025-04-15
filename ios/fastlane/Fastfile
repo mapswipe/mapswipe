@@ -22,6 +22,7 @@ platform :ios do
   lane :test do
     match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
     scan(scheme: "mapswipe",
+         workspace: "mapswipe.xcworkspace",
          configuration: "Debug",
          clean: true,
          derived_data_path: "build",
