@@ -11,13 +11,12 @@ source 'https://cdn.cocoapods.org/'
 
 
 platform :ios, 15.1
-# use_modular_headers!
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
+  use_frameworks! :linkage => :static
 end
 
 # Disable use of AdId with analytics
@@ -25,9 +24,19 @@ end
 # https://rnfirebase.io/analytics/usage#disable-ad-id-usage-on-ios
 # $RNFirebaseAnalyticsWithoutAdIdSupport=true
 target 'mapswipe' do
-  use_modular_headers!
   config = use_native_modules!
   $RNFirebaseAsStaticFramework = true
+
+  pod 'Firebase/AnalyticsWithoutAdIdSupport', '11.2.0', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'FirebaseCoreExtension', :modular_headers => true
+  pod 'FirebaseAuth', :modular_headers => true
+  pod 'FirebaseAuthInterop', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  pod 'RecaptchaInterop', :modular_headers => true
+  pod 'FirebaseAppCheckInterop', :modular_headers => true
+  pod 'FirebaseDatabase', :modular_headers => true
+  pod 'leveldb-library', :modular_headers => true
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -43,5 +52,28 @@ target 'mapswipe' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    non_modular_deps = [
+      'FirebaseCore',
+      'FirebaseAuth',
+      'FirebaseCoreExtension',
+      'FirebaseAuthInterop',
+      'FirebaseAppCheckInterop',
+      'GoogleUtilities',
+      'RecaptchaInterop',
+      'leveldb-library'
+    ]
+
+     installer.pods_project.targets.each do |target|
+       if target.name == 'FirebaseAuth'
+         target.build_configurations.each do |config|
+           config.build_settings['DEFINES_MODULE'] = 'YES'
+           config.build_settings['SWIFT_OBJC_BRIDGING_HEADER'] = ''
+           config.build_settings['SWIFT_OBJC_INTERFACE_HEADER_NAME'] = 'FirebaseAuth-Swift.h'
+           config.build_settings['SWIFT_INSTALL_OBJC_HEADER'] = 'YES'
+         end
+       end
+
+     end
   end
 end

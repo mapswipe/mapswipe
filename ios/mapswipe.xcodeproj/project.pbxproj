@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* mapswipeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mapswipeTests.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		6412E866482ADB2CCCB0C6A0 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6577DAB1B8A428310C701AB /* libPods-mapswipe.a */; };
+		1F8278CE63497F7D7038D3C0 /* libPods-mapswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B76BFC7A3D59B60D825B78D2 /* libPods-mapswipe.a */; };
 		702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8B7CB818144B286E4344D /* libz.tbd */; };
 		710D53B32DA67A1D00FB26B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D53B22DA67A1D00FB26B5 /* AppDelegate.swift */; };
 		710D53B42DA67A3B00FB26B5 /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FAF1A68108700A75B9A /* AppDelegate.h */; };
@@ -60,8 +60,8 @@
 		AB405E4822E5FB5A00D8C7A8 /* GoogleService-Info.dev.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.dev.plist"; sourceTree = "<group>"; };
 		ABBFFD3E2284DCD800E4F21E /* beta.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = beta.xcconfig; path = cfg/beta.xcconfig; sourceTree = "<group>"; };
 		ABDD495922036AE60025486F /* mapswipe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mapswipe.entitlements; path = mapswipe/mapswipe.entitlements; sourceTree = "<group>"; };
+		B76BFC7A3D59B60D825B78D2 /* libPods-mapswipe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E8B7CB818144B286E4344D /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		D6577DAB1B8A428310C701AB /* libPods-mapswipe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mapswipe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC5882FADACE45FB1EA83BAD /* Pods-mapswipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapswipe.debug.xcconfig"; path = "Target Support Files/Pods-mapswipe/Pods-mapswipe.debug.xcconfig"; sourceTree = "<group>"; };
 		DDC821B82695C1A0005972B2 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = mapswipe/BootSplash.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -81,7 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */,
-				6412E866482ADB2CCCB0C6A0 /* libPods-mapswipe.a in Frameworks */,
+				1F8278CE63497F7D7038D3C0 /* libPods-mapswipe.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +133,7 @@
 			children = (
 				AB405D6022E20EFD00D8C7A8 /* libBVLinearGradient.a */,
 				C9E8B7CB818144B286E4344D /* libz.tbd */,
-				D6577DAB1B8A428310C701AB /* libPods-mapswipe.a */,
+				B76BFC7A3D59B60D825B78D2 /* libPods-mapswipe.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
