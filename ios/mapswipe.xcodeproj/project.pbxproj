@@ -11,7 +11,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		702AAF7F480043D29052E1CE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8B7CB818144B286E4344D /* libz.tbd */; };
 		710D53B32DA67A1D00FB26B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D53B22DA67A1D00FB26B5 /* AppDelegate.swift */; };
-		710D53B42DA67A3B00FB26B5 /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FAF1A68108700A75B9A /* AppDelegate.h */; };
 		AB02778D21D7E68B00F713BA /* mapswipeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB02778C21D7E68B00F713BA /* mapswipeUITests.m */; };
 		BE46C02BA687E388ED1F935F /* Pods_mapswipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71997A2849815D67D3DED49 /* Pods_mapswipe.framework */; };
 		D3E9F214FAC48D1109733A7F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 45B27645E12D91764EFBF926 /* PrivacyInfo.xcprivacy */; };
@@ -40,8 +39,6 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* mapswipeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mapswipeTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* mapswipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mapswipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = mapswipe/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = mapswipe/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = mapswipe/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mapswipe/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mapswipe/main.m; sourceTree = "<group>"; };
@@ -117,8 +114,6 @@
 			children = (
 				ABDD495922036AE60025486F /* mapswipe.entitlements */,
 				AB405E4222E5FB5A00D8C7A8 /* cfg */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				DDC821B82695C1A0005972B2 /* BootSplash.storyboard */,
@@ -415,7 +410,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\nexport SENTRY_PROPERTIES=cfg/sentry.prod.properties\nelse\nexport SENTRY_PROPERTIES=cfg/sentry.properties\nfi\n\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
+			shellScript = "if [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\nexport SENTRY_PROPERTIES=cfg/sentry.prod.properties\nelse\nexport SENTRY_PROPERTIES=cfg/sentry.properties\nfi\n\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\n";
 		};
 		96976574111F902A2D137DDC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -491,7 +486,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				710D53B42DA67A3B00FB26B5 /* AppDelegate.h in Sources */,
 				710D53B32DA67A1D00FB26B5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
