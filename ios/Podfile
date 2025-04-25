@@ -56,6 +56,7 @@ target 'mapswipe' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'gnu++20'

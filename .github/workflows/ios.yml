@@ -16,8 +16,8 @@ jobs:
       - name: List available versions of Xcode
         run: ls -n /Applications/ | grep Xcode*
 
-      - name: List default version of Xcode
-        run: ls -n /Applications/Xcode.app
+      - name: Ensure correct Xcode is selected
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
 
       - uses: actions/setup-node@v4
         with:

@@ -69,7 +69,7 @@
     "react-native-safe-area-context": "5.2.0",
     "react-native-screens": "^3.37.0",
     "react-native-simple-markdown": "mapswipe/react-native-simple-markdown#master",
-    "react-native-svg": "^15.8.0",
+    "react-native-svg": "^15.11.0",
     "react-native-swiper": "^1.6.0",
     "react-native-webview": "^11.22.7",
     "react-navigation": "^4.4.4",
