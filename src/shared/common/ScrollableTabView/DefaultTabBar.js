@@ -1,3 +1,4 @@
+/* eslint-disable ft-flow/no-types-missing-file-annotation */
 import * as React from 'react';
 import { StyleSheet, Text, View, Animated } from 'react-native';
 // eslint-disable-next-line import/no-unresolved

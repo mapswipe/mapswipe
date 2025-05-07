@@ -1,9 +1,9 @@
-module.exports = (api) => {
+module.exports = api => {
     const isTest = api.env('test');
     if (isTest) {
         return {
             presets: [
-                ['module:metro-react-native-babel-preset'],
+                ['module:@react-native/babel-preset', '@babel/preset-flow'],
                 [
                     '@babel/preset-env',
                     {
@@ -17,7 +17,7 @@ module.exports = (api) => {
         };
     }
     return {
-        presets: ['module:metro-react-native-babel-preset'],
+        presets: ['module:@react-native/babel-preset', '@babel/preset-flow'],
         plugins: ['@babel/plugin-transform-named-capturing-groups-regex'],
         env: {
             production: {

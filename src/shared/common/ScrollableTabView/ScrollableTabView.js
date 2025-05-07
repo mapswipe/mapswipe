@@ -1,3 +1,4 @@
+/* eslint-disable ft-flow/no-types-missing-file-annotation */
 /* eslint-disable no-underscore-dangle,
   react/destructuring-assignment,
   no-param-reassign,

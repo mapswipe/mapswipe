@@ -13,7 +13,9 @@
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
-      android:theme="@style/AppTheme">
+      android:theme="@style/AppTheme"
+      android:supportsRtl="true"
+    >
 
       <meta-data android:name="google_analytics_adid_collection_enabled" tools:node="remove" />
       <meta-data android:name="google_analytics_ssaid_collection_enabled" tools:node="remove"/>
@@ -26,7 +28,8 @@
         android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustResize"
-        android:exported="true">
+        android:exported="true"
+      >
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
@@ -41,7 +44,8 @@
         android:name="com.zoontek.rnbootsplash.RNBootSplashActivity"
         android:theme="@style/BootTheme"
         android:exported="true"
-        android:launchMode="singleTask">
+        android:launchMode="singleTask"
+      >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

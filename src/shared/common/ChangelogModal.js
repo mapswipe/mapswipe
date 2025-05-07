@@ -65,7 +65,7 @@ const style = StyleSheet.create({
     },
 });
 
-function parseVersion(versionStr: string) {
+function parseVersion(versionStr) {
     const splits = versionStr.split(' ');
     const versionNumbers = splits[0].split('.');
     const [majorStr, minorStr, patchStr] = versionNumbers;

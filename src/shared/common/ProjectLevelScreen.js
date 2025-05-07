@@ -124,7 +124,10 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        this.backHandlerSubscription = BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
     }
 
     componentDidUpdate = prevProps => {
@@ -152,10 +155,9 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     componentWillUnmount() {
-        BackHandler.removeEventListener(
-            'hardwareBackPress',
-            this.handleBackPress,
-        );
+        if (this.backHandlerSubscription) {
+            this.backHandlerSubscription.remove();
+        }
     }
 
     handleBackPress = () => {

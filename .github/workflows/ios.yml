@@ -9,12 +9,15 @@ on: [push]
 jobs:
   release-ios:
     name: Build and release iOS app
-    runs-on: macos-13
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
       - name: List available versions of Xcode
         run: ls -n /Applications/ | grep Xcode*
+
+      - name: Ensure correct Xcode is selected
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
 
       - uses: actions/setup-node@v4
         with:
@@ -25,18 +28,21 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0.0'
+          ruby-version: '3.4.2'
 
       - name: Install Fastlane
         run: bundle install
 
+      - name: Install xcpretty
+        run: gem install xcpretty
+
       - name: Install cocoapods
-        run: gem install xcpretty cocoapods
+        run: cd ios && bundle exec pod install && cd ..
 
       # - name: TEMP manually run pod install
       #   env:
       #     # pod install seems to rely on Xcode for something, make sure we use the same version throughout the process
-      #     DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
+      #     DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
       #   run: cd ios && bundle exec pod install
 
       # - name: TEMP get updated podfile.lock
@@ -105,9 +111,9 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/')
         env:
           # select the version of Xcode we want
-          DEVELOPER_DIR: /Applications/Xcode_15.0.1.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: cd ios && bundle exec fastlane test
+        run: cd ios && bundle exec fastlane test --verbose
 
       - name: Release to testflight
         # only deploy a release on a non-beta tag
@@ -115,7 +121,7 @@ jobs:
         # both tag and branch, so for now we will rely on the user not tagging randomly
         if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-beta')
         env:
-          DEVELOPER_DIR: /Applications/Xcode_15.0.1.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane beta
@@ -124,7 +130,7 @@ jobs:
         # only deploy a release on a beta tag
         if: startsWith(github.ref, 'refs/tags/') && !endsWith(github.ref, '-beta')
         env:
-          DEVELOPER_DIR: /Applications/Xcode_15.0.1.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: cd ios && bundle exec fastlane release

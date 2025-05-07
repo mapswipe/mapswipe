@@ -101,6 +101,7 @@ class _WelcomeScreen extends React.Component<Props> {
                 <Text />
             </View>
         ) : (
+            // eslint-disable-next-line no-use-before-define
             <WelcomeCardView onCompletion={this.handleButtonPress} t={t} />
         );
     }

@@ -1,19 +1,12 @@
 // @flow
 import React from 'react';
-import {
-    Image,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import fb from '@react-native-firebase/app';
-// import type { Notification } from 'react-native-firebase';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { withTranslation } from 'react-i18next';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Modal from 'react-native-modalbox';
 import Button from './common/Button';
 import Login from './views/Login';
@@ -100,6 +93,76 @@ type State = {
     level: number,
     levelObject: Object,
 };
+
+/*
+ * We use 3 navigators for the app:
+ * StartNavigator just loads the AppLoadingScreen that shows nothing
+ * but loads firebase auth and the redux store, while being hidden behind
+ * the splashscreen. Once ready, it hands over to one of the other two,
+ * depending on the auth status:
+ * - LoginNavigator if not logged in (it first tries the WelcomeScreen if it's the
+ *   first time we're using the app, otherwise --> Login
+ * - MainNavigator if logged in, and the rest of the app happens in there.
+ */
+
+const LoginNavigator = createStackNavigator(
+    {
+        LanguageSelectionScreen,
+        LanguageSelectionSplashScreen,
+        Login: {
+            screen: Login,
+            path: 'login/osm',
+        },
+        WebviewWindow,
+        WelcomeScreen,
+    },
+    {
+        initialRouteName: 'LanguageSelectionSplashScreen',
+        headerMode: 'none',
+    },
+);
+
+const MainNavigator = createStackNavigator(
+    {
+        BuildingFootprintScreen,
+        BFInstructionsScreen,
+        ChangeDetectionScreen,
+        CDInstructionsScreen,
+        LanguageSelectionScreen,
+        ProjectNav,
+        ProjectView,
+        Mapper,
+        WebviewWindow,
+        UserGroup,
+        SearchUserGroup,
+        ChangeUserName,
+        LanguageSelection,
+        UserProfile,
+    },
+    {
+        initialRouteName: 'ProjectNav',
+        headerMode: 'none',
+        navigationOptions: {
+            gesturesEnabled: false,
+        },
+    },
+);
+
+const StartNavigator = createAppContainer(
+    createSwitchNavigator(
+        {
+            AppLoadingScreen,
+            LoginNavigator: {
+                screen: LoginNavigator,
+                path: '',
+            },
+            MainNavigator,
+        },
+        {
+            initialRouteName: 'AppLoadingScreen',
+        },
+    ),
+);
 
 class Main extends React.Component<Props, State> {
     alert: ?React.Component<{}>;
@@ -268,76 +331,6 @@ class Main extends React.Component<Props, State> {
         );
     }
 }
-
-/*
- * We use 3 navigators for the app:
- * StartNavigator just loads the AppLoadingScreen that shows nothing
- * but loads firebase auth and the redux store, while being hidden behind
- * the splashscreen. Once ready, it hands over to one of the other two,
- * depending on the auth status:
- * - LoginNavigator if not logged in (it first tries the WelcomeScreen if it's the
- *   first time we're using the app, otherwise --> Login
- * - MainNavigator if logged in, and the rest of the app happens in there.
- */
-
-const LoginNavigator = createStackNavigator(
-    {
-        LanguageSelectionScreen,
-        LanguageSelectionSplashScreen,
-        Login: {
-            screen: Login,
-            path: 'login/osm',
-        },
-        WebviewWindow,
-        WelcomeScreen,
-    },
-    {
-        initialRouteName: 'LanguageSelectionSplashScreen',
-        headerMode: 'none',
-    },
-);
-
-const MainNavigator = createStackNavigator(
-    {
-        BuildingFootprintScreen,
-        BFInstructionsScreen,
-        ChangeDetectionScreen,
-        CDInstructionsScreen,
-        LanguageSelectionScreen,
-        ProjectNav,
-        ProjectView,
-        Mapper,
-        WebviewWindow,
-        UserGroup,
-        SearchUserGroup,
-        ChangeUserName,
-        LanguageSelection,
-        UserProfile,
-    },
-    {
-        initialRouteName: 'ProjectNav',
-        headerMode: 'none',
-        navigationOptions: {
-            gesturesEnabled: false,
-        },
-    },
-);
-
-const StartNavigator = createAppContainer(
-    createSwitchNavigator(
-        {
-            AppLoadingScreen,
-            LoginNavigator: {
-                screen: LoginNavigator,
-                path: '',
-            },
-            MainNavigator,
-        },
-        {
-            initialRouteName: 'AppLoadingScreen',
-        },
-    ),
-);
 
 const mapStateToProps = state => ({
     languageCode: state.ui.user.languageCode,

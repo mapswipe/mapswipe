@@ -1,3 +1,4 @@
+/* eslint-disable ft-flow/no-types-missing-file-annotation */
 import fb from '@react-native-firebase/app';
 
 import { MIN_USERNAME_LENGTH } from './constants';

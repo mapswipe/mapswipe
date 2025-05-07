@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGLayoutableShadowNode.cpp b/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGLayoutableShadowNode.cpp
+index 136dfc9..24e1561 100644
+--- a/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGLayoutableShadowNode.cpp
++++ b/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGLayoutableShadowNode.cpp
+@@ -35,8 +35,8 @@ void RNSVGLayoutableShadowNode::setZeroDimensions() {
+   style.setDimension(yoga::Dimension::Width, yoga::StyleLength::points(0));
+   style.setDimension(yoga::Dimension::Height, yoga::StyleLength::points(0));
+ #else
+-  style.setDimension(yoga::Dimension::Width, yoga::value::points(0));
+-  style.setDimension(yoga::Dimension::Height, yoga::value::points(0));
++  style.setDimension(yoga::Dimension::Width, yoga::StyleLength::points(0));
++  style.setDimension(yoga::Dimension::Height, yoga::StyleLength::points(0));
+ #endif
+   yogaNode_.setStyle(style);
+ }

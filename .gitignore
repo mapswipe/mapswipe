@@ -39,7 +39,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 *.dSYM.zip
-ios/.xcode.env.local
+**/.xcode.env.local
 
 
 # Android/IntelliJ
@@ -78,7 +78,7 @@ yarn-error.log
 *.jsbundle
 
 # Ruby / CocoaPods
-/ios/Pods/
+**/Pods/
 /vendor/bundle/
 
 #logs
