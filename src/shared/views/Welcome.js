@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 // @flow
 /* eslint-disable max-classes-per-file */
 import * as React from 'react';
