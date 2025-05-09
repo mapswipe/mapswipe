@@ -12,6 +12,7 @@ module.exports = {
         'ft-flow/no-missing-types': 'off', // Disable missing Flow type errors
         'ft-flow/use-exact-by-default': 'off', // Ignore exact object type enforcement
         'ft-flow/require-valid-file-annotation': 'off',
+        'ft-flow/no-types-missing-file-annotation': 'off', // NOTE: just for the beta release
         'class-methods-use-this': 'off',
         'no-console': 'off',
         indent: 'off',

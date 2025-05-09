@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 // @flow
 import type { Node } from 'react';
 import React from 'react';
