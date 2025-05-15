@@ -669,7 +669,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -687,7 +687,7 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.missingmaps.mapswipe-dev";
 				PRODUCT_NAME = mapswipe;
 				PROVISIONING_PROFILE_SPECIFIER = "match Development org.missingmaps.mapswipe-dev";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -706,7 +706,7 @@
 				CODE_SIGN_ENTITLEMENTS = mapswipe/mapswipe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = N4W28E5PA4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -724,7 +724,7 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe;
 				PRODUCT_NAME = mapswipe;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe";
 				SWIFT_VERSION = 5.0;
@@ -1085,9 +1085,9 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe-dev;
 				PRODUCT_NAME = mapswipe;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe.dev";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe-dev";
 				SWIFT_VERSION = 5.0;
 				USER_HEADER_SEARCH_PATHS = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				VERSIONING_SYSTEM = "apple-generic";
