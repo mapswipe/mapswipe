@@ -1085,7 +1085,7 @@
 					"-lc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.missingmaps.mapswipe-dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.missingmaps.mapswipe-dev";
 				PRODUCT_NAME = mapswipe;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore org.missingmaps.mapswipe-dev";
 				SWIFT_VERSION = 5.0;
