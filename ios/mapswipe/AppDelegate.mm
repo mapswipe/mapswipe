@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
 #import <Firebase.h>
-#import <React/RCTBridge.h>
+#import <React/RCTBridge+Private.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
@@ -14,8 +14,14 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  BOOL appLaunched = [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  if (!appLaunched) {
+    return NO;
+  }
+
   [FIRApp configure];
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
     moduleName:@"mapswipe"
     initialProperties:nil];
@@ -35,8 +41,8 @@
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
-///
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  return appLaunched;
 }
 
 // notification stuff
