@@ -15,7 +15,10 @@ prepare_react_native_project!
 # Override Firebase SDK Version
 $FirebaseSDKVersion = '10.22.0'
 
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+
 linkage = ENV['USE_FRAMEWORKS']
+
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
 end
@@ -65,5 +68,11 @@ target 'mapswipe' do
       # :ccache_enabled => true
     )
     # __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    system("chmod -R u+w Pods/RCT-Folly")
+    Dir.glob("Pods/RCT-Folly/folly/Portability.h").each do |file|
+      text = File.read(file)
+      new_contents = text.gsub('#define FOLLY_HAS_COROUTINES 1', '#define FOLLY_HAS_COROUTINES 0')
+      File.open(file, "w") { |file| file.puts new_contents }
+    end
   end
 end

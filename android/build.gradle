@@ -9,20 +9,20 @@ buildscript {
          * This property is optional because the plugin uses a recommended version of
          * the build tools by default.
          */
-        buildToolsVersion = "34.0.0"
+        buildToolsVersion = "35.0.0"
         // minSdkVersion defines the minimum API level required to run the app.
-        minSdkVersion = 23 // this should be 16 if we're not running the detox test build
+        minSdkVersion = 24 // this should be 16 if we're not running the detox test build
         /**
          * compileSdkVersion specifies the Android API level Gradle should use to
          * compile your app. This means your app can use the API features included in
          * this API level and lower.
          */
-        compileSdkVersion = 34
+        compileSdkVersion = 35
         // targetSdkVersion specifies the API level used to test the app.
-        targetSdkVersion = 34
+        targetSdkVersion = 35
 
         ndkVersion = "26.1.10909125"
-        kotlinVersion = "1.9.25"
+        kotlinVersion = "1.9.24"
 
         androidXCore = "1.0.2"
     }
