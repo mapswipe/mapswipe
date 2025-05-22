@@ -290,7 +290,6 @@ DEPENDENCIES
   benchmark
   bigdecimal
   cocoapods (>= 1.13, != 1.15.1, != 1.15.0)
-  concurrent-ruby (<= 1.3.4)
   fastlane
   logger
   mutex_m
