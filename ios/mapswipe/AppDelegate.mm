@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
 #import <Firebase.h>
-#import <React/RCTBridge.h>
+#import <React/RCTBridge+Private.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
@@ -13,13 +13,18 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  if ([FIRApp defaultApp] == nil) {
-      [FIRApp configure];
+
+  BOOL appLaunched = [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  if (!appLaunched) {
+    return NO;
   }
+
+  [FIRApp configure];
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"mapswipe"
-                                            initialProperties:nil];
+    moduleName:@"mapswipe"
+    initialProperties:nil];
 
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
@@ -36,8 +41,8 @@
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
-///
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  return appLaunched;
 }
 
 // notification stuff
@@ -58,6 +63,12 @@ fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHand
 // end notification stuff
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+{
+  return [self bundleURL];
+}
+
+- (NSURL *)bundleURL
+
 {
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
