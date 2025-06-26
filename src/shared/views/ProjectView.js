@@ -22,6 +22,7 @@ import Markdown from 'react-native-simple-markdown';
 import Button from '../common/Button';
 import {
     BUILDING_FOOTPRINTS,
+    IMAGE_VALIDATION,
     CHANGE_DETECTION,
     COLOR_DARK_GRAY,
     COLOR_RED,
@@ -270,6 +271,12 @@ class _ProjectHeader extends React.Component<HeaderProps> {
                     tutorial: forceTutorial,
                 });
                 break;
+            case IMAGE_VALIDATION:
+                navigation.push('ImageValidationScreen', {
+                    project,
+                    tutorial: forceTutorial,
+                });
+                break;
             case CHANGE_DETECTION:
                 navigation.push('ChangeDetectionScreen', {
                     project,
@@ -418,6 +425,12 @@ class _ProjectHeader extends React.Component<HeaderProps> {
                                     break;
                                 case BUILDING_FOOTPRINTS:
                                     navigation.push('BuildingFootprintScreen', {
+                                        project,
+                                        tutorial: true,
+                                    });
+                                    break;
+                                case IMAGE_VALIDATION:
+                                    navigation.push('ImageValidationScreen', {
                                         project,
                                         tutorial: true,
                                     });
