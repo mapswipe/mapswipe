@@ -318,6 +318,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             customOptions,
         } = this.props;
         const { groupCompleted, waitingForNextGroup } = this.state;
+
         if (!group || waitingForNextGroup) {
             return <LoadingIcon />;
         }

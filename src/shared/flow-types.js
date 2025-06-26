@@ -164,6 +164,13 @@ export type BuildingFootprintTaskType = {
     taskId: string,
 };
 
+// used only by projects of type IMAGE_VALIDATION (type 10)
+export type ImageValidationTaskType = {
+    taskId: string,
+    fileName: string,
+    url: string,
+};
+
 // used only by projects of type CHANGE_DETECTION
 export type ChangeDetectionTaskType = {
     category: ?string,

@@ -6,6 +6,7 @@ import {
     BUILDING_FOOTPRINTS,
     CHANGE_DETECTION,
     COMPLETENESS_PROJECT,
+    IMAGE_VALIDATION,
 } from './constants';
 
 // FIXME: check the old calculation to include status bar and soft menu
@@ -35,5 +36,6 @@ module.exports = {
         BUILDING_FOOTPRINTS,
         CHANGE_DETECTION,
         COMPLETENESS_PROJECT,
+        IMAGE_VALIDATION,
     ],
 };

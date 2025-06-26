@@ -69,7 +69,7 @@ type Props = {
 };
 
 /* eslint-disable react/destructuring-assignment */
-class _BuildingFootprintScreen extends React.Component<Props> {
+class _ImageValidationScreen extends React.Component<Props> {
     randomSeed: number;
 
     constructor(props: Object) {
@@ -130,7 +130,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
         // check that the project data has a tutorialId set (in firebase)
         // in which case, we use it as the tutorial (all projects should have one)
         let tutorialId;
-        console.log('hereeeeeee building footprint', projectObj);
+
         if (projectObj.tutorialId !== undefined) {
             tutorialId = projectObj.tutorialId;
         } else {
@@ -146,9 +146,9 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                     Component={Validator}
                     navigation={navigation}
                     getNormalHelpContent={this.getNormalHelpContent}
-                    headerText={t('doesShapeOutlineABuilding')}
+                    headerText={projectObj.lookFor}
                     randomSeed={this.randomSeed}
-                    screenName="BuildingFootprintScreen"
+                    screenName="ImageValidationScreen"
                     submitResultFunction={submitFootprint}
                     tutorial={tutorial}
                     tutorialId={tutorialId}
@@ -160,6 +160,7 @@ class _BuildingFootprintScreen extends React.Component<Props> {
     }
 }
 
+// FIXME: Update Translation
 export default (withTranslation('BFInstructionsScreen')(
-    _BuildingFootprintScreen,
+    _ImageValidationScreen,
 ): any);
