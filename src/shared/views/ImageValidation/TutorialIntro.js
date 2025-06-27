@@ -9,7 +9,7 @@ import {
     COLOR_WHITE,
     SPACING_LARGE,
 } from '../../constants';
-import { HideIcon, SwipeIconWhite } from '../../common/Tutorial/icons';
+import { SwipeIconWhite } from '../../common/Tutorial/icons';
 import type {
     TranslationFunction,
     ProjectInformation,
@@ -130,6 +130,7 @@ const fallbackInformationPage: ProjectInformation = [
 type Props = {
     t: TranslationFunction,
     informationPages?: ProjectInformation,
+    title: string,
     customOptions: Option[],
 };
 
@@ -138,6 +139,7 @@ const TutorialIntroScreen = (props: Props) => {
         t,
         informationPages: informationPagesFromProps,
         customOptions,
+        title,
     } = props;
 
     const informationPages =
@@ -162,9 +164,7 @@ const TutorialIntroScreen = (props: Props) => {
                     <Text style={[styles.tutText, { marginLeft: 0 }]}>
                         {t('useTheButtonsToAnswer')}
                     </Text>
-                    <Text style={styles.header}>
-                        {t('doesTheShapeOutlineABuilding')}
-                    </Text>
+                    <Text style={styles.header}>{title}</Text>
                     {customOptions?.map(item => (
                         <View style={styles.tutRow} key={item.value}>
                             <View
@@ -192,11 +192,6 @@ const TutorialIntroScreen = (props: Props) => {
                             </View>
                         </View>
                     ))}
-                    <View style={[styles.tutRow, { marginLeft: 5 }]}>
-                        <HideIcon />
-                        <Text style={styles.tutText}>{t('hideIconText')}</Text>
-                    </View>
-
                     <View
                         style={[
                             styles.tutRow,
@@ -227,6 +222,6 @@ const TutorialIntroScreen = (props: Props) => {
     );
 };
 
-export default (withTranslation('BuildingFootprintTutorialIntroScreen')(
+export default (withTranslation('ImageValidationTutorialIntroScreen')(
     TutorialIntroScreen,
 ): any);

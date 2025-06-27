@@ -1,25 +1,16 @@
 // @flow
 import * as React from 'react';
-import {
-    Image,
-    StyleSheet,
-    FlatList,
-    View,
-} from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
+
+import ImageWrapper from './ImageWrapper';
+import type { ImageValidationTaskType } from '../../flow-types';
 
 const GLOBAL = require('../../Globals');
 
 const styles = StyleSheet.create({
-    container: {
+    tasks: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         width: GLOBAL.SCREEN_WIDTH,
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
     },
 });
 
@@ -27,62 +18,71 @@ const viewabilityConfig = {
     viewAreaCoveragePercentThreshold: 50,
 };
 
+type RefType = FlatList<ImageValidationTaskType> | null;
+
 interface Props {
     tasks: ImageValidationTaskType[];
-    onCurrentTaskIndexChange: (newIndex) => void;
+    onCurrentTaskIndexChange: (newIndex: number) => void;
     currentTaskIndex: number;
+    totalSwipedTasks: number;
 }
 
-export default function SwipeableTasks(props: Props) {
+export default function Tasks(props: Props): React.Node {
     const {
         tasks,
         currentTaskIndex,
+        totalSwipedTasks,
         onCurrentTaskIndexChange,
     } = props;
 
-    const flatListRef = React.useRef<FlatList>(null);
+    const flatListRef = React.useRef<RefType>(null);
     const currentIndexRef = React.useRef(currentTaskIndex);
+
+    const limitedTasks = [...(tasks ?? [])].slice(0, totalSwipedTasks);
 
     // Scroll to selectedIndex when it changes from outside
     React.useEffect(() => {
-        if (currentIndexRef.current !== currentTaskIndex) {
+        if (
+            currentIndexRef.current !== currentTaskIndex &&
+            totalSwipedTasks > currentTaskIndex
+        ) {
             flatListRef.current?.scrollToIndex({
                 index: currentTaskIndex,
                 animated: true,
             });
             currentIndexRef.current = currentTaskIndex;
         }
-    }, [currentTaskIndex]);
+    }, [currentTaskIndex, totalSwipedTasks]);
 
     const onViewableItemsChanged = React.useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
-            const index = viewableItems[0].index;
-            if (index !== currentIndexRef.current) {
+            const { index } = viewableItems[0];
+            if (
+                index !== currentIndexRef.current &&
+                index !== undefined &&
+                index !== null
+            ) {
                 currentIndexRef.current = index;
                 onCurrentTaskIndexChange(index);
             }
         }
     }).current;
 
-    const renderItem = ({ item }: { item: ImageValidationTaskType }) => (
-        <View style={styles.container}>
-            <Image
-                source={{ uri: item.url }}
-                style={styles.image}
-                fadeDuration={0}
-            />
-        </View>
-    );
-
     return (
         <FlatList
+            style={styles.tasks}
             ref={flatListRef}
-            data={tasks}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
+            data={limitedTasks}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => <ImageWrapper item={item} />}
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
             horizontal
+            getItemLayout={(_, index) => ({
+                length: GLOBAL.SCREEN_WIDTH,
+                offset: GLOBAL.SCREEN_WIDTH * index,
+                index,
+            })}
             pagingEnabled
             showsHorizontalScrollIndicator={false}
         />

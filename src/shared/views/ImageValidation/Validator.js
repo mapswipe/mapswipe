@@ -20,8 +20,8 @@ import TutorialBox, { toCamelCase } from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
-import IndividualTask from './IndividualTask';
-import BuildingFootprintTutorialOutro from './TutorialOutro';
+import Tasks from './IndividualTask';
+import TutorialOutro from './TutorialOutro';
 import {
     tutorialModes,
     COLOR_WHITE,
@@ -36,7 +36,7 @@ import GLOBAL from '../../Globals';
 import * as SvgIcons from '../../common/SvgIcons';
 
 import type {
-    BuildingFootprintGroupType,
+    ImageValidationGroupType,
     ImageValidationTaskType,
     NavigationProp,
     ResultMapType,
@@ -76,6 +76,9 @@ const styles = StyleSheet.create({
         width: GLOBAL.SCREEN_WIDTH,
     },
     listItem: {
+        position: 'absolute',
+        bottom: 0,
+        alignSelf: 'center',
         flexDirection: 'column',
         justifyContent: 'space-evenly',
         width: '90%',
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
 type Props = {
     t: TranslationFunction,
     completeGroup: () => void,
-    group: BuildingFootprintGroupType,
+    group: ImageValidationGroupType,
     navigation: NavigationProp,
     project: SingleImageryProjectType,
     results: ResultMapType,
@@ -231,15 +234,8 @@ class _Validator extends React.Component<Props, State> {
 
     setupTasksList = (tasks: Array<ImageValidationTaskType>) => {
         if (isLoaded(tasks) && !isEmpty(tasks)) {
-            // TODO: is it possible that tasks are only partially loaded
-            // when we get here? if so, we should bail out politely in case
-            // of error
-
-            console.log('tasks', tasks);
-            // decode base64 and gunzip tasks
             this.expandedTasks = tasks;
         }
-        return ''; // to keep flow and eslint happy
     };
 
     getCurrentScreen = () => {
@@ -254,6 +250,7 @@ class _Validator extends React.Component<Props, State> {
 
     handleSelectOption = option => {
         const { tutorial } = this.props;
+
         if (option.subOptions) {
             this.setState(prevState => ({
                 ...prevState,
@@ -266,7 +263,7 @@ class _Validator extends React.Component<Props, State> {
         } else {
             const { currentTaskIndex } = this.state;
             const currentTask = this.expandedTasks[currentTaskIndex];
-            const referenceAnswer = currentTask?.properties?.reference;
+            const referenceAnswer = currentTask?.referenceAnswer;
             if (option.value === referenceAnswer) {
                 this.nextTask(option.value);
             } else {
@@ -354,17 +351,6 @@ class _Validator extends React.Component<Props, State> {
         return currentTaskIndex >= this.tasksDone;
     };
 
-    canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean } =
-        () => {
-            const { currentTaskIndex } = this.state;
-            return {
-                canSwipeBack: currentTaskIndex > 0,
-                canSwipeForward:
-                    this.tasksDone >= 0 &&
-                    currentTaskIndex < this.tasksDone + 1,
-            };
-        };
-
     onMomentumScrollEnd = (event: Object) => {
         this.currentScreen = Math.round(
             event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
@@ -392,7 +378,7 @@ class _Validator extends React.Component<Props, State> {
         return true;
     };
 
-    renderContent = selectedOption => {
+    renderOptions = selectedOption => {
         const { showSubOptions, subOptions, subOptionHeading } = this.state;
         const { customOptions } = this.props;
 
@@ -483,22 +469,14 @@ class _Validator extends React.Component<Props, State> {
 
     /* eslint-disable global-require */
     renderValidator = () => {
-        const { group, project, results, screens, tutorial } = this.props;
+        const { group, results, screens, tutorial } = this.props;
         const { currentTaskIndex } = this.state;
         const currentTask = this.expandedTasks[currentTaskIndex];
-        // if tasks have a center attribute, we know they're grouped by 9
-        // so we look a bit further ahead to prefetch imagery
-        // FIXME: temporarily force it to 9, no matter what
-        const prefetchOffset = currentTask.center ? 9 : 9;
-        const prefetchTask =
-            this.expandedTasks[currentTaskIndex + prefetchOffset];
+
         if (currentTask === undefined) {
             return <LoadingIcon />;
         }
-        let selectedResult;
-        if (results) {
-            selectedResult = results[currentTask.taskId];
-        }
+        const selectedResult = results?.[currentTask?.taskId];
 
         let tutorialContent: ?TutorialContent;
         const tutorialMode = tutorialModes.instructions;
@@ -518,28 +496,21 @@ class _Validator extends React.Component<Props, State> {
             }
         }
 
+        // NOTE: -1 is done because startTime is added in results by default
+        const totalSwipedTasks = Object.keys(results ?? {})?.length;
+
         return (
             <View style={styles.container}>
-                <IndividualTask
+                <Tasks
                     tasks={this.expandedTasks}
+                    totalSwipedTasks={totalSwipedTasks}
+                    selectedResult={selectedResult}
                     onCurrentTaskIndexChange={newIndex => {
                         this.setState({ currentTaskIndex: newIndex });
                     }}
                     currentTaskIndex={currentTaskIndex}
                 />
-                {/*
-                <FootprintDisplay
-                    canSwipe={this.canSwipe}
-                    currentTaskIndex={currentTaskIndex}
-                    nextTask={this.nextTask}
-                    numberOfTasks={group.numberOfTasks}
-                    prefetchTask={prefetchTask}
-                    previousTask={this.previousTask}
-                    project={project}
-                    task={currentTask}
-                />
-                */}
-                {this.renderContent(selectedResult)}
+                {this.renderOptions(selectedResult)}
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 && (
@@ -555,8 +526,15 @@ class _Validator extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, tutorial, informationPages, customOptions } =
-            this.props;
+        const {
+            group,
+            navigation,
+            tutorial,
+            informationPages,
+            customOptions,
+            project,
+        } = this.props;
+
         const { projectId } = group;
         if (!this.expandedTasks) {
             return <LoadingIcon />;
@@ -576,7 +554,7 @@ class _Validator extends React.Component<Props, State> {
                             <TutorialEndScreen
                                 group={group}
                                 navigation={navigation}
-                                OutroScreen={BuildingFootprintTutorialOutro}
+                                OutroScreen={TutorialOutro}
                                 outroScreenProps={{
                                     firstOption: customOptions?.[0],
                                 }}
@@ -585,6 +563,7 @@ class _Validator extends React.Component<Props, State> {
                         }
                         ListHeaderComponent={
                             <TutorialIntroScreen
+                                title={project.lookFor}
                                 tutorial={tutorial}
                                 informationPages={informationPages}
                                 customOptions={customOptions}

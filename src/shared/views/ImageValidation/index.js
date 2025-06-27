@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import { SvgXml } from 'react-native-svg';
 import ProjectLevelScreen from '../../common/ProjectLevelScreen';
-import { submitFootprint } from '../../actions/index';
+import { submitImageValidation } from '../../actions/index';
 import Validator from './Validator';
 import AccessibilityInfoModal from '../../common/AccessibilityInfoModal';
 import type {
@@ -140,6 +140,7 @@ class _ImageValidationScreen extends React.Component<Props> {
             // this is a bit ugly, but will prevent a crash for now
             navigation.pop();
         }
+
         return (
             <>
                 <ProjectLevelScreen
@@ -149,7 +150,7 @@ class _ImageValidationScreen extends React.Component<Props> {
                     headerText={projectObj.lookFor}
                     randomSeed={this.randomSeed}
                     screenName="ImageValidationScreen"
-                    submitResultFunction={submitFootprint}
+                    submitResultFunction={submitImageValidation}
                     tutorial={tutorial}
                     tutorialId={tutorialId}
                     {...otherProps}
@@ -161,6 +162,6 @@ class _ImageValidationScreen extends React.Component<Props> {
 }
 
 // FIXME: Update Translation
-export default (withTranslation('BFInstructionsScreen')(
+export default (withTranslation('IVInstructionsScreen')(
     _ImageValidationScreen,
 ): any);

@@ -130,7 +130,6 @@ class _BuildingFootprintScreen extends React.Component<Props> {
         // check that the project data has a tutorialId set (in firebase)
         // in which case, we use it as the tutorial (all projects should have one)
         let tutorialId;
-        console.log('hereeeeeee building footprint', projectObj);
         if (projectObj.tutorialId !== undefined) {
             tutorialId = projectObj.tutorialId;
         } else {

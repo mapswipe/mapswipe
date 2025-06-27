@@ -159,8 +159,10 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     }
 
     handleBackPress = () => {
-        // $FlowFixMe
-        this.backConfirmationModal.open();
+        if (this.backConfirmationModal) {
+            // $FlowFixMe
+            this.backConfirmationModal.open();
+        }
         return true; // prevents the navigator from jumping back
     };
 
@@ -192,8 +194,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        const { navigation, customOptions } = this.props;
-        navigation.push('BFInstructionsScreen', { customOptions });
+        const { navigation, customOptions, headerText } = this.props;
+        navigation.push('InstructionsScreen', {
+            customOptions,
+            headerText,
+        });
     };
 
     completeGroup = () => {
