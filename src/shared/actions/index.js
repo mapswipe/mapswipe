@@ -15,6 +15,7 @@ export const AUTH_STATUS_AVAILABLE: 'AUTH_STATUS_AVAILABLE' =
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 export const TOGGLE_MAP_TILE: 'TOGGLE_MAP_TILE' = 'TOGGLE_MAP_TILE';
 export const SUBMIT_BUILDING_FOOTPRINT = 'SUBMIT_BUILDING_FOOTPRINT';
+export const SUBMIT_IMAGE_VALIDATION = 'SUBMIT_IMAGE_VALIDATION';
 export const SUBMIT_CHANGE = 'SUBMIT_CHANGE';
 export const CANCEL_GROUP = 'CANCEL_GROUP';
 export const START_GROUP = 'START_GROUP';
@@ -169,6 +170,16 @@ export function submitChange(resultObject: ResultType): SubmitChange {
     // dispatched when a result for ChangeDetection projects is submitted,
     // ie: when the user taps the image
     return { type: SUBMIT_CHANGE, resultObject };
+}
+
+type SubmitImageValidation = {
+    type: typeof SUBMIT_IMAGE_VALIDATION,
+    resultObject: ResultType,
+};
+export function submitImageValidation(
+    resultObject: ResultType,
+): SubmitImageValidation {
+    return { type: SUBMIT_IMAGE_VALIDATION, resultObject };
 }
 
 type SubmitFootprint = {

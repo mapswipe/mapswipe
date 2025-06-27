@@ -11,20 +11,16 @@ import {
 } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import { SvgXml } from 'react-native-svg';
-import {
-    COLOR_DEEP_BLUE,
-    COLOR_WHITE,
-    COLOR_LIGHT_GRAY,
-} from '../../constants';
+import { COLOR_DEEP_BLUE, COLOR_WHITE, COLOR_LIGHT_GRAY } from '../constants';
 import type {
     NavigationProp,
     TranslationFunction,
     Option,
-} from '../../flow-types';
-import * as SvgIcons from '../../common/SvgIcons';
-import { toCamelCase } from '../../common/Tutorial';
+} from '../flow-types';
+import * as SvgIcons from './SvgIcons';
+import { toCamelCase } from './Tutorial';
 
-const GLOBAL = require('../../Globals');
+const GLOBAL = require('../Globals');
 
 const styles = StyleSheet.create({
     backButton: {
@@ -117,7 +113,7 @@ class BFInstructionScreen extends React.Component<Props> {
 
     render() {
         const { navigation, t } = this.props;
-        const { customOptions } = navigation.state.params;
+        const { customOptions, headerText } = navigation.state.params;
         return (
             <View style={styles.background}>
                 <View style={styles.swipeNavTop}>
@@ -127,7 +123,7 @@ class BFInstructionScreen extends React.Component<Props> {
                     >
                         <Image
                             style={styles.backButton}
-                            source={require('../assets/backarrow_icon.png')}
+                            source={require('../views/assets/backarrow_icon.png')}
                         />
                     </TouchableHighlight>
                     <Text
@@ -145,7 +141,7 @@ class BFInstructionScreen extends React.Component<Props> {
                         {t('useTheButtonsToAnswer')}
                     </Text>
                     <Text style={styles.header}>
-                        {t('doesTheShapeOutlineABuilding')}
+                        {headerText ?? t('doesTheShapeOutlineABuilding')}
                     </Text>
                     {(customOptions: Option[])?.map(item => (
                         <View style={styles.tutRow} key={item.value}>

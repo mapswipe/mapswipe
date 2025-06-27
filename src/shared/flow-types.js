@@ -168,6 +168,7 @@ export type BuildingFootprintTaskType = {
 export type ImageValidationTaskType = {
     taskId: string,
     fileName: string,
+    referenceAnswer: ?number,
     url: string,
 };
 
@@ -209,6 +210,8 @@ export type BuildingFootprintGroupType =
     GenericGroupType<BuildingFootprintTaskType>;
 export type ChangeDetectionGroupType =
     GenericGroupType<ChangeDetectionTaskType>;
+export type ImageValidationGroupType =
+    GenericGroupType<ImageValidationTaskType>;
 
 export type GroupType =
     | BuiltAreaGroupType
