@@ -214,6 +214,7 @@ class _Validator extends React.Component<Props, State> {
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
         this.tasksDone = -1;
+        console.log('here constructingg again', props.group);
         this.setupTasksList(props.group.tasks);
         this.tutorialIntroWidth =
             props.informationPages && props.informationPages.length > 0
@@ -225,6 +226,7 @@ class _Validator extends React.Component<Props, State> {
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
         const { group } = this.props;
+        console.log('here constructingg again', this.props.group);
         if (prevProps.group.tasks !== group.tasks) {
             this.setupTasksList(group.tasks);
             // eslint-disable-next-line react/no-did-update-set-state
@@ -537,6 +539,7 @@ class _Validator extends React.Component<Props, State> {
 
         const { projectId } = group;
         if (!this.expandedTasks) {
+            console.log('inside validator render');
             return <LoadingIcon />;
         }
 

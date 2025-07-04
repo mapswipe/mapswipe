@@ -116,6 +116,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+        console.log('constructinggg');
         this.project = props.navigation.getParam('project');
         this.state = {
             groupCompleted: false,
@@ -124,12 +125,13 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        console.log('mounted');
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
     componentDidUpdate = prevProps => {
         const { group, onStartGroup } = this.props;
-        if (prevProps.group !== group) {
+        if (prevProps.group?.groupId !== group?.groupId) {
             if (isLoaded(group) && !isEmpty(group)) {
                 // eslint-disable-next-line react/no-did-update-set-state
                 this.setState({
@@ -232,7 +234,10 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     toNextGroup = () => {
         const { navigation, screenName } = this.props;
-        navigation.navigate(screenName, { project: this.project });
+        navigation.replace(screenName, {
+            project: this.project,
+            refresh: Date.now(),
+        });
         this.setState({ groupCompleted: false, waitingForNextGroup: true });
     };
 
