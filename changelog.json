@@ -1,10 +1,8 @@
 {
-    "2.3.0": {
+    "2.4.0": {
         "changes": [
-            "Introduce changelog popup!",
-            "Fix accessibility pop-up showing same instruction text for different icons",
-            "Make tutorials in validate project advance only when user selects correct answer!",
-            "Fix loading screen on continue mapping for some projects"
+            "Added a new project type, Image Validation, which is used to find objects via images",
+            "Updates source english texts for new translations"
         ]
     }
 }
