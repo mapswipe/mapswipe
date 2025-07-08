@@ -361,7 +361,7 @@ class _Mapper extends React.Component<Props, State> {
 
         // only show the mapping component once we have downloaded the group data
         if (!group) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading groups" />;
         }
 
         // $FlowFixMe

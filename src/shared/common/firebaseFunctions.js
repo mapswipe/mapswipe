@@ -50,6 +50,7 @@ export const firebaseConnectGroup = (tutorialId?: string): any =>
         }
         const { projectId } = props.navigation.getParam('project', null);
         if (projectId) {
+            // FIXME: Filter this out using groupsUsers/projectId/groupId/userId value
             return [
                 {
                     type: 'once',
@@ -175,21 +176,23 @@ export const mapStateToPropsForGroups =
                 // Here we set a boolean to make sure that the users stops mapping.
                 canContinueMapping = false;
             }
-            groupId =
-                groupsToPickFrom[
-                    Math.floor(ownProps.randomSeed * groupsToPickFrom.length)
-                ];
+            const index = Math.floor(
+                ownProps.randomSeed * groupsToPickFrom.length,
+            );
+            groupId = groupsToPickFrom[index];
         }
+
+        const fetchedGroup = get(
+            state.firebase.data,
+            `${prefix}.${projectId}.groups.${groupId}`,
+        );
         return {
             exampleImage1,
             exampleImage2,
             screens,
-            group: get(
-                state.firebase.data,
-                `${prefix}.${projectId}.groups.${groupId}`,
-            ),
             informationPages,
             customOptions,
+            group: fetchedGroup,
             navigation: ownProps.navigation,
             onInfoPress: ownProps.onInfoPress,
             results: state.results,
