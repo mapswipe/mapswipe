@@ -8,6 +8,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
 
+/* NOTE: Add this to show debug in debuggers
+export const loggerMiddleware = store => next => action => {
+    console.debug('action', action);
+    const result = next(action);
+    console.debug('state', store.getState());
+    return result;
+};
+*/
+
 export const reactreduxFirebaseConfig = {
     attachAuthIsReady: true,
     enableRedirectHandling: false,
@@ -35,6 +44,37 @@ const persistConfig = {
 
 const persistedReducers = persistReducer(persistConfig, reducers);
 
+const mergeGroupsMiddleware = store => next => action => {
+    if (action.type !== '@@reactReduxFirebase/SET') {
+        return next(action);
+    }
+
+    const storeAs = action.path;
+    if (!storeAs) {
+        return next(action);
+    }
+
+    const match = storeAs.match(/^projects\/(.+)\/groups$/);
+    if (!match) {
+        return next(action);
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    const [_, projectId] = match;
+
+    const currentData =
+        store.getState().firebase.data?.projects?.[projectId]?.groups || {};
+
+    const finalData = {};
+    Object.keys(action.data).forEach(key => {
+        finalData[key] = {
+            ...action.data[key],
+            tasks: currentData[key]?.tasks,
+        };
+    });
+    return next({ ...action, data: finalData });
+};
+
 // the initial state argument is only used for jest
 // direct imports of createNewStore should only happen in tests
 // $FlowFixMe
@@ -43,7 +83,11 @@ export const createNewStore = (initialState?: {} = {}): any =>
         persistedReducers,
         initialState,
         composeEnhancers(
-            applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase)),
+            applyMiddleware(
+                mergeGroupsMiddleware,
+                thunkMiddleware.withExtraArgument(getFirebase),
+                // loggerMiddleware,
+            ),
         ),
     );
 

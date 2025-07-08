@@ -576,7 +576,10 @@ class _CardBody extends React.PureComponent<Props, State> {
         let tutorialContent: ?TutorialContent;
 
         if ((tutorial && group.tasks === undefined) || isSendingResults) {
-            return <LoadingIcon key="loadingicon" />;
+            return <LoadingIcon key="loadingicon" label="Loading tasks" />;
+        }
+        if (tutorial && group.tasks === undefined) {
+            return <LoadingIcon key="loadingicon" label="Sending results" />;
         }
 
         if (tutorial && group.tasks) {

@@ -307,7 +307,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         } = this.state;
 
         if (!group) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading groups" />;
         }
 
         if (groupCompleted) {

@@ -498,7 +498,7 @@ class _Validator extends React.Component<Props, State> {
         const prefetchTask =
             this.expandedTasks[currentTaskIndex + prefetchOffset];
         if (currentTask === undefined) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading tasks" />;
         }
         let selectedResult;
         if (results) {
@@ -555,7 +555,7 @@ class _Validator extends React.Component<Props, State> {
             this.props;
         const { projectId } = group;
         if (!this.expandedTasks) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading tasks" />;
         }
 
         if (tutorial) {

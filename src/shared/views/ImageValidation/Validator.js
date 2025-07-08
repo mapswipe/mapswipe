@@ -214,7 +214,6 @@ class _Validator extends React.Component<Props, State> {
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
         this.tasksDone = -1;
-        console.log('here constructingg again', props.group);
         this.setupTasksList(props.group.tasks);
         this.tutorialIntroWidth =
             props.informationPages && props.informationPages.length > 0
@@ -226,7 +225,6 @@ class _Validator extends React.Component<Props, State> {
     componentDidUpdate = (prevProps: Props) => {
         // reset the taskId generator, as it might have been initialized on another project group
         const { group } = this.props;
-        console.log('here constructingg again', this.props.group);
         if (prevProps.group.tasks !== group.tasks) {
             this.setupTasksList(group.tasks);
             // eslint-disable-next-line react/no-did-update-set-state
@@ -476,7 +474,7 @@ class _Validator extends React.Component<Props, State> {
         const currentTask = this.expandedTasks[currentTaskIndex];
 
         if (currentTask === undefined) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading tasks" />;
         }
         const selectedResult = results?.[currentTask?.taskId];
 
@@ -499,7 +497,13 @@ class _Validator extends React.Component<Props, State> {
         }
 
         // NOTE: -1 is done because startTime is added in results by default
-        const totalSwipedTasks = Object.keys(results ?? {})?.length;
+        let totalSwipedTasks = 0;
+        if (results) {
+            totalSwipedTasks = Object.keys(results).length;
+            if ('startTime' in results) {
+                totalSwipedTasks -= 1;
+            }
+        }
 
         return (
             <View style={styles.container}>
@@ -539,8 +543,7 @@ class _Validator extends React.Component<Props, State> {
 
         const { projectId } = group;
         if (!this.expandedTasks) {
-            console.log('inside validator render');
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading tasks" />;
         }
 
         if (tutorial) {
@@ -616,35 +619,23 @@ const mapStateToProps = (state, ownProps) => ({
 export default (compose(
     withTranslation('CDValidator'),
     firebaseConnect(props => {
-        if (props.group) {
-            const { groupId, projectId } = props.group;
-            const prefix = props.tutorial ? 'tutorial' : 'projects';
-            if (groupId !== undefined) {
-                const r = props.results;
-                // also wait for the startTime timestamp to be set (by START_GROUP)
-                // if we don't wait, when opening a project for the second time
-                // group is already set from before, so the tasks listener is often
-                // set before the groups one, which results in tasks being received
-                // before the group. The groups then remove the tasks list from
-                // redux, and we end up not being able to show anything.
-                // This is a bit hackish, and may not work in all situations, like
-                // on slow networks.
-                if (
-                    r[projectId] &&
-                    r[projectId][groupId] &&
-                    r[projectId][groupId].startTime
-                ) {
-                    return [
-                        {
-                            type: 'once',
-                            path: `v2/tasks/${projectId}/${groupId}`,
-                            storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
-                        },
-                    ];
-                }
-            }
+        if (!props.group) {
+            return [];
         }
-        return [];
+
+        const { groupId, projectId } = props.group;
+        const prefix = props.tutorial ? 'tutorial' : 'projects';
+        if (groupId === undefined) {
+            return [];
+        }
+
+        return [
+            {
+                type: 'once',
+                path: `v2/tasks/${projectId}/${groupId}`,
+                storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
+            },
+        ];
     }),
     connect(mapStateToProps),
 )(_Validator): any);
