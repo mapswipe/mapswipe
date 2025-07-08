@@ -347,9 +347,16 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             showAnswerButtonIsVisible,
             tutorialBoxIsVisible,
         } = this.state;
-        if (!group || !group.tasks || isSendingResults) {
-            return <LoadingIcon />;
+        if (!group) {
+            return <LoadingIcon label="Loading groups" />;
         }
+        if (!group.tasks) {
+            return <LoadingIcon label="Loading tasks" />;
+        }
+        if (isSendingResults) {
+            return <LoadingIcon label="Sending results" />;
+        }
+
         const currentScreen = this.getCurrentScreen();
         let tutorialContent: ?TutorialContent;
         if (tutorial && currentScreen < screens.length) {
