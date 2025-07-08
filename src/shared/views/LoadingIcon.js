@@ -14,11 +14,15 @@ const styles = {
         fontWeight: '300',
         fontSize: 20,
         marginTop: 20,
+        textShadowColor: '#000',
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 4,
     },
 };
 
 type Props = {
     t: TranslationFunction,
+    label?: string,
 };
 
 type State = {
@@ -57,7 +61,7 @@ class LoadingComponent extends React.Component<Props, State> {
 
     render() {
         const { animOpacity } = this.state;
-        const { t } = this.props;
+        const { t, label } = this.props;
         return (
             <Animated.View
                 style={{
@@ -74,7 +78,7 @@ class LoadingComponent extends React.Component<Props, State> {
                     source={require('./assets/loadinganimation.gif')}
                 />
                 <Text style={styles.loadingText} testID="loading-icon">
-                    {t('loading')}
+                    {label || t('loading')}
                 </Text>
             </Animated.View>
         );
