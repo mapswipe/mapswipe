@@ -44,7 +44,7 @@
     "@react-native-firebase/database": "^14.12.0",
     "@react-native-firebase/storage": "^14.12.0",
     "@react-native-masked-view/masked-view": "^0.2.8",
-    "@sentry/react-native": "^3.1.1",
+    "@sentry/react-native": "5.35.0",
     "deprecated-react-native-prop-types": "^4.0.0",
     "graphql": "^16.5.0",
     "i18next": "^19.0.0",
