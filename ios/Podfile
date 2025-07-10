@@ -61,6 +61,16 @@ target 'mapswipe' do
       :mac_catalyst_enabled => false
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
-  end
 
+    file_path_1 = 'Pods/Flipper/xplat/Flipper/FlipperTransportTypes.h'
+    if File.exist?(file_path_1)
+      contents = File.read(file_path_1)
+      unless contents.include?('#include <functional>')
+        File.open(file_path_1, 'w') do |file|
+          file.puts('#include <functional>')
+          file.puts(contents)
+        end
+      end
+    end
+  end
 end
