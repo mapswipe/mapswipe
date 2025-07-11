@@ -1,16 +1,14 @@
 {
   "mainHeader": {
-    "missions": "Projekty",
-      "more": "Více",
-      "userProfile": "Profil"
+    "missions": "Mise",
+    "more": "Více"
   },
   "signup": {
     "chooseUsername": "Zvolte své uživatelské jméno",
     "passwordError": "Heslo musí mít alespoň 6 znaků",
-    "usernameError": "Uživatelské jméno musí mít alespoň 4 znaky a nesmí obsahovat mezeru a velká písmena.",
-    "userNameExistError": "Uživatelské jméno již existuje, zvolte prosím jiné uživatelské jméno.",
+    "usernameError": "Uživatelské jméno musí mít alespoň 4 znaky",
     "errorOnSignup": "Chyba při registraci",
-    "usernameErrorMessage": "Vaše uživatelské jméno musí mít nejméně 4 znaky a nesmí obsahovat mezeru a velká písmena.",
+    "usernameErrorMessage": "Vaše uživatelské jméno musí mít 4 nebo více znaků",
     "usernameNotEmail": "Vaše uživatelské jméno nemůže být e-mail",
     "usernamePublic": "Vaše uživatelské jméno bude veřejně viditelné",
     "success": "Skvěle!",
@@ -49,7 +47,7 @@
   "profileScreen": {
     "Level X": "Úroveň {{level}}",
     "youve completed x tasks": "Dokončili jste {{contributions}} úkolů!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} úkolů ({{swipes}} swipes) do další úrovně",
+    "x tasks (s swipes) until the next level": "{{sqkm}} úkolů ({{swipes}} swipe) do další úrovně",
     "yourTeam": "Váš tým: {{teamName}}",
     "changeLanguage": "Změnit jazyk",
     "mapswipe website": "web MapSwipe",
@@ -60,25 +58,7 @@
     "delete account question": "Smazat účet?",
     "delete account warning": "Ztratíte veškeré své dosažené úspěchy a odznaky. Vaše příspěvky zůstanou veřejné, ale nebudou již svázány s vaším účtem.\nChcete pokračovat?",
     "no keep my account": "Ne, zachovat si svůj účet",
-    "yes delete it": "Ano, smažte to!",
-    "userGroups": "Uživatelské skupiny",
-    "joinNewGroup": "Přidat se k nové uživatelské skupině",
-    "exploreGroups": "Prohlížet uživatelské skupiny",
-    "settings": "Nastavení",
-    "changeUserName": "Změnit uživatelské jméno",
-    "changePassword": "Změnit heslo",
-    "notifications": "Upozornění",
-    "language": "Jazyk",
-    "logOut": "Odhlásit se",
-    "deleteAccount": "Smazat účet",
-    "missingMaps": "Missing Maps",
-    "email": "E-mail",
-    "accountDeleted": "Účet smazán!",
-    "accountDeletedSuccessMessage": "Je nám líto, že odcházíte...",
-    "accountDeletionFailed": "Váš účet se nepodařilo odstranit",
-    "accountDeletionFailedMessage": "Znovu se přihlaste a potvrďte, že chcete svůj účet smazat",
-    "contributionHeatmap": "Mapa vašich příspěvků (Posledních 30 dní)",
-    "accessibility": "Přístupnost"
+    "yes delete it": "Ano, smažte to!"
   },
   "projectList": {
     "progress pc by x mappers": "{{progress}}% od {{mappersCount}} mapperů"
@@ -86,7 +66,7 @@
   "projectView": {
     "x pc global progress by n mappers": "{{projectProgress}}% GLOBÁLNÍHO POKROKU OD {{ContributorCount}} MAPPERŮ JAKO JSTE VY.",
     "userProgressForProject": "{{userProgress}}% pro tento projekt",
-    "quotaReachedWarning": "Na obrazovce projektů vyberte jiný projekt",
+    "quotaReachedWarning": "Na obrazovkách misí vyberte jiný projekt",
     "map now": "Začněte mapovat",
     "chooseAnotherProject": "Vyberte jiný projekt",
     "tutorial": "Tutorial"
@@ -97,7 +77,6 @@
   "loadMoreScreen": {
     "completedTutorial": "Fajn. Dokončili jste kurz. Jste připraveni mapovat!",
     "finishedGroup": "Dobrá práce! Tuto skupinu jste dokončili.",
-    "finishedManyGroups": "Úžasná práce! Zmapovali jste mnoho skupin za sebou. Vraťte se na obrazovku projektu, abyste synchronizovali svou práci a získali nejnovější úkoly. Poté budete moci namapovat ještě více skupin.",
     "letsGo": "Pojďme na to!",
     "completeSession": "Dokončit seanci",
     "continueMapping": "Pokračovat v mapování",
@@ -127,9 +106,7 @@
     "badImagery": "Problém s obrazem, například pokud je na některém ze snímků výhled zakrytý mraky? <1>Třikrát klepněte</1> a dlaždice zčervená.",
     "holdZoom": "Pokud potřebujete obrázek vidět blíže, klepněte na obrázek a podržte jej a přiblíží se o něco více.",
     "hint": "Nápověda:",
-    "differentImagery": "Někdy byly použity různé obrazové zdroje. Snímky mohou být mírně odlišně zarovnány nebo mohou mít jiné rozlišení. Nezapomeňte, že hledáte <1>určité změny v osídlení a budovách</1>, takže pokud to vypadá, že jsou tam stejné budovy, ale třeba je tam nová střecha, pak by to byl scénář \"beze změny\" a vy byste jednoduše přejeli na další snímek.",
-    "swipeToGetStarted": "Přejetím prsta zobrazte doplňující informace",
-    "hideIconDescription": "Klepnutím a podržením ikony a překrytí skryjete."
+    "differentImagery": "Někdy byly použity různé obrazové zdroje. Snímky mohou být mírně odlišně zarovnány nebo mohou mít jiné rozlišení. Nezapomeňte, že hledáte <1>určité změny v osídlení a budovách</1>, takže pokud to vypadá, že jsou tam stejné budovy, ale třeba je tam nová střecha, pak by to byl scénář \"beze změny\" a vy byste jednoduše přejeli na další snímek."
   },
   "CDBodyScreen": {
     "viewInstructions": "Zobrazit instrukce"
@@ -142,9 +119,7 @@
     "Yes": "Ano",
     "No": "Ne",
     "NotSure": "Nejsem si jist",
-    "BadImagery": "Špatný obrázek",
-    "incorrectAnswerMessageTitle": "Chybná odpověď!",
-    "incorrectAnswerMessage": "Vyberte prosím: {{correctAnswer}}"
+    "BadImagery": "Špatný obrázek"
   },
   "ProjectLevelScreen": {
     "iUnderstand": "Rozumím",
@@ -167,14 +142,12 @@
     "maybe": "MOŽNÁ",
     "instructions1": "Jak přispět",
     "instructions2": "POKLEPNUTÍM VYBERTE",
-    "instructions3": "Hledejte funkce uvedené v popisu projektu. Klepněte na každou dlaždici, kde najdete to, co hledáte. Klepněte jednou pro <1> ANO, dvakrát pro <3> {{twoTaps}} a třikrát pro ŠPATNÉ OBRÁZKY <5>(např. mraky).",
+    "instructions3": "Podívejte se v rychlosti na funkce uvedené ve vaší misi. Klepněte na každou dlaždici, kde najdete to, co hledáte. Klepněte jednou na <1>ANO</1>, dvakrát na <3>{{twoTaps}}</3> a třikrát na <5>ŠPATNÉ ZOBRAZENÍ</5> (například mraky).",
     "instructions4": "PŘEJETÍM PRSTEM PROHLÍŽEJTE",
     "instructions5": "Když skončíte s částí mapy, přejeďte prstem na další.",
     "instructions6": "PŘIDRŽENÍM PRSTEM PŘIBLÍŽIT",
     "instructions7": "Podržením dlaždice přiblížíte dlaždici.",
-    "instructions8": "KLEPNUTÍM SKRYJETE",
-    "instructions9": "Klepnutím a podržením skryjete ikony a překrytí.",
-    "instructions10": "Kredity",
+    "instructions8": "Zásluhy",
     "tutorial1": "Vítejte v návodu!",
     "tutorial2": "Ten by vás měl během několika minut provést aplikací MapSwipe.",
     "tutorial3": "Postupujte podle pokynů na obrazovce a pokračujte přejetím doleva.",
@@ -192,14 +165,13 @@
     "YouAreLookingFor": "Hledáte {{lookFor}}",
     "FromTheGround": "Ze země to vypadá takto:",
     "ImagesFromAbove": "Ale obrázky, které uvidíte, to ukáží shora a vypadá to takto:",
-    "SwipeToContinue": "Pokračujte přejetím prstem",
-    "hideIcon": "Klepnutím na ikonu ji skryjete."
+    "SwipeToContinue": "Pokračujte přejetím prstem"
   },
   "TutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Nedělejte si starosti, pokud si nejste jisti tím, co ve čtverci vidíte.",
     "youCanAlwaysTapTwice": "Nezapomeňte, že pokud si nejste jisti tím, co vidíte, můžete dlaždici dvojím klepnutím označit žlutě",
     "everyImageViewedBy": "Každý obrázek uvidí více lidí, takže se nemusíte bát, že vám něco unikne",
-    "holdZoom": "Stisknutím a podržením libovolného čtverce jej můžete přiblížit. Opětovným stisknutím jej zrušíte."
+    "holdZoom": "Stisknutím a podržením libovolného čtverce jej můžete přiblížit. Opětovným klepnutím ho zas oddálíte."
   },
   "TutorialEndScreen": {
     "readyToStart": "Jste připraveni začít s MapSwipe!",
@@ -237,45 +209,5 @@
     "instructionsNo": "Ne: když ve čtverci nejsou žádné budovy",
     "instructionsNotSure": "Nejste si jisti: když si nejste jisti, zda je to budova nebo ne",
     "instructionsBadImagery": "Špatné snímky: když je oblačnost nebo problémy se snímky"
-  },
-  "AccessibilityInstruction": {
-      "heading": "Funkce přístupnosti",
-      "descriptions": "Mapové obrazovky mají nyní barevné dlaždice a ikony, které lépe odrážejí jejich význam.",
-      "tickIconInfo": "Jedním klepnutím změníte barvu dlaždice na zelenou a zobrazíte ikonu zaškrtnutí.",
-      "questionMarkIconInfo": "Klepnutím dvakrát změníte barvu dlaždice na žlutou a zobrazíte ikonu otazníku.",
-      "badImageIconInfo": "Klepnutím třikrát změníte barvu dlaždice na červenou a zobrazíte ikonu špatného snímku.",
-      "turnOnOff": "Jak zapnout/vypnout:",
-      "turnOnOffDescription": "Funkci zapnete/vypnete v sekci Nastavení v části Profil."
-  },
-  "userGroupScreen": {
-    "join": "Připojit se ",
-    "leave": "Opustit",
-    "leaderBoards": "Žebříčky",
-    "settings": "Nastavení",
-    "leaveGroup": "Opustit skupinu",
-    "joinGroup": "Přidat se k uživatelské skupině"
-  },
-  "searchUserGroup": {
-    "joinGroup": "Přidat se k uživatelské skupině",
-    "searchUserGroup": "Hledat uživatelskou skupinu"
-  },
-  "changeUserName": {
-    "changeUserName": "Změna uživatelského jména",
-    "currentUserName": "Současné uživatelské jméno",
-    "newUserName": "Nové uživatelské jméno",
-    "confirmUserNameChange": "Potvrďte změnu uživatelského jména"
-  },
-  "changePassword": {
-    "changePassword": "Změnit heslo",
-    "currentPassword": "Současné heslo",
-    "newPassword": "Nové heslo",
-    "confirmPasswordChange": "Potvrďte změnu hesla"
-  },
-  "languageSelection": {
-    "languageSelection": "Jazyk"
-  },
-  "informationPage": {
-    "swipeToGetStarted": "Přejetím prsta začněte",
-    "swipeToContinue": "Přejetím prsta pokračujte"
   }
 }
