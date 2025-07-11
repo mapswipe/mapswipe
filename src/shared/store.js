@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
 
-/* NOTE: Add this to show debug in debuggers
+/*
 export const loggerMiddleware = store => next => action => {
     console.debug('action', action);
     const result = next(action);
@@ -43,6 +43,37 @@ const persistConfig = {
 };
 
 const persistedReducers = persistReducer(persistConfig, reducers);
+
+const mergeTutorialMiddleware = store => next => action => {
+    if (action.type !== '@@reactReduxFirebase/SET') {
+        return next(action);
+    }
+
+    const storeAs = action.path;
+    if (!storeAs) {
+        return next(action);
+    }
+
+    const match = storeAs.match(/^tutorials\/(.+)\/groups$/);
+    if (!match) {
+        return next(action);
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    const [_, projectId] = match;
+
+    const currentData =
+        store.getState().firebase.data?.tutorials?.[projectId]?.groups || {};
+
+    const finalData = {};
+    Object.keys(action.data).forEach(key => {
+        finalData[key] = {
+            ...action.data[key],
+            tasks: currentData[key]?.tasks,
+        };
+    });
+    return next({ ...action, data: finalData });
+};
 
 const mergeGroupsMiddleware = store => next => action => {
     if (action.type !== '@@reactReduxFirebase/SET') {
@@ -85,6 +116,7 @@ export const createNewStore = (initialState?: {} = {}): any =>
         composeEnhancers(
             applyMiddleware(
                 mergeGroupsMiddleware,
+                mergeTutorialMiddleware,
                 thunkMiddleware.withExtraArgument(getFirebase),
                 // loggerMiddleware,
             ),

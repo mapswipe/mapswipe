@@ -10,6 +10,8 @@ import {
     Text,
 } from 'react-native';
 import get from 'lodash.get';
+import pako from 'pako';
+import base64 from 'base-64';
 import { SvgXml } from 'react-native-svg';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { MessageBarManager } from 'react-native-message-bar';
@@ -226,7 +228,15 @@ class _Validator extends React.Component<Props, State> {
         // reset the taskId generator, as it might have been initialized on another project group
         const { group } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
-            this.setupTasksList(group.tasks);
+            if (Array.isArray(group.tasks)) {
+                this.setupTasksList(group.tasks);
+            } else {
+                const compressedTasks = base64.decode(group.tasks);
+                const expandedTasks = pako.inflate(compressedTasks, {
+                    to: 'string',
+                });
+                this.expandedTasks = JSON.parse(expandedTasks);
+            }
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskIndex: 0 });
         }
