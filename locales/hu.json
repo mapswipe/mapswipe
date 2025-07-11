@@ -1,16 +1,14 @@
 {
   "mainHeader": {
-    "missions": "Projektek",
-      "more": "Egyebek",
-      "userProfile": "Profil"
+    "missions": "Küldetések",
+    "more": "Egyebek"
   },
   "signup": {
     "chooseUsername": "Válassz egy felhasználónevet",
     "passwordError": "A jelszónak legalább 6 karakterből kell állnia",
-    "usernameError": "A felhasználónév legalább 4 karakter legyen, és nem tartalmazhat szóközt és nagybetűt.",
-    "userNameExistError": "Ilyen felhasználónév már van, légy szíves, válassz egy másikat",
+    "usernameError": "A felhasználónévnek legalább 4 karakterből kell állnia",
     "errorOnSignup": "Hiba történt a regisztráció során",
-    "usernameErrorMessage": "A felhasználónevednek legalább 4 karakterből kell állnia, és nem tartalmazhat szóközt és nagybetűt.",
+    "usernameErrorMessage": "A felhasználónévnek legalább 4 karakter hosszúnak kell lennie",
     "usernameNotEmail": "A felhasználónév nem lehet e-mail-cím",
     "usernamePublic": "Felhasználóneved nyilvánosan látható lesz",
     "success": "Sikerült",
@@ -60,25 +58,7 @@
     "delete account question": "Törlődjék a fiók?",
     "delete account warning": "Minden teljesítményed és jelvényed el fog veszni. A szerkesztéseid megmaradnak, de nem fognak többé a fiókodhoz kötődni.\nBiztosan folytatod?",
     "no keep my account": "Nem, maradjon meg a fiókom",
-    "yes delete it": "Igen, törlődjön!",
-    "userGroups": "Felhasználói csoportok",
-    "joinNewGroup": "Csatlakozás új csoporthoz",
-    "exploreGroups": "Csoportok felfedezése",
-    "settings": "Beállítások",
-    "changeUserName": "Felhasználónév módosítása",
-    "changePassword": "Jelszó módosítása",
-    "notifications": "Értesítések",
-    "language": "Nyelv",
-    "logOut": "Kijelentkezés",
-    "deleteAccount": "Fiók törlése",
-    "missingMaps": "Missing Maps (hiányzó térképek)",
-    "email": "E-mail",
-    "accountDeleted": "Fiók törölve!",
-    "accountDeletedSuccessMessage": "Sajnáljuk, hogy itt hagy…",
-    "accountDeletionFailed": "Nem sikerült törölni a fiókját",
-    "accountDeletionFailedMessage": "Kérjük, jelentkezzék meg, és erősítsem meg, hogy törölni kívánja a fiókját",
-    "contributionHeatmap": "Szerkesztési hőtérkép (elmúlt 30 nap)",
-    "accessibility": "Akadálymentesség"
+    "yes delete it": "Igen, törlődjön!"
   },
   "projectList": {
     "progress pc by x mappers": "{{mappersCount}} térképező elvégzett {{progress}}%-ot"
@@ -86,7 +66,7 @@
   "projectView": {
     "x pc global progress by n mappers": "{{contributorCount}} HOZZÁD HASONLÓ TÉRKÉPEZŐ ELVÉGZETT GLOBÁLISAN {{projectProgress}}%-OT",
     "userProgressForProject": "A projekt készültsége {{userProgress}}%",
-    "quotaReachedWarning": "Válassz egy másik projektet a projektképernyőről",
+    "quotaReachedWarning": "Másik projekt kiválasztása a küldetések képernyőn",
     "map now": "Térképezés most",
     "chooseAnotherProject": "Másik projekt kiválasztása",
     "tutorial": "Oktatóanyag"
@@ -97,7 +77,6 @@
   "loadMoreScreen": {
     "completedTutorial": "OK, az oktatóanyagot befejezted. Most már készen állsz egy kis térképezésre!",
     "finishedGroup": "Remek! Ezt a csoportot befejezted.",
-    "finishedManyGroups": "Csodálatos munka! Számos csoportot feltérképeztél egymás után. Menj vissza a projektképernyőre, hogy szinkronizáld a munkádat, és megkapd a legújabb feladatokat. Ezután még több csoportot tud majd feltérképezni.",
     "letsGo": "Rajta!",
     "completeSession": "Munkamenet befejezése",
     "continueMapping": "Térképezés folytatása",
@@ -127,9 +106,7 @@
     "badImagery": "Baj van a képpel? (Például valamelyik képen felhők takarják el a földfelszínt.) <1>Koppints háromszor</1>, és a csempe vörös lesz.",
     "holdZoom": "Ha közelebbről szeretnél megnézni egy felvételt, koppints rá és tartsd rajta az ujjad egy kicsi, így megjelenik róla egy nagyítás.",
     "hint": "Tanács:",
-    "differentImagery": "Néha különböző légi felvételek jelennek meg. Lehet, hogy a képek ezért kissé más elrendezésűek, vagy más a felbontásuk. Ne feledd, hogy <1>határozott változásokat keresel a településeken és épületekben</1>. Ha tehát úgy néz ki, hogy a képen ugyanazok az épületek vannak, de mintha lecserélték volna a tetőjüket, akkor ez egy „nincs változás” forgatókönyv. Ilyenkor egyszerűen húzd be a következő képet.",
-    "swipeToGetStarted": "További információkhoz húzd el a képernyőt",
-    "hideIconDescription": "Koppints és tartsd lenyomva az ujjad az ikonok és a fedőréteg elrejtéséhez."
+    "differentImagery": "Néha különböző légi felvételek jelennek meg. Lehet, hogy a képek ezért kissé más elrendezésűek, vagy más a felbontásuk. Ne feledd, hogy <1>határozott változásokat keresel a településeken és épületekben</1>. Ha tehát úgy néz ki, hogy a képen ugyanazok az épületek vannak, de mintha lecserélték volna a tetőjüket, akkor ez egy „nincs változás” forgatókönyv. Ilyenkor egyszerűen húzd be a következő képet."
   },
   "CDBodyScreen": {
     "viewInstructions": "Utasítások megtekintése"
@@ -142,9 +119,7 @@
     "Yes": "Igen",
     "No": "Nem",
     "NotSure": "Bizonytalan",
-    "BadImagery": "Rossz műholdkép",
-    "incorrectAnswerMessageTitle": "Hibás válasz!",
-    "incorrectAnswerMessage": "Ezt válaszd: {{correctAnswer}}"
+    "BadImagery": "Rossz műholdkép"
   },
   "ProjectLevelScreen": {
     "iUnderstand": "Értem",
@@ -167,14 +142,12 @@
     "maybe": "TALÁN",
     "instructions1": "Hogyan működhetsz közre?",
     "instructions2": "KOPPINTS A KIJELÖLÉSHEZ",
-    "instructions3": "Keresd meg a projektleírásban felsorolt objektumokat. Koppints rá minden olyan csempére, ahol megtaláltad azt, amit keresel. Egy koppintás: <1>IGEN</1>, két koppintás: <3>{{twoTaps}}</3>, három koppintás: <5>ROSSZ MŰHOLDKÉP</5> (például felhős).",
+    "instructions3": "Keresd meg a küldetésben felsorolt funkciókat. Koppints rá minden olyan csempére, ahol megtaláltad azt, amit keresel. Egy koppintás: <1>IGEN</1>, két koppintás: <3>{{twoTaps}}</3>, három koppintás: <5>ROSSZ MŰHOLDKÉP</5> (például felhős).",
     "instructions4": "NAVIGÁLÁSHOZ HÚZD EL A KÉPERNYŐT",
     "instructions5": "Ha a térkép egy darabjával elkészültél, az elhúzásával továbbgörgethetsz a következő darabra.",
     "instructions6": "NAGYÍTÁSHOZ NYOMD HOSSZAN",
     "instructions7": "A csembe kinagyításához tarts rajta az ujjad.",
-    "instructions8": "KOPPINTS AZ ELREJTÉSHEZ",
-    "instructions9": "Koppints és tartsd lenyomva az ujjad az ikonok és a fedőréteg elrejtéséhez.",
-    "instructions10": "Alkotók",
+    "instructions8": "Alkotók",
     "tutorial1": "Üdvözlünk az oktatóanyagban!",
     "tutorial2": "Pár perc alatt MapSwipe-varázsló leszel!",
     "tutorial3": "Csupán kövesd a képernyőn megjelenő utasításokat, és a folytatáshoz húzd el balra a képernyőt.",
@@ -192,14 +165,13 @@
     "YouAreLookingFor": "Ezt keresed:",
     "FromTheGround": "A terepen így néz ki:",
     "ImagesFromAbove": "Az általad látott képek viszont föntről mutatják, ahonnan így fest:",
-    "SwipeToContinue": "Húzd el a folytatáshoz",
-    "hideIcon": "Koppints az ikon elrejtéséhez"
+    "SwipeToContinue": "Húzd el a folytatáshoz"
   },
   "TutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Ne aggódj, ha bizonytalan vagy abban, hogy mit is látsz egy négyzetben.",
     "youCanAlwaysTapTwice": "Ne feledd, hogy bármikor koppinthatsz duplán, ha nem vagy biztos a dolgodban",
     "everyImageViewedBy": "Minden képet sokan átnéznek, így nem érdemes azon aggódnod, hogy valami elkerülte a figyelmedet",
-    "holdZoom": "Ráközelíthetsz egy négyzetre, ha rákoppintasz és lenyomva tartod. Érintsd meg újra a nagy képernyőre való visszatéréshez."
+    "holdZoom": "Ha lenyomva tartasz egy képet, akkor megjelenik róla egy nagyítás. Koppints rá újra, és eltűnik."
   },
   "TutorialEndScreen": {
     "readyToStart": "Most már készen állsz a térképezésre!",
@@ -237,45 +209,5 @@
     "instructionsNo": "Nem: a négyzetben nincs épület",
     "instructionsNotSure": "Bizonytalan: nem tudod egyértelműen eldönteni, hogy épületet látsz-e",
     "instructionsBadImagery": "Rossz műholdkép: felhős vagy más probléma miatt nem látható a földfelszín"
-  },
-  "AccessibilityInstruction": {
-      "heading": "Kisegítő lehetőségek",
-      "descriptions": "A térképezési képernyőkön mostantól színes csempék és ikonok is vannak, hogy jobban látszódjék a jelentésük.",
-      "tickIconInfo": "Koppints rá egyszer, hogy a csempe zöldre változzék, és megjelenjék egy pipa ikon.",
-      "questionMarkIconInfo": "Koppints rá kétszer, hogy a csempe sárgává váljál, és megjelenjék egy kérdőjel.",
-      "badImageIconInfo": "Koppints rá háromszor, hogy a csempe pirosra változzék, és megjelenjék egy hibás légi felvétel ikon.",
-      "turnOnOff": "Be- és kikapcsolás:",
-      "turnOnOffDescription": "A funkciót a profilban a beállításoknál lehet be- és kikapcsolni."
-  },
-  "userGroupScreen": {
-    "join": "Csatlakozás",
-    "leave": "Elhagyás",
-    "leaderBoards": "Rangsorok",
-    "settings": "Beállítások",
-    "leaveGroup": "Kilépés a csoportból",
-    "joinGroup": "Csalakozás a csoporthoz"
-  },
-  "searchUserGroup": {
-    "joinGroup": "Csatlakozás a csoporthoz",
-    "searchUserGroup": "Felhasználói csoport keresése"
-  },
-  "changeUserName": {
-    "changeUserName": "Felhasználónév módosítása",
-    "currentUserName": "Jelenlegi felhasználónév",
-    "newUserName": "Új felhasználónév",
-    "confirmUserNameChange": "Felhasználónév-módosítás megerősítése"
-  },
-  "changePassword": {
-    "changePassword": "Jelszó modosítása",
-    "currentPassword": "Jelenlegi jelszó",
-    "newPassword": "Új jelszó",
-    "confirmPasswordChange": "Jelszómódosítése megerősítése"
-  },
-  "languageSelection": {
-    "languageSelection": "Nyelv"
-  },
-  "informationPage": {
-    "swipeToGetStarted": "Pöccints a kezdéshez",
-    "swipeToContinue": "Pöccints a folytatáshoz"
   }
 }
