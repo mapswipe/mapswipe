@@ -19,7 +19,8 @@ import Button from './common/Button';
 import Login from './views/Login';
 import AppLoadingScreen from './views/AppLoadingScreen';
 import BuildingFootprintScreen from './views/BuildingFootprint';
-import BFInstructionsScreen from './views/BuildingFootprint/InstructionsScreen';
+import ImageValidationScreen from './views/ImageValidation';
+import InstructionsScreen from './common/InstructionsScreen';
 import ChangeDetectionScreen from './views/ChangeDetection';
 import CDInstructionsScreen from './views/ChangeDetection/InstructionsScreen';
 import UserProfile from './views/UserProfile';
@@ -300,7 +301,8 @@ const LoginNavigator = createStackNavigator(
 const MainNavigator = createStackNavigator(
     {
         BuildingFootprintScreen,
-        BFInstructionsScreen,
+        ImageValidationScreen,
+        InstructionsScreen,
         ChangeDetectionScreen,
         CDInstructionsScreen,
         LanguageSelectionScreen,

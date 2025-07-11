@@ -659,6 +659,8 @@ function UserProfile(props: Props) {
         loadUserGroups();
     }, [refetchUserStats, loadUserGroups]);
 
+    const sanitizedProgress = Number.isNaN(progress) ? 0 : progress;
+
     return (
         <View style={styles.myProfileScreen}>
             <View style={styles.header}>
@@ -696,7 +698,7 @@ function UserProfile(props: Props) {
                             borderWidth={0}
                             color={COLOR_SUCCESS_GREEN}
                             height={10}
-                            progress={progress ?? 0}
+                            progress={sanitizedProgress ?? 0}
                             unfilledColor={COLOR_WHITE}
                             width={null}
                         />

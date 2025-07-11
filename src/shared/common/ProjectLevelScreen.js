@@ -123,31 +123,37 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
+    // eslint-disable-next-line react/no-deprecated
+    componentWillMount = () => {
+        const { group } = this.props;
+        this.handleGroupInit(group);
+    };
+
+    componentDidMount = () => {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-    }
+    };
 
     componentDidUpdate = prevProps => {
-        const { group, onStartGroup } = this.props;
-        if (prevProps.group !== group) {
-            if (isLoaded(group) && !isEmpty(group)) {
-                // eslint-disable-next-line react/no-did-update-set-state
-                this.setState({
-                    waitingForNextGroup: false,
-                });
-                // the component props are updated when group is received
-                // and then when tasks are received
-                onStartGroup({
-                    groupId: group.groupId,
-                    projectId: group.projectId,
-                    startTime: GLOBAL.DB.getTimestamp(),
-                });
-                // eslint-disable-next-line react/no-did-update-set-state
-                this.setState({
-                    groupCompleted: false,
-                });
-                if (this.progress) this.progress.updateProgress(0);
+        const { group } = this.props;
+
+        function isNotDefined(foo) {
+            return foo === undefined || foo === null;
+        }
+
+        function groupEq(foo, bar) {
+            if (isNotDefined(foo) && isNotDefined(bar)) {
+                return true;
             }
+            if (isNotDefined(foo) || isNotDefined(bar)) {
+                return false;
+            }
+            return (
+                foo.groupId === bar.groupId && foo.projectId === bar.projectId
+            );
+        }
+
+        if (!groupEq(prevProps.group, group)) {
+            this.handleGroupInit(group);
         }
     };
 
@@ -158,9 +164,33 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         );
     }
 
+    handleGroupInit = group => {
+        if (isLoaded(group) && !isEmpty(group)) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                waitingForNextGroup: false,
+            });
+            const { onStartGroup } = this.props;
+            // the component props are updated when group is received
+            // and then when tasks are received
+            onStartGroup({
+                groupId: group.groupId,
+                projectId: group.projectId,
+                startTime: GLOBAL.DB.getTimestamp(),
+            });
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                groupCompleted: false,
+            });
+            if (this.progress) this.progress.updateProgress(0);
+        }
+    };
+
     handleBackPress = () => {
-        // $FlowFixMe
-        this.backConfirmationModal.open();
+        if (this.backConfirmationModal) {
+            // $FlowFixMe
+            this.backConfirmationModal.open();
+        }
         return true; // prevents the navigator from jumping back
     };
 
@@ -192,8 +222,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     onInfoPress = () => {
-        const { navigation, customOptions } = this.props;
-        navigation.push('BFInstructionsScreen', { customOptions });
+        const { navigation, customOptions, headerText } = this.props;
+        navigation.push('InstructionsScreen', {
+            customOptions,
+            headerText,
+        });
     };
 
     completeGroup = () => {
@@ -227,7 +260,12 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     toNextGroup = () => {
         const { navigation, screenName } = this.props;
-        navigation.navigate(screenName, { project: this.project });
+        this.returnToView();
+        navigation.push(screenName, {
+            project: this.project,
+            tutorial: false,
+            refresh: Date.now(),
+        });
         this.setState({ groupCompleted: false, waitingForNextGroup: true });
     };
 
@@ -318,9 +356,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
             customOptions,
         } = this.props;
         const { groupCompleted, waitingForNextGroup } = this.state;
+
         if (!group || waitingForNextGroup) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading groups" />;
         }
+
         if (groupCompleted) {
             return (
                 <LoadMoreCard

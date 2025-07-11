@@ -6,6 +6,7 @@ export const LEGACY_TILES: number = 1;
 export const BUILDING_FOOTPRINTS: number = 2;
 export const CHANGE_DETECTION: number = 3;
 export const COMPLETENESS_PROJECT: number = 4;
+export const IMAGE_VALIDATION: number = 10;
 
 export const MIN_USERNAME_LENGTH = 4;
 

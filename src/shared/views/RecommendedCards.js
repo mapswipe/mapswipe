@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -333,7 +332,7 @@ class _RecommendedCards extends React.Component<Props> {
     render() {
         const { navigation, projects } = this.props;
         if (!isLoaded(projects)) {
-            return <LoadingIcon key="icon" />;
+            return <LoadingIcon key="icon" label="Loading projects" />;
         }
         if (isLoaded(projects) && isEmpty(projects)) {
             return (
