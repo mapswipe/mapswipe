@@ -1,8 +1,8 @@
 {
     "2.5.0": {
         "changes": [
-            "Added a new project type, Image Validation, which is used to find objects via images",
-            "Updates source english texts for new translations"
+            "Added a new project type 'Validate Image'",
+            "Fixed a bug where 'Continue Mapping' crashed the app"
         ]
     },
     "2.3.0": {
