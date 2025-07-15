@@ -25,6 +25,8 @@ interface Props {
     onCurrentTaskIndexChange: (newIndex: number) => void;
     currentTaskIndex: number;
     totalSwipedTasks: number;
+    onImageLoadStart: (item: number) => void;
+    onImageLoadEnd: (item: number) => void;
 }
 
 export default function Tasks(props: Props): React.Node {
@@ -33,6 +35,8 @@ export default function Tasks(props: Props): React.Node {
         currentTaskIndex,
         totalSwipedTasks,
         onCurrentTaskIndexChange,
+        onImageLoadStart,
+        onImageLoadEnd,
     } = props;
 
     const flatListRef = React.useRef<RefType>(null);
@@ -48,7 +52,7 @@ export default function Tasks(props: Props): React.Node {
                     index: currentTaskIndex,
                     animated: true,
                 });
-            }, 50);
+            }, 0);
         }
     }, [currentTaskIndex, totalSwipedTasks]);
 
@@ -67,7 +71,14 @@ export default function Tasks(props: Props): React.Node {
             ref={flatListRef}
             data={limitedTasks}
             keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => <ImageWrapper item={item} />}
+            renderItem={({ item, index }) => (
+                <ImageWrapper
+                    item={item}
+                    itemIndex={index}
+                    onImageLoadStart={onImageLoadStart}
+                    onImageLoadEnd={onImageLoadEnd}
+                />
+            )}
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
             horizontal

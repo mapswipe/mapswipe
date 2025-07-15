@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+    View,
+    Image,
+    ActivityIndicator,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+} from 'react-native';
 
 const GLOBAL = require('../../Globals');
 
@@ -20,16 +27,29 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 1,
     },
+    retryContainer: {
+        alignItems: 'center',
+    },
+    retryText: {
+        color: 'white',
+        fontSize: 16,
+        marginTop: 10,
+    },
 });
 
 interface ImageWrapperProps {
     item: {
         url: string,
     };
+    itemIndex: number;
+    onImageLoadStart: (itemKey: number) => void;
+    onImageLoadEnd: (itemKey: number) => void;
 }
 
 interface ImageWrapperState {
     loading: boolean;
+    error: boolean;
+    retryKey: number;
 }
 
 class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
@@ -37,16 +57,43 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
         super(props);
         this.state = {
             loading: true,
+            error: false,
+            retryKey: 0,
         };
     }
 
+    componentDidMount() {
+        const { onImageLoadStart, itemIndex } = this.props;
+        onImageLoadStart(itemIndex);
+    }
+
+    handleLoadStart = () => {
+        const { onImageLoadStart, itemIndex } = this.props;
+        onImageLoadStart(itemIndex);
+        this.setState({ loading: true });
+    };
+
+    handleError = () => {
+        this.setState({ loading: false, error: true });
+    };
+
+    handleRetry = () => {
+        this.setState(prevState => ({
+            loading: true,
+            error: false,
+            retryKey: prevState.retryKey + 1,
+        }));
+    };
+
     handleLoadEnd = () => {
+        const { onImageLoadEnd, itemIndex } = this.props;
+        onImageLoadEnd(itemIndex);
         this.setState({ loading: false });
     };
 
     render() {
         const { item } = this.props;
-        const { loading } = this.state;
+        const { loading, error, retryKey } = this.state;
 
         return (
             <View style={styles.container}>
@@ -57,12 +104,26 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
                         style={styles.loader}
                     />
                 )}
-                <Image
-                    source={{ uri: item.url }}
-                    style={styles.image}
-                    onLoadEnd={this.handleLoadEnd}
-                    fadeDuration={0}
-                />
+                {!error ? (
+                    <Image
+                        key={retryKey}
+                        source={{ uri: item.url }}
+                        style={styles.image}
+                        onLoadStart={this.handleLoadStart}
+                        onLoadEnd={this.handleLoadEnd}
+                        onError={this.handleError}
+                        fadeDuration={0}
+                    />
+                ) : (
+                    <View style={styles.retryContainer}>
+                        <Text style={styles.retryText}>
+                            Failed to load image.
+                        </Text>
+                        <TouchableOpacity onPress={this.handleRetry}>
+                            <Text style={styles.retryText}>Tap to retry</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         );
     }
