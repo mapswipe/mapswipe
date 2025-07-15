@@ -86,11 +86,11 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
         } = this.props;
 
         if (!task) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading tasks" />;
         }
 
         if (task === undefined) {
-            return <LoadingIcon />;
+            return <LoadingIcon label="Loading tasks" />;
         }
 
         return (

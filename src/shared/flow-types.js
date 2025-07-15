@@ -164,6 +164,14 @@ export type BuildingFootprintTaskType = {
     taskId: string,
 };
 
+// used only by projects of type IMAGE_VALIDATION (type 10)
+export type ImageValidationTaskType = {
+    taskId: string,
+    fileName: string,
+    referenceAnswer: ?number,
+    url: string,
+};
+
 // used only by projects of type CHANGE_DETECTION
 export type ChangeDetectionTaskType = {
     category: ?string,
@@ -202,6 +210,8 @@ export type BuildingFootprintGroupType =
     GenericGroupType<BuildingFootprintTaskType>;
 export type ChangeDetectionGroupType =
     GenericGroupType<ChangeDetectionTaskType>;
+export type ImageValidationGroupType =
+    GenericGroupType<ImageValidationTaskType>;
 
 export type GroupType =
     | BuiltAreaGroupType

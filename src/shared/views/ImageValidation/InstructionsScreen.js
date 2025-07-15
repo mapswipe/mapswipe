@@ -181,6 +181,6 @@ class BFInstructionScreen extends React.Component<Props> {
 }
 
 // $FlowFixMe
-export default withTranslation('BuildingFootprintTutorialIntroScreen')(
+export default withTranslation('ImageValidationTutorialIntroScreen')(
     BFInstructionScreen,
 );

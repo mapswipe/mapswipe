@@ -3,6 +3,7 @@ import {
     CANCEL_GROUP,
     COMMIT_GROUP_SUCCESS,
     START_GROUP,
+    SUBMIT_IMAGE_VALIDATION,
     SUBMIT_BUILDING_FOOTPRINT,
     SUBMIT_CHANGE,
     TOGGLE_MAP_TILE,
@@ -17,6 +18,7 @@ export default function results(
     action: Action,
 ): ResultMapType | { ... } | { [string]: ResultType } {
     switch (action.type) {
+        case SUBMIT_IMAGE_VALIDATION:
         case SUBMIT_BUILDING_FOOTPRINT:
         case SUBMIT_CHANGE:
         case TOGGLE_MAP_TILE: {

@@ -17,13 +17,13 @@ import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
 import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
-import FootprintDisplay from './FootprintDisplay';
 import LoadingIcon from '../LoadingIcon';
 import TutorialBox, { toCamelCase } from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
 import TutorialIntroScreen from './TutorialIntro';
-import BuildingFootprintTutorialOutro from './TutorialOutro';
+import Tasks from './IndividualTask';
+import TutorialOutro from './TutorialOutro';
 import {
     tutorialModes,
     COLOR_WHITE,
@@ -38,8 +38,8 @@ import GLOBAL from '../../Globals';
 import * as SvgIcons from '../../common/SvgIcons';
 
 import type {
-    BuildingFootprintGroupType,
-    BuildingFootprintTaskType,
+    ImageValidationGroupType,
+    ImageValidationTaskType,
     NavigationProp,
     ResultMapType,
     SingleImageryProjectType,
@@ -78,6 +78,9 @@ const styles = StyleSheet.create({
         width: GLOBAL.SCREEN_WIDTH,
     },
     listItem: {
+        position: 'absolute',
+        bottom: 0,
+        alignSelf: 'center',
         flexDirection: 'column',
         justifyContent: 'space-evenly',
         width: '90%',
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
 type Props = {
     t: TranslationFunction,
     completeGroup: () => void,
-    group: BuildingFootprintGroupType,
+    group: ImageValidationGroupType,
     navigation: NavigationProp,
     project: SingleImageryProjectType,
     results: ResultMapType,
@@ -164,12 +167,15 @@ type Props = {
     customOptions: Option[],
 };
 
+type ImagesLoading = { [number]: boolean };
+
 type State = {
     // the index of the current task in the task array
     currentTaskIndex: number,
     showSubOptions: boolean,
     subOptions: Array<SubOption>,
     subOptionHeading: string,
+    imagesLoading: ImagesLoading,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -188,7 +194,7 @@ class _Validator extends React.Component<Props, State> {
     // parsed into an array. for this project type, we do not load the tasks
     // directly, instead we do the above process and then work with the result
     // which is stored in expandedTasks
-    expandedTasks: Array<BuildingFootprintTaskType>;
+    expandedTasks: Array<ImageValidationTaskType>;
 
     // a reference to the flatlist, only used in tutorial mode
     flatlist: ?FlatList<React.Node>;
@@ -209,6 +215,7 @@ class _Validator extends React.Component<Props, State> {
             showSubOptions: false,
             subOptionHeading: '',
             subOptions: [],
+            imagesLoading: {},
         };
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
@@ -225,26 +232,25 @@ class _Validator extends React.Component<Props, State> {
         // reset the taskId generator, as it might have been initialized on another project group
         const { group } = this.props;
         if (prevProps.group.tasks !== group.tasks) {
-            this.setupTasksList(group.tasks);
+            if (Array.isArray(group.tasks)) {
+                this.setupTasksList(group.tasks);
+            } else {
+                const compressedTasks = base64.decode(group.tasks);
+                const expandedTasks = pako.inflate(compressedTasks, {
+                    to: 'string',
+                });
+                this.expandedTasks = JSON.parse(expandedTasks);
+            }
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentTaskIndex: 0 });
         }
     };
 
-    setupTasksList = (tasks: Array<BuildingFootprintTaskType>) => {
+    setupTasksList = (tasks: Array<ImageValidationTaskType>) => {
         if (isLoaded(tasks) && !isEmpty(tasks)) {
-            // TODO: is it possible that tasks are only partially loaded
-            // when we get here? if so, we should bail out politely in case
-            // of error
-
-            // decode base64 and gunzip tasks
-            const compressedTasks = base64.decode(tasks);
-            const expandedTasks = pako.inflate(compressedTasks, {
-                to: 'string',
-            });
-            this.expandedTasks = JSON.parse(expandedTasks);
+            this.expandedTasks = tasks;
+            this.setState({ imagesLoading: {} });
         }
-        return ''; // to keep flow and eslint happy
     };
 
     getCurrentScreen = () => {
@@ -259,6 +265,7 @@ class _Validator extends React.Component<Props, State> {
 
     handleSelectOption = option => {
         const { tutorial } = this.props;
+
         if (option.subOptions) {
             this.setState(prevState => ({
                 ...prevState,
@@ -271,7 +278,7 @@ class _Validator extends React.Component<Props, State> {
         } else {
             const { currentTaskIndex } = this.state;
             const currentTask = this.expandedTasks[currentTaskIndex];
-            const referenceAnswer = currentTask?.properties?.reference;
+            const referenceAnswer = currentTask?.referenceAnswer;
             if (option.value === referenceAnswer) {
                 this.nextTask(option.value);
             } else {
@@ -298,6 +305,26 @@ class _Validator extends React.Component<Props, State> {
             }
         }
         return true;
+    };
+
+    handleImageLoadStart = itemIndex => {
+        this.setState(oldState => ({
+            ...oldState,
+            imagesLoading: {
+                ...oldState.imagesLoading,
+                [itemIndex]: true,
+            },
+        }));
+    };
+
+    handleImageLoadEnd = itemIndex => {
+        this.setState(oldState => ({
+            ...oldState,
+            imagesLoading: {
+                ...oldState.imagesLoading,
+                [itemIndex]: false,
+            },
+        }));
     };
 
     handleClose = () => {
@@ -359,17 +386,6 @@ class _Validator extends React.Component<Props, State> {
         return currentTaskIndex >= this.tasksDone;
     };
 
-    canSwipe: () => { canSwipeBack: boolean, canSwipeForward: boolean } =
-        () => {
-            const { currentTaskIndex } = this.state;
-            return {
-                canSwipeBack: currentTaskIndex > 0,
-                canSwipeForward:
-                    this.tasksDone >= 0 &&
-                    currentTaskIndex < this.tasksDone + 1,
-            };
-        };
-
     onMomentumScrollEnd = (event: Object) => {
         this.currentScreen = Math.round(
             event.nativeEvent.contentOffset.x / GLOBAL.SCREEN_WIDTH -
@@ -397,9 +413,12 @@ class _Validator extends React.Component<Props, State> {
         return true;
     };
 
-    renderContent = selectedOption => {
+    renderOptions = selectedOption => {
         const { showSubOptions, subOptions, subOptionHeading } = this.state;
         const { customOptions } = this.props;
+        const { currentTaskIndex, imagesLoading } = this.state;
+
+        const disableOptions = !!imagesLoading[currentTaskIndex];
 
         const isSelected = item => {
             if (isDefined(selectedOption)) {
@@ -437,6 +456,7 @@ class _Validator extends React.Component<Props, State> {
                                 style={styles.itemContainer}
                                 key={item.value}
                                 underlayColor="#f0f0f0"
+                                disabled={disableOptions}
                                 onPress={() =>
                                     this.handleAdditionalOptionClick(item.value)
                                 }
@@ -477,6 +497,7 @@ class _Validator extends React.Component<Props, State> {
                             }
                             label={item.title}
                             onPress={() => this.handleSelectOption(item)}
+                            disabled={disableOptions}
                             radius={buttonHeight}
                             selected={isSelected(item)}
                         />
@@ -488,22 +509,14 @@ class _Validator extends React.Component<Props, State> {
 
     /* eslint-disable global-require */
     renderValidator = () => {
-        const { group, project, results, screens, tutorial } = this.props;
+        const { group, results, screens, tutorial } = this.props;
         const { currentTaskIndex } = this.state;
         const currentTask = this.expandedTasks[currentTaskIndex];
-        // if tasks have a center attribute, we know they're grouped by 9
-        // so we look a bit further ahead to prefetch imagery
-        // FIXME: temporarily force it to 9, no matter what
-        const prefetchOffset = currentTask.center ? 9 : 9;
-        const prefetchTask =
-            this.expandedTasks[currentTaskIndex + prefetchOffset];
+
         if (currentTask === undefined) {
             return <LoadingIcon label="Loading tasks" />;
         }
-        let selectedResult;
-        if (results) {
-            selectedResult = results[currentTask.taskId];
-        }
+        const selectedResult = results?.[currentTask?.taskId];
 
         let tutorialContent: ?TutorialContent;
         const tutorialMode = tutorialModes.instructions;
@@ -523,19 +536,29 @@ class _Validator extends React.Component<Props, State> {
             }
         }
 
+        // NOTE: -1 is done because startTime is added in results by default
+        let totalSwipedTasks = 0;
+        if (results) {
+            totalSwipedTasks = Object.keys(results).length;
+            if ('startTime' in results) {
+                totalSwipedTasks -= 1;
+            }
+        }
+
         return (
             <View style={styles.container}>
-                <FootprintDisplay
-                    canSwipe={this.canSwipe}
+                <Tasks
+                    tasks={this.expandedTasks}
+                    totalSwipedTasks={totalSwipedTasks}
+                    selectedResult={selectedResult}
+                    onCurrentTaskIndexChange={newIndex => {
+                        this.setState({ currentTaskIndex: newIndex });
+                    }}
                     currentTaskIndex={currentTaskIndex}
-                    nextTask={this.nextTask}
-                    numberOfTasks={group.numberOfTasks}
-                    prefetchTask={prefetchTask}
-                    previousTask={this.previousTask}
-                    project={project}
-                    task={currentTask}
+                    onImageLoadStart={this.handleImageLoadStart}
+                    onImageLoadEnd={this.handleImageLoadEnd}
                 />
-                {this.renderContent(selectedResult)}
+                {this.renderOptions(selectedResult)}
                 {tutorial &&
                     tutorialContent &&
                     this.getCurrentScreen() >= 0 && (
@@ -551,8 +574,15 @@ class _Validator extends React.Component<Props, State> {
     };
 
     render = () => {
-        const { group, navigation, tutorial, informationPages, customOptions } =
-            this.props;
+        const {
+            group,
+            navigation,
+            tutorial,
+            informationPages,
+            customOptions,
+            project,
+        } = this.props;
+
         const { projectId } = group;
         if (!this.expandedTasks) {
             return <LoadingIcon label="Loading tasks" />;
@@ -572,7 +602,7 @@ class _Validator extends React.Component<Props, State> {
                             <TutorialEndScreen
                                 group={group}
                                 navigation={navigation}
-                                OutroScreen={BuildingFootprintTutorialOutro}
+                                OutroScreen={TutorialOutro}
                                 outroScreenProps={{
                                     firstOption: customOptions?.[0],
                                 }}
@@ -581,6 +611,7 @@ class _Validator extends React.Component<Props, State> {
                         }
                         ListHeaderComponent={
                             <TutorialIntroScreen
+                                title={project.lookFor}
                                 tutorial={tutorial}
                                 informationPages={informationPages}
                                 customOptions={customOptions}
@@ -630,35 +661,23 @@ const mapStateToProps = (state, ownProps) => ({
 export default (compose(
     withTranslation('CDValidator'),
     firebaseConnect(props => {
-        if (props.group) {
-            const { groupId, projectId } = props.group;
-            const prefix = props.tutorial ? 'tutorial' : 'projects';
-            if (groupId !== undefined) {
-                const r = props.results;
-                // also wait for the startTime timestamp to be set (by START_GROUP)
-                // if we don't wait, when opening a project for the second time
-                // group is already set from before, so the tasks listener is often
-                // set before the groups one, which results in tasks being received
-                // before the group. The groups then remove the tasks list from
-                // redux, and we end up not being able to show anything.
-                // This is a bit hackish, and may not work in all situations, like
-                // on slow networks.
-                if (
-                    r[projectId] &&
-                    r[projectId][groupId] &&
-                    r[projectId][groupId].startTime
-                ) {
-                    return [
-                        {
-                            type: 'once',
-                            path: `v2/tasks/${projectId}/${groupId}`,
-                            storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
-                        },
-                    ];
-                }
-            }
+        if (!props.group) {
+            return [];
         }
-        return [];
+
+        const { groupId, projectId } = props.group;
+        const prefix = props.tutorial ? 'tutorial' : 'projects';
+        if (groupId === undefined) {
+            return [];
+        }
+
+        return [
+            {
+                type: 'once',
+                path: `v2/tasks/${projectId}/${groupId}`,
+                storeAs: `${prefix}/${projectId}/groups/${groupId}/tasks`,
+            },
+        ];
     }),
     connect(mapStateToProps),
 )(_Validator): any);

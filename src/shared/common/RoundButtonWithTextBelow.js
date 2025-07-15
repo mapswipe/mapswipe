@@ -33,11 +33,14 @@ type Props = {
     onPress: () => boolean,
     radius: number,
     selected: boolean,
+    disabled?: boolean,
 };
 
 /* eslint-disable global-require */
 function RoundButtonWithTextBelow(props: Props) {
-    const { color, iconXmlString, label, onPress, radius, selected } = props;
+    const { color, iconXmlString, label, onPress, radius, selected, disabled } =
+        props;
+
     return (
         <View
             style={{
@@ -62,6 +65,7 @@ function RoundButtonWithTextBelow(props: Props) {
                     width: radius,
                 }}
                 textStyle={styles.whiteBold}
+                isDisabled={disabled}
             >
                 <View style={styles.icon}>
                     <SvgXml xml={iconXmlString} width="100%" height="100%" />
