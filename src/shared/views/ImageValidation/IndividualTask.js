@@ -36,34 +36,26 @@ export default function Tasks(props: Props): React.Node {
     } = props;
 
     const flatListRef = React.useRef<RefType>(null);
-    const currentIndexRef = React.useRef(currentTaskIndex);
 
     const limitedTasks = [...(tasks ?? [])].slice(0, totalSwipedTasks + 1);
 
     // FIXME: Not sure if this is correct or even needed?
     // Scroll to selectedIndex when it changes from outside
     React.useEffect(() => {
-        if (
-            currentIndexRef.current !== currentTaskIndex &&
-            totalSwipedTasks + 1 > currentTaskIndex
-        ) {
-            flatListRef.current?.scrollToIndex({
-                index: currentTaskIndex,
-                animated: true,
-            });
-            currentIndexRef.current = currentTaskIndex;
+        if (totalSwipedTasks + 1 > currentTaskIndex) {
+            setTimeout(() => {
+                flatListRef.current?.scrollToIndex({
+                    index: currentTaskIndex,
+                    animated: true,
+                });
+            }, 50);
         }
     }, [currentTaskIndex, totalSwipedTasks]);
 
     const onViewableItemsChanged = React.useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
             const { index } = viewableItems[0];
-            if (
-                index !== currentIndexRef.current &&
-                index !== undefined &&
-                index !== null
-            ) {
-                currentIndexRef.current = index;
+            if (index !== undefined && index !== null) {
                 onCurrentTaskIndexChange(index);
             }
         }
