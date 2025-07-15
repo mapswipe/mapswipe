@@ -25,6 +25,8 @@ interface Props {
     onCurrentTaskIndexChange: (newIndex: number) => void;
     currentTaskIndex: number;
     totalSwipedTasks: number;
+    onImageLoadStart: (item: number) => void;
+    onImageLoadEnd: (item: number) => void;
 }
 
 export default function Tasks(props: Props): React.Node {
@@ -33,37 +35,34 @@ export default function Tasks(props: Props): React.Node {
         currentTaskIndex,
         totalSwipedTasks,
         onCurrentTaskIndexChange,
+        onImageLoadStart,
+        onImageLoadEnd,
     } = props;
 
     const flatListRef = React.useRef<RefType>(null);
-    const currentIndexRef = React.useRef(currentTaskIndex);
 
     const limitedTasks = [...(tasks ?? [])].slice(0, totalSwipedTasks + 1);
 
     // FIXME: Not sure if this is correct or even needed?
     // Scroll to selectedIndex when it changes from outside
     React.useEffect(() => {
-        if (
-            currentIndexRef.current !== currentTaskIndex &&
-            totalSwipedTasks + 1 > currentTaskIndex
-        ) {
-            flatListRef.current?.scrollToIndex({
-                index: currentTaskIndex,
-                animated: true,
-            });
-            currentIndexRef.current = currentTaskIndex;
+        if (totalSwipedTasks + 1 > currentTaskIndex) {
+            // NOTE: Using setTimeout to fix issue where scroll
+            // wasn't working probably due to tasks and currentTaskIndex
+            // coming in during different times
+            setTimeout(() => {
+                flatListRef.current?.scrollToIndex({
+                    index: currentTaskIndex,
+                    animated: true,
+                });
+            }, 0);
         }
     }, [currentTaskIndex, totalSwipedTasks]);
 
     const onViewableItemsChanged = React.useRef(({ viewableItems }) => {
         if (viewableItems.length > 0) {
             const { index } = viewableItems[0];
-            if (
-                index !== currentIndexRef.current &&
-                index !== undefined &&
-                index !== null
-            ) {
-                currentIndexRef.current = index;
+            if (index !== undefined && index !== null) {
                 onCurrentTaskIndexChange(index);
             }
         }
@@ -75,7 +74,14 @@ export default function Tasks(props: Props): React.Node {
             ref={flatListRef}
             data={limitedTasks}
             keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => <ImageWrapper item={item} />}
+            renderItem={({ item, index }) => (
+                <ImageWrapper
+                    item={item}
+                    itemIndex={index}
+                    onImageLoadStart={onImageLoadStart}
+                    onImageLoadEnd={onImageLoadEnd}
+                />
+            )}
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
             horizontal

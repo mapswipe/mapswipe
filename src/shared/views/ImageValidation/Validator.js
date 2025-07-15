@@ -167,12 +167,15 @@ type Props = {
     customOptions: Option[],
 };
 
+type ImagesLoading = { [number]: boolean };
+
 type State = {
     // the index of the current task in the task array
     currentTaskIndex: number,
     showSubOptions: boolean,
     subOptions: Array<SubOption>,
     subOptionHeading: string,
+    imagesLoading: ImagesLoading,
 };
 
 // see https://zhenyong.github.io/flowtype/blog/2015/11/09/Generators.html
@@ -212,6 +215,7 @@ class _Validator extends React.Component<Props, State> {
             showSubOptions: false,
             subOptionHeading: '',
             subOptions: [],
+            imagesLoading: {},
         };
         // this remains false until the tutorial tasks are completed
         this.scrollEnabled = false;
@@ -245,6 +249,7 @@ class _Validator extends React.Component<Props, State> {
     setupTasksList = (tasks: Array<ImageValidationTaskType>) => {
         if (isLoaded(tasks) && !isEmpty(tasks)) {
             this.expandedTasks = tasks;
+            this.setState({ imagesLoading: {} });
         }
     };
 
@@ -300,6 +305,26 @@ class _Validator extends React.Component<Props, State> {
             }
         }
         return true;
+    };
+
+    handleImageLoadStart = itemIndex => {
+        this.setState(oldState => ({
+            ...oldState,
+            imagesLoading: {
+                ...oldState.imagesLoading,
+                [itemIndex]: true,
+            },
+        }));
+    };
+
+    handleImageLoadEnd = itemIndex => {
+        this.setState(oldState => ({
+            ...oldState,
+            imagesLoading: {
+                ...oldState.imagesLoading,
+                [itemIndex]: false,
+            },
+        }));
     };
 
     handleClose = () => {
@@ -391,6 +416,9 @@ class _Validator extends React.Component<Props, State> {
     renderOptions = selectedOption => {
         const { showSubOptions, subOptions, subOptionHeading } = this.state;
         const { customOptions } = this.props;
+        const { currentTaskIndex, imagesLoading } = this.state;
+
+        const disableOptions = !!imagesLoading[currentTaskIndex];
 
         const isSelected = item => {
             if (isDefined(selectedOption)) {
@@ -428,6 +456,7 @@ class _Validator extends React.Component<Props, State> {
                                 style={styles.itemContainer}
                                 key={item.value}
                                 underlayColor="#f0f0f0"
+                                disabled={disableOptions}
                                 onPress={() =>
                                     this.handleAdditionalOptionClick(item.value)
                                 }
@@ -468,6 +497,7 @@ class _Validator extends React.Component<Props, State> {
                             }
                             label={item.title}
                             onPress={() => this.handleSelectOption(item)}
+                            disabled={disableOptions}
                             radius={buttonHeight}
                             selected={isSelected(item)}
                         />
@@ -525,6 +555,8 @@ class _Validator extends React.Component<Props, State> {
                         this.setState({ currentTaskIndex: newIndex });
                     }}
                     currentTaskIndex={currentTaskIndex}
+                    onImageLoadStart={this.handleImageLoadStart}
+                    onImageLoadEnd={this.handleImageLoadEnd}
                 />
                 {this.renderOptions(selectedResult)}
                 {tutorial &&
