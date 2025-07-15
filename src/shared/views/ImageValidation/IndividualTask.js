@@ -47,6 +47,9 @@ export default function Tasks(props: Props): React.Node {
     // Scroll to selectedIndex when it changes from outside
     React.useEffect(() => {
         if (totalSwipedTasks + 1 > currentTaskIndex) {
+            // NOTE: Using setTimeout to fix issue where scroll
+            // wasn't working probably due to tasks and currentTaskIndex
+            // coming in during different times
             setTimeout(() => {
                 flatListRef.current?.scrollToIndex({
                     index: currentTaskIndex,
