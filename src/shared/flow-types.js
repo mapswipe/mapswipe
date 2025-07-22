@@ -65,6 +65,14 @@ export type TileServerType = {
     wmtsLayerName: ?string,
 };
 
+export type CustomOption = {
+    description: string,
+    icon: string,
+    iconColor: string,
+    title: string,
+    value: number,
+};
+
 // TODO: separate out a type for tutorial projects, which include a few more attributes
 export type SingleImageryProjectType = {
     categories: ?CategoriesType,
@@ -88,6 +96,29 @@ export type SingleImageryProjectType = {
     tileServerB: ?TileServerType,
     tutorialId: string,
     zoomLevel: number,
+};
+
+export type ImageValidationProjectType = {
+    contributorCount: number,
+    created: number,
+    createdBy: string,
+    customOptions: ?Array<CustomOption>,
+    image: string,
+    isFeatured: boolean,
+    lookFor: string,
+    maxTasksPerUser: ?number,
+    name: string,
+    numberOfGroups: number,
+    progress: number,
+    projectDetails: string,
+    projectId: string,
+    projectRegion: ?string,
+    projectTopic: ?string,
+    projectType: 10,
+    requestingOrganization: string,
+    resultCount: number,
+    status: string,
+    tutorialId: number,
 };
 
 export type BuildingFootprintProjectType = {
@@ -131,6 +162,7 @@ export type ChangeDetectionProjectType = {
 export type ProjectType =
     | SingleImageryProjectType
     | BuildingFootprintProjectType
+    | ImageValidationProjectType
     | ChangeDetectionProjectType;
 
 export type ProjectMapType = { [project_id: string]: ProjectType };

@@ -8,14 +8,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers/index';
 
-/*
 export const loggerMiddleware = store => next => action => {
     console.debug('action', action);
     const result = next(action);
     console.debug('state', store.getState());
     return result;
 };
-*/
 
 export const reactreduxFirebaseConfig = {
     attachAuthIsReady: true,
@@ -118,7 +116,7 @@ export const createNewStore = (initialState?: {} = {}): any =>
                 mergeGroupsMiddleware,
                 mergeTutorialMiddleware,
                 thunkMiddleware.withExtraArgument(getFirebase),
-                // loggerMiddleware,
+                loggerMiddleware,
             ),
         ),
     );
