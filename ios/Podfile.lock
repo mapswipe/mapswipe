@@ -1010,12 +1010,8 @@ PODS:
     - React
   - react-native-pager-view (5.4.25):
     - React-Core
-  - react-native-safe-area-context (4.5.0):
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
+  - react-native-safe-area-context (4.14.1):
     - React-Core
-    - ReactCommon/turbomodule/core
   - react-native-webview (11.26.1):
     - React-Core
   - React-nativeconfig (0.73.0)
@@ -1216,14 +1212,14 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - React-RCTImage
-  - RNSentry (5.35.0):
+  - RNSentry (6.20.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-    - Sentry/HybridSDK (= 8.37.0)
+    - Sentry/HybridSDK (= 8.53.2)
   - RNSVG (12.5.1):
     - React-Core
-  - Sentry/HybridSDK (8.37.0)
+  - Sentry/HybridSDK (8.53.2)
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
 
@@ -1489,7 +1485,7 @@ SPEC CHECKSUMS:
   leveldb-library: cc8b8f8e013647a295ad3f8cd2ddf49a6f19be19
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  RCT-Folly: 7169b2b1c44399c76a47b5deaaba715eeeb476c0
+  RCT-Folly: cd21f1661364f975ae76b3308167ad66b09f53f5
   RCTRequired: 5e3631b27c08716986980ef23eed8abdee1cdcaf
   RCTTypeSafety: 02a64828b0b428eb4f63de1397d44fb2d0747e85
   React: df5dbfbd10c5bd8d4bcb49bd9830551533e11c7e
@@ -1512,7 +1508,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 10e5ac151ebd40ead9843e0fdda0e697c895de69
   react-native-netinfo: e8b6d836ff590df59c1fc9f17d236fc7788802ee
   react-native-pager-view: 873aef831fb4fe6e1a2e1ba7a79857e240dea380
-  react-native-safe-area-context: 863c9695a24b9e6bb6c412f1c8ddb4dfc3ae3862
+  react-native-safe-area-context: 758e894ca5a9bd1868d2a9cfbca7326a2b6bf9dc
   react-native-webview: ec195db71ebf55705d7b46a7da5f1b1746bb7efd
   React-nativeconfig: ec27fca81345a852feddbae7efa9231b423a1a71
   React-NativeModulesApple: fee9b4432044b327ff29cd5b15ba0ea763fb2fef
@@ -1546,9 +1542,9 @@ SPEC CHECKSUMS:
   RNFBStorage: c6b9189915f534bbfa3be8ad46f0a8a554083143
   RNGestureHandler: 6572a5f44759900730562b418da289c373de8d06
   RNScreens: b8222223806b679f25140ca6aeb55fb945d23404
-  RNSentry: 07f5f999a5c23e6532d11d48e3c968f73427b35b
+  RNSentry: 65173e1c18186c6c4ca0ea5b30b2b9b8de64f769
   RNSVG: d7cb8bd34550cf4c4fc7edd7ac627905e2b71f3f
-  Sentry: ee060c09b2f7ec1240e95c766ab44c04c7bdb052
+  Sentry: 59993bffde4a1ac297ba6d268dc4bbce068d7c1b
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 44003f970aa541b79dfdd59cf236fda41bd5890f
 

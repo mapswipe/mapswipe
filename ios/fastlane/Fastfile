@@ -21,12 +21,21 @@ platform :ios do
   desc "Build the app and run the tests defined for the mapswipe scheme. Used in github actions to trigger the CI step."
   lane :test do
     match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
-    scan(scheme: "mapswipe",
-         configuration: "Debug",
-         clean: true,
-         derived_data_path: "build",
-         build_for_testing: true,
-         devices:['iPhone X'])
+    # Get the simulator ID dynamically
+    simulator_id = sh("xcrun simctl list devices available | grep 'iPhone 16 (' | head -n 1 | awk -F '[()]' '{print $2}'").strip
+
+    unless simulator_id && !simulator_id.empty?
+      UI.user_error!("No iPhone 16 simulator found")
+    end
+
+    scan(
+      scheme: "mapswipe",
+      workspace: "./mapswipe.xcworkspace",
+      clean: true,
+      destination: "id=#{simulator_id}",  # use the dynamic ID
+      output_directory: "./fastlane/test_output",
+      output_types: "html"               # make sure this is a String, not Array
+    )
   end
 
   desc "Build production version and upload to appstore. This step is executed when a tag on main is created"
