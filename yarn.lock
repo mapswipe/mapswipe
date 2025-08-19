@@ -8606,11 +8606,6 @@ react-native-linear-gradient@^2.5.6:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.6.2.tgz#56598a76832724b2afa7889747635b5c80948f38"
   integrity sha512-Z8Xxvupsex+9BBFoSYS87bilNPWcRfRsGC0cpJk72Nxb5p2nEkGSBv73xZbEHnW2mUFvP+huYxrVvjZkr/gRjQ==
 
-react-native-message-bar@^2.0.10:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-message-bar/-/react-native-message-bar-2.1.0.tgz#d8a4e741a922c8ee607fb23e02838f06e1d36fc6"
-  integrity sha512-WoHeRhPaNAdSg8nGoV3pSpj+LTkrxo2A9eK3/EXYKAJJd9fGiqsHTUFyXnRybMXKYdqkDRd3kMWoT5u838Awww==
-
 react-native-modalbox@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/react-native-modalbox/-/react-native-modalbox-2.0.2.tgz#8a7b3d2e7be79b5d1cb9530b2c6bc535b1bc8c66"
@@ -8671,6 +8666,11 @@ react-native-swiper@^1.6.0:
   integrity sha512-OnkTTZi+9uZUgy0uz1I9oYDhCU3z36lZn+LFsk9FXPRelxb/KeABzvPs3r3SrHWy1aA67KGtSFj0xNK2QD0NJQ==
   dependencies:
     prop-types "^15.5.10"
+
+react-native-toast-message@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-toast-message/-/react-native-toast-message-2.3.3.tgz#e301508d386a9902ff6b4559ecc6674f8cfdf97a"
+  integrity sha512-4IIUHwUPvKHu4gjD0Vj2aGQzqPATiblL1ey8tOqsxOWRPGGu52iIbL8M/mCz4uyqecvPdIcMY38AfwRuUADfQQ==
 
 react-native-webview@^11.22.7:
   version "11.26.1"

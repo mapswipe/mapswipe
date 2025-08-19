@@ -7,7 +7,7 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import Svg, { Rect } from 'react-native-svg';
+// import Svg, { Rect } from 'react-native-svg';
 
 const GLOBAL = require('../../Globals');
 
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     },
 });
 
+/*
 const bboxSample = [408.5, 11.96, 97.67, 276.61];
 
 function calculateBbox(imageDimensions, bbox) {
@@ -91,6 +92,7 @@ function calculateBbox(imageDimensions, bbox) {
         height: `${ch}px`,
     };
 }
+*/
 
 interface ImageWrapperProps {
     item: {
@@ -155,8 +157,9 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
 
     render() {
         const { item } = this.props;
-        const { loading, error, retryKey, imageDimensions } = this.state;
+        const { loading, error, retryKey } = this.state;
 
+        /*
         const uri = 'http://images.cocodataset.org/val2017/000000438862.jpg';
         Image.getSize(uri, (width, height) => {
             this.setState(oldState => ({
@@ -171,6 +174,7 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
 
         const bboxForBox = calculateBbox(imageDimensions, bboxSample);
         console.log('here aditya', bboxForBox);
+        */
 
         return (
             <View
@@ -197,7 +201,7 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
                 {!error ? (
                     <Image
                         key={retryKey}
-                        source={{ uri }}
+                        source={{ uri: item.url }}
                         style={styles.image}
                         onLoadStart={this.handleLoadStart}
                         onLoadEnd={this.handleLoadEnd}
@@ -214,7 +218,7 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
                         </TouchableOpacity>
                     </View>
                 )}
-                {bboxForBox && (
+                {/* bboxForBox && (
                     <Svg
                         style={StyleSheet.absoluteFill}
                         pointerEvents="none" // allows clicks to pass through
@@ -229,7 +233,7 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
                             fill="transparent"
                         />
                     </Svg>
-                )}
+                ) */}
             </View>
         );
     }

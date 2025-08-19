@@ -321,7 +321,6 @@ class _ProjectHeader extends React.Component<HeaderProps> {
             userProgress = Math.min(tasksCompleted / maxTasks, 1);
             userCanMap = tasksCompleted < maxTasks;
         }
-
         return (
             <ScrollView style={style.projectViewContainer} testID="projectView">
                 <ImageBackground

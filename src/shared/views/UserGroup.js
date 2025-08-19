@@ -3,7 +3,6 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { MessageBarManager } from 'react-native-message-bar';
 // $FlowIssue[cannot-resolve-module]
 import { gql, useQuery } from '@apollo/client';
 import auth from '@react-native-firebase/auth';
@@ -38,6 +37,7 @@ import {
 } from '../constants';
 import Button from '../common/Button';
 import PageHeader from '../common/PageHeader';
+import { showAlert } from '../common/ToastWrapper.ts';
 import { externalLink } from '../common/SvgIcons';
 import InfoCard from '../common/InfoCard';
 import ClickableListItem from '../common/ClickableListItem';
@@ -222,7 +222,7 @@ function UserGroup(props: Props) {
         },
         onError: error => {
             console.error(error);
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('Failed to load stats'),
                 message: error.message,
                 alertType: 'error',
@@ -295,28 +295,24 @@ function UserGroup(props: Props) {
                                             .update(
                                                 updates,
                                                 () => {
-                                                    MessageBarManager.showAlert(
-                                                        {
-                                                            title: t(
-                                                                'Usergroup left',
-                                                            ),
-                                                        },
-                                                    );
+                                                    showAlert({
+                                                        title: t(
+                                                            'Usergroup left',
+                                                        ),
+                                                    });
                                                     navigate('UserProfile');
                                                 },
                                                 () => {
-                                                    MessageBarManager.showAlert(
-                                                        {
-                                                            title: t(
-                                                                'Failed to leave Usergroup',
-                                                            ),
-                                                            alertType: 'error',
-                                                        },
-                                                    );
+                                                    showAlert({
+                                                        title: t(
+                                                            'Failed to leave Usergroup',
+                                                        ),
+                                                        alertType: 'error',
+                                                    });
                                                 },
                                             );
                                     } else {
-                                        MessageBarManager.showAlert({
+                                        showAlert({
                                             title: t(
                                                 'Failed to leave Usergroup',
                                             ),
@@ -328,7 +324,7 @@ function UserGroup(props: Props) {
                                     }
                                 },
                                 () => {
-                                    MessageBarManager.showAlert({
+                                    showAlert({
                                         title: t('Failed to leave Usergroup'),
                                         alertType: 'error',
                                     });
@@ -379,27 +375,23 @@ function UserGroup(props: Props) {
                                             .update(
                                                 updates,
                                                 () => {
-                                                    MessageBarManager.showAlert(
-                                                        {
-                                                            title: t(
-                                                                'Usergroup joined',
-                                                            ),
-                                                        },
-                                                    );
+                                                    showAlert({
+                                                        title: t(
+                                                            'Usergroup joined',
+                                                        ),
+                                                    });
                                                 },
                                                 () => {
-                                                    MessageBarManager.showAlert(
-                                                        {
-                                                            title: t(
-                                                                'Failed to join Usergroup',
-                                                            ),
-                                                            alertType: 'error',
-                                                        },
-                                                    );
+                                                    showAlert({
+                                                        title: t(
+                                                            'Failed to join Usergroup',
+                                                        ),
+                                                        alertType: 'error',
+                                                    });
                                                 },
                                             );
                                     } else {
-                                        MessageBarManager.showAlert({
+                                        showAlert({
                                             title: t(
                                                 'Failed to join Usergroup',
                                             ),
@@ -411,7 +403,7 @@ function UserGroup(props: Props) {
                                     }
                                 },
                                 () => {
-                                    MessageBarManager.showAlert({
+                                    showAlert({
                                         title: t('Failed to join Usergroup'),
                                         alertType: 'error',
                                     });
