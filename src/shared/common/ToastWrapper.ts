@@ -18,7 +18,7 @@ export const showAlert = ({
         type: alertType,
         text1: title,
         text2: message,
-        visibilityTime: shouldHideAfterDelay ? 4000 : 999999,
+        visibilityTime: shouldHideAfterDelay ? 3000 : 6000,
         autoHide: shouldHideAfterDelay,
         position: 'top',
     });
