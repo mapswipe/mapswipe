@@ -19,7 +19,6 @@ export const showAlert = ({
         text1: title,
         text2: message,
         visibilityTime: shouldHideAfterDelay ? 3000 : 6000,
-        autoHide: shouldHideAfterDelay,
         position: 'top',
     });
 };
