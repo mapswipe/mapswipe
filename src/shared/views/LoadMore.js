@@ -7,8 +7,8 @@ import * as Sentry from '@sentry/react-native';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
-import { MessageBarManager } from 'react-native-message-bar';
 import Button from '../common/Button';
+import { showAlert } from '../common/ToastWrapper.ts';
 import { cancelGroup, commitGroup, type GroupInfo } from '../actions/index';
 import type {
     GroupType,
@@ -69,7 +69,7 @@ class _LoadMoreCard extends React.Component<Props> {
     // is not used for any project type tutorial anymore
     showSyncProgress = () => {
         const { t } = this.props;
-        MessageBarManager.showAlert({
+        showAlert({
             title: t('sync alert'),
             message: t('sync alert message'),
             alertType: 'info',

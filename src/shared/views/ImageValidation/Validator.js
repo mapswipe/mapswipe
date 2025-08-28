@@ -14,10 +14,10 @@ import pako from 'pako';
 import base64 from 'base-64';
 import { SvgXml } from 'react-native-svg';
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase';
-import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import LoadingIcon from '../LoadingIcon';
+import { showAlert } from '../../common/ToastWrapper.ts';
 import TutorialBox, { toCamelCase } from '../../common/Tutorial';
 import RoundButtonWithTextBelow from '../../common/RoundButtonWithTextBelow';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
@@ -295,7 +295,7 @@ class _Validator extends React.Component<Props, State> {
                         })) ?? []),
                     ])
                     .find(opt => opt.value === referenceAnswer);
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('incorrectAnswerMessageTitle'),
                     message: t('incorrectAnswerMessage', {
                         correctAnswer: correctAnswer?.title,

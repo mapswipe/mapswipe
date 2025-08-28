@@ -16,10 +16,10 @@ import {
     View,
 } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { MessageBarManager } from 'react-native-message-bar';
 import RNBootSplash from 'react-native-bootsplash';
 import debugInfo from '../../../debugInfo';
 import Button from '../common/Button';
+import { showAlert } from '../common/ToastWrapper.ts';
 import convertProfileToV2Format from '../common/ProfileConversion';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
@@ -203,7 +203,7 @@ class _Login extends React.Component<Props, State> {
 
         const isValid = validateUserName(username);
         if (!isValid) {
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:usernameErrorMessage'),
                 alertType: 'error',
@@ -213,7 +213,7 @@ class _Login extends React.Component<Props, State> {
         }
 
         if (username !== null && username.indexOf('@') !== -1) {
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:usernameNotEmail'),
                 alertType: 'error',
@@ -226,7 +226,7 @@ class _Login extends React.Component<Props, State> {
         const userNameAlreadyExist = await checkUserNameExists(username);
 
         if (userNameAlreadyExist) {
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:userNameExistError'),
                 alertType: 'error',
@@ -259,7 +259,7 @@ class _Login extends React.Component<Props, State> {
                 });
             })
             .then(() => {
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('signup:success'),
                     message: t('signup:welcomeToMapSwipe', { username }),
                     alertType: 'info',
@@ -280,7 +280,7 @@ class _Login extends React.Component<Props, State> {
                     default:
                         errorMsg = t('signup:problemSigningUp');
                 }
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('signup:errorOnSignup'),
                     message: errorMsg,
                     alertType: 'error',
@@ -309,7 +309,7 @@ class _Login extends React.Component<Props, State> {
             .login({ email, password })
             .then(userCredentials => {
                 const username = userCredentials.user.user.displayName;
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('signup:success'),
                     message: t('signup:welcomeToMapSwipe', { username }),
                     alertType: 'info',
@@ -336,7 +336,7 @@ class _Login extends React.Component<Props, State> {
                     default:
                         errorMessage = t('signup:problemLoggingIn');
                 }
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('signup:errorLogIn'),
                     message: errorMessage,
                     alertType: 'error',
@@ -387,7 +387,7 @@ class _Login extends React.Component<Props, State> {
                     // here. firebase provides a isNewUser boolean, but it seems
                     // to always be false :( so instead we set the initial user
                     // profile in the backend function
-                    MessageBarManager.showAlert({
+                    showAlert({
                         title: t('signup:success'),
                         message: t('signup:welcomeToMapSwipe', { username }),
                         alertType: 'info',
@@ -424,7 +424,7 @@ class _Login extends React.Component<Props, State> {
             .auth()
             .sendPasswordResetEmail(email)
             .then(() => {
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('signup:success'),
                     message: t('signup:checkYourEmail'),
                     alertType: 'info',
@@ -446,7 +446,7 @@ class _Login extends React.Component<Props, State> {
                     default:
                         errorMessage = t('signup:problemResettingPassword');
                 }
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('signup:errorResetPass'),
                     message: errorMessage,
                     alertType: 'error',

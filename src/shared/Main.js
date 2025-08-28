@@ -1,14 +1,10 @@
+/* eslint-disable no-use-before-define */
 // @flow
 import React from 'react';
-import {
-    Image,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import fb from '@react-native-firebase/app';
 // import type { Notification } from 'react-native-firebase';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
@@ -40,9 +36,6 @@ import LanguageSelection from './views/LanguageSelection';
 // the prefix for deeplinks used in OAuth in particular
 // such as "devmapswipe://"
 const { deeplinkPrefix } = debugInfo;
-
-const MessageBarAlert = require('react-native-message-bar').MessageBar;
-const { MessageBarManager } = require('react-native-message-bar');
 
 const ProjectView = require('./views/ProjectView');
 const GLOBAL = require('./Globals');
@@ -100,6 +93,42 @@ type State = {
     isDisabled: boolean,
     level: number,
     levelObject: Object,
+};
+
+export const toastConfig = {
+    success: (props: any) => (
+        <BaseToast
+            {...props}
+            style={{ borderLeftColor: 'green' }}
+            contentContainerStyle={{ paddingHorizontal: 15 }}
+            text1Style={{ fontSize: 16, fontWeight: 'bold' }}
+            text2Style={{ fontSize: 14 }}
+        />
+    ),
+    warning: (props: any) => (
+        <BaseToast
+            {...props}
+            style={{ borderLeftColor: '#f4c542' }}
+            contentContainerStyle={{ paddingHorizontal: 15 }}
+            text1Style={{ fontSize: 16, fontWeight: 'bold' }}
+            text2Style={{ fontSize: 14 }}
+        />
+    ),
+    error: (props: any) => (
+        <ErrorToast
+            {...props}
+            text1Style={{ fontSize: 16, fontWeight: 'bold' }}
+            text2Style={{ fontSize: 14 }}
+        />
+    ),
+    info: (props: any) => (
+        <BaseToast
+            {...props}
+            style={{ borderLeftColor: 'blue' }}
+            text1Style={{ fontSize: 16, fontWeight: 'bold' }}
+            text2Style={{ fontSize: 14 }}
+        />
+    ),
 };
 
 class Main extends React.Component<Props, State> {
@@ -166,7 +195,6 @@ class Main extends React.Component<Props, State> {
             });
         */
         fb.analytics().logEvent('mapswipe_open');
-        MessageBarManager.registerMessageBar(parent.alert);
 
         // set the app language from the language code loaded from redux
         // which has been restored from persistent storage by now
@@ -223,49 +251,50 @@ class Main extends React.Component<Props, State> {
     render() {
         const { isDisabled, level, levelObject } = this.state;
         return (
-            <SafeAreaView style={style.safeArea}>
-                <StatusBar
-                    backgroundColor={COLOR_DEEP_BLUE}
-                    barStyle="light-content"
-                />
-                <View style={style.mainContainer}>
-                    <StartNavigator uriPrefix={deeplinkPrefix} />
-                    <Modal
-                        style={[style.modal, style.modal3]}
-                        backdropType="blur"
-                        position="center"
-                        ref={r => {
-                            this.modal3 = r;
-                        }}
-                        isDisabled={isDisabled}
-                    >
-                        <Text style={style.header}>
-                            {`You are now level ${level}`}
-                        </Text>
-                        <Image
-                            style={style.pic}
-                            key={level}
-                            source={levelObject.badge}
+            <>
+                <SafeAreaProvider>
+                    <SafeAreaView style={style.safeArea}>
+                        <StatusBar
+                            backgroundColor={COLOR_DEEP_BLUE}
+                            barStyle="light-content"
+                            translucent={false}
                         />
-                        <Button
-                            style={style.startButton}
-                            onPress={this.closeModal3}
-                            textStyle={{
-                                fontSize: 13,
-                                color: '#ffffff',
-                                fontWeight: '700',
-                            }}
-                        >
-                            Close
-                        </Button>
-                    </Modal>
-                    <MessageBarAlert
-                        ref={r => {
-                            this.alert = r;
-                        }}
-                    />
-                </View>
-            </SafeAreaView>
+                        <View style={style.mainContainer}>
+                            <StartNavigator uriPrefix={deeplinkPrefix} />
+                            <Modal
+                                style={[style.modal, style.modal3]}
+                                backdropType="blur"
+                                position="center"
+                                ref={r => {
+                                    this.modal3 = r;
+                                }}
+                                isDisabled={isDisabled}
+                            >
+                                <Text style={style.header}>
+                                    {`You are now level ${level}`}
+                                </Text>
+                                <Image
+                                    style={style.pic}
+                                    key={level}
+                                    source={levelObject.badge}
+                                />
+                                <Button
+                                    style={style.startButton}
+                                    onPress={this.closeModal3}
+                                    textStyle={{
+                                        fontSize: 13,
+                                        color: '#ffffff',
+                                        fontWeight: '700',
+                                    }}
+                                >
+                                    Close
+                                </Button>
+                            </Modal>
+                        </View>
+                        <Toast config={toastConfig} />
+                    </SafeAreaView>
+                </SafeAreaProvider>
+            </>
         );
     }
 }
