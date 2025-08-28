@@ -1,4 +1,9 @@
 {
+    "2.5.1": {
+        "changes": [
+            "Version upgrades and minor bug fixes"
+        ]
+    },
     "2.5.0": {
         "changes": [
             "Added a new project type 'Validate Image'",

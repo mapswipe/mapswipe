@@ -4,7 +4,6 @@ import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { View, StyleSheet, Text, TextInput } from 'react-native';
-import { MessageBarManager } from 'react-native-message-bar';
 import {
     COLOR_WHITE,
     COLOR_DEEP_BLUE,
@@ -18,6 +17,7 @@ import {
 } from '../constants';
 import PageHeader from '../common/PageHeader';
 import Button from '../common/Button';
+import { showAlert } from '../common/ToastWrapper.ts';
 import type { NavigationProp, TranslationFunction } from '../flow-types';
 import { checkUserNameExists, validateUserName } from '../utils';
 
@@ -92,7 +92,7 @@ function ChangeUserName(props: Props) {
         const isValid = validateUserName(newUserName);
 
         if (!isValid) {
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:usernameErrorMessage'),
                 alertType: 'error',
@@ -104,7 +104,7 @@ function ChangeUserName(props: Props) {
         const userNameAlreadyExist = await checkUserNameExists(newUserName);
 
         if (userNameAlreadyExist) {
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('signup:errorOnSignup'),
                 message: t('signup:userNameExistError'),
                 alertType: 'error',

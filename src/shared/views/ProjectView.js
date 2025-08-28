@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 // @flow
 import type { Node } from 'react';
 import React from 'react';
@@ -320,7 +321,6 @@ class _ProjectHeader extends React.Component<HeaderProps> {
             userProgress = Math.min(tasksCompleted / maxTasks, 1);
             userCanMap = tasksCompleted < maxTasks;
         }
-
         return (
             <ScrollView style={style.projectViewContainer} testID="projectView">
                 <ImageBackground

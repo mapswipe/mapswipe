@@ -21,7 +21,6 @@ import {
     TouchableWithoutFeedback,
     Switch,
 } from 'react-native';
-import { MessageBarManager } from 'react-native-message-bar';
 import { withTranslation } from 'react-i18next';
 import ProgressBar from 'react-native-progress/Bar';
 import { SvgXml } from 'react-native-svg';
@@ -50,6 +49,7 @@ import {
     publicDashboardUrl,
 } from '../constants';
 import { externalLink } from '../common/SvgIcons';
+import { showAlert } from '../common/ToastWrapper.ts';
 import Levels from '../Levels';
 import InfoCard from '../common/InfoCard';
 import CalendarHeatmap from '../common/CalendarHeatmap';
@@ -336,7 +336,7 @@ function UserProfile(props: Props) {
         },
         onError: error => {
             console.error(error);
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('Failed to load stats'),
                 message: error.message,
                 alertType: 'error',
@@ -399,7 +399,7 @@ function UserProfile(props: Props) {
 
                 setUserGroups(newUserGroups);
             } catch (error) {
-                MessageBarManager.showAlert({
+                showAlert({
                     title: t('Failed to group details'),
                     alertType: 'error',
                 });
@@ -408,7 +408,7 @@ function UserProfile(props: Props) {
 
         userGroupsOfUserQuery.on('value', handleGroupsOfUserLoad, error => {
             console.error(error);
-            MessageBarManager.showAlert({
+            showAlert({
                 title: t('Failed to group details'),
                 alertType: 'error',
             });
@@ -542,7 +542,7 @@ function UserProfile(props: Props) {
                             .off('value');
                         user.delete()
                             .then(() => {
-                                MessageBarManager.showAlert({
+                                showAlert({
                                     title: t('accountDeleted'),
                                     message: t('accountDeletedSuccessMessage'),
                                     alertType: 'info',
@@ -550,7 +550,7 @@ function UserProfile(props: Props) {
                                 navigation.navigate('LoginNavigator');
                             })
                             .catch(() => {
-                                MessageBarManager.showAlert({
+                                showAlert({
                                     title: t('accountDeletionFailed'),
                                     message: t('accountDeletionFailedMessage'),
                                     alertType: 'error',
@@ -637,13 +637,13 @@ function UserProfile(props: Props) {
                     accessibility: value,
                 });
 
-                MessageBarManager.showAlert({
+                showAlert({
                     message: 'Accessibility updated successfully',
                     alertType: 'success',
                 });
                 setIsEnabledAccessibility(value);
             } catch {
-                MessageBarManager.showAlert({
+                showAlert({
                     title: 'error',
                     message: 'some error occurred',
                     alertType: 'error',

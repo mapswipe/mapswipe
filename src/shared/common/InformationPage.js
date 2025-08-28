@@ -1,5 +1,4 @@
 // @flow
-
 import * as React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
@@ -62,7 +61,7 @@ function InformationPage(props: Props) {
     const { information, t, hideSwipeIcon } = props;
 
     const sortedBlocks = information?.blocks
-        ? [...information?.blocks].sort((a, b) => a.blockNumber - b.blockNumber)
+        ? [...information.blocks].sort((a, b) => a.blockNumber - b.blockNumber)
         : undefined;
 
     return (
