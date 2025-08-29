@@ -7,7 +7,8 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-// import Svg, { Rect } from 'react-native-svg';
+import Svg, { Rect } from 'react-native-svg';
+import { PinchGestureHandler, State } from 'react-native-gesture-handler';
 
 const GLOBAL = require('../../Globals');
 
@@ -21,7 +22,8 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        aspectRatio: 1, // or use real aspect ratio if known
+        height: '100%',
+        objectFit: 'contain',
         resizeMode: 'contain',
     },
     loader: {
@@ -38,18 +40,15 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
-const bboxSample = [408.5, 11.96, 97.67, 276.61];
-
 function calculateBbox(imageDimensions, bbox) {
     if (!imageDimensions || !bbox) {
         return undefined;
     }
     if (
-        !imageDimensions.naturalHeight
-        || !imageDimensions.naturalWidth
-        || !imageDimensions.clientHeight
-        || !imageDimensions.clientWidth
+        !imageDimensions.naturalHeight ||
+        !imageDimensions.naturalWidth ||
+        !imageDimensions.clientHeight ||
+        !imageDimensions.clientWidth
     ) {
         return undefined;
     }
@@ -92,7 +91,6 @@ function calculateBbox(imageDimensions, bbox) {
         height: `${ch}px`,
     };
 }
-*/
 
 interface ImageWrapperProps {
     item: {
@@ -101,6 +99,7 @@ interface ImageWrapperProps {
     itemIndex: number;
     onImageLoadStart: (itemKey: number) => void;
     onImageLoadEnd: (itemKey: number) => void;
+    bbox: [number, number, number, number] | undefined;
 }
 
 interface ImageWrapperState {
@@ -113,6 +112,7 @@ interface ImageWrapperState {
         naturalHeight: number,
         naturalWidth: number,
     };
+    scale: number;
 }
 
 class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
@@ -122,7 +122,11 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
             loading: true,
             error: false,
             retryKey: 0,
+            scale: 1,
+            baseScale: 1,
             imageDimensions: undefined,
+            focalX: 0,
+            focalY: 0,
         };
     }
 
@@ -149,92 +153,184 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
         }));
     };
 
+    handlePinch = (event) => {
+        const { scale, focalX, focalY } = event.nativeEvent;
+
+        this.setState(prev => {
+            // Initialize baseScale if undefined
+            const baseScale = prev.baseScale ?? 1;
+
+            // Calculate new scale
+            const newScale = baseScale * scale;
+
+            // Only apply delta after first movement
+            const deltaX =
+                prev.lastFocalX != null ? focalX - prev.lastFocalX : 0;
+            const deltaY =
+                prev.lastFocalY != null ? focalY - prev.lastFocalY : 0;
+
+            return {
+                scale: newScale,
+                focalX: prev.focalX + deltaX,
+                focalY: prev.focalY + deltaY,
+                lastFocalX: focalX,
+                lastFocalY: focalY,
+                baseScale, // keep it set
+            };
+        });
+    };
+
+    onPinchStateChange = (event) => {
+        const { state } = event.nativeEvent;
+
+        if (state === State.BEGAN) {
+            // Capture the base scale at pinch start
+            this.setState(prev => ({
+                baseScale: prev.scale || 1,
+                lastFocalX: null,
+                lastFocalY: null,
+            }));
+        }
+
+        if (state === State.END || state === State.CANCELLED) {
+            // Optional: keep the final scale as new base
+            this.setState(prev => ({
+                ...prev,
+                baseScale: 1,
+                scale: 1,
+                focalX: 0,
+                focalY: 0,
+                lastFocalX: null,
+                lastFocalY: null,
+            }));
+        }
+    };
+
     handleLoadEnd = () => {
-        const { onImageLoadEnd, itemIndex } = this.props;
+        const { item, onImageLoadEnd, itemIndex } = this.props;
         onImageLoadEnd(itemIndex);
         this.setState({ loading: false });
+
+        if (item.url) {
+            Image.getSize(item.url, (width, height) => {
+                this.setState(oldState => ({
+                    ...oldState,
+                    imageDimensions: {
+                        ...(oldState?.imageDimensions ?? {}),
+                        naturalHeight: height,
+                        naturalWidth: width,
+                    },
+                }));
+            });
+        }
     };
 
     render() {
-        const { item } = this.props;
-        const { loading, error, retryKey } = this.state;
+        const { item, bbox } = this.props;
+        const {
+            loading,
+            error,
+            retryKey,
+            imageDimensions,
+            focalX,
+            focalY,
+            scale,
+        } = this.state;
 
-        /*
-        const uri = 'http://images.cocodataset.org/val2017/000000438862.jpg';
-        Image.getSize(uri, (width, height) => {
-            this.setState(oldState => ({
-                ...oldState,
-                imageDimensions: {
-                    ...(oldState?.imageDimensions ?? {}),
-                    naturalHeight: height,
-                    naturalWidth: width,
-                },
-            }));
-        });
-
-        const bboxForBox = calculateBbox(imageDimensions, bboxSample);
-        console.log('here aditya', bboxForBox);
-        */
+        const bboxForBox = calculateBbox(imageDimensions, bbox);
 
         return (
-            <View
-                onLayout={event => {
-                    const { width, height } = event.nativeEvent.layout;
-                    this.setState(oldState => ({
-                        ...oldState,
-                        imageDimensions: {
-                            ...(oldState?.imageDimensions ?? {}),
-                            clientHeight: height,
-                            clientWidth: width,
-                        },
-                    }));
-                }}
-                style={styles.container}
+            <PinchGestureHandler
+                onGestureEvent={this.handlePinch}
+                onHandlerStateChange={this.onPinchStateChange}
             >
-                {loading && (
-                    <ActivityIndicator
-                        size="large"
-                        color="#fafafa"
-                        style={styles.loader}
-                    />
-                )}
-                {!error ? (
-                    <Image
-                        key={retryKey}
-                        source={{ uri: item.url }}
-                        style={styles.image}
-                        onLoadStart={this.handleLoadStart}
-                        onLoadEnd={this.handleLoadEnd}
-                        onError={this.handleError}
-                        fadeDuration={0}
-                    />
-                ) : (
-                    <View style={styles.retryContainer}>
-                        <Text style={styles.retryText}>
-                            Failed to load image.
-                        </Text>
-                        <TouchableOpacity onPress={this.handleRetry}>
-                            <Text style={styles.retryText}>Tap to retry</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-                {/* bboxForBox && (
-                    <Svg
-                        style={StyleSheet.absoluteFill}
-                        pointerEvents="none" // allows clicks to pass through
-                    >
-                        <Rect
-                            x={bboxForBox.x}
-                            y={bboxForBox.y}
-                            width={bboxForBox.width}
-                            height={bboxForBox.height}
-                            stroke="black"
-                            strokeWidth={2}
-                            fill="transparent"
+                <View
+                    onLayout={event => {
+                        const { width, height, x, y } =
+                            event.nativeEvent.layout;
+                        this.setState(oldState => ({
+                            ...oldState,
+                            imageDimensions: {
+                                ...(oldState?.imageDimensions ?? {}),
+                                clientHeight: height,
+                                clientWidth: width,
+                            },
+                            clientX: x,
+                            clientY: y,
+                        }));
+                    }}
+                    style={styles.container}
+                >
+                    {loading && (
+                        <ActivityIndicator
+                            size="large"
+                            color="#fafafa"
+                            style={styles.loader}
                         />
-                    </Svg>
-                ) */}
-            </View>
+                    )}
+                    {!error ? (
+                        <Image
+                            key={retryKey}
+                            source={{ uri: item.url }}
+                            style={[
+                                styles.image,
+                                {
+                                    transform: [
+                                        { translateX: -focalX },
+                                        { translateY: -focalY },
+                                        { scale },
+                                        { translateX: focalX },
+                                        { translateY: focalY },
+                                    ],
+                                },
+                            ]}
+                            onLoadStart={this.handleLoadStart}
+                            onLoadEnd={this.handleLoadEnd}
+                            onError={this.handleError}
+                            fadeDuration={0}
+                        />
+                    ) : (
+                        <View style={styles.retryContainer}>
+                            <Text style={styles.retryText}>
+                                Failed to load image.
+                            </Text>
+                            <TouchableOpacity onPress={this.handleRetry}>
+                                <Text style={styles.retryText}>
+                                    Tap to retry
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                    {bboxForBox && (
+                        <Svg
+                            style={[
+                                StyleSheet.absoluteFill,
+                                {
+                                    transform: [
+                                        { translateX: -focalX },
+                                        { translateY: -focalY },
+                                        { scale },
+                                        { translateX: focalX },
+                                        { translateY: focalY },
+                                    ],
+                                },
+                            ]}
+                            pointerEvents="none" // allows clicks to pass through
+                        >
+                            <Rect
+                                x={bboxForBox.x}
+                                y={bboxForBox.y}
+                                width={bboxForBox.width}
+                                height={bboxForBox.height}
+                                stroke="#fff"
+                                strokeWidth={2}
+                                fill="#fff"
+                                fillOpacity="0.1"
+                            />
+                        </Svg>
+                    )}
+                </View>
+            </PinchGestureHandler>
         );
     }
 }
