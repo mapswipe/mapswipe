@@ -9,7 +9,12 @@ import Button from '../common/Button';
 import ProjectCard from './ProjectCard';
 import LoadingIcon from './LoadingIcon';
 import type { NavigationProp, ProjectType } from '../flow-types';
-import { COLOR_DEEP_BLUE, COLOR_WHITE } from '../constants';
+import { isNotDefined } from '../utils';
+import {
+    COLOR_DEEP_BLUE,
+    COLOR_WHITE,
+    COMPLETENESS_PROJECT,
+} from '../constants';
 
 const GLOBAL = require('../Globals');
 
@@ -350,20 +355,49 @@ class _RecommendedCards extends React.Component<Props> {
             >
                 {this.renderAnnouncement()}
                 {projects
-                    .filter(
-                        p =>
-                            // keep only projects whose type we currently support
-                            p.value &&
-                            p.value.projectType &&
-                            GLOBAL.SUPPORTED_PROJECT_TYPES.includes(
-                                p.value.projectType,
-                            ) &&
+                    .filter(project => {
+                        if (!project.value) {
+                            return false;
+                        }
+                        if (!project.value.projectType) {
+                            return false;
+                        }
+                        if (
+                            !['active', 'private_active'].includes(
+                                project.value.status,
+                            )
+                        ) {
                             // only show "active" and "private_active" projects
                             // (this is only useful for private ones)
-                            ['active', 'private_active'].includes(
-                                p.value.status,
-                            ),
-                    )
+                            return false;
+                        }
+                        if (
+                            !GLOBAL.SUPPORTED_PROJECT_TYPES.includes(
+                                project.value.projectType,
+                            )
+                        ) {
+                            return false;
+                        }
+                        if (
+                            project.value.projectType === COMPLETENESS_PROJECT
+                        ) {
+                            if (
+                                project.value?.overlayTileServer?.type ===
+                                'raster'
+                            ) {
+                                return true;
+                            }
+                            if (
+                                isNotDefined(
+                                    project.value?.overlayTileServer?.type,
+                                )
+                            ) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return true;
+                    })
                     .sort((a, b) => +b.value.isFeatured - +a.value.isFeatured)
                     .map(project => (
                         <ProjectCard

@@ -327,6 +327,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             <View style={styles.mappingContainer}>
                 <Header
                     lookFor={this.project.lookFor}
+                    overrideText={this.project.projectInstruction}
                     onBackPress={() => {
                         // $FlowFixMe
                         this.backConfirmationModal.open();

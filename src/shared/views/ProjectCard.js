@@ -168,6 +168,7 @@ class ProjectCard extends React.Component<Props> {
     render() {
         const { project, cardIndex, t } = this.props;
         // show progress = 0 if we somehow get a negative value
+        console.log('individual Project', project?.overlayTileServer?.type);
         const progress = getProjectProgressForDisplay(project.progress);
         const mappersCount = project.contributorCount || 0;
 
