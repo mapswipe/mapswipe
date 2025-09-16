@@ -253,7 +253,9 @@ class _CardBody extends React.PureComponent<Props, State> {
                 const screen = Math.floor(dX / 2);
                 const column = dX % 2;
                 const row = parseInt(task.taskY, 10) - miny;
-                screens[screen][row + 3 * column] = task;
+                if (screens[screen]) {
+                    screens[screen][row + 3 * column] = task;
+                }
             });
         }
         return screens;

@@ -153,7 +153,7 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
         }));
     };
 
-    handlePinch = (event) => {
+    handlePinch = event => {
         const { scale, focalX, focalY } = event.nativeEvent;
 
         this.setState(prev => {
@@ -180,7 +180,7 @@ class ImageWrapper extends Component<ImageWrapperProps, ImageWrapperState> {
         });
     };
 
-    onPinchStateChange = (event) => {
+    onPinchStateChange = event => {
         const { state } = event.nativeEvent;
 
         if (state === State.BEGAN) {
