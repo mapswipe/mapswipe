@@ -191,6 +191,7 @@ class _CardBody extends React.PureComponent<Props, State> {
         const {
             group: { groupId, projectId, xMax, xMin, yMax, yMin, tasks },
             tileServer,
+            screens: screensFromProps,
             tileServerB,
             tutorial,
             zoomLevel,
@@ -247,15 +248,11 @@ class _CardBody extends React.PureComponent<Props, State> {
         } else {
             // in tutorial mode, the tasks are loaded from firebase, as there is extra data
             // we cannot interpolate from the group level info
-            tasks.forEach(task => {
-                // place the task in the screens array
-                const dX = parseInt(task.taskX, 10) - minx;
-                const screen = Math.floor(dX / 2);
-                const column = dX % 2;
-                const row = parseInt(task.taskY, 10) - miny;
-                if (screens[screen]) {
-                    screens[screen][row + 3 * column] = task;
-                }
+            screensFromProps.forEach((_, index) => {
+                const tasksForScreen = tasks.filter(
+                    task => task.screen === index + 1,
+                );
+                screens[index] = tasksForScreen;
             });
         }
         return screens;
