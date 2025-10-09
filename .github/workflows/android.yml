@@ -86,8 +86,8 @@ jobs:
           sed -ri "s/data android:scheme=\"devmapswipe\"/data android:scheme=\"mapswipe\"/" android/app/src/main/AndroidManifest.xml
           sed -ri "s/dev-auth.mapswipe.org/auth.mapswipe.org/" debugInfo.json
           sed -ri "s/devmapswipe/mapswipe/" debugInfo.json
-          sed -ri "s/dev-api/api/" src/shared/constants.js
-          sed -ri "s/dev-community/community/" src/shared/constants.js
+          sed -ri "s/backend-stage/backend/" src/shared/constants.js
+          sed -ri "s/community-stage/community/" src/shared/constants.js
 
       - name: Increase filesystem inotify watch limit
         run: sudo sysctl fs.inotify.max_user_watches=524288
