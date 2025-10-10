@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         aspectRatio: 1,
         height: '49%',
-        maxHeight: GLOBAL.SCREEN_WIDTH * 0.8,
+        maxHeight: GLOBAL.SCREEN_WIDTH,
     },
     topImage: {
         alignItems: 'center',
         aspectRatio: 1,
         height: '49%',
-        maxHeight: GLOBAL.SCREEN_WIDTH * 0.8,
+        maxHeight: GLOBAL.SCREEN_WIDTH,
     },
     overlayText: {
         color: COLOR_LIGHT_GRAY,
@@ -40,7 +40,6 @@ const swipeToSizeRatio = 2;
 
 type Props = {
     //commitCompletedGroup: () => void,
-    index: number,
     onToggleTile: ResultType => void,
     // eslint-disable-next-line react/no-unused-prop-types
     submitResult: (number, string) => void,
@@ -76,7 +75,6 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
     // $FlowFixMe
     render = () => {
         const {
-            index,
             onToggleTile,
             task,
             openTilePopup,
@@ -99,13 +97,12 @@ export default class ChangeDetectionTask extends React.PureComponent<Props> {
                     style={{
                         alignItems: 'center',
                         flex: 1,
-                        marginLeft: index === 0 ? GLOBAL.SCREEN_WIDTH * 0.1 : 0,
                         flexGrow: 1,
                         flexDirection: 'column',
                         justifyContent: 'space-between',
                         paddingLeft: 5,
                         paddingRight: 5,
-                        width: GLOBAL.SCREEN_WIDTH * 0.8,
+                        width: GLOBAL.SCREEN_WIDTH,
                     }}
                 >
                     <SatImage

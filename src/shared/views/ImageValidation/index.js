@@ -147,7 +147,7 @@ class _ImageValidationScreen extends React.Component<Props> {
                     Component={Validator}
                     navigation={navigation}
                     getNormalHelpContent={this.getNormalHelpContent}
-                    headerText={projectObj.lookFor}
+                    headerText={projectObj.projectInstruction}
                     randomSeed={this.randomSeed}
                     screenName="ImageValidationScreen"
                     submitResultFunction={submitImageValidation}

@@ -58,14 +58,8 @@ import { getTimeSegments } from '../utils';
 import debugInfo from '../../../debugInfo';
 
 const USER_STATS = gql`
-    query UserStats($userId: ID!) {
-        user(pk: $userId) {
-            userId
-            userInUserGroups(pagination: { limit: 0, offset: 0 }) {
-                count
-            }
-        }
-        userStats(userId: $userId) {
+    query UserStats($firebaseId: ID!) {
+        communityUserStats(firebaseId: $firebaseId) {
             stats {
                 totalAreaSwiped
                 totalMappingProjects
@@ -78,6 +72,9 @@ const USER_STATS = gql`
                     taskDate
                     totalSwipes
                 }
+            }
+            statsLatest {
+                totalUserGroups
             }
         }
     }
@@ -332,7 +329,7 @@ function UserProfile(props: Props) {
     } = useQuery(USER_STATS, {
         skip: !userId,
         variables: {
-            userId,
+            firebaseId: userId,
         },
         onError: error => {
             console.error(error);
@@ -421,7 +418,7 @@ function UserProfile(props: Props) {
 
     const calendarHeatmapData = useMemo(() => {
         const contributionStats =
-            userStatsData?.userStats?.filteredStats?.swipeByDate;
+            userStatsData?.communityUserStats?.filteredStats?.swipeByDate;
 
         if (!contributionStats) {
             return {};
@@ -433,7 +430,7 @@ function UserProfile(props: Props) {
         }, {});
 
         return contributionStatsMap;
-    }, [userStatsData?.userStats?.filteredStats?.swipeByDate]);
+    }, [userStatsData?.communityUserStats?.filteredStats?.swipeByDate]);
 
     useEffect(() => {
         loadUserGroups();
@@ -446,7 +443,7 @@ function UserProfile(props: Props) {
     );
 
     const userStats: Stat[] = useMemo(() => {
-        const stats = userStatsData?.userStats?.stats ?? {};
+        const stats = userStatsData?.communityUserStats?.stats ?? {};
         const {
             totalAreaSwiped,
             totalMappingProjects,
@@ -455,7 +452,8 @@ function UserProfile(props: Props) {
             totalSwipes,
         } = stats;
 
-        const totalUserGroups = userStatsData?.user?.userInUserGroups?.count;
+        const totalUserGroups =
+            userStatsData?.communityUserStats?.statsLatest?.totalUserGroups;
 
         const formatter = new Intl.NumberFormat(selectedLanguage?.localeCode);
         // $FlowFixMe[method-unbinding]
@@ -499,7 +497,7 @@ function UserProfile(props: Props) {
                 value: totalUserGroupsFormatted,
             },
         ];
-    }, [profile, userStatsData?.userStats?.stats]);
+    }, [profile, userStatsData?.communityUserStats?.stats]);
 
     const handleExploreGroupClick = useCallback(() => {
         navigation.navigate('SearchUserGroup');

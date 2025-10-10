@@ -80,6 +80,7 @@ export default function Tasks(props: Props): React.Node {
                     itemIndex={index}
                     onImageLoadStart={onImageLoadStart}
                     onImageLoadEnd={onImageLoadEnd}
+                    bbox={item.bbox}
                 />
             )}
             onViewableItemsChanged={onViewableItemsChanged}
