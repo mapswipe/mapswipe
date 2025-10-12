@@ -373,6 +373,7 @@ class _Mapper extends React.Component<Props, State> {
             <View style={styles.mappingContainer}>
                 <Header
                     lookFor={this.project.lookFor}
+                    overrideText={this.project.projectInstruction}
                     onBackPress={this.returnToView}
                     onInfoPress={this.openHelpModal}
                 />

@@ -145,7 +145,10 @@ class _BuildingFootprintScreen extends React.Component<Props> {
                     Component={Validator}
                     navigation={navigation}
                     getNormalHelpContent={this.getNormalHelpContent}
-                    headerText={t('doesShapeOutlineABuilding')}
+                    headerText={
+                        projectObj.projectInstruction ??
+                        t('doesShapeOutlineABuilding')
+                    }
                     randomSeed={this.randomSeed}
                     screenName="BuildingFootprintScreen"
                     submitResultFunction={submitFootprint}

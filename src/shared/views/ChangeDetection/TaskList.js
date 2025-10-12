@@ -76,8 +76,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // the number of screens that the initial tutorial intro covers
         this.tutorialIntroWidth = 0;
         this.currentScreen = 0; //- this.tutorialIntroWidth;
-        this.currentX =
-            parseInt(props.group.xMin, 10) - this.tutorialIntroWidth;
+        this.currentX = 0;
         this.state = {
             showAnswerButtonIsVisible: false,
             tutorialBoxIsVisible: props.tutorial,
@@ -115,11 +114,12 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // over the lifetime of the FlatList (because it gets updated
         // when the list is rerendered).
         const width = group.tasks
-            ? group.tasks.length * GLOBAL.SCREEN_WIDTH * 0.8
+            ? group.tasks.length * GLOBAL.SCREEN_WIDTH
             : 0;
         // $FlowFixMe
         const progress = width === 0 ? 0 : x / width;
         updateProgress(progress);
+
         return progress;
     };
 
@@ -128,26 +128,31 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // we don't do this in handleScroll as each scroll
         // triggers dozens of these events, whereas this happens
         // only once per page
-        const {
-            group: { xMax, xMin },
-            tutorial,
-        } = this.props;
+        const { group, tutorial } = this.props;
         const progress = this.onScroll(event);
+        const {
+            contentOffset: { x },
+        } = event.nativeEvent;
 
-        if (tutorial) {
-            // determine current taskX for tutorial
-            const min = parseInt(xMin, 10);
-            const max = parseInt(xMax, 10);
+        if (tutorial && group) {
+            const totalTasks = group.tasks?.length ?? 0;
+            const contentWidth = totalTasks * GLOBAL.SCREEN_WIDTH;
+
+            // width of one item
+            const itemWidth = contentWidth / totalTasks;
+
+            // current item index (centered one)
+            const currentIndex = Math.round(x / itemWidth);
 
             // FIXME: currentX is incorrect after xMax because of next line
-            this.currentX = Math.ceil(min + (max - min) * progress);
+            this.currentX = currentIndex;
             // getCurrentScreen returns an incorrect value after the last sample screen
             const currentScreen = this.getCurrentScreen();
             if (currentScreen >= 0) {
                 // we changed page, reset state variables
                 // $FlowFixMe
                 this.scrollEnabled = false;
-                if (progress >= 1.0) {
+                if (progress >= 1.0 || currentIndex >= totalTasks) {
                     // don't display the tutorial box at the last screen
                     // this is the screen with the button to start real mapping
                     this.scrollEnabled = true;
@@ -171,9 +176,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         // The screens before the start of the content are numbered negatively
         // which allows to check whether we're showing an example or not
         const { currentX } = this;
-        const { group } = this.props;
-        const currentScreen = Math.floor(currentX - group.xMin);
-        return currentScreen;
+        return currentX ?? 0;
     };
 
     showAnswers = () => {
@@ -203,6 +206,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
     checkTutorialAnswers = (): boolean => {
         const { group, results } = this.props;
         const { tutorialMode } = this.state;
+
         if (group.tasks) {
             const currentScreen = this.getCurrentScreen();
             const { referenceAnswer } = group.tasks[currentScreen];
@@ -426,9 +430,8 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     pagingEnabled
                     // eslint-disable-next-line no-return-assign
                     ref={r => (this.flatlist = r)}
-                    renderItem={({ item, index }) => (
+                    renderItem={({ item }) => (
                         <ChangeDetectionTask
-                            index={index}
                             onToggleTile={onToggleTile}
                             closeTilePopup={closeTilePopup}
                             openTilePopup={openTilePopup}
@@ -441,7 +444,7 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
                     scrollEnabled={
                         this.scrollEnabled || this.getCurrentScreen() < 0
                     }
-                    snapToInterval={GLOBAL.SCREEN_WIDTH * 0.8}
+                    snapToInterval={GLOBAL.SCREEN_WIDTH}
                     showsHorizontalScrollIndicator={false}
                 />
                 <ScaleBar

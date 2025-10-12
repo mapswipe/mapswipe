@@ -1,4 +1,10 @@
 {
+    "2.6.0": {
+        "changes": [
+            "Fix tutorial in change detection and find projects.",
+            "Update app to use new APIs for user dashboard"
+        ]
+    },
     "2.5.1": {
         "changes": [
             "Version upgrades and minor bug fixes"

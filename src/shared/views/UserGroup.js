@@ -47,7 +47,7 @@ import { getTimeSegments } from '../utils';
 
 const USER_GROUP_STATS = gql`
     query UserGroupStats($userGroupId: ID!) {
-        userGroupStats(userGroupId: $userGroupId) {
+        communityUserGroupStats(userGroupId: $userGroupId) {
             stats {
                 totalContributors
                 totalMappingProjects
@@ -212,7 +212,7 @@ function UserGroup(props: Props) {
     const userId = auth().currentUser?.uid;
 
     const {
-        data: userGroupStatsData,
+        data: communityUserGroupStatsData,
         loading: loadingUserGroupStats,
         refetch: refetchUserGroupStats,
     } = useQuery(USER_GROUP_STATS, {
@@ -427,8 +427,9 @@ function UserGroup(props: Props) {
         [languageCode],
     );
 
-    const userGroupStats: Stat[] = React.useMemo(() => {
-        const stats = userGroupStatsData?.userGroupStats?.stats ?? {};
+    const communityUserGroupStats: Stat[] = React.useMemo(() => {
+        const stats =
+            communityUserGroupStatsData?.communityUserGroupStats?.stats ?? {};
         const {
             totalContributors,
             totalMappingProjects,
@@ -479,11 +480,15 @@ function UserGroup(props: Props) {
                 value: totalOrganizationFormatted,
             },
         ];
-    }, [userGroupDetail, userGroupStatsData?.userGroupStats?.stats]);
+    }, [
+        userGroupDetail,
+        communityUserGroupStatsData?.communityUserGroupStats?.stats,
+    ]);
 
     const calendarHeatmapData = React.useMemo(() => {
         const contributionStats =
-            userGroupStatsData?.userGroupStats?.filteredStats?.swipeByDate;
+            communityUserGroupStatsData?.communityUserGroupStats?.filteredStats
+                ?.swipeByDate;
 
         if (!contributionStats) {
             return {};
@@ -495,7 +500,7 @@ function UserGroup(props: Props) {
         }, {});
 
         return contributionStatsMap;
-    }, [userGroupStatsData?.userGroupStats?.filteredStats]);
+    }, [communityUserGroupStatsData?.communityUserGroupStats?.filteredStats]);
 
     const isUserMember = !!userGroupDetail?.users?.[userId];
     const isGroupArchived =
@@ -556,7 +561,7 @@ function UserGroup(props: Props) {
                             </Text>
                         </View>
                         <View style={styles.userGroupsStatsContainer}>
-                            {userGroupStats.map(stat => (
+                            {communityUserGroupStats.map(stat => (
                                 <InfoCard
                                     key={stat.title}
                                     title={stat.title}

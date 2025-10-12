@@ -2,8 +2,11 @@
 // @flow
 
 // project types
+// FIND
 export const LEGACY_TILES: number = 1;
+// VALIDATE
 export const BUILDING_FOOTPRINTS: number = 2;
+// COMPARE
 export const CHANGE_DETECTION: number = 3;
 export const COMPLETENESS_PROJECT: number = 4;
 export const IMAGE_VALIDATION: number = 10;
@@ -110,7 +113,13 @@ export const devOsmUrl = 'https://master.apis.dev.openstreetmap.org/';
 export const sentryDsnUrl =
     'https://e86b18bd37604eba81e6ba125ed8b9b9@o1403718.ingest.sentry.io/6736485';
 
-export const gqlEndpoint = 'https://dev-api.mapswipe.org/graphql/';
+export const gqlEndpoint = 'https://backend-stage.mapswipe.org/graphql/';
+
+export const healthCheckEndpoint = gqlEndpoint.replace(
+    /graphql\/?$/,
+    'health-check/',
+);
+export const referrerEndpoint = gqlEndpoint.replace('backend', 'manager');
 
 // Note: no ending slashes
-export const publicDashboardUrl = 'https://dev-community.mapswipe.org';
+export const publicDashboardUrl = 'https://community-stage.mapswipe.org';
