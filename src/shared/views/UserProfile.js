@@ -59,7 +59,7 @@ import debugInfo from '../../../debugInfo';
 
 const USER_STATS = gql`
     query UserStats($firebaseId: ID!) {
-        communityUserStats(firebaseId: $firebaseId) {
+        communityUserStats(userId: { firebaseId: $firebaseId }) {
             stats {
                 totalAreaSwiped
                 totalMappingProjects

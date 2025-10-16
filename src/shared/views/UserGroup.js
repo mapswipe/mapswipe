@@ -47,7 +47,7 @@ import { getTimeSegments } from '../utils';
 
 const USER_GROUP_STATS = gql`
     query UserGroupStats($userGroupId: ID!) {
-        communityUserGroupStats(userGroupId: $userGroupId) {
+        communityUserGroupStats(userGroupId: { firebaseId: $userGroupId }) {
             stats {
                 totalContributors
                 totalMappingProjects
