@@ -22,6 +22,7 @@ function getQuadKeyFromCoordsAndZoom(x: number, y: number, zoom: number) {
 function getBingURLFromQuadKey(urlTemplate, quadKey, apiKey) {
     // Create a tile image URL linking to a Bing tile server.
     return urlTemplate
+        .replace('{quad_key}', quadKey)
         .replace('{quadKey}', quadKey)
         .replace('{apiKey}', apiKey);
 }
@@ -54,11 +55,7 @@ export function getTileUrlFromCoordsAndTileserver(
     let url = '';
     if (tileServerName === 'bing') {
         const quadKey = getQuadKeyFromCoordsAndZoom(x, y, zoom);
-        // TODO: for now we hardcode the url here, but we should really be fetching it from the firebase project data
-        // switch to this new logic once backend has all projects using a valid url template
-        // see https://github.com/mapswipe/python-mapswipe-workers/issues/511
-        const urlTemplateLocal = `https://ecn.t0.tiles.virtualearth.net/tiles/a{quadKey}.jpeg?g=1&token={apiKey}`;
-        url = getBingURLFromQuadKey(urlTemplateLocal, quadKey, apiKey);
+        url = getBingURLFromQuadKey(urlTemplate, quadKey, apiKey);
     } else if (tileServerName === 'sinergise' && wmtsLayerName) {
         url = formatXYZoomKey(urlTemplate, x, y, zoom, apiKey).replace(
             '{layer}',
