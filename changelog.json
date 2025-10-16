@@ -1,8 +1,16 @@
 {
+    "2.6.1": {
+        "changes": [
+            "Use tile url from the project instead of default.",
+            "Update APIs for user and usergroup dashboard."
+        ]
+    },
     "2.6.0": {
         "changes": [
-            "Fix tutorial in change detection and find projects.",
-            "Update app to use new APIs for user dashboard"
+            "Fix tutorial crashes in Compare Dates and Find Features project types",
+            "Add annotations and image zoom for Assess Images project type",
+            "Update app to use new APIs for user dashboard",
+            "Minor bug fixes"
         ]
     },
     "2.5.1": {
