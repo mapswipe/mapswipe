@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { Animated, Easing, Image, Text } from 'react-native';
+import { View, Animated, Easing, Image, Text } from 'react-native';
 import { withTranslation } from 'react-i18next';
 import type { TranslationFunction } from '../flow-types';
 
@@ -23,10 +23,12 @@ const styles = {
 type Props = {
     t: TranslationFunction,
     label?: string,
+    actions?: React.Node,
 };
 
 type State = {
     animOpacity: Animated.Value,
+    showActions: boolean,
 };
 
 class LoadingComponent extends React.Component<Props, State> {
@@ -34,6 +36,7 @@ class LoadingComponent extends React.Component<Props, State> {
         super(props);
         this.state = {
             animOpacity: new Animated.Value(0),
+            showActions: false,
         };
     }
 
@@ -57,15 +60,25 @@ class LoadingComponent extends React.Component<Props, State> {
                 }),
             ]),
         ).start();
+        // Show actions after 2 seconds
+        this.timer = setTimeout(() => {
+            this.setState({ showActions: true });
+        }, 3000);
+    }
+
+    componentWillUnmount() {
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
     }
 
     render() {
-        const { animOpacity } = this.state;
-        const { t, label } = this.props;
+        const { animOpacity, showActions } = this.state;
+        const { t, label, actions } = this.props;
+
         return (
-            <Animated.View
+            <View
                 style={{
-                    opacity: animOpacity,
                     flex: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -73,14 +86,24 @@ class LoadingComponent extends React.Component<Props, State> {
                     height: GLOBAL.TILE_VIEW_HEIGHT,
                 }}
             >
-                <Image
-                    style={{ width: 100, height: 100 }}
-                    source={require('./assets/loadinganimation.gif')}
-                />
+                <Animated.View
+                    style={{
+                        opacity: animOpacity,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: GLOBAL.SCREEN_WIDTH,
+                    }}
+                >
+                    <Image
+                        style={{ width: 100, height: 100 }}
+                        source={require('./assets/loadinganimation.gif')}
+                    />
+                </Animated.View>
                 <Text style={styles.loadingText} testID="loading-icon">
                     {label || t('loading')}
                 </Text>
-            </Animated.View>
+                {showActions && actions}
+            </View>
         );
     }
 }

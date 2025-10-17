@@ -55,6 +55,10 @@ import setupStore, {
     reactreduxFirebaseConfig as rrfConfig,
 } from './src/shared/store';
 
+if (__DEV__) {
+    require('react-native-devsettings');
+}
+
 if (!__DEV__) {
     Sentry.init({
         dsn: sentryDsnUrl,

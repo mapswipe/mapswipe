@@ -3,14 +3,15 @@ import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import { FlatList } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import get from 'lodash.get';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
 import TutorialBox from '../../common/Tutorial';
-import { tutorialModes } from '../../constants';
+import { tutorialModes, COLOR_DEEP_BLUE } from '../../constants';
 import ShowAnswersButton from '../../common/Tutorial/ShowAnswersButton';
 import TutorialEndScreen from '../../common/Tutorial/TutorialEndScreen';
+import Button from '../../common/Button';
 import TutorialOutroScreen from '../../common/Tutorial/TutorialOutro';
 import ScaleBar from '../../common/ScaleBar';
 import ChangeDetectionTask from './Task';
@@ -330,6 +331,11 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
         updateProgress(0);
     };
 
+    handleBackClick = () => {
+        const { navigation } = this.props;
+        navigation.pop();
+    };
+
     render = () => {
         const {
             group,
@@ -352,7 +358,30 @@ class _ChangeDetectionTaskList extends React.Component<Props, State> {
             tutorialBoxIsVisible,
         } = this.state;
         if (!group) {
-            return <LoadingIcon label="Loading groups" />;
+            return (
+                <LoadingIcon
+                    label="Loading groups"
+                    actions={
+                        <View style={{ marginTop: 30 }}>
+                            <Text>
+                                In case you’re stuck here for too long, go back
+                                to home page.
+                            </Text>
+                            <Button
+                                style={{
+                                    alignSelf: 'center',
+                                    backgroundColor: COLOR_DEEP_BLUE,
+                                    marginTop: 16,
+                                    width: GLOBAL.SCREEN_WIDTH * 0.6,
+                                }}
+                                onPress={this.handleBackClick}
+                            >
+                                Go back
+                            </Button>
+                        </View>
+                    }
+                />
+            );
         }
         if (!group.tasks) {
             return <LoadingIcon label="Loading tasks" />;
