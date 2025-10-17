@@ -226,6 +226,11 @@ class _Mapper extends React.Component<Props, State> {
         }
     };
 
+    handleBackClick = () => {
+        const { navigation } = this.props;
+        navigation.pop();
+    };
+
     renderIntroModal(creditString: string) {
         /* eslint-disable global-require */
         const { t, tutorial } = this.props;
@@ -361,7 +366,30 @@ class _Mapper extends React.Component<Props, State> {
 
         // only show the mapping component once we have downloaded the group data
         if (!group) {
-            return <LoadingIcon label="Loading groups" />;
+            return (
+                <LoadingIcon
+                    label="Loading groups"
+                    actions={
+                        <View style={{ marginTop: 30 }}>
+                            <Text>
+                                In case you’re stuck here for too long, go back
+                                to home page.
+                            </Text>
+                            <Button
+                                style={{
+                                    alignSelf: 'center',
+                                    backgroundColor: COLOR_DEEP_BLUE,
+                                    marginTop: 16,
+                                    width: GLOBAL.SCREEN_WIDTH * 0.6,
+                                }}
+                                onPress={this.handleBackClick}
+                            >
+                                Go back
+                            </Button>
+                        </View>
+                    }
+                />
+            );
         }
 
         // $FlowFixMe

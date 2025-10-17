@@ -23,6 +23,7 @@ import {
 } from '../../common/firebaseFunctions';
 import Header from '../Header';
 import BackConfirmationModal from '../../common/ConfirmationModal';
+import Button from '../../common/Button';
 import BottomProgress from '../../common/BottomProgress';
 import LoadingIcon from '../LoadingIcon';
 import LoadMoreCard from '../LoadMore';
@@ -264,6 +265,11 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         this.setState({ hideIcons: false });
     };
 
+    handleBackClick = () => {
+        const { navigation } = this.props;
+        navigation.pop();
+    };
+
     renderBackConfirmationModal = () => {
         const { t } = this.props;
         const content = (
@@ -307,7 +313,30 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         } = this.state;
 
         if (!group) {
-            return <LoadingIcon label="Loading groups" />;
+            return (
+                <LoadingIcon
+                    label="Loading groups"
+                    actions={
+                        <View style={{ marginTop: 30 }}>
+                            <Text>
+                                In case you’re stuck here for too long, go back
+                                to home page.
+                            </Text>
+                            <Button
+                                style={{
+                                    alignSelf: 'center',
+                                    backgroundColor: COLOR_DEEP_BLUE,
+                                    marginTop: 16,
+                                    width: GLOBAL.SCREEN_WIDTH * 0.6,
+                                }}
+                                onPress={this.handleBackClick}
+                            >
+                                Go back
+                            </Button>
+                        </View>
+                    }
+                />
+            );
         }
 
         if (groupCompleted) {

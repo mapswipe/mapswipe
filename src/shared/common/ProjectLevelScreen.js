@@ -275,6 +275,11 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         }
     };
 
+    handleBackClick = () => {
+        const { navigation } = this.props;
+        navigation.pop();
+    };
+
     renderBackConfirmationModal = () => {
         const { t } = this.props;
         const content = (
@@ -358,7 +363,30 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         const { groupCompleted, waitingForNextGroup } = this.state;
 
         if (!group || waitingForNextGroup) {
-            return <LoadingIcon label="Loading groups" />;
+            return (
+                <LoadingIcon
+                    label="Loading groups"
+                    actions={
+                        <View style={{ marginTop: 30 }}>
+                            <Text>
+                                In case you’re stuck here for too long, go back
+                                to home page.
+                            </Text>
+                            <Button
+                                style={{
+                                    alignSelf: 'center',
+                                    backgroundColor: COLOR_DEEP_BLUE,
+                                    marginTop: 16,
+                                    width: GLOBAL.SCREEN_WIDTH * 0.6,
+                                }}
+                                onPress={this.handleBackClick}
+                            >
+                                Go back
+                            </Button>
+                        </View>
+                    }
+                />
+            );
         }
 
         if (groupCompleted) {
