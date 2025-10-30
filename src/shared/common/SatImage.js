@@ -36,13 +36,6 @@ type State = {
 };
 
 export default class SatImage extends React.Component<Props, State> {
-    static defaultProps = {
-        interactive: false,
-        onToggleTile: () => null,
-        closeTilePopup: () => null,
-        openTilePopup: () => null,
-    };
-
     // An image component that works like a standard image, except
     // that it shows a "no image found" icon if the url provided is
     // invalid, or returns something like an HTTP 204 No Content code,
@@ -85,14 +78,14 @@ export default class SatImage extends React.Component<Props, State> {
     render() {
         const { source } = this.state;
         const {
-            interactive,
-            onToggleTile,
+            interactive = false,
+            onToggleTile = () => null,
             overlayText,
             overlayTextStyle,
             style,
             task,
-            openTilePopup,
-            closeTilePopup,
+            openTilePopup = () => null,
+            closeTilePopup = () => null,
             hideIcons,
             visibleAccessibility,
         } = this.props;

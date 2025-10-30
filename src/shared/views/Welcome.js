@@ -4,7 +4,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Image } from 'react-native';
-import fb from '@react-native-firebase/app';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
+import { getApp } from '@react-native-firebase/app';
 import Swiper from 'react-native-swiper';
 import { NavigationActions } from 'react-navigation';
 import { withTranslation } from 'react-i18next';
@@ -15,6 +16,8 @@ import { completeWelcome } from '../actions/index';
 import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
 
 const GLOBAL = require('../Globals');
+
+const analytics = getAnalytics(getApp());
 
 const styles = StyleSheet.create({
     startButton: {
@@ -91,7 +94,7 @@ class _WelcomeScreen extends React.Component<Props> {
     };
 
     handleButtonPress = () => {
-        fb.analytics().logEvent('complete_onboarding');
+        logEvent(analytics, 'complete_onboarding');
         this.finishWelcomeScreens();
     };
 
@@ -142,7 +145,7 @@ class WelcomeCardView extends React.Component<
     /* eslint-disable global-require */
     render() {
         const { onCompletion, t } = this.props;
-        fb.analytics().logEvent('starting_onboarding');
+        logEvent(analytics, 'starting_onboarding');
         return (
             /* $FlowFixMe */
             <Swiper

@@ -5,7 +5,8 @@ import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
-import fb from '@react-native-firebase/app';
+import { getApp } from '@react-native-firebase/app';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
 // import type { Notification } from 'react-native-firebase';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -194,7 +195,8 @@ class Main extends React.Component<Props, State> {
                 fb.notifications().displayNotification(notif);
             });
         */
-        fb.analytics().logEvent('mapswipe_open');
+        const analytics = getAnalytics(getApp());
+        logEvent(analytics, 'mapswipe_open');
 
         // set the app language from the language code loaded from redux
         // which has been restored from persistent storage by now

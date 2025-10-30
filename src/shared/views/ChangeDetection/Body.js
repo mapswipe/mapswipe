@@ -122,8 +122,10 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     }
 
     async componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-
+        this.backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
         const userId = auth().currentUser?.uid;
 
         try {
@@ -161,10 +163,9 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
     };
 
     componentWillUnmount() {
-        BackHandler.removeEventListener(
-            'hardwareBackPress',
-            this.handleBackPress,
-        );
+        if (this.backHandler) {
+            this.backHandler.remove();
+        }
     }
 
     handleBackPress = () => {

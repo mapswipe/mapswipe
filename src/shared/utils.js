@@ -1,4 +1,13 @@
-import fb from '@react-native-firebase/app';
+import { getApp } from '@react-native-firebase/app';
+import {
+    getDatabase,
+    ref,
+    query,
+    orderByChild,
+    equalTo,
+    get,
+} from '@react-native-firebase/database';
+
 
 import { MIN_USERNAME_LENGTH } from './constants';
 
@@ -278,12 +287,22 @@ export function validateUserName(name) {
 
 export async function checkUserNameExists(username) {
     try {
+        const db = getDatabase(getApp());
+        const q = query(
+            ref(db, 'v2/users/'),
+            orderByChild('usernameKey'),
+            equalTo(username),
+        );
+
+        const snapshot = await get(q);
+        /* FIXME: @aditya remove later
         const snapshot = await fb
             .database()
             .ref('v2/users/')
             .orderByChild('usernameKey')
             .equalTo(username)
             .once('value');
+        */
 
         return snapshot.exists();
     } catch (error) {

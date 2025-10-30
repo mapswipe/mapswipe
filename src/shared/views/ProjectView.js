@@ -5,7 +5,8 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import fb from '@react-native-firebase/app';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
+import { getApp } from '@react-native-firebase/app';
 import {
     Text,
     View,
@@ -195,6 +196,8 @@ const ProjectView = (props: Props): Node => (
 );
 /* eslint-enable react/destructuring-assignment */
 
+const analytics = getAnalytics(getApp());
+
 type HeaderProps = {
     hasSeenTutorial: ?Array<boolean>,
     navigation: NavigationProp,
@@ -207,7 +210,7 @@ class _ProjectHeader extends React.Component<HeaderProps> {
     // $FlowFixMe
 
     componentDidMount() {
-        fb.analytics().logEvent('project_view_opened');
+        logEvent(analytics, 'project_view_opened');
     }
 
     returnToView = () => {
@@ -243,7 +246,7 @@ class _ProjectHeader extends React.Component<HeaderProps> {
             // force a project type on the old ones
             project.projectType = LEGACY_TILES;
         }
-        fb.analytics().logEvent('mapping_started', {
+        logEvent(analytics, 'mapping_started', {
             projectType: project.projectType,
         });
         // do we need to force the user through the tutorial?
@@ -406,7 +409,7 @@ class _ProjectHeader extends React.Component<HeaderProps> {
                                 return;
                             }
                             // we have a tutorialId, let's show it
-                            fb.analytics().logEvent('starting_tutorial', {
+                            logEvent(analytics, 'starting_tutorial', {
                                 projectType: project.projectType,
                             });
                             switch (project.projectType) {

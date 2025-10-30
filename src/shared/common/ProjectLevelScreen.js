@@ -124,13 +124,16 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     }
 
     // eslint-disable-next-line react/no-deprecated
-    componentWillMount = () => {
+    UNSAFE_componentWillMount = () => {
         const { group } = this.props;
         this.handleGroupInit(group);
     };
 
     componentDidMount = () => {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        this.backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
     };
 
     componentDidUpdate = prevProps => {
@@ -158,10 +161,9 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     componentWillUnmount() {
-        BackHandler.removeEventListener(
-            'hardwareBackPress',
-            this.handleBackPress,
-        );
+        if (this.backHandler) {
+            this.backHandler.remove();
+        }
     }
 
     handleGroupInit = group => {
