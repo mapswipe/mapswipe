@@ -13,7 +13,7 @@ platform :ios, 15.1
 prepare_react_native_project!
 
 # Override Firebase SDK Version
-$FirebaseSDKVersion = '10.22.0'
+# $FirebaseSDKVersion = '10.22.0'
 
 ENV['RCT_NEW_ARCH_ENABLED'] = '0'
 
@@ -42,18 +42,14 @@ target 'mapswipe' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'Firebase/AnalyticsWithoutAdIdSupport', :modular_headers => true
-  pod 'FirebaseCore', :modular_headers => true
-  pod 'FirebaseCoreExtension', :modular_headers => true
-  pod 'FirebaseAuth', :modular_headers => true
-  pod 'FirebaseAuthInterop', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
   pod 'RecaptchaInterop', :modular_headers => true
-  pod 'FirebaseAppCheckInterop', :modular_headers => true
-  pod 'FirebaseDatabase', :modular_headers => true
   pod 'leveldb-library', :modular_headers => true
 
   pod 'RNFBStorage', :path => '../node_modules/@react-native-firebase/storage'
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient' # (if you added it)
+
+
 
   target 'mapswipeTests' do
     inherit! :complete
