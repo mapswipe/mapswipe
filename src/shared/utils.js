@@ -8,7 +8,6 @@ import {
     get,
 } from '@react-native-firebase/database';
 
-
 import { MIN_USERNAME_LENGTH } from './constants';
 
 /**
