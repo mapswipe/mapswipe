@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     },
     modal: {
         padding: 20,
+        width: GLOBAL.SCREEN_WIDTH - 40,
     },
     HelpModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 550,

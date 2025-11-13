@@ -10,18 +10,18 @@ import {
     HEIGHT_BUTTON,
     SPACING_LARGE,
     SPACING_SMALL,
-    WIDTH_MAX_MODAL_SMALL,
 } from '../constants';
 import Button from './Button';
 import BadImageIcon from '../views/assets/bad_image_new_icon.png';
 import QuestionMarkIcon from '../views/assets/question_mark_new_icon.png';
 import TickIcon from '../views/assets/tick_new_icon.png';
 
+const GLOBAL = require('../Globals');
+
 const styles = StyleSheet.create({
     modal: {
         height: 'auto',
-        width: '95%',
-        maxWidth: WIDTH_MAX_MODAL_SMALL,
+        width: GLOBAL.SCREEN_WIDTH - 40,
         backgroundColor: '#ffffff',
         borderRadius: 2,
         justifyContent: 'center',

@@ -50,6 +50,7 @@ const style = StyleSheet.create({
     },
     modal: {
         padding: 20,
+        width: GLOBAL.SCREEN_WIDTH - 40,
     },
     modal3: {
         marginTop: 10,

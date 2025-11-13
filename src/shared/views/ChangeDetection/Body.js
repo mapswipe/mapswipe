@@ -93,6 +93,7 @@ type State = {
     groupCompleted: boolean,
     poppedUpTile: React.Node,
     hideIcons: boolean,
+    showBackModal: boolean,
     visibleAccessibility: boolean,
 };
 
@@ -117,6 +118,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
             groupCompleted: false,
             poppedUpTile: null,
             hideIcons: false,
+            showBackModal: false,
             visibleAccessibility: false,
         };
     }
@@ -170,7 +172,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     handleBackPress = () => {
         // $FlowFixMe
-        this.backConfirmationModal.open();
+        this.handleBackModalVisibilityChange(true);
         return true; // prevents the navigator from jumping back
     };
 
@@ -266,6 +268,10 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
         this.setState({ hideIcons: false });
     };
 
+    handleBackModalVisibilityChange = newVal => {
+        this.setState({ showBackModal: newVal });
+    };
+
     handleBackClick = () => {
         const { navigation } = this.props;
         navigation.pop();
@@ -273,6 +279,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
 
     renderBackConfirmationModal = () => {
         const { t } = this.props;
+        const { showBackModal } = this.state;
         const content = (
             <Text>{t('ProjectLevelScreen:StopMappingAndReturn')}</Text>
         );
@@ -282,14 +289,12 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                 cancelButtonText={t('ProjectLevelScreen:ContinueMapping')}
                 cancelButtonCallback={() => {
                     // $FlowFixMe
-                    this.backConfirmationModal.close();
+                    this.handleBackModalVisibilityChange(false);
                 }}
                 content={content}
                 exitButtonText={t('ProjectLevelScreen:BackToMenu')}
                 exitButtonCallback={this.returnToView}
-                getRef={r => {
-                    this.backConfirmationModal = r;
-                }}
+                isVisible={showBackModal}
             />
         );
     };
@@ -360,7 +365,7 @@ class _ChangeDetectionBody extends React.Component<Props, State> {
                     overrideText={this.project.projectInstruction}
                     onBackPress={() => {
                         // $FlowFixMe
-                        this.backConfirmationModal.open();
+                        this.handleBackModalVisibilityChange(true);
                     }}
                     onInfoPress={this.onInfoPress}
                 />
