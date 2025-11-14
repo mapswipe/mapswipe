@@ -21,7 +21,7 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     modal: {
         height: 'auto',
-        width: GLOBAL.SCREEN_WIDTH - 40,
+        width: GLOBAL.SCREEN_WIDTH - SPACING_LARGE * 2,
         backgroundColor: '#ffffff',
         borderRadius: 2,
         justifyContent: 'center',
