@@ -8,7 +8,6 @@ import {
     COLOR_DEEP_BLUE,
     FONT_SIZE_SMALL,
     HEIGHT_BUTTON,
-    SPACING_LARGE,
     SPACING_SMALL,
 } from '../constants';
 import Button from './Button';
@@ -21,11 +20,11 @@ const GLOBAL = require('../Globals');
 const styles = StyleSheet.create({
     modal: {
         height: 'auto',
-        width: GLOBAL.SCREEN_WIDTH - SPACING_LARGE * 2,
+        padding: 20,
+        width: GLOBAL.SCREEN_WIDTH - 40,
+        margin: 20,
         backgroundColor: '#ffffff',
         borderRadius: 2,
-        justifyContent: 'center',
-        padding: SPACING_LARGE,
     },
     header: {
         fontWeight: '700',
@@ -101,13 +100,7 @@ function AccessibilityInfoModal() {
     }, [modalRef]);
 
     return (
-        <Modal
-            style={styles.modal}
-            entry="bottom"
-            position="center"
-            swipeToClose
-            ref={modalRef}
-        >
+        <Modal style={styles.modal} swipeToClose ref={modalRef}>
             <Text style={styles.header}>
                 <Trans i18nKey="AccessibilityInstruction:heading">
                     Accessibility Feature
