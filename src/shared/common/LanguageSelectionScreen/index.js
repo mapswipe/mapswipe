@@ -73,9 +73,16 @@ type Props = {
 class _LanguageSelectionScreen extends React.Component<Props> {
     componentDidMount() {
         const { navigation } = this.props;
-        BackHandler.addEventListener('hardwareBackPress', () =>
-            navigation.pop(),
+        this.backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            () => navigation.pop(),
         );
+    }
+
+    componentWillUnmount() {
+        if (this.backHandler) {
+            this.backHandler.remove();
+        }
     }
 
     onSelectLanguage = (langCode: string) => {

@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fb from '@react-native-firebase/app';
+import { getApp } from '@react-native-firebase/app';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
 import * as Sentry from '@sentry/react-native';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
@@ -47,6 +48,8 @@ const styles = StyleSheet.create({
         width: '70%',
     },
 });
+
+const analytics = getAnalytics(getApp());
 
 type Props = {
     group: GroupType,
@@ -119,7 +122,7 @@ class _LoadMoreCard extends React.Component<Props> {
         // do not upload results for tutorial groups
         if (!projectId.includes('tutorial')) {
             this.checkResultsAreExpectedSize();
-            fb.analytics().logEvent('complete_group');
+            logEvent(analytics, 'complete_group');
             onCommitGroup({
                 groupId: group.groupId,
                 projectId,
@@ -141,7 +144,7 @@ class _LoadMoreCard extends React.Component<Props> {
     onComplete = () => {
         const { group, navigation, onCancelGroup, tutorial } = this.props;
         if (tutorial) {
-            fb.analytics().logEvent('finish_tutorial');
+            logEvent(analytics, 'finish_tutorial');
             // this prevents the tutorial from showing
             // results from a previous run
             onCancelGroup({

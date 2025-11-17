@@ -85,8 +85,15 @@ const onPressDebugBox = () => {
 
 /* eslint-disable global-require */
 const Header = (props: Props): React.Node => {
-    const { lookFor, onBackPress, onInfoPress, overrideText } = props;
+    const {
+        lookFor,
+        onBackPress,
+        onInfoPress = () => undefined,
+        overrideText,
+    } = props;
+
     const { t } = useTranslation('mappingHeader');
+
     return (
         <View style={styles.swipeNavTop}>
             <TouchableWithoutFeedback onLongPress={onPressDebugBox}>
@@ -130,10 +137,6 @@ const Header = (props: Props): React.Node => {
             </TouchableHighlight>
         </View>
     );
-};
-
-Header.defaultProps = {
-    onInfoPress: (): void => undefined,
 };
 
 export default Header;
