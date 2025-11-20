@@ -1,4 +1,9 @@
 {
+    "2.6.3": {
+        "changes": [
+            "Upgrade packages and fix minor issues."
+        ]
+    },
     "2.6.2": {
         "changes": [
             "Add back button if user is stuck on loading screen."
