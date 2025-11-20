@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     },
     modal: {
         padding: 20,
+        width: GLOBAL.SCREEN_WIDTH - 40,
     },
     HelpModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 550,
@@ -152,7 +153,10 @@ class _Mapper extends React.Component<Props, State> {
         if (hasSeenHelpBoxType1 === undefined) {
             this.openHelpModal();
         }
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        this.backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
     }
 
     componentDidUpdate(prevProps) {
@@ -168,10 +172,9 @@ class _Mapper extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener(
-            'hardwareBackPress',
-            this.handleBackPress,
-        );
+        if (this.backHandler) {
+            this.backHandler.remove();
+        }
     }
 
     handleBackPress = () => {

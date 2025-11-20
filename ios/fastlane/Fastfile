@@ -22,19 +22,32 @@ platform :ios do
   lane :test do
     match(type: "development", app_identifier: "org.missingmaps.mapswipe-dev", readonly: is_ci)
     # Get the simulator ID dynamically
-    simulator_id = sh("xcrun simctl list devices available | grep 'iPhone 16 (' | head -n 1 | awk -F '[()]' '{print $2}'").strip
+    # simulator_id = sh("xcrun simctl list devices available | grep 'iPhone 16 (' | head -n 1 | awk -F '[()]' '{print $2}'").strip
 
-    unless simulator_id && !simulator_id.empty?
-      UI.user_error!("No iPhone 16 simulator found")
-    end
+    # unless simulator_id && !simulator_id.empty?
+    #   UI.user_error!("No iPhone 16 simulator found")
+    # end
 
-    scan(
-      scheme: "mapswipe",
+    # scan(
+    #   scheme: "mapswipe",
+    #   workspace: "./mapswipe.xcworkspace",
+    #   clean: true,
+    #   destination: "id=#{simulator_id}",  # use the dynamic ID
+    #   output_directory: "./fastlane/test_output",
+    #   skip_build: true,
+    #   output_types: "html"               # make sure this is a String, not Array
+    # )
+    #
+    UI.message("Running build only; no tests configured in scheme 'mapswipe'")
+    build_app(
       workspace: "./mapswipe.xcworkspace",
+      scheme: "mapswipe",
+      configuration: "Debug",
       clean: true,
-      destination: "id=#{simulator_id}",  # use the dynamic ID
-      output_directory: "./fastlane/test_output",
-      output_types: "html"               # make sure this is a String, not Array
+      # Key bits to avoid export/signing:
+      skip_codesigning: true,      # sets CODE_SIGNING_ALLOWED=NO
+      skip_package_ipa: true       # don’t attempt to export an IPA
+      # (no export_method needed)
     )
   end
 

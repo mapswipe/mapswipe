@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     },
     modal: {
         padding: 20,
+        width: GLOBAL.SCREEN_WIDTH - 40,
     },
     HelpModal: {
         height: GLOBAL.SCREEN_HEIGHT < 500 ? GLOBAL.SCREEN_HEIGHT - 50 : 500,
@@ -102,6 +103,7 @@ type State = {
     // is loaded, but most importantly the old group has been replaced, so we can start
     // rendering the component without the risk of showing the group that's already
     // been mapped)
+    showBackModal: boolean,
     waitingForNextGroup: boolean,
 };
 
@@ -119,18 +121,22 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         this.project = props.navigation.getParam('project');
         this.state = {
             groupCompleted: false,
+            showBackModal: false,
             waitingForNextGroup: false,
         };
     }
 
     // eslint-disable-next-line react/no-deprecated
-    componentWillMount = () => {
+    UNSAFE_componentWillMount = () => {
         const { group } = this.props;
         this.handleGroupInit(group);
     };
 
     componentDidMount = () => {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        this.backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            this.handleBackPress,
+        );
     };
 
     componentDidUpdate = prevProps => {
@@ -158,10 +164,9 @@ class ProjectLevelScreen extends React.Component<Props, State> {
     };
 
     componentWillUnmount() {
-        BackHandler.removeEventListener(
-            'hardwareBackPress',
-            this.handleBackPress,
-        );
+        if (this.backHandler) {
+            this.backHandler.remove();
+        }
     }
 
     handleGroupInit = group => {
@@ -186,11 +191,12 @@ class ProjectLevelScreen extends React.Component<Props, State> {
         }
     };
 
+    handleBackModalVisibilityChange = newVal => {
+        this.setState({ showBackModal: newVal });
+    };
+
     handleBackPress = () => {
-        if (this.backConfirmationModal) {
-            // $FlowFixMe
-            this.backConfirmationModal.open();
-        }
+        this.handleBackModalVisibilityChange(true);
         return true; // prevents the navigator from jumping back
     };
 
@@ -282,6 +288,8 @@ class ProjectLevelScreen extends React.Component<Props, State> {
 
     renderBackConfirmationModal = () => {
         const { t } = this.props;
+        const { showBackModal } = this.state;
+
         const content = (
             <Text>{t('ProjectLevelScreen:StopMappingAndReturn')}</Text>
         );
@@ -291,14 +299,12 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                 cancelButtonText={t('ContinueMapping')}
                 cancelButtonCallback={() => {
                     // $FlowFixMe
-                    this.backConfirmationModal.close();
+                    this.handleBackModalVisibilityChange(false);
                 }}
                 content={content}
                 exitButtonText={t('BackToMenu')}
                 exitButtonCallback={this.returnToView}
-                getRef={r => {
-                    this.backConfirmationModal = r;
-                }}
+                isVisible={showBackModal}
             />
         );
     };
@@ -409,7 +415,7 @@ class ProjectLevelScreen extends React.Component<Props, State> {
                     lookFor={this.project.lookFor}
                     onBackPress={() => {
                         // $FlowFixMe
-                        this.backConfirmationModal.open();
+                        this.handleBackModalVisibilityChange(true);
                     }}
                     onInfoPress={this.onInfoPress}
                     overrideText={headerText}

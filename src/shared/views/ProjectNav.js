@@ -4,19 +4,27 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
-import fb from '@react-native-firebase/app';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
+import { getApp } from '@react-native-firebase/app';
 import { withTranslation } from 'react-i18next';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import RNBootSplash from 'react-native-bootsplash';
 import RecommendedCards from './RecommendedCards';
-import ScrollableTabView from '../common/ScrollableTabView/ScrollableTabView';
-import DefaultTabBar from '../common/ScrollableTabView/DefaultTabBar';
 import UserProfile from './UserProfile';
 
 import type { NavigationProp } from '../flow-types';
-import { COLOR_DEEP_BLUE, COLOR_LIGHT_GRAY, COLOR_RED } from '../constants';
+import { COLOR_DEEP_BLUE, COLOR_RED } from '../constants';
 import ChangelogModal from '../common/ChangelogModal';
 
 const GLOBAL = require('../Globals');
+
+const renderTabBar = props => (
+    <TabBar
+        {...props}
+        indicatorStyle={{ backgroundColor: COLOR_RED, height: 4 }}
+        style={{ backgroundColor: COLOR_DEEP_BLUE }}
+    />
+);
 
 type Props = {
     firebase: Object,
@@ -24,44 +32,46 @@ type Props = {
     t: string => string,
 };
 
-class _ProjectNav extends React.Component<Props> {
-    componentDidMount() {
-        fb.analytics().logEvent('app_home_seen');
-        const { firebase } = this.props;
+function ProjectNav(props: Props) {
+    const { firebase, navigation, t } = props;
+    const [index, setIndex] = React.useState(0);
+
+    React.useEffect(() => {
+        const analytics = getAnalytics(getApp());
+        logEvent(analytics, 'app_home_seen');
+
         firebase.updateProfile({ lastAppUse: GLOBAL.DB.getTimestamp() });
         RNBootSplash.hide();
-    }
+    }, []);
 
-    render() {
-        const { navigation, t } = this.props;
-        return (
-            <>
-                <ChangelogModal />
-                <ScrollableTabView
-                    tabBarActiveTextColor="#ffffff"
-                    tabBarInactiveTextColor={COLOR_LIGHT_GRAY}
-                    renderTabBar={() => (
-                        <DefaultTabBar
-                            backgroundColor={COLOR_DEEP_BLUE}
-                            style={{ borderBottomWidth: 0 }}
-                            tabBarUnderlineStyle={{
-                                backgroundColor: COLOR_RED,
-                            }}
-                        />
-                    )}
-                >
-                    <RecommendedCards
-                        navigation={navigation}
-                        tabLabel={t('missions')}
-                    />
-                    <UserProfile
-                        navigation={navigation}
-                        tabLabel={t('userProfile')}
-                    />
-                </ScrollableTabView>
-            </>
-        );
-    }
+    const routes = React.useMemo(
+        () => [
+            { key: 'missions', title: t('missions') },
+            { key: 'userProfile', title: t('userProfile') },
+        ],
+        [t],
+    );
+
+    const renderScene = React.useMemo(
+        () =>
+            SceneMap({
+                missions: () => <RecommendedCards navigation={navigation} />,
+                userProfile: () => <UserProfile navigation={navigation} />,
+            }),
+        [navigation],
+    );
+
+    return (
+        <>
+            <ChangelogModal />
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                renderTabBar={renderTabBar}
+            />
+        </>
+    );
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -73,4 +83,4 @@ export default (compose(
     withTranslation('mainHeader'),
     connect(mapStateToProps),
     firebaseConnect(),
-)(_ProjectNav): any);
+)(ProjectNav): any);

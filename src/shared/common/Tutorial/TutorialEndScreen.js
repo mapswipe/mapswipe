@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fb from '@react-native-firebase/app';
+import { getApp } from '@react-native-firebase/app';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
 import { firebaseConnect } from 'react-redux-firebase';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTranslation } from 'react-i18next';
@@ -89,7 +90,10 @@ class TutorialEndScreen extends React.Component<Props> {
             onCompleteTutorial,
             projectType,
         } = this.props;
-        fb.analytics().logEvent('finish_tutorial');
+
+        const analytics = getAnalytics(getApp());
+        logEvent(analytics, 'finish_tutorial');
+
         // mark that the user has completed the tutorial for this project type
         onCompleteTutorial(projectType);
         // this prevents the tutorial from showing

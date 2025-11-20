@@ -1,20 +1,23 @@
 // @flow
 import * as React from 'react';
-import Modal from 'react-native-modalbox';
-import { StyleSheet } from 'react-native';
+import Modal from 'react-native-modal';
+import { StyleSheet, View } from 'react-native';
 import Button from './Button';
 import { COLOR_DEEP_BLUE } from '../constants';
+import GLOBAL from '../Globals';
 
 const styles = StyleSheet.create({
     modal: {
+        alignItems: 'center',
         backgroundColor: '#ffffff',
         borderRadius: 2,
         height: null,
         padding: 20,
-        width: 300,
+        width: GLOBAL.SCREEN_WIDTH - 40,
     },
     startButton: {
         alignItems: 'center',
+        alignSelf: 'center',
         backgroundColor: COLOR_DEEP_BLUE,
         borderRadius: 5,
         borderWidth: 0.1,
@@ -31,33 +34,25 @@ type Props = {
     exitButtonText: string,
     cancelButtonCallback: () => void,
     cancelButtonText: string,
-    getRef: any => void,
+    isVisible: boolean,
 };
 
-export default class ConfirmationModal extends React.Component<Props> {
-    /*
-     * A modal box used to confirm actions, such as leaving the mapper...
-     */
-    // eslint-disable-next-line no-undef
-    render(): React.Node {
-        const {
-            cancelButtonCallback,
-            cancelButtonText,
-            content,
-            exitButtonCallback,
-            exitButtonText,
-            getRef,
-        } = this.props;
-        return (
-            <Modal
-                animationDuration={150}
-                style={styles.modal}
-                backdropType="blur"
-                position="center"
-                ref={r => {
-                    getRef(r);
-                }}
-            >
+/*
+ * A modal box used to confirm actions, such as leaving the mapper...
+ */
+export default function ConfirmationModal(props: Props) {
+    const {
+        cancelButtonCallback,
+        cancelButtonText,
+        content,
+        exitButtonCallback,
+        exitButtonText,
+        isVisible,
+    } = props;
+
+    return (
+        <Modal backdropType="blur" position="center" isVisible={isVisible}>
+            <View style={styles.modal}>
                 {content}
                 <Button
                     style={styles.startButton}
@@ -83,7 +78,7 @@ export default class ConfirmationModal extends React.Component<Props> {
                 >
                     {exitButtonText}
                 </Button>
-            </Modal>
-        );
-    }
+            </View>
+        </Modal>
+    );
 }

@@ -21,8 +21,8 @@ import {
     RADIUS_BORDER_MEDIUM,
     SPACING_EXTRA_SMALL,
     SPACING_LARGE,
-    WIDTH_MAX_MODAL_SMALL,
 } from '../constants';
+import GLOBAL from '../Globals';
 import Button from './Button';
 
 const style = StyleSheet.create({
@@ -60,7 +60,7 @@ const style = StyleSheet.create({
     changelogModal: {
         height: 'auto',
         padding: SPACING_LARGE,
-        maxWidth: WIDTH_MAX_MODAL_SMALL,
+        width: GLOBAL.SCREEN_WIDTH - SPACING_LARGE * 2,
         borderRadius: RADIUS_BORDER_MEDIUM,
     },
 });
