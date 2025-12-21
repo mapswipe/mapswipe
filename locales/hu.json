@@ -1,14 +1,16 @@
 {
   "mainHeader": {
-    "missions": "Küldetések",
-    "more": "Egyebek"
+    "missions": "Projektek",
+      "more": "Egyebek",
+      "userProfile": "Profil"
   },
   "signup": {
     "chooseUsername": "Válassz egy felhasználónevet",
     "passwordError": "A jelszónak legalább 6 karakterből kell állnia",
-    "usernameError": "A felhasználónévnek legalább 4 karakterből kell állnia",
+    "usernameError": "A felhasználónév legalább 4 karakter legyen, és nem tartalmazhat szóközt és nagybetűt.",
+    "userNameExistError": "Ilyen felhasználónév már van, légy szíves, válassz egy másikat",
     "errorOnSignup": "Hiba történt a regisztráció során",
-    "usernameErrorMessage": "A felhasználónévnek legalább 4 karakter hosszúnak kell lennie",
+    "usernameErrorMessage": "A felhasználónevednek legalább 4 karakterből kell állnia, és nem tartalmazhat szóközt és nagybetűt.",
     "usernameNotEmail": "A felhasználónév nem lehet e-mail-cím",
     "usernamePublic": "Felhasználóneved nyilvánosan látható lesz",
     "success": "Sikerült",
@@ -47,7 +49,7 @@
   "profileScreen": {
     "Level X": "{{level}}. szint",
     "youve completed x tasks": "Elvégeztél {{contributions}} feladatot!",
-    "x tasks (s swipes) until the next level": "A következő szintig {{sqkm}} feladat ({{swipes}} pöccintés) van hátra",
+    "x tasks (s swipes) until the next level": "A következő szint még {{sqkm}} feladat ({{swipes}} pöccintés)",
     "yourTeam": "Csapatod: {{teamName}}",
     "changeLanguage": "Nyelv módosítása",
     "mapswipe website": "A MapSwipe weboldala",
@@ -56,17 +58,35 @@
     "sign out": "Kijelentkezés",
     "delete my account": "Fiókom törlése",
     "delete account question": "Törlődjék a fiók?",
-    "delete account warning": "Minden teljesítményed és jelvényed el fog veszni. A szerkesztéseid megmaradnak, de nem fognak többé a fiókodhoz kötődni.\nBiztosan folytatod?",
+    "delete account warning": "Minden teljesítményed és jelvényed el fog veszni. A szerkesztéseid megmaradnak, de nem fognak többé a fiókodhoz kötődni.Biztosan folytatod?",
     "no keep my account": "Nem, maradjon meg a fiókom",
-    "yes delete it": "Igen, törlődjön!"
+    "yes delete it": "Igen, törlődjön!",
+    "userGroups": "Felhasználói csoportok",
+    "joinNewGroup": "Csatlakozás új csoporthoz",
+    "exploreGroups": "Csoportok felfedezése",
+    "settings": "Beállítások",
+    "changeUserName": "Felhasználónév módosítása",
+    "changePassword": "Jelszó módosítása",
+    "notifications": "Értesítések",
+    "language": "Nyelv",
+    "logOut": "Kijelentkezés",
+    "deleteAccount": "Fiók törlése",
+    "missingMaps": "Missing Maps (hiányzó térképek)",
+    "email": "E-mail",
+    "accountDeleted": "Fiók törölve!",
+    "accountDeletedSuccessMessage": "Sajnáljuk, hogy itt hagysz…",
+    "accountDeletionFailed": "Nem sikerült törölni a fiókodat",
+    "accountDeletionFailedMessage": "Kérjük, jelentkezz be újra, és erősítsd meg, hogy törölni szeretnéd a fiókodat",
+    "contributionHeatmap": "Szerkesztési hőtérkép (elmúlt 30 nap)",
+    "accessibility": "Kisegítő lehetőségek"
   },
   "projectList": {
     "progress pc by x mappers": "{{mappersCount}} térképező elvégzett {{progress}}%-ot"
   },
   "projectView": {
     "x pc global progress by n mappers": "{{contributorCount}} HOZZÁD HASONLÓ TÉRKÉPEZŐ ELVÉGZETT GLOBÁLISAN {{projectProgress}}%-OT",
-    "userProgressForProject": "A projekt készültsége {{userProgress}}%",
-    "quotaReachedWarning": "Másik projekt kiválasztása a küldetések képernyőn",
+    "userProgressForProject": "Projekt készültsége: {{userProgress}}%",
+    "quotaReachedWarning": "Válassz egy másik projektet a projektképernyőről",
     "map now": "Térképezés most",
     "chooseAnotherProject": "Másik projekt kiválasztása",
     "tutorial": "Oktatóanyag"
@@ -77,6 +97,7 @@
   "loadMoreScreen": {
     "completedTutorial": "OK, az oktatóanyagot befejezted. Most már készen állsz egy kis térképezésre!",
     "finishedGroup": "Remek! Ezt a csoportot befejezted.",
+    "finishedManyGroups": "Csodálatos munka! Számos csoportot feltérképeztél egymás után. Menj vissza a projektképernyőre, hogy szinkronizáld a munkádat, és megkapd a legújabb feladatokat. Ezután még több csoportot tud majd feltérképezni.",
     "letsGo": "Rajta!",
     "completeSession": "Munkamenet befejezése",
     "continueMapping": "Térképezés folytatása",
@@ -91,22 +112,24 @@
     "swipe": "Pöccints",
     "completeTasks": "A feladatok elvégzéséhez lépegess végig a feltérképezendő területek műholdképein",
     "createData": "Hozz létre értelmes adatokat",
-    "dataUse": "Az adatok arra szolgálnak, hogy a Missing Maps önkéntesei  az OpenStreetMap térkép szerkesztéséért tett erőfeszítéseit fókuszálhassák",
+    "dataUse": "Az adatok felhasználásával a Missing Maps önkéntesei az OpenStreetMap részletesebbé tételére összpontosíthatják erőfeszítéseiket.",
     "saveLives": "Ments életeket",
     "mapHelps": "A térkép segélyszervezeteket támogat abban, hogy humanitárius erőfeszítéseiket összehangolják és életeket mentsenek"
   },
   "CDInstructionScreen": {
     "instructions": "Utasítások",
-    "your task": "Feladataid:",
+    "your task": "Feladatod:",
     "lookingFor": "<1>Épületek változásait</1> kell keresned. Ez egyértelműen jelzi a népességszám változását.",
     "perform task": "Hogyan végezd el a feladatot?",
-    "noChanges": "Ha nincs változás, egyszerűen <1>húzd el</1> a képernyőt a következő fényképhez",
+    "noChanges": "Ha nincs változás, egyszerűen <1>húzd el</1> a képernyőt a következő felvételhez",
     "seeChanges": "Ha azt látod, hogy az épületek módosultak, <1>koppints egyszer</1> a csempére, ami ki fog zöldülni.",
     "unsure": "Bizonytalan vagy? <1>Koppints kétszer</1>, s a csempe sárga lesz.",
-    "badImagery": "Baj van a képpel? (Például valamelyik képen felhők takarják el a földfelszínt.) <1>Koppints háromszor</1>, és a csempe vörös lesz.",
+    "badImagery": "Baj van a képpel? (Például egy képen felhők takarják el a földfelszínt.) <1>Koppints háromszor</1>, és a csempe vörös lesz.",
     "holdZoom": "Ha közelebbről szeretnél megnézni egy felvételt, koppints rá és tartsd rajta az ujjad egy kicsi, így megjelenik róla egy nagyítás.",
     "hint": "Tanács:",
-    "differentImagery": "Néha különböző légi felvételek jelennek meg. Lehet, hogy a képek ezért kissé más elrendezésűek, vagy más a felbontásuk. Ne feledd, hogy <1>határozott változásokat keresel a településeken és épületekben</1>. Ha tehát úgy néz ki, hogy a képen ugyanazok az épületek vannak, de mintha lecserélték volna a tetőjüket, akkor ez egy „nincs változás” forgatókönyv. Ilyenkor egyszerűen húzd be a következő képet."
+    "differentImagery": "Néha különböző légi felvételek jelennek meg. Lehet, hogy a képek ezért kissé más elrendezésűek, vagy más a felbontásuk. Ne feledd, hogy <1>határozott változásokat keresel a településeken és épületekben</1>. Ha tehát úgy néz ki, hogy a képen ugyanazok az épületek vannak, de mintha lecserélték volna a tetejüket, akkor ez egy „nincs változás” forgatókönyv. Ilyenkor egyszerűen húzd be a következő képet.",
+    "swipeToGetStarted": "További információkhoz húzd el a képernyőt",
+    "hideIconDescription": "Az ikonok és a fedőréteg elrejtéséhez koppints és tartsd lenyomva az ujjad."
   },
   "CDBodyScreen": {
     "viewInstructions": "Utasítások megtekintése"
@@ -119,7 +142,9 @@
     "Yes": "Igen",
     "No": "Nem",
     "NotSure": "Bizonytalan",
-    "BadImagery": "Rossz műholdkép"
+    "BadImagery": "Rossz légi felvétel",
+    "incorrectAnswerMessageTitle": "Hibás válasz!",
+    "incorrectAnswerMessage": "Ezt válaszd: {{correctAnswer}}"
   },
   "ProjectLevelScreen": {
     "iUnderstand": "Értem",
@@ -142,12 +167,14 @@
     "maybe": "TALÁN",
     "instructions1": "Hogyan működhetsz közre?",
     "instructions2": "KOPPINTS A KIJELÖLÉSHEZ",
-    "instructions3": "Keresd meg a küldetésben felsorolt funkciókat. Koppints rá minden olyan csempére, ahol megtaláltad azt, amit keresel. Egy koppintás: <1>IGEN</1>, két koppintás: <3>{{twoTaps}}</3>, három koppintás: <5>ROSSZ MŰHOLDKÉP</5> (például felhős).",
+    "instructions3": "Keresd meg a projektleírásban felsorolt objektumokat. Koppints rá minden olyan csempére, ahol látod azt, amit keresel. Egy koppintás: <1>IGEN</1>, két koppintás: <3>{{twoTaps}}</3>, három koppintás: <5>ROSSZ LÉGI FELVÉTEL</5> (például felhős).",
     "instructions4": "NAVIGÁLÁSHOZ HÚZD EL A KÉPERNYŐT",
     "instructions5": "Ha a térkép egy darabjával elkészültél, az elhúzásával továbbgörgethetsz a következő darabra.",
     "instructions6": "NAGYÍTÁSHOZ NYOMD HOSSZAN",
     "instructions7": "A csembe kinagyításához tarts rajta az ujjad.",
-    "instructions8": "Alkotók",
+    "instructions8": "AZ ELREJTÉSHEZ KOPPINTS",
+    "instructions9": "Koppints és tartsd lenyomva az ujjad az ikonok és a fedőréteg elrejtéséhez.",
+    "instructions10": "Alkotók",
     "tutorial1": "Üdvözlünk az oktatóanyagban!",
     "tutorial2": "Pár perc alatt MapSwipe-varázsló leszel!",
     "tutorial3": "Csupán kövesd a képernyőn megjelenő utasításokat, és a folytatáshoz húzd el balra a képernyőt.",
@@ -162,29 +189,30 @@
     "badImagery": "Ha valami gond van a műholdképpel, <1>koppints rá háromszor, hogy vörös legyen</1>.",
     "tapAgain": "Ha még egyszer rákoppintasz, visszaváltozik az eredeti állapotára.",
     "WhatToLookFor": "Mit keress?",
-    "YouAreLookingFor": "Ezt keresed:",
+    "YouAreLookingFor": "Ezt keresed: {{lookFor}}",
     "FromTheGround": "A terepen így néz ki:",
     "ImagesFromAbove": "Az általad látott képek viszont föntről mutatják, ahonnan így fest:",
-    "SwipeToContinue": "Húzd el a folytatáshoz"
+    "SwipeToContinue": "Húzd el a folytatáshoz",
+    "hideIcon": "Koppints az ikon elrejtéséhez."
   },
   "TutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Ne aggódj, ha bizonytalan vagy abban, hogy mit is látsz egy négyzetben.",
     "youCanAlwaysTapTwice": "Ne feledd, hogy bármikor koppinthatsz duplán, ha nem vagy biztos a dolgodban",
     "everyImageViewedBy": "Minden képet sokan átnéznek, így nem érdemes azon aggódnod, hogy valami elkerülte a figyelmedet",
-    "holdZoom": "Ha lenyomva tartasz egy képet, akkor megjelenik róla egy nagyítás. Koppints rá újra, és eltűnik."
+    "holdZoom": "Ráközelíthetsz egy négyzetre, ha rákoppintasz és lenyomva tartod. Érintsd meg újra a nagy képernyőre való visszatéréshez."
   },
   "TutorialEndScreen": {
     "readyToStart": "Most már készen állsz a térképezésre!",
     "startMapping": "Térképezés elkezdése",
-    "completedTutorial": "Most már minden tudással rendelkezel ahhoz, hogy az alkalmazás segítségével közreműködj a humanitárius célú térképészetben. Ha elbizonytalanodsz, bármikor visszatérhetsz, hogy felfrissítsd a tudásod."
+    "completedTutorial": "Most már minden tudással fel vagy vértezve ahhoz, hogy az alkalmazással közreműködj a humanitárius célú térképészetben. Bármikor visszatérhetsz ide, hogy felfrissítsd a tudásod."
   },
   "BuildingFootprintTutorialIntroScreen": {
-      "useTheButtonsToAnswer": "Használd a gombokat a válaszhoz:",
+      "useTheButtonsToAnswer": "Válaszolj a gombokkal:",
       "doesTheShapeOutlineABuilding": "Az alakzat egy épület körvonalait mutatja?",
-      "everyTimeYouSelectAnOption": "Minden alkalommal, amikor kiválasztasz egy lehetőséget, egy új alakzat és kép jelenik meg.",
-      "tapGreenText": "Igen – a képen az alakzat egy épület körvonalait jeleníti meg",
+      "everyTimeYouSelectAnOption": "Minden alkalommal, amikor kiválasztasz egy lehetőséget, megjelenik egy újabb alakzat és kép.",
+      "tapGreenText": "Igen – a képen az alakzat egy épület körvonala",
       "tapRedText": "Nem – a képen az alakzat nem olyan, mint egy épület körvonala",
-      "tapGrayText": "Nem vagyok benne biztos – ha bizonytalan vagy vagy ha a kép felhős / rossz minőségű",
+      "tapGrayText": "Bizonytalan – ha nem vagy biztos vagy vagy ha a kép felhős / rossz minőségű",
       "hideIconText": "Az alakzat képről való eltávolításához tartsd lenyomva az elrejtés gombot",
       "letsLearnHowToMap": "Lássunk néhány példát!",
       "youllSeeASquare": "Egy képen egy alakzatot fogsz látni. A válaszhoz használd a gombokat:",
@@ -192,6 +220,24 @@
       "squareWillMove": "Ahogy haladsz, a négyzet egy hálót követve mozogni fog a kép körül, így:",
       "swipeToGetStarted": "Húzd el a kezdéshez",
       "swipeToContinue": "Húzd el a folytatáshoz"
+  },
+  "ImageValidationTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Az alábbi gombokkal válaszolhatsz:",
+      "everyTimeYouSelectAnOption": "Miután kiválasztottál egy lehetőséget, megjelenik egy új alakzat és kép.",
+      "letsLearnHowToMap": "Nézzük meg példák segítségével, hogyan kell térképezni",
+      "youllSeeASquare": "Egy képen látsz egy alakzatot. Az alábbi gombokkal válaszolhatsz:",
+      "squareContainsBuildings": "Tartalmaz-e a négyzet épületet?",
+      "squareWillMove": "Ahogy haladsz, a négyzet mozogni fog a kép körül egy ehhez hasonló rácshálót követve:",
+      "swipeToGetStarted": "Húzd el a kezdéshez",
+      "swipeToContinue": "Húzd el a folytatáshoz"
+  },
+  "IVTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "Nem aggódj, ha bizonytalan vagy a képpel kapcsolatban",
+    "youCanAlwaysTapUnsure": "Ne feledd, hogy bármikor rákoppinthatsz a „Bizonytalan vagyok” gombra",
+    "everyImageViewedBy": "Minden képet megnéz legalább 3 MapSwipe-felhasználó, úgyhogy nem gond, ha esetleg valami kihagytál.",
+    "wantToChangeYourAnswer": "Szeretnéd módosítani a válaszodat?",
+    "youCanSwipeBack": "Visszapöccinthetsz, és változtathatsz a válaszodon. Aztán koppints vagy pöccints előrefelé, hogy visszajuss oda, ahol jártál.",
+    "yourPreviousAnswerIsMarked": "Az előző válaszodat fehér kör jelöli."
   },
   "BFTutorialOutroScreen": {
     "dontWorryIfYoureUnsure": "Ne aggódj, ha a bizonytalan vagy egy négyzettel kapcsolatban",
@@ -202,12 +248,61 @@
     "yourPreviousAnswerIsMarked": "Korábbi válaszaidat egy fehér kör jelöli"
   },
   "BFInstructionsScreen" : {
-    "doesShapeOutlineABuilding": "Az alakzat egy épület körvonalait mutatja?",
+    "doesShapeOutlineABuilding": "Egy épület körvonalait mutatja-e az alakzat?",
     "howToContribute": "Hogyan működhetsz közre?",
     "squareContainsBuildings": "Látsz-e a négyzetben épületet? Válaszolj a gombokkal:",
     "instructionsYes": "Igen: a négyzetben van épület (vagy épületrész)",
     "instructionsNo": "Nem: a négyzetben nincs épület",
     "instructionsNotSure": "Bizonytalan: nem tudod egyértelműen eldönteni, hogy épületet látsz-e",
-    "instructionsBadImagery": "Rossz műholdkép: felhős vagy más probléma miatt nem látható a földfelszín"
+    "instructionsBadImagery": "Rossz légi felvétel: felhős vagy más probléma miatt nem látható a földfelszín"
+  },
+  "IVInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "Egy épület körvonalait mutatja-e az alakzat?",
+    "howToContribute": "Hogyan működhetsz közre",
+    "squareContainsBuildings": "Van-e a négyzetben épület? Az alábbi gombokkal válaszolhatsz:",
+    "instructionsYes": "Igen: a négyzetben van épület (vagy épületrész)",
+    "instructionsNo": "Nem: a négyzetben nincs épület",
+    "instructionsNotSure": "Bizonytalan: nem tudod egyértelműen eldönteni, hogy épületet látsz-e",
+    "instructionsBadImagery": "Rossz légi felvétel: felhős vagy más probléma miatt nem látható a földfelszín"
+  },
+  "AccessibilityInstruction": {
+      "heading": "Kisegítő lehetőségek",
+      "descriptions": "A térképezési képernyőkön mostantól színes csempék és ikonok is vannak, hogy jobban látszódjék a jelentésük.",
+      "tickIconInfo": "Koppints rá egyszer, hogy a csempe zöldre változzék, és megjelenjék egy pipa ikon.",
+      "questionMarkIconInfo": "Koppints rá kétszer, hogy a csempe sárgává váljál, és megjelenjék egy kérdőjel.",
+      "badImageIconInfo": "Koppints rá háromszor, hogy a csempe pirosra változzék, és megjelenjék egy hibás légi felvétel ikon.",
+      "turnOnOff": "Be- és kikapcsolás:",
+      "turnOnOffDescription": "A funkciót a profilban a beállításoknál lehet be- és kikapcsolni."
+  },
+  "userGroupScreen": {
+    "join": "Csatlakozás",
+    "leave": "Elhagyás",
+    "leaderBoards": "Rangsorok",
+    "settings": "Beállítások",
+    "leaveGroup": "Kilépés a csoportból",
+    "joinGroup": "Csalakozás a csoporthoz"
+  },
+  "searchUserGroup": {
+    "joinGroup": "Csatlakozás a csoporthoz",
+    "searchUserGroup": "Felhasználói csoport keresése"
+  },
+  "changeUserName": {
+    "changeUserName": "Felhasználónév módosítása",
+    "currentUserName": "Jelenlegi felhasználónév",
+    "newUserName": "Új felhasználónév",
+    "confirmUserNameChange": "Felhasználónév-módosítás megerősítése"
+  },
+  "changePassword": {
+    "changePassword": "Jelszó modosítása",
+    "currentPassword": "Jelenlegi jelszó",
+    "newPassword": "Új jelszó",
+    "confirmPasswordChange": "Jelszómódosítése megerősítése"
+  },
+  "languageSelection": {
+    "languageSelection": "Nyelv"
+  },
+  "informationPage": {
+    "swipeToGetStarted": "Pöccints a kezdéshez",
+    "swipeToContinue": "Pöccints a folytatáshoz"
   }
 }
