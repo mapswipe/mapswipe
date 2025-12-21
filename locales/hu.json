@@ -167,7 +167,7 @@
     "maybe": "TALÁN",
     "instructions1": "Hogyan működhetsz közre?",
     "instructions2": "KOPPINTS A KIJELÖLÉSHEZ",
-    "instructions3": "Keresd meg a projektleírásban felsorolt objektumokat. Koppints rá minden olyan csempére, ahol látod azt, amit keresel. Egy koppintás: <1>IGEN</1>, két koppintás: <3>{{twoTaps}}</3>, három koppintás: <5>ROSSZ MŰHOLDKÉP</5> (például felhős).",
+    "instructions3": "Keresd meg a projektleírásban felsorolt objektumokat. Koppints rá minden olyan csempére, ahol látod azt, amit keresel. Egy koppintás: <1>IGEN</1>, két koppintás: <3>{{twoTaps}}</3>, három koppintás: <5>ROSSZ LÉGI FELVÉTEL</5> (például felhős).",
     "instructions4": "NAVIGÁLÁSHOZ HÚZD EL A KÉPERNYŐT",
     "instructions5": "Ha a térkép egy darabjával elkészültél, az elhúzásával továbbgörgethetsz a következő darabra.",
     "instructions6": "NAGYÍTÁSHOZ NYOMD HOSSZAN",
