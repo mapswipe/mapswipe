@@ -142,7 +142,7 @@
     "Yes": "Igen",
     "No": "Nem",
     "NotSure": "Bizonytalan",
-    "BadImagery": "Rossz műholdkép",
+    "BadImagery": "Rossz légi felvétel",
     "incorrectAnswerMessageTitle": "Hibás válasz!",
     "incorrectAnswerMessage": "Ezt válaszd: {{correctAnswer}}"
   },
