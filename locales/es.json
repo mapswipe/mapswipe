@@ -1,153 +1,160 @@
 {
   "mainHeader": {
-    "missions": "Misiones",
+    "missions": "Proyectos",
       "more": "Más",
       "userProfile": "Perfil"
   },
   "signup": {
     "chooseUsername": "Elige tu nombre de usuario",
-    "passwordError": "La contraseña debe tener como mínimo 6 caracteres",
-    "usernameError": "El nombre de usuario debe tener como mínimo 4 caracteres",
+    "passwordError": "La contraseña debe tener al menos 6 caracteres",
+    "usernameError": "El nombre de usuario debe tener al menos 4 caracteres, sin espacios ni mayúsculas",
+    "userNameExistError": "Este nombre de usuario ya existe. Por favor, elige otro.",
     "errorOnSignup": "Error al registrarse",
-    "usernameErrorMessage": "Su nombre de usuario debe tener 4 caracteres o mas",
-    "usernameNotEmail": "Su nombre de usuario no puede ser un e-mail",
-    "usernamePublic": "Su nombre de usuario será visible públicamente",
+    "usernameErrorMessage": "Tu nombre de usuario debe tener 4 caracteres o más, sin espacios ni mayúsculas.",
+    "usernameNotEmail": "Tu nombre de usuario no puede ser un correo electrónico",
+    "usernamePublic": "Tu nombre de usuario será visible públicamente",
     "success": "Éxito",
     "welcomeToMapSwipe": "Bienvenido a MapSwipe, {{username}}",
-    "emailAlreadyUsed": "Email ya en uso por otra cuenta",
-    "emailInvalid": "Dirección de email inválida",
+    "emailAlreadyUsed": "Este correo electrónico ya está en uso por otra cuenta",
+    "emailInvalid": "La dirección de correo electrónico no es válida",
     "problemSigningUp": "Problema al registrarse",
     "errorOnSignUp": "Error al registrarse",
-    "checkYourEmail": "Chequee su buzón de correo",
-    "noAccountFoundForEmail": "No se halló una cuenta para ese email",
-    "problemResettingPassword": "Problema al resetear su contraseña",
-    "errorLogIn": "Error al registrarse",
-    "invalidEmailPassword": "Correo o contraseña inválidos",
-    "accountDisabled": "Cuenta no válida",
+    "checkYourEmail": "Revisa tu correo electrónico",
+    "noAccountFoundForEmail": "No se encontró ninguna cuenta para este correo electrónico",
+    "problemResettingPassword": "Problema al restablecer tu contraseña",
+    "errorLogIn": "Error al iniciar sesión",
+    "invalidEmailPassword": "Correo electrónico o contraseña inválidos",
+    "accountDisabled": "Cuenta desactivada",
     "problemLoggingIn": "Problema al iniciar sesión",
-    "errorResetPass": "Error al resetear la contraseña",
-    "enterYourEmail": "Ingrese su email",
-    "choosePassword": "Elija su contraseña",
-    "enterYourPassword": "Ingrese su contraseña",
-    "IagreeToPrivacyNotice": "Acepto <1> Nota de privacidad </1>",
-    "contributionWarningOnSignup": "Todos los datos que Ud contribuya a MapSwipe es abierto disponible . Su nombre de usuario es público, pero su email y contraseña no será compartido por nadie",
+    "errorResetPass": "Error al restablecer la contraseña",
+    "enterYourEmail": "Ingresa tu correo electrónico",
+    "choosePassword": "Elige tu contraseña",
+    "enterYourPassword": "Ingresa tu contraseña",
+    "IagreeToPrivacyNotice": "Acepto el <1>Aviso de Privacidad</1>",
+    "contributionWarningOnSignup": "* Todos los datos que aportes a MapSwipe son abiertos y están disponibles para cualquiera. Tu nombre de usuario es público, pero tu correo electrónico y contraseña nunca se compartirán con nadie.",
     "signUp": "Registrarse",
     "loginExistingAccount": "Iniciar sesión en una cuenta existente",
     "login": "Iniciar sesión",
     "loginSignupWithOSM": "Iniciar sesión con OpenStreetMap",
-    "OSMsignupExplanation": "Puede registrarse en MapSwipe utilizando su cuenta de OpenStreetMap. Si ya tiene una cuenta MapSwipe, no se vincularán (esto vendrá pronto en una futura versión).",
-    "forgotPassword": "Olvidó su contraseña?",
-    "createNewAccount": "Crear una nueva cuenta",
-    "sendResetEmailWarning": "* Le enviaremos un email para reestablecer su contraseña",
-    "sendResetEmail": "Enviar email para reestablecer",
-    "backToLogin": "Volver para establecer sesión"
+    "OSMsignupExplanation": "Puedes registrarte en MapSwipe usando tu cuenta de OpenStreetMap. Si ya tienes una cuenta de MapSwipe, ¡esto no las vinculará! (esto estará disponible pronto en una futura versión)",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "createNewAccount": "Crear cuenta nueva",
+    "sendResetEmailWarning": "* Te enviaremos un correo electrónico para restablecer tu contraseña",
+    "sendResetEmail": "Enviar correo electrónico de restablecimiento",
+    "backToLogin": "Volver al inicio de sesión"
   },
   "login": {
-    "enterUsername": "Ingrese su nombre de usuario"
+    "enterUsername": "Ingresa tu nombre de usuario"
   },
   "profileScreen": {
     "Level X": "Nivel {{level}}",
-    "youve completed x tasks": "Has completado {{contributions}} tareas!",
-    "x tasks (s swipes) until the next level": "{{sqkm}} tareas ({{swipes}} deslizar) hasta el próximo nivel",
+    "youve completed x tasks": "¡Has completado {{contributions}} tareas!",
+    "x tasks (s swipes) until the next level": "{{sqkm}} tareas ({{swipes}} deslizamientos) hasta el siguiente nivel",
     "yourTeam": "Tu equipo: {{teamName}}",
     "changeLanguage": "Cambiar idioma",
-    "mapswipe website": "Sitio web MapSwipe",
-    "missingmaps website": "sitio web de Missing Maps",
-    "email us": "Envíenos un email",
+    "mapswipe website": "Sitio web de MapSwipe",
+    "missingmaps website": "Sitio web de Missing Maps",
+    "email us": "Envíanos un correo electrónico",
     "sign out": "Cerrar sesión",
-    "delete my account": "Borrar mi cuenta",
-    "delete account question": "Borrar la cuenta?",
-    "delete account warning": "Ud perderá todo su progreso y escudos.Sus contribuciones permanecerán siendo públicas pero no estarán ligadas a su cuenta. Desea continuar ?",
-    "no keep my account": "No, mantenga mi cuenta.",
-    "yes delete it": "Sí, bórrela",
-    "userGroups": "Grupos de Usuario",
-    "joinNewGroup": "Unirse a un Nuevo Grupo",
-    "exploreGroups": "Explorar Grupos",
+    "delete my account": "Eliminar mi cuenta",
+    "delete account question": "¿Eliminar cuenta?",
+    "delete account warning": "Perderás todo tu progreso e insignias. Tus contribuciones permanecerán públicas, pero ya no estarán vinculadas a tu cuenta.\n¿Deseas continuar?",
+    "no keep my account": "No, conservar mi cuenta",
+    "yes delete it": "¡Sí, eliminarla!",
+    "userGroups": "Grupos de usuarios",
+    "joinNewGroup": "Unirse a un nuevo grupo",
+    "exploreGroups": "Explorar grupos",
     "settings": "Configuración",
-    "changeUserName": "Cambiar Nombre de usuario",
-    "changePassword": "Cambiar Contraseña",
+    "changeUserName": "Cambiar nombre de usuario",
+    "changePassword": "Cambiar contraseña",
     "notifications": "Notificaciones",
     "language": "Idioma",
     "logOut": "Cerrar sesión",
-    "deleteAccount": "Eliminar Cuenta",
-    "missingMaps": "Mapas faltantes",
+    "deleteAccount": "Eliminar cuenta",
+    "missingMaps": "Missing Maps",
     "email": "Correo electrónico",
     "accountDeleted": "¡Cuenta eliminada!",
-    "accountDeletedSuccessMessage": "Lamentamos verle partir...",
-    "accountDeletionFailed": "No fue posible eliminar su cuenta",
-    "accountDeletionFailedMessage": "Por favor vuelva a iniciar sesión para confirmar que desea eliminar su cuenta",
-    "contributionHeatmap": "Mapa térmico de contribuciones (últimos 30 días)"
+    "accountDeletedSuccessMessage": "Lamentamos verte ir...",
+    "accountDeletionFailed": "No se pudo eliminar tu cuenta",
+    "accountDeletionFailedMessage": "Vuelve a iniciar sesión para confirmar que quieres eliminar tu cuenta",
+    "contributionHeatmap": "Mapa de calor de contribuciones (últimos 30 días)",
+    "accessibility": "Accesibilidad"
   },
   "projectList": {
-    "progress pc by x mappers": "{{progress}}% por {{mappersCount}} mapeadores "
+    "progress pc by x mappers": "{{progress}}% por {{mappersCount}} mapeadores"
   },
   "projectView": {
-    "x pc global progress by n mappers": "{{projectProgress}}% PROGRESO GLOBAL POR {{contributorCount}} MAPEADORES COMO UD",
+    "x pc global progress by n mappers": "{{projectProgress}}% DE PROGRESO GLOBAL POR {{contributorCount}} MAPEADORES COMO TÚ.",
     "userProgressForProject": "{{userProgress}}% para este proyecto",
-    "quotaReachedWarning": "Elige otro proyecto de la pantalla de misiones.",
+    "quotaReachedWarning": "Elige otro proyecto desde la pantalla de proyectos",
     "map now": "Mapear ahora",
-    "chooseAnotherProject": "Elige otro proyecto",
+    "chooseAnotherProject": "Elegir otro proyecto",
     "tutorial": "Tutorial"
   },
   "mappingHeader": {
-    "youAreLookingFor": "Ud está buscando:"
+    "youAreLookingFor": "Estás buscando:"
   },
   "loadMoreScreen": {
-    "completedTutorial": "Bien . Ud a completado el tutorial. Está listo para comenzar a mapear",
-    "finishedGroup": "Buen trabajo ! Ud ha terminado este grupo",
-    "letsGo": "Vamos!",
-    "completeSession": "Sesión completa",
-    "continueMapping": "Continúa mapeando",
+    "completedTutorial": "Bien. Has completado el tutorial. ¡Estás listo para mapear!",
+    "finishedGroup": "¡Buen trabajo! Terminaste este grupo.",
+    "finishedManyGroups": "¡Increíble trabajo! Has mapeado muchos grupos seguidos. Regresa a la pantalla de proyectos para sincronizar tu trabajo y obtener las tareas más recientes. Luego podrás mapear aún más grupos.",
+    "letsGo": "¡Vamos!",
+    "completeSession": "Completar sesión",
+    "continueMapping": "Continuar mapeando",
     "sync alert": "Alerta de sincronización",
-    "sync alert message": "Sincronizando tareas... No cierre la aplicación"
+    "sync alert message": "Sincronizando tus tareas... No cierres la aplicación."
   },
   "welcomeScreen": {
     "welcomeToMapSwipe": "Bienvenido a MapSwipe",
-    "helpImprove": "Ayude a mejorar respuestas humanitarias desde el confort de su  teléfono",
+    "helpImprove": "Ayuda a mejorar las respuestas humanitarias desde la comodidad de tu teléfono",
     "partMissingMaps": "Parte de Missing Maps",
-    "withMissingMaps": "Con Missing Maps pretendemos incluir en mapas a comunidades vulnerables a nivel mundial",
-    "swipe": "Deslizar",
-    "completeTasks": "Completar tareas deslizando a través de imágenes satelitales de areas que necesitan ser mapeadas",
-    "createData": "Crear datos relevantes",
-    "dataUse": "Los datos son usados para enfocarse en los esfuerzos de los voluntarios de Missing Maps en agregar detalles a OpenStreetMap",
-    "saveLives": "Salvar vidas",
-    "mapHelps": "El mapa ayuda a las organizaciones a coordinar esfuerzos y salvar vidas"
+    "withMissingMaps": "Con Missing Maps, nuestro objetivo es poner a las comunidades vulnerables del mundo en el mapa",
+    "swipe": "Desliza",
+    "completeTasks": "Completa tareas deslizando imágenes satelitales de áreas que necesitan mapeo",
+    "createData": "Crea datos significativos",
+    "dataUse": "Los datos se utilizan para enfocar los esfuerzos de los voluntarios de Missing Maps para agregar detalles a OpenStreetMap",
+    "saveLives": "Salva vidas",
+    "mapHelps": "El mapa ayuda a las organizaciones a coordinar los esfuerzos humanitarios y salvar vidas"
   },
   "CDInstructionScreen": {
     "instructions": "Instrucciones",
     "your task": "Tu tarea:",
-    "lookingFor": "Está buscando <1> cambios en edificios </1>. Esto actúa como un claro indicador de un cambio en el tamaño de la población.",
-    "perform task": "Como desempeñar la tarea:",
-    "noChanges": "Si no hay cambios, simplemente <1> pase </1> a las siguientes fotos",
-    "seeChanges": "Si observa un cambio en los edificios, <1> pulse una vez </1> y la baldosa se volverá verde",
-    "unsure": "¿No está seguro? <1> Pulse dos veces </1> y la baldosa se volverá amarilla",
-    "badImagery": "¿Problemas con las imágenes, por ejemplo, si alguna de las imágenes tiene nubes que cubren la vista? <1> Pulse tres veces </1> y la baldosa se volverá roja",
-    "holdZoom": "Si necesita ver una imagen mas cerca, presione y mantenga la imagen, esta se enfocará mas cerca",
-    "hint": "Sugerencia",
-    "differentImagery": "A veces se habrán utilizado diferentes fuentes de imágenes. Las imágenes pueden estar alineadas de forma ligeramente distinta o tener una resolución diferente. Recuerde que lo que busca son <1> cambios definidos en los asentamientos y edificios </1>, de modo que si parece que los edificios son los mismos, pero hay un tejado nuevo, se trataría de una situación de \"sin cambios\" y simplemente pasaría a la siguiente imagen."
+    "lookingFor": "Estás buscando <1>cambios en edificios</1>. Esto actúa como un indicador claro de un cambio en el tamaño de la población.",
+    "perform task": "Cómo realizar la tarea:",
+    "noChanges": "Si no hay cambios, simplemente <1>desliza</1> a las siguientes fotos",
+    "seeChanges": "Si ves un cambio en los edificios, <1>toca una vez</1> y la cuadrícula se vuelve verde",
+    "unsure": "¿No estás seguro? <1>Toca dos veces</1> y la cuadrícula se volverá amarilla",
+    "badImagery": "¿Problemas con las imágenes, como si alguna de las imágenes tuviera nubes que cubren la vista? <1>Toca tres veces</1> y la cuadrícula se volverá roja",
+    "holdZoom": "Si necesitas ver una imagen más de cerca, mantén presionada la imagen y se acercará un poco más.",
+    "hint": "Consejo:",
+    "differentImagery": "A veces se habrán utilizado diferentes fuentes de imágenes. Las imágenes pueden estar alineadas de forma ligeramente diferente o tener una resolución diferente. Recuerda, estás buscando <1>cambios definitivos en asentamientos y edificios</1>, así que si parece que los mismos edificios están allí, pero tal vez hay un techo nuevo, entonces este sería un escenario de \"sin cambios\" y simplemente deslizarías a la siguiente imagen.",
+    "swipeToGetStarted": "Desliza para ver información adicional",
+    "hideIconDescription": "Mantén presionado para ocultar los iconos y la superposición."
   },
   "CDBodyScreen": {
-    "viewInstructions": "Visualizar instrucciones"
+    "viewInstructions": "Ver instrucciones"
   },
   "CDTaskScreen": {
     "before": "Antes",
     "after": "Después"
   },
   "CDValidator": {
-    "Yes": "Si",
+    "Yes": "Sí",
     "No": "No",
-    "NotSure": "No estoy segura(o)",
-    "BadImagery": "Mala imagen"
+    "NotSure": "No estoy seguro",
+    "BadImagery": "Mala imagen",
+    "incorrectAnswerMessageTitle": "¡Respuesta incorrecta!",
+    "incorrectAnswerMessage": "Por favor, selecciona: {{correctAnswer}}"
   },
   "ProjectLevelScreen": {
     "iUnderstand": "Entiendo",
-    "StopMappingAndReturn": "¿Dejar de mapear y volver al menú?",
-    "ContinueMapping": "Continuar mapeando ",
+    "StopMappingAndReturn": "¿Detener el mapeo y volver al menú?",
+    "ContinueMapping": "Continuar mapeando",
     "BackToMenu": "Volver al menú"
   },
   "IndividualCard": {
-    "swipe down mark red": "Deslice hacia ABAJO para marcar en ROJO las 6 cuadrículas.",
-    "swipe up undo": "Deslice hacia ARRIBA para deshacer."
+    "swipe down mark red": "Desliza HACIA ABAJO para marcar las 6 cuadrículas de ROJO.",
+    "swipe up undo": "Desliza HACIA ARRIBA para deshacer."
   },
   "LoadingIcon": {
     "loading": "Cargando..."
@@ -157,102 +164,145 @@
   },
   "Tutorial": {
     "incomplete": "INCOMPLETO",
-    "maybe": "Quizás",
-    "instructions1": "Como colaborar",
-    "instructions2": "Presione para seleccionar",
-    "instructions3": "Busque las características listadas en la descripción de la misión. Presione cada cuadrícula donde Ud encuentre lo que está buscando. Presione una vez para <1> SI </1>, dos veces para <3> {{twoTaps}}</3> ,tres veces para <5> MALA IMAGEN </5> (por ejemplo nubes).",
-    "instructions4": "DESLICE PARA NAVEGAR",
-    "instructions5": "Cuando finalizaste una parte del mapa, avanza al siguiente deslizando",
-    "instructions6": "PRESIONAR PARA ACERCAR",
-    "instructions7": "Presiona la cuadrícula para acercarla.",
-    "instructions8": "Creditos",
-    "tutorial1": "Bienvenido al tutorial!",
-    "tutorial2": "Esto debería hacer un asistente de MapSwipe en unos pocos minutos ",
-    "tutorial3": "Solo siga las instrucciones y deslice a la izquierda para continuar",
-    "tutorial4": "Si las instrucciones te molestan presiona la casilla de mensaje para moverla",
+    "maybe": "QUIZÁS",
+    "instructions1": "Cómo contribuir",
+    "instructions2": "TOCA PARA SELECCIONAR",
+    "instructions3": "Busca las características enumeradas en la descripción de tu proyecto. Toca cada cuadrícula donde encuentres lo que buscas. Toca una vez para <1>SÍ</1>, dos veces para <3>{{twoTaps}}</3> y tres veces para <5>MALA IMAGEN</5> (como nubes).",
+    "instructions4": "DESLIZA PARA NAVEGAR",
+    "instructions5": "Cuando hayas terminado con una parte del mapa, desplázate a la siguiente deslizando.",
+    "instructions6": "MANTÉN PRESIONADO PARA ACERCAR",
+    "instructions7": "Mantén presionada una cuadrícula para acercarla.",
+    "instructions8": "TOCA PARA OCULTAR",
+    "instructions9": "Mantén presionado para ocultar los iconos y la superposición.",
+    "instructions10": "Créditos",
+    "tutorial1": "¡Bienvenido al tutorial!",
+    "tutorial2": "Esto debería convertirte en un experto de MapSwipe en unos minutos.",
+    "tutorial3": "Simplemente sigue las instrucciones en la pantalla y desliza hacia la izquierda para continuar.",
+    "tutorial4": "Si las instrucciones te estorban, solo toca el cuadro de mensaje para moverlo.",
     "tutorial5": "Entiendo"
   },
   "TutorialIntroScreen": {
-    "thisTutoWillTeachYou": "Este tutorial le enseñará cómo utilizar MapSwipe. Aquí están los pasos básicos:",
-    "noChanges": "Si no hay nada relevante en las imágenes, simplesmente <1> deslice </1> a la siguiente pantalla",
-    "seeChanges": "Si observa algo en una de las imágenes, <1> toque una vez para poner el cuadrado verde</1>.",
-    "unsure": "¿No estás segura(o) acerca de lo que ves? <1> Toque dos veces para poner el cuadrado amarillo </1>",
-    "badImagery": "Si hay un problema con las imágenes, <1> toque tres veces para poner el cuadrado rojo </1>",
-    "tapAgain": "Toque de nuevo para devolver el cuadrado a su estado original.",
+    "thisTutoWillTeachYou": "Este tutorial te enseñará cómo usar MapSwipe. Estos son los pasos básicos:",
+    "noChanges": "Si no hay nada relevante en las imágenes, simplemente <1>desliza</1> a la siguiente pantalla",
+    "seeChanges": "Si ves algo en una de las imágenes, <1>toca una vez para que el cuadrado se vuelva verde</1>.",
+    "unsure": "¿No estás seguro de lo que ves? <1>Toca dos veces para que el cuadrado se vuelva amarillo</1>",
+    "badImagery": "Si hay un problema con la imagen, <1>toca tres veces para que el cuadrado se vuelva rojo</1>",
+    "tapAgain": "Toca de nuevo para que el cuadrado vuelva a su estado original.",
     "WhatToLookFor": "Qué buscar",
     "YouAreLookingFor": "Estás buscando {{lookFor}}",
-    "FromTheGround": "Desde el suelo, se parece a esto:",
-    "ImagesFromAbove": "Pero las imágenes que verá lo mostrarán desde arriba, y se verá así: ",
-    "SwipeToContinue": "Deslice para continuar"
+    "FromTheGround": "Desde el suelo, se ve así:",
+    "ImagesFromAbove": "Pero las imágenes que verás lo mostrarán desde arriba, y se ve así:",
+    "SwipeToContinue": "Desliza para continuar",
+    "hideIcon": "Toca para ocultar icono."
   },
   "TutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "No se preocupe si no está seguro de que ve en un cuadrado.",
-    "youCanAlwaysTapTwice": "Recuerde, siempre puede tocar dos veces para marcar en amarillo si no está segura(o) de lo que está viendo",
-    "everyImageViewedBy": "Cada imagen es observada por múltiples personas, por este motivo no se preocupe si se le ha escapado algo.",
-    "holdZoom": "Puede presionar y mantener cualquier cuadrado para ampliarlo. Toque nuevamente para descartarlo."
+    "dontWorryIfYoureUnsure": "No te preocupes si no estás seguro de lo que ves en un cuadrado.",
+    "youCanAlwaysTapTwice": "Recuerda, siempre puedes tocar dos veces para marcar la cuadrícula de amarillo si no estás seguro de lo que ves",
+    "everyImageViewedBy": "Cada imagen es vista por varias personas, así que no te preocupes si te perdiste algo",
+    "holdZoom": "Puedes mantener presionado cualquier cuadrado para acercarlo. Toca de nuevo para descartarlo."
   },
   "TutorialEndScreen": {
-    "readyToStart": "¡Estás lista(o) para empezar MapSwiping!",
-    "startMapping": "Empezar a mapear",
-    "completedTutorial": "Ud está ahora equipado con todo lo que necesita para contribuir para el mapeo humanitario usando la aplicación. Puede volver en cualquier momento para un repaso."
+    "readyToStart": "¡Estás listo para comenzar a usar MapSwipe!",
+    "startMapping": "Comenzar a mapear",
+    "completedTutorial": "Ahora estás equipado con todo lo que necesitas para contribuir al mapeo humanitario utilizando la aplicación. Puedes volver en cualquier momento para un repaso."
   },
   "BuildingFootprintTutorialIntroScreen": {
-      "useTheButtonsToAnswer": "Utilice los botones para responder:",
-      "doesTheShapeOutlineABuilding": "¿La forma dibuja el contorno de un edificio?",
-      "everyTimeYouSelectAnOption": "Cada vez que seleccione una opción, se le mostrará una nueva forma e imagen.",
-      "tapGreenText": "Sí - la forma de la imagen es el contorno de un edificio",
-      "tapRedText": "No - la forma no coincide con un edificio en la imagen",
-      "tapGrayText": "No estoy seguro - si no está seguro o hay nubosidad / malas imágenes",
-      "hideIconText": "Mantenga pulsado el botón de ocultar para eliminar la forma de la imagen",
+      "useTheButtonsToAnswer": "Usa los botones para responder:",
+      "doesTheShapeOutlineABuilding": "¿La forma delinea un edificio?",
+      "everyTimeYouSelectAnOption": "Cada vez que selecciones una opción, se te mostrará una nueva forma e imagen.",
+      "tapGreenText": "Sí, la forma delinea un edificio en la imagen",
+      "tapRedText": "No, la forma no coincide con un edificio en la imagen",
+      "tapGrayText": "No estoy seguro, si no estás seguro o hay nubes / mala calidad de imagen",
+      "hideIconText": "Mantén presionado el botón ocultar para eliminar la forma de la imagen",
       "letsLearnHowToMap": "Aprendamos a mapear con algunos ejemplos",
-      "youllSeeASquare": "Verá una forma en una imagen. Utilice los botones para responder:",
+      "youllSeeASquare": "Verás una forma en una imagen. Usa los botones para responder:",
       "squareContainsBuildings": "¿El cuadrado contiene algún edificio?",
-      "squareWillMove": "El cuadrado se moverá alrededor de la imagen a medida que avanza, siguiendo una cuadrícula como esta:",
-      "swipeToGetStarted": "Deslizar para empezar",
-      "swipeToContinue": "Deslizar para continuar"
+      "squareWillMove": "El cuadrado se moverá alrededor de la imagen a medida que progreses, siguiendo una cuadrícula como esta:",
+      "swipeToGetStarted": "Desliza para comenzar",
+      "swipeToContinue": "Desliza para continuar"
+  },
+  "ImageValidationTutorialIntroScreen": {
+      "useTheButtonsToAnswer": "Usa los botones para responder:",
+      "everyTimeYouSelectAnOption": "Cada vez que selecciones una opción, se te mostrará una nueva forma e imagen.",
+      "letsLearnHowToMap": "Aprendamos a mapear con algunos ejemplos",
+      "youllSeeASquare": "Verás una forma sobre una imagen. Usá los botones para responder:",
+      "squareContainsBuildings": "¿El cuadrado contiene algún edificio?",
+      "squareWillMove": "El cuadrado se moverá por la imagen a medida que avances, siguiendo una cuadrícula como esta:",
+      "swipeToGetStarted": "Desliza para comenzar",
+      "swipeToContinue": "Desliza para continuar"
+  },
+  "IVTutorialOutroScreen": {
+    "dontWorryIfYoureUnsure": "No te preocupes si no estás seguro sobre una imagen",
+    "youCanAlwaysTapUnsure": "Recordá que siempre podés tocar el botón 'No estoy seguro'",
+    "everyImageViewedBy": "Cada imagen es revisada por al menos 3 usuarios de MapSwipe, así que no pasa nada si pensás que te perdiste algo",
+    "wantToChangeYourAnswer": "¿Querés cambiar tu respuesta?",
+    "youCanSwipeBack": "Puedes deslizar hacia atrás para cambiar tus respuestas anteriores. Luego toca o desliza hacia adelante para volver al punto donde estabas.",
+    "yourPreviousAnswerIsMarked": "Tus respuestas anteriores están marcadas con un círculo blanco"
   },
   "BFTutorialOutroScreen": {
-    "dontWorryIfYoureUnsure": "No se preocupe si no está seguro sobre un cuadrado",
-    "youCanAlwaysTapUnsure": "Recuerda, siempre puedes tocar el botón 'No estoy segura(o)'",
-    "everyImageViewedBy": "Cada imagen es observada por lo menos por 3 MapSwipers, por este motivo está bien si se creé que se le ha escapado algo.",
-    "wantToChangeYourAnswer": "¿Quiere cambiar su respuesta?",
-    "youCanSwipeBack": "Puede deslizar hacia atrás para cambiar sus respuestas anteriores. Después toque o deslice hacia delante nuevamente para volver a donde estaba.",
-    "yourPreviousAnswerIsMarked": "Sus respuestas anteriores están marcadas con un círculo blanco"
+    "dontWorryIfYoureUnsure": "No te preocupes si no estás seguro acerca de un cuadrado",
+    "youCanAlwaysTapUnsure": "Recuerda, siempre puedes tocar el botón 'No estoy seguro'",
+    "everyImageViewedBy": "Cada imagen es vista por al menos 3 MapSwipers, así que está bien si crees que te has perdido algo",
+    "wantToChangeYourAnswer": "¿Quieres cambiar tu respuesta?",
+    "youCanSwipeBack": "Puedes deslizar hacia atrás para cambiar tus respuestas anteriores. Luego toca o desliza hacia adelante nuevamente para volver a donde estabas.",
+    "yourPreviousAnswerIsMarked": "Tus respuestas anteriores están marcadas con un círculo blanco"
   },
   "BFInstructionsScreen" : {
-    "doesShapeOutlineABuilding": "¿La forma dibuja el contorno de un edificio?",
+    "doesShapeOutlineABuilding": "¿La forma delinea un edificio?",
     "howToContribute": "Cómo contribuir",
     "squareContainsBuildings": "¿El cuadrado contiene algún edificio? Usa los botones para responder:",
-    "instructionsYes": "Si: Cuando hay un edificio o parte de un edificio en el cuadrado",
+    "instructionsYes": "Sí: cuando hay un edificio o parte de un edificio en el cuadrado",
     "instructionsNo": "No: cuando no hay edificios en el cuadrado",
-    "instructionsNotSure": "No estoy segura(o): cuando no está segura(o) de si es un edificio o no",
-    "instructionsBadImagery": "Mala imagen: cuando hay nubes cubriendo o problemas con las imágenes "
+    "instructionsNotSure": "No estoy seguro: cuando no estás seguro de si es un edificio o no",
+    "instructionsBadImagery": "Mala imagen: cuando hay nubes o problemas con la imagen"
+  },
+  "IVInstructionsScreen" : {
+    "doesShapeOutlineABuilding": "¿La forma delimita un edificio?",
+    "howToContribute": "Cómo contribuir",
+    "squareContainsBuildings": "¿El cuadrado contiene algún edificio? Usa los botones para responder:",
+    "instructionsYes": "Sí: cuando hay un edificio o parte de un edificio dentro del cuadrado",
+    "instructionsNo": "No: cuando no hay edificios en el cuadrado",
+    "instructionsNotSure": "No estoy seguro: cuando no estás seguro si es un edificio o no",
+    "instructionsBadImagery": "Imagen de mala calidad: cuando hay cobertura de nubes o problemas con la imagen"
+  },
+  "AccessibilityInstruction": {
+      "heading": "Función de accesibilidad",
+      "descriptions": "Las pantallas de mapeo ahora tienen mosaicos de colores, así como iconos para reflejar mejor el significado.",
+      "tickIconInfo": "Toca una vez para que el mosaico se vuelva verde y muestre un icono de marca de verificación",
+      "questionMarkIconInfo": "Toca dos veces para que el mosaico se vuelva amarillo y muestre un icono de signo de interrogación",
+      "badImageIconInfo": "Toca tres veces para que el mosaico se vuelva rojo y muestre un icono de mala imagen",
+      "turnOnOff": "Cómo activar/desactivar:",
+      "turnOnOffDescription": "Activa/desactiva la función visitando la sección Configuración en Perfil"
   },
   "userGroupScreen": {
     "join": "Unirse",
-    "leave": "Abandonar",
-    "leaderBoards": "Tableros de clasificación",
-    "settings": "Configuraciones",
-    "leaveGroup": "Dejar el Grupo",
-    "joinGroup": "Unirse al Grupo"
+    "leave": "Salir",
+    "leaderBoards": "Tablas de clasificación",
+    "settings": "Ajustes",
+    "leaveGroup": "Abandonar el grupo",
+    "joinGroup": "Unirse al grupo"
   },
   "searchUserGroup": {
-    "joinGroup": "Unirse al Grupo",
-    "searchUserGroup": "Buscar Grupo de Usuarios"
+    "joinGroup": "Unirse al grupo",
+    "searchUserGroup": "Buscar grupo de usuarios"
   },
   "changeUserName": {
-    "changeUserName": "Cambiar Nombre de Usuario",
-    "currentUserName": "Nombre de Usuario actual",
-    "newUserName": "Nuevo Nombre de Usuario",
-    "confirmUserNameChange": "Confirmar Cambio de Nombre de Usuario"
+    "changeUserName": "Cambiar nombre de usuario",
+    "currentUserName": "Nombre de usuario actual",
+    "newUserName": "Nombre de usuario nuevo",
+    "confirmUserNameChange": "Confirmar cambio de nombre de usuario"
   },
   "changePassword": {
-    "changePassword": "Cambiar Contraseña",
-    "currentPassword": "Contraseña Actual",
-    "newPassword": "Nueva Contraseña",
-    "confirmPasswordChange": "Confirmar Cambio de Contraseña"
+    "changePassword": "Cambiar contraseña",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Contraseña nueva",
+    "confirmPasswordChange": "Confirmar cambio de contraseña"
   },
   "languageSelection": {
     "languageSelection": "Idioma"
+  },
+  "informationPage": {
+    "swipeToGetStarted": "Desliza para comenzar",
+    "swipeToContinue": "Desliza para continuar"
   }
 }
