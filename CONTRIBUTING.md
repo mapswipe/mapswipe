@@ -1,84 +1,42 @@
+# Contributing
+
+We want to invite the vast community of developers to contribute to our mission and improve MapSwipe.
+
 ## Contributions
 
-We welcome the global community of developers to contribute to our mission and help improve MapSwipe! We welcome any contributions that enhance the application.
+We welcome any contributions that help improve the application. Before you start hacking, please read through [README](README.md) and the issues on GitHub to find the best fit for your skills. If you find a task that you confortable working on, simply fork the repo and submit a PR (to the `dev` branch) when you are ready!
 
-Before getting started, please:
+If you are thinking of a change that is not trivial, we suggest you first [open an issue](https://github.com/mapswipe/mapswipe/issues) to discuss your proposed changes. This may save you a lot of time, as other people may be working on similar (or conflicting) changes.
 
-* Read the [README](README.md)
-* Browse existing issues on GitHub to find tasks that match your skills
-
-If you find something you'd like to work on:
-
-1. Fork the repository
-2. Create your branch from `dev`
-3. Submit a Pull Request (PR) when ready
-
-If you're planning a **non-trivial change**, we strongly recommend that you first [open an issue](https://github.com/mapswipe/mapswipe/issues) to discuss your proposal. This helps avoid duplicated work or conflicts with ongoing efforts.
-
-## ⚠️ Guidelines
-
-### AI-generated contributions
-
-* Direct AI-generated contributions are **not allowed** ❌
-* All contributions must be **reviewed, tested, and fully understood by the contributor** before submission
-* Repository owners will **independently review, run, and verify** all changes
-
-### Review & Merge Process
-
-* All PRs must go through a proper review process
-* Final review and approval will be conducted by **Togglecorp** before merging
-* Contributors may be asked to make revisions based on feedback
+Direct AI-generated contributions are not allowed. All contributions must be reviewed, tested, and fully understood by the contributor before submission, and repository owners will independently review, run, and verify all changes. Additionally, all PRs must go through a proper review process, with final review and approval conducted by Togglecorp before merging. Contributors may be asked to make revisions based on feedback.
 
 ## Developing - Android
 
-See [Setting up a development environment for Android](docs/develop-android.md) for full instructions.
+See [Setting up a development environment for Android](docs/develop-android.md) for all the details.
 
 ## Developing - iOS
 
-See [Setting up a development environment for iOS](docs/develop-ios.md).
+See [Setting up a developer environment for iOS](docs/develop-ios.md).
 
-## Developing and Debugging
+## Developping and debugging
 
-(Coming soon — contributors are encouraged to help expand this section.)
+## Github Actions setup
 
-## GitHub Actions Setup
+See the [deployment page](docs/deployment).
 
-See the [deployment page](docs/deployment) for setup and configuration details.
+### Deployment to github releases
 
-### Deployment to GitHub Releases
+This is also detailed in the CI config files under `.github/workflows`.
 
-Deployment workflows are defined under `.github/workflows`.
+## Translating the app
 
-## Translating the App
+We use [transifex](https://www.transifex.com/mapswipe/mapswipe-app/) to translate the text in the app to other languages. As a developer, you need to know the following:
 
-We use [Transifex](https://www.transifex.com/mapswipe/mapswipe-app/) for managing translations.
+- install the transifex client: https://docs.transifex.com/client/installing-the-client
+- if you modify text strings in the code, you need to push these updates to transifex with `tx push -s`
+- if you add new translations (in other languages than English) in the code, use `tx push -t` to upload the translations to transifex
+- to pull new translations from transifex into the code base: `tx pull -a`, and commit the updated `<lang>.json` files to git :)
 
-### Developer workflow:
+## Troubleshooting and random notes
 
-* Install the Transifex CLI:
-  [https://docs.transifex.com/client/installing-the-client](https://docs.transifex.com/client/installing-the-client)
-
-* Push source strings (English):
-
-  ```
-  tx push -s
-  ```
-
-* Push translations (non-English):
-
-  ```
-  tx push -t
-  ```
-
-* Pull all translations:
-
-  ```
-  tx pull -a
-  ```
-
-* Commit updated `<lang>.json` files to the repository
-
-## Troubleshooting and Notes
-
-* When updating dependencies using `yarn`, ensure corresponding **iOS dependencies** are also updated
-* Some libraries (e.g., Sentry) rely on CocoaPods and may not sync automatically with JavaScript versions, which can break builds
+- When updating dependencies with `yarn`, make sure that the corresponding `iOS` dependency is updated as well, for instance `Sentry` has a cocoapod that does not seem to sync automatically with the javascript version, which ends up breaking the build.
