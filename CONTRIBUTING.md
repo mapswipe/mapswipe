@@ -8,6 +8,8 @@ We welcome any contributions that help improve the application. Before you start
 
 If you are thinking of a change that is not trivial, we suggest you first [open an issue](https://github.com/mapswipe/mapswipe/issues) to discuss your proposed changes. This may save you a lot of time, as other people may be working on similar (or conflicting) changes.
 
+Direct AI-generated contributions are not allowed. All contributions must be reviewed, tested, and fully understood by the contributor before submission, and repository owners will independently review, run, and verify all changes. Additionally, all PRs must go through a proper review process, with final review and approval conducted by Togglecorp before merging. Contributors may be asked to make revisions based on feedback.
+
 ## Developing - Android
 
 See [Setting up a development environment for Android](docs/develop-android.md) for all the details.
