@@ -41,7 +41,7 @@ import type {
 
 const GLOBAL = require('../../Globals');
 
-// tileSize is only used for tile based imagery (ie: everything but google)
+// tileSize is used for tile based imagery display
 const tileSize = GLOBAL.SCREEN_WIDTH * 0.9;
 
 // keeping this value separate from the above as they are semantically different
@@ -177,33 +177,19 @@ export default class FootprintDisplay extends React.Component<Props, State> {
             const coords = prefetchTask.geojson.coordinates[0];
             const zoomLevel = this.getZoomLevelFromCoords(coords);
 
-            if (
-                project.tileServer.url.includes('googleapis') &&
-                this.imageryHeight !== 0
-            ) {
-                const prefetchUrl = this.getGoogleImageryUrl(
-                    project.tileServer.url,
-                    prefetchTask,
-                    GLOBAL.SCREEN_WIDTH,
-                    this.imageryHeight,
-                    zoomLevel,
-                );
-                Image.prefetch(prefetchUrl);
-            } else {
-                // all other, tile-based, imagery
-                const { tileUrls } = this.getTMSImageryUrls(
-                    prefetchTask,
-                    zoomLevel,
-                );
-                tileUrls.map(url => {
-                    if (!this.prefetchedUrls.has(url)) {
-                        Image.prefetch(url);
-                        this.prefetchedUrls.add(url);
-                    }
-                    // return something to keep flow happy
-                    return null;
-                });
-            }
+            // tile-based imagery prefetch
+            const { tileUrls } = this.getTMSImageryUrls(
+                prefetchTask,
+                zoomLevel,
+            );
+            tileUrls.map(url => {
+                if (!this.prefetchedUrls.has(url)) {
+                    Image.prefetch(url);
+                    this.prefetchedUrls.add(url);
+                }
+                // return something to keep flow happy
+                return null;
+            });
         } else {
             console.log('will not prefetch imagery');
         }
@@ -371,36 +357,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return [pointPixelCoords[0] - minX, pointPixelCoords[1] - minY];
     };
 
-    // $FlowFixMe
-    getGooglePolygonFromCenter = (
-        center: Point,
-        zoom: ZoomLevel,
-        taskCoords: LonLatPolygon,
-    ): string => {
-        // get the polygon in ART Path format, expressed in image coordinates,
-        // for the task geometry. Arguments:
-        // center: the center as [longitude, latitude]
-        // zoom: standard zoom level
-        // taskCoords: the coordinates of the task geometry, each point as [lon, lat]
-        // This only works for google imagery
 
-        // get bounding box coordinates in geographic pixels
-        const centerPixelCoords = this.latLonZoomToPixelCoords(center, zoom);
-        const minX = centerPixelCoords[0] - GLOBAL.SCREEN_WIDTH / 2;
-        const minY = centerPixelCoords[1] - this.imageryHeight / 2;
-
-        // geographic coords to screen pixels
-        const taskImageCoords = taskCoords.map(tc =>
-            this.pixelCoordsToImageCoords(
-                this.latLonZoomToPixelCoords(tc, zoom),
-                minX,
-                minY,
-            ),
-        );
-
-        const p = taskImageCoords.map(tic => `${tic[0]},${tic[1]}`).join(' ');
-        return p;
-    };
 
     // $FlowFixMe
     getTMSPolygonFromCenter = (
@@ -465,54 +422,9 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         return getTileUrlFromCoordsAndTileserver(...tile, url, name, apiKey);
     };
 
-    getTaskCenter: (task: BuildingFootprintTaskType) => LonLatPoint = (
-        task: BuildingFootprintTaskType,
-    ): LonLatPoint => {
-        // for projects that use google imagery, we can optimise the nunber of images
-        // downloaded by relying on an optional `center` attribute in the task, which allows
-        // us to center the imagery there instead of on the centroid of the geometry.
-        // When multiple tasks are located within close proximity, this can substantially
-        // reduce the cost in imagery API calls
-        // This center attribute is not used with TMS imagery for the time being.
-        if (task.center) {
-            return task.center;
-        }
-        return this.getTaskGeometryBoundingBoxCentroid(
-            task.geojson.coordinates[0],
-        );
-    };
 
-    getGoogleImageryUrl: (
-        urlTemplate: string,
-        task: BuildingFootprintTaskType,
-        zoom: ZoomLevel,
-        width: number,
-        height: number,
-    ) => string = (
-        urlTemplate: string,
-        task: BuildingFootprintTaskType,
-        width: number, // in pixels
-        height: number, // in pixels
-        zoom: ZoomLevel,
-    ) => {
-        // return the url required to download imagery
-        // google imagery is returned as a single image of the size we want
-        // so we need a different logic, as we can't just pull 4 images
-        // (each call costs money, and would include a credit line)
-        const googleSize = `${width}x${height}`;
-        // some projects include a `center` attribute in the task which defines
-        // the center point of the imagery to use. This allows some optimisation
-        // of number of imagery requests by reusing the same image for multiple
-        // tasks.
-        const center = this.getTaskCenter(task); // the geometry center
-        const googleCenterString = `${center[1]}%2C%20${center[0]}`;
 
-        const imageUrl = urlTemplate
-            .replace('{z}', zoom.toString())
-            .replace('{size}', googleSize)
-            .replace('{center}', googleCenterString);
-        return imageUrl;
-    };
+
 
     getTMSImageryUrls: (
         task: BuildingFootprintTaskType,
@@ -607,17 +519,7 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         task: BuildingFootprintTaskType,
         zoom: ZoomLevel,
     ): string => {
-        const { project } = this.props;
-        if (project.tileServer.url.includes('googleapis')) {
-            // google imagery works in a non-standard way
-            const center = this.getTaskCenter(task); // the geometry center as given in the task
-            return this.getGooglePolygonFromCenter(
-                center,
-                zoom,
-                task.geojson.coordinates[0],
-            );
-        }
-        // all other imagery relies on tiles
+        // all imagery uses tile-based rendering
         const center = this.getTaskGeometryBoundingBoxCentroid(
             task.geojson.coordinates[0],
         );
@@ -664,91 +566,8 @@ export default class FootprintDisplay extends React.Component<Props, State> {
         // types of imagery
         const svgPath = this.getTaskGeometryPath(task, zoomLevel);
 
-        if (project.tileServer.url.includes('googleapis')) {
-            // use the latitude of the first point in the shape as reference for the scalebar
-            // it's not exactly correct, but the difference is negligible
-            const imageUrl = this.getGoogleImageryUrl(
-                project.tileServer.url,
-                task,
-                GLOBAL.SCREEN_WIDTH,
-                this.imageryHeight,
-                zoomLevel,
-            );
-            const latitude = coords[0][1];
-            /* eslint-disable global-require */
-            return (
-                <Animated.View
-                    {...this.panResponder.panHandlers}
-                    style={{
-                        alignSelf: 'center',
-                        height: this.imageryHeight,
-                        marginLeft: animatedMarginLeft,
-                        marginRight: animatedMarginRight,
-                        width: imageWidth,
-                        overflow: 'hidden',
-                    }}
-                >
-                    <Image
-                        style={{
-                            left: 0,
-                            height: this.imageryHeight,
-                            position: 'absolute',
-                            width: imageWidth,
-                            top: 0,
-                        }}
-                        source={{ uri: imageUrl }}
-                    />
-                    <Svg height={this.imageryHeight} width={imageWidth}>
-                        {shapeVisible && (
-                            <>
-                                <SvgPolygon
-                                    points={svgPath}
-                                    fill="none"
-                                    fillOpacity="0.0"
-                                    stroke="black"
-                                    strokeWidth="3"
-                                />
-                                <SvgPolygon
-                                    points={svgPath}
-                                    fill="none"
-                                    stroke="white"
-                                    strokeDasharray="3, 3"
-                                    strokeWidth="1"
-                                />
-                            </>
-                        )}
-                    </Svg>
-                    <ScaleBar
-                        alignToBottom={false}
-                        latitude={latitude}
-                        position="top"
-                        referenceSize={tileSize}
-                        visible
-                        zoomLevel={zoomLevel}
-                    />
-                    <TouchableOpacity
-                        onPressIn={() => this.hideShape()}
-                        onPressOut={() => this.showShape()}
-                        style={styles.visibilityButton}
-                    >
-                        <View
-                            style={{
-                                alignSelf: 'center',
-                                marginTop: 8,
-                                height: 25,
-                                width: 25,
-                            }}
-                        >
-                            <SvgXml xml={hide} height="100%" width="100%" />
-                        </View>
-                    </TouchableOpacity>
-                </Animated.View>
-            );
-        }
-
-        // all other imagery sources work with 4 tiles shown at the same time
+        // tile-based imagery sources work with 4 tiles shown at the same time
         // which we stretch so that 1 tile is exactly the width of the screen.
-        // This
         const { tileUrls, shiftX, shiftY, latitude } = this.getTMSImageryUrls(
             task,
             zoomLevel,
